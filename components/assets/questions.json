@@ -1,0 +1,627 @@
+{
+  "questions": [
+    {
+      "id": "user_basic_info",
+      "component": "UserBasicInfoForm",
+      "group": "basic_information",
+      "next": "skin_type",
+      "reply": "",
+      "tag": "user",
+      "text": "",
+      "type": "text"
+    },
+    {
+      "id": "skin_type",
+      "component": "iconInput",
+      "group": "topical_treatment",
+      "next": "pimples_appearance",
+      "reply": "",
+      "tag": "form",
+      "text": "What is your skin type?",
+      "type": "single_choice",
+      "isImageBased": true,
+      "sub_text": "Your skin type affects how products work—choose yours for personalized recommendations.",
+      "optionMap": [
+        {
+          "name": "Normal - Balanced, not too oily or too dry",
+          "value": "normal",
+          "icon": "normal"
+        },
+        {
+          "name": "Combination - Oily in some areas, dry in others",
+          "value": "combination",
+          "icon": "combination"
+        },
+        {
+          "name": "Oily - Feels greasy and shiny",
+          "value": "oily",
+          "icon": "oily"
+        },
+        {
+          "name": "Dry - Feels rough and tight",
+          "value": "dry",
+          "icon": "dry"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "text": "Here's a quick way to find out!",
+        "heading": "What's Your Skin Type?",
+        "list": [
+          {
+            "title": "✨ Oily Skin",
+            "description": "If your forehead, nose, and cheeks feel greasy and look shiny a few hours after washing, you likely have oily skin.",
+            "icon": ""
+          },
+          {
+            "title": "💧 Dry Skin",
+            "description": "If your skin feels tight, rough, or flaky, especially after washing, you likely have dry skin.",
+            "icon": ""
+          },
+          {
+            "title": "⚖️ Combination Skin",
+            "description": "If your forehead and nose (T-zone) get oily, but your cheeks stay dry, you have combination skin.",
+            "icon": ""
+          },
+          {
+            "title": "🌿 Normal Skin",
+            "description": "If your skin feels balanced—neither too oily nor too dry—throughout the day, you have normal skin.",
+            "icon": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "pimples_appearance",
+      "component": "imageCheckbox",
+      "group": "topical_treatment",
+      "next": "pimples_location",
+      "reply": "",
+      "tag": "form",
+      "text": "What does your acne look like?",
+      "sub_text": "Select all that apply to get the best treatment for your skin.",
+      "type": "multiple_choice",
+      "isImageBased": true,
+      "optionMap": [
+        {
+          "name": "Blackheads",
+          "value": "blackheads",
+          "image_url": "blackheads"
+        },
+        {
+          "name": "Whiteheads",
+          "value": "whiteheads",
+          "image_url": "whiteheads"
+        },
+        {
+          "name": "Small Bumps",
+          "value": "small_bumps",
+          "image_url": "small_bumps"
+        },
+        {
+          "name": "Pus Filled",
+          "value": "pus_filled",
+          "image_url": "pus_filled"
+        },
+        {
+          "name": "Big Boils",
+          "value": "boils_nodules",
+          "image_url": "boils_nodules"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "text": "Here's a quick way to find out!",
+        "heading": "What's Your Acne Type?",
+        "list": [
+          {
+            "title": "Blackheads",
+            "description": "Small, dark clogged pores caused by trapped oil and dead skin.",
+            "icon": "blackheads"
+          },
+          {
+            "title": "Whiteheads",
+            "description": "Tiny white bumps formed when pores get blocked with oil and bacteria.",
+            "icon": "whiteheads"
+          },
+          {
+            "title": "Small Bumps",
+            "description": "Red, inflamed pimples that don't have pus but feel tender.",
+            "icon": "small_bumps"
+          },
+          {
+            "title": "Pus-Filled Pimples",
+            "description": "Swollen red spots with a white or yellow center filled with pus.",
+            "icon": "pus_filled"
+          },
+          {
+            "title": "Big Boils",
+            "description": "Large, painful lumps under the skin caused by deep inflammation.",
+            "icon": "boils_nodules"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pimples_location",
+      "component": "multiSelect",
+      "group": "internal_root_cause",
+      "next": "pimples_frequency",
+      "reply": "",
+      "tag": "form",
+      "text": "Where do you mostly get pimples?",
+      "type": "single_choice",
+      "sub_text": "Acne location helps identify the root cause. Select all that apply.",
+      "optionMap": [
+        {
+          "name": "Forehead",
+          "value": "forehead"
+        },
+        {
+          "name": "Cheeks & Nose",
+          "value": "cheeks_nose"
+        },
+        {
+          "name": "Jawline & Chin",
+          "value": "jawline_chin"
+        },
+        {
+          "name": "Whole Face",
+          "value": "whole_face"
+        },
+        {
+          "name": "None of the above",
+          "value": "none"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "text": "Where your breakouts appear can give clues about your skin’s needs and overall health. Understanding these patterns helps us recommend skincare that works better for you while gently addressing any underlying factors.",
+        "heading": "Why Acne Location Matters"
+      }
+    },
+    {
+      "id": "pimples_frequency",
+      "component": "singleSelect",
+      "group": "root_cause_issues",
+      "next": "pimple_sensation",
+      "reply": "",
+      "tag": "form",
+      "text": "How often do you get new pimples?",
+      "type": "single_choice",
+      "sub_text": "This helps us track acne severity.",
+      "optionMap": [
+        {
+          "name": "Daily",
+          "value": "daily"
+        },
+        {
+          "name": "Once a month",
+          "value": "monthly"
+        },
+        {
+          "name": "Once in three months",
+          "value": "quarterly"
+        },
+        {
+          "name": "Only after a reaction",
+          "sub_text": "(e.g., food, skincare, weather)",
+          "value": "reaction_based"
+        },
+        {
+          "name": "None of the above",
+          "value": "none"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "heading": "How to Track Your Breakouts",
+        "list": [
+          {
+            "title": "🗓️ Daily",
+            "description": "If you wake up with new pimples almost every day, or notice fresh breakouts forming consistently, your skin experiences acne very frequently",
+            "icon": ""
+          },
+          {
+            "title": "📅 Once a Month",
+            "description": "Do your pimples tend to appear around the same time every month? You might notice them just before an important event or as part of a regular cycle",
+            "icon": ""
+          },
+          {
+            "title": "🔄 Once in 3 Months",
+            "description": "If you see breakouts only a few times a year, like during weather changes or after long periods of clear skin, your acne is occasional",
+            "icon": ""
+          },
+          {
+            "title": "🧴 Reaction to Skincare, Food, or Makeup ",
+            "description": "If your breakouts appear after trying new skincare, makeup, or eating certain foods, your acne may be triggered by external factors",
+            "icon": ""
+          },
+          {
+            "title": "✅ None",
+            "description": "If you rarely or never get pimples, you likely don’t experience acne",
+            "icon": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "pimple_sensation",
+      "component": "multiSelect",
+      "group": "anti_histamine_addition",
+      "next": "has_dandruff",
+      "reply": "",
+      "tag": "form",
+      "text": "Is your Pimple?",
+      "type": "single_choice",
+      "sub_text": "Select all that apply.",
+      "optionMap": [
+        {
+          "name": "Itchy",
+          "value": "itchy"
+        },
+        {
+          "name": "Painful",
+          "value": "painful"
+        },
+        {
+          "name": "None of the above",
+          "value": "none"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "text": "",
+        "heading": "How to Tell What Your Pimple Feels Like",
+        "list": [
+          {
+            "title": "Itchy",
+            "description": "Feels irritated and makes you want to scratch. This can happen more in humid weather or after sweating.",
+            "icon": "itchy"
+          },
+          {
+            "title": "Painful",
+            "description": "Feels sore or tender. It may hurt when you touch it or even on its own for a few days.",
+            "icon": "painful"
+          },
+          {
+            "title": "No Sensation?",
+            "description": "If your pimple doesn't itch or hurt, that's normal too. Some pimples appear without any discomfort.",
+            "icon": "no_sensation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "has_dandruff",
+      "component": "singleSelect",
+      "group": "dandruff_root_cause",
+      "next": "hormonal_changes",
+      "reply": "",
+      "tag": "form",
+      "text": "Do you have dandruff?",
+      "type": "single_choice",
+      "sub_text": "Dandruff can contribute to acne, especially on the forehead and scalp areas.",
+      "optionMap": [
+        {
+          "name": "Yes",
+          "value": "yes",
+          "sub_text": "I notice white flakes on my scalp or hair."
+        },
+        {
+          "name": "No",
+          "value": "no",
+          "sub_text": "I don't see any flakes."
+        },
+        {
+          "name": "Not sure",
+          "value": "not_sure",
+          "sub_text": "I haven't checked or don't know."
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "heading": "How to Tell If You Have Dandruff",
+        "text": "Dandruff appears as small white or yellowish flakes on your scalp, hair, or even shoulders. It may cause itching, dryness, or redness on your scalp. If you often see flakes on dark clothing or experience an itchy scalp, you might have dandruff. Checking your scalp in good lighting or after brushing your hair can help you notice it. If you're unsure, gently scratching your scalp with clean fingers may reveal tiny flakes."
+      }
+    },
+    {
+      "id": "hormonal_changes",
+      "component": "multiSelect",
+      "group": "hormone_root_cause",
+      "next": "diet_habits",
+      "reply": "",
+      "tag": "form",
+      "text": "Are You Experiencing Hormonal Changes?",
+      "sub_text": "Hormonal fluctuations play a major role in acne—let’s assess if they may be a factor for you.",
+      "type": "single_choice",
+      "conditionalDisplay": {
+        "dependsOn": "pimples_location",
+        "showIf": ["forehead"],
+        "gender": "female"
+      },
+      "optionMap": [
+        {
+          "name": "PCOS/PCOD",
+          "value": "pcos_pcod",
+          "sub_text": "I have irregular periods, or extra facial/body hair"
+        },
+        {
+          "name": "Menopause",
+          "value": "menopause",
+          "sub_text": "My periods are irregular or have stopped due to age "
+        },
+        {
+          "name": "Pregnant & breastfeeding",
+          "value": "pregnant_breastfeeding"
+        },
+        {
+          "name": "Puberty ",
+          "value": "puberty",
+          "sub_text": "I’m a teenager or recently underwent body changes."
+        },
+        {
+          "name": "None of the above",
+          "value": "none"
+        }
+      ],
+      "whyWeAsk": {
+        "show": false,
+        "text": "Hormonal changes can significantly impact skin health and acne formation."
+      }
+    },
+    {
+      "id": "diet_habits",
+      "component": "multiSelect",
+      "group": "liver_root_cause",
+      "next": "digestive_issues",
+      "reply": "",
+      "tag": "form",
+      "text": "What is your Diet like?",
+      "type": "single_choice",
+      "sub_text": "Diet plays a key role in skin health—certain foods may trigger or worsen acne.",
+      "optionMap": [
+        {
+          "name": "High in sugar",
+          "value": "high_sugar",
+          "sub_text": "I eat sweets, desserts, or sugary drinks often."
+        },
+        {
+          "name": "High in refined carbs",
+          "value": "high_carbs",
+          "sub_text": "I eat a lot of white rice, bread, pasta, or packaged snacks."
+        },
+        {
+          "name": "Oily & fried food",
+          "value": "oily_fried",
+          "sub_text": "I regularly eat deep-fried or greasy food."
+        },
+        {
+          "name": "Processed/junk food ",
+          "value": "processed_junk",
+          "sub_text": "I eat fast food, chips, or packaged meals often."
+        },
+        {
+          "name": "Balanced diet",
+          "value": "balanced",
+          "sub_text": "I eat home-cooked meals with fresh veggies, proteins, and whole grains."
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "heading": "How to Identify Your Diet Type",
+        "text": "",
+        "list": [
+          {
+            "title": "🍫 Love sweets?",
+            "description": "If you have desserts, sugary snacks, or drinks often, pick High in Sugar.",
+            "icon": ""
+          },
+          {
+            "title": "🍞 Carb-heavy meals?",
+            "description": "If you eat a lot of rice, bread, pasta, or packaged snacks, choose High in Refined Carbs.",
+            "icon": ""
+          },
+          {
+            "title": "🍟 Fried food fan?",
+            "description": "If deep-fried or greasy food is a regular part of your diet, go with Oily & Fried Food.",
+            "icon": ""
+          },
+          {
+            "title": "🍔 Fast food often?",
+            "description": "If you eat processed meals, chips, or packaged food frequently, select Processed/Junk Food.",
+            "icon": ""
+          },
+          {
+            "title": "🥗 Mostly home-cooked?",
+            "description": "If fresh, balanced meals make up most of your diet, choose Balanced Diet.",
+            "icon": ""
+          },
+          {
+            "title": "Pick what best describes your daily habits, not occasional treats!",
+            "description": "",
+            "icon": ""
+          }
+        ]
+      }
+    },
+    {
+      "id": "digestive_issues",
+      "component": "multiSelect",
+      "group": "gut_root_cause",
+      "next": "health_issues",
+      "reply": "",
+      "tag": "form",
+      "text": "Do you have any digestive issues?",
+      "type": "single_choice",
+      "sub_text": "Gut health impacts skin—digestive issues can be a root cause of  acne.",
+      "optionMap": [
+        {
+          "name": "Acidity",
+          "value": "acidity",
+          "sub_text": "I have a burning sensation in the stomach or throat."
+        },
+        {
+          "name": "Gas, Bloating, or Heaviness",
+          "value": "gas_bloating",
+          "sub_text": "My stomach feels full, tight, or uncomfortable."
+        },
+        {
+          "name": "Constipation",
+          "value": "constipation",
+          "sub_text": "It is hard to pass stool or takes a long time in the toilet."
+        },
+        {
+          "name": "Incomplete Motion",
+          "value": "incomplete_evacuation",
+          "sub_text": "I still feel full after going to the toilet."
+        },
+        {
+          "name": "None of the above ",
+          "value": "none",
+          "sub_text": "My digestion is fine."
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "heading": "Understanding Digestive Issues",
+        "text": "Gut health is strongly linked to skin health. Digestive issues can manifest as skin problems. Let us know what applies to help us better understand your needs.",
+        "list": [
+          {
+            "title": "Acidity",
+            "description": "Burning in the stomach or throat, often after eating spicy or oily food. May come with sour burps or discomfort when lying down.",
+            "icon": "acidity"
+          },
+          {
+            "title": "Gas, Bloating, or Heaviness",
+            "description": "Stomach feels full, tight, or swollen, even with little food. You may burp more or feel uneasy after meals.",
+            "icon": "bloating"
+          },
+          {
+            "title": "Constipation",
+            "description": "Hard, dry stools that are difficult to pass or happen less often than usual.",
+            "icon": "constipation"
+          },
+          {
+            "title": "Incomplete Motion",
+            "description": "Feeling like you haven't fully emptied your bowels, even after using the toilet.",
+            "icon": "incomplete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "health_issues",
+      "component": "multiSelect",
+      "group": "liver_root_cause",
+      "next": "alcohol_smoking",
+      "reply": "",
+      "tag": "form",
+      "text": "Have you had any recent health issues?",
+      "type": "single_choice",
+      "sub_text": "Significant changes in health can disrupt hormones and metabolism, influencing your skin.",
+      "optionMap": [
+        {
+          "name": "Surgery",
+          "value": "surgery",
+          "sub_text": "I had a recent surgery or medical procedure."
+        },
+        {
+          "name": "Major illness",
+          "value": "major_illness",
+          "sub_text": "I was diagnosed with or recovering from a serious illness."
+        },
+        {
+          "name": "Weight change",
+          "value": "weight_change",
+          "sub_text": "I've gained or lost a lot of weight recently."
+        },
+        {
+          "name": "Recent fever or infection",
+          "value": "fever_infection",
+          "sub_text": "I had a high fever, or viral infection."
+        },
+        {
+          "name": "None of the above",
+          "value": "none"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "heading": "Why We Ask",
+        "text": "We understand that life events like illness, surgery, or weight changes can impact your body in many ways. We ask this to respect your journey and ensure your skincare routine supports you through every phase, making your skin feel its best."
+      }
+    },
+    {
+      "id": "alcohol_smoking",
+      "component": "singleSelect",
+      "group": "liver_root_cause",
+      "next": "stress_level",
+      "reply": "",
+      "tag": "form",
+      "text": "How often do you drink or smoke?",
+      "type": "single_choice",
+      "sub_text": "Select all that apply.",
+      "ageRestriction": {
+        "minAge": 18
+      },
+      "optionMap": [
+        {
+          "name": "Yes, regularly",
+          "value": "regularly"
+        },
+        {
+          "name": "Yes, sometimes",
+          "value": "sometimes"
+        },
+        {
+          "name": "No, never",
+          "value": "none"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "heading": "Why We Ask",
+        "text": "Drinking and smoking can affect your skin over time. If you do either, even occasionally, it’s helpful for us to know so we can recommend skincare that works best for you. There’s no judgment—just a better way to understand your skin’s needs."
+      }
+    },
+    {
+      "id": "stress_level",
+      "component": "singleSelect",
+      "group": "stress_root_cause",
+      "next": "end",
+      "reply": "",
+      "tag": "form",
+      "text": "How often do you feel stressed in a week?",
+      "type": "single_choice",
+      "sub_text": "Stress can lead to hormonal imbalances and inflammation, contributing to acne flare-ups.",
+      "optionMap": [
+        {
+          "name": "0-1 days",
+          "sub_text": "I rarely feel stressed.",
+          "value": "rarely"
+        },
+        {
+          "name": "2-3 days",
+          "value": "sometimes",
+          "sub_text": "I feel stressed sometimes."
+        },
+        {
+          "name": "4-5 days",
+          "value": "often",
+          "sub_text": "I feel stressed often."
+        },
+        {
+          "name": "6-7 days",
+          "value": "everyday",
+          "sub_text": "I feel stressed almost everyday"
+        }
+      ],
+      "whyWeAsk": {
+        "show": true,
+        "text": "Look back at your week and think about how often you felt tense, overwhelmed, or anxious. Did stress affect your mood, sleep, or focus most days, or just once in a while? If you felt calm and relaxed most of the time, you may fall into the lower range. If stress was a daily experience or impacted your energy, appetite, or thoughts frequently, you may be in the higher range.",
+        "heading": "How to Track Your Stress"
+      }
+    }
+  ]
+}
