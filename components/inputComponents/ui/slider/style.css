@@ -1,0 +1,126 @@
+:root {
+	--accent-color: #9bba70;
+}
+
+.chat-container #widget-header {
+	background-color: #9bba70 !important;
+}
+
+.chat-container .chat-history .joe-message-group:last-of-type li:last-of-type .other-message {
+	background-color: #9bba70 !important;
+}
+
+.chat-container .chat-history .joe-message-group li:last-of-type .other-message {
+	background-color: #9bba70 !important;
+}
+
+.color-main,
+.default-color,
+.chat-container .chat-header joe-icon:hover,
+.chat-container .chat-header .title-subtitle-container label,
+.chat-container .joe-chat-yes-btn,
+.chat-container .joe-chat-no-btn,
+.chat-container .chat-history .other-message,
+.chat-container .datepicker-btn,
+.chat-container .joe-quickReplyList,
+.chat-container .other-message a,
+.chat-container .chat-footer ul li,
+.chat-container .chat-footer ul li:hover,
+.chat-container button,
+#joe-menu-dropdown.Slsh-list-items ul li:hover {
+	background-color: #9bba70 !important;
+
+}
+
+.chat-container .chat-header .joe-icon span {
+	display: none !important;
+}
+
+.rc-slider-track {
+	background-color: var(--accent-color);
+}
+
+.rc-slider-handle {
+	border: solid 2px var(--accent-color);
+}
+
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+	border-color: var(--accent-color);
+	box-shadow: 0 0 0 5px var(--accent-color);
+}
+
+.rc-slider-handle-click-focused:focus {
+	border-color: var(--accent-color);
+}
+
+.rc-slider-handle:hover {
+	border-color: var(--accent-color);
+}
+
+.rc-slider-handle:active {
+	border-color: var(--accent-color);
+	box-shadow: 0 0 5px var(--accent-color);
+}
+
+.rc-slider-dot-active {
+	border-color: var(--accent-color);
+}
+
+.chat-container .joe-icon {
+	display: none !important;
+}
+
+.react-tel-input .flag-dropdown {
+	background-color: #fff !important;
+	border: none !important;
+}
+
+.PhoneInputInput {
+	height: 45px;
+	border: 0;
+}
+
+.input-phone-number input:focus {
+	outline: none !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+
+
+.slick-next:before,
+.slick-prev:before {
+	display: none;
+}
+
+.custom-indicator li {
+	background-color: none;
+}
+
+.custom-indicator li.slick-active {
+	background-color: #b7d340;
+	border-radius: 30px;
+	width: 24px;
+	height: 24px;
+	color: #ffffff;
+}
+
+@media only screen and (max-width:550px) {
+	.custom-indicator li.slick-active {
+		background-color: #b7d340;
+		border-radius: 30px;
+		width: 10px;
+		height: 10px;
+		color: #ffffff;
+	}
+}
+
+@media only screen and (max-width:750px) {
+	.custom-indicator li.slick-active {
+		background-color: #b7d340;
+		border-radius: 50px;
+		width: 15px;
+		height: 15px;
+		color: #ffffff;
+	}
+}

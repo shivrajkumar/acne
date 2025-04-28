@@ -1,0 +1,77 @@
+import Image from "next/image";
+import React from "react";
+import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { CDN_BASE_URL } from "@/constants/config";
+
+export default function AcneOurTeam() {
+  return (
+    <section className="bg-Background/Beige p-[28px] md:p-[40px]  rounded-[24px]">
+      <div className="flex flex-col">
+        {/* Header */}
+        <div className="w-fit bg-white rounded-[12px] py-2 px-4 text-sm mb-3 font-lato ">
+          Our Team
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-[16px]">
+          <h2 className="text-[28px] md:text-[40px]  font-[500] mb-[16px]  md:mb-[40px] font-lato">
+            The Experts Behind Clear Ritual.
+          </h2>
+
+          <div className="hidden md:block xs:hidden mb-[16px]  md:mb-[40px]">
+            <AcneTakeTheSkinTest
+              variant="black"
+              text="Book your call now"
+              tm=" "
+              redirectTo="/book-a-call"
+              deskSize="desktopBig"
+            />{" "}
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex flex-col gap-[24px] md:flex-row md:gap-[40px]  rounded-2xl overflow-hidden">
+          {/* Doctor Image - Full width on mobile, half width on desktop */}
+          <div className="md:w-[45%]">
+            <Image
+              src={`${CDN_BASE_URL}website_images/clear_rituals/landingPage/DrAnushkaAgarwal.webp`}
+              alt="Doctor"
+              width={730}
+              height={442}
+              className=" h-[442px] w-[730px]  rounded-[16px] hidden md:block border-1"
+            />
+            <Image
+              src={`${CDN_BASE_URL}website_images/clear_rituals/landingPage/DrAnushkaAgarwal.webp`}
+              alt="Doctor"
+              width={296}
+              height={296}
+              className="w-full h-full object-cover rounded-[16px] block md:hidden"
+            />
+          </div>
+
+          {/* Quote Section - Full width on mobile, half width on desktop */}
+          <div className=" bg-[#FFFFFF] w-full md:w-[55%] p-[24px] md:p-[40px] flex flex-col justify-center gap-[16px] rounded-[16px]">
+            <div className=" text-[40px] xs:text-[24px] text-left md:text-left xs:text-center  ">
+              <blockquote className="text-[20px] leading-[130%] md:text-[32px] font-[500] font-lato  md:w-[792px] w-[250px] text-wrap">
+                {`"At Clear Ritual, we go beyond surface-level solutions by combining advanced dermatology with Ayurvedic wisdom to target the root causes of acne — because clear skin begins with knowing your skin deeply."`}
+              </blockquote>
+              <p className="font-lato font-[500] text-[16px] md:text-[18px] mt-[16px] ">
+                Dr. Anushka Agrawal, PHD
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile only button */}
+        <div className="mt-6 md:hidden text-center mx-auto xs:mt-0">
+          <AcneTakeTheSkinTest
+            variant="black"
+            text="Book your call now"
+            tm=" "
+            redirectTo="/book-a-call"
+            deskSize="mobileBig"
+          />{" "}
+        </div>
+      </div>
+    </section>
+  );
+}
