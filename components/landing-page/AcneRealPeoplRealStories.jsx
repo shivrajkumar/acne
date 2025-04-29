@@ -149,7 +149,7 @@ export default function AcneRealPeoplRealStories({
             <Carousel {...settings} ref={sliderRef}>
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="px-3 ">
-                  <div className={`${reviewPage ? "mb-6" : "mb-10"} `}>
+                  <div className={`${reviewPage ? "mb-6" : ""} `}>
                     <div
                       className={`relative rounded-[24px] xs:rounded-[16px] h-full flex flex-col gap-[4px]  
                      ${reviewPage ? "overflow-hidden" : ""}

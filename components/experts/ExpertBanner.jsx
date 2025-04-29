@@ -13,6 +13,8 @@ export default function ExpertBanner() {
             width={900}
             height={568}
             className="object-contain"
+            priority
+            loading="eager"
           />
         </div>
 
@@ -20,8 +22,8 @@ export default function ExpertBanner() {
         <div className="px-[24px] md:mr-[30px] w-full md:w-[702px] text-left md:text-left ml-auto md:-ml-[9px]">
           <div className="text-[44px] leading-[120%] md:w-[550px] text-wrap w-[313px] mt-[40px] font-[500] text-Text/Heading-Text font-lato">
             Our Experts:
-            <br/>
-             Dermatologists Behind Clear Ritual’s Personalised Acne
+            <br />
+            Dermatologists Behind Clear Ritual’s Personalised Acne
             Solutions
           </div>
 
