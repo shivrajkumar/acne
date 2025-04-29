@@ -9,10 +9,11 @@ import AccessTimeIcon from "@assets/svg/access-time.svg";
 import CloseIcon from "@assets/svg/vector.svg";
 
 export default function SlotConfirmPop({
-    selectedDate,
-    setClose,
-    selectedTime,
-    link
+  selectedDate,
+  setClose,
+  selectedTime,
+  link,
+  setBookedSucess
 }) {
   const router = useRouter();
 
@@ -28,8 +29,6 @@ export default function SlotConfirmPop({
               width={2}
               height={2}
               src={Icon}
-             
-             
             />
             <h2 className="font-semibold text-grey-900 text-lg text-center">
               Your Slot is Confirmed!
@@ -39,7 +38,8 @@ export default function SlotConfirmPop({
           {/* Description */}
 
           <p className="text-center text-sm text-[#838383]">
-            You&#39;re all set for your consultation with our expert doctors.
+            You&#39;re all set for your consultation with our Skin expert
+            doctors.
           </p>
 
           {/* Details */}
@@ -47,10 +47,10 @@ export default function SlotConfirmPop({
             <div className="flex items-center gap-1">
               <Image
                 className="w-5 h-5"
+                width={5}
+                height={5}
                 alt="Calendar today"
                 src={CalenderIcon}
-                layout="fill"
-                objectFit="cover"
               />
               <span className="text-sm text-[#414042] font-medium">
                 {moment(selectedDate || new Date()).format("MMM Do")}
@@ -60,20 +60,28 @@ export default function SlotConfirmPop({
               <Image
                 className="w-5 h-5"
                 alt="Access time"
+                width={5}
+                height={5}
                 src={AccessTimeIcon}
-                layout="fill"
-                objectFit="cover"
               />
               <span className="text-sm text-[#414042] font-medium">
-                {`${moment(selectedTime).format("h:mm A")}`}
+                {selectedTime}
               </span>
             </div>
           </div>
 
           {/* Continue Button */}
           <button
-            onClick={() => router.push(link)}
-            className="bg-brown-sand-700 text-white cursor-pointer font-modernity font-[400] text-[17px] py-3 px-6 rounded-full h-[56px] w-full flex justify-center items-center"
+            onClick={() => {
+              setClose(false);
+              if(setBookedSucess){
+                setBookedSucess(true);
+                router.push(link);
+              }
+              router.push(link);
+              
+            }}
+            className="bg-Tertiary/600  text-white cursor-pointer font-modernity font-[400] text-[17px] py-3 px-6 rounded-full h-[56px] w-full flex justify-center items-center"
           >
             Continue
           </button>
@@ -88,9 +96,9 @@ export default function SlotConfirmPop({
             <Image
               className="w-2.5 h-[11px]"
               alt="Close"
+              width={2}
+              height={6}
               src={CloseIcon}
-              layout="fill"
-              objectFit="cover"
             />
           </div>
         </div>
