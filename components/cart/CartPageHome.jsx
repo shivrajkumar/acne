@@ -11,7 +11,7 @@ const CartPageHome = () => {
   const toggleSwitch = () => {
     setIsOn(!isOn);
   };
-  const data = JSON.parse(localStorage.getItem(`vayu_result_data`));
+  const data = JSON.parse(window.localStorage.getItem(`vayu_result_data`));
 
   return (
     <>

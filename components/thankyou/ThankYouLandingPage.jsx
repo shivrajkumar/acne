@@ -10,13 +10,14 @@ import {
 } from "@/constants/urls";
 import CartItems from "../result/CartItems";
 import Loader from "../generic/Loader";
-import { Drawer } from "antd";
+import { Drawer, Modal } from "antd";
 import CrossIcon from "@assets/icons/close-circle.png";
 import Image from "next/image";
 import AssignedDoctor from "../result/AssignDoctor";
 import BookFreeCall from "../AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
+import SlotConfirmPop from "../SlotConfirmPop";
 import { isEmpty } from "lodash";
 import moment from "moment";
 
@@ -28,6 +29,8 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableSlots, setAvailableSlots] = useState({});
+  const [resultData, setResultData] = useState(null);
+  const [closeConfirm, setCloseConfirm] = useState(false);
 
   useEffect(() => {
     if (searchParams?.platform_order_id) {
@@ -37,10 +40,30 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
   }, [searchParams?.platform_order_id]);
 
   useEffect(() => {
-    if (orderDetails?.customerDetail.caseId) {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("vayu_result_data");
+      if (stored) {
+        setResultData(JSON.parse(stored));
+      }
+    }
+  }, []);
+  console.log(resultData, "logg");
+
+  useEffect(() => {
+    if (
+      orderDetails?.customerDetail.caseId ||
+      resultData?.customerDetails?.caseId
+    ) {
       getAvailableSlots();
     }
-  }, [orderDetails]);
+  }, [orderDetails, resultData]);
+
+
+// Solution 1: Debug by checking if closeConfirm state is being set
+// Add this to your component to verify the state value
+useEffect(() => {
+  console.log("closeConfirm state changed:", closeConfirm);
+}, [closeConfirm]);
 
   const getOrderDetails = async () => {
     setLoading(true);
@@ -97,7 +120,10 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
     setLoading(true);
     try {
       const response = await fetchRequest(
-        GET_AVAILABLE_SLOTS(orderDetails?.customerDetail.caseId)
+        GET_AVAILABLE_SLOTS(
+          orderDetails?.customerDetail.caseId ||
+            resultData?.customerDetails.caseId
+        )
       );
       setAvailableSlots(response?.data || {});
     } catch (error) {
@@ -114,11 +140,20 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
   );
 
   const handleBookCall = useCallback(async () => {
+    console.log("hiii");
     try {
+      console.log(
+        selectedDate,
+        selectedTime,
+        resultData?.customerDetails.caseId,
+        availableSlots,
+        !orderDetails?.customerDetail?.caseId
+      );
       if (
         !selectedDate ||
         !selectedTime ||
-        !orderDetails?.customerDetail?.caseId ||
+        (orderDetails && !orderDetails.customerDetail?.caseId) ||
+        (resultData && !resultData?.customerDetails?.caseId) ||
         !availableSlots
       ) {
         console.error("Missing required data for slot booking");
@@ -138,7 +173,9 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
       }
 
       const slotPayload = {
-        customerId: orderDetails.customerDetail.caseId,
+        customerId:
+          orderDetails?.customerDetail.caseId ||
+          resultData?.customerDetails.caseId,
         slotStartTime: SelectedTimeISOString,
         availableSlots: selectedSlot.users ?? [],
         tagDetails: availableSlots.tagDetails ?? {},
@@ -156,8 +193,12 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
         body: JSON.stringify(slotPayload),
       };
 
-      const responsee = await fetchRequest(BOOK_SLOT_API, _options);
-      console.log(responsee, "book");
+      const response = await fetchRequest(BOOK_SLOT_API, _options);
+      console.log("hiiiresponse")
+      if (response.status === 200) {
+        
+        setCloseConfirm(true);
+      }
     } catch (error) {
       console.error("Error booking slot:", error);
     }
@@ -187,7 +228,7 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
                 setAvailableSlots={setAvailableSlots}
                 transformedSlots={transformedSlots}
               />
-              <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center">
+              <div className="fixed hidden bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white  justify-center items-center">
                 <button
                   className="flex md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
                   onClick={handleBookCall}
@@ -274,20 +315,32 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
                 </Drawer>
               </>
             )}
-             {/* Sticky button at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md ">
-        <div className="flex justify-center items-center md:h-[104px] h-[88px]  border-t-[1px] border-t-Elements/Divider-Stroke">
-          <button
-            className="flex md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
-            onClick={handleBookCall}
-          >
-            BOOK A CALL
-          </button>
-        </div>
-      </div>
+            {/* Sticky button at bottom */}
+            <div className=" hidden bottom-0 left-0 right-0 z-10 bg-white shadow-md ">
+              <div className="flex justify-center items-center md:h-[104px] h-[88px]  border-t-[1px] border-t-Elements/Divider-Stroke">
+                <button
+                  className="hidden md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
+                  onClick={handleBookCall}
+                >
+                  BOOK A CALL
+                </button>
+              </div>
+            </div>
+          
           </div>
         </>
       )}
+      {closeConfirm ? <div className="fixed top-0 right-0 left-0 bottom-0 bg-[#00000050] z-[100000000] ">
+          <div className="absolute  shadow-2xl  transform translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] bf ">
+          <SlotConfirmPop
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
+        setClose={setCloseConfirm}
+        link="/"
+      />
+          </div>
+        </div> : <></>}
+    
     </>
   );
 };
