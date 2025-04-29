@@ -105,21 +105,21 @@ const AcneFooter = () => {
               </div>
               <div className="flex my-[32px] md:my-0 md:flex-col items-center gap-[12px]">
                 <Link
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/clear.ritual/"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
                 >
                   <InstagramIcon />
                 </Link>
                 <Link
-                  href="https://whatsapp.com"
+                  href="https://wa.me/919167611114"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
                 >
                   <WhatsAppIcon />
                 </Link>
                 <Link
-                  href="https://twitter.com"
+                  href="https://x.com/ClearRitual"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
                 >

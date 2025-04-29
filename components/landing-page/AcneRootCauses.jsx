@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
 import { Carousel } from "antd";
+import { useRef, useEffect, useState } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import RightArrowCircelLight from "@assets/icons/RightArrowCircleLight.svg";
-import { useRef } from "react";
 
 export default function AcneRootCauses({ rootcauses }) {
   const carouselRef = useRef(null);
+
 
   return (
     <div className="bg-Background/AirBlue p-[16px] pb-[30px] md:p-[40px] md:pb-[70px] rounded-[24px] w-full mx-auto font-lato md:min-h-[548px] min-h-[552px]">
@@ -58,7 +59,6 @@ export default function AcneRootCauses({ rootcauses }) {
           infinite
           slidesToShow={4}
           slidesToScroll={1}
-          className="custom-slider-dots-root-causes"
           variableWidth
           responsive={[
             {

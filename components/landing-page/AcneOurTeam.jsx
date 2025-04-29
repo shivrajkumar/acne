@@ -1,7 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
-import { CDN_BASE_URL } from "@/constants/config";
+// import { CDN_BASE_URL } from "@/constants/config";
+import FemaleGeneralPractitioner from "@assets/images/female-general-practitioner.webp"
 
 export default function AcneOurTeam() {
   return (
@@ -33,14 +34,14 @@ export default function AcneOurTeam() {
           {/* Doctor Image - Full width on mobile, half width on desktop */}
           <div className="md:w-[45%]">
             <Image
-              src={`${CDN_BASE_URL}website_images/clear_rituals/landingPage/DrAnushkaAgarwal.webp`}
+              src={FemaleGeneralPractitioner}
               alt="Doctor"
               width={730}
               height={442}
               className=" h-[442px] w-[730px]  rounded-[16px] hidden md:block border-1"
             />
             <Image
-              src={`${CDN_BASE_URL}website_images/clear_rituals/landingPage/DrAnushkaAgarwal.webp`}
+              src={FemaleGeneralPractitioner}
               alt="Doctor"
               width={296}
               height={296}

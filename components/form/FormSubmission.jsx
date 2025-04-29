@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 // import { pixelCustomeEvent } from "@/components/generic/Pixel";
 import { sendGtmEvents } from "../generic/Gtm";
 import LoaderwithText from "@/components/generic/LoaderWithText";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 // import { useRouter, useSearchParams } from "next/navigation";
 // import isEmpty from "lodash/isEmpty";
 // import Cookies from "js-cookie";
-// import { QuestionsContext } from "@context/questions-store";
+import { QuestionsContext } from "@context/questions-store";
 // // import formatDateTime from "@helpers/formatDateTime";
 // import useUploadImage from "@hooks/useUploadImage";
 
@@ -44,13 +44,18 @@ const FormSubmission = () => {
     return () => clearTimeout(redirectTimer);
   }, [tid, router]);
 
-  // const {
-  //   apiResponse: { syntheticId, caseId },
-  //   queryStrings,
-  //   previewURL,
-  //   questions,
-  //   isHindi,
-  // } = useContext(QuestionsContext);
+  const {
+    apiResponse: { syntheticId, caseId },
+    setAllQuestionsFilled,
+  } = useContext(QuestionsContext);
+
+  useEffect(() => {
+    setAllQuestionsFilled(true);
+    window.localStorage.setItem("form_status", "filled");
+    if (syntheticId)
+      window.localStorage.setItem("syntheticId", syntheticId)
+  }, [syntheticId]);
+
   // const { uploadImage } = useUploadImage(QuestionsContext);
   // const [isApiCalled] = useState(false);
   // const [hasError, setHasError] = useState(false);

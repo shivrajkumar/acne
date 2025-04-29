@@ -226,9 +226,7 @@ export default function UserBasicInfoForm() {
       window.localStorage.setItem("user_email", `${formData.phoneNumber}.unknown@traya.health`);
 
 
-      if (_res.data.syntheticId) {
-        window.localStorage.setItem("user_syn", _res.data.syntheticId);
-      }
+
 
 
       // Set cookies
@@ -250,6 +248,8 @@ export default function UserBasicInfoForm() {
         domain: COOKIES_DOMAIN,
         expires: COOKIES_EXPIRY,
       });
+      window.localStorage.setItem("form_status", "draft");
+
 
       return _res.data.transactionId;
     }
@@ -328,6 +328,9 @@ export default function UserBasicInfoForm() {
 
       // Move to next question - this is key to navigation
       nextQuestion("user_basic_info", "completed");
+      const url = new URL(window.location.href);
+      url.searchParams.set('tid', transactionId);
+      window.history.replaceState({}, '', url.toString());
     }
   };
 
