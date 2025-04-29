@@ -8,7 +8,7 @@ import {
   WhatsAppIcon,
 } from "@assets/svg/Social_Icons";
 import Image from "next/image";
-import VayuLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
+import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import PhoneIcon from "@assets/icons/phone_icon.png"
 import MailIcon from "@assets/icons/mail_Icon.png"
 
@@ -23,10 +23,9 @@ const AcneFooter = () => {
       <div className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[80px]">
         <div className="">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* VAYU Column */}
             <div className="flex flex-col gap-[28px]">
               <Link href="/">
-                <Image src={VayuLogo} alt="Vayu" height={72} width={430} />
+                <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
               </Link>
               <p className="font-lato font-[400] text-[14px] leading-[1.4%] text-neutral-50">Targeted Acne Care, Visible Results.</p>
 
@@ -47,7 +46,7 @@ const AcneFooter = () => {
                   </li>
                   <li>
                     <Link
-                      href="/about"
+                      href="/about-us"
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       About Us
@@ -55,7 +54,7 @@ const AcneFooter = () => {
                   </li>
                   <li>
                     <Link
-                      href="/experties"
+                      href="/experts"
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       Our Experts
@@ -88,20 +87,21 @@ const AcneFooter = () => {
                 </ul>
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
-                <Link
+                <a
                   href="tel:+911000234235"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
                 >
                   <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
                   +91 9167611114
-                </Link>
-                <Link
-                  href="mailto:support@vayu.com"
-                  className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
+                </a>
+                <a href="mailto:customersupport@clearritual.com"
+                  className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px] items-center"
                 >
-                  <span><Image src={MailIcon} alt="Mail Icon" width={24} height={24} /></span>
-                  support@vayu.com
-                </Link>
+                  <span>
+                    <Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
+                  </span>
+                  customersupport@clearritual.com
+                </a>
               </div>
               <div className="flex my-[32px] md:my-0 md:flex-col items-center gap-[12px]">
                 <Link

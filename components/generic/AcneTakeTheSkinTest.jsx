@@ -23,6 +23,7 @@ const AcneTakeTheSkinTest = ({
     mobileMedium: "w-[236px] h-[56px] text-[14px] px-[40px]",
     desktopBig: "h-[56px] w-[246px] text-[14px]",
     desktopSmall: "h-[56px] w-[246px] text-[14px]",
+
   };
 
   const handleClick = () => {
