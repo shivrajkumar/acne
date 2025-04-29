@@ -1,163 +1,245 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
+import { Carousel } from "antd";
+import Image from "next/image";
 import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
+import MorningIcon from "@assets/svg/morning.svg";
+import AfternoonIcon from "@assets/svg/afternoon.svg";
+import EveningIcon from "@assets/svg/evening.svg";
+import NightIcon from "@assets/svg/night.svg";
+import moment from "moment";
 
-// Simulate fetching slots directly without using a Promise
-const mockFetchSlots = () => {
-  return {
-    morning: ["10:00 AM", "10:30 AM", "11:00 AM"],
-    afternoon: ["12:00 PM", "01:30 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:30 PM"],
-    evening: ["05:00 PM", "06:30 PM"],
-    night: [],
-    availableSections: ["morning", "afternoon", "evening", "night"]
-  };
-};
-
-const settings = {
-  dots: false,
-  arrows: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  autoplay: false,
-  autoplaySpeed: 2000,
-  variableWidth: false,
-  centerMode: true,
-  nextArrow: <CustomRightArrow />,
-  prevArrow: <CustomLeftArrow />,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 1.5,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 1.5,
-        arrows: false,
-      },
-    },
-  ],
-};
-
-function BookFreeCall() {
-  const [selectedDate, setSelectedDate] = useState(0);
-  const [slots, setSlots] = useState({});
-  const [availableSections, setAvailableSections] = useState([]);
-
-  const dates = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() + i);
-    return d;
-  });
-
-  const getFormattedSelectedDate = () => {
-    const selected = dates[selectedDate];
-    const prefix =
-      selectedDate === 0
-        ? "Today"
-        : selectedDate === 1
-          ? "Tomorrow"
-          : "";
-
-    const fullDate = selected.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    });
-
-    return prefix ? `${prefix}, ${fullDate}` : fullDate;
-  };
+function BookFreeCall({
+  selectedDate,
+  setSelectedDate,
+  selectedTime,
+  setSelectedTime,
+  transformedSlots,
+}) {
+  const [slidesToShow, setSlidesToShow] = useState(3);
+  const [isMobile, setIsMobile] = useState(false);
+  const carouselRef = useRef(null);
 
   useEffect(() => {
-    // Simulating delay without using Promise
-    setTimeout(() => {
-      const data = mockFetchSlots(); // Call mock function directly
-      setSlots(data);
-      setAvailableSections(data.availableSections);
-    }, 1000); // 1-second delay
+    const handleResize = () => {
+      const mobile = window.innerWidth < 640;
+      setIsMobile(mobile);
+
+      if (mobile) {
+        setSlidesToShow(3);
+      } else if (window.innerWidth < 1024) {
+        setSlidesToShow(4);
+      } else {
+        setSlidesToShow(6);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const renderSlots = (section, label, icon) => {
-    if (!availableSections.includes(section)) return null;
+  const handleDateSelect = useCallback(
+    (dateKey) => {
+      setSelectedDate(dateKey);
+      setSelectedTime(null); // Reset time selection when date changes
+    },
+    [transformedSlots]
+  );
 
-    return (
-      <div className="mb-6 mt-[36px] md:mt-10">
-        <div className="flex items-center text-gray-600 font-semibold text-base mb-4">
-          <span className="mr-2 text-lg">{icon}</span>
-          <span className="md:text-[18px] text-[14px] font-lato font-[600] text-[#171819] pr-[5px]">{label}</span>
-          <span className="text-[#989899] md:text-[18px] text-[14px] font-lato font-[600]">
-            ({slots[section]?.length || 0} slots)
-          </span>
-        </div>
-        {slots[section]?.length > 0 ? (
-          <div className="flex flex-wrap gap-3">
-            {slots[section].map((slot, i) => (
-              <button
-                key={i}
-                className="w-[100px] px-4 py-4 rounded-lg border hover:bg-blue-100 text-[14px] font-[400] font-lato"
-              >
-                {slot}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-gray-500 font-lato italic">No slots available</p>
-        )}
-      </div>
-    );
+  const handleTimeSelect = useCallback((time) => {
+    setSelectedTime(time);
+  }, []);
+
+  const handleNext = () => {
+    if (carouselRef.current) {
+      carouselRef.current?.next();
+    }
+  };
+
+  const handlePrev = () => {
+    if (carouselRef.current) {
+      carouselRef.current.prev();
+    }
   };
 
   return (
-    <div className="mx-auto p-6 rounded-[24px] border border-Elements/Divider-Stroke">
-      <h2 className=" font-[400] text-[20px] md:text-[24px] font-lato mb-10 -tracking-[0.5px]">Book a Free Call with Skin Expert</h2>
-      <p className="pb-[16px] text-[16px] font-lato text-[500] text-[#171819]">Choose Date</p>
-      <div className="gap-3  pb-3 mb-6">
-        <Slider {...settings}>
-          {dates.map((date, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedDate(index)}
-              className={`flex flex-col items-center px-4 py-3 min-w-[120px] border rounded-lg ${selectedDate === index ? "bg-slot-buttonBg border border-[#2872A1] text-black" : "bg-white"
-                }`}
-            >
-              <span className="md:text-[16px] text-[12px] font-semibold font-lato text-[#171819]">
-                {index === 0
-                  ? "Today"
-                  : index === 1
-                    ? "Tomorrow"
-                    : date.toLocaleDateString("en-GB", { weekday: "short" })}
-              </span>
-              <br />
-              <span className="text-xs text-gray-700 font-semibold font-mono">
-                {date.getDate()} {date.toLocaleDateString("en-GB", { month: "short" })}
-              </span>
-              <div className="w-full h-[1px] bg-black-200"></div>
-            </button>
-          ))}
-        </Slider>
+    <div className="mx-auto md:p-[24px] rounded-[24px] md:rounded-[24px] border border-Elements/Divider-Stroke w-full relative font-lato flex flex-col md:gap-[40px] gap-0 bg-white">
+      {/* Heading */}
+      <div className="md:p-0 p-[16px]">
+        <h2 className="font-[400] md:text-[24px] text-[20px] tracking-[0.5px] leading-[130%]">
+          Book a Free Call with Skin Expert
+        </h2>
       </div>
 
-      <div className="block md:hidden">
-        <p className="flex items-center justify-center pt-4 pb-4 ">
-          <strong className="text-[16px] font-lato font-[500] text-[#171819]">{getFormattedSelectedDate()}</strong>
+      {/* Date Selection */}
+      <div className="relative md:p-0 p-[16px]">
+        <p className="mb-[16px] md:text-[18px] text-[16px] leading-[135%] tracking-[0.5px] font-[400]">
+          Choose Date
         </p>
+
+        <Carousel
+          ref={carouselRef}
+          slidesToShow={slidesToShow}
+          arrows={false}
+          dots={false}
+          infinite={false}
+          adaptiveHeight
+          variableWidth={isMobile} // Apply variableWidth only on mobile
+          className="flex items-center"
+        >
+          {Object.keys(transformedSlots).map((dateKey) => (
+            <div
+              key={dateKey}
+              style={{ width: 120 }}
+              className={`px-2 ${!isMobile ? "max-w-[160px]" : ""}`}
+              onClick={() => handleDateSelect(dateKey)}
+            >
+              <div
+                className={`h-[80px] w-full p-[16px] rounded-[16px] flex flex-col justify-center items-center cursor-pointer ${
+                  selectedDate === dateKey
+                    ? "bg-Background/AirBlue border border-Tertiary/400"
+                    : "bg-white border border-Elements/Divider-Stroke"
+                }`}
+              >
+                <p className="md:text-[16px] text-[14px] leading-[140%] text-center">
+                  {moment(dateKey).format("dddd")}
+                </p>
+                <p className="text-[14px] leading-[140%] text-center">
+                  {moment(dateKey).format("MMM D, YYYY")}
+                </p>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+
+        {/* Custom Arrows */}
+        <div
+          className="hidden md:block absolute top-[86px] !left-[-79px] transform -translate-y-1/2 cursor-pointer"
+          onClick={handlePrev}
+        >
+          <CustomLeftArrow />
+        </div>
+        <div
+          className="hidden md:block absolute top-[86px] right-[-24px] transform -translate-y-1/2 cursor-pointer"
+          onClick={handleNext}
+        >
+          <CustomRightArrow />
+        </div>
       </div>
 
-      {availableSections.includes("morning") && renderSlots("morning", "Morning", "☀️")}
-      {availableSections.includes("afternoon") && renderSlots("afternoon", "Afternoon", "🌞")}
-      {availableSections.includes("evening") && renderSlots("evening", "Evening", "🌬️")}
-      {availableSections.includes("night") && renderSlots("night", "Night", "🌙")}
+      {/* Mobile Date Preview */}
+      {selectedDate && (
+        <div className="md:hidden flex justify-center items-center text-Text/Heading-Text p-[16px] border-b border-b-Elements/Divider-Stroke">
+          <p className="text-[16px] font-[400]">
+            {moment(selectedDate).format("dddd")},{" "}
+            {moment(selectedDate).format("MMM D, YYYY")}
+          </p>
+        </div>
+      )}
+
+      {/* Time Slots */}
+      <div className="flex flex-col gap-[16px] font-lato md:py-0 md:px-0 py-[32px] px-[16px]">
+        {selectedDate &&
+        transformedSlots[selectedDate] &&
+        transformedSlots[selectedDate].length > 0 ? (
+          Object.entries(
+            groupSlotsByPeriod(transformedSlots[selectedDate])
+          ).map(([period, times]) => {
+            return (
+              times.length > 0 && (
+                <div key={period} className="mb-6">
+                  {/* Period Header */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <Image
+                      src={getIconForPeriod(period)}
+                      width={24}
+                      height={24}
+                      alt={`${period} Icon`}
+                    />
+                    <span className="text-Neutral/800 md:text-[18px] text-[14px] font-[400]">
+                      {period}
+                    </span>
+                    <span className="text-Text/Disabled md:text-[18px] text-[14px] font-[400]">
+                      ({times.length} slots)
+                    </span>
+                  </div>
+
+                  {/* Time Buttons */}
+                  <div className="flex flex-wrap gap-3">
+                    {times.map((time, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleTimeSelect(time)}
+                        className={`md:w-[181px] md:h-[56px] flex justify-center items-center h-[48px] w-[101px] rounded-[16px] p-[16px] border text-[14px] font-[400] ${
+                          selectedTime === time
+                            ? "bg-Background/AirBlue border-Tertiary/400"
+                            : "bg-white border-Elements/Divider-Stroke hover:bg-Background/AirBlue"
+                        }`}
+                      >
+                        {time}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )
+            );
+          })
+        ) : (
+          <div className="text-center text-Text/Disabled text-[16px] py-8">
+            Please Select the date 
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
+const groupSlotsByPeriod = (slots = []) => {
+  const groups = { Morning: [], "After Noon": [], Evening: [], Night: [] };
+
+  if (!Array.isArray(slots) || slots.length === 0) {
+    return groups;
+  }
+
+  slots.forEach(({ time }) => {
+    const localTime = moment.utc(time).local();
+    const hour = localTime.hour();
+    const formattedTime = localTime.format("hh:mm A");
+
+    if (hour >= 5 && hour < 12) {
+      groups.Morning.push(formattedTime);
+    } else if (hour >= 12 && hour < 17) {
+      groups["After Noon"].push(formattedTime);
+    } else if (hour >= 17 && hour < 21) {
+      groups.Evening.push(formattedTime);
+    } else {
+      groups.Night.push(formattedTime);
+    }
+  });
+
+  return groups;
+};
+
+const getIconForPeriod = (period) => {
+  switch (period) {
+    case "Morning":
+      return MorningIcon;
+    case "After Noon":
+      return AfternoonIcon;
+    case "Evening":
+      return EveningIcon;
+    case "Night":
+      return NightIcon;
+    default:
+      return MorningIcon;
+  }
+};
 
 export default BookFreeCall;

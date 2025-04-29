@@ -187,3 +187,5 @@ export const GET_AVAILABLE_SLOTS = (caseId) =>
 export const GET_STATIC_DOCTOR_DETAILS = getUrl(
   `consumer-api/service/static-content/data/ACNE_DOCTOR_CONTENT`
 );
+
+export const BOOK_SLOT_API = getUrl(`consumer-api/service/engagements/slot/book`);

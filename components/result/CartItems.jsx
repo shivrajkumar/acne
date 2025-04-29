@@ -69,7 +69,8 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
             }
 
             <div className={`${isThankYouPage && "mt-[24px]"}`}>
-                <p className={`${isMobile ? 'flex' : 'hidden md:flex'} text-[14px] font-lato font-[400] text-Text/Label text-center justify-center`}>
+            <div className={`${isMobile ? 'flex' : 'hidden md:flex'} border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px]`}></div>
+                <p className={`${isMobile ? 'flex' : 'hidden md:flex'} text-[14px]  pt-[16px] font-lato font-[400] text-Text/Label text-center justify-center`}>
                     {cartDetails?.disclaimer || 'No additional duties and taxes collected upon delivery.'}
                 </p>
             </div>
