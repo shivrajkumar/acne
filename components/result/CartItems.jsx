@@ -2,7 +2,6 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
     // Calculate the total cart value from the items
     const subtotal = totalCartValue || cartDetails?.totalCartValue || 0;
 
-    console.log("cartDeails", cartDetails);
     // Map the new data structure to what the component needs
     const productsDetailsUpdated = productsDetails ? productsDetails : cartItems?.map(item => ({
         quantity: item.quantity,
