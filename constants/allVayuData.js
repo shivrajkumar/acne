@@ -432,7 +432,7 @@ export const MorereviewTestimonials = [
       "My T-zone was always shiny, and makeup never stayed. Clear Ritual balanced my skin’s oil, and now I barely need blotting paper—my makeup lasts all day!",
   },
   {
-    src: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/meha.webp`,
+    src: ``,
     name: "Megha",
     location: "Bangalore",
     date: "23 Nov, 2024",
@@ -457,7 +457,7 @@ export const MorereviewTestimonials = [
       "Tiny bumps on my forehead and nose wouldn’t go away. Clear Ritual’s routine transformed my skin texture—it’s smoother, less oily, and finally manageable.",
   },
   {
-    src: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/neha.webp`,
+    src: ``,
     name: "Neha",
     location: "Jaipur",
     date: "01 March, 2025",
