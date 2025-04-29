@@ -11,6 +11,7 @@ const AboutUsBanner = () => {
           alt="Clear Ritual Skin Care"
           fill
           priority
+          loading="eager"
           className="object-cover w-full h-full object-[68%_75%]"
         />
       </div>
@@ -20,6 +21,7 @@ const AboutUsBanner = () => {
           alt="Clear Ritual Skin Care"
           fill
           priority
+          loading="eager"
           className="object-cover w-full h-full object-[68%_71%]"
         />
       </div>

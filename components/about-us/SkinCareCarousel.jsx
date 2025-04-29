@@ -6,6 +6,7 @@ import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
 import { CDN_BASE_URL } from "@constants/config";
 import { Carousel } from "antd";
 
+
 const SkinCareCarousel = () => {
   const [showArrows, setShowArrows] = useState(false);
   const sliderRef = useRef(null);
@@ -75,7 +76,7 @@ const SkinCareCarousel = () => {
     <div className="w-full flex justify-center md:py-[6rem] py-5">
       <div
         id="about-us-carousel-id"
-        className="w-[100%]  relative md:h-auto h-[470px]"
+        className="w-[100%] relative md:h-auto h-[470px]"
         onMouseEnter={() => setShowArrows(true)}
         onMouseLeave={() => setShowArrows(false)}
       >
@@ -83,7 +84,7 @@ const SkinCareCarousel = () => {
           {cardsData.map((card, index) => (
             <div
               key={index}
-              className="slick-slide flex items-center justify-center px-2 pb-3"
+              className="flex items-center justify-center px-2 pb-3"
             >
               <SkincareTestCard {...card} />
             </div>
