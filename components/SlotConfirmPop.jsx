@@ -12,8 +12,7 @@ export default function SlotConfirmPop({
   selectedDate,
   setClose,
   selectedTime,
-  link,
-  setBookedSucess
+  setBookedSucess,
 }) {
   const router = useRouter();
 
@@ -74,12 +73,11 @@ export default function SlotConfirmPop({
           <button
             onClick={() => {
               setClose(false);
-              if(setBookedSucess){
+              if (setBookedSucess) {
                 setBookedSucess(true);
-                router.push(link);
               }
-              router.push(link);
-              
+
+              router.back();
             }}
             className="bg-Tertiary/600  text-white cursor-pointer font-modernity font-[400] text-[17px] py-3 px-6 rounded-full h-[56px] w-full flex justify-center items-center"
           >
