@@ -120,8 +120,8 @@ const config: Config = {
         "Text/Disabled": "#969B9D",
         "Overlay Popup/Divider Stroke": "#DDDDDD",
         "Elements/Divider Stroke": "#E3E3E2",
-        "Secondary/50":"#FEFDFC",
-        "Secondary/400":"#AFA792"
+        "Secondary/50": "#FEFDFC",
+        "Secondary/400": "#AFA792",
       },
       fontSize: {
         xxs: "0.6rem",
@@ -151,6 +151,11 @@ const config: Config = {
       backgroundImage: {
         "aqua-gradient-border":
           "linear-gradient(90deg, #F9F7F2 0%, #BED9C7 21.31%, #BED9C7 81.11%, #F9F7F2 100%)",
+      },
+      boxShadow: {
+        "custom-top": "0px -4px 32px 0px rgba(0, 0, 0, 0.25)",
+        "custom-small": "0px -1px 4px 0px rgba(0, 0, 0, 0.25)",
+        "custom-medium": "0px -2px 12px 0px rgba(0, 0, 0, 0.15)",
       },
     },
   },

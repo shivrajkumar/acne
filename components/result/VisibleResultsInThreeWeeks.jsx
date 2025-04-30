@@ -79,8 +79,7 @@ const VisibleResultsInThreeWeeks = () => {
                                 <div className="pt-8 relative" style={{ zIndex: 10 }}>
                                     <ul className="list-disc flex flex-col pl-12 pr-4 items-center justify-center  bg-Secondary/50 py-[2px]">
                                         {item.benefits.map((benefit, i) => (
-                                            <li key={i} className="relative  w-[262px] text-wrap">
-                                                {/* Add background to each list item to cover the line */}
+                                            <li key={i} className="relative   text-wrap">
                                                 <span className="relative z-10">
                                                     <span className="absolute  text-[14px] font-[400] font-lato text-Text/Body-Text" style={{ zIndex: -1 }}></span>
                                                     {benefit}
