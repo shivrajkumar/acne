@@ -1,6 +1,5 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-
 import { fetchRequest } from "../../helpers/fetchRequest";
 import {
   BOOK_SLOT_API,
@@ -17,9 +16,11 @@ import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
 
+/**
+ * Transforms slot data from API into a more usable format for the UI
+ */
 const transformSlotData = (slotDetails) => {
   if (isEmpty(slotDetails)) {
-    console.log("Slot details empty, returning empty object");
     return {};
   }
 
@@ -33,6 +34,7 @@ const transformSlotData = (slotDetails) => {
     {}
   );
 
+  // Sort times for each date
   Object.keys(groupedSlots).forEach((date) => {
     groupedSlots[date].sort((a, b) => a.time.localeCompare(b.time));
   });
@@ -41,51 +43,60 @@ const transformSlotData = (slotDetails) => {
 };
 
 const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
-  const [orderDetails, setOrderDetails] = React.useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showDrawer, setShowDrawer] = useState(false);
-  const [doctorDetails, setDoctorDetails] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
-  const [availableSlots, setAvailableSlots] = useState({});
+  // Core data states
+  const [orderDetails, setOrderDetails] = useState(null);
   const [resultData, setResultData] = useState(null);
+  const [doctorDetails, setDoctorDetails] = useState(null);
+  const [availableSlots, setAvailableSlots] = useState({});
+
+  // UI states
+  const [loading, setLoading] = useState(true); // Start with loading true
+  const [showDrawer, setShowDrawer] = useState(false);
   const [closeConfirm, setCloseConfirm] = useState(false);
   const [bookedSuccess, setBookedSuccess] = useState(false);
 
-  useEffect(() => {
-    // Set loading to true when component mounts
-    setLoading(true);
+  // Selection states
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
 
-    // Check if booking was successful from localStorage
+  // Get the caseId from either source
+  const caseId = useMemo(
+    () =>
+      orderDetails?.customerDetail?.caseId ||
+      resultData?.customerDetails?.caseId,
+    [orderDetails, resultData]
+  );
+
+  // Transform slots data when available
+  const transformedSlots = useMemo(
+    () => (bookedSuccess ? {} : transformSlotData(availableSlots?.slotDetails)),
+    [availableSlots?.slotDetails, bookedSuccess]
+  );
+
+  // Check booking status from localStorage on mount
+  useEffect(() => {
     if (typeof window !== "undefined") {
+      // Check existing booking status
       const storedBookingStatus = localStorage.getItem("acne_booking_success");
       const storedBookingPending = localStorage.getItem("acne_booking_pending");
-      const storedBookingDate = localStorage.getItem("acne_booking_date");
-      const storedBookingTime = localStorage.getItem("acne_booking_time");
 
       if (storedBookingStatus === "true" || storedBookingPending === "true") {
         setBookedSuccess(true);
 
+        // Update localStorage if booking was pending
         if (storedBookingPending === "true") {
           localStorage.setItem("acne_booking_success", "true");
           localStorage.removeItem("acne_booking_pending");
         }
 
-        if (storedBookingDate) setSelectedDate(storedBookingDate);
-        if (storedBookingTime) setSelectedTime(storedBookingTime);
+        // Restore booking details
+        const storedDate = localStorage.getItem("acne_booking_date");
+        const storedTime = localStorage.getItem("acne_booking_time");
+        if (storedDate) setSelectedDate(storedDate);
+        if (storedTime) setSelectedTime(storedTime);
       }
-    }
 
-    // Load order details from API if platform_order_id exists
-    if (searchParams?.platform_order_id) {
-      getOrderDetails();
-      getDoctorDetails();
-    } else {
-      setLoading(false);
-    }
-
-    //  result data from localStorage
-    if (typeof window !== "undefined") {
+      // Load result data if available
       try {
         const stored = localStorage.getItem("acne_result_data");
         if (stored) {
@@ -93,104 +104,84 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
         }
       } catch (error) {
         console.error("Error loading result data from localStorage:", error);
-      } finally {
-        if (!searchParams?.platform_order_id) {
-          setLoading(false);
-        }
       }
     }
-  }, [searchParams?.platform_order_id]);
 
-  //slots api
+    // Load order details if platform_order_id exists
+    if (searchParams?.platform_order_id) {
+      Promise.all([
+        getOrderDetails(searchParams.platform_order_id),
+        getDoctorDetails(),
+      ]).catch(console.error);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
-    if (
-      (orderDetails?.customerDetail?.caseId ||
-        resultData?.customerDetails?.caseId) &&
-      !bookedSuccess
-    ) {
-      getAvailableSlots();
+    if (caseId && !bookedSuccess) {
+      getAvailableSlots(caseId);
     } else if (orderDetails !== null || resultData !== null) {
       setLoading(false);
     }
-  }, [bookedSuccess, orderDetails, resultData]);
+  }, [caseId, bookedSuccess, orderDetails, resultData]);
 
-  // Check if there's a valid caseId from either orderDetails or resultData
-  const hasCaseId = useMemo(() => {
-    if (loading) return true;
-
-    return !!(
-      orderDetails?.customerDetail?.caseId ||
-      resultData?.customerDetails?.caseId
-    );
-  }, [orderDetails, resultData, loading]);
-
-  const getOrderDetails = async () => {
+  // Fetch order details
+  const getOrderDetails = async (orderId) => {
     try {
-      const res = await fetchRequest(
-        ORDER_DETAILS(searchParams?.platform_order_id)
-      );
-      if (res.status == 200) {
+      const res = await fetchRequest(ORDER_DETAILS(orderId));
+      if (res.status === 200) {
         setOrderDetails(res.data);
       }
+      return res;
     } catch (error) {
-      console.error("Error parsing order details from localStorage:", error);
+      console.error("Error fetching order details:", error);
       return null;
     }
   };
 
-  //doctors details api
+  // Fetch doctor details
   const getDoctorDetails = async () => {
     try {
       const res = await fetchRequest(GET_STATIC_DOCTOR_DETAILS);
       if (res.status === 200) {
         setDoctorDetails(res.data.data.content);
       }
-    } catch (e) {
-      console.error(e);
+      return res;
+    } catch (error) {
+      console.error("Error fetching doctor details:", error);
+      return null;
     }
   };
 
-  const getAvailableSlots = async () => {
+  // Fetch available slots
+  const getAvailableSlots = async (id) => {
     setLoading(true);
     try {
-      const response = await fetchRequest(
-        GET_AVAILABLE_SLOTS(
-          orderDetails?.customerDetail.caseId ||
-            resultData?.customerDetails.caseId
-        )
-      );
+      const response = await fetchRequest(GET_AVAILABLE_SLOTS(id));
       setAvailableSlots(response?.data || {});
     } catch (error) {
       console.error("Error fetching available slots:", error);
     } finally {
       setLoading(false);
-      console.log("Loading state set to false");
     }
   };
 
-  const transformedSlots = useMemo(() => {
-    if (bookedSuccess) return []; // or null, or whatever is appropriate
-    return transformSlotData(availableSlots?.slotDetails);
-  }, [availableSlots?.slotDetails, bookedSuccess]);
-
+  // Handle booking a call
   const handleBookCall = useCallback(async () => {
+    if (!selectedDate || !selectedTime || !caseId || !availableSlots) {
+      console.error("Missing required data for slot booking");
+      return;
+    }
+
     try {
-      if (
-        !selectedDate ||
-        !selectedTime ||
-        (resultData && !resultData?.customerDetails?.caseId) ||
-        (orderDetails && !orderDetails.customerDetail?.caseId) ||
-        !availableSlots
-      ) {
-        console.error("Missing required data for slot booking");
-        return;
-      }
-      const selectedDateSlots = transformedSlots?.[selectedDate] ?? [];
+      const selectedDateSlots = transformedSlots?.[selectedDate] || [];
       const date = new Date(`${selectedDate} ${selectedTime}`);
-      const SelectedTimeISOString = date.toISOString();
+      const selectedTimeISOString = date.toISOString();
 
       const selectedSlot = selectedDateSlots.find(
-        (slot) => slot.time === SelectedTimeISOString
+        (slot) => slot.time === selectedTimeISOString
       );
 
       if (!selectedSlot) {
@@ -199,12 +190,10 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
       }
 
       const slotPayload = {
-        customerId:
-          orderDetails?.customerDetail.caseId ||
-          resultData?.customerDetails.caseId,
-        slotStartTime: SelectedTimeISOString,
-        availableSlots: selectedSlot.users ?? [],
-        tagDetails: availableSlots.tagDetails ?? {},
+        customerId: caseId,
+        slotStartTime: selectedTimeISOString,
+        availableSlots: selectedSlot.users || [],
+        tagDetails: availableSlots.tagDetails || {},
         isRescheduling: false,
         fromCrm: false,
         requestFromWeb: true,
@@ -214,16 +203,14 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
         bookedReason: "",
       };
 
-      const _options = {
+      const response = await fetchRequest(BOOK_SLOT_API, {
         method: "POST",
         body: JSON.stringify(slotPayload),
-      };
+      });
 
-      const response = await fetchRequest(BOOK_SLOT_API, _options);
       if (response.status === 200) {
-        // Store booking information for persistence without changing state yet
+        // Mark booking as pending in localStorage
         if (typeof window !== "undefined") {
-          // Store the booking details but mark as pending confirmation
           localStorage.setItem("acne_booking_pending", "true");
           localStorage.setItem("acne_booking_date", selectedDate);
           localStorage.setItem("acne_booking_time", selectedTime);
@@ -235,77 +222,37 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
     } catch (error) {
       console.error("Error booking slot:", error);
     }
-  }, [
-    selectedDate,
-    selectedTime,
-    orderDetails,
-    availableSlots,
-    transformedSlots,
-  ]);
+  }, [selectedDate, selectedTime, caseId, availableSlots, transformedSlots]);
 
+  // Redirect to skin test
   const handleTakeSkinTest = () => {
     window.location.href = "/skin-test";
   };
 
-  //  initial loading state
-  const initialLoading =
-    loading ||
-    (searchParams?.platform_order_id === undefined &&
-      orderDetails === null &&
-      resultData === null);
+  // Handle booking confirmation
+  const handleConfirmBooking = (confirmed) => {
+    setCloseConfirm(false);
 
-  // Handle the case where data has loaded but no caseId exists
-  const showTakeSkinTest = !initialLoading && !hasCaseId && !bookedSuccess;
+    if (confirmed) {
+      setBookedSuccess(true);
 
-  return initialLoading ? (
-    <Loader />
-  ) : (
-    <>
-      <AcneMarqueeBanner />
-      <AcneHeader />
-      {bookACallOnly ? (
-        // Book a call only view
-        <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px]">
-          <div className="w-full max-w-[720px] mx-auto">
-            <BookFreeCall
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              selectedTime={selectedTime}
-              setSelectedTime={setSelectedTime}
-              setAvailableSlots={setAvailableSlots}
-              transformedSlots={transformedSlots}
-              bookedSuccess={bookedSuccess}
-            />
-            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center">
-              <button
-                className={`${
-                  bookedSuccess ? "hidden" : "flex"
-                } md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]`}
-                onClick={handleBookCall}
-              >
-                BOOK A CALL
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : searchParams?.platform_order_id !== undefined ? (
-        // Full view with order confirmation
-        <OrderConfirmationView
-          orderDetails={orderDetails}
-          showDrawer={showDrawer}
-          setShowDrawer={setShowDrawer}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          selectedTime={selectedTime}
-          setSelectedTime={setSelectedTime}
-          setAvailableSlots={setAvailableSlots}
-          transformedSlots={transformedSlots}
-          bookedSuccess={bookedSuccess}
-          doctorDetails={doctorDetails}
-          handleBookCall={handleBookCall}
-        />
-      ) : showTakeSkinTest ? (
-        // Show "Take the Skin Test" option as the last option
+      // Confirm the booking in localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("acne_booking_success", "true");
+        localStorage.removeItem("acne_booking_pending");
+      }
+    }
+  };
+
+  // Determine which view to show
+  const renderContent = () => {
+    if (loading) {
+      return <Loader />;
+    }
+
+    // No case ID - show take test button
+    if (!caseId && !bookedSuccess) {
+      return (
         <div className="flex flex-col items-center justify-center px-0 py-[32px] md:px-[80px] md:py-[64px] min-h-[60vh]">
           <div className="text-center mb-8">
             <h2 className="text-[24px] md:text-[32px] font-[700] mb-4 text-Text/Heading-Text">
@@ -323,7 +270,63 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
             TAKE THE SKIN TEST
           </button>
         </div>
-      ) : null}
+      );
+    }
+
+    // Book Call Only view
+    if (bookACallOnly) {
+      return (
+        <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px]">
+          <div className="w-full max-w-[720px] mx-auto">
+            <BookFreeCall
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              setAvailableSlots={setAvailableSlots}
+              transformedSlots={transformedSlots}
+              bookedSuccess={bookedSuccess}
+            />
+            {!bookedSuccess && selectedTime !== null && (
+              <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center">
+                <button
+                  className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
+                  onClick={handleBookCall}
+                >
+                  BOOK A CALL
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // Order Confirmation view (default when order ID exists)
+    return (
+      <OrderConfirmationView
+        orderDetails={orderDetails}
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        selectedTime={selectedTime}
+        setSelectedTime={setSelectedTime}
+        setAvailableSlots={setAvailableSlots}
+        transformedSlots={transformedSlots}
+        bookedSuccess={bookedSuccess}
+        doctorDetails={doctorDetails}
+        handleBookCall={handleBookCall}
+      />
+    );
+  };
+
+  return (
+    <>
+      <AcneMarqueeBanner />
+      <AcneHeader />
+
+      {renderContent()}
 
       {closeConfirm && (
         <div className="fixed top-0 right-0 left-0 bottom-0 bg-[#00000050] z-[100000000]">
@@ -331,20 +334,7 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
             <SlotConfirmPop
               selectedDate={selectedDate}
               selectedTime={selectedTime}
-              setClose={(value) => {
-                setCloseConfirm(value);
-                if (value === false) {
-                  // User confirmed the booking
-                  setBookedSuccess(true);
-
-                  // Confirm the booking in localStorage
-                  if (typeof window !== "undefined") {
-                    localStorage.setItem("acne_booking_success", "true");
-                    localStorage.removeItem("acne_booking_pending");
-                  }
-                }
-              }}
-              setBookedSuccess={setBookedSuccess}
+              setClose={(value) => handleConfirmBooking(!value)}
             />
           </div>
         </div>
