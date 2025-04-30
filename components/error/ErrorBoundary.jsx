@@ -13,7 +13,7 @@ class ErrorBoundary extends Component {
     }
 
     componentDidCatch(error, errorInfo) {
-        window.location.href = "https://bp-vayu.dev.hav-g.in";
+        window.location.href = "https://clearritual.com";
         console.error("Error:", error);
         console.error("Error Info:", errorInfo);
     }
