@@ -49,7 +49,7 @@ const ResultLandingPage = ({ params }) => {
       const res = await fetchRequest(RESULT_V2(tId));
       if (res.status === 200) {
         setResultData(res.data);
-        localStorage.setItem(`vayu_result_data`, JSON.stringify(res.data));
+        localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
         setLoading(false);
       }
     } catch (e) {

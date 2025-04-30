@@ -12,7 +12,7 @@ const CartPageHome = () => {
   const toggleSwitch = () => {
     setIsOn(!isOn);
   };
-  const data = JSON.parse(localStorage.getItem(`vayu_result_data`));
+  const data = JSON.parse(window.localStorage.getItem(`acne_result_data`));
 
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
