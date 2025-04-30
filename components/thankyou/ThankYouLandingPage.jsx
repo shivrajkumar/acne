@@ -44,21 +44,17 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
       const storedBookingDate = localStorage.getItem("acne_booking_date");
       const storedBookingTime = localStorage.getItem("acne_booking_time");
 
-      if (storedBookingStatus === "true") {
+      if (storedBookingStatus === "true" || storedBookingPending === "true") {
         setBookedSuccess(true);
-         // Restore selected date and time if available
-         if (storedBookingDate) setSelectedDate(storedBookingDate);
-         if (storedBookingTime) setSelectedTime(storedBookingTime);
-      } else if (storedBookingPending === "true") {
-        // If booking was pending but page refreshed, convert to success
-        setBookedSuccess(true);
+        
+        if (storedBookingPending === "true") {
         localStorage.setItem("acne_booking_success", "true");
         localStorage.removeItem("acne_booking_pending");
-
-            // Restore selected date and time if available
-            if (storedBookingDate) setSelectedDate(storedBookingDate);
-            if (storedBookingTime) setSelectedTime(storedBookingTime);
-      }
+        }
+        
+        if (storedBookingDate) setSelectedDate(storedBookingDate);
+        if (storedBookingTime) setSelectedTime(storedBookingTime);
+        }
     }
 
     // Load order details from API if platform_order_id exists
