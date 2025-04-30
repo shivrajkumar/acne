@@ -56,10 +56,14 @@ const RootCauses = () => {
 
 const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, isMobile }) => {
     const scrollContainerRef = useRef(null);
+    const isUserScrolling = useRef(false);
+    const isProgrammaticScroll = useRef(false);
 
     // Handle scroll to keep the active item in view (for mobile)
     useEffect(() => {
         if (isMobile && scrollContainerRef.current) {
+            isProgrammaticScroll.current = true; // Flag that this is a programmatic scroll
+
             const scrollContainer = scrollContainerRef.current;
             const activeItem = scrollContainer.children[activeIndex];
 
@@ -72,13 +76,19 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     left: scrollLeft,
                     behavior: 'smooth'
                 });
+
+                // Reset the flag after the scroll animation is likely complete
+                setTimeout(() => {
+                    isProgrammaticScroll.current = false;
+                }, 500);
             }
         }
     }, [activeIndex, isMobile]);
 
     // Handle scroll navigation
     const handleScroll = () => {
-        if (isMobile && scrollContainerRef.current) {
+        // Only process scroll events that are initiated by the user, not our programmatic scrolls
+        if (isMobile && scrollContainerRef.current && !isProgrammaticScroll.current && isUserScrolling.current) {
             const scrollContainer = scrollContainerRef.current;
             const containerWidth = scrollContainer.offsetWidth;
             const scrollPosition = scrollContainer.scrollLeft;
@@ -107,13 +117,14 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                             }`}
                         onClick={() => setActiveIndex(index)}
                     >
-                        <div className="w-[32px] h-[32px] mb-1">
+                        <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
                             <Image
                                 src={cause?.image}
                                 alt={cause?.name}
-                                width={40}
-                                height={40}
-                                className={`w-[40px] h-[40px] object-contain fill-Neutral/600 ${index === activeIndex ? "" : "custom-icon-fill"}`}
+                                width={32}
+                                height={32}
+                                className={` object-center fill-Neutral/600 ${index === activeIndex ? "" : "custom-icon-fill"}`}
+                                style={{ objectFit: 'contain' }}
                             />
                         </div>
                         <div className={`text-[14px] font-lato font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
@@ -128,25 +139,29 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
             <div className="md:hidden w-full">
                 <div
                     ref={scrollContainerRef}
-                    className="flex overflow-x-scroll  hide-scrollbar bg-[#00000014] rounded-[16px]"
+                    className="flex overflow-x-scroll hide-scrollbar bg-[#00000014] rounded-[16px]"
                     onScroll={handleScroll}
+                    onTouchStart={() => { isUserScrolling.current = true; }}
+                    onTouchEnd={() => { isUserScrolling.current = false; }}
                 >
                     {rootCauseInfo?.map((cause, index) => (
                         <div
                             key={cause?.name}
-                            className={`w-[92px] h-[80px] px-[24px] py-[8px] gap-[4px]  flex flex-col items-center justify-center flex-shrink-0 ${index === activeIndex ? "bg-[#FFFFFF] border-[1px] border-Semantic/Error rounded-[16px]" : ""
+                            className={`w-[92px] h-[80px] px-[24px] py-[8px] gap-[4px] flex flex-col items-center justify-center flex-shrink-0 ${index === activeIndex ? "bg-[#FFFFFF] border-[1px] border-Semantic/Error rounded-[16px]" : ""
                                 }`}
                             onClick={() => setActiveIndex(index)}
                         >
-                            <div className="w-[32px] h-[32px] mb-1">
+                            <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
                                 <Image
                                     src={cause?.image}
                                     alt={cause?.name}
-                                    width={40}
-                                    height={40}
-                                    className={`w-[40px] h-[40px] object-contain fill-Neutral/600 ${index === activeIndex ? "" : "custom-icon-fill"}`}
+                                    width={32}
+                                    height={32}
+                                    className={`object-center fill-Neutral/600 ${index === activeIndex ? "" : "custom-icon-fill"}`}
+                                    style={{ objectFit: 'contain' }}
                                 />
                             </div>
+
                             <span className={`text-[14px] font-lato font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
                                 }`}>
                                 {startCase(cause?.name)}
@@ -175,7 +190,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
             </div>
 
             {/* Description */}
-            <div className="text-[16px]">
+            <div className="text-[16px] min-h-[100px] md:min-h-[50px]">
                 <p className='font-lato font-[400] text-Text/Body-Text'>
                     {rootCauseInfo[activeIndex]?.description}
                 </p>

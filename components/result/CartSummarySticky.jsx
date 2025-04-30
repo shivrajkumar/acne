@@ -27,10 +27,10 @@ const CartSummarySticky = () => {
 
     return (
         <>
-            <div className="flex justify-between py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center fixed bottom-0 bg-[#FFFFFF] w-full z-50 border border-t-[#AFA792]">
+            <div className="flex justify-between py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center fixed bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium">
                 <div className="flex gap-[32px]">
                     <div>
-                        <p className="text-[18px] font-lato font-[500] text-Text/Heading-Text -tracking-[1%]">₹{(cartData.totalCartValue ?? 0).toFixed(2)}/-</p>
+                        <p className="text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]">₹{(cartData.totalCartValue ?? 0).toFixed(2)}/-</p>
                         <button onClick={scrollToOrderSummary} className="md:underline font-lato font-[500] text-[14px] -tracking-[2%] text-Neutral/800 hidden md:flex items-center ">
                             Order Summary
                         </button>
@@ -54,8 +54,13 @@ const CartSummarySticky = () => {
                         )}
                     </div>
                 </div>
-                <div>
-                    <button className="w-fit bg-Tertiary/600 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]" onClick={handleBuyNowClick}>
+                <div className="flex-1 ms-[32px] md:hidden">
+                    <button className="w-full md:w-[318px] bg-Tertiary/400 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] md:text-[20px] font-[500] -tracking-[1%]" onClick={handleBuyNowClick}>
+                        {cartData?.cta}
+                    </button>
+                </div>
+                <div className="hidden md:block">
+                    <button className="w-full md:w-[318px] bg-Tertiary/400 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] md:text-[20px] font-[500] -tracking-[1%]" onClick={handleBuyNowClick}>
                         {cartData?.cta}
                     </button>
                 </div>
