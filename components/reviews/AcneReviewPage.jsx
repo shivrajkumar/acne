@@ -18,6 +18,8 @@ const AcneReviewPage = () => {
             src={`${CDN_BASE_URL}website_images/clear_rituals/reviewPage/ReviewGroupImage.webp`}
             layout="fill"
             alt="User"
+            priority
+            loading="eager"
             className="w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#F9F7F2] from-[1%] via-transparent via-[45%] to-[#F9F7F2] to-[124%]" />

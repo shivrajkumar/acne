@@ -102,7 +102,6 @@ const InputCheckbox = ({ block, context }) => {
         //   // Router.push(SUBMISSION);
         if (block.id =='stress_level'){
           setAllQuestionsFilled(true);
-          window.localStorage.setItem("form_status", "filled");
         }
         
         // } else {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import arrowIcon from "@assets/icons/up-arrow.png";
 import CrossIconIcon from "@assets/icons/close-circle.png";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import handleBuyNowClick from "../result/handleBuyNowClick";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -11,8 +12,11 @@ const CartPageHome = () => {
   const toggleSwitch = () => {
     setIsOn(!isOn);
   };
-  const data = JSON.parse(localStorage.getItem(`vayu_result_data`));
+  const data = JSON.parse(window.localStorage.getItem(`acne_result_data`));
 
+  const placeOrder = () => {
+    handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
+  };
   return (
     <>
       {data ? (
@@ -20,7 +24,7 @@ const CartPageHome = () => {
           {/* Custom Breakdown Drawer */}
           {isBreakdownDrawerOpen && (
             <div
-              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end overflow-y-scroll"
+              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end overflow-y-scroll font-lato"
               s
               onClick={() => setIsBreakdownDrawerOpen(false)}
             >
@@ -31,7 +35,7 @@ const CartPageHome = () => {
               >
                 {/* Close Button */}
                 <div className="flex justify-between items-center mb-4 py-[16px] px-[12px] border-b-[1px]  border-b-Overlay Popup/Divider Stroke ">
-                  <h2 className="text-[16px] font-[500] leading-[130%]  text-Text/Heading-Text -tracking-[1%]">
+                  <h2 className="text-[16px] font-[500] leading-[130%]  text-Text/Heading-Text -tracking-[1%] font-lato">
                     Estimated Total
                   </h2>
 
@@ -59,8 +63,8 @@ const CartPageHome = () => {
                       className="rounded-full w-[104px] h-[104px] object-cover"
                     />
 
-                    <div className="flex flex-col flex-grow">
-                      <p className="font-lato font-[600] text-[16px] -tracking-[1%]">
+                    <div className="flex flex-col flex-grow font-lato">
+                      <p className="font-lato font-[400] text-[16px] -tracking-[1%] ">
                         {data?.doctorDetails?.name}
                       </p>
                       <p className="font-lato text-[12px] md:text-[14px] font-[400]">
@@ -183,12 +187,10 @@ const CartPageHome = () => {
                         {product.size}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[16px]  font-[600] leading-[150%]">
+                        <span className="text-[16px]  font-[400] leading-[150%]">
                           ₹{product.price}
                         </span>
-                        <span className="text-[12px] font-[400] leading-[150%] line-through  text-Text/Disabled">
-                          ₹899.00
-                        </span>
+
                       </div>
                     </div>
                   </div>
@@ -211,8 +213,8 @@ const CartPageHome = () => {
             {/* Footer */}
             <div className="border-t p-4 flex justify-between items-center">
               <div className="flex flex-col">
-                <div className="text-[16px] font-[600] leading-[150%]">
-                  ₹ 1,990/-
+                <div className="text-[18px] font-[400] tracking-[0.5px]">
+                  ₹{data?.cartDetails?.totalCartValue}/-
                 </div>
                 <div
                   className="text-[12px] font-[400] leading-[150%] text-Tertiary/600 cursor-pointer flex items-center gap-1"
@@ -225,7 +227,7 @@ const CartPageHome = () => {
 
               <button
                 className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
-              // onClick={handleBuyNowClick}
+                onClick={placeOrder}
               >
                 CHECKOUT
               </button>

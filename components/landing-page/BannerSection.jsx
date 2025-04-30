@@ -1,11 +1,21 @@
+"use client"
 import { CDN_BASE_URL } from "@/constants/config";
-import React from "react";
+import React, { useEffect } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoMobile.mp4`;
 const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoDesktop.mp4`;
 
 const BannerSection = () => {
+  const [syntheticId, setSyntheticId] = React.useState(null);
+
+  useEffect(() => {
+    const synthetic_Id = localStorage.getItem("syntheticId");
+    if (synthetic_Id) {
+      setSyntheticId(synthetic_Id);
+    }
+  }, []);
+
   return (
     <>
       {/* Mobile Banner with Video */}
@@ -51,12 +61,21 @@ const BannerSection = () => {
             <div className="mt-[32px]">
               <AcneTakeTheSkinTest
                 variant="white"
-                text={"TAKE THE SKIN TEST"}
+                text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
                 tm={" "}
                 redirectTo={"/skin-test"}
                 deskSize="mobileBig"
               />
             </div>
+            {syntheticId && <div className="mt-[32px]">
+              <AcneTakeTheSkinTest
+                variant="black"
+                text={"My Recommended plan"}
+                tm={" "}
+                redirectTo={`/result/${syntheticId}`}
+                deskSize="mobileBig"
+              />
+            </div>}
           </div>
         </div>
       </div>
@@ -100,12 +119,21 @@ const BannerSection = () => {
           <div className="flex justify-start">
             <AcneTakeTheSkinTest
               variant="white"
-              text={"TAKE THE SKIN TEST"}
+              text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
               tm={" "}
               redirectTo={"/skin-test"}
               deskSize="desktopBig"
             />
           </div>
+          {syntheticId && <div className="flex justify-start -mt-4">
+            <AcneTakeTheSkinTest
+              variant="black"
+              text={"My Recommended plan"}
+              tm={" "}
+              redirectTo={`/result/${syntheticId}`}
+              deskSize="desktopBig"
+            />
+          </div>}
         </div>
       </div>
     </>

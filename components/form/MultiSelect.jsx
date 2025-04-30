@@ -79,7 +79,6 @@ const MultiSelect = ({ block, context }) => {
 
       if (block.id == "stress_level") {
         setAllQuestionsFilled(true);
-        window.localStorage.setItem("form_status", "filled");
       }
     } else {
       setError(_res?.data?.message || "An error occurred");

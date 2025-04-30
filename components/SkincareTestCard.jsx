@@ -7,25 +7,25 @@ import AcneTakeTheSkinTest from "./generic/AcneTakeTheSkinTest";
 
 const SkincareTestCard = ({ title, mobileImage, desktopImage }) => {
   return (
-    <div className="h-full rounded-xl text-white relative overflow-hidden sm:w-[1000px] ">
+    <div className="h-full rounded-xl text-white relative overflow-hidden ">
       <div className="hidden md:block">
         <Image
           src={desktopImage}
           alt={`Desktop Background ${1}`}
           width={1055}
           height={350}
-          className="rounded-lg sm:min-w-[1000px] w-[1000px] h-[450px] min-h-[450px] sm:min-h-[450px] object-cover"
+          className="rounded-xl h-[450px] min-h-[450px] sm:min-h-[450px] object-cover"
         />
       </div>
 
       {/* Mobile Image */}
-      <div className="block md:hidden">
+      <div className="block md:hidden ">
         <Image
           src={mobileImage}
           alt={`Mobile Background ${1}`}
           width={300}
           height={350}
-          className="rounded-lg w-full h-[400px] min-h-[300px] sm:min-h-[320px] object-cover "
+          className="rounded-xl w-full h-[400px] min-h-[300px] sm:min-h-[320px] object-cover "
         />
       </div>
 
