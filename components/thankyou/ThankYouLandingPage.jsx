@@ -40,14 +40,23 @@ const ThankYouLandingPage = ({ searchParams }) => {
     if (typeof window !== "undefined") {
       const storedBookingStatus = localStorage.getItem("vayu_booking_success");
       const storedBookingPending = localStorage.getItem("vayu_booking_pending");
+      const storedBookingDate = localStorage.getItem("vayu_booking_date");
+      const storedBookingTime = localStorage.getItem("vayu_booking_time");
 
       if (storedBookingStatus === "true") {
         setBookedSuccess(true);
+         // Restore selected date and time if available
+         if (storedBookingDate) setSelectedDate(storedBookingDate);
+         if (storedBookingTime) setSelectedTime(storedBookingTime);
       } else if (storedBookingPending === "true") {
         // If booking was pending but page refreshed, convert to success
         setBookedSuccess(true);
         localStorage.setItem("vayu_booking_success", "true");
         localStorage.removeItem("vayu_booking_pending");
+
+            // Restore selected date and time if available
+            if (storedBookingDate) setSelectedDate(storedBookingDate);
+            if (storedBookingTime) setSelectedTime(storedBookingTime);
       }
     }
 
@@ -192,8 +201,10 @@ const ThankYouLandingPage = ({ searchParams }) => {
       if (response.status === 200) {
         // Store booking information for persistence without changing state yet
         if (typeof window !== "undefined") {
-          // Store the booking details but mark as pending confirmation
-          localStorage.setItem("vayu_booking_pending", "true");
+              // Store the booking details but mark as pending confirmation
+              localStorage.setItem("vayu_booking_pending", "true");
+              localStorage.setItem("vayu_booking_date", selectedDate);
+              localStorage.setItem("vayu_booking_time", selectedTime);
         }
 
         // Show confirmation modal

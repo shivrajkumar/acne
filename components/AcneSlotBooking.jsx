@@ -97,7 +97,6 @@ function BookFreeCall({
           {Object.keys(transformedSlots).map((dateKey) => (
             <div
               key={dateKey}
-              style={{ width: 120 }}
               className={`px-2 ${!isMobile ? "max-w-[160px]" : ""}`}
               onClick={() => handleDateSelect(dateKey)}
             >
