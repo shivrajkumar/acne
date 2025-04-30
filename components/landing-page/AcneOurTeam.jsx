@@ -30,7 +30,7 @@ export default function AcneOurTeam() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex flex-col gap-[24px] md:flex-row md:gap-[40px]  rounded-2xl overflow-hidden">
+        <div className="flex flex-col gap-[24px] md:flex-row md:gap-[40px]  rounded-2xl">
           {/* Doctor Image - Full width on mobile, half width on desktop */}
           <div className="md:w-[45%]">
             <Image
@@ -50,9 +50,9 @@ export default function AcneOurTeam() {
           </div>
 
           {/* Quote Section - Full width on mobile, half width on desktop */}
-          <div className=" bg-[#FFFFFF] w-full md:w-[55%] p-[24px] md:p-[40px] flex flex-col justify-center gap-[16px] rounded-[16px]">
+          <div className=" bg-[#FFFFFF] w-full md:w-1/2 p-[24px] md:p-[40px] flex flex-col justify-center gap-[16px] rounded-[16px] flex-wrap">
             <div className=" text-[40px] xs:text-[24px] text-left md:text-left xs:text-center  ">
-              <blockquote className="text-[20px] leading-[130%] md:text-[32px] font-[500] font-lato  md:w-[792px] w-[250px] text-wrap">
+              <blockquote className="text-[20px] leading-[130%] md:text-[32px] font-[500] font-lato ">
                 {`"At Clear Ritual, we go beyond surface-level solutions by combining advanced dermatology with Ayurvedic wisdom to target the root causes of acne — because clear skin begins with knowing your skin deeply."`}
               </blockquote>
               <p className="font-lato font-[500] text-[16px] md:text-[18px] mt-[16px] ">
