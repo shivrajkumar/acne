@@ -79,7 +79,7 @@ function WhatIsInYourKitMobile() {
       </div>
 
       <div className="flex flex-col mb-4 gap-[16px]">
-        <div className="flex items-center justify-center gap-[16px]">
+        <div className="flex items-center  gap-[16px]">
           <Image src={checkIcon} width={24} height={24} alt="Icon" />
           <p className="text-[14px] text-Text/Heading-Text font-[500] font-lato leading-[140%]">
             Free shipping, delivered straight to your door{" "}
@@ -104,7 +104,6 @@ function WhatIsInYourKitMobile() {
           </p>
         </div>
       </div>
-      <div className="flex justify-center"></div>
     </section>
   );
 }

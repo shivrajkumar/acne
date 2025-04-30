@@ -34,10 +34,10 @@ const CartSummarySticky = () => {
 
   return (
     <>
-      <div className="flex justify-between py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center fixed bottom-0 bg-[#FFFFFF] w-full z-50 border border-t-[#AFA792]">
+      <div className="flex justify-between py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center fixed bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium">
         <div className="flex gap-[32px]">
           <div>
-            <p className="text-[18px] font-lato font-[500] text-Text/Heading-Text -tracking-[1%]">
+            <p className="text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]">
               ₹{(cartData.totalCartValue ?? 0).toFixed(2)}/-
             </p>
             <button

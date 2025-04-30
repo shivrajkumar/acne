@@ -32,8 +32,10 @@ export default function UserBasicInfoForm() {
   });
 
   const [errors, setErrors] = useState({
+    fullName: "",
     phoneNumber: "",
-    age: null,
+    age: "",
+    gender: ""
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +48,19 @@ export default function UserBasicInfoForm() {
         phoneNumber: window.localStorage.getItem("user_phone")?.substring(3),
         age: window.localStorage.getItem("user_age"),
         gender: window.localStorage.getItem("user_gender"),
-      })
+      });
+
+      // Validate loaded data
+      const loadedPhoneNumber = window.localStorage.getItem("user_phone")?.substring(3);
+      const loadedAge = window.localStorage.getItem("user_age");
+
+      if (loadedPhoneNumber) {
+        setErrors(prev => ({ ...prev, phoneNumber: validatePhoneNumber(loadedPhoneNumber) }));
+      }
+
+      if (loadedAge) {
+        setErrors(prev => ({ ...prev, age: validateAge(loadedAge) }));
+      }
     }
   }, []);
 
@@ -67,7 +81,6 @@ export default function UserBasicInfoForm() {
     if (byId["gender"] && byId["gender"].reply) {
       setFormData((prev) => ({ ...prev, gender: byId["gender"].reply }));
     }
-
   }, [byId]);
 
   const validatePhoneNumber = (value) => {
@@ -100,6 +113,19 @@ export default function UserBasicInfoForm() {
     return "";
   };
 
+  const validateFullName = (value) => {
+    if (!value || value.trim() === "") {
+      return "Full name is required";
+    }
+    return "";
+  };
+
+  const validateGender = (value) => {
+    if (!value) {
+      return "Please select a gender";
+    }
+    return "";
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -121,14 +147,23 @@ export default function UserBasicInfoForm() {
         ...prev,
         age: validateAge(value),
       }));
+    } else if (name === "fullName") {
+      setErrors((prev) => ({
+        ...prev,
+        fullName: validateFullName(value),
+      }));
     }
-
   };
 
   const handleGenderSelect = (gender) => {
     setFormData((prevData) => ({
       ...prevData,
       gender,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      gender: "",
     }));
   };
 
@@ -278,11 +313,15 @@ export default function UserBasicInfoForm() {
     // Final validation before submission
     const phoneNumberError = validatePhoneNumber(formData.phoneNumber);
     const ageError = validateAge(formData.age);
+    const fullNameError = validateFullName(formData.fullName);
+    const genderError = validateGender(formData.gender);
 
-    if (phoneNumberError || ageError) {
+    if (phoneNumberError || ageError || fullNameError || genderError) {
       setErrors({
         phoneNumber: phoneNumberError,
         age: ageError,
+        fullName: fullNameError,
+        gender: genderError,
       });
       return;
     }
@@ -338,7 +377,8 @@ export default function UserBasicInfoForm() {
   const isFormValid =
     formData.fullName?.trim() !== "" &&
     formData.phoneNumber?.trim() !== "" &&
-    formData.age?.trim() !== "" &&
+    formData.age !== null &&
+    formData.age !== "" &&
     formData.gender !== "" &&
     !errors.phoneNumber &&
     !errors.age;
@@ -361,19 +401,24 @@ export default function UserBasicInfoForm() {
               <input
                 type="text"
                 name="fullName"
-                value={formData.fullName}
+                value={formData.fullName || ""}
                 onChange={handleChange}
                 placeholder="Full Name"
                 className="w-full lg:h-[72px] py-[16px] ps-[24px] pr-[4px] border-[1px] border-Elements/Divider-Stroke rounded-[16px] outline-none focus:outline-none"
                 required
               />
+              {errors.fullName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.fullName}
+                </p>
+              )}
             </div>
 
             <div>
               <input
                 type="tel"
                 name="phoneNumber"
-                value={formData.phoneNumber}
+                value={formData.phoneNumber || ""}
                 onChange={handleChange}
                 placeholder="Phone Number"
                 className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.phoneNumber
@@ -383,6 +428,7 @@ export default function UserBasicInfoForm() {
                 maxLength={10}
                 pattern="[0-9]{10}"
                 required
+                onWheel={(e) => e.target.blur()}
               />
               {errors.phoneNumber && (
                 <p className="text-red-500 text-sm mt-1">
@@ -396,7 +442,7 @@ export default function UserBasicInfoForm() {
               <input
                 type="number"
                 name="age"
-                value={formData.age}
+                value={formData.age || ""}
                 onChange={handleChange}
                 placeholder="Age"
                 className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.age
@@ -406,6 +452,7 @@ export default function UserBasicInfoForm() {
                 min="1"
                 max="99"
                 required
+                onWheel={(e) => e.target.blur()}
               />
               {errors.age && (
                 <p className="text-red-500 text-sm mt-1">{errors.age}</p>
@@ -437,6 +484,11 @@ export default function UserBasicInfoForm() {
                 </div>
               </button>
             </div>
+            {errors.gender && (
+              <p className="text-red-500 text-sm text-center">
+                {errors.gender}
+              </p>
+            )}
 
             {errors.general && (
               <p className="text-red-500 text-sm text-center">
