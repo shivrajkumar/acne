@@ -13,6 +13,7 @@ const CartSummarySticky = () => {
     productsDetails: productDetails,
     doctorDetails,
     handleBuyNowClick,
+    caseId
   } = useCartContext();
 
   // Get first 3 products to display
@@ -100,7 +101,7 @@ const CartSummarySticky = () => {
           }  justify-between gap-3 items-center`}
         >
           <a
-            href="/book-a-call"
+            href={`/book-a-call?caseId=${caseId}`}
             className={`${storedBookingStatus && "hidden"}`}
           >
             <button className="w-fit bg-Tertiary/600 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]">

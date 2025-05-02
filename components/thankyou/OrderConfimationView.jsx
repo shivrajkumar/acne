@@ -43,12 +43,11 @@ const OrderConfirmationView = ({
                   setAvailableSlots={setAvailableSlots}
                   transformedSlots={transformedSlots}
                   bookedSuccess={bookedSuccess}
-                  bookACallOnly={bookACallOnly}
                 />
               </>
             ) : (
               <>
-                <div className="flex flex-col items-center px-4 py-8 md:px-20 md:py-12 bg-[#F9FAFB] min-h-[60vh]">
+                <div className="flex flex-col items-center px-4 py-8 md:px-20 md:py-12 bg-[#F9FAFB] min-h-[30vh]">
                   <div className="w-full max-w-[720px] mx-auto">
                     <div className="bg-white border border-Elements/Divider-Stroke rounded-3xl shadow-sm p-6 md:p-10 flex flex-col items-center gap-6 md:gap-10 text-center">
                       <h2 className="text-[20px] md:text-[24px] font-medium tracking-wide leading-snug text-gray-900">
@@ -65,7 +64,7 @@ const OrderConfirmationView = ({
               </>
             )}
           </div>
-          <div className="hidden lg:block lg:w-[50%] border-[1px] border-Elements/Divider-Stroke p-[24px] rounded-[24px] h-fit mx-auto">
+          <div className="hidden md:block lg:w-[50%] border-[1px] border-Elements/Divider-Stroke p-[24px] rounded-[24px] h-fit mx-auto">
             <CartItems
               cartItems={orderDetails?.orderDetails?.orderLineItems}
               totalCartValue={orderDetails?.orderDetails?.totalPrice}

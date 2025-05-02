@@ -1,9 +1,9 @@
-import ThankYouLandingPage from "@/components/thankyou/ThankYouLandingPage";
+import AcneBookACallPage from "../../components/book-a-call/AcneBookACall";
 
 export default function page({ params, searchParams }) {
   return (
     <>
-      <ThankYouLandingPage params={params} searchParams={searchParams} bookACallOnly={true}/>
+      <AcneBookACallPage params={params} searchParams={searchParams} />
     </>
   );
 }

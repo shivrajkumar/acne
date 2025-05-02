@@ -5,11 +5,8 @@ import { Carousel } from "antd";
 import Image from "next/image";
 import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
 import Loader from "./generic/Loader";
-import MorningIcon from "@assets/svg/morning.svg";
-import AfternoonIcon from "@assets/svg/afternoon.svg";
-import EveningIcon from "@assets/svg/evening.svg";
-import NightIcon from "@assets/svg/night.svg";
 import moment from "moment";
+import { getIconForPeriod, groupSlotsByPeriod } from "../utils/bookacall";
 
 function BookFreeCall({
   selectedDate,
@@ -18,7 +15,7 @@ function BookFreeCall({
   setSelectedTime,
   transformedSlots,
   bookedSuccess,
-  bookACallOnly,
+  bookACallOnly = false,
 }) {
   const [slidesToShow, setSlidesToShow] = useState(3);
   const [isMobile, setIsMobile] = useState(false);
@@ -254,56 +251,5 @@ function BookFreeCall({
 
   return null;
 }
-
-/**
- * Groups time slots into periods of the day
- * @param {Array} slots - Array of slot objects with time property
- * @returns {Object} Object with period keys (Morning, After Noon, Evening, Night)
- */
-const groupSlotsByPeriod = (slots = []) => {
-  const groups = { Morning: [], "After Noon": [], Evening: [], Night: [] };
-
-  if (!Array.isArray(slots) || slots.length === 0) {
-    return groups;
-  }
-
-  slots.forEach(({ time }) => {
-    const localTime = moment.utc(time).local();
-    const hour = localTime.hour();
-    const formattedTime = localTime.format("hh:mm A");
-
-    if (hour >= 5 && hour < 12) {
-      groups.Morning.push(formattedTime);
-    } else if (hour >= 12 && hour < 17) {
-      groups["After Noon"].push(formattedTime);
-    } else if (hour >= 17 && hour < 21) {
-      groups.Evening.push(formattedTime);
-    } else {
-      groups.Night.push(formattedTime);
-    }
-  });
-
-  return groups;
-};
-
-/**
- * Returns the appropriate icon for each time period
- * @param {string} period - Time period name
- * @returns {string} Icon path
- */
-const getIconForPeriod = (period) => {
-  switch (period) {
-    case "Morning":
-      return MorningIcon;
-    case "After Noon":
-      return AfternoonIcon;
-    case "Evening":
-      return EveningIcon;
-    case "Night":
-      return NightIcon;
-    default:
-      return MorningIcon;
-  }
-};
 
 export default BookFreeCall;
