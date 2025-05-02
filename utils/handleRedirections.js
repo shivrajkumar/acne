@@ -7,7 +7,7 @@ const handleRedirections = ({ val, queryStrings, router }) => {
 
   if (val === "resultPage") {
     router.push(
-      `/result/${syntheticId}?${
+      `/result?tid=${syntheticId}?${
         !isEmpty(queryStrings?.utmData) ? "&" : ""
       }${new URLSearchParams(queryStrings?.utmData || {}).toString()}`
     );

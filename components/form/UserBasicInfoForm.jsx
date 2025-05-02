@@ -12,6 +12,10 @@ import { COOKIES_EXPIRY } from "@/constants/constants";
 import maleIcon from "@assets/icons/MaleIcon.png";
 import femaleIcon from "@assets/icons/FemaleIcon.png";
 import Image from "next/image";
+import { getUtmCookiesInObjectForm } from "../../constants/urls";
+import moengage from '@moengage/web-sdk';
+import { callAfterMoegageIsLoaded, trackMoEngageEvent } from '../../utils/moegage'
+
 
 export default function UserBasicInfoForm() {
   const {
@@ -237,11 +241,80 @@ export default function UserBasicInfoForm() {
 
 
       _res = await fetchRequest(INGESTION_API(), _requestOptions);
+
+      if (_res && _res.status === 200) {
+        saveApiResponse(_res.data);
+
+        // Save data to localStorage
+        window.localStorage.setItem("form_status", "draft");
+        window.localStorage.setItem("user_first_name", _user.first_name);
+        window.localStorage.setItem("user_phone", _user.phone_number);
+        window.localStorage.setItem("user_age", formData.age);
+        window.localStorage.setItem("user_gender", formData.gender);
+        window.localStorage.setItem("user_email", `${formData.phoneNumber}.unknown@traya.health`);
+
+
+
+
+
+        // Set cookies
+        Cookies.set("Transaction_ID", _res.data.transactionId, {
+          domain: COOKIES_DOMAIN,
+          expires: COOKIES_EXPIRY,
+        });
+        window.localStorage.setItem("user_tid", _res.data.transactionId);
+
+
+        if (_res.data.syntheticId) {
+          Cookies.set("Synthetic_ID", _res.data.syntheticId, {
+            domain: COOKIES_DOMAIN,
+            expires: COOKIES_EXPIRY,
+          });
+        }
+
+        Cookies.set("form_status", "draft", {
+          domain: COOKIES_DOMAIN,
+          expires: COOKIES_EXPIRY,
+        });
+        window.localStorage.setItem("form_status", "draft");
+
+
+        return _res.data.transactionId;
+      }
+
+      if (_res && _res.status === 500) {
+        setErrors((prev) => ({
+          ...prev,
+          general: _res.data.message,
+        }));
+        return null;
+      }
+
+      if (_res && _res.data && _res.data.message) {
+        setErrors((prev) => ({
+          ...prev,
+          general: _res.data.message,
+        }));
+      }
     } catch (error) {
       console.warn(error.message);
       hasError = true;
     } finally {
-      // No return statements in the finally block
+      console.log("Logging event")
+      const eventAttributes = {
+        "session_id": _res.data.syntheticId,
+        "case_id": _res.data.caseId,
+        timestamp: new Date().toISOString()
+      }
+      trackMoEngageEvent('acne-FormStarted', { ...getUtmCookiesInObjectForm(), ...eventAttributes })
+      callAfterMoegageIsLoaded(() => {
+        moengage.update_unique_user_id(_res?.data?.caseId)
+        moengage.add_first_name(formData.fullName);
+        moengage.add_gender(formData.gender);
+        moengage.add_mobile(`+91${formData.phone}`)
+        moengage.add_user_attribute('synthetic_id', _res.data.syntheticId)
+        moengage.add_user_attribute('case_id', _res?.data?.caseId)
+      })
     }
 
     // Process results after the finally block
@@ -249,60 +322,7 @@ export default function UserBasicInfoForm() {
       return null;
     }
 
-    if (_res && _res.status === 200) {
-      saveApiResponse(_res.data);
 
-      // Save data to localStorage
-      window.localStorage.setItem("form_status", "draft");
-      window.localStorage.setItem("user_first_name", _user.first_name);
-      window.localStorage.setItem("user_phone", _user.phone_number);
-      window.localStorage.setItem("user_age", formData.age);
-      window.localStorage.setItem("user_gender", formData.gender);
-      window.localStorage.setItem("user_email", `${formData.phoneNumber}.unknown@traya.health`);
-
-
-
-
-
-      // Set cookies
-      Cookies.set("Transaction_ID", _res.data.transactionId, {
-        domain: COOKIES_DOMAIN,
-        expires: COOKIES_EXPIRY,
-      });
-      window.localStorage.setItem("user_tid", _res.data.transactionId);
-
-
-      if (_res.data.syntheticId) {
-        Cookies.set("Synthetic_ID", _res.data.syntheticId, {
-          domain: COOKIES_DOMAIN,
-          expires: COOKIES_EXPIRY,
-        });
-      }
-
-      Cookies.set("form_status", "draft", {
-        domain: COOKIES_DOMAIN,
-        expires: COOKIES_EXPIRY,
-      });
-      window.localStorage.setItem("form_status", "draft");
-
-
-      return _res.data.transactionId;
-    }
-
-    if (_res && _res.status === 500) {
-      setErrors((prev) => ({
-        ...prev,
-        general: _res.data.message,
-      }));
-      return null;
-    }
-
-    if (_res && _res.data && _res.data.message) {
-      setErrors((prev) => ({
-        ...prev,
-        general: _res.data.message,
-      }));
-    }
 
     return null;
   };

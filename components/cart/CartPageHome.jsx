@@ -4,6 +4,7 @@ import arrowIcon from "@assets/icons/up-arrow.png";
 import CrossIconIcon from "@assets/icons/close-circle.png";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -16,6 +17,14 @@ const CartPageHome = () => {
 
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
+    const eventAttributes = {
+      cart_value: data?.cartDetails?.totalCartValue,
+      tem_count: data?.productsDetails.length,
+      timestamp: new Date().toISOString(),
+      syntheticId: window.localStorage.getItem("syntheticId"),
+      caseId: data?.customerDetails?.caseId
+    }
+    trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
   };
   return (
     <>

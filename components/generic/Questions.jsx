@@ -14,7 +14,9 @@ import { clearGtmFlags, sendGtmEvents } from "./Gtm";
 import Header from "@/components/generic/Headers";
 import UserBasicInfoForm from "@/components/form/UserBasicInfoForm";
 import { fetchRequest } from "@/helpers/fetchRequest";
-import { GET_SKIN_TEST_CONFIG } from "@/constants/urls";
+import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
+import LogMoengage from "./LogMoengage";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
@@ -29,6 +31,9 @@ const Questions = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [formStatus, setFormStatus] = useState("");
+  const [tabClosed, setTabClosed] = useState("");
+  const [isReload, setIsReload] = useState(false);
 
   // const pathname = usePathname();
   // const searchParams = useSearchParams();
@@ -68,10 +73,6 @@ const Questions = () => {
     const handleBeforeUnload = () => {
       clearGtmFlags([
         "basic_information",
-        "skin_assessment",
-        "skin_concerns",
-        "lifestyle_questions",
-        "misc",
       ]);
     };
 
@@ -83,35 +84,44 @@ const Questions = () => {
     };
   }, []);
 
-  const [formStatus, setFormStatus] = useState("");
-  const [tabClosed, setTabClosed] = useState("");
-  const [isReload, setIsReload] = useState(false);
+  const pageExitevent = () => {
+    const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
+    trackMoEngageEvent(`acne-FormExit_${currentQuestion.id}`, eventAttributes)
+  }
 
   useEffect(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        setIsReload(true);
-      }
+    // Check if page was reloaded
+    if (window.performance && performance.navigation.type === 1) {
+      setIsReload(true);
     }
+
+    // Restore saved state if available
     const val = window.localStorage.getItem("form_status");
     const tabStatus = window.localStorage.getItem("tabclosed");
     if (tabStatus && val) {
       setTabClosed(tabStatus);
       setFormStatus(val);
-      window.addEventListener(
-        "beforeunload",
-        window.localStorage.setItem("tabclosed", "true")
-      );
     }
-    window.addEventListener(
-      "beforeunload",
-      window.localStorage.setItem("tabclosed", "true")
-    );
+
+    // Set up proper event listener for tab/window closing
+    const handleBeforeUnload = () => {
+      window.localStorage.setItem("tabclosed", "true");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
+
+
 
   const exitURL = () => {
     if (typeof window !== "undefined") {
       window.location.assign("/");
+      pageExitevent();
     }
   };
 
@@ -202,6 +212,10 @@ const Questions = () => {
                 components(currentQuestion, QuestionsContext)
               )}
             </div>
+            <LogMoengage event="acne-skin-test-landed" attributes={{
+              ...getUtmCookiesInObjectForm(), timestamp: new Date().toISOString()
+            }} />
+
           </Suspense>
         </>
       ) : (

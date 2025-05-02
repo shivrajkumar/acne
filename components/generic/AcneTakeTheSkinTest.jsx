@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Cookies from "js-cookie";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const AcneTakeTheSkinTest = ({
   variant,
@@ -28,6 +29,11 @@ const AcneTakeTheSkinTest = ({
 
   const handleClick = () => {
     Cookies.set(`${cookiesOne}`, `${cookiesTwo}`);
+    trackMoEngageEvent(`acne-Button_${text ?? "Take-The-Skin-Test"}_Clicked`, {
+      cta_text: text ?? "Take-The-Skin-Test",
+      page_name: window.location.pathname,
+      timestamp: new Date().toISOString()
+    });
   };
 
   return (

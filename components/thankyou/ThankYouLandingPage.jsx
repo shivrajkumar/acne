@@ -7,7 +7,6 @@ import {
   GET_STATIC_DOCTOR_DETAILS,
   ORDER_DETAILS,
 } from "@/constants/urls";
-import { isEmpty } from "lodash";
 import moment from "moment";
 import Loader from "../generic/Loader";
 import BookFreeCall from "../AcneSlotBooking";
@@ -15,6 +14,9 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
+import { isEmpty } from "lodash";
+
+
 
 /**
  * Transforms slot data from API into a more usable format for the UI
@@ -41,6 +43,7 @@ const transformSlotData = (slotDetails) => {
 
   return groupedSlots;
 };
+
 
 const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
   // Core data states
@@ -218,7 +221,13 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
 
         // Show confirmation modal
         setCloseConfirm(true);
+        trackMoEngageEvent(`acne-Button_Book_A_Call_Clicked`, {
+          cta_text: "Book A Call",
+          page_name: window.location.pathname,
+          timestamp: new Date().toISOString()
+        });
       }
+
     } catch (error) {
       console.error("Error booking slot:", error);
     }
@@ -340,6 +349,7 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
           </div>
         </div>
       )}
+
     </>
   );
 };
