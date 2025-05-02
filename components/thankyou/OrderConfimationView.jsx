@@ -43,6 +43,7 @@ const OrderConfirmationView = ({
                   setAvailableSlots={setAvailableSlots}
                   transformedSlots={transformedSlots}
                   bookedSuccess={bookedSuccess}
+                  bookACallOnly={bookACallOnly}
                 />
               </>
             ) : (

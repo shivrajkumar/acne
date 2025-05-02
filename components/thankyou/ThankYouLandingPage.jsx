@@ -286,6 +286,7 @@ const ThankYouLandingPage = ({ searchParams, bookACallOnly = false }) => {
               setAvailableSlots={setAvailableSlots}
               transformedSlots={transformedSlots}
               bookedSuccess={bookedSuccess}
+              bookACallOnly={bookACallOnly}
             />
             {!bookedSuccess && selectedTime !== null && (
               <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center">
