@@ -267,7 +267,7 @@ export default function AcneRealPeoplRealStories({
 
       {/* Mobile CTA */}
       {!reviewPage && (
-        <div className="mt-1 flex md:hidden justify-center mx-auto">
+        <div className="mt-10 flex md:hidden justify-center mx-auto">
           <AcneTakeTheSkinTest
             variant="black"
             text="TAKE THE SKIN TEST"
