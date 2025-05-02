@@ -25,13 +25,11 @@ function BookFreeCall({
   const carouselRef = useRef(null);
   const availableDates = Object.keys(transformedSlots || {});
 
-  // Handle responsive layout
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 640;
       setIsMobile(mobile);
 
-      // Set slides to show based on screen width
       if (mobile) {
         setSlidesToShow(3);
       } else if (window.innerWidth < 1024) {
@@ -41,24 +39,24 @@ function BookFreeCall({
       }
     };
 
+    // Initial setup
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
-  // Set loading state based on slots availability
-  useEffect(() => {
+    // Only set loading false if there are slots
     if (availableDates.length > 0) {
       setIsLoadingSlots(false);
-    }
-  }, [availableDates.length]);
 
-  // Auto-select first date when slots are loaded and no date is already selected
-  useEffect(() => {
-    if (availableDates.length > 0 && !selectedDate) {
-      setSelectedDate(availableDates[0]);
+      // Auto-select the first available date if none selected
+      if (!selectedDate) {
+        setSelectedDate(availableDates[0]);
+      }
     }
-  }, [availableDates, selectedDate, setSelectedDate]);
+
+    // Listen for resize
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [availableDates, selectedDate]);
 
   const handleDateSelect = useCallback(
     (dateKey) => {
