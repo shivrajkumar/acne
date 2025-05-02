@@ -21,6 +21,9 @@ const TermsConditionsPage = () => {
         <h2 className="font-lato font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
           TERMS OF SERVICE
         </h2>
+        <p className="font-lato  italic text-[15px] my-4">
+          Last updated on 30th April, 2025
+        </p>
         <div className="font-lato text-[17px]">
           <p>
             This document is an electronic record in terms of Information
@@ -40,12 +43,16 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(a).</span>{" "}
             <p>
-              These terms of service (“Terms”) govern the use of or access to an
-              internal based portal available at clear.rituals  on a
-              computer device or a mobile device (“Website”), the mobile
-              application (“App”), and the Products and Services (defined
-              below). The Website and App are collectively referred to as the
-              “Platform”.{" "}
+              These terms of service (“
+              <span className="font-[600]"> Terms</span>”) govern the use of or
+              access to an internal based portal available at clearritual.com on
+              a computer device or a mobile device (“
+              <span className="font-[600]">Website</span>”), “
+              <span className="font-[600]">Clear Ritual</span>” mobile
+              application (“<span className="font-[600]">App</span>”), and the
+              Products and Services (defined below). The Website and App are
+              collectively referred to as the “
+              <span className="font-[600]">Platform</span>”.
             </p>
           </div>
           <br />
@@ -63,7 +70,21 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(c).</span>{" "}
             <p>
-            (c)	These Terms constitute a binding and enforceable legal contract between Tatvartha Health Private Limited, with its registered address at C-7, 67/P, Fortune Hotel Galaxy, N. H. No 8, Koparli Road, GIDC NA, Vapi, Valsad – 396195, Gujarat (“MoolHealth”, “we”, “us”, or “our”) and you, an end-user of our Products or Services (“you”). You represent and warrant that you (i) have full legal capacity and authority to agree and bind yourself to these Terms, and (ii) are of the age of majority or older in accordance with Indian law.
+              These Terms constitute a binding and enforceable legal contract
+              between Tatvartha Health Private Limited, with its corporate
+              address at 1st Floor, Interface 16 Rd, Malad, Mindspace, Malad
+              West, Mumbai, Maharashtra 400064 and registered address at C-7,
+              67/P, Fortune Hotel Galaxy, N. H. No 8, Koparli Road, GIDC NA,
+              Vapi, Valsad – 396195, Gujarat (“
+              <span className="font-[600]">Clear Ritual</span>”, “
+              <span className="font-[600]">we</span>”, “
+              <span className="font-[600]">us</span>”, or “
+              <span className="font-[600]">our</span>”) and you, an end-user of
+              our Products or Services (“<span className="font-[600]">you</span>
+              ”). You represent and warrant that you (i) have full legal
+              capacity and authority to agree and bind yourself to these Terms,
+              and (ii) are of the age of majority or older in accordance with
+              Indian law.
             </p>
           </div>
           <br />
@@ -135,33 +156,37 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(a).</span>{" "}
             <p>
-              Services: The Platform allows you to access and purchase the
-              Products, connect with our representatives through chat features
-              or calls, undertake paid consultations with healthcare
-              professionals, undertake and obtain gut health assessments,
-              receive diagnoses/feedback, get access to certain healthcare
-              professionals prescribed Products, get Product recommendations,
-              avail customized plans, receive free trials of the Platform, track
-              your progress, and any other services as may be made available by
-              us on the Platform from time to time (all the services described
-              here, including the provision of the Platform and its features,
-              collectively constitute the “Services”).
+              <span className=" underline">Services:</span> The Platform allows
+              you to access and purchase the Products, connect with coaches
+              through chat features or calls, undertake paid consultations with
+              health care professionals, undertake and obtain skin health
+              related assessments, receive diagnoses/feedback, get access to
+              certain health care professional prescribed Products, get Product
+              recommendations, avail customized plans, receive free trials of
+              the Platform, track your progress, and any other services as may
+              be made available by us on the Platform from time to time (all the
+              services described here, including the provision of the Platform
+              and its features, collectively constitute the “
+              <span className="font-[600]">Services</span>”).
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>{" "}
             <p>
-              Products: The Platform facilitates online purchase of a wide range
-              of gut health related products ayurvedic medicines etc.
-              (“Products”) sold by Us from our licensed premises. The Products
-              may be eligible for returns or exchanges in accordance with our
-              policies.{" "}
+              <span className="underline">Products:</span> The Platform
+              facilitates online purchase of a wide range of skin care, skin
+              health and other wellness related products (“
+              <span className="font-[600]">Products</span>”) sold by Clear
+              Ritual from its licensed premises. The Products may be eligible
+              for returns or exchanges in accordance with our Return, Refunds
+              and Cancellation Policy.
             </p>
           </div>
           <br />
           <p className="pl-4">
-            <span className="pr-4">(c)</span>Sale of Products –
+            <span className="pr-4">(c)</span>
+            <span className="underline">Sale of Products –</span>
           </p>
           <ul className="list-disc pl-16">
             <li>
@@ -209,6 +234,11 @@ const TermsConditionsPage = () => {
               any failure to send such notifications or reminders to you.
             </li>
             <li>
+              Please note that we dispense Products only in quantities which
+              correspond to requirement as per the instructions from the
+              healthcare professional.
+            </li>
+            <li>
               All orders placed on the Platform are subject to the availability
               of such Products, our acceptance of your offer as per the above
               and your continued adherence to these Terms and other conditions
@@ -219,20 +249,29 @@ const TermsConditionsPage = () => {
               governmental authority on request on your behalf, including that
               the Products ordered by you are for personal, non-commercial use.
             </li>
+            <li>
+              The Platform allows you to purchase certain Products only in
+              accordance with the applicable law and pursuant to fulfilling all
+              the mandatory conditions thereto.
+            </li>
           </ul>
           <br />
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(d).</span>{" "}
             <p>
-              Completion of Sale: Upon acceptance of the offer by us, the
-              Products would be dispensed in accordance with the terms of the
-              order placed by you. You agree and acknowledge that the property
-              and title in the Products ordered by you shall stand immediately
-              transferred to you upon the dispensation of Products. Accordingly,
-              the sale of Products is concluded at the concerned warehouse
-              itself. The invoice in relation to the Products, that are required
-              to be delivered to you shall be issued by us.
+              <span className="underline">Completion of Sale:</span>Upon
+              acceptance of the offer by us, the Products would be dispensed at
+              the premises (being the brick-and-mortar premises), in accordance
+              with the terms of the order placed by you. Such dispensation shall
+              also take place under the direct/ personal supervision of the
+              pharmacist at the premises, wherever required under the applicable
+              law(s). You agree and acknowledge that the property and title in
+              the Products ordered by you shall stand immediately transferred to
+              you upon the dispensation of Products. Accordingly, the sale of
+              Products is concluded at the concerned premises itself. The
+              invoice in relation to the Products, that are required to be
+              delivered to you shall be issued by us.
             </p>
           </div>
           <br />
@@ -240,24 +279,27 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(e).</span>
             <p>
-              Purchase and Shipment of Products: We reserve the right to refuse
-              any order for Products you place with us. We may, in our sole
-              discretion, limit or cancel quantities purchased per person, per
-              household or per order. These restrictions may include orders
-              placed by or under the same customer account, the same credit
-              card, or orders that use the same billing or shipping address. In
-              the event that we make a change to or cancel an order, we may
-              attempt to notify you by contacting the e-mail address, billing
-              address, or phone number provided at the time the order was made.
-              We reserve the right to limit or prohibit orders that, in our sole
-              judgment, appear to be placed by dealers, resellers or
-              distributors. All Products shall be prepared for shipment in a
-              manner that is adequate to ensure safe dispatch and arrival.
-              Please note that there may be delays in delivery due to reasons
-              beyond our control as detailed in Section 9(k). We will not be
-              responsible for delays in delivery due to reasons beyond our
-              control. You will receive all notifications by e-mail and SMS
-              regarding the order details and the probable dispatch date.
+              <span className="underline">
+                Purchase and Shipment of Products:
+              </span>{" "}
+              We reserve the right to refuse any order for Products you place
+              with us. We may, in our sole discretion, limit or cancel
+              quantities purchased per person, per household or per order. These
+              restrictions may include orders placed by or under the same
+              customer account, the same credit card, or orders that use the
+              same billing or shipping address. In the event that we make a
+              change to or cancel an order, we may attempt to notify you by
+              contacting the e-mail address, billing address, or phone number
+              provided at the time the order was made. We reserve the right to
+              limit or prohibit orders that, in our sole judgment, appear to be
+              placed by dealers, resellers or distributors. All Products shall
+              be prepared for shipment in a manner that is adequate to ensure
+              safe dispatch and arrival. Please note that there may be delays in
+              delivery due to reasons beyond our control as detailed in Clause
+              10(o). We will not be responsible for delays in delivery due to
+              reasons beyond our control. You will receive all notifications by
+              e-mail and SMS regarding the order details and the probable
+              dispatch date.
             </p>
           </div>
           <br />
@@ -265,67 +307,204 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(f).</span>
             <p>
-              Products Delivery: The Products shall be delivered by us or
-              independent contractors. You accept and acknowledge that the
-              courier/ delivery personnel, engaged by us, shall be your agent
-              for the delivery of the Products to the address notified by you,
-              with no control over the Products and no additional obligation
-              apart from standard delivery obligations and duty of care. You
-              further agree and acknowledge that such courier/ delivery
-              personnel acts as your agent. The services are being undertaken by
-              your agent with your consent and therefore we are merely
-              facilitating this and will have no liability or responsibility in
-              this regard.
+              <span className="underline">Products Delivery: </span>The Products
+              shall be delivered by us or independent contractors. You accept
+              and acknowledge that the courier/ delivery personnel, engaged by
+              us, shall be your agent for the delivery of the Products to the
+              address notified by you, with no control over the Products and no
+              additional obligation apart from standard delivery obligations and
+              duty of care. You further agree and acknowledge that such courier/
+              delivery personnel acts as your agent. The services are being
+              undertaken by your agent with your consent and therefore we are
+              merely facilitating this and will have no liability or
+              responsibility in this regard.
             </p>
           </div>
           <br />
           <br />
           <div className="pl-4 flex">
             <span className="pr-4">(g).</span>
-            <p>Terms for Availing Customized Plan</p>
+            <p className="underline">Terms for Availing Customized Plan</p>
           </div>
           <br />
           <ul className="list-disc pl-16">
             <li>
-              MoolHealth provides an online portal to the users for availing gut
-              wellness solutions and services by facilitating a customized gut
-              health plan for the users from healthcare professionals and
-              experts pursuant to certain Information, consultation and further
-              diagnosis (“Customized Plan”){" "}
+              Clear Ritual provides an online portal to the users for availing
+              skin care, skin health, and acne related solutions, offerings and
+              services by facilitating a customized plan for the users from
+              healthcare practitioners pursuant to a set of questionnaire,
+              consultation and further diagnosis (“Customized Plan”).
             </li>
             <li>
               The users who intend to avail themselves of a Customized Plan have
-              to answer a few queries and provide information on the Platform
-              (“Information”). The users have to answer a series of questions
-              consisting of health-related information. The users may also be
-              required to provide additional information such as images, food
-              habits, diagnostic test reports, family medical history etc.
-              depending on a case-to-case basis. The user understands and agrees
-              that the user has to provide accurate, correct, true and
-              up-to-date Information.{" "}
+              to take a skin test on the Platform (“Skin Test”). The users have
+              to answer a series of questions consisting of skin and
+              health-related information. The users may also be required to
+              provide additional information such as images, food habits,
+              diagnostic test reports, family health history etc. depending on a
+              case-to-case basis. The user understands and agrees that the user
+              has to provide accurate, correct, true and up-to-date information
+              during the Skin Test and otherwise.
             </li>
             <li>
-              Based on a review of the Information, the users are suggested a
-              Customized Plan. Once the user confirms, we proceed to get the
-              payments in relation to the Customized Plan. Please note that the
-              delivery of the Products further to Customized Plan is contingent
-              on the review and approval of your Customized Plan by a healthcare
-              professional as may be applicable. As stated above, the contract
-              of sale will get complete only when the Products are shipped or
-              dispatched to you and an e-mail confirmation and/or confirmation
-              to your registered mobile number is sent stating that the Product
-              has been shipped or dispatched.{" "}
+              Pursuant to the Skin Test, the users are suggested a Customized
+              Plan. Once the user confirms, we proceed to get the payments in
+              relation to the Customized Plan. Please note that the delivery of
+              the Products further to Customized Plan is contingent on the
+              review and approval of your Customized Plan by a registered
+              healthcare practitioner or such other professionals as may be
+              required. As stated above, the contract of sale will get complete
+              only when the Products are shipped or dispatched to you and an
+              e-mail confirmation and/or confirmation to your registered mobile
+              number is sent stating that the Product has been shipped or
+              dispatched.
             </li>
             <li>
               The Customized Plan shall contain instructions for the user to
               follow along with the Products that are to be consumed by the
               user, the dietary and lifestyle habits that the user will have to
-              follow etc. After the delivery of your Customized Plan, a
-              representative may also reach out to you to help you understand
-              the Customized Plan, guide you on how to take the Products and any
-              other instructions that you may have to follow during your course.
+              follow etc. After the delivery of your Customized Plan, a coach
+              may also reach out to you to help you understand the Customized
+              Plan, guide you on how to take the Products and any other
+              instructions that you may have to follow during your course.
             </li>
           </ul>
+          <br />
+          <br />
+          <div className="pl-4 flex">
+            <span className="pr-4">(h).</span>
+            <p className="underline">Terms for Online/Tele Consultation -</p>
+          </div>
+          <br />
+          <ul className="list-disc pl-16">
+            <li>
+              We facilitate provision of healthcare products and services to the
+              users. The words “healthcare practitioner” or “registered
+              healthcare practitioner” or similar words on the Platform, shall
+              mean any healthcare practitioner. Any consultation services
+              availed through the Platform are fulfilled by such third-party
+              healthcare professionals. These third-party healthcare
+              professionals are not related to us but merely provide their
+              services to you with your consent.
+            </li>
+            <li>
+              We hereby explicitly state that we do not provide any kind of
+              telemedical consultation to the users/You. You acknowledge that
+              the content, text, data, graphics, images, information,
+              suggestions, guidance, blogs, information and other materials that
+              is provided to you on the Platform should be used for information
+              purposes only and do not constitute medical advice and should not
+              be relied upon as a substitute for sound professional medical
+              advice, evaluation or care from a registered medical practitioner
+              except for any advice, information or direction obtained by you
+              directly from your healthcare professional.
+            </li>
+            <li>
+              You agree and acknowledge that the third-party healthcare
+              professionals are independent contractors, whose services are
+              being availed by you upon your explicit consent and hence, we, in
+              no event, shall be directly or vicariously liable for any advice,
+              consultancy or any other loss arising pursuant to your engagement
+              with such third-party healthcare professionals. Your reliance on
+              such third-party healthcare professionals is solely your
+              responsibility and at your sole discretion, and we assume no
+              responsibility and/or liability in relation to your
+              consultation/communication with such professionals, including but
+              not limited to the quality of services offered, which shall at all
+              times be at your sole risk and responsibility. In the event of any
+              non-compliance or malpractice by any such professionals, you
+              affirm that you will bring to our immediate attention, any such
+              incidence, for us to take necessary actions required under
+              applicable laws and raise it with the third-party service
+              providers. Further, you affirm that You shall not take any action
+              against us for any acts (or omission) of the healthcare
+              professionals.
+            </li>
+            <li>
+              It is your responsibility for ensuring that the information
+              submitted is accurate and we shall not make any effort to validate
+              any information provided by you for using the Services. The
+              opinions, statements, consultation via digital mode provided by
+              the third-party healthcare professionals shall not reflect our
+              opinions, our affiliates etc. We make no warranty that the
+              Services will meet Your requirements, or that the Service will be
+              uninterrupted, timely, secure, or error free. This includes loss
+              of data, or any service interruption caused by our employees.
+              Clear Ritual is not responsible for transmission errors and
+              corruption of data.
+            </li>
+            <li>
+              Clear Ritual does not replace your relationship with physician or
+              healthcare provider. The information interpreted SHOULD NOT be
+              relied upon as a substitute for sound professional medical advice,
+              evaluation or care from your physician or other qualified
+              healthcare provider.
+            </li>
+            <li>
+              You acknowledge that although some of the content, text, data,
+              graphics, images, information, suggestions, guidance, and other
+              material (collectively, “Information”) that is provided to you on
+              the Platform or while availing Services (including Information
+              provided in direct response to your questions or postings or
+              communications/discussions with coaches) may be provided by
+              individuals in the health and wellness profession, the provision
+              of such Information does not create a medical professional-patient
+              relationship, but is provided to inform you on various health and
+              wellness related conditions, diagnosis and consultation and it
+              does not constitute a direct diagnosis, or consultation.
+              Everything on the Platform should be used for information purposes
+              only.
+            </li>
+            <li>
+              The Services are not for use in medical emergencies or for
+              critical health situations requiring prompt medical attention. The
+              Services are not intended to be real-time and may not be the best
+              solution when a face-to-face consultation is a must and therefore,
+              we strongly discourage any delay in seeking advice from your
+              healthcare professional on account of something that you may have
+              heard/viewed on the Platform.
+            </li>
+            <li>
+              The opinions, statements, answers and tele-consultations
+              (collectively “Consultation”) provided by the healthcare
+              practitioners through the Platform are solely the individual and
+              independent opinions and statements of such healthcare
+              practitioners and do not reflect the opinions of Clear Ritual, its
+              affiliates.
+            </li>
+            <li>
+              The exchanges between the healthcare practitioners or the
+              coaches/representatives of Clear Ritual and the users through the
+              chat window or over telephone (as the case maybe) and other
+              records would be accessible to Clear Ritual for the purposes of
+              monitoring the quality of the consultation and for providing the
+              Products and Services.
+            </li>
+          </ul>
+          <br />
+          <br />
+          <div className="flex pl-4">
+            <span className="pr-4">(i).</span>
+            <p>
+              <span className="underline">Additional Terms -</span>Due to
+              certain exigencies and/or factors beyond the control of the
+              Company, the calls pre-scheduled for the user may be rescheduled
+              or postponed by us or the healthcare practitioners. Communication
+              in relation to such rescheduling or postponement will be sent by
+              us to the user, wherever possible. The users are required to
+              adhere to the instructions received in the Customized Plan in
+              relation to the dosage, duration, and/or mode of consumption
+              (“Essential Directions”). However, in a rare situation where a
+              user feels that different directions/instructions have been
+              provided in relation to the Essential Directions, the user should
+              immediately escalate the issue along with the relevant details to:
+              <br />
+              Email Address: customercare@clearritual.com, or at
+              <br />
+              Mobile Number:+91 9372284220.
+            </p>
+          </div>
+          <br />
           <br />
           <div className="flex">
             <strong className="pr-4">3.</strong>
@@ -338,7 +517,7 @@ const TermsConditionsPage = () => {
             <p>
               Use of the Platform is available only to persons who can form
               legally binding contracts under Indian Contract Act, 1872. Persons
-              who are incompetent to contract within the meaning of the Indian
+              who are "incompetent to contract" within the meaning of the Indian
               Contract Act, 1872 including without limitation, minors,
               un-discharged insolvents etc. are not eligible to use the
               Platform. The Products shall also not be available to any users
@@ -387,7 +566,7 @@ const TermsConditionsPage = () => {
             <p>
               To use certain features of the Platform or avail the Services or
               purchase the Products you will have to register with us and create
-              an account (“Account”).{" "}
+              an account (“<span className="font-[600]">Account</span>”).
             </p>
           </div>
           <br />
@@ -397,14 +576,15 @@ const TermsConditionsPage = () => {
               You are solely responsible for (i) maintaining the confidentiality
               of your Account and password and for restricting access to your
               device; (ii) for all activities that occur under your Account or
-              password. You agree to immediately notify us of any disclosure or
-              unauthorised use of your Account or any other breach of security;
-              (iii) non-compliance with applicable laws, rules, regulations and
-              guidelines as may be notified from time to time and (iv) ensure
-              that you exit / log out from your Account at the end of each
-              session. We are not liable for any loss or damages that may arise
-              from your failure to ensure the confidentiality of your account or
-              password.
+              password. You agree to immediately notify Clear Ritual of any
+              disclosure or unauthorised use of your Account or any other breach
+              of security; (iii) non-compliance with the Telemedicine Practice
+              Guidelines dated March 25, 2020, or any other applicable laws,
+              rules, regulations and guidelines as may be notified from time to
+              time and (iv) ensure that you exit / log out from your Account at
+              the end of each session. We are not liable for any loss or damages
+              that may arise from your failure to ensure the confidentiality of
+              your account or password.
             </p>
           </div>
           <br />
@@ -428,10 +608,10 @@ const TermsConditionsPage = () => {
               delivery of the Products or availing the Services may also be
               subject to procedures for use of the Platform, Terms, uploaded
               guidelines, rules, additional terms of service, or other
-              disclaimer & notices, if any (Additional Terms). If there is any
+              disclaimer & notices, if any ("Additional Terms"). If there is any
               conflict between the Terms and the Additional Terms, the
               Additional Terms shall take precedence in relation to that
-              service.{" "}
+              service.
             </p>
           </div>
           <br />
@@ -445,14 +625,14 @@ const TermsConditionsPage = () => {
               Account as a result of your failure in keeping your Account
               Information secure and confidential or otherwise. The Platform
               also allows / shall allow restricted access to the Platform for
-              unregistered Users. Use of another users Account for availing the
+              unregistered Users. Use of another user's Account for availing the
               Services or Products is expressly prohibited. If you provide any
               information that is untrue, inaccurate, not current or incomplete
               (or becomes untrue, inaccurate, not current or incomplete), or we
               have reasonable grounds to suspect that such information is
               untrue, inaccurate, not current or incomplete, we reserve the
               right to suspend or terminate Your Account and refuse any and all
-              current or future use of the Platform by you.{" "}
+              current or future use of the Platform by you.
             </p>
           </div>
           <br />
@@ -477,91 +657,91 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(a).</span>
             <p>
-              Accuracy: Subject to applicable laws, prices are subject to change
-              by us without notice to you. We strive to provide accurate product
-              and price information; however, pricing errors may occur from time
-              to time.{" "}
+              <span className="underline">Accuracy:</span>Subject to applicable
+              laws, prices are subject to change by us without notice to you. We
+              strive to provide accurate product and price information; however,
+              pricing errors may occur from time to time.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>
             <p>
-              Full Price: Unless otherwise stated at the time of checkout, you
-              agree to pay the full price of the Product and/or the Services.
-              Offers and discounts will be offered at our sole discretion. We
-              reserve the right to refuse or cancel applications of offers and
-              discounts for your order.
+              <span className="underline">Full Price: </span>Unless otherwise
+              stated at the time of checkout, you agree to pay the full price of
+              the Product and/or the Services. Offers and discounts will be
+              offered at our sole discretion. We reserve the right to refuse or
+              cancel applications of offers and discounts for your order.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(c).</span>
             <p>
-              Wrong Pricing: We cannot confirm the price of the Product and/or
-              the Service until you place an order. If a Product/Service is
-              listed at an incorrect price or with incorrect information due to
-              any technical error, we shall have the right, at our sole
-              discretion, to refuse or cancel any orders placed for that
-              Product/Service, unless the Product/Service has already been
-              delivered. In the event that an item is wrongly priced, we may, at
-              our discretion, either contact you for instructions or cancel your
-              order and notify you of such cancellation. Products in your
-              shopping cart of the Platform will reflect the most recent price
-              as displayed on the Product’s information page on the Platform.
-              Please note that this price may differ from the price shown for
-              the Product when you first placed it in your shopping cart.
-              Placing a Product in your shopping cart does not reserve the price
-              shown at that time. It is also possible that a Product’s price may
-              vary between the time you place it in your shopping cart and the
-              time you place the order. The price as applicable at the time of
-              placing order shall be final.
+              <span className="underline">Wrong Pricing:</span> We cannot
+              confirm the price of the Product and/or the Service until you
+              place an order. If a Product/Service is listed at an incorrect
+              price or with incorrect information due to any technical error, we
+              shall have the right, at our sole discretion, to refuse or cancel
+              any orders placed for that Product/Service, unless the
+              Product/Service has already been delivered. In the event that an
+              item is wrongly priced, we may, at our discretion, either contact
+              you for instructions or cancel your order and notify you of such
+              cancellation. Products in your shopping cart of the Platform will
+              reflect the most recent price as displayed on the Product’s
+              information page on the Platform. Please note that this price may
+              differ from the price shown for the Product when you first placed
+              it in your shopping cart. Placing a Product in your shopping cart
+              does not reserve the price shown at that time. It is also possible
+              that a Product’s price may vary between the time you place it in
+              your shopping cart and the time you place the order. The price as
+              applicable at the time of placing order shall be final.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(d).</span>
             <p>
-              Returns/Cancellation: Your eligibility for returns/cancellation
-              will be in accordance with our returns, refund and cancellation
-              policy.(d) Returns/Cancellation: Your eligibility for
-              returns/cancellation will be in accordance with our returns,
-              refund and cancellation policy.
+              <span className="underline">Returns/Cancellation: </span> Your
+              eligibility for returns/cancellation will be in accordance with
+              our policies.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(e).</span>
             <p>
-              Taxes: The prices/fee are exclusive of applicable taxes. These
-              shall be added to your invoice at checkout as applicable. Each
-              User / third party service provider is solely responsible for
-              payment of all taxes, legal compliances, statutory registrations
-              and reporting. We shall in no way be responsible for any of the
-              taxes except for our own taxes.
+              <span className="underline">Taxes:</span> The prices/fee are
+              exclusive of applicable taxes. These shall be added to your
+              invoice at checkout as applicable. Each User / third party service
+              provider is solely responsible for payment of all taxes, legal
+              compliances, statutory registrations and reporting. We shall in no
+              way be responsible for any of the taxes except for our own taxes.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(f).</span>
             <p>
-              Shipping or any other additional charges: Shipping or any other
-              additional charges (if applicable) are automatically added to your
-              invoice as per standard rates and shall be displayed on the
-              Platform.
+              <span className="underline">
+                Shipping or any other additional charges:
+              </span>
+              Shipping or any other additional charges (if applicable) are
+              automatically added to your invoice as per standard rates and
+              shall be displayed on the Platform.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(g).</span>
-            <p>Further:</p>
+            <p className="underline">Further:</p>
           </div>
           <br />
           <ul className="list-disc pl-16">
             <li>
               All commercial terms such as price, delivery, dispatch of Products
               and/or services are as per principal-to-principal bipartite
-              contractual obligations between you and us.
+              contractual obligations between you and Clear Ritual.
             </li>
             <li>Refund shall be subject to user complying with these Terms.</li>
             <li>
@@ -595,21 +775,22 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(h).</span>
             <p>
-              Payment Processor: In order to process the payments for your
-              orders, we may require details of your bank account, credit card
-              number, etc. The online fee payments made by You are processed
-              with the support and services of the banks/payment
-              gateways/payment aggregators/ third parties and we are not
-              responsible for any loss or damage caused to you/ third party
-              service providers during this process as these banks/payment
-              gateways/payment aggregators/ third parties are beyond our
-              control. We use a third-party payment processor (“Payment
-              Processor”) to bill you through your selected mode of payment. The
-              processing of payments will be subject to the terms and policies
-              of such Payment Processors in addition to these Terms. We shall
-              not be liable for any error by the Payment Processor. In the event
-              of any unsuccessful payments, the money so debited shall be
-              credited in accordance with the terms of the Payment Processor.
+              <span className="underline">Payment Processor: </span>In order to
+              process the payments for your orders, we may require details of
+              your bank account, credit card number, etc. The online fee
+              payments made by You are processed with the support and services
+              of the banks/payment gateways/payment aggregators/ third parties
+              and we are not responsible for any loss or damage caused to you/
+              third party service providers during this process as these
+              banks/payment gateways/payment aggregators/ third parties are
+              beyond our control. We use a third-party payment processor (“
+              <span className="font-[600]">Payment Processor</span>”) to bill
+              you through your selected mode of payment. The processing of
+              payments will be subject to the terms and policies of such Payment
+              Processors in addition to these Terms. We shall not be liable for
+              any error by the Payment Processor. In the event of any
+              unsuccessful payments, the money so debited shall be credited in
+              accordance with the terms of the Payment Processor.
             </p>
           </div>
           <br />
@@ -624,21 +805,22 @@ const TermsConditionsPage = () => {
             <p>
               The Services may include services, content, documents, and
               information owned by, licensed to, or otherwise made available by
-              a third party (“Third Party Services”) or contain links to Third
-              Party Services. You understand that Third Party Services are the
-              responsibility of the third party that created or provided it and
-              acknowledge that use of such Third Party Services is solely at
-              their own risk.
+              a third party (“
+              <span className="font-[600]">Third-Party Services</span>”) or
+              contain links to Third Party Services. You understand that Third
+              Party Services are the responsibility of the third party that
+              created or provided it and acknowledge that use of such Third
+              Party Services is solely at their own risk.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>
             <p>
-              We make no representations and excludes all warranties and
-              liabilities arising out of or pertaining to such Third Party
+              Clear Ritual makes no representations and excludes all warranties
+              and liabilities arising out of or pertaining to such Third-Party
               Services, including their accuracy or completeness. Further, all
-              intellectual property rights in and to Third Party Services are
+              intellectual property rights in and to Third-Party Services are
               the property of the respective third parties.
             </p>
           </div>
@@ -658,12 +840,12 @@ const TermsConditionsPage = () => {
               and shall continue to be complete, true, and correct while you
               avail the Services or the Products. Should any information that
               you provide change during the existence of these Terms, you
-              undertake to immediately bring such change to our notice. We do
-              not accept any responsibility or liability for any loss or damage
-              that you may suffer or incur if any information, documentation,
-              material, or data provided to avail the Services is incorrect,
-              incomplete, inaccurate, untrue, or misleading, or if you fail to
-              disclose any material fact.
+              undertake to immediately bring such change to Clear Ritual’s
+              notice. Clear Ritual does not accept any responsibility or
+              liability for any loss or damage that you may suffer or incur if
+              any information, documentation, material, or data provided to
+              avail the Services is incorrect, incomplete, inaccurate, untrue,
+              or misleading, or if you fail to disclose any material fact.
             </p>
           </div>
           <br />
@@ -679,9 +861,9 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(c).</span>
             <p>
-              You shall extend all cooperation to us in its defence of any
-              proceedings that may be initiated against it due to a breach of
-              your obligations or covenants under these Terms.
+              You shall extend all cooperation to Clear Ritual in its defense of
+              any proceedings that may be initiated against it due to a breach
+              of your obligations or covenants under these Terms.
             </p>
           </div>
           <br />
@@ -812,6 +994,17 @@ const TermsConditionsPage = () => {
             </p>
           </div>
           <br />
+          <div className="flex pl-4">
+            <span className="pr-4">(e).</span>
+            <p>
+              You agree that you shall cooperate with us to develop and share
+              testimonials, anonymous case studies, marketing materials, and
+              measurement criteria for the value, benefits, and cost savings
+              derived from the Platform, Products, and the Services.
+            </p>
+          </div>
+          <br />
+          <br />
           <div className="flex ">
             <strong className="pr-4">8.</strong>
             <p className="font-bold">INTELLECTUAL PROPERTY RIGHTS</p>
@@ -833,13 +1026,14 @@ const TermsConditionsPage = () => {
             <span className="pr-4">(b).</span>
             <p>
               The trademarks, logos and service marks displayed on the Platform
-              (Marks) are our property or our third party partners or respective
-              third parties. You are not permitted to use the Marks without our
-              prior consent and/or the relevant third parties that may own the
-              Marks. Unless otherwise indicated or anything contained to the
-              contrary or any proprietary material owned by a third party and so
-              expressly mentioned, We own all intellectual property rights in
-              and to the trademark “MoolHealth”, domain names, and the Platform,
+              ("Marks") are the property of Clear Ritual or its third-party
+              partners or respective third parties. You are not permitted to use
+              the Marks without our prior consent and/or the relevant third
+              parties that may own the Marks. Unless otherwise indicated or
+              anything contained to the contrary or any proprietary material
+              owned by a third party and so expressly mentioned, We own all
+              intellectual property rights in and to the trademark “Clear
+              Ritual”, domain name “clearritual.com”, and the Platform,
               including, without limitation, any and all rights, title and
               interest in and to copyright, related rights, patents, utility
               models, designs, know-how, trade secrets and inventions (patent
@@ -856,7 +1050,7 @@ const TermsConditionsPage = () => {
               by us. The use or misuse of these trademarks or any other
               materials, except as permitted in these Terms, is expressly
               prohibited and may be in violation of copyright law, trademark
-              law, and any other applicable law.{" "}
+              law, and any other applicable law.
             </p>
           </div>
           <br />
@@ -871,22 +1065,24 @@ const TermsConditionsPage = () => {
               Platform or any portion thereof in any electronic medium or in
               hard copy, or create any derivative work based on such images,
               text or documents, without our express written consent or as
-              otherwise permitted in these Terms.{" "}
+              otherwise permitted in these Terms.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(e).</span>
             <p>
-              We may request you to submit suggestions and other feedback,
-              including bug reports, relating to the Products or Services from
-              time to time (“Feedback”). Wemay freely use, copy, disclose,
-              publish, display, distribute, and exploit the Feedback without any
-              payment of royalty, acknowledgement, prior consent, or any other
-              form of restriction arising out of your intellectual property
-              rights. You hereby waive any rights you may have that arise out of
-              such Feedback and agree to execute such documentation as We may
-              request to give effect to our rights under this clause.{" "}
+              Clear Ritual may request you to submit suggestions and other
+              feedback, including bug reports, relating to the Products or
+              Services from time to time (“
+              <span className="font-[600]">Feedback</span>”). Clear Ritual may
+              freely use, copy, disclose, publish, display, distribute, and
+              exploit the Feedback without any payment of royalty,
+              acknowledgement, prior consent, or any other form of restriction
+              arising out of your intellectual property rights. You hereby waive
+              any rights you may have that arise out of such Feedback and agree
+              to execute such documentation as Clear Ritual may request to give
+              effect to Clear Ritual’s rights under this Clause.
             </p>
           </div>
           <br />
@@ -895,16 +1091,16 @@ const TermsConditionsPage = () => {
             <p>
               You may upload or submit certain information, content,
               submissions, ideas, suggestions, proposals, plans, or other
-              material, whether with or without our request (collectively,
-              “Content”). You hereby grant us a non-exclusive, worldwide,
-              perpetual, irrevocable, transferable, sublicensable, and
-              royalty-free license to use, display, store, host, communicate,
-              make available, modify, adapt, translate, and create derivative
-              works of the Content (i) for the functioning of and in connection
-              with the Platform, the Services, or the Products; and (ii) in
-              order to facilitate tele consultation with the healthcare
-              professionals and share information with them and our
-              representatives.
+              material, whether with or without our request (collectively, “
+              <span className="font-[600]">Content</span>”). You hereby grant us
+              a non-exclusive, worldwide, perpetual, irrevocable, transferable,
+              sublicensable, and royalty-free license to use, display, store,
+              host, communicate, make available, modify, adapt, translate, and
+              create derivative works of the Content (i) for the functioning of
+              and in connection with the Platform, the Services, or the
+              Products; and (ii) in order to facilitate tele consultation with
+              the healthcare practitioners and share information with them and
+              representatives of Clear Ritual.
             </p>
           </div>
           <br />
@@ -963,8 +1159,8 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>
             <p>
-              We may terminate your access to or use of the Services, or any
-              portion thereof, immediately and at any point, at its sole
+              Clear Ritual may terminate your access to or use of the Services,
+              or any portion thereof, immediately and at any point, at its sole
               discretion if you violate or breach any of its obligations,
               responsibilities, or covenants under these Terms.
             </p>
@@ -1025,19 +1221,19 @@ const TermsConditionsPage = () => {
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(a).</span>
-            <p>use of the Services or the Products is at your sole risk.</p>
+            <p>The use of the Services or the Products is at your sole risk.</p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>
             <p>
               To the extent permitted by applicable law, the Services are
-              provided on an “as is” and “as available” basis. We do not warrant
-              that operation of the Platform or availability of the Services
-              will be uninterrupted or error free or that the functions
+              provided on an “as is” and “as available” basis. Clear Ritual does
+              not warrant that operation of the Platform or availability of the
+              Services will be uninterrupted or error free or that the functions
               contained in the Services will meet your requirements. Without
-              limiting the foregoing, We do not make any warranty that (i) the
-              Platform or the Services will meet your requirements; (ii) the
+              limiting the foregoing, Clear Ritual makes no warranty that (i)
+              the Platform or the Services will meet your requirements; (ii) the
               results that may be obtained from the use of the Platform,
               Services or materials will be effective, accurate or reliable;
               (iii) the quality of the Platform, Services or other materials
@@ -1052,73 +1248,75 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(c).</span>
             <p>
-              To the maximum extent permitted by applicable law, We will have no
-              liability related to user content arising under intellectual
-              property rights, libel, privacy, publicity, obscenity or other
-              laws. We also disclaim all liability with respect to the misuse,
-              loss, modification or unavailability of any user content.
+              To the maximum extent permitted by applicable law, Clear Ritual
+              will have no liability related to user content arising under
+              intellectual property rights, libel, privacy, publicity, obscenity
+              or other laws. Clear Ritual also disclaims all liability with
+              respect to the misuse, loss, modification or unavailability of any
+              user content.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(d).</span>
             <p>
-              We have endeavoured to ensure that all the information on the
-              Platform is correct, but we neither warrant nor make any
-              representations regarding the quality, accuracy or completeness of
-              any data, information, product or service. We shall not be
-              responsible for the delay or inability to use the Platform or
-              related functionalities, the provision of or failure to provide
-              functionalities, or for any information, software, products,
-              functionalities and related graphics obtained through the
-              Platform, or otherwise arising out of the use of the Platform,
-              whether based on contract, tort, negligence, strict liability or
-              otherwise. Further, We shall not be held responsible for
-              non-availability of the Platform during periodic maintenance
-              operations or any unplanned suspension of access to the Platform
-              that may occur due to technical reasons or for any reason beyond
-              our control. The user understands and agrees that any material or
-              data downloaded or otherwise obtained through the Platform, is
-              done entirely at their own discretion and risk and they will be
-              solely responsible for any damage to their computer systems or
-              loss of data that results from the download of such material or
-              data. We are not responsible for any typographical error leading
-              to an invalid coupon. We accept no liability for any errors or
-              omissions, with respect to any information provided to you whether
-              on behalf of itself or third parties.
+              Clear Ritual has endeavored to ensure that all the information on
+              the Platform is correct, but Clear Ritual neither warrants nor
+              makes any representations regarding the quality, accuracy or
+              completeness of any data, information, product or service. Clear
+              Ritual shall not be responsible for the delay or inability to use
+              the Platform or related functionalities, the provision of or
+              failure to provide functionalities, or for any information,
+              software, products, functionalities and related graphics obtained
+              through the Platform, or otherwise arising out of the use of the
+              Platform, whether based on contract, tort, negligence, strict
+              liability or otherwise. Further, Clear Ritual shall not be held
+              responsible for non-availability of the Platform during periodic
+              maintenance operations or any unplanned suspension of access to
+              the Platform that may occur due to technical reasons or for any
+              reason beyond Clear Ritual's control. The user understands and
+              agrees that any material or data downloaded or otherwise obtained
+              through the Platform, is done entirely at their own discretion and
+              risk and they will be solely responsible for any damage to their
+              computer systems or loss of data that results from the download of
+              such material or data. Clear Ritual is not responsible for any
+              typographical error leading to an invalid coupon. Clear Ritual
+              accepts no liability for any errors or omissions, with respect to
+              any information provided to you whether on behalf of itself or
+              third parties.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(e).</span>
             <p>
-              To the fullest extent permissible under applicable law, We
-              expressly disclaim all warranties of any kind, express or implied,
-              arising out of the Services and the Products, including warranties
-              of merchantability, fitness for a particular purpose, satisfactory
-              quality, accuracy, title and non-infringement, compatibility,
-              applicability, usability, appropriateness, and any warranty that
-              may arise out of course of performance, course of dealing, or
-              usage of trade
+              To the fullest extent permissible under applicable law, Clear
+              Ritual expressly disclaims all warranties of any kind, express or
+              implied, arising out of the Services and the Products, including
+              warranties of merchantability, fitness for a particular purpose,
+              satisfactory quality, accuracy, title and non-infringement,
+              compatibility, applicability, usability, appropriateness, and any
+              warranty that may arise out of course of performance, course of
+              dealing, or usage of trade.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(a).</span>
+            <span className="pr-4">(f).</span>
             <p>
               You hereby accept full responsibility for any consequences that
-              may arise from your use of the Services or the Products, and
-              expressly agree and acknowledge that We shall have absolutely no
-              liability with respect to the same.
+              may arise from your use of the Services or the Products and
+              expressly agree and acknowledge that Clear Ritual shall have
+              absolutely no liability with respect to the same.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(b).</span>
+            <span className="pr-4">(g).</span>
             <p>
-              To the fullest extent permissible by law, We, our affiliates, and
-              our related parties each disclaim all liability to you for any
-              loss or damage arising out of or due to:
+              To the fullest extent permissible by law, Clear Ritual, its
+              affiliates, and its related parties each disclaim all liability to
+              you for any loss or damage arising out of or due to:
             </p>
           </div>
           <br />
@@ -1135,8 +1333,9 @@ const TermsConditionsPage = () => {
               the occurrence or existence of any defect, interruption, or delays
               in the operation or transmission of information to, from, or
               through the Services, communications failure, theft, destruction,
-              or unauthorised access to our records, programmes, services,
-              server, or other infrastructure relating to the Services.
+              or unauthorized access to Clear Rituals records, programmes,
+              services, server, or other infrastructure relating to the
+              Services.
             </p>
           </div>
           <div className="flex pl-12">
@@ -1149,31 +1348,32 @@ const TermsConditionsPage = () => {
           <div className="flex pl-12">
             <span className="pr-6">(iv).</span>
             <p>
-              the collection or processing of your personal information by us.
+              the collection or processing of your personal information by Clear
+              Ritual.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(c).</span>
+            <span className="pr-4">(h).</span>
             <p>
               Notwithstanding anything to the contrary contained herein, neither
-              us nor any of our affiliates or related parties shall have any
-              liability to you or any third party for any indirect, incidental,
-              special, or consequential damages or any loss of revenue or
-              profits arising under, directly, or indirectly, or relating, in
-              any manner whatsoever, in relation to the use of the Platform,
-              these Terms or the Services. To the maximum extent permitted by
-              law, you agree to waive, release, discharge, and hold us harmless
-              , our affiliated and subsidiary companies, our parent companies,
-              and each of our directors, officers, employees, and agents, from
-              any and all claims, losses, damages, liabilities, expenses and
-              causes of action arising out of use of the Platform or the
-              Services.
+              Clear Ritual nor any of its affiliates or related parties shall
+              have any liability to you or any third party for any indirect,
+              incidental, special, or consequential damages or any loss of
+              revenue or profits arising under, directly, or indirectly, or
+              relating, in any manner whatsoever, in relation to the use of the
+              Platform, these Terms or the Services. To the maximum extent
+              permitted by law, you agree to waive, release, discharge, and hold
+              harmless Clear Ritual, its affiliated and subsidiary companies,
+              its parent companies, and each of their directors, officers,
+              employees, and agents, from any and all claims, losses, damages,
+              liabilities, expenses and causes of action arising out of use of
+              the Platform or the Services.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(d).</span>
+            <span className="pr-4">(i).</span>
             <p>
               We are not liable if your access or use of the Platform or the
               Services is affected by incompatible hardware or an insecure
@@ -1182,7 +1382,7 @@ const TermsConditionsPage = () => {
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(e).</span>
+            <span className="pr-4">(j).</span>
             <p>
               You understand that your data may be transferred unencrypted and
               involve (i) transmissions over various networks; and (ii) changes
@@ -1192,7 +1392,7 @@ const TermsConditionsPage = () => {
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(f).</span>
+            <span className="pr-4">(k).</span>
             <p>
               You understand that the material on this Platform is provided for
               general information only and should not be relied upon or used as
@@ -1204,16 +1404,16 @@ const TermsConditionsPage = () => {
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(g).</span>
+            <span className="pr-4">(l).</span>
             <p>
-              You acknowledge and agree that MoolHealth is a mere technology
+              You acknowledge and agree that Clear Ritual is a mere technology
               platform and is not engaged in the provision of medical or
               healthcare services.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(h).</span>
+            <span className="pr-4">(m).</span>
             <p>
               WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, WE DO NOT
               RECOMMEND OR ENDORSE ANY SPECIFIC DRUGS, TESTS, PHYSICIANS,
@@ -1222,29 +1422,30 @@ const TermsConditionsPage = () => {
               CONTENT AVAILABLE ON THE PLATFORM IS FOR GENERAL INFORMATION
               PURPOSES ONLY AND DOES NOT CONSTITUTE EITHER AN ADVERTISEMENT OR
               PROMOTION OF ANY DRUG BEING OFFERED FOR SALE OR ANY PROFESSIONAL
-              MEDICAL ADVICE, DIAGNOSIS, TREATMENT OR RECOMMENDATION OF ANY
-              KIND. YOU ARE RESPONSIBLE FOR CONDUCTING YOUR OWN DUE DILIGENCE,
-              INVESTIGATION, VALUATION, AND EVALUATION OF THE SERVICES INCLUDING
-              ANY PRODUCTS AVAILABLE THROUGH THE SERVICES.
+              MEDICAL ADVICE, DIAGNOSIS, OR RECOMMENDATION OF ANY KIND. YOU ARE
+              RESPONSIBLE FOR CONDUCTING YOUR OWN DUE DILIGENCE, INVESTIGATION,
+              VALUATION, AND EVALUATION OF THE SERVICES INCLUDING ANY PRODUCTS
+              AVAILABLE THROUGH THE SERVICES.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(i).</span>
+            <span className="pr-4">(n).</span>
             <p>
-              We provide the Services and the Products in compliance with laws
-              applicable in India. We are not responsible for any differences
-              between such rules and any different rules applying to healthcare
-              services in any country other than India. If you are accessing or
-              using the Services or the Products outside the territory of India,
-              it is your sole responsibility to ensure whether it is lawful to
-              access the Services or the Products in the territory where you are
-              located. We shall have no liability in this regard.
+              Clear Ritual provides the Services and the Products in compliance
+              with laws applicable in India. We are not responsible for any
+              differences between such rules and any different rules applying to
+              healthcare services in any country other than India. If you are
+              accessing or using the Services or the Products outside the
+              territory of India, it is your sole responsibility to ensure
+              whether it is lawful to access the Services or the Products in the
+              territory where you are located. Clear Ritual shall have no
+              liability in this regard.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(j).</span>
+            <span className="pr-4">(o).</span>
             <p>
               We shall have no liability to you if we are prevented from or
               delayed in performing our obligations or from carrying on our
@@ -1260,20 +1461,20 @@ const TermsConditionsPage = () => {
           </div>
           <br />
           <div className="flex pl-4">
-            <span className="pr-4">(k).</span>
+            <span className="pr-4">(p).</span>
             <p>
-              The healthcare professionals will not be examining you physically
-              and may not have access to all or some of your medical history
-              that might be critical to consult you. The healthcare
-              professionals will not have the benefit of information that would
-              be obtained by examining you in person, observing your physical
-              condition and by going through your medical records. This means
+              The third-party healthcare practitioners will not be examining you
+              physically and may not have access to all or some of your health
+              history that might be critical to consult you. The third-party
+              healthcare practitioners will not have the benefit of information
+              that would be obtained by examining you in person, observing your
+              physical condition and by going through your records. This means
               that the Services provided is different from the diagnostic and
-              treatment services typically decided by a physician examining you
-              physically. Therefore, the healthcare professionals may not be
-              aware of facts or information that would affect his or her opinion
-              of your diagnosis. You acknowledge and agree, by requesting a
-              consultation through the Platform, that-
+              consultation services typically decided by a physician examining
+              you physically. Therefore, the third party registered health
+              practitioners may not be aware of facts or information that would
+              affect his or her opinion of your diagnosis. You acknowledge and
+              agree, by requesting a consultation through the Platform, that-
             </p>
           </div>
           <ul className="list-disc pl-16">
@@ -1283,37 +1484,38 @@ const TermsConditionsPage = () => {
             </li>
             <li>
               in case of a second opinion, where there is a difference of
-              opinion between the healthcare professional, you would bear the
-              responsibility to decide on online or offline consultation, or
-              procedure, and/or treatment;
+              opinion among our third party registered health practitioners and
+              your physician, you would bear the responsibility to decide on
+              online or offline consultation, or procedure, and/or further
+              course of action;
             </li>
             <li>
               there are inherent differences between a physical consultation and
               tele-consultation and thus there is a dependency/reliability on
-              the Information provided by you and hence any such Information
-              that is false, misleading, inaccurate, outdated or incomplete will
-              immediately render the opinion, consultation, test results, and
-              all details therein null and void;
+              the information provided by you to the third party registered
+              health practitioner and hence any such information that is false,
+              misleading, inaccurate, outdated or incomplete will immediately
+              render the opinion, consultation, test results, and all details
+              therein null and void;
             </li>
             <li>
-              in some events, the healthcare professionals may determine that
-              the transmitted information is of inadequate quality and may ask
-              for more information, without which he/she may refuse to answer
-              the query;
+              in some events, the third party registered health practitioners
+              may determine that the transmitted information is of inadequate
+              quality and may ask for more information, without which he/she may
+              refuse to answer the query;
             </li>
             <li>
-              in rare cases, the healthcare professionals may feel that the
-              query may not be answerable without physically examining the
-              patient/ Users and the consultation may be refused forthwith;
+              in rare cases, the third party registered health practitioners may
+              feel that the query may not be answerable without physically
+              examining the Users and the consultation may be refused forthwith;
             </li>
             <li>
               in very rare instances, security protocols could fail, causing a
-              breach of privacy of personal medical information; and
+              breach of privacy of personal information; and
             </li>
             <li>
-              delays in medical evaluation and answers could occur due to
-              deficiencies or failures of the service as per those mentioned in
-              these Terms.
+              delays in evaluation and answers could occur due to deficiencies
+              or failures of the service as per those mentioned in these Terms.
             </li>
           </ul>
           <br />
@@ -1351,17 +1553,18 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(a).</span>
             <p>
-              You shall indemnify, defend at our option, and hold us, our parent
-              companies, subsidiaries, affiliates, and our officers, associates
-              successors, assigns, licensors, employees, directors, agents, and
-              representatives, harmless from and against any claim, demand,
-              lawsuits, judicial proceeding, losses, liabilities, damages and
-              costs (including, without limitation, from all damages,
-              liabilities, settlements, costs and attorneysʼ fees) due to or
-              arising out of your access to the Services, availment/ use of the
-              Services, use of the Products, violation of these Terms, violation
-              of applicable laws, or any violation by any third party who may
-              use your Account, of these Terms.
+              You shall indemnify, defend at Clear Ritual’s option, and hold
+              Clear Ritual, its parent companies, subsidiaries, affiliates, and
+              their officers, associates successors, assigns, licensors,
+              employees, directors, agents, and representatives, harmless from
+              and against any claim, demand, lawsuits, judicial proceeding,
+              losses, liabilities, damages and costs (including, without
+              limitation, from all damages, liabilities, settlements, costs and
+              attorneysʼ fees) due to or arising out of your access to the
+              Services, availment/ use of the Services, use of the Products,
+              violation of these Terms, violation of applicable laws, or any
+              violation by any third party who may use your Account, of these
+              Terms.
             </p>
           </div>
           <br />
@@ -1387,8 +1590,8 @@ const TermsConditionsPage = () => {
           </div>
           <br />
           <p className="pl-6">
-            You agree that We may, in accordance with its our Privacy Policy
-            collect and use the information provided by you.
+            You agree that Clear Ritual may, in accordance with its Privacy
+            Policy collect and use the information provided by you.
           </p>
           <br />
           <div className="flex ">
@@ -1398,11 +1601,11 @@ const TermsConditionsPage = () => {
           </div>
           <br />
           <p className="pl-6">
-            We reserve the right at any time to add, modify or discontinue,
-            temporarily or permanently, the Services (or any part thereof) or
-            any and all of the Products with or without cause. We shall not be
-            liable for any such addition, modification, suspension, or
-            discontinuation of the Services or the Products.
+            Clear Ritual reserves the right at any time to add, modify or
+            discontinue, temporarily or permanently, the Services (or any part
+            thereof) or any and all of the Products with or without cause. Clear
+            Ritual shall not be liable for any such addition, modification,
+            suspension, or discontinuation of the Services or the Products.
           </p>
           <br />
           <div className="flex ">
@@ -1432,8 +1635,8 @@ const TermsConditionsPage = () => {
               accordance with the Arbitration and Conciliation Act, 1996 for the
               time being in force, which is deemed to be incorporated by
               reference in this Clause. The tribunal shall consist of 1 (One)
-              arbitrator appointed by us. The language of the arbitration shall
-              be English.
+              arbitrator appointed by Clear Ritual. The language of the
+              arbitration shall be English.
             </p>
           </div>
           <br />
@@ -1467,50 +1670,134 @@ const TermsConditionsPage = () => {
           <div className="flex pl-4">
             <span className="pr-4">(a).</span>
             <p>
-              (a) Grievance Redressal: You may contact us by writing to our
-              Grievance Officer/Customer Care at the address provided below:{" "}
+              <span className="underline">Grievance Redressal:</span> You may
+              contact us by writing to our Grievance Officer/Customer Care at
+              the address provided below:
               <br />
               <br />
-              Name: Sulakshana Sarathy <br />
-              Address: Tatvartha Health Private Limited, 1st Floor, Interface 16 Rd, Malad, Mindspace, Malad West,
-              Mumbai, Maharashtra 400064 <br />
-              Email Address: support@vayu.com
+              <p className="pl-4">
+                Name: Sulakshana Sarathy <br />
+                Address: 1st Floor, Interface 16 Rd, Malad, Mindspace, Malad
+                West, Mumbai, Maharashtra 400064
+              </p>
+              <br />
+              Email Address: customercare@clearritual.com, or at
+              <br />
+              Mobile Number: +91 9372284220.
             </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>
-            <p>Modification: We reserve the right at any time to modify these Terms and to add new or additional terms or conditions on use of the Platform or availment of the Services or Products. Such modifications and additional terms and conditions will be communicated to you and, unless expressly rejected (in which these Terms shall terminate), will be effective immediately and will be incorporated into these Terms. In the event you refuse to accept such changes, these Terms will terminate.</p>
+            <p>
+              <span className="underline">Modification:</span> Clear Ritual
+              reserves the right at any time to modify these Terms and to add
+              new or additional terms or conditions on use of the Platform or
+              availment of the Services or Products. Such modifications and
+              additional terms and conditions will be communicated to you and,
+              unless expressly rejected (in which these Terms shall terminate),
+              will be effective immediately and will be incorporated into these
+              Terms. In the event you refuse to accept such changes, these Terms
+              will terminate.
+            </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(c).</span>
-            <p>Severability: If any provision of these Terms is determined by any court or other competent authority to be unlawful or unenforceable, the other provisions of these Terms will continue in effect. If any unlawful or unenforceable provision would be lawful or enforceable if part of it were deleted, that part will be deemed to be deleted, and the rest of the provision will continue in effect (unless that would contradict the clear intention of the clause, in which case the entirety of the relevant provision will be deemed to be deleted).</p>
+            <p>
+              <span className="underline">Severability:</span> If any provision
+              of these Terms is determined by any court or other competent
+              authority to be unlawful or unenforceable, the other provisions of
+              these Terms will continue in effect. If any unlawful or
+              unenforceable provision would be lawful or enforceable if part of
+              it were deleted, that part will be deemed to be deleted, and the
+              rest of the provision will continue in effect (unless that would
+              contradict the clear intention of the Clause, in which case the
+              entirety of the relevant provision will be deemed to be deleted).
+            </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(d).</span>
-            <p>Assignment: You shall not licence, sell, transfer or assign your rights, obligations, or covenants under these Terms in any manner without our prior written consent. We may grant or withhold this consent in its sole discretion and subject to any conditions it deems appropriate. We may assign its rights to any of its affiliates, subsidiaries, or parent companies, or to any successor in interest of any business associated with the Services without any prior notice to you.</p>
+            <p>
+              <span className="underline">Assignment:</span> You shall not
+              licence, sell, transfer or assign your rights, obligations, or
+              covenants under these Terms in any manner without Clear Ritual
+              prior written consent. Clear Ritual may grant or withhold this
+              consent in its sole discretion and subject to any conditions it
+              deems appropriate. Clear Ritual may assign its rights to any of
+              its affiliates, subsidiaries, or parent companies, or to any
+              successor in interest of any business associated with the Services
+              without any prior notice to you.
+            </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(e).</span>
-            <p>Notices: All notices, requests, demands, and determinations for us under these Terms (other than routine operational communications) shall be sent to support@vayu.com  .</p>
+            <p>
+              <span className="underline">Notices:</span> All notices, requests,
+              demands, and determinations for Clear Ritual under these Terms
+              (other than routine operational communications) shall be sent to
+              customercare@clearritual.com
+            </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(f).</span>
-            <p>Third-Party Rights: No third party shall have any rights to enforce any terms contained herein.</p>
+            <p>
+              <span className="underline">Third-Party Rights: </span>No third
+              party shall have any rights to enforce any terms contained herein.
+            </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(g).</span>
-            <p>Waiver: Any failure by us to enforce or exercise any provision of the Terms, or any related right, shall not constitute a waiver by us of that provision or right</p>
+            <p>
+              <span className="underline">Waiver:</span> Any failure by us to
+              enforce or exercise any provision of the Terms, or any related
+              right, shall not constitute a waiver by us of that provision or
+              right
+            </p>
           </div>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(h).</span>
-            <p>Force Majeure: We will not be held responsible for any delay or failure to comply with our obligations if the delay or failure arises from any cause which is beyond our reasonable control.</p>
+            <p>
+              <span className="underline">Force Majeure:</span> We will not be
+              held responsible for any delay or failure to comply with our
+              obligations if the delay or failure arises from any cause which is
+              beyond our reasonable control.
+            </p>
+          </div>
+          <br />
+          <div className="flex pl-4">
+            <span className="pr-4">(i).</span>
+            <p>
+              <span className="underline">Fraud Awareness Disclaimer -</span>{" "}
+              Please note that we have observed there are various methods used
+              to defraud the public including Clear Ritual customers through
+              communication made with the unauthorized use of Clear Ritual’s
+              name and brand. The fraudsters are falsely presenting themselves
+              as representatives of Clear Ritual such as employees, customer
+              service representatives, or agents. Clear Ritual and/or its
+              representatives would never seek any financial information such as
+              card details, CVV etc. from you. The purpose of such activities is
+              to induce you to provide sensitive information or to pay a fee
+              through a web-link or through other modes of communication. Please
+              refrain from transferring any money or providing any details to
+              such persons before verifying their authenticity. You are strongly
+              advised to use only our official website/ app to communicate with
+              Clear Ritual. Many contact numbers or web-links provided over the
+              internet and claiming to be Clear Ritual customer care may be
+              fraudulent. If you believe you are the victim of fraud resulting
+              from such activities, you may reach out to local law enforcement
+              authorities. Clear Ritual shall not be held liable or responsible
+              for any claims, losses, damages, expenses, or other inconvenience
+              resulting from or in any way connected to these fraudulent
+              activities. However, Clear Ritual may, at its discretion, take
+              reasonable steps to support any legal proceedings initiated
+              against individuals undertaking such fraudulent activities.
+            </p>
           </div>
           <br />
         </div>
