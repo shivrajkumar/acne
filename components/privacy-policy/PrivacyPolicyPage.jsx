@@ -11,20 +11,22 @@ const PrivacyAndPolicyPage = () => {
             HOME
           </a>
           <Image src={rightArrow} alt="logo" width={12} height={12} />
-          <a
-            href="/privacy-policy"
-            className="font-lato text-xs text-gray-700"
-          >
+          <a href="/privacy-policy" className="font-lato text-xs text-gray-700">
             PRIVACY POLICY
           </a>
         </div>
         <h2 className="font-lato font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
           Privacy Policy
         </h2>
+        <p className="font-lato  italic text-[15px] my-4">
+          Last updated on 30th April, 2025
+        </p>
         <p className="font-lato text-[17px]">
-          Welcome to our website/mobile site accessible at clear ritual (“Site”)
-          or mobile application (the Site and mobile application are
-          collectively referred to as the “Platform”). <br /> <br />
+          Welcome to our website/mobile site accessible at
+          clearritual.com(“Site”) or mobile application “Clear Ritual” (the Site
+          and mobile application are collectively referred to as the
+          “Platform”).
+          <br /> <br />
           This privacy policy (“Privacy Policy”) describes the policies and
           procedures of Tatvartha Health Private Limited (“we”, “our” or “us”)
           in respect of the type of information that we may collect, and our
@@ -32,16 +34,16 @@ const PrivacyAndPolicyPage = () => {
           disclosure of such information including but not limited to your
           Personal Information (defined below) on the Platform and the services,
           features, content, applications, and products we offer (collectively
-          with the Platform, the “Services”). By clicking on &apos;
-          Continue&apos; during the sign-up process, by using the Platform, or
-          by using the Services, you confirm that you have read, understood, and
-          agree with the privacy practices described in this Privacy Policy, and
-          the collection, processing, transfer, manipulation, storage,
-          disclosure and other uses of your personal information as described in
-          this Privacy Policy. Please read this Privacy Policy in consonance
-          with our Terms of Service, (“Terms”), available here. Any capitalised
-          terms used but not defined in this Privacy Policy have the meaning
-          given to them in the Terms.
+          with the Platform, the “Services”). By clicking on 'Continue' during
+          the sign-up process, by using the Platform, or by using the Services,
+          you confirm that you have read, understood, and agree with the privacy
+          practices described in this Privacy Policy, and the collection,
+          processing, transfer, manipulation, storage, disclosure and other uses
+          of your personal information as described in this Privacy Policy.
+          Please read this Privacy Policy in consonance with our Terms of
+          Service, (“Terms”), available here. Any capitalized terms used but not
+          defined in this Privacy Policy have the meaning given to them in the
+          Terms.
         </p>
         <br />
         <br />
@@ -57,7 +59,7 @@ const PrivacyAndPolicyPage = () => {
           <li>
             Rule 4 of the Information Technology (Reasonable Security Practices
             and Procedures and Sensitive Personal Information) Rules, 2011
-            (“SPDI Rules”);
+            (“SPDI Rules”); and
           </li>
           <br />
           <li>
@@ -72,7 +74,6 @@ const PrivacyAndPolicyPage = () => {
         <div className="flex pl-4">
           <strong className="pr-4">i</strong>{" "}
           <p className="font-lato text-[17px]">
-            {" "}
             By accessing or using the Platform or the Service, or by otherwise
             giving us your information, you confirm that you have the capacity
             to enter into a legally binding contract under Indian law, in
@@ -96,7 +97,7 @@ const PrivacyAndPolicyPage = () => {
             acceptance of the Privacy Policy in its amended form. You are
             requested to review the Privacy Policy from time to time to keep
             yourself updated with any changes; modifications made to the terms
-            here of.
+            hereof.
           </p>
         </div>
         <div className="flex pl-4">
@@ -140,7 +141,7 @@ const PrivacyAndPolicyPage = () => {
             provide to, or that is collected by, any third-party, that you use
             in connection with the services of such third-party. We encourage
             you to consult directly with such third parties about their privacy
-            practices
+            practices.
           </p>
         </div>{" "}
         <br />
@@ -185,11 +186,37 @@ const PrivacyAndPolicyPage = () => {
             help of a one-time password sent to your phone number or email
             address. <br />
             <br />
-            We may also store and process treatment notes, recommendations and
-            other data generated by healthcare professionals on or through the
-            Platform, etc. and may retain such material for our records for the
-            duration of you availing the Services or for any such period
-            required or permitted under applicable law. <br />
+            We may also collect information required for providing the Services
+            including, items you place in the cart, products you may order,
+            height, weight, lifestyle habits, diet habits and profile, delivery
+            address, exercise habits, facilitating booking a consultation with a
+            healthcare professional, etc. You can choose not to provide certain
+            information, but then you may consequently not be able to take
+            advantage of many of our features or avail the Services.
+            <br />
+            <br />
+            We may also collect sensitive personal data or information (“SPDI”)
+            about you when you use the Services. This information includes
+            health information we receive from you or, on your behalf, such as
+            information or records relating to your health history, health
+            status and laboratory testing results, details of healthcare
+            professional assigned for the consultation, details of plans and
+            consultation offered by the healthcare professional, dosage details
+            such as frequency of dosage, products ordered by you through the
+            Platform, diagnostic results, other health-related information
+            including nutritional deficiencies, and any other information
+            inferred therefrom. We may also collect payment information such as
+            your payment card number, expiration date, billing and shipping
+            address. By using the Service, you consent to the recording,
+            storage, and disclosure of such communications you send or receive
+            for these purposes. We may also store and process consultation
+            notes, recommendations and other data generated by healthcare
+            practitioners on or through the Platform, and data shared by third
+            parties such as diagnostics related information; consultation
+            related information etc. and may retain such material for our
+            records for the duration of you availing the Services or for any
+            such period required or permitted under applicable law.
+            <br />
             <br />
             Information you provide through our Services, including your
             reviews, photographs, comments, lists, followers, the users you
@@ -197,7 +224,7 @@ const PrivacyAndPolicyPage = () => {
             requests, contact information of people you add to, or notify of,
             your orders through our Services, names, and other information you
             provide on our Services, and other information in your account
-            profile. <br />
+            profile.
             <br /> You also may provide information (such as ratings, reviews,
             tips, photos, comments, likes, bookmarks, friends, lists, etc.) to
             be published or displayed (hereinafter, “posted”) on publicly
@@ -209,11 +236,11 @@ const PrivacyAndPolicyPage = () => {
             cannot control the actions of other users of our Services with whom
             you may choose to share your User Contributions. Therefore, we
             cannot and do not guarantee that your User Contributions will not be
-            viewed by unauthorised persons. We may display this information on
+            viewed by unauthorized persons. We may display this information on
             the Services, share it with businesses, and further distribute it to
             a wider audience through third party sites and services. You should
             be careful about revealing any sensitive details about yourself in
-            such postings
+            such postings.
           </p>
         </div>
         <br />
@@ -233,7 +260,7 @@ const PrivacyAndPolicyPage = () => {
         <div className="pl-4 flex">
           <strong className="pr-4">c.</strong>
           <p className="font-lato text-[17px]">
-            Cookies and Other Tracking Technologies: We utilise “cookies” and
+            Cookies and Other Tracking Technologies: We utilize “cookies” and
             other tracking technologies. A “cookie” is a small text file that
             may be used, for example, to collect information about activity on
             the Platform. Some cookies and other technologies may serve to
@@ -247,15 +274,15 @@ const PrivacyAndPolicyPage = () => {
             browser software and operating system types, stream patterns, and
             dates and times that the Platform is accessed. Our use of cookies
             and other tracking technologies allows us to improve the Platform,
-            the Services and your experience. <br />
+            the Services and your experience.
+            <br />
             <br />
             At all times, you may refuse all cookies on your browser or the
             Platform by changing your settings to the extent permissible on your
             device. However, by doing so, you may not be able to use certain
             features on the Platform or take full advantage of all the offerings
             and interest-based advertising. You can remove cookies by following
-            directions provided in your mobile&apos;s “help” file or the
-            browser.
+            directions provided in your mobile’s “help” file or the browser.
           </p>
         </div>
         <br />
@@ -289,19 +316,20 @@ const PrivacyAndPolicyPage = () => {
             your location and your mobile device, including a unique identifier
             for your device. We may use this information for internal analysis
             and to provide you with location-based services, such as
-            advertising, search results, and other personalised content. Unique
+            advertising, search results, and other personalized content. Unique
             mobile device identifier (e.g. IDFA, GAID or other device IDs on
-            Apple devices like the iPhone and iPad), if yo&apos;re using our
+            Apple devices like the iPhone and iPad), if you're using our
             Services on a mobile device, we may use mobile device IDs (the
             unique identifier assigned to a device by the manufacturer), instead
-            of cookies, to recognise you. We may do this to store your
+            of cookies, to recognize you. We may do this to store your
             preferences and track your use of our applications. Unlike cookies,
             mobile device IDs cannot be deleted. Advertising companies may use
             device IDs to track your use of our applications, track the number
             of advertisements displayed, measure advertising performance and
             display advertisements that are more relevant to you. Analytics
             companies may use mobile device IDs to track your usage of our
-            applications. <br />
+            applications.
+            <br />
             <br />
             You agree that you are providing all information, including SPDI to
             us voluntarily. Collection, use and disclosure of personal
@@ -375,9 +403,9 @@ const PrivacyAndPolicyPage = () => {
         <div className="flex pl-10">
           <strong className="pr-4">vi.</strong>
           <p className="font-lato text-[17px]">
-            To assist with the facilitation of the consultations with healthcare
-            professionals, including to send you information and updates about
-            the consultations you have availed;
+            To assist with the facilitation of the consultations with coaches,
+            healthcare practitioners, including to send you information and
+            updates about the consultations you have availed;
           </p>
         </div>
         <br />
@@ -392,9 +420,9 @@ const PrivacyAndPolicyPage = () => {
         <div className="flex pl-10">
           <strong className="pr-4">viii.</strong>
           <p className="font-lato text-[17px]">
-            Research, growth and development of our or our group entities
+            Research, growth and development of our or our group entities'
             business (including building upon our network of our consulting
-            healthcare professionals, partners etc);
+            healthcare practitioners, partners etc);{" "}
           </p>
         </div>
         <br />
@@ -403,7 +431,7 @@ const PrivacyAndPolicyPage = () => {
           <p className="font-lato text-[17px]">
             We use the information that you provide for such purposes such as
             responding to your requests, customising your orders, improving our
-            Platform or communicating with you
+            Platform or communicating with you{" "}
           </p>
         </div>
         <br />
@@ -412,7 +440,7 @@ const PrivacyAndPolicyPage = () => {
           <p className="font-lato text-[17px]">
             For non-targeting reasons such as frequency capping, compliance,
             billing, ad reporting or delivery, market research or product
-            development purposes;
+            development purposes;{" "}
           </p>
         </div>
         <br />
@@ -465,7 +493,7 @@ const PrivacyAndPolicyPage = () => {
             information to you, including notifications of any promotions or
             alerts, any changes/updates to the Platform, or the introduction of
             any future fees or charges that we may collect at the time for
-            purchasing products or provision of our Services to you; or
+            purchasing products or provision of our Services to you; or{" "}
           </p>
         </div>
         <br />
@@ -482,16 +510,17 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]"></p>We may use “cookies”
-          information and “automatically collected” information we collect on
-          the Platform to (i) personalise our Services, such as remembering your
-          information so that you will not have to re-enter it during your visit
-          or the next time you avail the Service; (ii) provide customised
-          advertisements, content, and information; (iii) monitor and analyse
-          the effectiveness of the Service and third-party marketing activities;
-          (iv) monitor aggregate site usage metrics such as total number of
-          visitors and pages viewed; and (v) track your entries, submissions,
-          and status in any promotions or other activities on the Service.
+          <p className="font-lato text-[17px]"></p>
+          We may use “cookies” information and “automatically collected”
+          information we collect on the Platform to (i) personalize our
+          Services, such as remembering your information so that you will not
+          have to re-enter it during your visit or the next time you avail the
+          Service; (ii) provide customized advertisements, content, and
+          information; (iii) monitor and analyze the effectiveness of the
+          Service and third-party marketing activities; (iv) monitor aggregate
+          site usage metrics such as total number of visitors and pages viewed;
+          and (v) track your entries, submissions, and status in any promotions
+          or other activities on the Service.
         </div>
         <br />
         <div className="pl-4 flex">
@@ -510,14 +539,14 @@ const PrivacyAndPolicyPage = () => {
             your device through which you access the Service for a number of
             purposes, including without limitation to confirm you are located in
             a jurisdiction in which the Service is offered and to identify an
-            appropriate healthcare professional.
+            appropriate healthcare practitioner.
           </p>
         </div>
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">e.</strong>
           <p className="font-lato text-[17px]">
-            We may collect, analyse, use, publish, create and sell de-identified
+            We may collect, analyze, use, publish, create and sell de-identified
             information, of which your personal or sensitive personal
             information might be a component, for any business or other purpose
             not prohibited by applicable law, including for research and
@@ -552,7 +581,7 @@ const PrivacyAndPolicyPage = () => {
           <strong className="pr-4">i.</strong>
           <p className="font-lato text-[17px]">
             To our holding companies, subsidiaries and affiliates, which are
-            entities under our common ownership or control.
+            entities under our common ownership or control.{" "}
           </p>
         </div>
         <br />
@@ -574,7 +603,7 @@ const PrivacyAndPolicyPage = () => {
           <strong className="pr-4">iii.</strong>
           <p className="font-lato text-[17px]">
             To a buyer or other successor in the event of a merger, divestiture,
-            restructuring, reorganisation, dissolution or other sale or transfer
+            restructuring, reorganization, dissolution or other sale or transfer
             of some or all our assets, whether as a going concern or as part of
             bankruptcy, liquidation or similar proceeding, in which personal
             information held by us about the users of our Services are among the
@@ -611,7 +640,16 @@ const PrivacyAndPolicyPage = () => {
         <div className="flex pl-12">
           <strong className="pr-4">vii.</strong>
           <p className="font-lato text-[17px]">
-            Healthcare professionals for diagnostics or therapeutic purposes;
+            Coaches and our representatives to enable to offer any type of help,
+            assistance required during your association with us, and advice;
+          </p>
+        </div>
+        <br />
+        <div className="flex pl-12">
+          <strong className="pr-4">viii.</strong>
+          <p className="font-lato text-[17px]">
+            Healthcare practitioners, experts, professionals for diagnostics,
+            consultations or therapeutic purposes;{" "}
           </p>
         </div>
         <br />
@@ -624,13 +662,13 @@ const PrivacyAndPolicyPage = () => {
             the services and/or products that may be of interest to you, push
             notifications to your mobile device on our behalf, provide voice
             recognition services to process your spoken queries and questions,
-            help us analyse use of our Services, process and collect payments,
+            help us analyze use of our Services, process and collect payments,
             help us diversify the payment processing and collection methods
             available, providing consultation and diagnosis, and offer you
             special offers and services where available. Some of our products,
             Services and databases are hosted by third party hosting services
             providers. We also may use vendors for other projects, such as
-            conducting surveys, organising sweepstakes for us, advertising,
+            conducting surveys, organizing sweepstakes for us, advertising,
             marketing and advertisement measuring purposes. We may share
             information about you with these vendors only to enable them to
             perform their services. The tools used by such third party service
@@ -657,7 +695,7 @@ const PrivacyAndPolicyPage = () => {
             protect our rights, property and safety, our employees, users, or
             the public. This may involve the sharing of your information with
             law enforcement, government agencies, courts, and/or other
-            organisations on account of legal requests such as subpoena, court
+            organizations on account of legal requests such as subpoena, court
             order or government demand to comply with the law.
           </p>
         </div>
@@ -667,18 +705,17 @@ const PrivacyAndPolicyPage = () => {
           <p className="font-lato text-[17px]">
             Improving Our business: You acknowledge that we have a right to use
             a recorded copy of your telephonic conversation, and consultation
-            notes with your healthcare professional, and your diagnostic test
-            reports for providing and improving the Services, marketing and
-            promotional efforts, customise your experience and aiding you in
-            procuring targeted consultation for the underlying medical
-            condition. These uses improve the Platform, and the Services, and
-            better tailor it to meet your needs, so as to provide you with an
-            efficient, safe and customised experience. We may transfer such
-            personal Information and SPDI to a third party, including persons
-            outside India, to improve product and Service offerings while taking
-            commercially reasonable steps to try and ensure, that the recipient
-            adheres to the applicable laws for ensuring data protection as is
-            adhered by us.
+            records, and your diagnostic test reports for providing and
+            improving the Services, marketing and promotional efforts, customize
+            your experience and aiding you in procuring targeted consultation
+            for any underlying health condition. These uses improve the
+            Platform, and the Services, and better tailor it to meet your needs,
+            so as to provide you with an efficient, safe and customized
+            experience. We may transfer such personal Information and SPDI to a
+            third party, including persons outside India, to improve product and
+            Service offerings while taking commercially reasonable steps to try
+            and ensure, that the recipient adheres to the applicable laws for
+            ensuring data protection as is adhered by us.
           </p>
         </div>
         <br />
@@ -697,18 +734,17 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">f.</strong>
-          <p className="font-lato text-[17px]"></p>To enforce or apply our
-          Terms and other agreements, including for billing and collection
-          purposes.
+          <p className="font-lato text-[17px]"></p>To enforce or apply our Terms
+          and other agreements, including for billing and collection purposes.
         </div>
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">g.</strong>
-          <p className="font-lato text-[17px]"></p>If we believe disclosure
-          is necessary or appropriate to protect our rights, property, or
-          safety, our users or others. This includes exchanging information with
-          other companies and organisations for the purposes of fraud protection
-          and credit risk reduction etc.
+          <p className="font-lato text-[17px]"></p>If we believe disclosure is
+          necessary or appropriate to protect our rights, property, or safety,
+          our users or others. This includes exchanging information with other
+          companies and organizations for the purposes of fraud protection and
+          credit risk reduction etc.
         </div>
         <br />
         <div className="pl-10 flex">
@@ -716,6 +752,24 @@ const PrivacyAndPolicyPage = () => {
           <p className="font-lato text-[17px]">
             Consent. We may share your information in any other circumstances
             where we have your consent.
+          </p>
+        </div>
+        <br />
+        <div className="flex">
+          <p className="font-lato text-[17px]">
+            Transfer to third parties and outside India: Subject to applicable
+            law, we may at our sole discretion, transfer personal information
+            and SPDI to any other body corporate (as defined under the
+            Information Technology Act, 2000) that ensures at least the same
+            level of data protection as is provided by us under the terms
+            hereof, located in India or any other country. By using the Platform
+            or availing the Services, you accept the terms hereof and hereby
+            consent to us, sharing with and/or processing of your personal
+            information and SPDI by third parties, including in any location
+            outside India, provided that they ensure that your SPDI is protected
+            in compliance with standards that are comparable to the standards of
+            protection afforded to it in India or equivalent international
+            standards.
           </p>
         </div>
         <br />
@@ -731,7 +785,7 @@ const PrivacyAndPolicyPage = () => {
         <p className="font-lato text-[17px] pl-7">
           We maintain electronic, physical and procedural safeguards in
           connection with the collection, storage and disclosure of personal
-          information (including SPDI). We endeavour to protect the security of
+          information (including SPDI). We endeavor to protect the security of
           your information during transmission by using Secure Sockets Layer
           (SSL) software, which encrypts information you input in addition to
           maintaining security of your information as per the industry
@@ -742,14 +796,14 @@ const PrivacyAndPolicyPage = () => {
           relationship with us may terminate if they fail to meet these
           obligations. No employee or administrator will have knowledge of your
           password of your account on the Platform. It is important for you to
-          protect Your account against unauthorised access to your password and
+          protect Your account against unauthorized access to your password and
           your mobile phone. You must be sure to log off from the Platform when
           you have finished use thereof. We do not undertake any liability for
           any unauthorised use of your account and password. If you suspect any
-          unauthorised use of your account, you must immediately notify us by
+          unauthorized use of your account, you must immediately notify us by
           sending an email to the contact details indicated in the contact
           section. You shall be liable to indemnify us due to any loss suffered
-          by Us due to such unauthorised use of your account or password. <br />
+          by Us due to such unauthorized use of your account or password. <br />
           <br />
           However, we shall not be responsible for any breach of security or for
           any actions of any third parties or events that are beyond our control
@@ -760,23 +814,24 @@ const PrivacyAndPolicyPage = () => {
           appropriate security measures to protect your personal Information
           from unauthorised access and follow technology standards prescribed by
           applicable law. We cannot guarantee the security of any account
-          information. Unauthorised entry or use, hardware or software failure,
+          information. Unauthorized entry or use, hardware or software failure,
           and other factors, may compromise the security of user information at
           any time. We otherwise store all the information, including your IP
           address, using measures as required under applicable law. We do not
-          guarantee or warrant that such techniques will prevent unauthorised
+          guarantee or warrant that such techniques will prevent unauthorized
           access to information about you that we store, personal Information or
           otherwise.
           <br />
           <br />
           The access to the Services is offered through the use of a secure
           server and adhere to our security guidelines to protect it against
-          unauthorised access. However, by using the Services, the users accept
+          unauthorized access. However, by using the Services, the users accept
           the inherent security implications of data transmission over the
           internet and the World Wide Web which cannot always be guaranteed as
           completely secure, and therefore, there would always remain certain
-          inherent risks regarding use of the Services.{" "}
+          inherent risks regarding use of the Services.
         </p>
+        <br />
         <div className="flex">
           <strong className="pr-4">6.</strong>
           <p className="font-lato text-[17px] font-bold">
@@ -804,7 +859,7 @@ const PrivacyAndPolicyPage = () => {
         <div className="pl-10 flex">
           <strong className="pr-4">b.</strong>
           <p className="font-lato text-[17px]">
-            b. Your right to review, update, correct, and delete your personal
+            Your right to review, update, correct, and delete your personal
             information may be limited, subject to the applicable law:
           </p>
         </div>
@@ -849,7 +904,7 @@ const PrivacyAndPolicyPage = () => {
           <strong className="pr-4">a.</strong>
           <p className="font-lato text-[17px]">
             We also have measures in place to ensure that SPDI which is in our
-            possession or under our control, is destroyed and/or anonymised as
+            possession or under our control, is destroyed and/or anonymized as
             soon as it is reasonable to assume that: (i) the purposes for which
             your SPDI has been collected have been fulfilled; and (iii)
             retention is no longer necessary for any other reason, or under
@@ -863,7 +918,7 @@ const PrivacyAndPolicyPage = () => {
             We may, however, reserve the right to retain and store your personal
             information for our business purposes, whether such personal
             information has been deleted or not. After a period of time, your
-            information may be anonymised and aggregated and then may be held by
+            information may be anonymized and aggregated and then may be held by
             us as long as necessary, to enable purchases of products and
             provision of Services or for analytics purposes.
           </p>
@@ -938,7 +993,7 @@ const PrivacyAndPolicyPage = () => {
             would in traditional offline channels and practice judgment and
             common sense before committing to any transaction or exchange of
             information, including but not limited to reviewing the third party
-            website or application’s privacy policy
+            website or application’s privacy policy.
           </p>
         </div>
         <br />
@@ -984,7 +1039,7 @@ const PrivacyAndPolicyPage = () => {
           steps to delete this information. If you are a parent or guardian and
           discover that your child under 18 years of age has obtained an account
           on or otherwise accessed the Service, then you may alert us at
-          support@vayu.com and request that we delete that child’s
+          customercare@clearritual.com and request that we delete that child’s
           personally identifiable information from our systems.
         </p>
         <br />
@@ -1004,10 +1059,10 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <p className="font-lato text-[17px] pl-7">
           Name: Sulakshana Sarathy <br />
-          Address: Tatvartha Health Private Limited, 1st Floor, Interface 16
-          Road, Malad, Mindspace, Malad West, Mumbai, Maharashtra - 400064{" "}
+          Address: 1st Floor, Interface 16 Road, Malad, Mindspace, Malad West,
+          Mumbai, Maharashtra - 400064
           <br />
-          Email: support@vayu.com 
+          Email: customercare@clearritual.com
         </p>
         <br />
         <p className="font-lato text-[17px] pl-7">
@@ -1032,9 +1087,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">13.</strong>
-          <p className="font-lato text-[17px] font-bold">
-            Miscellaneous
-          </p>{" "}
+          <p className="font-lato text-[17px] font-bold">Miscellaneous</p>{" "}
           <br />
           <br />
         </div>
