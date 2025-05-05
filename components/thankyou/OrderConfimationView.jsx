@@ -24,6 +24,10 @@ const OrderConfirmationView = ({
   handleBookCall,
   showDrawer,
 }) => {
+
+ 
+
+
   return (
     <>
       <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px] min-h-screen relative">
@@ -115,9 +119,8 @@ const OrderConfirmationView = ({
         )}
         {/* Sticky button at bottom */}
         <div
-          className={`${
-            !bookedSuccess && selectedTime !== null ? "" : "hidden"
-          } fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md`}
+          className={`${!bookedSuccess && selectedTime !== null ? "" : "hidden"
+            } fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md`}
         >
           <div className="flex justify-center items-center md:h-[104px] h-[88px] border-t-[1px] border-t-Elements/Divider-Stroke">
             <button

@@ -2,6 +2,7 @@
 import { CDN_BASE_URL } from "@/constants/config";
 import React, { useEffect } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { sendGtmEvents } from "../generic/Gtm";
 
 const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoMobile.mp4`;
 const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoDesktop.mp4`;
@@ -15,6 +16,8 @@ const BannerSection = () => {
       setSyntheticId(synthetic_Id);
     }
   }, []);
+
+
 
   return (
     <>
@@ -67,7 +70,7 @@ const BannerSection = () => {
                 deskSize="mobileBig"
               />
             </div>
-            {syntheticId && <div className="mt-[32px]">
+            {syntheticId && <div className="mt-[32px]" >
               <AcneTakeTheSkinTest
                 variant="black"
                 text={"My Recommended plan"}
@@ -116,7 +119,7 @@ const BannerSection = () => {
               <br />your unique skin needs
             </p>
           </div>
-          <div className="flex justify-start">
+          <div className="flex justify-start" >
             <AcneTakeTheSkinTest
               variant="white"
               text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
@@ -125,7 +128,7 @@ const BannerSection = () => {
               deskSize="desktopBig"
             />
           </div>
-          {syntheticId && <div className="flex justify-start -mt-4">
+          {syntheticId && <div className="flex justify-start -mt-4" >
             <AcneTakeTheSkinTest
               variant="black"
               text={"My Recommended plan"}

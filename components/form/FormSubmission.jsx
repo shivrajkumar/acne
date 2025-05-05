@@ -18,7 +18,7 @@ const FormSubmission = () => {
 
   useEffect(() => {
     // Send GTM event for form completion
-    sendGtmEvents('form-complete');
+    sendGtmEvents('form-complete', { location: window.location.pathname });
 
     //Send MOE Events
     trackMoEngageEvent("acne-FormSubmit", {

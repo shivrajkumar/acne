@@ -15,12 +15,17 @@ const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [currentPath, setCurrentPath] = useState("");
 
-  // Detect if viewport is desktop size
+  // Detect if viewport is desktop size and set current path - safely
   useEffect(() => {
+    // Safe to access window here since useEffect only runs client-side
     const checkIfDesktop = () => {
       setIsDesktop(window.innerWidth >= 768); // md breakpoint is typically 768px
     };
+
+    // Set current path for tracking
+    setCurrentPath(window.location.pathname);
 
     // Check on initial load
     checkIfDesktop();
@@ -41,8 +46,9 @@ const AcneHeader = () => {
   };
 
   const PageClickEvent = (name, url) => {
+    // Using the saved path from useEffect instead of accessing window directly
     trackMoEngageEvent(`acne-PageClicked_${name}`, {
-      from_page: window.location.pathname,
+      from_page: currentPath,
       to_page: url,
       time: new Date().toISOString()
     });
@@ -100,12 +106,6 @@ const AcneHeader = () => {
 
         {/* Right side icons */}
         <div className="flex items-center space-x-4">
-          {/* <Link href="/account">
-            <span className="cursor-pointer">
-              <Image src={ProfileIcon} width={24} height={24} alt="Profile" />
-            </span>
-          </Link> */}
-          {/* <Link href="/cart"> */}
           <span className="cursor-pointer">
             <Image
               src={ShopIcon}
@@ -115,7 +115,6 @@ const AcneHeader = () => {
               onClick={toggleDrawer}
             />
           </span>
-          {/* </Link> */}
         </div>
       </div>
 
@@ -175,62 +174,60 @@ const AcneHeader = () => {
             </Link>
           </div>
         </div>
-      )
-      }
-      {
-        isDrawerOpen && (
-          <div>
-            <Drawer
-              placement="right"
-              onClose={() => setIsDrawerOpen(false)}
-              open={isDrawerOpen}
-              closable={false} /* Hide the default close button */
-              width={isDesktop ? 480 : "100%"}
-              getContainer={false}
-              zIndex={1100}
-              rootClassName="custom-drawer-translate" //  set higher z-index
-              rootStyle={{
-                zIndex: 1100,
-                position: "fixed", // Forcefully fixes positioning
-                right: 0,
-                // Aligns to right
-              }}
-              title={
-                <div className="flex flex-row items-center justify-between w-full h-[64px]">
-                  <div className="flex items-center space-x-2">
-                    <Image
-                      src={ShopIcon}
-                      width={24}
-                      height={24}
-                      alt="Shop"
-                      onClick={() => setIsDrawerOpen(false)}
-                      className="cursor-pointer"
-                    />
-                    <h2 className="font-lato text-[16px] font-[400]  text-Text/Heading-Text -tracking-[1%]">
-                      Your Cart
-                    </h2>
-                  </div>
+      )}
 
-                  <div
+      {isDrawerOpen && (
+        <div>
+          <Drawer
+            placement="right"
+            onClose={() => setIsDrawerOpen(false)}
+            open={isDrawerOpen}
+            closable={false} /* Hide the default close button */
+            width={isDesktop ? 480 : "100%"}
+            getContainer={false}
+            zIndex={1100}
+            rootClassName="custom-drawer-translate" //  set higher z-index
+            rootStyle={{
+              zIndex: 1100,
+              position: "fixed", // Forcefully fixes positioning
+              right: 0,
+              // Aligns to right
+            }}
+            title={
+              <div className="flex flex-row items-center justify-between w-full h-[64px]">
+                <div className="flex items-center space-x-2">
+                  <Image
+                    src={ShopIcon}
+                    width={24}
+                    height={24}
+                    alt="Shop"
                     onClick={() => setIsDrawerOpen(false)}
                     className="cursor-pointer"
-                  >
-                    <Image
-                      src={CrossIconIcon}
-                      alt="Cross Icon"
-                      width={24}
-                      height={24}
-                    />
-                  </div>
+                  />
+                  <h2 className="font-lato text-[16px] font-[400]  text-Text/Heading-Text -tracking-[1%]">
+                    Your Cart
+                  </h2>
                 </div>
-              }
-            >
-              <CartPageHome />
-            </Drawer>
-          </div>
-        )
-      }
-    </header >
+
+                <div
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="cursor-pointer"
+                >
+                  <Image
+                    src={CrossIconIcon}
+                    alt="Cross Icon"
+                    width={24}
+                    height={24}
+                  />
+                </div>
+              </div>
+            }
+          >
+            <CartPageHome />
+          </Drawer>
+        </div>
+      )}
+    </header>
   );
 };
 

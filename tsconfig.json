@@ -26,9 +26,16 @@
       "@hooks/*": ["hooks/*"],
       "@constants/*": ["constants/*"],
       "@assets/*": ["assets/*"],
-      "@utils": ["utils"],
+      "@utils": ["utils"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/moegage.js", "helpers/localstorage.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
