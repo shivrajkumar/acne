@@ -1,4 +1,5 @@
 import { DEFAULT_API_URL, PUBLIC_API_URL_BASE } from "./config";
+import Cookies from "js-cookie";
 
 // Base urls
 const API_BASE_URL = DEFAULT_API_URL;
@@ -20,6 +21,12 @@ export function getValidJSONFromString(strOrNull) {
     return {};
   }
 }
+
+export const getUtmCookiesInObjectForm = () => {
+  const existingCookie = Cookies.get("__CLEAR_RITUAL_UTM__");
+
+  return getValidJSONFromString(existingCookie);
+};
 
 export const INGESTION_API = () => {
   return getUrl(`consumer-api/service/consumers/customer/responses`);
@@ -188,4 +195,6 @@ export const GET_STATIC_DOCTOR_DETAILS = getUrl(
   `consumer-api/service/static-content/data/ACNE_DOCTOR_CONTENT`
 );
 
-export const BOOK_SLOT_API = getUrl(`consumer-api/service/engagements/slot/book`);
+export const BOOK_SLOT_API = getUrl(
+  `consumer-api/service/engagements/slot/book`
+);

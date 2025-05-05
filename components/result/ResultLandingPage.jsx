@@ -17,13 +17,14 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
-const ResultLandingPage = ({ params }) => {
+const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
   const resultBannerRef = useRef(null);
-  const tId = params.tid;
+  const tId = searchParams?.tid;
 
   useEffect(() => {
     fetchResult();
@@ -60,6 +61,14 @@ const ResultLandingPage = ({ params }) => {
 
   const placeOrder = () => {
     handleBuyNowClick(resultData?.productsDetails, resultData?.customerDetails?.caseId);
+    const eventAttributes = {
+      cart_value: resultData?.cartDetails?.totalCartValue,
+      tem_count: resultData?.productsDetails.length,
+      timestamp: new Date().toISOString(),
+      syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
+      caseId: resultData?.customerDetails?.caseId
+    }
+    trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
   };
 
   // Create the context value

@@ -9,6 +9,7 @@ import CrossIcon from "@assets/svg/Cross_Icons";
 import CrossIconIcon from "@assets/icons/close-circle.png";
 import { Drawer } from "antd";
 import CartPageHome from "@components/cart/CartPageHome";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,6 +39,14 @@ const AcneHeader = () => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  const PageClickEvent = (name, url) => {
+    trackMoEngageEvent(`acne-PageClicked_${name}`, {
+      from_page: window.location.pathname,
+      to_page: url,
+      time: new Date().toISOString()
+    });
+  }
 
   return (
     <header>
@@ -69,18 +78,21 @@ const AcneHeader = () => {
           <Link
             href="/about-us"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("AboutUs", "/about-us")}
           >
             About Us
           </Link>
           <Link
             href="/experts"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("Experts", "/experts")}
           >
             Experts
           </Link>
           <Link
             href="/reviews"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("Reviews", "/reviews")}
           >
             Reviews
           </Link>
@@ -125,7 +137,7 @@ const AcneHeader = () => {
                 <Link
                   href="/about-us"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={toggleMenu}
+                  onClick={() => { PageClickEvent("AboutUs", "/about-us"); toggleMenu() }}
                 >
                   About Us
                 </Link>
@@ -134,7 +146,7 @@ const AcneHeader = () => {
                 <Link
                   href="/experts"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={toggleMenu}
+                  onClick={() => { PageClickEvent("Experts", "/experts"); toggleMenu() }}
                 >
                   Experts
                 </Link>
@@ -143,7 +155,7 @@ const AcneHeader = () => {
                 <Link
                   href="/reviews"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={toggleMenu}
+                  onClick={() => { PageClickEvent("Reviews", "/reviews"); toggleMenu() }}
                 >
                   Reviews
                 </Link>
@@ -163,59 +175,62 @@ const AcneHeader = () => {
             </Link>
           </div>
         </div>
-      )}
-      {isDrawerOpen && (
-        <div>
-          <Drawer
-            placement="right"
-            onClose={() => setIsDrawerOpen(false)}
-            open={isDrawerOpen}
-            closable={false} /* Hide the default close button */
-            width={isDesktop ? 480 : "100%"}
-            getContainer={false}
-            zIndex={1100}
-            rootClassName="custom-drawer-translate" //  set higher z-index
-            rootStyle={{
-              zIndex: 1100,
-              position: "fixed", // Forcefully fixes positioning
-              right: 0,
-              // Aligns to right
-            }}
-            title={
-              <div className="flex flex-row items-center justify-between w-full h-[64px]">
-                <div className="flex items-center space-x-2">
-                  <Image
-                    src={ShopIcon}
-                    width={24}
-                    height={24}
-                    alt="Shop"
+      )
+      }
+      {
+        isDrawerOpen && (
+          <div>
+            <Drawer
+              placement="right"
+              onClose={() => setIsDrawerOpen(false)}
+              open={isDrawerOpen}
+              closable={false} /* Hide the default close button */
+              width={isDesktop ? 480 : "100%"}
+              getContainer={false}
+              zIndex={1100}
+              rootClassName="custom-drawer-translate" //  set higher z-index
+              rootStyle={{
+                zIndex: 1100,
+                position: "fixed", // Forcefully fixes positioning
+                right: 0,
+                // Aligns to right
+              }}
+              title={
+                <div className="flex flex-row items-center justify-between w-full h-[64px]">
+                  <div className="flex items-center space-x-2">
+                    <Image
+                      src={ShopIcon}
+                      width={24}
+                      height={24}
+                      alt="Shop"
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="cursor-pointer"
+                    />
+                    <h2 className="font-lato text-[16px] font-[400]  text-Text/Heading-Text -tracking-[1%]">
+                      Your Cart
+                    </h2>
+                  </div>
+
+                  <div
                     onClick={() => setIsDrawerOpen(false)}
                     className="cursor-pointer"
-                  />
-                  <h2 className="font-lato text-[16px] font-[400]  text-Text/Heading-Text -tracking-[1%]">
-                    Your Cart
-                  </h2>
+                  >
+                    <Image
+                      src={CrossIconIcon}
+                      alt="Cross Icon"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
                 </div>
-
-                <div
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="cursor-pointer"
-                >
-                  <Image
-                    src={CrossIconIcon}
-                    alt="Cross Icon"
-                    width={24}
-                    height={24}
-                  />
-                </div>
-              </div>
-            }
-          >
-            <CartPageHome />
-          </Drawer>
-        </div>
-      )}
-    </header>
+              }
+            >
+              <CartPageHome />
+            </Drawer>
+          </div>
+        )
+      }
+    </header >
   );
 };
 

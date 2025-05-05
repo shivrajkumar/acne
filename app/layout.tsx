@@ -7,6 +7,8 @@ import ShopfloBridge from "@constants/shopflowbridge";
 import { UTMManager } from "@helpers/UTMManager";
 import Script from "next/script";
 import { plusJakartaSans, nunitoSans, lato } from "./fonts";
+import MoengageInit from "@/components/generic/MoengageInit";
+import UserDataCapture from "@/components/generic/UserDataCapture";
 
 // import PixelInit from "@/components/generic/Pixel";
 
@@ -176,12 +178,14 @@ export default function RootLayout({
       </head>
       {/* <PixelInit/> */}
       <body style={{ fontSize: "16px" }}>
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
+          <UserDataCapture />
           <main>{children}</main>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
         <Suspense>
           <UTMManager />
         </Suspense>
+        <MoengageInit />
       </body>
       <ShopfloBridge />
     </html>

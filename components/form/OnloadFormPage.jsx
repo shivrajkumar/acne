@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { QuestionsContext } from "../../context/questions-store";
 import handleRedirections from "@/utils/handleRedirections";
+import { useRouter } from "next/navigation";
 
 const OnloadFormPage = () => {
   const { queryStrings } = useContext(QuestionsContext);
@@ -9,6 +10,7 @@ const OnloadFormPage = () => {
   const [syntheticId, setSyntheticId] = useState("");
   const [tabClosed, setTabClosed] = useState("");
   const [formStatus, setFormStatus] = useState("");
+  const router=useRouter()
 
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const OnloadFormPage = () => {
             <button
               className="w-[298px]  mt-6 h-[56px] justify-center text-sm flex  bg-Neutral/900 text-[#FFFFFF] py-4 px-10 text-[16px]   font-semibold  rounded-[1000px]  uppercase"
               // className="mb-4 focus:outline-none text-brand-accent border-2 rounded-2xl py-4 px-9 w-9/12 border-brand-accent xs:px-2"
-              onClick={() => handleRedirections({ val: "refill" })}
+              onClick={() => handleRedirections({ val: "refill", router })}
             >
               <span className="font-[400] uppercase text-center">
                 Take a test again
@@ -46,7 +48,7 @@ const OnloadFormPage = () => {
             <button
               className="w-[298px]  h-[56px] justify-center text-sm flex bg-neutral-400 text-[#FFFFFF] py-4 px-10 text-[16px]   font-semibold  rounded-[1000px]  uppercase"
               // className="mb-4 focus:outline-none text-brand-accent border-2 rounded-2xl py-4 px-9 w-9/12 border-brand-accent xs:px-2"
-              onClick={() => handleRedirections({ val: "resultPage",queryStrings})}
+              onClick={() => handleRedirections({ val: "resultPage", queryStrings, router })}
             >
               <span className="font-[400] uppercase text-center">
                 Go to result
@@ -58,7 +60,7 @@ const OnloadFormPage = () => {
             <button
               // className="mb-4 focus:outline-none text-brand-accent border-2 rounded-2xl py-4 px-4 xl:px-6 w-10/12 sm:w-9/12 md:w-9/12 lg:w-9/12 xl:w-9/12 border-brand-accent xs:px-2"
               className="w-[298px]  mt-6 h-[56px] justify-center text-sm flex  bg-Neutral/900 text-[#FFFFFF] py-4 px-10 text-[16px]   font-semibold  rounded-[1000px]  uppercase"
-                onClick={() => handleRedirections({ val: "refill", queryStrings })}
+                onClick={() => handleRedirections({ val: "refill", queryStrings, router })}
             >
               <span className="font-[400] uppercase text-center">
                 Start from beginning
@@ -67,7 +69,7 @@ const OnloadFormPage = () => {
             <button
               // className="mb-4 focus:outline-none text-brand-accent border-2 rounded-2xl py-4 px-4 xl:px-6 w-10/12 sm:w-9/12 md:w-9/12 lg:w-9/12 xl:w-9/12 border-brand-accent "
               className="w-[298px]  h-[56px] justify-center text-sm flex bg-neutral-400 text-[#FFFFFF] py-4 px-10 text-[16px]   font-semibold  rounded-[1000px]  uppercase"
-                onClick={() => handleRedirections({val:"editAgain"})}
+                onClick={() => handleRedirections({ val: "editAgain", router })}
             >
               <span className="font-[400] uppercase text-center">
                 Continue where I left

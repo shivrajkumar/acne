@@ -11,11 +11,20 @@ import Image from "next/image";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import PhoneIcon from "@assets/icons/phone_icon.png"
 import MailIcon from "@assets/icons/mail_Icon.png"
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 
 // Import social media icons
 
 const AcneFooter = () => {
+
+  const PageClickEvent = (name, url) => {
+    trackMoEngageEvent(`acne-PageClicked_${name}`, {
+      from_page: window.location.pathname,
+      to_page: url,
+      time: new Date().toISOString()
+    });
+  }
 
   return (
     <div className="bg-Neutral/900">
@@ -24,7 +33,7 @@ const AcneFooter = () => {
         <div className="">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col gap-[28px]">
-              <Link href="/">
+              <Link href="/" onClick={() => PageClickEvent("Home", "/")}>
                 <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
               </Link>
               <p className="font-lato font-[400] text-[14px] leading-[1.4%] text-neutral-50">Targeted Acne Care, Visible Results.</p>
@@ -39,6 +48,7 @@ const AcneFooter = () => {
                   <li>
                     <Link
                       href="/skin-test"
+                      onClick={() => PageClickEvent("SkinTest", "/skin-test")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       Take Our Skin Test
@@ -47,6 +57,7 @@ const AcneFooter = () => {
                   <li>
                     <Link
                       href="/about-us"
+                      onClick={() => PageClickEvent("AboutUs", "/about-us")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       About Us
@@ -55,6 +66,7 @@ const AcneFooter = () => {
                   <li>
                     <Link
                       href="/experts"
+                      onClick={() => PageClickEvent("Experts", "/experts")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       Our Experts
@@ -63,6 +75,7 @@ const AcneFooter = () => {
                   <li>
                     <Link
                       href="/reviews"
+                      onClick={() => PageClickEvent("Reviews", "/reviews")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       Reviews
@@ -71,6 +84,7 @@ const AcneFooter = () => {
                   <li>
                     <Link
                       href="/privacy-policy"
+                      onClick={() => PageClickEvent("PrivacyPolicy", "/privacy-policy")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       Privacy & Policy
@@ -79,6 +93,7 @@ const AcneFooter = () => {
                   <li>
                     <Link
                       href="/terms-conditions"
+                      onClick={() => PageClickEvent("TermsConditions", "/terms-conditions")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
                       Terms of Use
