@@ -232,6 +232,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
           </div>
         </div>
       )}
+
     </>
   );
 };
