@@ -47,7 +47,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
   );
 
   // Check booking status from localStorage on mount
-  useEffect(() => {
+  useEffect(async () => {
     const bookingInfo = getBookingStatusFromStorage();
 
     if (bookingInfo?.isBooked) {
@@ -57,15 +57,29 @@ const ThankYouLandingPage = ({ searchParams }) => {
     }
 
     if (searchParams?.platform_order_id) {
-      Promise.all([
-        getOrderDetails(searchParams.platform_order_id),
-        getDoctorDetails(),
-      ]).catch(console.error);
+      try {
+        await Promise.all([
+          getOrderDetails(searchParams.platform_order_id),
+          getDoctorDetails(),
+        ]);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // Load order details if platform_order_id exists
+    if (searchParams?.platform_order_id) {
+      try {
+        await Promise.all([
+          getOrderDetails(searchParams.platform_order_id),
+          getDoctorDetails(),
+        ]);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       setLoading(false);
     }
-  }, []);
-
+  }, [])
 
   // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
