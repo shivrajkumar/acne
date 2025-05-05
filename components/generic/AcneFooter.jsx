@@ -100,7 +100,7 @@ const AcneFooter = () => {
                   <span>
                     <Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
                   </span>
-                  customersupport@clearritual.com
+                  customercare@clearritual.com
                 </a>
               </div>
               <div className="flex my-[32px] md:my-0 md:flex-col items-center gap-[12px]">
