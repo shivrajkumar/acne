@@ -10,7 +10,7 @@ import {
 import Loader from "../generic/Loader";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
-import SlotConfirmPop from "../SlotConfirmPop";
+import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
 import {
   getBookingStatusFromStorage,
