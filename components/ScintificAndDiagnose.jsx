@@ -14,7 +14,7 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
         <Image
           src={scintificBg}
           alt="safe & scintific"
-          layout="fill"
+          fill
           objectFit="cover"
           className="xl:rounded-lg xs:rounded-lg"
         />
@@ -53,7 +53,7 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
         <Image
           src={diagnoseBg}
           alt="safe & scintific"
-          layout="fill"
+          fill
           objectFit="cover"
           className="xl:rounded-lg xs:rounded-lg"
         />

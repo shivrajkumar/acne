@@ -13,7 +13,6 @@ export default function ExpertBanner() {
             width={900}
             height={568}
             className="object-contain"
-            priority
             loading="eager"
           />
         </div>

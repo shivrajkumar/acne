@@ -16,9 +16,8 @@ const AcneReviewPage = () => {
         <div className="relative w-full h-[356px] lg:h-[384px] xl:h-[550px]">
           <Image
             src={`${CDN_BASE_URL}website_images/clear_rituals/reviewPage/ReviewGroupImage.webp`}
-            layout="fill"
+            fill
             alt="User"
-            priority
             loading="eager"
             className="w-full object-cover"
           />

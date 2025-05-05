@@ -10,7 +10,6 @@ const AboutUsBanner = () => {
           src={`${CDN_BASE_URL}website_images/vayu/about_us_page/SkinBannerImage.webp`}
           alt="Clear Ritual Skin Care"
           fill
-          priority
           loading="eager"
           className="object-cover w-full h-full "
         />
@@ -20,7 +19,6 @@ const AboutUsBanner = () => {
           src={`${CDN_BASE_URL}website_images/clear_rituals/about_us_page/SkinBannerImage-mobile.webp`}
           alt="Clear Ritual Skin Care"
           fill
-          priority
           loading="eager"
           className="object-cover w-full h-full"
         />

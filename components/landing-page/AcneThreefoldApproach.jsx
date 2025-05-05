@@ -23,7 +23,6 @@ function AcneThreefoldApproach() {
           className="rounded-[16px] w-full h-auto"
           width={296}
           height={296}
-          priority
         />
       </div>
 
@@ -54,7 +53,6 @@ function AcneThreefoldApproach() {
             className="rounded-[16px] w-full h-[391px]"
             width={730}
             height={391}
-            priority
           />
         </div>
 
