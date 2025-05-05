@@ -80,7 +80,8 @@ const ResultLandingPage = ({ searchParams }) => {
     customerDetails: resultData?.customerDetails,
     skinType: resultData?.skinType,
     acneGrading: resultData?.acneGrading,
-    rootCausesDetails: resultData?.rootCausesDetails
+    rootCausesDetails: resultData?.rootCausesDetails,
+    caseId:resultData?.customerDetails?.caseId
   };
 
   return loading ? (
