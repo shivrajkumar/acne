@@ -7,8 +7,8 @@ import Image from "next/image";
 import AssignedDoctor from "../result/AssignDoctor";
 import OrderConfirmationCard from "./OrderConfirmationCard";
 import CartItems from "../result/CartItems";
-import BookFreeCall from "../AcneSlotBooking";
-import moment from "moment";
+import BookFreeCall from "../slot-booking/AcneSlotBooking";
+import ConfirmedSlotView from "../slot-booking/ConfirmedSlotView";
 
 const OrderConfirmationView = ({
   orderDetails,
@@ -47,20 +47,11 @@ const OrderConfirmationView = ({
               </>
             ) : (
               <>
-                <div className="flex flex-col items-center px-4 py-8 md:px-20 md:py-12 bg-[#F9FAFB] min-h-[30vh]">
-                  <div className="w-full max-w-[720px] mx-auto">
-                    <div className="bg-white border border-Elements/Divider-Stroke rounded-3xl shadow-sm p-6 md:p-10 flex flex-col items-center gap-6 md:gap-10 text-center">
-                      <h2 className="text-[20px] md:text-[24px] font-medium tracking-wide leading-snug text-gray-900">
-                        You're all set for your consultation with our Skin
-                        Expert Doctors.
-                      </h2>
-                      <div className="text-[18px] md:text-[22px] font-normal text-gray-700">
-                        {moment(selectedDate || new Date()).format("MMM Do")} at{" "}
-                        {selectedTime}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ConfirmedSlotView
+                  selectedDate={selectedDate}
+                  selectedTime={selectedTime}
+                  height="min-h-[30vh]"
+                />
               </>
             )}
           </div>

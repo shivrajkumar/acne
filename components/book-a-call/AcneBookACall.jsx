@@ -8,10 +8,10 @@ import {
   handleBookCall,
   transformSlotData,
 } from "../../utils/bookacall";
-import BookFreeCall from "../AcneSlotBooking";
+import BookFreeCall from "../slot-booking/AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
-import SlotConfirmPop from "../SlotConfirmPop";
+import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 
 const AcneBookACallPage = ({ searchParams }) => {
   const [availableSlots, setAvailableSlots] = useState({});
