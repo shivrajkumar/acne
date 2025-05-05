@@ -34,11 +34,19 @@ const CartSummarySticky = () => {
 
   return (
     <>
-      <div className="flex justify-between py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center fixed bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium">
+      <div
+        className={`flex justify-between  ${
+          !storedBookingStatus ? "md:flex-row flex-col" : ""
+        }  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center fixed bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium`}
+      >
         <div className="flex gap-[32px]">
           <div>
-            <p className="text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]">
-              ₹{(cartData.totalCartValue ?? 0).toFixed(2)}/-
+            <p
+              className={`${
+                !storedBookingStatus ? "md:block hidden" : ""
+              } text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]`}
+            >
+              ₹{(cartData?.totalCartValue ?? 0).toFixed(2)}/-
             </p>
             <button
               onClick={scrollToOrderSummary}
@@ -84,7 +92,13 @@ const CartSummarySticky = () => {
             )}
           </div>
         </div>
-        <div className=" flex md:flex-row flex-col justify-between gap-3 items-center">
+        <div
+          className={` flex    ${
+            !storedBookingStatus
+              ? " flex-row pt-3 md:w-auto w-full"
+              : "md:flex-row flex-col"
+          }  justify-between gap-3 items-center`}
+        >
           <a
             href="/book-a-call"
             className={`${storedBookingStatus && "hidden"}`}
@@ -98,7 +112,9 @@ const CartSummarySticky = () => {
             className="w-fit bg-Tertiary/600 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
             onClick={handleBuyNowClick}
           >
-            {cartData?.cta}
+            {cartData?.cta}{" "}
+            {!storedBookingStatus &&
+              ` ₹${(cartData?.totalCartValue ?? 0).toFixed(2)}/-`}
           </button>
         </div>
       </div>
