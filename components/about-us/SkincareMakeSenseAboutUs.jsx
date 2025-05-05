@@ -19,7 +19,6 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
             alt="Skincare"
             fill
             style={{ objectFit: "cover", objectPosition: "70% center" }}
-            priority
           />
         </div>
 
@@ -32,9 +31,7 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
               }`}
             alt="Skincare"
             fill
-
             style={{ objectFit: "cover", objectPosition: `${expertsPage ? "center 700%" : "70% center"}` }}
-            priority
           />
         </div>
 

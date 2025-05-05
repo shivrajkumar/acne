@@ -15,7 +15,7 @@ const SkincareMakeSense = ({ reviewPage = false, heading, subText }) => {
               : `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/skin_make_expert_desktop.webp`
           }
           alt="Skincare"
-          layout="fill"
+          fill
           className={`${
             reviewPage ? "object-cover md:h-[65vh] h-[30vh] " : "object-cover"
           }`}
@@ -24,7 +24,6 @@ const SkincareMakeSense = ({ reviewPage = false, heading, subText }) => {
             transform: "scale(1)",
             transformOrigin: "center",
           }}
-          priority
         />
       </div>
 

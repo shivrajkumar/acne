@@ -109,13 +109,13 @@ const AcneFooter = () => {
                   <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
                   +91 9167611114
                 </a>
-                <a href="mailto:customersupport@clearritual.com"
+                <a href="mailto:customercare@clearritual.com"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px] items-center"
                 >
                   <span>
                     <Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
                   </span>
-                  customersupport@clearritual.com
+                  customercare@clearritual.com
                 </a>
               </div>
               <div className="flex my-[32px] md:my-0 md:flex-col items-center gap-[12px]">

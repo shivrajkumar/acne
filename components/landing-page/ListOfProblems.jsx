@@ -54,7 +54,6 @@ export default function ListOfProblems({ listOfProblems }) {
               width={211}
               height={211}
               loading="eager"
-              priority
               className="rounded-[8px] object-cover w-full h-auto"
             />
             <h3 className="text-[18px] font-[500] font-lato text-Text/Heading-Text">
@@ -76,7 +75,6 @@ export default function ListOfProblems({ listOfProblems }) {
                     alt={problem.alt}
                     width={211}
                     height={211}
-                    priority
                     loading="eager"
                     className="rounded-[8px] object-cover  w-[211px] h-[211px]"
                   />
