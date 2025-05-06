@@ -6,6 +6,8 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { sendGtmEvents } from "../generic/Gtm";
+import { getCookieValue } from "@/helpers/cookieHelper";
+import { metaCapi } from "@/helpers/metaCapiHelper";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -26,8 +28,24 @@ const CartPageHome = () => {
       caseId: data?.customerDetails?.caseId
     }
     trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
-    sendGtmEvents("checkout-started",  eventAttributes )
-    
+    sendGtmEvents("checkout-started", eventAttributes)
+    const fbp = getCookieValue('_fbp', document.cookie.split(';'));
+    const fbc = getCookieValue('_fbc', document.cookie.split(';'));
+    const email = window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`;
+    const phone = window.localStorage.getItem("user_phone");
+    const gender = window.localStorage.getItem("gender")
+
+    const capiPayload = {
+      "email": email,
+      "phone": phone,
+      "fbc": fbc,
+      "fbp": fbp,
+      "url": window.location.href,
+      "gender": gender
+
+    };
+    metaCapi(capiPayload, "CheckoutInitiated");
+
 
   };
   return (
