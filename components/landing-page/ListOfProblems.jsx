@@ -53,7 +53,7 @@ export default function ListOfProblems({ listOfProblems }) {
               alt={problem.alt}
               width={211}
               height={211}
-              className="rounded-[8px] object-cover w-full h-auto"
+              className="rounded-[8px] object-cover w-full h-full"
             />
             <h3 className="text-[18px] font-[500] font-lato text-Text/Heading-Text">
               {problem.title}
