@@ -13,10 +13,12 @@ import maleIcon from "@assets/icons/MaleIcon.png";
 import femaleIcon from "@assets/icons/FemaleIcon.png";
 import Image from "next/image";
 import { getUtmCookiesInObjectForm } from "../../constants/urls";
-import moengage from '@moengage/web-sdk';
-import { callAfterMoegageIsLoaded, trackMoEngageEvent } from '../../utils/moegage'
+import moengage from "@moengage/web-sdk";
+import {
+  callAfterMoegageIsLoaded,
+  trackMoEngageEvent,
+} from "../../utils/moegage";
 import { sendGtmEvents } from "../generic/Gtm";
-
 
 export default function UserBasicInfoForm() {
   const {
@@ -40,7 +42,7 @@ export default function UserBasicInfoForm() {
     fullName: "",
     phoneNumber: "",
     age: "",
-    gender: ""
+    gender: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -56,15 +58,20 @@ export default function UserBasicInfoForm() {
       });
 
       // Validate loaded data
-      const loadedPhoneNumber = window.localStorage.getItem("user_phone")?.substring(3);
+      const loadedPhoneNumber = window.localStorage
+        .getItem("user_phone")
+        ?.substring(3);
       const loadedAge = window.localStorage.getItem("user_age");
 
       if (loadedPhoneNumber) {
-        setErrors(prev => ({ ...prev, phoneNumber: validatePhoneNumber(loadedPhoneNumber) }));
+        setErrors((prev) => ({
+          ...prev,
+          phoneNumber: validatePhoneNumber(loadedPhoneNumber),
+        }));
       }
 
       if (loadedAge) {
-        setErrors(prev => ({ ...prev, age: validateAge(loadedAge) }));
+        setErrors((prev) => ({ ...prev, age: validateAge(loadedAge) }));
       }
     }
   }, []);
@@ -217,7 +224,9 @@ export default function UserBasicInfoForm() {
         phone_number: `+91${formData.phoneNumber}`,
         age: Number(formData.age),
         gender: formData.gender,
-        email: window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`
+        email:
+          window.localStorage.getItem("user_email") ??
+          `${formData.phoneNumber}.unknown@traya.health`,
       };
 
       if (cohort) {
@@ -233,13 +242,12 @@ export default function UserBasicInfoForm() {
         user: _user,
         source: "website",
         location_path: window.location.pathname,
-        form: _form
-      }
+        form: _form,
+      };
       const _requestOptions = {
         method: "POST",
         body: JSON.stringify(_bodyData),
       };
-
 
       _res = await fetchRequest(INGESTION_API(), _requestOptions);
 
@@ -252,11 +260,10 @@ export default function UserBasicInfoForm() {
         window.localStorage.setItem("user_phone", _user.phone_number);
         window.localStorage.setItem("user_age", formData.age);
         window.localStorage.setItem("user_gender", formData.gender);
-        window.localStorage.setItem("user_email", `${formData.phoneNumber}.unknown@traya.health`);
-
-
-
-
+        window.localStorage.setItem(
+          "user_email",
+          `${formData.phoneNumber}.unknown@traya.health`
+        );
 
         // Set cookies
         Cookies.set("Transaction_ID", _res.data.transactionId, {
@@ -264,7 +271,6 @@ export default function UserBasicInfoForm() {
           expires: COOKIES_EXPIRY,
         });
         window.localStorage.setItem("user_tid", _res.data.transactionId);
-
 
         if (_res.data.syntheticId) {
           Cookies.set("Synthetic_ID", _res.data.syntheticId, {
@@ -278,7 +284,6 @@ export default function UserBasicInfoForm() {
           expires: COOKIES_EXPIRY,
         });
         window.localStorage.setItem("form_status", "draft");
-
 
         return _res.data.transactionId;
       }
@@ -302,30 +307,34 @@ export default function UserBasicInfoForm() {
       hasError = true;
     } finally {
       const eventAttributes = {
-        "session_id": _res.data.syntheticId,
-        "case_id": _res.data.caseId,
-        timestamp: new Date().toISOString()
-      }
-      trackMoEngageEvent('acne-FormStarted', { ...getUtmCookiesInObjectForm(), ...eventAttributes })
+        session_id: _res.data.syntheticId,
+        case_id: _res.data.caseId,
+        timestamp: new Date().toISOString(),
+      };
+      trackMoEngageEvent("acne-FormStarted", {
+        ...getUtmCookiesInObjectForm(),
+        ...eventAttributes,
+      });
       callAfterMoegageIsLoaded(() => {
-        moengage.update_unique_user_id(_res?.data?.caseId)
+        moengage.update_unique_user_id(_res?.data?.caseId);
         moengage.add_first_name(formData.fullName);
         moengage.add_gender(formData.gender);
-        moengage.add_mobile(`+91${formData.phone}`)
-        moengage.add_user_attribute('synthetic_id', _res.data.syntheticId)
-        moengage.add_user_attribute('case_id', _res?.data?.caseId)
-      })
+        moengage.add_mobile(`+91${formData.phone}`);
+        moengage.add_user_attribute("synthetic_id", _res.data.syntheticId);
+        moengage.add_user_attribute("case_id", _res?.data?.caseId);
+      });
       sendGtmEvents("form-satge-1", {
-        name: formData.fullName, phone_number: `+91${formData.phone}`, gender: formData.gender, age: formData?.age
-      })
+        name: formData.fullName,
+        phone_number: `+91${formData.phone}`,
+        gender: formData.gender,
+        age: formData?.age,
+      });
     }
 
     // Process results after the finally block
     if (hasError) {
       return null;
     }
-
-
 
     return null;
   };
@@ -391,8 +400,8 @@ export default function UserBasicInfoForm() {
       // Move to next question - this is key to navigation
       nextQuestion("user_basic_info", "completed");
       const url = new URL(window.location.href);
-      url.searchParams.set('tid', transactionId);
-      window.history.replaceState({}, '', url.toString());
+      url.searchParams.set("tid", transactionId);
+      window.history.replaceState({}, "", url.toString());
     }
   };
 
@@ -419,7 +428,10 @@ export default function UserBasicInfoForm() {
             skin.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[24px] pt-0 lg:pt-6">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-[24px] pt-0 lg:pt-6"
+          >
             <div>
               <input
                 type="text"
@@ -431,9 +443,7 @@ export default function UserBasicInfoForm() {
                 required
               />
               {errors.fullName && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.fullName}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
               )}
             </div>
 
@@ -444,10 +454,11 @@ export default function UserBasicInfoForm() {
                 value={formData.phoneNumber || ""}
                 onChange={handleChange}
                 placeholder="Phone Number"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.phoneNumber
-                  ? "border-red-500"
-                  : "border-Elements/Divider-Stroke"
-                  } rounded-[16px] outline-none focus:outline-none`}
+                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
+                  errors.phoneNumber
+                    ? "border-red-500"
+                    : "border-Elements/Divider-Stroke"
+                } rounded-[16px] outline-none focus:outline-none`}
                 maxLength={10}
                 pattern="[0-9]{10}"
                 required
@@ -460,7 +471,6 @@ export default function UserBasicInfoForm() {
               )}
             </div>
 
-
             <div>
               <input
                 type="number"
@@ -468,10 +478,11 @@ export default function UserBasicInfoForm() {
                 value={formData.age || ""}
                 onChange={handleChange}
                 placeholder="Age"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.age
-                  ? "border-red-500"
-                  : "border-Elements/Divider-Stroke"
-                  } rounded-[16px] outline-none focus:outline-none`}
+                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
+                  errors.age
+                    ? "border-red-500"
+                    : "border-Elements/Divider-Stroke"
+                } rounded-[16px] outline-none focus:outline-none`}
                 min="1"
                 max="99"
                 required
@@ -485,8 +496,11 @@ export default function UserBasicInfoForm() {
             <div className="flex space-x-4 items-center">
               <button
                 type="button"
-                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${formData.gender === "M" ? "bg-Primary/50 border-[#237AB1]" : "bg-[#FFFFFF]"
-                  }`}
+                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${
+                  formData.gender === "M"
+                    ? "bg-Primary/50 border-[#237AB1]"
+                    : "bg-[#FFFFFF]"
+                }`}
                 onClick={() => handleGenderSelect("M")}
               >
                 <div className="flex items-center space-x-2 justify-center ">
@@ -497,8 +511,11 @@ export default function UserBasicInfoForm() {
 
               <button
                 type="button"
-                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${formData.gender === "F" ? "bg-Primary/50 border-[#237AB1]" : "bg-[#FFFFFF]"
-                  }`}
+                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${
+                  formData.gender === "F"
+                    ? "bg-Primary/50 border-[#237AB1]"
+                    : "bg-[#FFFFFF]"
+                }`}
                 onClick={() => handleGenderSelect("F")}
               >
                 <div className="flex items-center space-x-2 justify-center">
@@ -506,6 +523,12 @@ export default function UserBasicInfoForm() {
                   <span className="text-[16px] font-[500]">Female</span>
                 </div>
               </button>
+            </div>
+            <div>
+              <h2 class="text-gray-400 xs:text-xs lg:text-sm font-modernity py-2 px-1 md:mt-10 md:mb-0 mb-2 text-center">
+                *Your contact details will be used by Clear Ritual's Skin Expert
+                to reach out to you via call/sms/whatsapp
+              </h2>
             </div>
             {errors.gender && (
               <p className="text-red-500 text-sm text-center">
@@ -521,8 +544,9 @@ export default function UserBasicInfoForm() {
             <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
               <button
                 type="submit"
-                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-lato ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
-                  }`}
+                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-lato ${
+                  isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+                }`}
                 disabled={!isFormValid}
               >
                 NEXT
