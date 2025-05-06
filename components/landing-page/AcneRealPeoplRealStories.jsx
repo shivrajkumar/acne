@@ -4,6 +4,7 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { Carousel } from "antd";
 import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
 import { useEffect, useRef, useState } from "react";
+import { sendGtmEvents } from "../generic/Gtm";
 
 export default function AcneRealPeoplRealStories({
   testimonials = [],
@@ -29,6 +30,7 @@ export default function AcneRealPeoplRealStories({
     if (sliderRef.current) {
       sliderRef.current.next();
     }
+    sendGtmEvents("testimonials-clicked", { location: window.location.pathname })
   };
 
   useEffect(() => {

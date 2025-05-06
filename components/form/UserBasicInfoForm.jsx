@@ -15,6 +15,7 @@ import Image from "next/image";
 import { getUtmCookiesInObjectForm } from "../../constants/urls";
 import moengage from '@moengage/web-sdk';
 import { callAfterMoegageIsLoaded, trackMoEngageEvent } from '../../utils/moegage'
+import { sendGtmEvents } from "../generic/Gtm";
 
 
 export default function UserBasicInfoForm() {
@@ -300,7 +301,6 @@ export default function UserBasicInfoForm() {
       console.warn(error.message);
       hasError = true;
     } finally {
-      console.log("Logging event")
       const eventAttributes = {
         "session_id": _res.data.syntheticId,
         "case_id": _res.data.caseId,
@@ -314,6 +314,9 @@ export default function UserBasicInfoForm() {
         moengage.add_mobile(`+91${formData.phone}`)
         moengage.add_user_attribute('synthetic_id', _res.data.syntheticId)
         moengage.add_user_attribute('case_id', _res?.data?.caseId)
+      })
+      sendGtmEvents("form-satge-1", {
+        name: formData.fullName, phone_number: `+91${formData.phone}`, gender: formData.gender, age: formData?.age
       })
     }
 

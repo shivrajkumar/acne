@@ -18,6 +18,7 @@ import AcneHeader from "../generic/AcneHeader";
 import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { sendGtmEvents } from "../generic/Gtm";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -28,6 +29,7 @@ const ResultLandingPage = ({ searchParams }) => {
 
   useEffect(() => {
     fetchResult();
+    sendGtmEvents("result-page-viewed")
   }, [tId]);
 
   useEffect(() => {
@@ -63,12 +65,14 @@ const ResultLandingPage = ({ searchParams }) => {
     handleBuyNowClick(resultData?.productsDetails, resultData?.customerDetails?.caseId);
     const eventAttributes = {
       cart_value: resultData?.cartDetails?.totalCartValue,
-      tem_count: resultData?.productsDetails.length,
+      item_count: resultData?.productsDetails.length,
       timestamp: new Date().toISOString(),
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
       caseId: resultData?.customerDetails?.caseId
     }
     trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
+    sendGtmEvents("checkout-started",  eventAttributes )
+
   };
 
   // Create the context value
@@ -81,7 +85,7 @@ const ResultLandingPage = ({ searchParams }) => {
     skinType: resultData?.skinType,
     acneGrading: resultData?.acneGrading,
     rootCausesDetails: resultData?.rootCausesDetails,
-    caseId:resultData?.customerDetails?.caseId
+    caseId: resultData?.customerDetails?.caseId
   };
 
   return loading ? (

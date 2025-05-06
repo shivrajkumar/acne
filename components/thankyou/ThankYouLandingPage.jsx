@@ -17,6 +17,7 @@ import {
   handleBookCall,
   transformSlotData,
 } from "../../utils/bookacall";
+import { sendGtmEvents } from "../generic/Gtm";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -34,11 +35,11 @@ const ThankYouLandingPage = ({ searchParams }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
 
- // Get the caseId from orderDetails if available
- const caseId = useMemo(
-  () => orderDetails?.customerDetail?.caseId || null,
-  [orderDetails]
-);
+  // Get the caseId from orderDetails if available
+  const caseId = useMemo(
+    () => orderDetails?.customerDetail?.caseId || null,
+    [orderDetails]
+  );
 
   // Transform slots data when available
   const transformedSlots = useMemo(
@@ -46,40 +47,43 @@ const ThankYouLandingPage = ({ searchParams }) => {
     [availableSlots?.slotDetails, bookedSuccess]
   );
 
-  // Check booking status from localStorage on mount
-  useEffect(async () => {
-    const bookingInfo = getBookingStatusFromStorage();
-
-    if (bookingInfo?.isBooked) {
-      setBookedSuccess(true);
-      if (bookingInfo.date) setSelectedDate(bookingInfo.date);
-      if (bookingInfo.time) setSelectedTime(bookingInfo.time);
-    }
-
-    if (searchParams?.platform_order_id) {
-      try {
-        await Promise.all([
-          getOrderDetails(searchParams.platform_order_id),
-          getDoctorDetails(),
-        ]);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    // Load order details if platform_order_id exists
-    if (searchParams?.platform_order_id) {
-      try {
-        await Promise.all([
-          getOrderDetails(searchParams.platform_order_id),
-          getDoctorDetails(),
-        ]);
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      setLoading(false);
-    }
+  useEffect(() => {
+    sendGtmEvents("book-call-page-viewed-with-order")
   }, [])
+
+
+
+
+  // Check booking status from localStorage on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      const bookingInfo = getBookingStatusFromStorage();
+
+      if (bookingInfo?.isBooked) {
+        setBookedSuccess(true);
+        if (bookingInfo.date) setSelectedDate(bookingInfo.date);
+        if (bookingInfo.time) setSelectedTime(bookingInfo.time);
+      }
+
+      if (searchParams?.platform_order_id) {
+        try {
+          await Promise.all([
+            getOrderDetails(searchParams.platform_order_id),
+            getDoctorDetails(),
+          ]);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    // Return empty cleanup function
+    return () => { };
+  }, [searchParams]);
 
   // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
@@ -96,7 +100,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
       const res = await fetchRequest(ORDER_DETAILS(orderId));
       if (res.status === 200) {
         setOrderDetails(res.data);
-        
+
       }
       return res;
     } catch (error) {
@@ -144,6 +148,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
       setCloseConfirm,
       BOOK_SLOT_API
     });
+    sendGtmEvents("book-call-confirmed-with-order")
   };
 
   // Redirect to skin test

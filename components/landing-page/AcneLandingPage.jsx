@@ -22,11 +22,12 @@ import AcneIngredients from "./AcneIngredients";
 import AcneOurTeam from "./AcneOurTeam";
 import AcneAccurateResults from "./AcneAccurateResults";
 import AcneFooter from "../generic/AcneFooter";
-import LogEvent from "../generic/LogEvent";
 import LogMoengage from "../generic/LogMoengage";
 // import Brandmarquee from "./BrandsMarquee";
 
 const AcneLandingPage = () => {
+
+
   return (
     <div className="!font-lato">
       <AcneMarqueeBanner />
@@ -55,7 +56,6 @@ const AcneLandingPage = () => {
       </div>
 
       <AcneFooter />
-      <LogEvent data={{ event: 'pageview' }} times={{ times: 'recurring' }} />
 
       <LogMoengage event="acne_WebsiteLanded" attributes={{ timestamp: new Date().toISOString() }} />
     </div>

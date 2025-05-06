@@ -12,6 +12,7 @@ import BookFreeCall from "../slot-booking/AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
+import { sendGtmEvents } from "../generic/Gtm";
 
 const AcneBookACallPage = ({ searchParams }) => {
   const [availableSlots, setAvailableSlots] = useState({});
@@ -31,6 +32,10 @@ const AcneBookACallPage = ({ searchParams }) => {
     () => (bookedSuccess ? {} : transformSlotData(availableSlots?.slotDetails)),
     [availableSlots?.slotDetails, bookedSuccess]
   );
+
+  useEffect(() => {
+    sendGtmEvents("book-call-page-viewed-without-order")
+  }, [])
 
   useEffect(() => {
     let idFromParams = searchParams?.caseId;
@@ -113,6 +118,8 @@ const AcneBookACallPage = ({ searchParams }) => {
         localStorage.removeItem("acne_booking_pending");
       }
     }
+    sendGtmEvents("book-call-confirmed-without-order")
+
   };
 
   // Then check loading state after caseId check
