@@ -198,3 +198,7 @@ export const GET_STATIC_DOCTOR_DETAILS = getUrl(
 export const BOOK_SLOT_API = getUrl(
   `consumer-api/service/engagements/slot/book`
 );
+
+export const CAPI_TRACKING_API = getUrl(
+  `consumer-api/service/consumers/conversion-api/tracking`
+);

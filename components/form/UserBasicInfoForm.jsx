@@ -16,6 +16,8 @@ import { getUtmCookiesInObjectForm } from "../../constants/urls";
 import moengage from '@moengage/web-sdk';
 import { callAfterMoegageIsLoaded, trackMoEngageEvent } from '../../utils/moegage'
 import { sendGtmEvents } from "../generic/Gtm";
+import { metaCapi } from "@/helpers/metaCapiHelper";
+import { getCookieValue } from "@/helpers/cookieHelper";
 
 
 export default function UserBasicInfoForm() {
@@ -318,6 +320,19 @@ export default function UserBasicInfoForm() {
       sendGtmEvents("form-satge-1", {
         name: formData.fullName, phone_number: `+91${formData.phone}`, gender: formData.gender, age: formData?.age
       })
+
+      const cookies = document.cookie.split(';');
+      const fbp = getCookieValue('_fbp', cookies);
+      const fbc = getCookieValue('_fbc', cookies);
+      const capiBody = {
+        "email": window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`,
+        "phone": window.localStorage.getItem("user_phone") ?? `+91${formData.phone}`,
+        "fbc": fbc,
+        "fbp": fbp,
+        "url": window.location.href,
+        "gender": formData.gender
+      }
+      metaCapi(capiBody, "Form Start");
     }
 
     // Process results after the finally block
