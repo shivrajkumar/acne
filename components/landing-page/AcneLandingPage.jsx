@@ -23,14 +23,13 @@ import AcneOurTeam from "./AcneOurTeam";
 import AcneAccurateResults from "./AcneAccurateResults";
 import AcneFooter from "../generic/AcneFooter";
 import LogMoengage from "../generic/LogMoengage";
-// import Brandmarquee from "./BrandsMarquee";
 
 const AcneLandingPage = () => {
 
 
   return (
     <div className="!font-lato">
-       <div className="md:relative sticky top-0 z-50">
+      <div className="md:relative sticky top-0 z-50">
         <AcneMarqueeBanner />
         <AcneHeader />
       </div>
