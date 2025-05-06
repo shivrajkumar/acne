@@ -19,6 +19,8 @@ import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { sendGtmEvents } from "../generic/Gtm";
+import { getCookieValue } from "@/helpers/cookieHelper";
+import { metaCapi } from "@/helpers/metaCapiHelper";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -26,6 +28,20 @@ const ResultLandingPage = ({ searchParams }) => {
   const [showSticky, setShowSticky] = useState(false);
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
+  const fbp = getCookieValue('_fbp', document.cookie.split(';'));
+  const fbc = getCookieValue('_fbc', document.cookie.split(';'));
+  const email = window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`;
+  const phone = window.localStorage.getItem("user_phone");
+  const gender = window.localStorage.getItem("gender")
+
+  const capiPayload = {
+    "email": email,
+    "phone": phone,
+    "fbc": fbc,
+    "fbp": fbp,
+    "url": window.location.href,
+    "gender": gender
+  };
 
   useEffect(() => {
     fetchResult();
@@ -54,6 +70,7 @@ const ResultLandingPage = ({ searchParams }) => {
         setResultData(res.data);
         localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
         setLoading(false);
+        metaCapi(capiPayload, "ReportGenerated/Lead");
       }
     } catch (e) {
       console.error(e);
@@ -71,7 +88,9 @@ const ResultLandingPage = ({ searchParams }) => {
       caseId: resultData?.customerDetails?.caseId
     }
     trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
-    sendGtmEvents("checkout-started",  eventAttributes )
+    sendGtmEvents("checkout-started", eventAttributes)
+    metaCapi(capiPayload, "CheckoutInitiated");
+
 
   };
 
