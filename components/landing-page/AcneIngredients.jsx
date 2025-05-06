@@ -55,7 +55,7 @@ export default function AcneIngredients({ ingredients }) {
           speed={500}
           autoplaySpeed={2000}
           infinite
-          slidesToShow={4}
+          slidesToShow={2}
           slidesToScroll={1}
           className="custom-slider-dots-root-causes"
           variableWidth
