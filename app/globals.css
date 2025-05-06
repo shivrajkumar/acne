@@ -285,6 +285,20 @@ body {
   margin: 0 1px !important;
 }
 
+@media (min-width: 320px) {
+  .slick-dots li {
+    margin: 0 5px !important;
+    border-radius: 100px !important;
+    margin-top: 5px !important;
+  }
+
+  .slick-pills li {
+    margin: 0 0px !important;
+    border-radius: 100px !important;
+    margin-top: 5px !important;
+  }
+}
+
 @media (max-width: 1288px) {
   .custom-root-cause-carousel .ant-carousel .slick-dots  {
     bottom: 176px !important;
