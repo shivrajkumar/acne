@@ -53,7 +53,7 @@ export default function AcneIngredients({ ingredients }) {
           dots
           autoplay
           speed={500}
-          autoplaySpeed={2000}
+          autoplaySpeed={5000}
           infinite
           slidesToShow={2}
           slidesToScroll={1}
