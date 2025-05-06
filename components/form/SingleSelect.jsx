@@ -8,6 +8,7 @@ import infoCircle from "@assets/icons/info-circle.png";
 import Loader from "../generic/Loader";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
+import { sendGtmEvents } from "../generic/Gtm";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -65,6 +66,7 @@ const SingleSelect = ({ block, context }) => {
 
 
         if (block.id == "stress_level") {
+          sendGtmEvents("stress_level", { question_text: block.text, question_id: block.id, response: [reply], })
           setAllQuestionsFilled(true);
         }
       } else {
@@ -167,7 +169,7 @@ const SingleSelect = ({ block, context }) => {
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
             <Modal
@@ -194,7 +196,7 @@ const SingleSelect = ({ block, context }) => {
               type="button"
             >
               {/* Replace with your actual image import */}
-              <Image src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
             <Modal

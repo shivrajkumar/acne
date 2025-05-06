@@ -2,6 +2,8 @@
 import React from "react";
 import Cookies from "js-cookie";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { sendGtmEvents } from "./Gtm";
+import _ from 'lodash';
 
 const AcneTakeTheSkinTest = ({
   variant,
@@ -34,6 +36,7 @@ const AcneTakeTheSkinTest = ({
       page_name: window.location.pathname,
       timestamp: new Date().toISOString()
     });
+    sendGtmEvents(`${_.kebabCase(text)}-CTA`, { location: window.location.pathname });
   };
 
   return (

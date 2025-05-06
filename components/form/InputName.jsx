@@ -9,12 +9,7 @@ import {
 } from "@/constants/urls";
 import Cookies from "js-cookie";
 // import { LAST_QUESTIONS } from "../../constants/config";
-import {
-  GUEST_FORM_SUBMISSION_COMPLETED,
-  logGtmEvent,
-  logGtmEventwithParameters,
-  triggerGa,
-} from "../../helpers/gtmHelpers";
+
 import { SUBMISSION } from "../../constants/routes";
 import Loader from "../generic/Loader";
 import { useRouter } from "next/navigation";
@@ -70,10 +65,6 @@ const InputName = ({ block, context }) => {
               data = `SFQ12-` + reply;
             }
           }
-          await logGtmEventwithParameters("GUEST_FORM_PLACE_ANSWERED", data);
-          await triggerGa();
-          await logGtmEvent(GUEST_FORM_SUBMISSION_COMPLETED, guestFormID);
-          await triggerGa();
           // window.location.assign(GUEST_FORM_RESULT(guestFormID));
           let arr = [];
           for (let i = 0; i < localStorage.length; i++) {

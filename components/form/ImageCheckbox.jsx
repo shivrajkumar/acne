@@ -16,6 +16,7 @@ import pus_filled from "@assets/images/Pus_Filled_Pimples.png";
 import boils_nodules from "@assets/images/Big_Boils.png";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
+import { sendGtmEvents } from "../generic/Gtm";
 
 // Function to get the image based on image_url value
 const getImageForPimpleType = (imageUrl) => {
@@ -49,6 +50,8 @@ const ImageCheckbox = ({ block, context }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+
 
   useEffect(() => {
     if (!block) return;
@@ -95,9 +98,13 @@ const ImageCheckbox = ({ block, context }) => {
     if (_res.status === 200) {
       await handleSubmit(selectedOptions);
 
+      if (block.id === "pimples_appearance") {
+        sendGtmEvents("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
+      }
+
       if (block.id == "stress_level") {
         setAllQuestionsFilled(true);
-            }
+      }
     } else {
       setError(_res?.data?.message || "An error occurred");
     }
@@ -243,7 +250,7 @@ const ImageCheckbox = ({ block, context }) => {
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
           </div>
@@ -259,7 +266,7 @@ const ImageCheckbox = ({ block, context }) => {
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
           </div>

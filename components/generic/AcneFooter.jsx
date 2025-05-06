@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   InstagramIcon,
   TwitterIcon,
@@ -9,22 +9,37 @@ import {
 } from "@assets/svg/Social_Icons";
 import Image from "next/image";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
-import PhoneIcon from "@assets/icons/phone_icon.png"
-import MailIcon from "@assets/icons/mail_Icon.png"
+import PhoneIcon from "@assets/icons/phone_icon.png";
+import MailIcon from "@assets/icons/mail_Icon.png";
 import { trackMoEngageEvent } from "@/utils/moegage";
-
-
-// Import social media icons
+import { sendGtmEvents } from "./Gtm";
+import _ from 'lodash';
 
 const AcneFooter = () => {
+  const [currentPath, setCurrentPath] = useState("");
+
+  // Safely get the current path when component mounts
+  useEffect(() => {
+    setCurrentPath(window.location.pathname);
+  }, []);
 
   const PageClickEvent = (name, url) => {
     trackMoEngageEvent(`acne-PageClicked_${name}`, {
-      from_page: window.location.pathname,
+      from_page: currentPath,
       to_page: url,
       time: new Date().toISOString()
     });
-  }
+    sendGtmEvents(`footer-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+  };
+
+  const socialIconsClickEvent = (name, link) => {
+    sendGtmEvents(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    sendGtmEvents(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link });
+  };
+
+  const contactIconsClickEvent = (name) => {
+    sendGtmEvents(`footer-contact-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+  };
 
   return (
     <div className="bg-Neutral/900">
@@ -37,13 +52,10 @@ const AcneFooter = () => {
                 <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
               </Link>
               <p className="font-lato font-[400] text-[14px] leading-[1.4%] text-neutral-50">Targeted Acne Care, Visible Results.</p>
-
             </div>
 
-
-            <div className="block md:flex  gap-8 justify-between">
+            <div className="block md:flex gap-8 justify-between">
               <div className="flex flex-col gap-[12px]">
-
                 <ul className="space-y-3">
                   <li>
                     <Link
@@ -105,12 +117,15 @@ const AcneFooter = () => {
                 <a
                   href="tel:+911000234235"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
+                  onClick={() => contactIconsClickEvent("Phone")}
                 >
                   <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
                   +91 9167611114
                 </a>
-                <a href="mailto:customercare@clearritual.com"
+                <a
+                  href="mailto:customercare@clearritual.com"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px] items-center"
+                  onClick={() => contactIconsClickEvent("Email")}
                 >
                   <span>
                     <Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
@@ -123,6 +138,7 @@ const AcneFooter = () => {
                   href="https://www.instagram.com/clear.ritual/"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
+                  onClick={() => socialIconsClickEvent("Instagram", "https://www.instagram.com/clear.ritual/")}
                 >
                   <InstagramIcon />
                 </Link>
@@ -130,6 +146,7 @@ const AcneFooter = () => {
                   href="https://wa.me/919167611114"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
+                  onClick={() => socialIconsClickEvent("Whatsapp", "https://wa.me/919167611114")}
                 >
                   <WhatsAppIcon />
                 </Link>
@@ -137,23 +154,21 @@ const AcneFooter = () => {
                   href="https://x.com/ClearRitual"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
+                  onClick={() => socialIconsClickEvent("X", "https://x.com/ClearRitual")}
                 >
                   <TwitterIcon />
                 </Link>
               </div>
-
             </div>
           </div>
         </div>
-      </div >
-
-
+      </div>
 
       {/* Copyright Section - both desktop and mobile */}
-      <div className="ms-[16px] md:ms-[80px] text-[14px] pb-[16px]  md:py-[24px] font-lato font-[400] text-neutral-50 text-left leading-[1.4%]">
+      <div className="ms-[16px] md:ms-[80px] text-[14px] pb-[16px] md:py-[24px] font-lato font-[400] text-neutral-50 text-left leading-[1.4%]">
         © 2025 Clear Ritual. All rights reserved.
       </div>
-    </div >
+    </div>
   );
 };
 

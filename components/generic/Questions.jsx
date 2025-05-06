@@ -128,42 +128,11 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
-        const item = window.localStorage.getItem("basic_information");
-        if (!item) {
-          // pixelCustomeEvent('form-stage-1')
-          sendGtmEvents("form-stage-1");
-          window.localStorage.setItem("basic_information", "yes");
-        }
-      } else if (currentQuestion.group == "skin_assessment") {
-        const item = window.localStorage.getItem("skin_assessment");
-        if (!item) {
-          //  pixelCustomeEvent('form-stage-2')
-          sendGtmEvents("form-stage-2");
-          window.localStorage.setItem("skin_assessment", "yes");
-        }
-      } else if (currentQuestion.group == "skin_concerns") {
-        const item = window.localStorage.getItem("skin_concerns");
-        if (!item) {
-          //  pixelCustomeEvent('form-stage-3')
-          sendGtmEvents("form-stage-3");
-          window.localStorage.setItem("skin_concerns", "yes");
-        }
-      } else if (currentQuestion.group == "lifestyle_questions") {
-        const item = window.localStorage.getItem("lifestyle_questions");
-        if (!item) {
-          //  pixelCustomeEvent('form-stage-4')
-          sendGtmEvents("form-stage-4");
-          window.localStorage.setItem("lifestyle_questions", "yes");
-        }
-      } else if (currentQuestion.group == "misc") {
-        const item = window.localStorage.getItem("misc");
-        if (!item) {
-          // pixelCustomeEvent('form-stage-5')
-          sendGtmEvents("form-stage-5");
-          window.localStorage.setItem("misc", "yes");
-        }
+        // pixelCustomeEvent('form-stage-1')
+        sendGtmEvents("skin-test-initiated");
       }
     }
+   
   }, [currentQuestion]);
 
   // If loading, show loader

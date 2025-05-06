@@ -2,14 +2,14 @@
 import React, { useEffect } from "react";
 import { trackMoEngageEvent } from "@/utils/moegage";
 
-const LogMoengage: React.FC<{ event:string , attributes:object }> = ({event,attributes}) => {
+const LogMoengage = ({ event, attributes }) => {
     useEffect(() => {
-        
+
         if (typeof window !== 'undefined') {
-            if(attributes)trackMoEngageEvent(event,attributes);
-            else trackMoEngageEvent(event,{});
+            if (attributes) trackMoEngageEvent(event, attributes);
+            else trackMoEngageEvent(event, {});
         }
-    }, []); 
+    }, []);
 
     return (
         <>

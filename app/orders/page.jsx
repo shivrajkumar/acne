@@ -3,6 +3,9 @@ import LogMoengage from "@/components/generic/LogMoengage";
 import { getUtmCookiesInObjectForm } from "@/constants/urls";
 
 export default function page({ params, searchParams }) {
+
+
+
   return (
     <>
       <ThankYouLandingPage params={params} searchParams={searchParams} />

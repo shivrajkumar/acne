@@ -5,6 +5,7 @@ import CrossIconIcon from "@assets/icons/close-circle.png";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { sendGtmEvents } from "../generic/Gtm";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -25,6 +26,9 @@ const CartPageHome = () => {
       caseId: data?.customerDetails?.caseId
     }
     trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
+    sendGtmEvents("checkout-started",  eventAttributes )
+    
+
   };
   return (
     <>

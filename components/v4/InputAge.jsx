@@ -9,7 +9,6 @@ import {
 } from "@/constants/urls";
 import { fetchRequest } from "../../helpers/fetchRequest";
 import Cookies from "js-cookie";
-import { logGtmEventwithParameters, triggerGa } from "../../helpers/gtmHelpers";
 import Loader from "../generic/Loader";
 
 const InputAge = ({ block, context }) => {
@@ -51,8 +50,6 @@ const InputAge = ({ block, context }) => {
 				if (_res.status === 200) {
 					let data = "";
 					if (reply) data = `SFQ2-` + reply;
-					await logGtmEventwithParameters("GUEST_FORM_AGE_ANSWERED", data);
-					await triggerGa();
 					handleSubmit(reply);
 				}
 			}
