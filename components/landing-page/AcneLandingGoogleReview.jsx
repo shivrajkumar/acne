@@ -15,7 +15,6 @@ const AcneLandingGoogleReview = () => {
               width={60}
               src={`${CDN_BASE_URL}website_images/commonImages/google.png`}
               alt="google"
-              loading="eager"
             />
           </div>
           <div className="">
@@ -26,21 +25,19 @@ const AcneLandingGoogleReview = () => {
                 width={120}
                 src={`${CDN_BASE_URL}website_images/commonImages/stars.png`}
                 alt="rating"
-                loading="eager"
+
               />
             </div>
             <div className="flex align-items-center">
               <Image
                 height={25}
                 width={25}
-                loading="eager"
                 src={`${CDN_BASE_URL}website_images/commonImages/verifiedIcon.png`}
                 alt="verified"
               />
               <Image
                 height={26}
                 width={140}
-                loading="eager"
                 src={`${CDN_BASE_URL}website_images/commonImages/reviewsNumber.png`}
                 alt="rating count"
               />

@@ -14,7 +14,6 @@ const VayuSciences = () => {
         <Image
           height={457}
           width={300}
-          loading="lazy"
           src={creameOne}
           className="absolute -z-50 top-[-10rem] right-0"
           alt="creame"
@@ -42,7 +41,6 @@ const VayuSciences = () => {
         <Image
           height={606}
           width={512}
-          loading="lazy"
           src={creameDesktop}
           className="absolute -z-50 top-[-17rem] right-0"
           alt="creame"
@@ -50,7 +48,6 @@ const VayuSciences = () => {
         <Image
           height={606}
           width={512}
-          loading="lazy"
           src={vayuMockupDesktop}
           className="absolute -z-50 top-[-5rem] left-0"
           alt="creame"

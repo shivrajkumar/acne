@@ -34,7 +34,7 @@ export default function AcneRootCauses({ rootcauses }) {
 
       {/* Carousel */}
       <div
-        className="relative max-h-[224px] md:h-[224px]"
+        className="relative max-h-[224px] md:h-[224px]  custom-root-cause-carousel"
         id="carousel-id"
       >
         {/* Right Arrow */}

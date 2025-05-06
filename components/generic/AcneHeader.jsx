@@ -230,7 +230,7 @@ const AcneHeader = () => {
           </div>
         )
       }
-    </header >
+    </header>
   );
 };
 
