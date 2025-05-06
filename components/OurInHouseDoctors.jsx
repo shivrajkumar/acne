@@ -116,7 +116,6 @@ function CustomerCard({ value }) {
         <Image
           height={457}
           width={300}
-          loading="lazy"
           src={value.src}
           className={"mx-auto rounded-t-lg"}
           alt={value.alt}

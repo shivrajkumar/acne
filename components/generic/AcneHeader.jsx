@@ -209,24 +209,25 @@ const AcneHeader = () => {
                   </h2>
                 </div>
 
-                <div
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="cursor-pointer"
-                >
-                  <Image
-                    src={CrossIconIcon}
-                    alt="Cross Icon"
-                    width={24}
-                    height={24}
-                  />
+                  <div
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="cursor-pointer"
+                  >
+                    <Image
+                      src={CrossIconIcon}
+                      alt="Cross Icon"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
                 </div>
-              </div>
-            }
-          >
-            <CartPageHome />
-          </Drawer>
-        </div>
-      )}
+              }
+            >
+              <CartPageHome />
+            </Drawer>
+          </div>
+        )
+      }
     </header>
   );
 };

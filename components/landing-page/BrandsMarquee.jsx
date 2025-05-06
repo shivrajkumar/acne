@@ -23,7 +23,6 @@ const Brandmarquee = () => {
                       className=""
                       src={Cetaphil}
                       alt="Cetaphil"
-                      loading="eager"
                     />
                   </div>
 
@@ -34,7 +33,6 @@ const Brandmarquee = () => {
                       className=""
                       src={Sebamed}
                       alt="Sebamed"
-                      loading="eager"
                     />
                   </div>
 
@@ -45,7 +43,6 @@ const Brandmarquee = () => {
                       className=""
                       src={HimalayanOrganics}
                       alt="Himalayan Organics"
-                      loading="eager"
                     />
                   </div>
 
@@ -56,7 +53,6 @@ const Brandmarquee = () => {
                       className=""
                       src={OrdernicIndia}
                       alt="Organic India"
-                      loading="eager"
                     />
                   </div>
 
@@ -67,7 +63,6 @@ const Brandmarquee = () => {
                       className=""
                       src={Reequil}
                       alt="Reequil"
-                      loading="eager"
                     />
                   </div>
 
@@ -79,7 +74,6 @@ const Brandmarquee = () => {
                       className=""
                       src={Cetaphil}
                       alt="Cetaphil"
-                      loading="eager"
                     />
                   </div>
 
@@ -90,7 +84,6 @@ const Brandmarquee = () => {
                       className=""
                       src={Sebamed}
                       alt="Sebamed"
-                      loading="eager"
                     />
                   </div>
 
@@ -101,7 +94,6 @@ const Brandmarquee = () => {
                       className=""
                       src={HimalayanOrganics}
                       alt="Himalayan Organics"
-                      loading="eager"
                     />
                   </div>
 
@@ -112,7 +104,6 @@ const Brandmarquee = () => {
                       className=""
                       src={OrdernicIndia}
                       alt="Organic India"
-                      loading="eager"
                     />
                   </div>
 
@@ -123,7 +114,6 @@ const Brandmarquee = () => {
                       className=""
                       src={Reequil}
                       alt="Reequil"
-                      loading="eager"
                     />
                   </div>
                 </div>

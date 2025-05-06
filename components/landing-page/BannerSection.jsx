@@ -70,12 +70,12 @@ const BannerSection = () => {
                 deskSize="mobileBig"
               />
             </div>
-            {syntheticId && <div className="mt-[32px]" >
+            {syntheticId && <div className=" md:mt-[32px] mt-[8px]">
               <AcneTakeTheSkinTest
                 variant="black"
                 text={"My Recommended plan"}
                 tm={" "}
-                redirectTo={`/result/${syntheticId}`}
+                redirectTo={`/result?tid=${syntheticId}`}
                 deskSize="mobileBig"
               />
             </div>}
@@ -133,7 +133,7 @@ const BannerSection = () => {
               variant="black"
               text={"My Recommended plan"}
               tm={" "}
-              redirectTo={`/result/${syntheticId}`}
+              redirectTo={`/result?tid=${syntheticId}`}
               deskSize="desktopBig"
             />
           </div>}

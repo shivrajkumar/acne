@@ -30,8 +30,10 @@ const AcneLandingPage = () => {
 
   return (
     <div className="!font-lato">
-      <AcneMarqueeBanner />
-      <AcneHeader />
+       <div className="md:relative sticky top-0 z-50">
+        <AcneMarqueeBanner />
+        <AcneHeader />
+      </div>
       <BannerSection />
       {/* <Brandmarquee /> */}
       <div className="mx-[16px] mt-[28px] mb-[40px]  md:mx-[40px] md:mt-[40px] gap-[40px] md:gap-[80px] flex flex-col !font-lato">
