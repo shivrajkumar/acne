@@ -37,6 +37,23 @@ const AcneHeader = () => {
     return () => window.removeEventListener("resize", checkIfDesktop);
   }, []);
 
+
+    // Add body scroll lock effect when drawer is open
+    useEffect(() => {
+      if (isDrawerOpen) {
+        // Prevent scrolling on the body when drawer is open
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Re-enable scrolling when drawer is closed
+        document.body.style.overflow = 'unset';
+      }
+      
+      // Cleanup function to ensure scrolling is re-enabled when component unmounts
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }, [isDrawerOpen]);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

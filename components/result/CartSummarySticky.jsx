@@ -125,7 +125,6 @@ const CartSummarySticky = () => {
         closable={false} /* Hide the default close button */
         onClose={() => setOpen(false)}
         open={open}
-        height={"90%"}
         className="mobile-cart-drawer"
         title={
           <div className="flex flex-row items-center justify-between w-full ">

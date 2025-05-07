@@ -7,7 +7,7 @@ import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
 import Loader from "../generic/Loader";
 import moment from "moment";
 import { getIconForPeriod, groupSlotsByPeriod } from "../../utils/bookacall";
-import ConfirmedSlotView from "./ConfirmedSlotView"
+import ConfirmedSlotView from "./ConfirmedSlotView";
 
 function BookFreeCall({
   selectedDate,
@@ -128,10 +128,14 @@ function BookFreeCall({
                     }`}
                   >
                     <p className="md:text-[16px] text-[14px] leading-[140%] text-center">
-                      {moment(dateKey).format("dddd")}
+                      {moment(dateKey).isSame(moment(), "day")
+                        ? "Today"
+                        : moment(dateKey).isSame(moment().add(1, "day"), "day")
+                        ? "Tomorrow"
+                        : moment(dateKey).format("dddd")}
                     </p>
                     <p className="text-[14px] leading-[140%] text-center">
-                      {moment(dateKey).format("MMM D, YYYY")}
+                      {moment(dateKey).format("MMM D")}
                     </p>
                   </div>
                 </div>
@@ -232,7 +236,10 @@ function BookFreeCall({
   if (bookedSuccess && bookACallOnly) {
     return (
       <>
-        <ConfirmedSlotView selectedDate={selectedDate} selectedTime={selectedTime}/>
+        <ConfirmedSlotView
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+        />
       </>
     );
   }
