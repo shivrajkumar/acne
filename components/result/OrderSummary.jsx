@@ -96,8 +96,9 @@ const OrderSummary = () => {
                 </div>
             </div>
             <div className="w-full md:w-[35%]">
-                <CartDetails />
+                <CartDetails enableOptin />
             </div>
+
         </div>
     );
 };

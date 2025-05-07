@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import SkincareTestCard from "../SkincareTestCard";
 import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
 import { CDN_BASE_URL } from "@constants/config";
 import { Carousel } from "antd";
 
-
 const SkinCareCarousel = () => {
   const [showArrows, setShowArrows] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const sliderRef = useRef(null);
+
+  // Set isLoaded to true after component mounts to prevent initial animation
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   // Functions to handle navigation
   const goToPrev = () => {
@@ -26,11 +31,11 @@ const SkinCareCarousel = () => {
 
   const settings = {
     dots: true,
-    arrows: false, // Only show arrows when showArrows is true
+    arrows: false,
     infinite: true,
     speed: 500,
-    autoplay: true,
-    autoplaySpeed: 2000,
+    autoplay: isLoaded,
+    autoplaySpeed: 3000,
     slidesToShow: 1.8,
     slidesToScroll: 1,
     responsive: [
@@ -38,7 +43,7 @@ const SkinCareCarousel = () => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 1,
-          arrows: false, // Only show arrows when showArrows is true
+          arrows: false,
         },
       },
       {
@@ -76,11 +81,14 @@ const SkinCareCarousel = () => {
     <div className="w-full flex justify-center md:py-[6rem] py-5">
       <div
         id="about-us-carousel-id"
-        className="w-[100%] relative md:h-auto h-[470px]"
+        className={`w-[100%] relative md:h-auto h-[470px] ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         onMouseEnter={() => setShowArrows(true)}
         onMouseLeave={() => setShowArrows(false)}
+        style={{ transition: "opacity 0.3s ease-in" }}
       >
-        <Carousel ref={sliderRef} {...settings}>
+
+
+        <Carousel ref={sliderRef} {...settings} lazyLoad="ondemand">
           {cardsData.map((card, index) => (
             <div
               key={index}
@@ -90,8 +98,9 @@ const SkinCareCarousel = () => {
             </div>
           ))}
         </Carousel>
+
         {/* Custom arrows that appear on hover */}
-        {showArrows && (
+        {showArrows && isLoaded && (
           <>
             <div
               className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer hidden md:block"

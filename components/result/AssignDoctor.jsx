@@ -10,7 +10,7 @@ const AssignedDoctor = ({
   isDrawer = false,
   doctorData
 }) => {
-  const cartContext = useCartContext(); 
+  const cartContext = useCartContext();
   const doctorDetails = cartContext?.doctorDetails;
   // Use doctorData if provided, otherwise fall back to doctorDetails from context
   const doctor = doctorData || doctorDetails;
@@ -52,10 +52,33 @@ const AssignedDoctor = ({
                   {doctor?.fees ?? doctor?.h1Ttext}
                 </p>
               )}
+              {enableOptIn && (
+                <div className={`flex md:hidden  md:ms-0 md:justify-start md:flex-col`}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[14px] md:text-[14px]font-lato font-[400] text-gray-700">Opt-In</span>
+                    <button
+                      onClick={toggleSwitch}
+                      className="relative items-center cursor-pointer focus:outline-none"
+                      aria-pressed={isOn}
+                      role="switch"
+                    >
+                      <div
+                        className={`w-[52px] h-[32px] rounded-full transition-colors duration-300 ease-in-out ${isOn ? "bg-[#19785D]" : "bg-gray-300"
+                          }`}
+                      >
+                        <div
+                          className={`absolute w-[24px] h-[24px] top-[4px] bg-white rounded-full shadow transform transition-transform duration-300 ease-in-out ${isOn ? "translate-x-[24px]" : "translate-x-[4px]"
+                            }`}
+                        />
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {enableOptIn && (
-            <div className={`flex ${isSmall ? "ms-[90px]" : "ms-[148px]"} md:ms-0 md:justify-start md:flex-col`}>
+            <div className={`hidden md:flex ${isSmall ? "ms-[90px]" : "ms-[138px]"} md:ms-0 md:justify-start md:flex-col`}>
               <div className="flex items-center gap-2">
                 <span className="text-[14px] md:text-[14px]font-lato font-[400] text-gray-700">Opt-In</span>
                 <button

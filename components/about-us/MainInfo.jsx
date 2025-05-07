@@ -64,7 +64,7 @@ const MainInfo = ({
 
           {buttonText && (
             <>
-              <div className="flex md:hidden justify-center my-[28px] z-50">
+              <div className="flex md:hidden justify-center mt-[32px] mb-[40px] z-50">
                 <AcneTakeTheSkinTest
                   variant="black"
                   text={buttonText}

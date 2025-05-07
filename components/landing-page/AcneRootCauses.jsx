@@ -55,7 +55,7 @@ export default function AcneRootCauses({ rootcauses }) {
           dots
           speed={500}
           autoplay
-          autoplaySpeed={2000}
+          autoplaySpeed={5000}
           infinite
           slidesToShow={4}
           slidesToScroll={1}
