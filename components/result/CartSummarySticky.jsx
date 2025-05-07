@@ -36,16 +36,14 @@ const CartSummarySticky = () => {
   return (
     <>
       <div
-        className={`flex justify-between  ${
-          !storedBookingStatus ? "md:flex-row flex-col" : ""
-        }  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center sticky bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium`}
+        className={`flex justify-between  ${!storedBookingStatus ? "md:flex-row flex-col" : ""
+          }  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center sticky bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium`}
       >
         <div className="flex gap-[32px]">
           <div>
             <p
-              className={`${
-                !storedBookingStatus ? "md:block hidden" : ""
-              } text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]`}
+              className={`${!storedBookingStatus ? "md:block hidden" : ""
+                } text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]`}
             >
               ₹{(cartData?.totalCartValue ?? 0).toFixed(2)}/-
             </p>
@@ -84,7 +82,7 @@ const CartSummarySticky = () => {
             {remainingCount > 0 && (
               <button
                 onClick={scrollToOrderSummary}
-                className="flex items-center justify-center border-[1px] border-Elements/Divider-Stroke w-[56px] h-[56px] rounded-[8px] p-[4px]"
+                className="flex items-center justify-center border-[1px] border-Elements/Divider-Stroke w-[56px] h-full rounded-[8px] p-[4px]"
               >
                 <span className="font-lato text-[14px] font-[500] text-Neutral/800">
                   +{remainingCount} more
@@ -94,11 +92,10 @@ const CartSummarySticky = () => {
           </div>
         </div>
         <div
-          className={` flex    ${
-            !storedBookingStatus
+          className={` flex    ${!storedBookingStatus
               ? " flex-row pt-3 md:w-auto w-full"
               : "md:flex-row flex-col"
-          }  justify-between gap-3 items-center`}
+            }  justify-between gap-3 items-center`}
         >
           <a
             href={`/book-a-call?caseId=${caseId}`}

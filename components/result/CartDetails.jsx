@@ -3,14 +3,14 @@ import AssignedDoctor from "./AssignDoctor";
 import CartItems from "./CartItems";
 
 
-const CartDetails = ({ isMobile = false, isSmall = false, isDrawer = false, enableFees = true, }) => {
+const CartDetails = ({ isMobile = false, isSmall = false, isDrawer = false, enableFees = true, enableOptin = false }) => {
     const { cartDetails, productsDetails, handleBuyNowClick } = useCartContext();
 
     return (
         <div className=" bg-Secondary/50 md:border md:border-[#AFA792] rounded-[24px] py-0 px-0 md:py-[24px] md:px-[24px]">
             <AssignedDoctor
                 enableFees={enableFees}
-                enableOptIn={false}
+                enableOptIn={enableOptin}
                 isSmall={isSmall}
                 isDrawer={isDrawer}
             />
