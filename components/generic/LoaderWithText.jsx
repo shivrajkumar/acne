@@ -1,10 +1,9 @@
-const LoaderWithText = ({ margin = "-95px" }) => {
+const LoaderWithText = () => {
   const commonRingClasses = "absolute inset-0 rounded-full border-[1.04px]";
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen"
-      style={{ margin }}
+      className="flex flex-col items-center justify-center min-h-screen -mt-20"
     >
       <div className="relative md:w-[112px] w-[108px] md:h-[112px] h-[108px]">
         {/* Static gray ring */}

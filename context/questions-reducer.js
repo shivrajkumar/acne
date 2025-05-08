@@ -145,7 +145,8 @@ const questionsReducer = (state, action) => {
       let nextId = question.next;
 
       const gender =
-        state.userFormResponses?.gender ?? localStorage.getItem("gender");
+        state.userFormResponses?.gender ??
+        window.localStorage.getItem("user_gender");
       const userAgeStr =
         state.userFormResponses?.user_age ||
         window.localStorage.getItem("user_age") ||
@@ -168,7 +169,7 @@ const questionsReducer = (state, action) => {
           nextId = state.byId["has_dandruff"].next;
         }
       }
-
+     
       // CONDITION 2: Hormonal changes question (only for females)
       if (nextId === "hormonal_changes") {
         const hormonal_changes = state.byId[nextId];

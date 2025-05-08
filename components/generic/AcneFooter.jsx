@@ -115,7 +115,7 @@ const AcneFooter = () => {
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
                 <a
-                  href="tel:+911000234235"
+                  href="tel:+919167611114"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
                   onClick={() => contactIconsClickEvent("Phone")}
                 >

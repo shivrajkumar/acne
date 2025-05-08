@@ -97,7 +97,7 @@ const AcneHeader = () => {
         </div>
 
         {/* Navigation links - Hidden on mobile */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 mr-[32px] md:mr-[80px]">
           <Link
             href="/about-us"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"

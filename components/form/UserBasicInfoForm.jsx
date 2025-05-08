@@ -131,6 +131,10 @@ export default function UserBasicInfoForm() {
     if (!value || value.trim() === "") {
       return "Full name is required";
     }
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (!nameRegex.test(value.trim())) {
+      return "Please enter valid name";
+    }
     return "";
   };
 
@@ -425,10 +429,9 @@ export default function UserBasicInfoForm() {
     formData.phoneNumber?.trim() !== "" &&
     formData.age !== null &&
     formData.age !== "" &&
-    formData.gender !== "" &&
+    formData.gender !== null && formData.gender !== "" &&
     !errors.phoneNumber &&
-    !errors.age;
-
+    !errors.age && !errors.gender;
   return (
     <div className="flex flex-col items-center justify-center p-4">
       {isLoading && <Loader />}

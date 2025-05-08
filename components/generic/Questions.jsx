@@ -132,7 +132,7 @@ const Questions = () => {
         sendGtmEvents("skin-test-initiated");
       }
     }
-   
+
   }, [currentQuestion]);
 
   // If loading, show loader
