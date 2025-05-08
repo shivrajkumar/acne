@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CloseCircle from "@assets/svg/close-circle.svg";
 import PhoneCall from "@assets/svg/phone.svg";
 import Image from "next/image";
 import ClearRitualWhiteLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import OTPVerification from "./OTPVerification";
+import LoginFooter from "./LoginFooter";
+import LoginButton from "./LoginButton";
 
 const LoginPage = ({ closeModal }) => {
-  // Animation states
+
   const [animate, setAnimate] = useState(false);
   const [phoneInput, setPhoneInput] = useState("");
   const [showOtp, setShowOtp] = useState(false);
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [otpError, setOtpError] = useState(false);
+  const inputRefs = useRef([]);
 
   // Trigger animations when the component mounts
   useEffect(() => {
@@ -21,16 +27,63 @@ const LoginPage = ({ closeModal }) => {
   }, []);
 
   const handlePhoneChange = (e) => {
-    setPhoneInput(e.target.value);
+    const value = e.target.value;
+    if (!/^\d*$/.test(value)) return;
+    // Limit to reasonable phone number length
+    if (value.length <= 10) {
+      setPhoneInput(value);
+    }
   };
 
   const handleContinue = () => {
     // Validate phone number here if needed
-    setShowOtp(true);
+    if (phoneInput.length >= 10) {
+      setShowOtp(true);
+      // Reset OTP when navigating to OTP screen
+      setOtp(["", "", "", ""]);
+      setOtpError(false);
+      setTimeLeft(30);
+    }
   };
 
   const handleBackToPhone = () => {
     setShowOtp(false);
+  };
+
+  const handleOtpChange = (index, value) => {
+    if (!/^\d*$/.test(value)) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    setOtpError(false);
+
+    if (value && index < 3) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleResend = () => {
+    setTimeLeft(30);
+    setOtp(["", "", "", ""]);
+    setOtpError(false);
+    // TODO: Trigger resend OTP API
+  };
+
+  const handleVerify = () => {
+    const enteredOtp = otp.join("");
+    if (enteredOtp.length !== 4 || enteredOtp !== "1234") {
+      setOtpError(true);
+    } else {
+      setOtpError(false);
+      // TODO: Proceed to next step
+    }
   };
 
   return (
@@ -42,7 +95,11 @@ const LoginPage = ({ closeModal }) => {
       >
         {/* Modal content with animations */}
         <div
-          className={`flex md:flex-row flex-col items-center bg-[#141515] rounded-[24px] p-[16px] gap-[16px] md:w-auto w-[328px] md:h-[346px] h-[462px] transition-all duration-500 ease-in-out 
+          className={`flex md:flex-row flex-col items-center bg-[#141515] rounded-[24px] p-[16px] gap-[16px] ${
+            showOtp
+              ? "md:w-auto w-[338px] md:h-[400px] h-[555px]"
+              : "md:w-auto w-[328px] md:h-[356px] h-[462px]"
+          }  transition-all duration-500 ease-in-out 
           ${
             animate
               ? "opacity-100 transform translate-y-0"
@@ -93,12 +150,20 @@ const LoginPage = ({ closeModal }) => {
 
             {/* Modal body with staggered animations */}
             {showOtp ? (
-              <div>
-                <OTPVerification
-                  phoneNumber={phoneInput}
-                  onBack={handleBackToPhone}
-                />
-              </div>
+              <OTPVerification
+                phoneNumber={phoneInput}
+                onBack={handleBackToPhone}
+                handleOtpChange={handleOtpChange}
+                handleKeyDown={handleKeyDown}
+                handleResend={handleResend}
+                animate={animate}
+                otp={otp}
+                timeLeft={timeLeft}
+                handleVerify={handleVerify}
+                otpError={otpError}
+                setTimeLeft={setTimeLeft}
+                inputRefs={inputRefs}
+              />
             ) : (
               <div className="md:p-6 p-[16px]">
                 <div
@@ -118,10 +183,10 @@ const LoginPage = ({ closeModal }) => {
                     />
                   </div>
                   <input
-                    type="tel"
-                    className="w-full pl-10 p-[16px] h-[64px] rounded-[12px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    type="text"
+                    className="w-full pl-10 p-[16px] h-[64px] rounded-[12px]  border-[1px] border-[#E3E3E2] focus:outline-none  focus:ring-[#237AB1] focus:border-[#237AB1] focus:ring-2 transition-all duration-300"
                     placeholder="Enter Phone Number"
-                      inputMode="numeric"
+                    inputMode="numeric"
                     value={phoneInput}
                     onChange={handlePhoneChange}
                   />
@@ -145,38 +210,12 @@ const LoginPage = ({ closeModal }) => {
                     </span>
                   </label>
                 </div>
-
-                <button
+                <LoginButton
                   onClick={handleContinue}
-                  className={`md:w-[312px] w-[264px] justify-center items-center h-[56px] bg-[#141515] px-[56px] py-[16px] rounded-full md:my-[24px] my-[15px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] transition-all duration-300 hover:bg-gray-800 hover:shadow-lg ${
-                    animate
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-4"
-                  } transition-all duration-700 delay-600`}
-                >
-                  CONTINUE
-                </button>
-
-                <p
-                  className={`md:text-[14px] text-[12px] text-[#505354] font-[400] leading-[140%] text-center mt-2 ${
-                    animate ? "opacity-100" : "opacity-0"
-                  } transition-all duration-700 delay-700`}
-                >
-                  I accept that I have read & understand{" "}
-                  <a
-                    href="#"
-                    className="underline hover:text-black transition-colors duration-300"
-                  >
-                    Privacy & Policy
-                  </a>{" "}
-                  &{" "}
-                  <a
-                    href="#"
-                    className="underline hover:text-black transition-colors duration-300"
-                  >
-                    T&Cs
-                  </a>
-                </p>
+                  children={"CONTINUE"}
+                  disabled={phoneInput.length < 10}
+                />
+                <LoginFooter textLink1={"/privacy-policy"} textLink2={"/terms-conditions"} />
               </div>
             )}
           </div>
