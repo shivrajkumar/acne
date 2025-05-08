@@ -10,12 +10,14 @@ import CrossIconIcon from "@assets/icons/close-circle.png";
 import { Drawer } from "antd";
 import CartPageHome from "@components/cart/CartPageHome";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import LoginPage from "../login/login";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const [isOpen , setIsOpen] =useState(false);
 
   // Detect if viewport is desktop size and set current path - safely
   useEffect(() => {
@@ -70,6 +72,9 @@ const AcneHeader = () => {
       time: new Date().toISOString()
     });
   }
+
+  const openModal=()=> setIsOpen(true);
+  const closeModal=()=>setIsOpen(false);
 
   return (
     <header>
@@ -133,6 +138,7 @@ const AcneHeader = () => {
             />
           </span>
         </div>
+        <button onClick={openModal}>profilr</button>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -245,6 +251,9 @@ const AcneHeader = () => {
           </div>
         )
       }
+      {isOpen &&(
+        <LoginPage closeModal={closeModal}/>
+      )}
     </header>
   );
 };
