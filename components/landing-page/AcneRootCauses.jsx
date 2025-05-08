@@ -7,10 +7,15 @@ import RightArrowCircelLight from "@assets/icons/RightArrowCircleLight.svg";
 
 export default function AcneRootCauses({ rootcauses }) {
   const carouselRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  // Set isLoaded to true after component mounts to prevent initial animation
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   return (
-    <div className="bg-Background/AirBlue p-[16px] pb-[30px] md:p-[40px] md:pb-[70px] rounded-[24px] w-full mx-auto font-lato md:min-h-[548px] min-h-[552px]">
+    <div className="bg-Background/AirBlue p-[16px] pb-[40px] md:p-[40px] md:pb-[140px] rounded-[24px] w-full mx-auto font-lato md:min-h-[548px] min-h-[552px]">
       <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-lato font-normal text-[12px] md:text-[14px] w-fit">
         Root Cause
       </div>
@@ -34,8 +39,9 @@ export default function AcneRootCauses({ rootcauses }) {
 
       {/* Carousel */}
       <div
-        className="relative max-h-[224px] md:h-[224px]  custom-root-cause-carousel"
+        className={`relative max-h-[224px] md:h-[224px] custom-root-cause-carousel ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         id="carousel-id"
+        style={{ transition: "opacity 0.3s ease-in" }}
       >
         {/* Right Arrow */}
         <div
@@ -54,7 +60,7 @@ export default function AcneRootCauses({ rootcauses }) {
           ref={carouselRef}
           dots
           speed={500}
-          autoplay
+          autoplay={isLoaded}
           autoplaySpeed={5000}
           infinite
           slidesToShow={4}
@@ -76,20 +82,20 @@ export default function AcneRootCauses({ rootcauses }) {
           ]}
         >
           {rootcauses.map((problem, idx) => (
-            <div key={idx} className="px-2 flex justify-center">
-              <div className="bg-white rounded-2xl h-56 w-full max-w-[250px] md:max-w-[270px] flex flex-col items-center justify-center shadow-sm">
-                <Image
-                  src={problem.src}
-                  alt={problem.alt}
-                  width={56}
-                  height={56}
-                  className="rounded-lg w-14 h-14 object-contain"
-                />
-                <div className="text-center flex flex-col items-center px-2">
-                  <p className="text-[16px] md:text-[18px] font-[500] font-lato my-[4px]">
-                    {problem.name}
-                  </p>
-                  <p className="text-[14px] md:text-[16px] font-normal mb-4 font-lato">
+            <div key={idx} className="px-[16px] py-[16px] flex justify-center items-center ">
+              <div className="bg-white rounded-2xl h-[224px] md:h-[280px] w-full max-w-[250px] md:w-[290px] md:max-w-[290px] flex items-center justify-center p-[16px]">
+                <div className="flex flex-col items-center text-center justify-center gap-2">
+                  <div className="h-[56px] flex items-start justify-center align-top self-top">
+                    <Image
+                      src={problem.src}
+                      alt={problem.alt}
+                      width={56}
+                      height={56}
+                      className="rounded-lg w-14 h-14 object-contain"
+                    />
+                  </div>
+                  <p className="text-[16px] md:text-[18px] font-[500] font-lato">{problem.name}</p>
+                  <p className="text-[14px] md:text-[16px] font-[400]  font-lato">
                     {problem.description}
                   </p>
                 </div>
@@ -100,7 +106,7 @@ export default function AcneRootCauses({ rootcauses }) {
       </div>
 
       {/* Mobile CTA */}
-      <div className="flex items-end md:hidden mt-[40px] justify-center">
+      <div className="flex items-end md:hidden mt-[80px] justify-center">
         <AcneTakeTheSkinTest
           variant="black"
           text="TAKE THE SKIN TEST"
