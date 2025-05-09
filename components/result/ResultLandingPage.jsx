@@ -30,7 +30,7 @@ const ResultLandingPage = ({ searchParams }) => {
   const tId = searchParams?.tid;
   const fbp = getCookieValue('_fbp', document.cookie.split(';'));
   const fbc = getCookieValue('_fbc', document.cookie.split(';'));
-  const email = window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`;
+  const email = window.localStorage.getItem("user_email") ;
   const phone = window.localStorage.getItem("user_phone");
   const gender = window.localStorage.getItem("gender")
 
