@@ -28,7 +28,6 @@ const MainInfo = ({
           width={600}
           height={600}
           className="object-cover w-full h-full"
-          priority
           loading="eager"
         />
       </div>
@@ -65,7 +64,7 @@ const MainInfo = ({
 
           {buttonText && (
             <>
-              <div className="flex md:hidden justify-center z-50">
+              <div className="flex md:hidden justify-center mt-[32px] mb-[40px] z-50">
                 <AcneTakeTheSkinTest
                   variant="black"
                   text={buttonText}

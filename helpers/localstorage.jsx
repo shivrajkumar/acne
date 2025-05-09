@@ -1,6 +1,6 @@
 
 
-const deleteKeysFromLocalStorage = (keys: string[]) => {
+const deleteKeysFromLocalStorage = (keys) => {
   if (typeof localStorage !== "undefined") {
     keys.forEach(key => {
       if (localStorage.getItem(key)) {
@@ -19,4 +19,3 @@ const deleteKeysFromLocalStorage = (keys: string[]) => {
 
 export default deleteKeysFromLocalStorage;
 
-  

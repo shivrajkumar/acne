@@ -3,10 +3,17 @@ import Image from "next/image";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { Carousel } from "antd";
 import RightArrowCircelLight from "@assets/icons/RightArrowCircleLight.svg";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function AcneIngredients({ ingredients }) {
   const carouselRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Set isLoaded to true after component mounts to prevent initial animation
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   return (
     <div className="bg-Background/AirBlue py-[28px] px-4 pb-[40px] md:p-[40px] md:pb-[80px] rounded-[24px] w-full mx-auto md:h-[700px] relative">
       <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-lato font-normal text-[12px] md:text-[14px] w-fit ">
@@ -32,8 +39,9 @@ export default function AcneIngredients({ ingredients }) {
 
       {/* Single Slider for both Desktop and Mobile */}
       <div
-        className="w-full  custom-slider-container"
+        className={`w-full custom-slider-container ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         id="carousel-id"
+        style={{ transition: "opacity 0.3s ease-in" }}
       >
         {/* Right Arrow */}
         <div
@@ -51,11 +59,11 @@ export default function AcneIngredients({ ingredients }) {
         <Carousel
           ref={carouselRef}
           dots
-          autoplay
+          autoplay={isLoaded}
           speed={500}
-          autoplaySpeed={2000}
+          autoplaySpeed={5000}
           infinite
-          slidesToShow={4}
+          slidesToShow={2}
           slidesToScroll={1}
           className="custom-slider-dots-root-causes"
           variableWidth

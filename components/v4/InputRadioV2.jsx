@@ -7,11 +7,7 @@ import InputAdditionalText from "../form/InputAdditionText";
 // import Image from "next/image";
 
 // import { RESULT_CHOLESTROL } from "../../constants/config";
-import {
-  CHOLESTEROL_SUBMISSION_COMPLETED,
-  logGtmEvent,
-  triggerGa,
-} from "../../helpers/gtmHelpers";
+
 // import { usePathname } from "next/navigation";
 // import { FEMALE } from "../../constants/routes";
 // import { getCurrentTimeInReadableForm } from "../../helpers/timeFormatter";
@@ -173,8 +169,6 @@ const InputRadioV2 = ({ block, context }) => {
       }
 
       if (block.id === "situation_reaction") {
-        await logGtmEvent(CHOLESTEROL_SUBMISSION_COMPLETED, caseId);
-        await triggerGa();
         // window.location.assign(RESULT_CHOLESTROL(syntheticId));
         let arr = [];
         for (let i = 0; i < localStorage.length; i++) {
@@ -191,8 +185,7 @@ const InputRadioV2 = ({ block, context }) => {
     }
     await _submitReply(_reply);
     if (block.id === "situation_reaction") {
-      await logGtmEvent(CHOLESTEROL_SUBMISSION_COMPLETED, caseId);
-      await triggerGa();
+ 
       // window.location.assign(RESULT_CHOLESTROL(syntheticId));
       let arr = [];
       for (let i = 0; i < localStorage.length; i++) {

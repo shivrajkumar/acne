@@ -9,17 +9,23 @@ import CrossIcon from "@assets/svg/Cross_Icons";
 import CrossIconIcon from "@assets/icons/close-circle.png";
 import { Drawer } from "antd";
 import CartPageHome from "@components/cart/CartPageHome";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [currentPath, setCurrentPath] = useState("");
 
-  // Detect if viewport is desktop size
+  // Detect if viewport is desktop size and set current path - safely
   useEffect(() => {
+    // Safe to access window here since useEffect only runs client-side
     const checkIfDesktop = () => {
       setIsDesktop(window.innerWidth >= 768); // md breakpoint is typically 768px
     };
+
+    // Set current path for tracking
+    setCurrentPath(window.location.pathname);
 
     // Check on initial load
     checkIfDesktop();
@@ -31,6 +37,23 @@ const AcneHeader = () => {
     return () => window.removeEventListener("resize", checkIfDesktop);
   }, []);
 
+
+    // Add body scroll lock effect when drawer is open
+    useEffect(() => {
+      if (isDrawerOpen) {
+        // Prevent scrolling on the body when drawer is open
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Re-enable scrolling when drawer is closed
+        document.body.style.overflow = 'unset';
+      }
+      
+      // Cleanup function to ensure scrolling is re-enabled when component unmounts
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }, [isDrawerOpen]);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -38,6 +61,15 @@ const AcneHeader = () => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  const PageClickEvent = (name, url) => {
+    // Using the saved path from useEffect instead of accessing window directly
+    trackMoEngageEvent(`PageClicked_${name}`, {
+      from_page: currentPath,
+      to_page: url,
+      time: new Date().toISOString()
+    });
+  }
 
   return (
     <header>
@@ -65,22 +97,25 @@ const AcneHeader = () => {
         </div>
 
         {/* Navigation links - Hidden on mobile */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 mr-[32px] md:mr-[80px]">
           <Link
             href="/about-us"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("AboutUs", "/about-us")}
           >
             About Us
           </Link>
           <Link
             href="/experts"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("Experts", "/experts")}
           >
             Experts
           </Link>
           <Link
             href="/reviews"
             className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("Reviews", "/reviews")}
           >
             Reviews
           </Link>
@@ -88,12 +123,6 @@ const AcneHeader = () => {
 
         {/* Right side icons */}
         <div className="flex items-center space-x-4">
-          {/* <Link href="/account">
-            <span className="cursor-pointer">
-              <Image src={ProfileIcon} width={24} height={24} alt="Profile" />
-            </span>
-          </Link> */}
-          {/* <Link href="/cart"> */}
           <span className="cursor-pointer">
             <Image
               src={ShopIcon}
@@ -103,7 +132,6 @@ const AcneHeader = () => {
               onClick={toggleDrawer}
             />
           </span>
-          {/* </Link> */}
         </div>
       </div>
 
@@ -125,7 +153,7 @@ const AcneHeader = () => {
                 <Link
                   href="/about-us"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={toggleMenu}
+                  onClick={() => { PageClickEvent("AboutUs", "/about-us"); toggleMenu() }}
                 >
                   About Us
                 </Link>
@@ -134,7 +162,7 @@ const AcneHeader = () => {
                 <Link
                   href="/experts"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={toggleMenu}
+                  onClick={() => { PageClickEvent("Experts", "/experts"); toggleMenu() }}
                 >
                   Experts
                 </Link>
@@ -143,7 +171,7 @@ const AcneHeader = () => {
                 <Link
                   href="/reviews"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={toggleMenu}
+                  onClick={() => { PageClickEvent("Reviews", "/reviews"); toggleMenu() }}
                 >
                   Reviews
                 </Link>
@@ -164,6 +192,7 @@ const AcneHeader = () => {
           </div>
         </div>
       )}
+
       {isDrawerOpen && (
         <div>
           <Drawer
@@ -197,24 +226,25 @@ const AcneHeader = () => {
                   </h2>
                 </div>
 
-                <div
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="cursor-pointer"
-                >
-                  <Image
-                    src={CrossIconIcon}
-                    alt="Cross Icon"
-                    width={24}
-                    height={24}
-                  />
+                  <div
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="cursor-pointer"
+                  >
+                    <Image
+                      src={CrossIconIcon}
+                      alt="Cross Icon"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
                 </div>
-              </div>
-            }
-          >
-            <CartPageHome />
-          </Drawer>
-        </div>
-      )}
+              }
+            >
+              <CartPageHome />
+            </Drawer>
+          </div>
+        )
+      }
     </header>
   );
 };

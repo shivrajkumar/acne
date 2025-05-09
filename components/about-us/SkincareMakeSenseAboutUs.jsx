@@ -10,7 +10,7 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
     <div className=" pb-11">
       <section className={`relative w-full  md:h-[560px] ${expertsPage ? "h-[695px]" : "h-[620px]"} flex items-center `}>
         {/* Desktop Background */}
-        <div className="absolute inset-0 hidden md:block z-0">
+        <div className="absolute inset-0 hidden md:block z-0 ">
           <Image
             src={` ${expertsPage
               ? `${CDN_BASE_URL}website_images/clear_rituals/experts_page/skin_make_expert_desktop.webp`
@@ -18,8 +18,7 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
               }`}
             alt="Skincare"
             fill
-            style={{ objectFit: "cover", objectPosition: "70% center" }}
-            priority
+            style={{ objectFit: "cover", objectPosition: "center" }}
           />
         </div>
 
@@ -32,23 +31,21 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
               }`}
             alt="Skincare"
             fill
-
             style={{ objectFit: "cover", objectPosition: `${expertsPage ? "center 700%" : "70% center"}` }}
-            priority
           />
         </div>
 
         {/* Content */}
-        <div className={`relative z-10 max-w-7xl w-full px-6  md:px-20 ${expertsPage ? "pt-[26rem]" : "pt-[2rem]"}  pb-[4rem] md:pt-0 md:pb-0 `}>
-          <div className="text-black max-w-[600px]">
-            <h1 className="text-[40px] md:text-[44px] md:w-[399px] w-[312px] text-wrap font-[500] leading-[120%] tracking-[0.02em] font-lato">
+        <div className={`relative z-10 max-w-7xl w-full px-6  md:px-20 ${expertsPage ? "pt-[26rem]" : "pt-[2rem]"}  pb-[4rem] md:pt-16 md:pb-0 `}>
+          <div className="text-black max-w-[600px] flex flex-col gap-[10px] md:gap-[con32px]">
+            <h1 className="text-[40px] md:text-[44px] md:w-[399px]  w-[312px] text-wrap font-[500] leading-[120%] tracking-[0.02em] font-lato">
               {heading ? heading : defaultHeading}
             </h1>
-            <p className="mt-4 text-[14px] md:text-[16px] leading-[1.5] tracking-[-0.01em] font-lato md:w-[420px] text-wrap">
+            <p className="text-[14px] md:text-[16px] leading-[1.5] tracking-[-0.01em] font-lato md:w-[420px] text-wrap">
               {subText ? subText : defaultSubText}
             </p>
 
-            <div className="hidden md:flex md:mt-6">
+            <div className="hidden md:flex ">
               <AcneTakeTheSkinTest
                 variant="black"
                 text="TAKE THE SKIN TEST"

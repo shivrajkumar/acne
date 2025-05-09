@@ -22,13 +22,17 @@ import AcneIngredients from "./AcneIngredients";
 import AcneOurTeam from "./AcneOurTeam";
 import AcneAccurateResults from "./AcneAccurateResults";
 import AcneFooter from "../generic/AcneFooter";
-// import Brandmarquee from "./BrandsMarquee";
+import LogMoengage from "../generic/LogMoengage";
 
 const AcneLandingPage = () => {
+
+
   return (
     <div className="!font-lato">
-      <AcneMarqueeBanner />
-      <AcneHeader />
+      <div className="md:relative sticky top-0 z-50">
+        <AcneMarqueeBanner />
+        <AcneHeader />
+      </div>
       <BannerSection />
       {/* <Brandmarquee /> */}
       <div className="mx-[16px] mt-[28px] mb-[40px]  md:mx-[40px] md:mt-[40px] gap-[40px] md:gap-[80px] flex flex-col !font-lato">
@@ -48,9 +52,13 @@ const AcneLandingPage = () => {
         <GetCustomRoutineBanner />
         <AcneAccurateResults />
         <FAQSection data={FAQHomePage} />
+
+
       </div>
 
       <AcneFooter />
+
+      <LogMoengage event="WebsiteLanded" attributes={{ timestamp: new Date().toISOString() }} />
     </div>
   );
 };

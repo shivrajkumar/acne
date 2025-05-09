@@ -12,6 +12,15 @@ import { COOKIES_EXPIRY } from "@/constants/constants";
 import maleIcon from "@assets/icons/MaleIcon.png";
 import femaleIcon from "@assets/icons/FemaleIcon.png";
 import Image from "next/image";
+import { getUtmCookiesInObjectForm } from "../../constants/urls";
+import moengage from "@moengage/web-sdk";
+import {
+  callAfterMoegageIsLoaded,
+  trackMoEngageEvent,
+} from "../../utils/moegage";
+import { sendGtmEvents } from "../generic/Gtm";
+import { metaCapi } from "@/helpers/metaCapiHelper";
+import { getCookieValue } from "@/helpers/cookieHelper";
 
 export default function UserBasicInfoForm() {
   const {
@@ -35,7 +44,7 @@ export default function UserBasicInfoForm() {
     fullName: "",
     phoneNumber: "",
     age: "",
-    gender: ""
+    gender: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -51,15 +60,20 @@ export default function UserBasicInfoForm() {
       });
 
       // Validate loaded data
-      const loadedPhoneNumber = window.localStorage.getItem("user_phone")?.substring(3);
+      const loadedPhoneNumber = window.localStorage
+        .getItem("user_phone")
+        ?.substring(3);
       const loadedAge = window.localStorage.getItem("user_age");
 
       if (loadedPhoneNumber) {
-        setErrors(prev => ({ ...prev, phoneNumber: validatePhoneNumber(loadedPhoneNumber) }));
+        setErrors((prev) => ({
+          ...prev,
+          phoneNumber: validatePhoneNumber(loadedPhoneNumber),
+        }));
       }
 
       if (loadedAge) {
-        setErrors(prev => ({ ...prev, age: validateAge(loadedAge) }));
+        setErrors((prev) => ({ ...prev, age: validateAge(loadedAge) }));
       }
     }
   }, []);
@@ -116,6 +130,10 @@ export default function UserBasicInfoForm() {
   const validateFullName = (value) => {
     if (!value || value.trim() === "") {
       return "Full name is required";
+    }
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (!nameRegex.test(value.trim())) {
+      return "Please enter valid name";
     }
     return "";
   };
@@ -212,7 +230,9 @@ export default function UserBasicInfoForm() {
         phone_number: `+91${formData.phoneNumber}`,
         age: Number(formData.age),
         gender: formData.gender,
-        email: window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`
+        email:
+          window.localStorage.getItem("user_email") ??
+          `${formData.phoneNumber}.unknown@traya.health`,
       };
 
       if (cohort) {
@@ -228,80 +248,110 @@ export default function UserBasicInfoForm() {
         user: _user,
         source: "website",
         location_path: window.location.pathname,
-        form: _form
-      }
+        form: _form,
+      };
       const _requestOptions = {
         method: "POST",
         body: JSON.stringify(_bodyData),
       };
 
-
       _res = await fetchRequest(INGESTION_API(), _requestOptions);
+
+      if (_res && _res.status === 200) {
+        saveApiResponse(_res.data);
+
+        // Save data to localStorage
+        window.localStorage.setItem("form_status", "draft");
+        window.localStorage.setItem("user_first_name", _user.first_name);
+        window.localStorage.setItem("user_phone", _user.phone_number);
+        window.localStorage.setItem("user_age", formData.age);
+        window.localStorage.setItem("user_gender", formData.gender);
+        window.localStorage.setItem(
+          "user_email",
+          `${formData.phoneNumber}.unknown@traya.health`
+        );
+
+        // Set cookies
+        Cookies.set("Transaction_ID", _res.data.transactionId, {
+          domain: COOKIES_DOMAIN,
+          expires: COOKIES_EXPIRY,
+        });
+        window.localStorage.setItem("user_tid", _res.data.transactionId);
+
+        if (_res.data.syntheticId) {
+          Cookies.set("Synthetic_ID", _res.data.syntheticId, {
+            domain: COOKIES_DOMAIN,
+            expires: COOKIES_EXPIRY,
+          });
+        }
+
+        Cookies.set("form_status", "draft", {
+          domain: COOKIES_DOMAIN,
+          expires: COOKIES_EXPIRY,
+        });
+        window.localStorage.setItem("form_status", "draft");
+
+        return _res.data.transactionId;
+      }
+
+      if (_res && _res.status === 500) {
+        setErrors((prev) => ({
+          ...prev,
+          general: _res.data.message,
+        }));
+        return null;
+      }
+
+      if (_res && _res.data && _res.data.message) {
+        setErrors((prev) => ({
+          ...prev,
+          general: _res.data.message,
+        }));
+      }
     } catch (error) {
       console.warn(error.message);
       hasError = true;
     } finally {
-      // No return statements in the finally block
+      const eventAttributes = {
+        session_id: _res.data.syntheticId,
+        case_id: _res.data.caseId,
+        timestamp: new Date().toISOString(),
+      };
+      trackMoEngageEvent("FormStarted", {
+        ...getUtmCookiesInObjectForm(),
+        ...eventAttributes,
+      });
+      callAfterMoegageIsLoaded(() => {
+        moengage.update_unique_user_id(_res?.data?.caseId);
+        moengage.add_first_name(formData.fullName);
+        moengage.add_gender(formData.gender);
+        moengage.add_mobile(`+91${formData.phone}`);
+        moengage.add_user_attribute("synthetic_id", _res.data.syntheticId);
+        moengage.add_user_attribute("case_id", _res?.data?.caseId);
+      });
+      sendGtmEvents("form-satge-1", {
+        name: formData.fullName,
+        phone_number: `+91${formData.phone}`,
+        gender: formData.gender,
+        age: formData?.age,
+      });
+      const cookies = document.cookie.split(';');
+      const fbp = getCookieValue('_fbp', cookies);
+      const fbc = getCookieValue('_fbc', cookies);
+      const capiBody = {
+        "email": window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`,
+        "phone": window.localStorage.getItem("user_phone") ?? `+91${formData.phone}`,
+        "fbc": fbc,
+        "fbp": fbp,
+        "url": window.location.href,
+        "gender": formData.gender
+      }
+      metaCapi(capiBody, "Form Start");
     }
 
     // Process results after the finally block
     if (hasError) {
       return null;
-    }
-
-    if (_res && _res.status === 200) {
-      saveApiResponse(_res.data);
-
-      // Save data to localStorage
-      window.localStorage.setItem("form_status", "draft");
-      window.localStorage.setItem("user_first_name", _user.first_name);
-      window.localStorage.setItem("user_phone", _user.phone_number);
-      window.localStorage.setItem("user_age", formData.age);
-      window.localStorage.setItem("user_gender", formData.gender);
-      window.localStorage.setItem("user_email", `${formData.phoneNumber}.unknown@traya.health`);
-
-
-
-
-
-      // Set cookies
-      Cookies.set("Transaction_ID", _res.data.transactionId, {
-        domain: COOKIES_DOMAIN,
-        expires: COOKIES_EXPIRY,
-      });
-      window.localStorage.setItem("user_tid", _res.data.transactionId);
-
-
-      if (_res.data.syntheticId) {
-        Cookies.set("Synthetic_ID", _res.data.syntheticId, {
-          domain: COOKIES_DOMAIN,
-          expires: COOKIES_EXPIRY,
-        });
-      }
-
-      Cookies.set("form_status", "draft", {
-        domain: COOKIES_DOMAIN,
-        expires: COOKIES_EXPIRY,
-      });
-      window.localStorage.setItem("form_status", "draft");
-
-
-      return _res.data.transactionId;
-    }
-
-    if (_res && _res.status === 500) {
-      setErrors((prev) => ({
-        ...prev,
-        general: _res.data.message,
-      }));
-      return null;
-    }
-
-    if (_res && _res.data && _res.data.message) {
-      setErrors((prev) => ({
-        ...prev,
-        general: _res.data.message,
-      }));
     }
 
     return null;
@@ -368,8 +418,8 @@ export default function UserBasicInfoForm() {
       // Move to next question - this is key to navigation
       nextQuestion("user_basic_info", "completed");
       const url = new URL(window.location.href);
-      url.searchParams.set('tid', transactionId);
-      window.history.replaceState({}, '', url.toString());
+      url.searchParams.set("tid", transactionId);
+      window.history.replaceState({}, "", url.toString());
     }
   };
 
@@ -379,10 +429,9 @@ export default function UserBasicInfoForm() {
     formData.phoneNumber?.trim() !== "" &&
     formData.age !== null &&
     formData.age !== "" &&
-    formData.gender !== "" &&
+    formData.gender !== null && formData.gender !== "" &&
     !errors.phoneNumber &&
-    !errors.age;
-
+    !errors.age && !errors.gender;
   return (
     <div className="flex flex-col items-center justify-center p-4">
       {isLoading && <Loader />}
@@ -396,7 +445,10 @@ export default function UserBasicInfoForm() {
             skin.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[24px] pt-0 lg:pt-6">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-[24px] pt-0 lg:pt-6"
+          >
             <div>
               <input
                 type="text"
@@ -408,9 +460,7 @@ export default function UserBasicInfoForm() {
                 required
               />
               {errors.fullName && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.fullName}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
               )}
             </div>
 
@@ -437,7 +487,6 @@ export default function UserBasicInfoForm() {
               )}
             </div>
 
-
             <div>
               <input
                 type="number"
@@ -462,7 +511,9 @@ export default function UserBasicInfoForm() {
             <div className="flex space-x-4 items-center">
               <button
                 type="button"
-                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${formData.gender === "M" ? "bg-Primary/50 border-[#237AB1]" : "bg-[#FFFFFF]"
+                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${formData.gender === "M"
+                  ? "bg-Primary/50 border-[#237AB1]"
+                  : "bg-[#FFFFFF]"
                   }`}
                 onClick={() => handleGenderSelect("M")}
               >
@@ -474,7 +525,9 @@ export default function UserBasicInfoForm() {
 
               <button
                 type="button"
-                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${formData.gender === "F" ? "bg-Primary/50 border-[#237AB1]" : "bg-[#FFFFFF]"
+                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${formData.gender === "F"
+                  ? "bg-Primary/50 border-[#237AB1]"
+                  : "bg-[#FFFFFF]"
                   }`}
                 onClick={() => handleGenderSelect("F")}
               >
@@ -483,6 +536,12 @@ export default function UserBasicInfoForm() {
                   <span className="text-[16px] font-[500]">Female</span>
                 </div>
               </button>
+            </div>
+            <div>
+              <h2 class="text-gray-400 xs:text-xs lg:text-sm font-modernity py-2 px-1 md:mt-10 md:mb-0 mb-2 text-center">
+                *Your contact details will be used by Clear Ritual's Skin Expert
+                to reach out to you via call/sms/whatsapp
+              </h2>
             </div>
             {errors.gender && (
               <p className="text-red-500 text-sm text-center">

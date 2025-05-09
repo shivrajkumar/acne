@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
 import Cookies from "js-cookie";
+import { trackMoEngageEvent } from "@/utils/moegage";
+import { sendGtmEvents } from "./Gtm";
+import _ from 'lodash';
 
 const AcneTakeTheSkinTest = ({
   variant,
@@ -18,7 +21,7 @@ const AcneTakeTheSkinTest = ({
     black: "bg-[#171819]  text-[#fff] hover:bg-Primary/500 hover:text-[#fff]",
     green: "bg-[#3e3e3e] hover:bg-[#b7d340] text-[#fff] hover:text-[#fff]",
     dark: "bg-[#3e3e3e] hover:bg-[#272728] text-[#fff]",
-    mobileSmall: "w-[216px] h-[56px] text-[14px]",
+    mobileSmall: "w-[224px] h-[56px] text-[14px]",
     mobileBig: "w-[296px] h-[56px] text-[14px] px-[40px]",
     mobileMedium: "w-[236px] h-[56px] text-[14px] px-[40px]",
     desktopBig: "h-[56px] w-[246px] text-[14px]",
@@ -28,6 +31,12 @@ const AcneTakeTheSkinTest = ({
 
   const handleClick = () => {
     Cookies.set(`${cookiesOne}`, `${cookiesTwo}`);
+    trackMoEngageEvent(`Button_${text ?? "Take-The-Skin-Test"}_Clicked`, {
+      cta_text: text ?? "Take-The-Skin-Test",
+      page_name: window.location.pathname,
+      timestamp: new Date().toISOString()
+    });
+    sendGtmEvents(`${_.kebabCase(text)}-CTA`, { location: window.location.pathname });
   };
 
   return (

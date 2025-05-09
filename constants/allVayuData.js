@@ -374,15 +374,15 @@ export const reviewTestimonials = [
       "Uneven Skin Texture",
     ],
   },
-  {
-    name: "Muskaan, Mumbai",
-    beforeImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/beforeImg3.webp`,
-    afterImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/afterImg3.webp`,
-    // "location": "",
-    quote:
-      "Pimples kept coming back in the same spots. Clear Ritual broke the cycle, and now my skin stays clearer for longer. Finally, some peace of mind!",
-    helped_solve: ["Hormonal Acne", "Redness", "Oily Skin", "Irritation"],
-  },
+  // {
+  //   name: "Muskaan, Mumbai",
+  //   beforeImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/beforeImg3.webp`,
+  //   afterImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/afterImg3.webp`,
+  //   // "location": "",
+  //   quote:
+  //     "Pimples kept coming back in the same spots. Clear Ritual broke the cycle, and now my skin stays clearer for longer. Finally, some peace of mind!",
+  //   helped_solve: ["Hormonal Acne", "Redness", "Oily Skin", "Irritation"],
+  // },
   {
     name: "Anushka, Ludhiana",
     beforeImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/beforeImg8.webp`,
@@ -743,14 +743,14 @@ export const testimonials = [
     quote:
       "I had painful, red pimples that never seemed to go away. After using Clear Ritual, my breakouts reduced, and my skin feels calmer and smoother.",
   },
-  {
-    name: "Muskaan, Mumbai",
-    beforeImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/beforeImg3.webp`,
-    afterImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/afterImg3.webp`,
-    // "location": "",
-    quote:
-      "Pimples kept coming back in the same spots. Clear Ritual broke the cycle, and now my skin stays clearer for longer. Finally, some peace of mind!",
-  },
+  // {
+  //   name: "Muskaan, Mumbai",
+  //   beforeImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/beforeImg3.webp`,
+  //   afterImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/afterImg3.webp`,
+  //   // "location": "",
+  //   quote:
+  //     "Pimples kept coming back in the same spots. Clear Ritual broke the cycle, and now my skin stays clearer for longer. Finally, some peace of mind!",
+  // },
   {
     name: "Anushka, Ludhiana",
     beforeImg: `${CDN_BASE_URL}website_images/clear_rituals/reviewPage/beforeImg8.webp`,

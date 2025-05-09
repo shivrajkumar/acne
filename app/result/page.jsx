@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 import ResultLandingPage from "@/components/result/ResultLandingPage";
 import ShopfloScriptScript from "@/constants/shopflowbridge";
-export default function page({ params }) {
+export default function page({ params, searchParams }) {
+
   return (
     <>
       <Suspense>
-        <ResultLandingPage params={params} />
+        <ResultLandingPage params={params} searchParams={searchParams} />
       </Suspense>
       <ShopfloScriptScript />
     </>

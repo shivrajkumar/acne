@@ -14,7 +14,7 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
         <Image
           src={scintificBg}
           alt="safe & scintific"
-          layout="fill"
+          fill
           objectFit="cover"
           className="xl:rounded-lg xs:rounded-lg"
         />
@@ -27,7 +27,6 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
               <Image
                 height={30}
                 width={32}
-                loading="lazy"
                 src={value.src}
                 className={"xs:h-[36px] xs:w-[32px]"}
                 alt={value.alt}
@@ -42,7 +41,6 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
           <Image
             height={150}
             width={260}
-            loading="lazy"
             src={creamOne}
             className={""}
             alt="cream"
@@ -53,7 +51,7 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
         <Image
           src={diagnoseBg}
           alt="safe & scintific"
-          layout="fill"
+          fill
           objectFit="cover"
           className="xl:rounded-lg xs:rounded-lg"
         />
@@ -68,7 +66,6 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
           <Image
             height={150}
             width={260}
-            loading="lazy"
             src={vayuMockup}
             className={""}
             alt="vayu mockup"

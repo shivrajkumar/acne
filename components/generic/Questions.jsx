@@ -14,7 +14,9 @@ import { clearGtmFlags, sendGtmEvents } from "./Gtm";
 import Header from "@/components/generic/Headers";
 import UserBasicInfoForm from "@/components/form/UserBasicInfoForm";
 import { fetchRequest } from "@/helpers/fetchRequest";
-import { GET_SKIN_TEST_CONFIG } from "@/constants/urls";
+import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
+import LogMoengage from "./LogMoengage";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
@@ -29,6 +31,9 @@ const Questions = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [formStatus, setFormStatus] = useState("");
+  const [tabClosed, setTabClosed] = useState("");
+  const [isReload, setIsReload] = useState(false);
 
   // const pathname = usePathname();
   // const searchParams = useSearchParams();
@@ -68,10 +73,6 @@ const Questions = () => {
     const handleBeforeUnload = () => {
       clearGtmFlags([
         "basic_information",
-        "skin_assessment",
-        "skin_concerns",
-        "lifestyle_questions",
-        "misc",
       ]);
     };
 
@@ -83,77 +84,55 @@ const Questions = () => {
     };
   }, []);
 
-  const [formStatus, setFormStatus] = useState("");
-  const [tabClosed, setTabClosed] = useState("");
-  const [isReload, setIsReload] = useState(false);
+  const pageExitevent = () => {
+    const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
+    trackMoEngageEvent(`FormExit_${currentQuestion.id}`, eventAttributes)
+  }
 
   useEffect(() => {
-    if (window.performance) {
-      if (performance.navigation.type == 1) {
-        setIsReload(true);
-      }
+    // Check if page was reloaded
+    if (window.performance && performance.navigation.type === 1) {
+      setIsReload(true);
     }
+
+    // Restore saved state if available
     const val = window.localStorage.getItem("form_status");
     const tabStatus = window.localStorage.getItem("tabclosed");
     if (tabStatus && val) {
       setTabClosed(tabStatus);
       setFormStatus(val);
-      window.addEventListener(
-        "beforeunload",
-        window.localStorage.setItem("tabclosed", "true")
-      );
     }
-    window.addEventListener(
-      "beforeunload",
-      window.localStorage.setItem("tabclosed", "true")
-    );
+
+    // Set up proper event listener for tab/window closing
+    const handleBeforeUnload = () => {
+      window.localStorage.setItem("tabclosed", "true");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
+
+
 
   const exitURL = () => {
     if (typeof window !== "undefined") {
       window.location.assign("/");
+      pageExitevent();
     }
   };
 
   useEffect(() => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
-        const item = window.localStorage.getItem("basic_information");
-        if (!item) {
-          // pixelCustomeEvent('form-stage-1')
-          sendGtmEvents("form-stage-1");
-          window.localStorage.setItem("basic_information", "yes");
-        }
-      } else if (currentQuestion.group == "skin_assessment") {
-        const item = window.localStorage.getItem("skin_assessment");
-        if (!item) {
-          //  pixelCustomeEvent('form-stage-2')
-          sendGtmEvents("form-stage-2");
-          window.localStorage.setItem("skin_assessment", "yes");
-        }
-      } else if (currentQuestion.group == "skin_concerns") {
-        const item = window.localStorage.getItem("skin_concerns");
-        if (!item) {
-          //  pixelCustomeEvent('form-stage-3')
-          sendGtmEvents("form-stage-3");
-          window.localStorage.setItem("skin_concerns", "yes");
-        }
-      } else if (currentQuestion.group == "lifestyle_questions") {
-        const item = window.localStorage.getItem("lifestyle_questions");
-        if (!item) {
-          //  pixelCustomeEvent('form-stage-4')
-          sendGtmEvents("form-stage-4");
-          window.localStorage.setItem("lifestyle_questions", "yes");
-        }
-      } else if (currentQuestion.group == "misc") {
-        const item = window.localStorage.getItem("misc");
-        if (!item) {
-          // pixelCustomeEvent('form-stage-5')
-          sendGtmEvents("form-stage-5");
-          window.localStorage.setItem("misc", "yes");
-        }
+        // pixelCustomeEvent('form-stage-1')
+        sendGtmEvents("skin-test-initiated");
       }
     }
+
   }, [currentQuestion]);
 
   // If loading, show loader
@@ -184,6 +163,7 @@ const Questions = () => {
     </>
   ) : (
     <div >
+
       <Header
         currentQuestion={currentQuestion}
         hidePreviousButton={hidePreviousButton}
@@ -202,6 +182,10 @@ const Questions = () => {
                 components(currentQuestion, QuestionsContext)
               )}
             </div>
+            <LogMoengage event="SkinTestLanded" attributes={{
+              ...getUtmCookiesInObjectForm(), timestamp: new Date().toISOString()
+            }} />
+
           </Suspense>
         </>
       ) : (

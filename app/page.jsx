@@ -6,7 +6,7 @@ const page = () => {
   return (
     <div>
       <AcneLandingPage />
-      <GTMpagelandingEvent event={"Vayu Landing"} />
+      <GTMpagelandingEvent event={"Clear Ritual Landing"} />
     </div>
   );
 };

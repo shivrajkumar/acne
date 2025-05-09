@@ -14,7 +14,6 @@ export default function GetCustomRoutineBanner() {
             alt="Woman with perfect skin"
             fill
             className="object-cover rounded-[24px]"
-            priority
           />
 
           <div className="absolute inset-0 top-[35%] flex flex-col mx-auto items-center justify-center">
@@ -44,7 +43,6 @@ export default function GetCustomRoutineBanner() {
             alt="Woman with perfect skin"
             fill
             className="object-cover"
-            priority
           />
 
           <div className="absolute inset-0 top-[35%] flex flex-col items-center justify-center p-6">

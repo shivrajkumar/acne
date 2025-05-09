@@ -1,21 +1,29 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Carousel } from "antd";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function ListOfProblems({ listOfProblems }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Set isLoaded to true after component mounts
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    autoplay: true,
-    autoplaySpeed: 2000,
+    autoplay: isLoaded,
     centerMode: true,
     centerPadding: "20px",
     slidesToShow: 1.5,
     slidesToScroll: 1,
     variableWidth: true,
     adaptiveHeight: true,
+    lazyLoad: "ondemand",
   };
 
   return (
@@ -53,9 +61,7 @@ export default function ListOfProblems({ listOfProblems }) {
               alt={problem.alt}
               width={211}
               height={211}
-              loading="eager"
-              priority
-              className="rounded-[8px] object-cover w-full h-auto"
+              className="rounded-[8px] object-cover w-full h-full"
             />
             <h3 className="text-[18px] font-[500] font-lato text-Text/Heading-Text">
               {problem.title}
@@ -64,22 +70,27 @@ export default function ListOfProblems({ listOfProblems }) {
         ))}
       </div>
 
-      {/* Mobile Slider */}
-      <div className="flex justify-center md:hidden" id="carousel-id">
-        <div className=" w-full">
-          <Carousel {...settings} className="problem-carousel">
+      {/* Mobile Slider with loading control */}
+      <div
+        className={`flex justify-center md:hidden transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        id="carousel-id"
+      >
+
+        <div className="w-full">
+          <Carousel {...settings} >
             {listOfProblems.map((problem, index) => (
-              <div key={index} className="px-1">
+              <div key={index} className="px-1" style={{ width: 'auto' }}>
                 <div className="bg-white rounded-[24px] overflow-hidden p-[16px] text-center flex flex-col gap-[16px]">
-                  <Image
-                    src={problem.src}
-                    alt={problem.alt}
-                    width={211}
-                    height={211}
-                    priority
-                    loading="eager"
-                    className="rounded-[8px] object-cover  w-[211px] h-[211px]"
-                  />
+                  <div className="w-[211px] h-[211px]">
+                    <Image
+                      src={problem.src}
+                      alt={problem.alt}
+                      width={211}
+                      height={211}
+                      className="rounded-[8px] object-cover w-full h-full"
+                      priority={index < 2} // Prioritize loading the first two images
+                    />
+                  </div>
                   <h3 className="text-[14px] font-[500] font-lato text-Text/Heading-Text">
                     {problem.title}
                   </h3>
@@ -89,6 +100,7 @@ export default function ListOfProblems({ listOfProblems }) {
           </Carousel>
         </div>
       </div>
+
       <div className="flex items-end md:hidden mt-[40px] justify-center">
         <AcneTakeTheSkinTest
           variant="black"

@@ -1,9 +1,18 @@
 import ThankYouLandingPage from "@/components/thankyou/ThankYouLandingPage";
+import LogMoengage from "@/components/generic/LogMoengage";
+import { getUtmCookiesInObjectForm } from "@/constants/urls";
 
 export default function page({ params, searchParams }) {
+
+
+
   return (
     <>
       <ThankYouLandingPage params={params} searchParams={searchParams} />
+      <LogMoengage event="OrderPlaced" attributes={{ event_source: 'web', ...getUtmCookiesInObjectForm() }} />
+
+      <LogMoengage event="BookCallViewedPostOrder" attributes={{ page_name: "Thank You Page", timestamp: new Date().toISOString() }} />
+
     </>
   );
 }

@@ -1,9 +1,14 @@
-import ThankYouLandingPage from "@/components/thankyou/ThankYouLandingPage";
+import LogMoengage from "@/components/generic/LogMoengage";
+import AcneBookACallPage from "../../components/book-a-call/AcneBookACall";
+
 
 export default function page({ params, searchParams }) {
+
   return (
     <>
-      <ThankYouLandingPage params={params} searchParams={searchParams} bookACallOnly={true}/>
+      <AcneBookACallPage params={params} searchParams={searchParams} />
+      <LogMoengage event="BookCallModalViewedNoOrder" attributes={{ page_name: "Result Page", timestamp: new Date().toISOString() }} />
+
     </>
   );
 }

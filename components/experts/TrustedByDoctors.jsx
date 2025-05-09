@@ -34,7 +34,6 @@ const TrustedByDoctors = () => {
                 <Image
                   src={doctor?.doctorImage}
                   alt={doctor?.name}
-                  layout="responsive"
                   width={400}
                   height={400}
                   className="object-cover"

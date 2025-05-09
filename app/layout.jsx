@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
 import "./globals.css";
 import React, { Suspense } from "react";
@@ -7,12 +6,14 @@ import ShopfloBridge from "@constants/shopflowbridge";
 import { UTMManager } from "@helpers/UTMManager";
 import Script from "next/script";
 import { plusJakartaSans, nunitoSans, lato } from "./fonts";
+import MoengageInit from "@/components/generic/MoengageInit";
+import UserDataCapture from "@/components/generic/UserDataCapture";
 
 // import PixelInit from "@/components/generic/Pixel";
 
 // const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Clear Ritual: Personalised Acne Solutions Backed by Experts",
   description:
     "Discover Clear Ritual's dermatologist-approved acne treatments. Take our free skin test and get a personalised acne care plan tailored for visible, lasting results.",
@@ -39,9 +40,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
@@ -49,12 +48,12 @@ export default function RootLayout({
     >
       <meta name="robots" content="noindex,nofollow" />
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
-          // crossOrigin="true"
-        />
+        // crossOrigin="true"
+        /> */}
         {/* <link
           href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet"
@@ -174,14 +173,15 @@ export default function RootLayout({
           }}
         />
       </head>
-      {/* <PixelInit/> */}
       <body style={{ fontSize: "16px" }}>
         <ErrorBoundary>
+          <UserDataCapture />
           <main>{children}</main>
         </ErrorBoundary>
         <Suspense>
           <UTMManager />
         </Suspense>
+        <MoengageInit />
       </body>
       <ShopfloBridge />
     </html>

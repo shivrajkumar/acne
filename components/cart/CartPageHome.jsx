@@ -4,6 +4,10 @@ import arrowIcon from "@assets/icons/up-arrow.png";
 import CrossIconIcon from "@assets/icons/close-circle.png";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
+import { trackMoEngageEvent } from "@/utils/moegage";
+import { sendGtmEvents } from "../generic/Gtm";
+import { getCookieValue } from "@/helpers/cookieHelper";
+import { metaCapi } from "@/helpers/metaCapiHelper";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -16,6 +20,33 @@ const CartPageHome = () => {
 
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
+    const eventAttributes = {
+      cart_value: data?.cartDetails?.totalCartValue,
+      tem_count: data?.productsDetails.length,
+      timestamp: new Date().toISOString(),
+      syntheticId: window.localStorage.getItem("syntheticId"),
+      caseId: data?.customerDetails?.caseId
+    }
+    trackMoEngageEvent("BeginCheckout", eventAttributes)
+    sendGtmEvents("checkout-started", eventAttributes)
+    const fbp = getCookieValue('_fbp', document.cookie.split(';'));
+    const fbc = getCookieValue('_fbc', document.cookie.split(';'));
+    const email = window.localStorage.getItem("user_email");
+    const phone = window.localStorage.getItem("user_phone");
+    const gender = window.localStorage.getItem("gender")
+
+    const capiPayload = {
+      "email": email,
+      "phone": phone,
+      "fbc": fbc,
+      "fbp": fbp,
+      "url": window.location.href,
+      "gender": gender
+
+    };
+    metaCapi(capiPayload, "CheckoutInitiated");
+
+
   };
   return (
     <>
@@ -235,7 +266,7 @@ const CartPageHome = () => {
           </div>
         </>
       ) : (
-        <div className="flex flex-col justify-center items-center h-[80vh] text-center px-4 ">
+        <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
           <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
             Your cart is empty!
           </h2>

@@ -17,16 +17,35 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
+import { trackMoEngageEvent } from "@/utils/moegage";
+import { sendGtmEvents } from "../generic/Gtm";
+import { getCookieValue } from "@/helpers/cookieHelper";
+import { metaCapi } from "@/helpers/metaCapiHelper";
 
-const ResultLandingPage = ({ params }) => {
+const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
   const resultBannerRef = useRef(null);
-  const tId = params.tid;
+  const tId = searchParams?.tid;
+  const fbp = getCookieValue('_fbp', document.cookie.split(';'));
+  const fbc = getCookieValue('_fbc', document.cookie.split(';'));
+  const email = window.localStorage.getItem("user_email") ;
+  const phone = window.localStorage.getItem("user_phone");
+  const gender = window.localStorage.getItem("gender")
+
+  const capiPayload = {
+    "email": email,
+    "phone": phone,
+    "fbc": fbc,
+    "fbp": fbp,
+    "url": window.location.href,
+    "gender": gender
+  };
 
   useEffect(() => {
     fetchResult();
+    sendGtmEvents("result-page-viewed")
   }, [tId]);
 
   useEffect(() => {
@@ -51,6 +70,7 @@ const ResultLandingPage = ({ params }) => {
         setResultData(res.data);
         localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
         setLoading(false);
+        metaCapi(capiPayload, "ReportGenerated/Lead");
       }
     } catch (e) {
       console.error(e);
@@ -60,6 +80,18 @@ const ResultLandingPage = ({ params }) => {
 
   const placeOrder = () => {
     handleBuyNowClick(resultData?.productsDetails, resultData?.customerDetails?.caseId);
+    const eventAttributes = {
+      cart_value: resultData?.cartDetails?.totalCartValue,
+      item_count: resultData?.productsDetails.length,
+      timestamp: new Date().toISOString(),
+      syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
+      caseId: resultData?.customerDetails?.caseId
+    }
+    trackMoEngageEvent("BeginCheckout", eventAttributes)
+    sendGtmEvents("checkout-started", eventAttributes)
+    metaCapi(capiPayload, "CheckoutInitiated");
+
+
   };
 
   // Create the context value
@@ -71,7 +103,8 @@ const ResultLandingPage = ({ params }) => {
     customerDetails: resultData?.customerDetails,
     skinType: resultData?.skinType,
     acneGrading: resultData?.acneGrading,
-    rootCausesDetails: resultData?.rootCausesDetails
+    rootCausesDetails: resultData?.rootCausesDetails,
+    caseId: resultData?.customerDetails?.caseId
   };
 
   return loading ? (
