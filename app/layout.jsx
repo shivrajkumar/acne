@@ -174,10 +174,10 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }}>
-        {/* <ErrorBoundary> */}
-        <UserDataCapture />
-        <main>{children}</main>
-        {/* </ErrorBoundary> */}
+        <ErrorBoundary>
+          <UserDataCapture />
+          <main>{children}</main>
+        </ErrorBoundary>
         <Suspense>
           <UTMManager />
         </Suspense>
