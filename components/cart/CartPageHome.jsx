@@ -31,7 +31,7 @@ const CartPageHome = () => {
     sendGtmEvents("checkout-started", eventAttributes)
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
     const fbc = getCookieValue('_fbc', document.cookie.split(';'));
-    const email = window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`;
+    const email = window.localStorage.getItem("user_email");
     const phone = window.localStorage.getItem("user_phone");
     const gender = window.localStorage.getItem("gender")
 
@@ -266,7 +266,7 @@ const CartPageHome = () => {
           </div>
         </>
       ) : (
-        <div className="flex flex-col justify-center items-center h-[80vh] text-center px-4 ">
+        <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
           <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
             Your cart is empty!
           </h2>

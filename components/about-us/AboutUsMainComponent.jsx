@@ -11,8 +11,10 @@ const AboutUsMainComponent = () => {
 
     return (
         <>
-            <AcneMarqueeBanner />
-            <AcneHeader />
+            <div className="md:relative sticky top-0 z-50">
+                <AcneMarqueeBanner />
+                <AcneHeader />
+            </div>
             <AboutUsBanner />
             <WaveMarquee />
             <InfoSection />

@@ -21,7 +21,7 @@ const AcneTakeTheSkinTest = ({
     black: "bg-[#171819]  text-[#fff] hover:bg-Primary/500 hover:text-[#fff]",
     green: "bg-[#3e3e3e] hover:bg-[#b7d340] text-[#fff] hover:text-[#fff]",
     dark: "bg-[#3e3e3e] hover:bg-[#272728] text-[#fff]",
-    mobileSmall: "w-[216px] h-[56px] text-[14px]",
+    mobileSmall: "w-[224px] h-[56px] text-[14px]",
     mobileBig: "w-[296px] h-[56px] text-[14px] px-[40px]",
     mobileMedium: "w-[236px] h-[56px] text-[14px] px-[40px]",
     desktopBig: "h-[56px] w-[246px] text-[14px]",

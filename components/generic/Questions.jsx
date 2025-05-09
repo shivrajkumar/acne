@@ -163,6 +163,7 @@ const Questions = () => {
     </>
   ) : (
     <div >
+
       <Header
         currentQuestion={currentQuestion}
         hidePreviousButton={hidePreviousButton}
