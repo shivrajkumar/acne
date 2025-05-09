@@ -9,9 +9,9 @@ export default function page({ params, searchParams }) {
   return (
     <>
       <ThankYouLandingPage params={params} searchParams={searchParams} />
-      <LogMoengage event="acne_OrderPlaced" attributes={{ event_source: 'web', ...getUtmCookiesInObjectForm() }} />
+      <LogMoengage event="OrderPlaced" attributes={{ event_source: 'web', ...getUtmCookiesInObjectForm() }} />
 
-      <LogMoengage event="acne_BookCallViewedPostOrder" attributes={{ page_name: "Thank You Page", timestamp: new Date().toISOString() }} />
+      <LogMoengage event="BookCallViewedPostOrder" attributes={{ page_name: "Thank You Page", timestamp: new Date().toISOString() }} />
 
     </>
   );

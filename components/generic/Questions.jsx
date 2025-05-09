@@ -86,7 +86,7 @@ const Questions = () => {
 
   const pageExitevent = () => {
     const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
-    trackMoEngageEvent(`acne-FormExit_${currentQuestion.id}`, eventAttributes)
+    trackMoEngageEvent(`FormExit_${currentQuestion.id}`, eventAttributes)
   }
 
   useEffect(() => {
@@ -182,7 +182,7 @@ const Questions = () => {
                 components(currentQuestion, QuestionsContext)
               )}
             </div>
-            <LogMoengage event="acne-skin-test-landed" attributes={{
+            <LogMoengage event="SkinTestLanded" attributes={{
               ...getUtmCookiesInObjectForm(), timestamp: new Date().toISOString()
             }} />
 

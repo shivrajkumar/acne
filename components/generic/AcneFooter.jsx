@@ -24,7 +24,7 @@ const AcneFooter = () => {
   }, []);
 
   const PageClickEvent = (name, url) => {
-    trackMoEngageEvent(`acne-PageClicked_${name}`, {
+    trackMoEngageEvent(`PageClicked_${name}`, {
       from_page: currentPath,
       to_page: url,
       time: new Date().toISOString()

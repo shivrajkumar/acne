@@ -21,7 +21,7 @@ const FormSubmission = () => {
     sendGtmEvents('form-complete', { location: window.location.pathname });
 
     //Send MOE Events
-    trackMoEngageEvent("acne-FormSubmit", {
+    trackMoEngageEvent("FormSubmit", {
       syntheticId,
       caseId,
       completed_timestamp: new Date().toISOString(),

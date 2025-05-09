@@ -58,7 +58,7 @@ const AcneLandingPage = () => {
 
       <AcneFooter />
 
-      <LogMoengage event="acne_WebsiteLanded" attributes={{ timestamp: new Date().toISOString() }} />
+      <LogMoengage event="WebsiteLanded" attributes={{ timestamp: new Date().toISOString() }} />
     </div>
   );
 };

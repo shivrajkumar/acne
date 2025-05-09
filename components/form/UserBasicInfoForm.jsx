@@ -317,7 +317,7 @@ export default function UserBasicInfoForm() {
         case_id: _res.data.caseId,
         timestamp: new Date().toISOString(),
       };
-      trackMoEngageEvent("acne-FormStarted", {
+      trackMoEngageEvent("FormStarted", {
         ...getUtmCookiesInObjectForm(),
         ...eventAttributes,
       });
