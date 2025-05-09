@@ -46,7 +46,7 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} ${nunitoSans.variable} ${lato.variable}`}
     >
-      <meta name="robots" content="noindex,nofollow" />
+      <meta name="robots" content="index,follow" />
       <head>
         {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -174,6 +174,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }}>
+        <ScrollTracker />
         <ErrorBoundary>
           <UserDataCapture />
           <main>{children}</main>
