@@ -20,13 +20,13 @@ export default function UserDataCapture() {
             utm_content: urlParams.get('utm_content')
         };
 
-        trackMoEngageEvent("acne-UserDeviceInfoCaptured", {
+        trackMoEngageEvent("UserDeviceInfoCaptured", {
             platform: "web",
             device_os: window.navigator.platform,
             browser_type: window.navigator.userAgent,
             screen_resolution: `${window.screen.width}x${window.screen.height}`,
         });
-        trackMoEngageEvent("acne-UtmSourceCaptured", {
+        trackMoEngageEvent("UtmSourceCaptured", {
             utm_source: utmParams?.utm_source,
             utm_medium: utmParams?.utm_medium,
             utm_campaign: utmParams?.utm_campaign,
@@ -38,7 +38,7 @@ export default function UserDataCapture() {
 
     useEffect(() => {
         if (locationDetails) {
-            trackMoEngageEvent("acne-UserInfoCaptured", {
+            trackMoEngageEvent("UserInfoCaptured", {
                 region: locationDetails?.region ?? "",
                 IP_Location: locationDetails.ip,
             });

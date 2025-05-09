@@ -7,7 +7,7 @@ export default function page({ params, searchParams }) {
   return (
     <>
       <AcneBookACallPage params={params} searchParams={searchParams} />
-      <LogMoengage event="acne_BookCallModalViewedNoOrder" attributes={{ page_name: "Result Page", timestamp: new Date().toISOString() }} />
+      <LogMoengage event="BookCallModalViewedNoOrder" attributes={{ page_name: "Result Page", timestamp: new Date().toISOString() }} />
 
     </>
   );
