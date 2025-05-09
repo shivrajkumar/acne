@@ -72,6 +72,7 @@ export default function RootLayout({
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "r5ez6x39tu");`,
           }}
+          strategy="lazyOnload"
         ></Script>
 
         {/* WebPage Schema */}
