@@ -8,6 +8,7 @@ import Script from "next/script";
 import { plusJakartaSans, nunitoSans, lato } from "./fonts";
 import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
+import ScrollTracker from "@/components/ScrollTracker";
 
 // import PixelInit from "@/components/generic/Pixel";
 
@@ -46,15 +47,15 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} ${nunitoSans.variable} ${lato.variable}`}
     >
-      <meta name="robots" content="noindex,nofollow" />
+      <meta name="robots" content="index,follow" />
       <head>
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
         // crossOrigin="true"
-        /> */}
-        {/* <link
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
@@ -62,10 +63,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@800&display=swap"
           rel="stylesheet"
         ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
-          rel="stylesheet"
-        /> */}
+
         <Script src="/gtmHeadScript.js" strategy="beforeInteractive" />
         <Script
           id="clarityscript"
@@ -174,6 +172,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }}>
+        <ScrollTracker />
         <ErrorBoundary>
           <UserDataCapture />
           <main>{children}</main>

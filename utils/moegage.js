@@ -10,6 +10,7 @@ export const trackMoEngageEvent = (eventName, eventData) => {
   };
   trackEventWhenLoaded();
 };
+
 export const callAfterMoegageIsLoaded = (fn) => {
   const call = () => {
     if (moengage.isMoeLoaded()) {
@@ -20,6 +21,7 @@ export const callAfterMoegageIsLoaded = (fn) => {
   };
   call();
 };
+
 export const addUserAttributeAfterMoenageLoads = (key, value) => {
   const call = () => {
     if (moengage.isMoeLoaded()) {
