@@ -64,7 +64,7 @@ const AcneHeader = () => {
 
   const PageClickEvent = (name, url) => {
     // Using the saved path from useEffect instead of accessing window directly
-    trackMoEngageEvent(`acne-PageClicked_${name}`, {
+    trackMoEngageEvent(`PageClicked_${name}`, {
       from_page: currentPath,
       to_page: url,
       time: new Date().toISOString()

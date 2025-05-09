@@ -31,7 +31,7 @@ const AcneTakeTheSkinTest = ({
 
   const handleClick = () => {
     Cookies.set(`${cookiesOne}`, `${cookiesTwo}`);
-    trackMoEngageEvent(`acne-Button_${text ?? "Take-The-Skin-Test"}_Clicked`, {
+    trackMoEngageEvent(`Button_${text ?? "Take-The-Skin-Test"}_Clicked`, {
       cta_text: text ?? "Take-The-Skin-Test",
       page_name: window.location.pathname,
       timestamp: new Date().toISOString()

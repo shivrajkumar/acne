@@ -87,7 +87,7 @@ const ResultLandingPage = ({ searchParams }) => {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
       caseId: resultData?.customerDetails?.caseId
     }
-    trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
+    trackMoEngageEvent("BeginCheckout", eventAttributes)
     sendGtmEvents("checkout-started", eventAttributes)
     metaCapi(capiPayload, "CheckoutInitiated");
 

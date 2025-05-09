@@ -27,7 +27,7 @@ const CartPageHome = () => {
       syntheticId: window.localStorage.getItem("syntheticId"),
       caseId: data?.customerDetails?.caseId
     }
-    trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
+    trackMoEngageEvent("BeginCheckout", eventAttributes)
     sendGtmEvents("checkout-started", eventAttributes)
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
     const fbc = getCookieValue('_fbc', document.cookie.split(';'));
