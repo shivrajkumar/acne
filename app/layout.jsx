@@ -10,6 +10,7 @@ import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
 import ScrollTracker from "@/components/ScrollTracker";
 import PixelInit from "@/components/generic/Pixel";
+import PageViewTracker from "@/components/generic/PageViewTracker";
 
 
 export const metadata = {
@@ -159,6 +160,7 @@ export default function RootLayout({
       <body style={{ fontSize: "16px" }}>
       <PixelInit eventName="PageView" />
         <ScrollTracker />
+        <PageViewTracker/>
         <ErrorBoundary>
           <UserDataCapture />
           <main>{children}</main>
