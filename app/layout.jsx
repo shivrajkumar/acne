@@ -8,6 +8,7 @@ import Script from "next/script";
 import { plusJakartaSans, nunitoSans, lato } from "./fonts";
 import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
+import ScrollTracker from "@/components/ScrollTracker";
 
 import PixelInit from "@/components/generic/Pixel";
 
@@ -46,7 +47,7 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} ${nunitoSans.variable} ${lato.variable}`}
     >
-      <meta name="robots" content="noindex,nofollow" />
+      <meta name="robots" content="index,follow" />
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -115,7 +116,7 @@ export default function RootLayout({
                 "Clear Ritual provides personalised acne treatment plans combining Ayurveda, dermatology, and advanced science for clear, healthy skin.",
               contactPoint: {
                 "@type": "ContactPoint",
-                telephone: "+91-9167611114",
+                telephone: "+91-9819129501",
                 contactType: "Customer Service",
                 areaServed: "IN",
                 availableLanguage: "English",
@@ -172,6 +173,7 @@ export default function RootLayout({
       </head>
       <body style={{ fontSize: "16px" }}>
       <PixelInit eventName="PageView" />
+        <ScrollTracker />
         <ErrorBoundary>
           <UserDataCapture />
           <main>{children}</main>
