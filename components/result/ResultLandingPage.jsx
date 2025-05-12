@@ -28,20 +28,29 @@ const ResultLandingPage = ({ searchParams }) => {
   const [showSticky, setShowSticky] = useState(false);
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
-  const fbp = getCookieValue('_fbp', document.cookie.split(';'));
-  const fbc = getCookieValue('_fbc', document.cookie.split(';'));
-  const email = window.localStorage.getItem("user_email") ;
-  const phone = window.localStorage.getItem("user_phone");
-  const gender = window.localStorage.getItem("gender")
 
-  const capiPayload = {
-    "email": email,
-    "phone": phone,
-    "fbc": fbc,
-    "fbp": fbp,
-    "url": window.location.href,
-    "gender": gender
-  };
+  useEffect(()=>{
+    if (typeof window !== "undefined") {
+      const fbp = getCookieValue('_fbp', document.cookie.split(';'));
+      const fbc = getCookieValue('_fbc', document.cookie.split(';'));
+      const email =
+        window.localStorage.getItem("user_email") ??
+        `${formData?.phoneNumber ?? "unknown"}.unknown@traya.health`;
+      const phone = window.localStorage.getItem("user_phone");
+      const gender = window.localStorage.getItem("gender");
+      const url = window.location.href;
+  
+      const capiPayload = {
+        email,
+        phone,
+        fbc,
+        fbp,
+        url,
+        gender,
+      };
+      metaCapi(capiPayload, "ReportGenerated/Lead"); 
+    }
+  },[])
 
   useEffect(() => {
     fetchResult();
