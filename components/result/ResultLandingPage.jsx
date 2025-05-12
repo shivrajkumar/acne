@@ -26,6 +26,7 @@ const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
+  const [capiPayload ,setCapiPayload]=useState({});
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
 
@@ -40,7 +41,7 @@ const ResultLandingPage = ({ searchParams }) => {
       const gender = window.localStorage.getItem("gender");
       const url = window.location.href;
   
-      const capiPayload = {
+      const capiPayloadRes = {
         email,
         phone,
         fbc,
@@ -48,7 +49,8 @@ const ResultLandingPage = ({ searchParams }) => {
         url,
         gender,
       };
-      metaCapi(capiPayload, "ReportGenerated/Lead"); 
+      setCapiPayload(capiPayloadRes);
+      metaCapi(capiPayloadRes, "ReportGenerated/Lead"); 
     }
   },[])
 
