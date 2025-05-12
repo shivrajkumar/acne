@@ -116,7 +116,7 @@ export default function RootLayout({
                 "Clear Ritual provides personalised acne treatment plans combining Ayurveda, dermatology, and advanced science for clear, healthy skin.",
               contactPoint: {
                 "@type": "ContactPoint",
-                telephone: "+91-9167611114",
+                telephone: "+91-9819129501",
                 contactType: "Customer Service",
                 areaServed: "IN",
                 availableLanguage: "English",

@@ -115,12 +115,12 @@ const AcneFooter = () => {
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
                 <a
-                  href="tel:+919167611114"
+                  href="tel:+919819129501"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
                   onClick={() => contactIconsClickEvent("Phone")}
                 >
                   <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
-                  +91 9167611114
+                  +91 9819129501 
                 </a>
                 <a
                   href="mailto:customercare@clearritual.com"
@@ -143,10 +143,10 @@ const AcneFooter = () => {
                   <InstagramIcon />
                 </Link>
                 <Link
-                  href="https://wa.me/919167611114"
+                  href="https://wa.me/919819129501"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
-                  onClick={() => socialIconsClickEvent("Whatsapp", "https://wa.me/919167611114")}
+                  onClick={() => socialIconsClickEvent("Whatsapp", "https://wa.me/919819129501")}
                 >
                   <WhatsAppIcon />
                 </Link>
