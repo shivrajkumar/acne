@@ -9,7 +9,7 @@ import { plusJakartaSans, nunitoSans, lato } from "./fonts";
 import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
 
-// import PixelInit from "@/components/generic/Pixel";
+import PixelInit from "@/components/generic/Pixel";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -171,6 +171,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }}>
+      <PixelInit eventName="PageView" />
         <ErrorBoundary>
           <UserDataCapture />
           <main>{children}</main>
