@@ -105,7 +105,7 @@ const CartPageHome = () => {
                         {data?.doctorDetails?.experience}
                       </p>
                     </div>
-                    <div
+                    {/* <div
                       className={`flex ms-[148px]  md:ms-0 md:justify-start md:flex-col`}
                     >
                       <div className="flex items-center gap-2">
@@ -131,7 +131,7 @@ const CartPageHome = () => {
                           </div>
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   {/*  Product info */}
 

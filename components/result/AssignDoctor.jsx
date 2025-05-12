@@ -52,7 +52,7 @@ const AssignedDoctor = ({
                   {doctor?.fees ?? doctor?.h1Ttext}
                 </p>
               )}
-              {enableOptIn && (
+              {/* {enableOptIn && (
                 <div className={`flex md:hidden  md:ms-0 md:justify-start md:flex-col`}>
                   <div className="flex items-center gap-2">
                     <span className="text-[14px] md:text-[14px]font-lato font-[400] text-gray-700">Opt-In</span>
@@ -74,10 +74,10 @@ const AssignedDoctor = ({
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
-          {enableOptIn && (
+          {/* {enableOptIn && (
             <div className={`hidden md:flex ${isSmall ? "ms-[90px]" : "ms-[138px]"} md:ms-0 md:justify-start md:flex-col`}>
               <div className="flex items-center gap-2">
                 <span className="text-[14px] md:text-[14px]font-lato font-[400] text-gray-700">Opt-In</span>
@@ -99,7 +99,7 @@ const AssignedDoctor = ({
                 </button>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
       {isDrawer && (doctor?.fees || doctor?.h1Ttext) && (
