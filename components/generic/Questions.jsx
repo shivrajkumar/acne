@@ -98,8 +98,10 @@ const Questions = () => {
     // Restore saved state if available
     const val = window.localStorage.getItem("form_status");
     const tabStatus = window.localStorage.getItem("tabclosed");
-    if (tabStatus && val) {
+    if (tabStatus) {
       setTabClosed(tabStatus);
+    }
+       if (val) {
       setFormStatus(val);
     }
 
@@ -155,7 +157,6 @@ const Questions = () => {
       </div>
     );
   }
-
 
   return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
     <>
