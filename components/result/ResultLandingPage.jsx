@@ -27,6 +27,7 @@ const ResultLandingPage = ({ searchParams }) => {
   const [loading, setLoading] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
   const [capiPayload ,setCapiPayload]=useState({});
+  const [bookingStatus,setBookingStatus]=useState(null);
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
 
@@ -40,6 +41,7 @@ const ResultLandingPage = ({ searchParams }) => {
       const phone = window.localStorage.getItem("user_phone");
       const gender = window.localStorage.getItem("gender");
       const url = window.location.href;
+      const acne_booking_success= window.localStorage.getItem("acne_booking_success");
   
       const capiPayloadRes = {
         email,
@@ -50,6 +52,7 @@ const ResultLandingPage = ({ searchParams }) => {
         gender,
       };
       setCapiPayload(capiPayloadRes);
+      setBookingStatus(acne_booking_success);
       metaCapi(capiPayloadRes, "ReportGenerated/Lead"); 
     }
   },[])
@@ -115,7 +118,8 @@ const ResultLandingPage = ({ searchParams }) => {
     skinType: resultData?.skinType,
     acneGrading: resultData?.acneGrading,
     rootCausesDetails: resultData?.rootCausesDetails,
-    caseId: resultData?.customerDetails?.caseId
+    caseId: resultData?.customerDetails?.caseId,
+    acne_booking_success:bookingStatus
   };
 
   return loading ? (
