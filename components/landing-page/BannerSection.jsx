@@ -81,7 +81,7 @@ const BannerSection = () => {
             </div>}
           </div>
         </div>
-      </div >
+      </div>
 
       {/* Desktop Banner with Video */}
       < div className="sm:flex hidden flex-col items-start relative justify-center custom-black min-h-[20%]" >
