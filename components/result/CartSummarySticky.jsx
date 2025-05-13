@@ -13,7 +13,8 @@ const CartSummarySticky = () => {
     productsDetails: productDetails,
     doctorDetails,
     handleBuyNowClick,
-    caseId
+    caseId,
+    acne_booking_success
   } = useCartContext();
 
   // Get first 3 products to display
@@ -31,7 +32,7 @@ const CartSummarySticky = () => {
     }
   };
 
-  const storedBookingStatus = localStorage.getItem("acne_booking_success");
+  const storedBookingStatus = acne_booking_success;
 
   return (
     <>
