@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import CheckmarkOrder from '@assets/icons/Checkmark-Order.png';
 import ArrowDown from '@assets/icons/arrow-down.png';
@@ -13,6 +13,12 @@ const OrderConfirmationCard = ({
   setShowDrawer = () => { },
 }) => {
   const orderData = orderDetails?.orderDetails;
+
+   useEffect(() => {
+    if (orderData?.orderDisplayId) {
+      localStorage.setItem('orderDisplayId', orderData.orderDisplayId);
+    }
+  }, [orderData?.orderDisplayId]);
 
   return (
     <>

@@ -1,10 +1,13 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { fetchRequest } from "../../helpers/fetchRequest";
-import { GET_AVAILABLE_SLOTS, BOOK_SLOT_API } from "@/constants/urls";
+import {
+  GET_AVAILABLE_SLOTS,
+  BOOK_SLOT_API,
+  GET_ACTIVE_SLOTS_API,
+} from "@/constants/urls";
 import Loader from "../generic/Loader";
 import {
-  getBookingStatusFromStorage,
   handleBookCall,
   transformSlotData,
 } from "../../utils/bookacall";
@@ -13,6 +16,7 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import { sendGtmEvents } from "../generic/Gtm";
+import moment from "moment";
 
 const AcneBookACallPage = ({ searchParams }) => {
   const [availableSlots, setAvailableSlots] = useState({});
@@ -34,9 +38,8 @@ const AcneBookACallPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    sendGtmEvents("book-call-page-viewed-without-order")
-  }, [])
-
+    sendGtmEvents("book-call-page-viewed-without-order");
+  }, []);
   useEffect(() => {
     let idFromParams = searchParams?.caseId;
     let idFromLocalStorage = null;
@@ -47,20 +50,13 @@ const AcneBookACallPage = ({ searchParams }) => {
       try {
         const storedData = localStorage.getItem("acne_result_data");
         idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-
-        // Get booking info and update state
-        const bookingInfo = getBookingStatusFromStorage();
-        if (bookingInfo?.isBooked) {
-          setBookedSuccess(true);
-          setSelectedDate(bookingInfo.date);
-          setSelectedTime(bookingInfo.time);
-        }
       } catch (err) {
         console.error("Error accessing localStorage:", err);
       }
     }
 
     setCaseId(idFromParams || idFromLocalStorage || null);
+
     setTimeout(() => {
       setLoading(false);
     }, 300);
@@ -68,10 +64,31 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
-    if (caseId && !bookedSuccess) {
+    if (caseId == null) return;
+
+    if (bookedSuccess === false) {
       getAvailableSlots(caseId);
     }
+
+    getActiveSlotDetails(caseId);
   }, [caseId, bookedSuccess]);
+
+  const getActiveSlotDetails = async (id) => {
+    try {
+      const response = await fetchRequest(GET_ACTIVE_SLOTS_API(id));
+      const reminderDate = response?.data?.reminderDate;
+
+      if (reminderDate) {
+        const formattedDate = moment(reminderDate).format("ddd, MMM D, YYYY");
+        const formattedTime = moment(reminderDate).format("hh:mm A");
+        setSelectedDate(formattedDate);
+        setSelectedTime(formattedTime);
+        setBookedSuccess(true);
+      }
+    } catch (error) {
+      console.error("Error fetching active slot details:", error);
+    }
+  };
 
   // Fetch available slots
   const getAvailableSlots = async (id) => {
@@ -111,15 +128,8 @@ const AcneBookACallPage = ({ searchParams }) => {
 
     if (confirmed) {
       setBookedSuccess(true);
-
-      // Confirm the booking in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("acne_booking_success", "true");
-        localStorage.removeItem("acne_booking_pending");
-      }
     }
-    sendGtmEvents("book-call-confirmed-without-order")
-
+    sendGtmEvents("book-call-confirmed-without-order");
   };
 
   // Then check loading state after caseId check

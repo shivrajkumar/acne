@@ -85,43 +85,6 @@ export const getIconForPeriod = (period) => {
 
 
 /**
- * Retrieves booking status and details from localStorage.
- * Promotes a pending booking to a successful booking if found.
- *
- * @returns {{ isBooked: boolean, date: string | null, time: string | null } | null}
- * An object containing:
- * - `isBooked`: Whether the booking is confirmed or pending
- * - `date`: The stored booking date, or null if not set
- * - `time`: The stored booking time, or null if not set
- * Returns `null` if not in a browser environment.
- */
-export const getBookingStatusFromStorage = () => {
-  if (typeof window === "undefined") return null;
-
-  const storedBookingStatus = localStorage.getItem("acne_booking_success");
-  const storedBookingPending = localStorage.getItem("acne_booking_pending");
-  const storedDate = localStorage.getItem("acne_booking_date");
-  const storedTime = localStorage.getItem("acne_booking_time");
-
-  const isBooked =
-    storedBookingStatus === "true" || storedBookingPending === "true";
-
-  // Promote pending to success
-  if (storedBookingPending === "true") {
-    localStorage.setItem("acne_booking_success", "true");
-    localStorage.removeItem("acne_booking_pending");
-  }
-
-  return {
-    isBooked,
-    date: storedDate || null,
-    time: storedTime || null,
-  };
-};
-
-
-
-/**
  * Common function to handle booking a call
  * @param {string} selectedDate - The selected date in YYYY-MM-DD format
  * @param {string} selectedTime - The selected time in HH:MM format
@@ -192,13 +155,6 @@ export const handleBookCall = async ({
 
     // Handle successful response
     if (response.status === 200) {
-      // Store booking details in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("acne_booking_pending", "true");
-        localStorage.setItem("acne_booking_date", selectedDate);
-        localStorage.setItem("acne_booking_time", selectedTime);
-      }
-
       // Show confirmation modal
       if (setCloseConfirm) {
         setCloseConfirm(true);

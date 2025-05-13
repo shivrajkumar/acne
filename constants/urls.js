@@ -199,6 +199,10 @@ export const BOOK_SLOT_API = getUrl(
   `consumer-api/service/engagements/slot/book`
 );
 
+export const GET_ACTIVE_SLOTS_API = (caseId) =>
+  getUrl(`consumer-api/service/engagements/engagement/active-slot-engagement/${caseId}`);
+
+
 export const CAPI_TRACKING_API = getUrl(
   `consumer-api/service/consumers/conversion-api/tracking`
 );

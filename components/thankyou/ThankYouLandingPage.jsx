@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { fetchRequest } from "../../helpers/fetchRequest";
 import {
   BOOK_SLOT_API,
+  GET_ACTIVE_SLOTS_API,
   GET_AVAILABLE_SLOTS,
   GET_STATIC_DOCTOR_DETAILS,
   ORDER_DETAILS,
@@ -13,11 +14,11 @@ import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
 import {
-  getBookingStatusFromStorage,
   handleBookCall,
   transformSlotData,
 } from "../../utils/bookacall";
 import { sendGtmEvents } from "../generic/Gtm";
+import moment from "moment";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -34,12 +35,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
   // Selection states
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-
-  // Get the caseId from orderDetails if available
-  const caseId = useMemo(
-    () => orderDetails?.customerDetail?.caseId || null,
-    [orderDetails]
-  );
+  const [caseId, setCaseId] = useState(null);
 
   // Transform slots data when available
   const transformedSlots = useMemo(
@@ -48,22 +44,24 @@ const ThankYouLandingPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    sendGtmEvents("book-call-page-viewed-with-order")
-  }, [])
-
-
-
+    sendGtmEvents("book-call-page-viewed-with-order");
+  }, []);
 
   // Check booking status from localStorage on mount
   useEffect(() => {
     const fetchData = async () => {
-      const bookingInfo = getBookingStatusFromStorage();
+      let idFromLocalStorage = null;
 
-      if (bookingInfo?.isBooked) {
-        setBookedSuccess(true);
-        if (bookingInfo.date) setSelectedDate(bookingInfo.date);
-        if (bookingInfo.time) setSelectedTime(bookingInfo.time);
+      if (typeof window !== "undefined") {
+        try {
+          const storedData = localStorage.getItem("acne_result_data");
+          idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+        } catch (err) {
+          console.error("Error accessing localStorage:", err);
+        }
       }
+
+      setCaseId(idFromLocalStorage || null);
 
       if (searchParams?.platform_order_id) {
         try {
@@ -82,17 +80,25 @@ const ThankYouLandingPage = ({ searchParams }) => {
     fetchData();
 
     // Return empty cleanup function
-    return () => { };
+    return () => {};
   }, [searchParams]);
 
-  // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
-    if (caseId && !bookedSuccess) {
-      getAvailableSlots(caseId);
-    } else if (orderDetails !== null) {
-      setLoading(false);
-    }
-  }, [caseId, bookedSuccess, orderDetails]);
+    const fetchSlots = async () => {
+      if (caseId) {
+        const booked = await getActiveSlotDetails(caseId); // returns true if already booked
+        if (!booked) {
+          await getAvailableSlots(caseId);
+        } else {
+          setLoading(false);
+        }
+      } else if (orderDetails !== null) {
+        setLoading(false);
+      }
+    };
+
+    fetchSlots();
+  }, [caseId, orderDetails]);
 
   // Fetch order details
   const getOrderDetails = async (orderId) => {
@@ -100,7 +106,6 @@ const ThankYouLandingPage = ({ searchParams }) => {
       const res = await fetchRequest(ORDER_DETAILS(orderId));
       if (res.status === 200) {
         setOrderDetails(res.data);
-
       }
       return res;
     } catch (error) {
@@ -146,9 +151,9 @@ const ThankYouLandingPage = ({ searchParams }) => {
       availableSlots,
       transformedSlots,
       setCloseConfirm,
-      BOOK_SLOT_API
+      BOOK_SLOT_API,
     });
-    sendGtmEvents("book-call-confirmed-with-order")
+    sendGtmEvents("book-call-confirmed-with-order");
   };
 
   // Redirect to skin test
@@ -162,12 +167,24 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
     if (confirmed) {
       setBookedSuccess(true);
+    }
+  };
 
-      // Confirm the booking in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("acne_booking_success", "true");
-        localStorage.removeItem("acne_booking_pending");
+  const getActiveSlotDetails = async (caseId) => {
+    try {
+      const response = await fetchRequest(GET_ACTIVE_SLOTS_API(caseId));
+      const reminderDate = response?.data?.reminderDate;
+
+      if (reminderDate) {
+        const formattedDate = moment(reminderDate).format("ddd, MMM D, YYYY");
+        const formattedTime = moment(reminderDate).format("hh:mm A");
+        setSelectedDate(formattedDate);
+        setSelectedTime(formattedTime);
+        setBookedSuccess(true);
+        return true; // booking exists
       }
+    } catch (error) {
+      console.error("Error fetching active slot details:", error);
     }
   };
 
@@ -237,7 +254,6 @@ const ThankYouLandingPage = ({ searchParams }) => {
           </div>
         </div>
       )}
-
     </>
   );
 };

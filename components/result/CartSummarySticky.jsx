@@ -14,7 +14,8 @@ const CartSummarySticky = () => {
     doctorDetails,
     handleBuyNowClick,
     caseId,
-    acne_booking_success
+    acne_booking_success,
+    hasPlacedOrder
   } = useCartContext();
 
   // Get first 3 products to display
@@ -107,6 +108,7 @@ const CartSummarySticky = () => {
             </button>
           </a>
 
+         {!hasPlacedOrder && (
           <button
             className="w-fit bg-Tertiary/600 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
             onClick={handleBuyNowClick}
@@ -115,6 +117,7 @@ const CartSummarySticky = () => {
             {!storedBookingStatus &&
               ` ₹${(cartData?.totalCartValue ?? 0).toFixed(2)}/-`}
           </button>
+         )} 
         </div>
       </div>
 
