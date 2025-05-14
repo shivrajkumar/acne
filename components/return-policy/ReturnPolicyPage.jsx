@@ -104,7 +104,7 @@ const ReturnPolicyPage = () => {
           </div>
           <br />
           <p className="pl-16">A. Email: customercare@clearritual.com</p>
-          <p className="pl-16">B. WhatsApp: +91 9819129501</p>
+          <p className="pl-16">B. WhatsApp: +91 8424004697</p>
           <br />
           <br />
           <div className="flex">
@@ -158,7 +158,7 @@ const ReturnPolicyPage = () => {
           </div>
           <br />
           <p className="pl-16">A. Email: customercare@clearritual.com</p>
-          <p className="pl-16">B. WhatsApp: +91 9819129501</p>
+          <p className="pl-16">B. WhatsApp: +91 8424004697</p>
           <br />
           <div className="flex pl-4">
             <span className="pr-4">(b).</span>
