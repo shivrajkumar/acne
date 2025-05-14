@@ -35,6 +35,10 @@ const ThankYouLandingPage = ({ searchParams }) => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [caseId, setCaseId] = useState(null);
 
+  // Error states
+  const [error, setError] = useState(null);
+  const [bookingError, setBookingError] = useState(null);
+
   // Transform slots data when available
   const transformedSlots = useMemo(
     () => (bookedSuccess ? {} : transformSlotData(availableSlots?.slotDetails)),
@@ -136,31 +140,63 @@ const ThankYouLandingPage = ({ searchParams }) => {
   // Fetch available slots
   const getAvailableSlots = async (id) => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetchRequest(GET_AVAILABLE_SLOTS(id));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch available slots");
+      }
+
       setAvailableSlots(response?.data || {});
     } catch (error) {
       console.error("Error fetching available slots:", error);
+      setError("Failed to load available time slots. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   // Handle booking a call
-
   const bookACall = async () => {
-    await handleBookCall({
-      selectedDate,
-      selectedTime,
-      caseId,
-      availableSlots,
-      transformedSlots,
-      setCloseConfirm,
-      BOOK_SLOT_API,
-    });
-    sendGtmEvents("book-call-confirmed-with-order", {
-      gender: window.localStorage.getItem("user_gender"),
-    });
+    setBookingError(null);
+
+    try {
+      if (!selectedDate || !selectedTime) {
+        setBookingError(
+          "Please select both a date and time for your appointment."
+        );
+        return;
+      }
+
+      await handleBookCall({
+        selectedDate,
+        selectedTime,
+        caseId,
+        availableSlots,
+        transformedSlots,
+        setCloseConfirm,
+        BOOK_SLOT_API,
+        onSuccess: (response) => {
+          console.log("Booking successful:", response);
+        },
+        onError: (error) => {
+          console.error("Booking failed:", error);
+          setBookingError(
+            error.message ||
+              "Failed to book your appointment. Please try again."
+          );
+        },
+      });
+      sendGtmEvents("book-call-confirmed-with-order", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+    } catch (error) {
+      console.error("Error in bookACall:", error);
+      setBookingError(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+    }
   };
 
   // Redirect to skin test
@@ -179,7 +215,13 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   const getActiveSlotDetails = async (caseId) => {
     try {
+      setError(null);
       const response = await fetchRequest(GET_ACTIVE_SLOTS_API(caseId));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch active slot details");
+      }
+
       const reminderDate = response?.data?.reminderDate;
 
       if (reminderDate) {
@@ -188,10 +230,12 @@ const ThankYouLandingPage = ({ searchParams }) => {
         setSelectedDate(formattedDate);
         setSelectedTime(formattedTime);
         setBookedSuccess(true);
-        return true; // booking exists
       }
     } catch (error) {
       console.error("Error fetching active slot details:", error);
+      setError(
+        "Failed to fetch your active appointment details. Please try again later."
+      );
     }
   };
 
@@ -239,6 +283,8 @@ const ThankYouLandingPage = ({ searchParams }) => {
         bookedSuccess={bookedSuccess}
         doctorDetails={doctorDetails}
         handleBookCall={bookACall}
+        error={error}
+        bookingError={bookingError}
       />
     );
   };

@@ -23,14 +23,36 @@ const OrderConfirmationView = ({
   doctorDetails,
   handleBookCall,
   showDrawer,
+  error,
+  bookingError,
 }) => {
+  // Display error message component
+  const ErrorMessage = ({ message, isBookingError = false }) => {
+    if (!message) return null;
 
- 
-
+    return (
+      <div
+        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${
+          isBookingError ? "mt-4" : ""
+        }`}
+      >
+        <div className="flex items-start">
+          <div className="ml-3">
+            <p className="text-sm text-red-700">{message}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
       <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px] min-h-screen relative">
+        {/* Display any API errors */}
+        <ErrorMessage message={error} />
+        {/* Display booking errors */}
+        <ErrorMessage message={bookingError} isBookingError={true} />
+
         <OrderConfirmationCard
           orderDetails={orderDetails}
           setShowDrawer={setShowDrawer}
@@ -119,8 +141,9 @@ const OrderConfirmationView = ({
         )}
         {/* Sticky button at bottom */}
         <div
-          className={`${!bookedSuccess && selectedTime !== null ? "" : "hidden"
-            } fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md`}
+          className={`${
+            !bookedSuccess && selectedTime !== null ? "" : "hidden"
+          } fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md`}
         >
           <div className="flex justify-center items-center md:h-[104px] h-[88px] border-t-[1px] border-t-Elements/Divider-Stroke">
             <button

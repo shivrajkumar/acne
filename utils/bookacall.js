@@ -83,7 +83,6 @@ export const getIconForPeriod = (period) => {
   }
 };
 
-
 /**
  * Common function to handle booking a call
  * @param {string} selectedDate - The selected date in YYYY-MM-DD format
@@ -104,21 +103,30 @@ export const handleBookCall = async ({
   transformedSlots,
   setCloseConfirm,
   BOOK_SLOT_API,
-  onSuccess=()=>{},
-  onError=()=>{}
+  onSuccess = () => {},
+  onError = () => {},
 }) => {
   // Validate required parameters
   if (!selectedDate || !selectedTime || !caseId || !availableSlots) {
     const error = new Error("Missing required data for slot booking");
     console.error(error);
-    if (onError) onError(error);
+    onError(error);
     return null;
   }
 
   try {
     // Find the selected slot
     const selectedDateSlots = transformedSlots?.[selectedDate] || [];
-    const date = new Date(`${selectedDate} ${selectedTime}`);
+    const date = moment(`${selectedDate} ${selectedTime}`, "YYYY-MM-DD HH:mm");
+
+    // Check if date is valid before continuing
+    if (!date.isValid()) {
+      const error = new Error("Invalid date format");
+      console.error(error);
+      onError(error);
+      return null;
+    }
+
     const selectedTimeISOString = date.toISOString();
 
     const selectedSlot = selectedDateSlots.find(
@@ -128,7 +136,7 @@ export const handleBookCall = async ({
     if (!selectedSlot) {
       const error = new Error("Selected slot not found");
       console.error(error);
-      if (onError) onError(error);
+      onError(error);
       return null;
     }
 
@@ -153,7 +161,7 @@ export const handleBookCall = async ({
       body: JSON.stringify(slotPayload),
     });
 
-    // Handle successful response
+    // Handle API response based on status code
     if (response.status === 200) {
       // Show confirmation modal
       if (setCloseConfirm) {
@@ -161,19 +169,21 @@ export const handleBookCall = async ({
       }
 
       // Call success callback if provided
-      if (onSuccess) {
-        onSuccess(response);
-      }
-
+      onSuccess(response);
       return response;
     } else {
-      throw new Error(`Booking failed with status: ${response.status}`);
+      // Handle error response
+      const errorMessage =
+        response.data?.message ||
+        `Booking failed with status: ${response.status}`;
+      const error = new Error(errorMessage);
+      console.error(error);
+      onError(error);
+      return null;
     }
   } catch (error) {
     console.error("Error booking slot:", error);
-    if (onError) {
-      onError(error);
-    }
+    onError(error);
     return null;
   }
 };

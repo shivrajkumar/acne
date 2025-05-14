@@ -24,6 +24,10 @@ const AcneBookACallPage = ({ searchParams }) => {
   const [closeConfirm, setCloseConfirm] = useState(false);
   const [bookedSuccess, setBookedSuccess] = useState(false);
 
+  // Error states
+  const [error, setError] = useState(null);
+  const [bookingError, setBookingError] = useState(null);
+
   // Selection states
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -35,15 +39,21 @@ const AcneBookACallPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-       if (typeof window !== "undefined") {
-    sendGtmEvents("book-call-page-viewed-without-order" ,{ gender:window.localStorage.getItem("user_gender")});
-       }
+    if (typeof window !== "undefined") {
+      sendGtmEvents("book-call-page-viewed-without-order", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+    }
   }, []);
+
   useEffect(() => {
     let idFromParams = searchParams?.caseId;
     let idFromLocalStorage = null;
 
     setLoading(true);
+    // Clear errors when component re-mounts or parameters change
+    setError(null);
+    setBookingError(null);
 
     if (typeof window !== "undefined") {
       try {
@@ -51,6 +61,7 @@ const AcneBookACallPage = ({ searchParams }) => {
         idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
       } catch (err) {
         console.error("Error accessing localStorage:", err);
+        setError("Failed to retrieve your data. Please refresh the page.");
       }
     }
 
@@ -74,7 +85,13 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   const getActiveSlotDetails = async (id) => {
     try {
+      setError(null);
       const response = await fetchRequest(GET_ACTIVE_SLOTS_API(id));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch active slot details");
+      }
+
       const reminderDate = response?.data?.reminderDate;
 
       if (reminderDate) {
@@ -86,42 +103,70 @@ const AcneBookACallPage = ({ searchParams }) => {
       }
     } catch (error) {
       console.error("Error fetching active slot details:", error);
+      setError(
+        "Failed to fetch your active appointment details. Please try again later."
+      );
     }
   };
 
   // Fetch available slots
   const getAvailableSlots = async (id) => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetchRequest(GET_AVAILABLE_SLOTS(id));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch available slots");
+      }
+
       setAvailableSlots(response?.data || {});
     } catch (error) {
       console.error("Error fetching available slots:", error);
+      setError("Failed to load available time slots. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   // Handle booking a call
+  const bookACall = async () => {
+    setBookingError(null);
 
- const bookACall = async () => {
-  // iOS: Ensure no input is focused (keyboard hides fixed elements)
-  if (typeof document !== "undefined") {
-    document.activeElement?.blur();
-  }
-  // Add small delay to ensure iOS has completed any pending UI operations
-  setTimeout(async () => {
-    await handleBookCall({
-      selectedDate,
-      selectedTime,
-      caseId,
-      availableSlots,
-      transformedSlots,
-      setCloseConfirm,
-      BOOK_SLOT_API,
-    });
-  }, 50);
-};
+    try {
+      if (!selectedDate || !selectedTime) {
+        setBookingError(
+          "Please select both a date and time for your appointment."
+        );
+        return;
+      }
+
+      await handleBookCall({
+        selectedDate,
+        selectedTime,
+        caseId,
+        availableSlots,
+        transformedSlots,
+        setCloseConfirm,
+        BOOK_SLOT_API,
+        onSuccess: (response) => {
+          console.log("Booking successful:", response);
+        },
+        onError: (error) => {
+          console.error("Booking failed:", error);
+          setBookingError(
+            error.message ||
+              "Failed to book your appointment. Please try again."
+          );
+        },
+      });
+    } catch (error) {
+      console.error("Error in bookACall:", error);
+      setBookingError(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+    }
+  };
 
   // Redirect to skin test
   const handleTakeSkinTest = () => {
@@ -134,8 +179,30 @@ const AcneBookACallPage = ({ searchParams }) => {
 
     if (confirmed) {
       setBookedSuccess(true);
+      setBookingError(null); // Clear any previous errors
     }
-    sendGtmEvents("book-call-confirmed-without-order",{ gender:window.localStorage.getItem("user_gender")});
+    sendGtmEvents("book-call-confirmed-without-order", {
+      gender: window.localStorage.getItem("user_gender"),
+    });
+  };
+
+  // Display error message component
+  const ErrorMessage = ({ message, isBookingError = false }) => {
+    if (!message) return null;
+
+    return (
+      <div
+        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${
+          isBookingError ? "mt-4" : ""
+        }`}
+      >
+        <div className="flex items-start">
+          <div className="ml-3">
+            <p className="text-sm text-red-700">{message}</p>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   // Then check loading state after caseId check
@@ -171,6 +238,11 @@ const AcneBookACallPage = ({ searchParams }) => {
     return (
       <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px]">
         <div className="w-full max-w-[720px] mx-auto">
+          {/* Display any API errors */}
+          <ErrorMessage message={error} />
+          {/* Display booking errors */}
+          <ErrorMessage message={bookingError} isBookingError={true} />
+
           <BookFreeCall
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -181,27 +253,18 @@ const AcneBookACallPage = ({ searchParams }) => {
             bookedSuccess={bookedSuccess}
             bookACallOnly={true}
           />
-{!bookedSuccess && selectedTime !== null && (
-  <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
-    <button
-      className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        // Ensure any active element loses focus before proceeding
-        if (document.activeElement) {
-          document.activeElement.blur();
-        }
-        // Add a small delay before executing the action
-        setTimeout(() => {
-          bookACall();
-        }, 10);
-      }}
-    >
-      BOOK A CALL
-    </button>
-  </div>
-)}
+
+          {!bookedSuccess && selectedTime !== null && (
+            <div className="sticky bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
+              <button
+                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer"
+                onClick={bookACall}
+                disabled={loading}
+              >
+                {loading ? "BOOKING..." : "BOOK A CALL"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     );
