@@ -21,7 +21,7 @@ const FormSubmission = () => {
 
   useEffect(() => {
     // Send GTM event for form completion
-    sendGtmEvents("form-complete", {
+    sendGtmEvents("Lead", {
       name: window.localStorage.getItem("user_first_name"),
       phone_number: window.localStorage.getItem("user_phone"),
       gender: window.localStorage.getItem("user_gender"),

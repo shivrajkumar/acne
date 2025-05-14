@@ -158,7 +158,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }}>
-      <PixelInit eventName="PageView" />
+      <PixelInit/>
         <ScrollTracker />
         <PageViewTracker/>
         <ErrorBoundary>

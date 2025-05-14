@@ -330,7 +330,7 @@ export default function UserBasicInfoForm() {
         moengage.add_user_attribute("synthetic_id", _res.data.syntheticId);
         moengage.add_user_attribute("case_id", _res?.data?.caseId);
       });
-      sendGtmEvents("form-satge-1", {
+      sendGtmEvents("Contact", {
         name: formData.fullName,
         phone_number: `+91${formData.phone}`,
         gender: formData.gender,

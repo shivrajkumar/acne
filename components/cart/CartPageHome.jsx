@@ -41,8 +41,8 @@ const CartPageHome = () => {
       caseId: data?.customerDetails?.caseId,
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
-    sendGtmEvents("checkout-started", eventAttributes);
-    pixelCustomeEvent("Buy Now Clicked");
+    sendGtmEvents("Buy Now Clicked", eventAttributes);
+    pixelCustomeEvent("Buy Now Clicked",eventAttributes);
     const fbp = getCookieValue("_fbp", document.cookie.split(";"));
     const fbc = getCookieValue("_fbc", document.cookie.split(";"));
     const email = window.localStorage.getItem("user_email");
@@ -98,7 +98,6 @@ const CartPageHome = () => {
       </div>
     );
   };
-  console.log(data, "data");
 
   return (
     <>
