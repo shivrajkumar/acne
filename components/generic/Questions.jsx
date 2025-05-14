@@ -132,7 +132,7 @@ const Questions = () => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
         pixelCustomeEvent('Form Start');
-        sendGtmEvents("skin-test-initiated");
+        sendGtmEvents("Form Start");
       }
     }
 

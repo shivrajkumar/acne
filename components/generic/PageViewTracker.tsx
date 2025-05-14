@@ -9,7 +9,9 @@ export default function PageViewTracker() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      sendGtmEvents(`PageLanded-${pathname}`);
+      const page = pathname === "/" ? "home" : pathname.replace("/", "");
+      const eventName = `Pageview+${page}`;
+      sendGtmEvents(eventName);
     }
   }, [pathname]); // Fires on route change
 

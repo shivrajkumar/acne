@@ -16,7 +16,10 @@ const GTMpagelandingEvent = ({event}) => {
 export  function sendGtmEvents(event,attribute={}){
     if(typeof window !== "undefined"){
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({event:event,attribute})
+          window.dataLayer.push({
+            event,
+            ...attribute, 
+        });
     }
 }
 

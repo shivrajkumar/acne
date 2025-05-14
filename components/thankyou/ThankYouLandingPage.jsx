@@ -13,10 +13,7 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
-import {
-  handleBookCall,
-  transformSlotData,
-} from "../../utils/bookacall";
+import { handleBookCall, transformSlotData } from "../../utils/bookacall";
 import { sendGtmEvents } from "../generic/Gtm";
 import moment from "moment";
 import { pixelCustomeEvent } from "../generic/Pixel";
@@ -45,8 +42,14 @@ const ThankYouLandingPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    sendGtmEvents("book-call-page-viewed-with-order");
-    pixelCustomeEvent("Purchase");
+    if (typeof window !== "undefined") {
+      sendGtmEvents("Purchase", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+      pixelCustomeEvent("Purchase", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+    }
   }, []);
 
   // Check booking status from localStorage on mount
@@ -155,7 +158,9 @@ const ThankYouLandingPage = ({ searchParams }) => {
       setCloseConfirm,
       BOOK_SLOT_API,
     });
-    sendGtmEvents("book-call-confirmed-with-order");
+    sendGtmEvents("book-call-confirmed-with-order", {
+      gender: window.localStorage.getItem("user_gender"),
+    });
   };
 
   // Redirect to skin test

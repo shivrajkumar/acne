@@ -43,9 +43,9 @@ const ResultLandingPage = ({ searchParams }) => {
       const phone = window.localStorage.getItem("user_phone");
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
-      const storedOrderId = window.localStorage.getItem('orderDisplayId');
+      const storedOrderId = window.localStorage.getItem("orderDisplayId");
       if (storedOrderId) {
-            setHasPlacedOrder(true);
+        setHasPlacedOrder(true);
       }
 
       const capiPayloadRes = {
@@ -56,15 +56,19 @@ const ResultLandingPage = ({ searchParams }) => {
         url,
         gender,
       };
-      pixelCustomeEvent('ReportGenerated' ,{ gender:capiPayloadRes?.gender});
+      pixelCustomeEvent("ReportGenerated", { gender: capiPayloadRes?.gender });
       setCapiPayload(capiPayloadRes);
       metaCapi(capiPayloadRes, "ReportGenerated/Lead");
     }
   }, []);
 
   useEffect(() => {
-    fetchResult();
-    sendGtmEvents("result-page-viewed");
+    if (typeof window !== "undefined") {
+      fetchResult();
+      sendGtmEvents("ReportGenerated", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+    }
   }, [tId]);
 
   useEffect(() => {
@@ -128,8 +132,8 @@ const ResultLandingPage = ({ searchParams }) => {
       caseId: resultData?.customerDetails?.caseId,
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
-    sendGtmEvents("checkout-started", eventAttributes);
-    pixelCustomeEvent('Buy Now Clicked',eventAttributes);
+    sendGtmEvents("Buy Now Clicked", eventAttributes);
+    pixelCustomeEvent("Buy Now Clicked", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
   };
 
@@ -145,7 +149,7 @@ const ResultLandingPage = ({ searchParams }) => {
     rootCausesDetails: resultData?.rootCausesDetails,
     caseId: resultData?.customerDetails?.caseId,
     acne_booking_success: bookingStatus,
-    hasPlacedOrder:hasPlacedOrder
+    hasPlacedOrder: hasPlacedOrder,
   };
 
   return loading ? (

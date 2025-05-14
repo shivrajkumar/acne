@@ -35,7 +35,9 @@ const AcneBookACallPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    sendGtmEvents("book-call-page-viewed-without-order");
+       if (typeof window !== "undefined") {
+    sendGtmEvents("book-call-page-viewed-without-order" ,{ gender:window.localStorage.getItem("user_gender")});
+       }
   }, []);
   useEffect(() => {
     let idFromParams = searchParams?.caseId;
@@ -133,7 +135,7 @@ const AcneBookACallPage = ({ searchParams }) => {
     if (confirmed) {
       setBookedSuccess(true);
     }
-    sendGtmEvents("book-call-confirmed-without-order");
+    sendGtmEvents("book-call-confirmed-without-order",{ gender:window.localStorage.getItem("user_gender")});
   };
 
   // Then check loading state after caseId check
