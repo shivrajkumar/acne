@@ -21,6 +21,7 @@ import {
 import { sendGtmEvents } from "../generic/Gtm";
 import { metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
+import { pixelCustomeEvent } from "../generic/Pixel";
 
 export default function UserBasicInfoForm() {
   const {
@@ -335,6 +336,7 @@ export default function UserBasicInfoForm() {
         gender: formData.gender,
         age: formData?.age,
       });
+        pixelCustomeEvent('User Details Added' ,{ gender: formData.gender});
       const cookies = document.cookie.split(';');
       const fbp = getCookieValue('_fbp', cookies);
       const fbc = getCookieValue('_fbc', cookies);

@@ -10,6 +10,7 @@ import { trackMoEngageEvent } from "@/utils/moegage";
 import { sendGtmEvents } from "../generic/Gtm";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { metaCapi } from "@/helpers/metaCapiHelper";
+import { pixelCustomeEvent } from "../generic/Pixel";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -45,6 +46,7 @@ const CartPageHome = () => {
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     sendGtmEvents("checkout-started", eventAttributes);
+    pixelCustomeEvent('Buy Now Clicked');
     const fbp = getCookieValue("_fbp", document.cookie.split(";"));
     const fbc = getCookieValue("_fbc", document.cookie.split(";"));
     const email = window.localStorage.getItem("user_email");

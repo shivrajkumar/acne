@@ -19,6 +19,7 @@ import {
 } from "../../utils/bookacall";
 import { sendGtmEvents } from "../generic/Gtm";
 import moment from "moment";
+import { pixelCustomeEvent } from "../generic/Pixel";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -45,6 +46,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   useEffect(() => {
     sendGtmEvents("book-call-page-viewed-with-order");
+    pixelCustomeEvent("Thank You Page");
   }, []);
 
   // Check booking status from localStorage on mount

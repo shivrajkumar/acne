@@ -21,6 +21,7 @@ import { trackMoEngageEvent } from "@/utils/moegage";
 import { sendGtmEvents } from "../generic/Gtm";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { metaCapi } from "@/helpers/metaCapiHelper";
+import { pixelCustomeEvent } from "../generic/Pixel";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -63,6 +64,7 @@ const ResultLandingPage = ({ searchParams }) => {
   useEffect(() => {
     fetchResult();
     sendGtmEvents("result-page-viewed");
+    pixelCustomeEvent('result-page-viewed');
   }, [tId]);
 
   useEffect(() => {
@@ -127,6 +129,7 @@ const ResultLandingPage = ({ searchParams }) => {
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     sendGtmEvents("checkout-started", eventAttributes);
+    pixelCustomeEvent('Buy Now Clicked');
     metaCapi(capiPayload, "CheckoutInitiated");
   };
 
