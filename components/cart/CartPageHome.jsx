@@ -71,7 +71,7 @@ const CartPageHome = () => {
         <div className="flex flex-col md:flex-row md:items-center md:gap-6">
           <div className="flex flex-col items-start md:gap-4 gap-[10px]">
             <div>
-              <h2 className="md:text-[32px] text-[24px] mb-4 text-[#171819] font-[500] hidden md:block">
+              <h2 className="md:text-[32px] text-[24px] mb-4 text-[#171819] font-[500]">
                 Your order {orderDisplayId} has been placed!
               </h2>
             </div>
