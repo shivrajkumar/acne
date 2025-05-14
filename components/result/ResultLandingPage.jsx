@@ -56,7 +56,7 @@ const ResultLandingPage = ({ searchParams }) => {
         url,
         gender,
       };
-      pixelCustomeEvent('result-page-viewed' ,{ gender:capiPayloadRes?.gender});
+      pixelCustomeEvent('ReportGenerated' ,{ gender:capiPayloadRes?.gender});
       setCapiPayload(capiPayloadRes);
       metaCapi(capiPayloadRes, "ReportGenerated/Lead");
     }

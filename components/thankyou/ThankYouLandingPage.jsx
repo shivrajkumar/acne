@@ -46,7 +46,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   useEffect(() => {
     sendGtmEvents("book-call-page-viewed-with-order");
-    pixelCustomeEvent("Thank You Page");
+    pixelCustomeEvent("Purchase");
   }, []);
 
   // Check booking status from localStorage on mount
