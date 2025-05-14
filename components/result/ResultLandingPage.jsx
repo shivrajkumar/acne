@@ -41,7 +41,7 @@ const ResultLandingPage = ({ searchParams }) => {
         window.localStorage.getItem("user_email") ??
         `${formData?.phoneNumber ?? "unknown"}.unknown@traya.health`;
       const phone = window.localStorage.getItem("user_phone");
-      const gender = window.localStorage.getItem("gender");
+      const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
       const storedOrderId = window.localStorage.getItem('orderDisplayId');
       if (storedOrderId) {
@@ -56,6 +56,7 @@ const ResultLandingPage = ({ searchParams }) => {
         url,
         gender,
       };
+      pixelCustomeEvent('result-page-viewed' ,{ gender:capiPayloadRes?.gender});
       setCapiPayload(capiPayloadRes);
       metaCapi(capiPayloadRes, "ReportGenerated/Lead");
     }
@@ -64,7 +65,6 @@ const ResultLandingPage = ({ searchParams }) => {
   useEffect(() => {
     fetchResult();
     sendGtmEvents("result-page-viewed");
-    pixelCustomeEvent('result-page-viewed');
   }, [tId]);
 
   useEffect(() => {
@@ -129,7 +129,7 @@ const ResultLandingPage = ({ searchParams }) => {
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     sendGtmEvents("checkout-started", eventAttributes);
-    pixelCustomeEvent('Buy Now Clicked');
+    pixelCustomeEvent('Buy Now Clicked',eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
   };
 

@@ -9,7 +9,7 @@ export default function PageViewTracker() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      sendGtmEvents("PageLanded");
+      sendGtmEvents(`PageLanded-${pathname}`);
     }
   }, [pathname]); // Fires on route change
 

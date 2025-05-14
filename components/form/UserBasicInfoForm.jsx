@@ -336,7 +336,7 @@ export default function UserBasicInfoForm() {
         gender: formData.gender,
         age: formData?.age,
       });
-        pixelCustomeEvent('User Details Added' ,{ gender: formData.gender});
+      pixelCustomeEvent('User Details Added' ,{ gender: formData.gender});
       const cookies = document.cookie.split(';');
       const fbp = getCookieValue('_fbp', cookies);
       const fbc = getCookieValue('_fbc', cookies);
