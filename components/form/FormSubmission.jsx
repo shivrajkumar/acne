@@ -21,7 +21,12 @@ const FormSubmission = () => {
 
   useEffect(() => {
     // Send GTM event for form completion
-    sendGtmEvents("form-complete", { location: window.location.pathname });
+    sendGtmEvents("form-complete", {
+      name: window.localStorage.getItem("user_first_name"),
+      phone_number: window.localStorage.getItem("user_phone"),
+      gender: window.localStorage.getItem("user_gender"),
+      age: window.localStorage.getItem("user_age"),
+    });
     pixelCustomeEvent("Skin Test Completed", {
       name: window.localStorage.getItem("user_first_name"),
       phone_number: window.localStorage.getItem("user_phone"),
