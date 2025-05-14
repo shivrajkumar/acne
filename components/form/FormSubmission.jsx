@@ -27,7 +27,7 @@ const FormSubmission = () => {
       gender: window.localStorage.getItem("user_gender"),
       age: window.localStorage.getItem("user_age"),
     });
-    pixelCustomeEvent("Skin Test Completed", {
+    pixelCustomeEvent("Lead", {
       name: window.localStorage.getItem("user_first_name"),
       phone_number: window.localStorage.getItem("user_phone"),
       gender: window.localStorage.getItem("user_gender"),

@@ -131,7 +131,7 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
-        pixelCustomeEvent('Skin Test Started');
+        pixelCustomeEvent('Form Start');
         sendGtmEvents("skin-test-initiated");
       }
     }

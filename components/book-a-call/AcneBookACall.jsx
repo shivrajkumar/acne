@@ -7,10 +7,7 @@ import {
   GET_ACTIVE_SLOTS_API,
 } from "@/constants/urls";
 import Loader from "../generic/Loader";
-import {
-  handleBookCall,
-  transformSlotData,
-} from "../../utils/bookacall";
+import { handleBookCall, transformSlotData } from "../../utils/bookacall";
 import BookFreeCall from "../slot-booking/AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
@@ -105,7 +102,13 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   // Handle booking a call
 
-  const bookACall = async () => {
+ const bookACall = async () => {
+  // iOS: Ensure no input is focused (keyboard hides fixed elements)
+  if (typeof document !== "undefined") {
+    document.activeElement?.blur();
+  }
+  // Add small delay to ensure iOS has completed any pending UI operations
+  setTimeout(async () => {
     await handleBookCall({
       selectedDate,
       selectedTime,
@@ -115,7 +118,8 @@ const AcneBookACallPage = ({ searchParams }) => {
       setCloseConfirm,
       BOOK_SLOT_API,
     });
-  };
+  }, 50);
+};
 
   // Redirect to skin test
   const handleTakeSkinTest = () => {
@@ -175,16 +179,27 @@ const AcneBookACallPage = ({ searchParams }) => {
             bookedSuccess={bookedSuccess}
             bookACallOnly={true}
           />
-          {!bookedSuccess && selectedTime !== null && (
-            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center">
-              <button
-                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
-                onClick={bookACall}
-              >
-                BOOK A CALL
-              </button>
-            </div>
-          )}
+{!bookedSuccess && selectedTime !== null && (
+  <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
+    <button
+      className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // Ensure any active element loses focus before proceeding
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+        // Add a small delay before executing the action
+        setTimeout(() => {
+          bookACall();
+        }, 10);
+      }}
+    >
+      BOOK A CALL
+    </button>
+  </div>
+)}
         </div>
       </div>
     );
