@@ -24,16 +24,12 @@ const CartPageHome = () => {
 
       setOrderDisplayId(orderDisplayIdFromStorage);
 
-      // Only set cart data if no order has been placed
-      if (!orderDisplayIdFromStorage) {
-        const cartData = JSON.parse(
-          window.localStorage.getItem("acne_result_data")
-        );
-        setData(cartData);
-      }
+      const cartData = JSON.parse(
+        window.localStorage.getItem("acne_result_data")
+      );
+      setData(cartData);
     }
   }, []);
-
 
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
@@ -46,7 +42,7 @@ const CartPageHome = () => {
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     sendGtmEvents("checkout-started", eventAttributes);
-    pixelCustomeEvent('Buy Now Clicked');
+    pixelCustomeEvent("Buy Now Clicked");
     const fbp = getCookieValue("_fbp", document.cookie.split(";"));
     const fbc = getCookieValue("_fbc", document.cookie.split(";"));
     const email = window.localStorage.getItem("user_email");
@@ -102,6 +98,7 @@ const CartPageHome = () => {
       </div>
     );
   };
+  console.log(data, "data");
 
   return (
     <>
@@ -255,16 +252,18 @@ const CartPageHome = () => {
               </div>
 
               {/* Checkbox */}
-              <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
-                <input
-                  type="checkbox"
-                  className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
-                  style={{ accentColor: "#237AB1" }}
-                />
-                <label className="text-[14px] font-[400] leading-[140%] text-Text/Label">
-                  Keep me posted about sales and offers
-                </label>
-              </div>
+              {!orderDisplayId && (
+                <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
+                  <input
+                    type="checkbox"
+                    className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
+                    style={{ accentColor: "#237AB1" }}
+                  />
+                  <label className="text-[14px] font-[400] leading-[140%] text-Text/Label">
+                    Keep me posted about sales and offers
+                  </label>
+                </div>
+              )}
             </div>
 
             {/* Footer */}
@@ -282,18 +281,17 @@ const CartPageHome = () => {
                 </div>
               </div>
 
-              <button
-                className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
-                onClick={placeOrder}
-              >
-                CHECKOUT
-              </button>
+              {!orderDisplayId && (
+                <button
+                  className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
+                  onClick={placeOrder}
+                >
+                  CHECKOUT
+                </button>
+              )}
             </div>
           </div>
         </>
-      ) : // Show different empty cart UI based on whether orderDisplayId exists
-      orderDisplayId ? (
-        renderOrderDisplayIdEmptyCart()
       ) : (
         renderRegularEmptyCart()
       )}
