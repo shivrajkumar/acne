@@ -23,7 +23,7 @@ export default function AcneOurTeam() {
               variant="black"
               text="Book your call now"
               tm=" "
-              redirectTo="/book-a-call"
+              redirectTo={`/book-a-call?redirect=home`}
               deskSize="desktopBig"
             />{" "}
           </div>
@@ -68,7 +68,7 @@ export default function AcneOurTeam() {
             variant="black"
             text="Book your call now"
             tm=" "
-            redirectTo="/book-a-call"
+            redirectTo={`/book-a-call?redirect=home`}
             deskSize="mobileBig"
           />{" "}
         </div>

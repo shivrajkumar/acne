@@ -17,6 +17,7 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
 import LogMoengage from "./LogMoengage";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { pixelCustomeEvent } from "./Pixel";
 
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
@@ -130,7 +131,7 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
-        // pixelCustomeEvent('form-stage-1')
+        pixelCustomeEvent('Skin Test Started');
         sendGtmEvents("skin-test-initiated");
       }
     }
