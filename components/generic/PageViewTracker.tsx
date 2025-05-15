@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { sendGtmEvents } from "./Gtm";
+import { logGtmEvent } from "./Gtm";
 
 export default function PageViewTracker() {
   const pathname = usePathname();
@@ -11,7 +11,7 @@ export default function PageViewTracker() {
     if (typeof window !== "undefined") {
       const page = pathname === "/" ? "home" : pathname.replace("/", "");
       const eventName = `Pageview+${page}`;
-      sendGtmEvents(eventName);
+      logGtmEvent(eventName);
     }
   }, [pathname]); // Fires on route change
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useEffect } from "react";
-import { sendGtmEvents } from "../generic/Gtm";
+import { logGtmEvent } from "../generic/Gtm";
 import LoaderwithText from "@/components/generic/LoaderWithText";
 import { useRouter } from "next/navigation";
 import { QuestionsContext } from "@context/questions-store";
@@ -21,7 +21,7 @@ const FormSubmission = () => {
 
   useEffect(() => {
     // Send GTM event for form completion
-    sendGtmEvents("Lead", {
+    logGtmEvent("Lead", {
       name: window.localStorage.getItem("user_first_name"),
       phone_number: window.localStorage.getItem("user_phone"),
       gender: window.localStorage.getItem("user_gender"),

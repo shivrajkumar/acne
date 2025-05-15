@@ -12,8 +12,8 @@ import BookFreeCall from "../slot-booking/AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
-import { sendGtmEvents } from "../generic/Gtm";
 import moment from "moment";
+import { logGtmEvent } from "../generic/Gtm";
 
 const AcneBookACallPage = ({ searchParams }) => {
   const [availableSlots, setAvailableSlots] = useState({});
@@ -39,12 +39,10 @@ const AcneBookACallPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      sendGtmEvents("book-call-page-viewed-without-order", {
-        gender: window.localStorage.getItem("user_gender"),
-      });
-    }
-  }, []);
+    logGtmEvent("book-call-confirmed-without-order", {
+      gender: window.localStorage.getItem("user_gender"),
+    })
+  }, [])
 
   useEffect(() => {
     let idFromParams = searchParams?.caseId;
@@ -156,7 +154,7 @@ const AcneBookACallPage = ({ searchParams }) => {
           console.error("Booking failed:", error);
           setBookingError(
             error.message ||
-              "Failed to book your appointment. Please try again."
+            "Failed to book your appointment. Please try again."
           );
         },
       });
@@ -180,11 +178,13 @@ const AcneBookACallPage = ({ searchParams }) => {
     if (confirmed) {
       setBookedSuccess(true);
       setBookingError(null); // Clear any previous errors
+      logGtmEvent("book-call-confirmed-without-order", {
+        gender: window.localStorage.getItem("user_gender"),
+      })
     }
-    sendGtmEvents("book-call-confirmed-without-order", {
-      gender: window.localStorage.getItem("user_gender"),
-    });
+
   };
+
 
   // Display error message component
   const ErrorMessage = ({ message, isBookingError = false }) => {
@@ -192,9 +192,8 @@ const AcneBookACallPage = ({ searchParams }) => {
 
     return (
       <div
-        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${
-          isBookingError ? "mt-4" : ""
-        }`}
+        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${isBookingError ? "mt-4" : ""
+          }`}
       >
         <div className="flex items-start">
           <div className="ml-3">

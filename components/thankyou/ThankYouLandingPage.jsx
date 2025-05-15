@@ -14,7 +14,7 @@ import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
 import { handleBookCall, transformSlotData } from "../../utils/bookacall";
-import { sendGtmEvents } from "../generic/Gtm";
+import { logGtmEvent } from "../generic/Gtm";
 import moment from "moment";
 import { pixelCustomeEvent } from "../generic/Pixel";
 
@@ -47,7 +47,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      sendGtmEvents("Purchase", {
+      logGtmEvent("Purchase", {
         gender: window.localStorage.getItem("user_gender"),
       });
       pixelCustomeEvent("Purchase", {
@@ -89,7 +89,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
     fetchData();
 
     // Return empty cleanup function
-    return () => {};
+    return () => { };
   }, [searchParams]);
 
   useEffect(() => {
@@ -184,11 +184,11 @@ const ThankYouLandingPage = ({ searchParams }) => {
           console.error("Booking failed:", error);
           setBookingError(
             error.message ||
-              "Failed to book your appointment. Please try again."
+            "Failed to book your appointment. Please try again."
           );
         },
       });
-      sendGtmEvents("book-call-confirmed-with-order", {
+      logGtmEvent("book-call-confirmed-with-order", {
         gender: window.localStorage.getItem("user_gender"),
       });
     } catch (error) {

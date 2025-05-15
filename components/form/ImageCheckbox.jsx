@@ -16,7 +16,7 @@ import pus_filled from "@assets/images/Pus_Filled_Pimples.png";
 import boils_nodules from "@assets/images/Big_Boils.png";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
-import { sendGtmEvents } from "../generic/Gtm";
+import { logGtmEvent } from "../generic/Gtm";
 
 // Function to get the image based on image_url value
 const getImageForPimpleType = (imageUrl) => {
@@ -99,7 +99,7 @@ const ImageCheckbox = ({ block, context }) => {
       await handleSubmit(selectedOptions);
 
       if (block.id === "pimples_appearance") {
-        sendGtmEvents("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
+        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
       }
 
       if (block.id == "stress_level") {

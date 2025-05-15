@@ -18,10 +18,10 @@ import {
   callAfterMoegageIsLoaded,
   trackMoEngageEvent,
 } from "../../utils/moegage";
-import { sendGtmEvents } from "../generic/Gtm";
 import { metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
+import { logGtmEvent } from "../generic/Gtm";
 
 export default function UserBasicInfoForm() {
   const {
@@ -330,7 +330,7 @@ export default function UserBasicInfoForm() {
         moengage.add_user_attribute("synthetic_id", _res.data.syntheticId);
         moengage.add_user_attribute("case_id", _res?.data?.caseId);
       });
-      sendGtmEvents("Contact", {
+      logGtmEvent("Contact", {
         name: formData.fullName,
         phone_number: `+91${formData.phone}`,
         gender: formData.gender,

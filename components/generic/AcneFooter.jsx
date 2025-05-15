@@ -12,8 +12,8 @@ import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import PhoneIcon from "@assets/icons/phone_icon.png";
 import MailIcon from "@assets/icons/mail_Icon.png";
 import { trackMoEngageEvent } from "@/utils/moegage";
-import { sendGtmEvents } from "./Gtm";
 import _ from 'lodash';
+import { logGtmEvent } from "./Gtm";
 
 const AcneFooter = () => {
   const [currentPath, setCurrentPath] = useState("");
@@ -29,16 +29,16 @@ const AcneFooter = () => {
       to_page: url,
       time: new Date().toISOString()
     });
-    sendGtmEvents(`footer-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    logGtmEvent(`footer-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
   };
 
   const socialIconsClickEvent = (name, link) => {
-    sendGtmEvents(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
-    sendGtmEvents(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link });
+    logGtmEvent(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    logGtmEvent(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link });
   };
 
   const contactIconsClickEvent = (name) => {
-    sendGtmEvents(`footer-contact-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    logGtmEvent(`footer-contact-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
   };
 
   return (
