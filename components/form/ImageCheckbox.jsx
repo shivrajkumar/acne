@@ -9,14 +9,21 @@ import { Modal } from "./modal";
 import infoCircle from "@assets/icons/info-circle.png";
 
 // Import images for pimple types
-import blackheads from "@assets/images/Blackheads.png";
-import whiteheads from "@assets/images/Whiteheads.png";
-import small_bumps from "@assets/images/Smallbumps.png";
-import pus_filled from "@assets/images/Pus_Filled_Pimples.png";
-import boils_nodules from "@assets/images/Big_Boils.png";
+import { CDN_BASE_URL } from "@/constants/config";
+// import blackheads from "@assets/images/Blackheads.png";
+// import whiteheads from "@assets/images/Whiteheads.png";
+// import small_bumps from "@assets/images/Smallbumps.png";
+// import pus_filled from "@assets/images/Pus_Filled_Pimples.png";
+// import boils_nodules from "@assets/images/Big_Boils.png";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
+
+const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
+const whiteheads =  `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
+const small_bumps = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/small_bumps.webp`;
+const pus_filled = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/pus_filled_pimples.webp`;
+const boils_nodules = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/big_boils.webp`;
 
 // Function to get the image based on image_url value
 const getImageForPimpleType = (imageUrl) => {
