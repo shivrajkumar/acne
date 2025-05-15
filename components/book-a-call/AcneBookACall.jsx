@@ -21,6 +21,7 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   // UI states
   const [loading, setLoading] = useState(true);
+  const [loadingBookCall, setLoadingBookCall] = useState(false);
   const [closeConfirm, setCloseConfirm] = useState(false);
   const [bookedSuccess, setBookedSuccess] = useState(false);
 
@@ -130,12 +131,14 @@ const AcneBookACallPage = ({ searchParams }) => {
   // Handle booking a call
   const bookACall = async () => {
     setBookingError(null);
+    setLoadingBookCall(true);
 
     try {
       if (!selectedDate || !selectedTime) {
         setBookingError(
           "Please select both a date and time for your appointment."
         );
+        setLoadingBookCall(false);
         return;
       }
 
@@ -147,11 +150,8 @@ const AcneBookACallPage = ({ searchParams }) => {
         transformedSlots,
         setCloseConfirm,
         BOOK_SLOT_API,
-        onSuccess: (response) => {
-          console.log("Booking successful:", response);
-        },
         onError: (error) => {
-          console.error("Booking failed:", error);
+          console.error("Booking failed:");
           setBookingError(
             error.message ||
             "Failed to book your appointment. Please try again."
@@ -159,10 +159,12 @@ const AcneBookACallPage = ({ searchParams }) => {
         },
       });
     } catch (error) {
-      console.error("Error in bookACall:", error);
+      console.error("Error in bookACall:");
       setBookingError(
         error.message || "An unexpected error occurred. Please try again."
       );
+    } finally {
+      setLoadingBookCall(false);
     }
   };
 
@@ -182,9 +184,7 @@ const AcneBookACallPage = ({ searchParams }) => {
         gender: window.localStorage.getItem("user_gender"),
       })
     }
-
   };
-
 
   // Display error message component
   const ErrorMessage = ({ message, isBookingError = false }) => {
@@ -200,6 +200,15 @@ const AcneBookACallPage = ({ searchParams }) => {
             <p className="text-sm text-red-700">{message}</p>
           </div>
         </div>
+      </div>
+    );
+  };
+
+  // Button loader component
+  const ButtonLoader = () => {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
       </div>
     );
   };
@@ -254,13 +263,13 @@ const AcneBookACallPage = ({ searchParams }) => {
           />
 
           {!bookedSuccess && selectedTime !== null && (
-            <div className="sticky bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
+            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
               <button
-                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer"
+                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
                 onClick={bookACall}
-                disabled={loading}
+                disabled={loadingBookCall}
               >
-                {loading ? "BOOKING..." : "BOOK A CALL"}
+                {loadingBookCall ? <ButtonLoader /> : "BOOK A CALL"}
               </button>
             </div>
           )}

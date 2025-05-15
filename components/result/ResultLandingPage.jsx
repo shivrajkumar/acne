@@ -37,9 +37,7 @@ const ResultLandingPage = ({ searchParams }) => {
     if (typeof window !== "undefined") {
       const fbp = getCookieValue("_fbp", document.cookie.split(";"));
       const fbc = getCookieValue("_fbc", document.cookie.split(";"));
-      const email =
-        window.localStorage.getItem("user_email") ??
-        `${formData?.phoneNumber ?? "unknown"}.unknown@traya.health`;
+      const email = window.localStorage.getItem("user_email");
       const phone = window.localStorage.getItem("user_phone");
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
