@@ -46,7 +46,6 @@ const Questions = () => {
     setLoading(true);
     try {
       const response = await fetchRequest(GET_SKIN_TEST_CONFIG);
-
       if (response.hasError) {
         throw new Error('Failed to fetch questions data');
       }
