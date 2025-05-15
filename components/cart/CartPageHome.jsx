@@ -23,10 +23,13 @@ const CartPageHome = () => {
 
       setOrderDisplayId(orderDisplayIdFromStorage);
 
-      const cartData = JSON.parse(
-        window.localStorage.getItem("acne_result_data")
-      );
-      setData(cartData);
+     // Only set cart data if no order has been placed
+      if (!orderDisplayIdFromStorage) {
+        const cartData = JSON.parse(
+          window.localStorage.getItem("acne_result_data")
+        );
+        setData(cartData);
+      }
     }
   }, []);
 
@@ -63,16 +66,10 @@ const CartPageHome = () => {
   // Empty cart with order display ID UI
   const renderOrderDisplayIdEmptyCart = () => {
     return (
-      <div className="bg-Background/Beige w-full p-[16px] md:p-[24px] rounded-none md:rounded-[24px]">
-        <div className="flex flex-col md:flex-row md:items-center md:gap-6">
-          <div className="flex flex-col items-start md:gap-4 gap-[10px]">
-            <div>
-              <h2 className="md:text-[32px] text-[24px] mb-4 text-[#171819] font-[500]">
-                Your order {orderDisplayId} has been placed!
-              </h2>
-            </div>
-          </div>
-        </div>
+       <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
+        <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
+          Your cart is empty!
+        </h2>
       </div>
     );
   };
@@ -251,7 +248,6 @@ const CartPageHome = () => {
               </div>
 
               {/* Checkbox */}
-              {!orderDisplayId && (
                 <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
                   <input
                     type="checkbox"
@@ -262,7 +258,6 @@ const CartPageHome = () => {
                     Keep me posted about sales and offers
                   </label>
                 </div>
-              )}
             </div>
 
             {/* Footer */}
@@ -279,18 +274,18 @@ const CartPageHome = () => {
                   <Image src={arrowIcon} alt="arrow" width={12} height={12} />
                 </div>
               </div>
-
-              {!orderDisplayId && (
                 <button
                   className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
                   onClick={placeOrder}
                 >
                   CHECKOUT
                 </button>
-              )}
             </div>
           </div>
         </>
+         ) : // Show different empty cart UI based on whether orderDisplayId exists
+      orderDisplayId ? (
+        renderOrderDisplayIdEmptyCart()
       ) : (
         renderRegularEmptyCart()
       )}
