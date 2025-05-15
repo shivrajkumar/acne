@@ -26,6 +26,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   // UI states
   const [loading, setLoading] = useState(true); // Start with loading true
+  const [loadingBookCall, setLoadingBookCall] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [closeConfirm, setCloseConfirm] = useState(false);
   const [bookedSuccess, setBookedSuccess] = useState(false);
@@ -157,15 +158,26 @@ const ThankYouLandingPage = ({ searchParams }) => {
     }
   };
 
+  // Button loader component
+  const ButtonLoader = () => {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+      </div>
+    );
+  };
+
   // Handle booking a call
   const bookACall = async () => {
     setBookingError(null);
+    setLoadingBookCall(true);
 
     try {
       if (!selectedDate || !selectedTime) {
         setBookingError(
           "Please select both a date and time for your appointment."
         );
+        setLoadingBookCall(false);
         return;
       }
 
@@ -178,10 +190,9 @@ const ThankYouLandingPage = ({ searchParams }) => {
         setCloseConfirm,
         BOOK_SLOT_API,
         onSuccess: (response) => {
-          console.log("Booking successful:", response);
+          console.log("Booking successful:");
         },
         onError: (error) => {
-          console.error("Booking failed:", error);
           setBookingError(
             error.message ||
             "Failed to book your appointment. Please try again."
@@ -192,10 +203,12 @@ const ThankYouLandingPage = ({ searchParams }) => {
         gender: window.localStorage.getItem("user_gender"),
       });
     } catch (error) {
-      console.error("Error in bookACall:", error);
+      console.error("Error in bookACall:");
       setBookingError(
         error.message || "An unexpected error occurred. Please try again."
       );
+    } finally {
+      setLoadingBookCall(false);
     }
   };
 
@@ -285,6 +298,8 @@ const ThankYouLandingPage = ({ searchParams }) => {
         handleBookCall={bookACall}
         error={error}
         bookingError={bookingError}
+        loadingBookCall={loadingBookCall}
+        ButtonLoader={ButtonLoader}
       />
     );
   };

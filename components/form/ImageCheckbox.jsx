@@ -51,8 +51,6 @@ const ImageCheckbox = ({ block, context }) => {
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  console.log(block ,"blockkk")
-
   useEffect(() => {
     if (!block) return;
     setSelectedOptions(block.reply || []);
