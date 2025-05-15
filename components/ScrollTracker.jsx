@@ -1,7 +1,7 @@
 // components/ScrollTracker.tsx
 'use client';
-import { logGtmEvent } from '@/helpers/gtmHelpers';
 import { useEffect, useRef } from 'react';
+import { logGtmEvent } from './generic/Gtm';
 
 const ScrollTracker = () => {
   const milestones = useRef(new Set());

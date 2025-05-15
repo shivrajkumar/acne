@@ -10,7 +10,7 @@ import Loader from "./Loader";
 import useMediaQuery from "@/hooks/useMediaQuerry";
 import FormSubmission from "@/components/form/FormSubmission";
 import { QuestionsContext } from "@/context/questions-store";
-import { clearGtmFlags, sendGtmEvents } from "./Gtm";
+import { clearGtmFlags, logGtmEvent } from "./Gtm";
 import Header from "@/components/generic/Headers";
 import UserBasicInfoForm from "@/components/form/UserBasicInfoForm";
 import { fetchRequest } from "@/helpers/fetchRequest";
@@ -102,7 +102,7 @@ const Questions = () => {
     if (tabStatus) {
       setTabClosed(tabStatus);
     }
-       if (val) {
+    if (val) {
       setFormStatus(val);
     }
 
@@ -132,7 +132,7 @@ const Questions = () => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
         pixelCustomeEvent('Form Start');
-        sendGtmEvents("Form Start");
+        logGtmEvent("Form Start");
       }
     }
 

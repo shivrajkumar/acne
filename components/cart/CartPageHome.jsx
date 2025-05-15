@@ -7,10 +7,9 @@ import CrossIconIcon from "@assets/icons/close-circle.png";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
 import { trackMoEngageEvent } from "@/utils/moegage";
-import { sendGtmEvents } from "../generic/Gtm";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { metaCapi } from "@/helpers/metaCapiHelper";
-import { pixelCustomeEvent } from "../generic/Pixel";
+import { logGtmEvent } from "../generic/Gtm";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -38,13 +37,14 @@ const CartPageHome = () => {
       tem_count: data?.productsDetails.length,
       timestamp: new Date().toISOString(),
       syntheticId: window.localStorage.getItem("syntheticId"),
-      caseId: data?.customerDetails?.caseId,
-    };
-    trackMoEngageEvent("BeginCheckout", eventAttributes);
-    sendGtmEvents("Buy Now Clicked", eventAttributes);
-    pixelCustomeEvent("Buy Now Clicked",eventAttributes);
-    const fbp = getCookieValue("_fbp", document.cookie.split(";"));
-    const fbc = getCookieValue("_fbc", document.cookie.split(";"));
+      caseId: data?.customerDetails?.caseId
+    }
+    trackMoEngageEvent("BeginCheckout", eventAttributes)
+    logGtmEvent("checkout-started", eventAttributes)
+    pixelCustomeEvent("Buy Now Clicked", eventAttributes);
+
+    const fbp = getCookieValue('_fbp', document.cookie.split(';'));
+    const fbc = getCookieValue('_fbc', document.cookie.split(';'));
     const email = window.localStorage.getItem("user_email");
     const phone = window.localStorage.getItem("user_phone");
     const gender = window.localStorage.getItem("gender");

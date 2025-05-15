@@ -18,10 +18,10 @@ import AcneHeader from "../generic/AcneHeader";
 import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
-import { sendGtmEvents } from "../generic/Gtm";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { metaCapi } from "@/helpers/metaCapiHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
+import { logGtmEvent } from "../generic/Gtm";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -65,10 +65,11 @@ const ResultLandingPage = ({ searchParams }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       fetchResult();
-      sendGtmEvents("ReportGenerated", {
+      logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
       });
     }
+
   }, [tId]);
 
   useEffect(() => {
@@ -132,7 +133,7 @@ const ResultLandingPage = ({ searchParams }) => {
       caseId: resultData?.customerDetails?.caseId,
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
-    sendGtmEvents("Buy Now Clicked", eventAttributes);
+    logGtmEvent("Buy Now Clicked", eventAttributes);
     pixelCustomeEvent("Buy Now Clicked", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
   };
