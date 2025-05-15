@@ -10,11 +10,6 @@ import infoCircle from "@assets/icons/info-circle.png";
 
 // Import images for pimple types
 import { CDN_BASE_URL } from "@/constants/config";
-// import blackheads from "@assets/images/Blackheads.png";
-// import whiteheads from "@assets/images/Whiteheads.png";
-// import small_bumps from "@assets/images/Smallbumps.png";
-// import pus_filled from "@assets/images/Pus_Filled_Pimples.png";
-// import boils_nodules from "@assets/images/Big_Boils.png";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
