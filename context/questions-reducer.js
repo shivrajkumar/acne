@@ -145,11 +145,11 @@ const questionsReducer = (state, action) => {
       let nextId = question.next;
 
       const gender =
-        state.userFormResponses?.gender ??
-        window.localStorage.getItem("user_gender");
+        window.localStorage.getItem("user_gender") ??
+        state.userFormResponses?.gender;
       const userAgeStr =
-        state.userFormResponses?.user_age ||
         window.localStorage.getItem("user_age") ||
+        state.userFormResponses?.user_age ||
         "0";
 
       const userAge = parseInt(userAgeStr);
@@ -157,8 +157,8 @@ const questionsReducer = (state, action) => {
       // CONDITION 1: Dandruff question (only if forehead is selected in pimples_location)
       if (nextId === "has_dandruff") {
         const pimplesLocation =
-          state?.userFormResponses?.acne_position ??
-          state.byId["pimples_location"]?.reply;
+          state.byId["pimples_location"]?.reply ??
+          state?.userFormResponses?.acne_position;
 
         // Check if forehead is in the selected options
         const hasForehead = Array.isArray(pimplesLocation)
@@ -169,7 +169,7 @@ const questionsReducer = (state, action) => {
           nextId = state.byId["has_dandruff"].next;
         }
       }
-     
+
       // CONDITION 2: Hormonal changes question (only for females)
       if (nextId === "hormonal_changes") {
         const hormonal_changes = state.byId[nextId];
