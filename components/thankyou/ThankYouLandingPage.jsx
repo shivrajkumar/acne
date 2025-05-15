@@ -189,9 +189,6 @@ const ThankYouLandingPage = ({ searchParams }) => {
         transformedSlots,
         setCloseConfirm,
         BOOK_SLOT_API,
-        onSuccess: (response) => {
-          console.log("Booking successful:");
-        },
         onError: (error) => {
           setBookingError(
             error.message ||

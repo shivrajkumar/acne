@@ -150,9 +150,6 @@ const AcneBookACallPage = ({ searchParams }) => {
         transformedSlots,
         setCloseConfirm,
         BOOK_SLOT_API,
-        onSuccess: (response) => {
-          console.log("Booking successful:");
-        },
         onError: (error) => {
           console.error("Booking failed:");
           setBookingError(
