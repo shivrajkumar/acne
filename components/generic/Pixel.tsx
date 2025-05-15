@@ -11,8 +11,8 @@ export const FacebookPixelEventsInit: React.FC<Record<string, string>> = ({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-         const page = pathname === "/" ? "home" : pathname.replace(/^\/+/, "");
-    const finalEventName = eventName || `Pageview+${page}`;
+      const page = pathname === "/" ? "home" : pathname.replace(/^\/+/, "");
+      const finalEventName = eventName || `Pageview+${page}`;
 
       import("react-facebook-pixel")
         .then((x) => x.default)
@@ -26,10 +26,10 @@ export const FacebookPixelEventsInit: React.FC<Record<string, string>> = ({
   return null;
 };
 
-export default function PixelInit({eventName}:Record<string, string>) {
+export default function PixelInit({ eventName }: Record<string, string>) {
   return (
     <Suspense>
-      <FacebookPixelEventsInit   eventName={eventName}/>
+      <FacebookPixelEventsInit eventName={eventName} />
     </Suspense>
   );
 }

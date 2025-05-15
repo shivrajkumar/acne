@@ -51,7 +51,7 @@ const ImageCheckbox = ({ block, context }) => {
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-
+  console.log(block ,"blockkk")
 
   useEffect(() => {
     if (!block) return;
@@ -214,14 +214,14 @@ const ImageCheckbox = ({ block, context }) => {
                 </div>
 
                 {/* Image */}
-                <div className="w-full">
+                <div className="w-full md:h-[220px] h-[156px]">
                   {pimpleImage ? (
                     <Image
                       src={pimpleImage}
                       alt={option.name}
                       width={220}
                       height={220}
-                      className="w-full h-auto object-cover rounded-2xl"
+                      className="!w-full !h-full object-cover rounded-2xl"
                     />
                   ) : (
                     <div className="w-full h-[180px] bg-gray-100 flex items-center justify-center text-gray-400">
