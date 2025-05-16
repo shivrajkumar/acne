@@ -36,11 +36,13 @@ const CartPageHome = () => {
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
     const eventAttributes = {
-      cart_value: data?.cartDetails?.totalCartValue,
-      tem_count: data?.productsDetails.length,
+      cart_value: `${data?.cartDetails?.totalCartValue}`,
+      item_count: `${data?.productsDetails.length}`,
       timestamp: new Date().toISOString(),
-      syntheticId: window.localStorage.getItem("syntheticId"),
-      caseId: data?.customerDetails?.caseId
+      syntheticId: `${window.localStorage.getItem("syntheticId")}`,
+      caseId: `${data?.customerDetails?.caseId}`,
+      transactionId: `${window.localStorage.getItem("user_tid")}`
+
     }
     trackMoEngageEvent("BeginCheckout", eventAttributes)
     logGtmEvent("checkout-started", eventAttributes)

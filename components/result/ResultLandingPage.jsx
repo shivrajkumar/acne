@@ -124,11 +124,13 @@ const ResultLandingPage = ({ searchParams }) => {
       resultData?.customerDetails?.caseId
     );
     const eventAttributes = {
-      cart_value: resultData?.cartDetails?.totalCartValue,
-      item_count: resultData?.productsDetails.length,
+      cart_value: `${resultData?.cartDetails?.totalCartValue}`,
+      item_count: `${resultData?.productsDetails.length}`,
       timestamp: new Date().toISOString(),
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
-      caseId: resultData?.customerDetails?.caseId,
+      caseId: `${resultData?.customerDetails?.caseId}`,
+      currency: "INR",
+      transactionId: `${tId}`
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     logGtmEvent("Buy Now Clicked", eventAttributes);
