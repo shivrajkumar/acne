@@ -46,16 +46,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
     [availableSlots?.slotDetails, bookedSuccess]
   );
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      logGtmEvent("Purchase", {
-        gender: window.localStorage.getItem("user_gender"),
-      });
-      pixelCustomeEvent("Purchase", {
-        gender: window.localStorage.getItem("user_gender"),
-      });
-    }
-  }, []);
+
 
   // Check booking status from localStorage on mount
   useEffect(() => {
@@ -116,6 +107,24 @@ const ThankYouLandingPage = ({ searchParams }) => {
       const res = await fetchRequest(ORDER_DETAILS(orderId));
       if (res.status === 200) {
         setOrderDetails(res.data);
+        logGtmEvent("Purchase", {
+          gender: window.localStorage.getItem("user_gender"),
+          orderId: `${res.data?.orderDetails?.orderId}`,
+          order_value: `${res.data?.orderDetails?.totalPrice}`,
+          currency: "INR",
+          order_items: res.data?.orderDetails?.orderLineItems,
+          caseId: `${caseId}`,
+          transactionId: `${window.localStorage.getItem("user_tid")}`
+        });
+        pixelCustomeEvent("Purchase", {
+          gender: window.localStorage.getItem("user_gender"),
+          orderId: `${res.data?.orderDetails?.orderId}`,
+          order_value: `${res.data?.orderDetails?.totalPrice}`,
+          currency: "INR",
+          order_items: res.data?.orderDetails?.orderLineItems,
+          caseId: `${caseId}`,
+          transactionId: `${window.localStorage.getItem("user_tid")}`
+        });
       }
       return res;
     } catch (error) {
