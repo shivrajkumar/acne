@@ -9,14 +9,16 @@ import { Modal } from "./modal";
 import infoCircle from "@assets/icons/info-circle.png";
 
 // Import images for pimple types
-import blackheads from "@assets/images/Blackheads.png";
-import whiteheads from "@assets/images/Whiteheads.png";
-import small_bumps from "@assets/images/Smallbumps.png";
-import pus_filled from "@assets/images/Pus_Filled_Pimples.png";
-import boils_nodules from "@assets/images/Big_Boils.png";
+import { CDN_BASE_URL } from "@/constants/config";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
-import { sendGtmEvents } from "../generic/Gtm";
+import { logGtmEvent } from "../generic/Gtm";
+
+const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
+const whiteheads =  `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
+const small_bumps = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/small_bumps.webp`;
+const pus_filled = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/pus_filled_pimples.webp`;
+const boils_nodules = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/big_boils.webp`;
 
 // Function to get the image based on image_url value
 const getImageForPimpleType = (imageUrl) => {
@@ -50,8 +52,6 @@ const ImageCheckbox = ({ block, context }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
-
 
   useEffect(() => {
     if (!block) return;
@@ -99,7 +99,7 @@ const ImageCheckbox = ({ block, context }) => {
       await handleSubmit(selectedOptions);
 
       if (block.id === "pimples_appearance") {
-        sendGtmEvents("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
+        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
       }
 
       if (block.id == "stress_level") {
@@ -214,14 +214,14 @@ const ImageCheckbox = ({ block, context }) => {
                 </div>
 
                 {/* Image */}
-                <div className="w-full">
+                <div className="w-full md:h-[220px] h-[156px]">
                   {pimpleImage ? (
                     <Image
                       src={pimpleImage}
                       alt={option.name}
                       width={220}
                       height={220}
-                      className="w-full h-auto object-cover rounded-2xl"
+                      className="!w-full !h-full object-cover rounded-2xl"
                     />
                   ) : (
                     <div className="w-full h-[180px] bg-gray-100 flex items-center justify-center text-gray-400">

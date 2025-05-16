@@ -501,7 +501,7 @@ const TermsConditionsPage = () => {
               <br />
               Email Address: customercare@clearritual.com, or at
               <br />
-              Mobile Number:+91 9372284220.
+              Mobile Number:+91 8424004697.
             </p>
           </div>
           <br />
@@ -1683,7 +1683,7 @@ const TermsConditionsPage = () => {
               <br />
               Email Address: customercare@clearritual.com, or at
               <br />
-              Mobile Number: +91 9372284220.
+              Mobile Number: +91 8424004697.
             </p>
           </div>
           <br />

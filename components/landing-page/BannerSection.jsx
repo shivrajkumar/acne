@@ -2,7 +2,6 @@
 import { CDN_BASE_URL } from "@/constants/config";
 import React, { useEffect } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
-import { sendGtmEvents } from "../generic/Gtm";
 
 const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoMobile.mp4`;
 const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoDesktop.mp4`;
@@ -67,16 +66,16 @@ const BannerSection = () => {
                 text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
                 tm={" "}
                 redirectTo={"/skin-test"}
-                deskSize="mobileBig"
+                deskSize="mobileSmall"
               />
             </div>
-            {syntheticId && <div className=" md:mt-[32px] mt-[8px]">
+            {syntheticId && <div className=" -mt-[8px]">
               <AcneTakeTheSkinTest
                 variant="black"
                 text={"My Recommended plan"}
                 tm={" "}
                 redirectTo={`/result?tid=${syntheticId}`}
-                deskSize="mobileBig"
+                deskSize="mobileSmall"
               />
             </div>}
           </div>
@@ -84,7 +83,7 @@ const BannerSection = () => {
       </div>
 
       {/* Desktop Banner with Video */}
-      <div className="sm:flex hidden flex-col items-start relative justify-center custom-black min-h-[20%]">
+      < div className="sm:flex hidden flex-col items-start relative justify-center custom-black min-h-[20%]" >
         <div className="relative w-full">
           <video
             src={desktop_video}
@@ -102,8 +101,8 @@ const BannerSection = () => {
             }}
           ></div>
         </div>
-        <div className="absolute items-start ps-[80px] flex flex-col gap-[32px] font-lato">
-          <div className="flex flex-col gap-[8px]">
+        <div className="absolute items-start ps-[80px] flex flex-col font-lato">
+          <div className="flex flex-col gap-[8px] mb-[32px]">
             <p className="font-lato font-[500] text-[18px] leading-[135%] tracking-[-1%] text-[#FFFFFF]">
               Designed by Dermatologists
             </p>
@@ -128,7 +127,7 @@ const BannerSection = () => {
               deskSize="desktopBig"
             />
           </div>
-          {syntheticId && <div className="flex justify-start -mt-4" >
+          {syntheticId && <div className="flex justify-start mt-[8px]" >
             <AcneTakeTheSkinTest
               variant="black"
               text={"My Recommended plan"}
@@ -138,7 +137,7 @@ const BannerSection = () => {
             />
           </div>}
         </div>
-      </div>
+      </div >
     </>
   );
 };

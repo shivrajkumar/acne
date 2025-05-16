@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Image from "next/image";
 import Icon from "@assets/svg/icon.svg";
@@ -15,6 +15,36 @@ export default function SlotConfirmPop({
   setBookedSucess,
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [redirectValue, setRedirectValue] = useState("");
+
+  useEffect(() => {
+    const value = searchParams.get("redirect");
+    setRedirectValue(value);
+  }, [searchParams]);
+
+  const handleContinue = () => {
+    const tid = window.localStorage.getItem("user_tid");
+    setClose(false);
+
+    if (setBookedSucess) {
+      setBookedSucess(true);
+    }
+
+    if (!redirectValue || redirectValue.trim() === "") {
+      return;
+    }
+
+    // Delay the navigation using setTimeout
+    setTimeout(() => {
+      if (redirectValue === "home") {
+        router.push("/");
+      } else if (redirectValue === "result") {
+        router.push(`/result?tid=${tid}`);
+      }
+    }, 1500);
+  };
 
   return (
     <div className="w-[330px] h-[324px] cursor-pointer">
@@ -71,14 +101,7 @@ export default function SlotConfirmPop({
 
           {/* Continue Button */}
           <button
-            onClick={() => {
-              setClose(false);
-              if (setBookedSucess) {
-                setBookedSucess(true);
-              }
-
-              router.back();
-            }}
+            onClick={handleContinue}
             className="bg-Tertiary/600  text-white cursor-pointer font-modernity font-[400] text-[17px] py-3 px-6 rounded-full h-[56px] w-full flex justify-center items-center"
           >
             Continue

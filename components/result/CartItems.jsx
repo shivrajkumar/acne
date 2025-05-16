@@ -1,4 +1,4 @@
-const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThankYouPage = false, totalCartValue, productsDetails }) => {
+const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThankYouPage = false, totalCartValue, productsDetails ,  hasPlacedOrder = false}) => {
     // Calculate the total cart value from the items
     const subtotal = totalCartValue || cartDetails?.totalCartValue || 0;
 
@@ -50,7 +50,7 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
             </div>
 
             {
-                isMobile && cartDetails?.cta && (
+                isMobile && cartDetails?.cta && !hasPlacedOrder && (
                     <button className="w-full bg-Tertiary/600 px-[16px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] justify-center"
                         onClick={handleBuyNowClick}>
                         {cartDetails?.cta}
@@ -59,7 +59,7 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
             }
 
             {
-                !isMobile && cartDetails?.cta && (
+                !isMobile && cartDetails?.cta && !hasPlacedOrder && (
                     <button className="hidden md:flex w-full bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] justify-center"
                         onClick={handleBuyNowClick}>
                         {cartDetails?.cta}

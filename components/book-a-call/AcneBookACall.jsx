@@ -1,18 +1,19 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { fetchRequest } from "../../helpers/fetchRequest";
-import { GET_AVAILABLE_SLOTS, BOOK_SLOT_API } from "@/constants/urls";
-import Loader from "../generic/Loader";
 import {
-  getBookingStatusFromStorage,
-  handleBookCall,
-  transformSlotData,
-} from "../../utils/bookacall";
+  GET_AVAILABLE_SLOTS,
+  BOOK_SLOT_API,
+  GET_ACTIVE_SLOTS_API,
+} from "@/constants/urls";
+import Loader from "../generic/Loader";
+import { handleBookCall, transformSlotData } from "../../utils/bookacall";
 import BookFreeCall from "../slot-booking/AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
-import { sendGtmEvents } from "../generic/Gtm";
+import moment from "moment";
+import { logGtmEvent } from "../generic/Gtm";
 
 const AcneBookACallPage = ({ searchParams }) => {
   const [availableSlots, setAvailableSlots] = useState({});
@@ -20,8 +21,13 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   // UI states
   const [loading, setLoading] = useState(true);
+  const [loadingBookCall, setLoadingBookCall] = useState(false);
   const [closeConfirm, setCloseConfirm] = useState(false);
   const [bookedSuccess, setBookedSuccess] = useState(false);
+
+  // Error states
+  const [error, setError] = useState(null);
+  const [bookingError, setBookingError] = useState(null);
 
   // Selection states
   const [selectedDate, setSelectedDate] = useState(null);
@@ -34,7 +40,9 @@ const AcneBookACallPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    sendGtmEvents("book-call-page-viewed-without-order")
+    logGtmEvent("book-call-confirmed-without-order", {
+      gender: window.localStorage.getItem("user_gender"),
+    })
   }, [])
 
   useEffect(() => {
@@ -42,25 +50,22 @@ const AcneBookACallPage = ({ searchParams }) => {
     let idFromLocalStorage = null;
 
     setLoading(true);
+    // Clear errors when component re-mounts or parameters change
+    setError(null);
+    setBookingError(null);
 
     if (typeof window !== "undefined") {
       try {
         const storedData = localStorage.getItem("acne_result_data");
         idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-
-        // Get booking info and update state
-        const bookingInfo = getBookingStatusFromStorage();
-        if (bookingInfo?.isBooked) {
-          setBookedSuccess(true);
-          setSelectedDate(bookingInfo.date);
-          setSelectedTime(bookingInfo.time);
-        }
       } catch (err) {
         console.error("Error accessing localStorage:", err);
+        setError("Failed to retrieve your data. Please refresh the page.");
       }
     }
 
     setCaseId(idFromParams || idFromLocalStorage || null);
+
     setTimeout(() => {
       setLoading(false);
     }, 300);
@@ -68,36 +73,99 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
-    if (caseId && !bookedSuccess) {
+    if (caseId == null) return;
+
+    if (bookedSuccess === false) {
       getAvailableSlots(caseId);
     }
+
+    getActiveSlotDetails(caseId);
   }, [caseId, bookedSuccess]);
+
+  const getActiveSlotDetails = async (id) => {
+    try {
+      setError(null);
+      const response = await fetchRequest(GET_ACTIVE_SLOTS_API(id));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch active slot details");
+      }
+
+      const reminderDate = response?.data?.reminderDate;
+
+      if (reminderDate) {
+        const formattedDate = moment(reminderDate).format("ddd, MMM D, YYYY");
+        const formattedTime = moment(reminderDate).format("hh:mm A");
+        setSelectedDate(formattedDate);
+        setSelectedTime(formattedTime);
+        setBookedSuccess(true);
+      }
+    } catch (error) {
+      console.error("Error fetching active slot details:", error);
+      setError(
+        "Failed to fetch your active appointment details. Please try again later."
+      );
+    }
+  };
 
   // Fetch available slots
   const getAvailableSlots = async (id) => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetchRequest(GET_AVAILABLE_SLOTS(id));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch available slots");
+      }
+
       setAvailableSlots(response?.data || {});
     } catch (error) {
       console.error("Error fetching available slots:", error);
+      setError("Failed to load available time slots. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   // Handle booking a call
-
   const bookACall = async () => {
-    await handleBookCall({
-      selectedDate,
-      selectedTime,
-      caseId,
-      availableSlots,
-      transformedSlots,
-      setCloseConfirm,
-      BOOK_SLOT_API,
-    });
+    setBookingError(null);
+    setLoadingBookCall(true);
+
+    try {
+      if (!selectedDate || !selectedTime) {
+        setBookingError(
+          "Please select both a date and time for your appointment."
+        );
+        setLoadingBookCall(false);
+        return;
+      }
+
+      await handleBookCall({
+        selectedDate,
+        selectedTime,
+        caseId,
+        availableSlots,
+        transformedSlots,
+        setCloseConfirm,
+        BOOK_SLOT_API,
+        onError: (error) => {
+          console.error("Booking failed:");
+          setBookingError(
+            error.message ||
+            "Failed to book your appointment. Please try again."
+          );
+        },
+      });
+    } catch (error) {
+      console.error("Error in bookACall:");
+      setBookingError(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+    } finally {
+      setLoadingBookCall(false);
+    }
   };
 
   // Redirect to skin test
@@ -111,15 +179,38 @@ const AcneBookACallPage = ({ searchParams }) => {
 
     if (confirmed) {
       setBookedSuccess(true);
-
-      // Confirm the booking in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("acne_booking_success", "true");
-        localStorage.removeItem("acne_booking_pending");
-      }
+      setBookingError(null); // Clear any previous errors
+      logGtmEvent("book-call-confirmed-without-order", {
+        gender: window.localStorage.getItem("user_gender"),
+      })
     }
-    sendGtmEvents("book-call-confirmed-without-order")
+  };
 
+  // Display error message component
+  const ErrorMessage = ({ message, isBookingError = false }) => {
+    if (!message) return null;
+
+    return (
+      <div
+        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${isBookingError ? "mt-4" : ""
+          }`}
+      >
+        <div className="flex items-start">
+          <div className="ml-3">
+            <p className="text-sm text-red-700">{message}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Button loader component
+  const ButtonLoader = () => {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+      </div>
+    );
   };
 
   // Then check loading state after caseId check
@@ -155,6 +246,11 @@ const AcneBookACallPage = ({ searchParams }) => {
     return (
       <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px]">
         <div className="w-full max-w-[720px] mx-auto">
+          {/* Display any API errors */}
+          <ErrorMessage message={error} />
+          {/* Display booking errors */}
+          <ErrorMessage message={bookingError} isBookingError={true} />
+
           <BookFreeCall
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -165,13 +261,15 @@ const AcneBookACallPage = ({ searchParams }) => {
             bookedSuccess={bookedSuccess}
             bookACallOnly={true}
           />
+
           {!bookedSuccess && selectedTime !== null && (
-            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center">
+            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
               <button
-                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
+                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
                 onClick={bookACall}
+                disabled={loadingBookCall}
               >
-                BOOK A CALL
+                {loadingBookCall ? <ButtonLoader /> : "BOOK A CALL"}
               </button>
             </div>
           )}

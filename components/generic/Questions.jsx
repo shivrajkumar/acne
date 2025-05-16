@@ -10,13 +10,14 @@ import Loader from "./Loader";
 import useMediaQuery from "@/hooks/useMediaQuerry";
 import FormSubmission from "@/components/form/FormSubmission";
 import { QuestionsContext } from "@/context/questions-store";
-import { clearGtmFlags, sendGtmEvents } from "./Gtm";
+import { clearGtmFlags, logGtmEvent } from "./Gtm";
 import Header from "@/components/generic/Headers";
 import UserBasicInfoForm from "@/components/form/UserBasicInfoForm";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
 import LogMoengage from "./LogMoengage";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { pixelCustomeEvent } from "./Pixel";
 
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
@@ -45,7 +46,6 @@ const Questions = () => {
     setLoading(true);
     try {
       const response = await fetchRequest(GET_SKIN_TEST_CONFIG);
-
       if (response.hasError) {
         throw new Error('Failed to fetch questions data');
       }
@@ -86,7 +86,7 @@ const Questions = () => {
 
   const pageExitevent = () => {
     const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
-    trackMoEngageEvent(`acne-FormExit_${currentQuestion.id}`, eventAttributes)
+    trackMoEngageEvent(`FormExit_${currentQuestion.id}`, eventAttributes)
   }
 
   useEffect(() => {
@@ -98,8 +98,10 @@ const Questions = () => {
     // Restore saved state if available
     const val = window.localStorage.getItem("form_status");
     const tabStatus = window.localStorage.getItem("tabclosed");
-    if (tabStatus && val) {
+    if (tabStatus) {
       setTabClosed(tabStatus);
+    }
+    if (val) {
       setFormStatus(val);
     }
 
@@ -128,8 +130,8 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
-        // pixelCustomeEvent('form-stage-1')
-        sendGtmEvents("skin-test-initiated");
+        pixelCustomeEvent('Form Start');
+        logGtmEvent("Form Start");
       }
     }
 
@@ -156,13 +158,13 @@ const Questions = () => {
     );
   }
 
-
   return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
     <>
       <OnloadFormPage />
     </>
   ) : (
     <div >
+
       <Header
         currentQuestion={currentQuestion}
         hidePreviousButton={hidePreviousButton}
@@ -181,7 +183,7 @@ const Questions = () => {
                 components(currentQuestion, QuestionsContext)
               )}
             </div>
-            <LogMoengage event="acne-skin-test-landed" attributes={{
+            <LogMoengage event="SkinTestLanded" attributes={{
               ...getUtmCookiesInObjectForm(), timestamp: new Date().toISOString()
             }} />
 

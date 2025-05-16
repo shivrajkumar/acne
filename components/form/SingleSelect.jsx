@@ -8,7 +8,7 @@ import infoCircle from "@assets/icons/info-circle.png";
 import Loader from "../generic/Loader";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
-import { sendGtmEvents } from "../generic/Gtm";
+import { logGtmEvent } from "../generic/Gtm";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -66,7 +66,7 @@ const SingleSelect = ({ block, context }) => {
 
 
         if (block.id == "stress_level") {
-          sendGtmEvents("stress_level", { question_text: block.text, question_id: block.id, response: [reply], })
+          logGtmEvent("stress_level", { question_text: block.text, question_id: block.id, response: [reply], })
           setAllQuestionsFilled(true);
         }
       } else {

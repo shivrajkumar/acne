@@ -2,28 +2,33 @@
 import deleteKeysFromLocalStorage from "@/helpers/localstorage";
 import { useEffect } from "react";
 
-const GTMpagelandingEvent = ({event}) => {
-    useEffect(()=>{
-        if(typeof window !== "undefined"){
+const GTMpagelandingEvent = ({ event }) => {
+    useEffect(() => {
+        if (typeof window !== "undefined") {
             window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({event:event})
+            window.dataLayer.push({ event: event })
         }
 
-    },[event])
-    return ( null );
+    }, [event])
+    return (null);
 }
- 
-export  function sendGtmEvents(event,attribute={}){
-    if(typeof window !== "undefined"){
+
+export function logGtmEvent(event, attributes) {
+    try {
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({event:event,attribute})
+        window.dataLayer.push({
+            event,
+            ...attributes,
+        });
+    } catch (error) {
+        console.info(error.toString());
     }
 }
 
-export function clearGtmFlags(keysToDelete){
+export function clearGtmFlags(keysToDelete) {
     // Example usage
     deleteKeysFromLocalStorage(keysToDelete);
-  
+
     // return null
-  }
+}
 export default GTMpagelandingEvent;

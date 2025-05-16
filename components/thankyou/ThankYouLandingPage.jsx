@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { fetchRequest } from "../../helpers/fetchRequest";
 import {
   BOOK_SLOT_API,
+  GET_ACTIVE_SLOTS_API,
   GET_AVAILABLE_SLOTS,
   GET_STATIC_DOCTOR_DETAILS,
   ORDER_DETAILS,
@@ -12,12 +13,10 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
-import {
-  getBookingStatusFromStorage,
-  handleBookCall,
-  transformSlotData,
-} from "../../utils/bookacall";
-import { sendGtmEvents } from "../generic/Gtm";
+import { handleBookCall, transformSlotData } from "../../utils/bookacall";
+import { logGtmEvent } from "../generic/Gtm";
+import moment from "moment";
+import { pixelCustomeEvent } from "../generic/Pixel";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -27,6 +26,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   // UI states
   const [loading, setLoading] = useState(true); // Start with loading true
+  const [loadingBookCall, setLoadingBookCall] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [closeConfirm, setCloseConfirm] = useState(false);
   const [bookedSuccess, setBookedSuccess] = useState(false);
@@ -34,12 +34,11 @@ const ThankYouLandingPage = ({ searchParams }) => {
   // Selection states
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [caseId, setCaseId] = useState(null);
 
-  // Get the caseId from orderDetails if available
-  const caseId = useMemo(
-    () => orderDetails?.customerDetail?.caseId || null,
-    [orderDetails]
-  );
+  // Error states
+  const [error, setError] = useState(null);
+  const [bookingError, setBookingError] = useState(null);
 
   // Transform slots data when available
   const transformedSlots = useMemo(
@@ -48,22 +47,31 @@ const ThankYouLandingPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
-    sendGtmEvents("book-call-page-viewed-with-order")
-  }, [])
-
-
-
+    if (typeof window !== "undefined") {
+      logGtmEvent("Purchase", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+      pixelCustomeEvent("Purchase", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+    }
+  }, []);
 
   // Check booking status from localStorage on mount
   useEffect(() => {
     const fetchData = async () => {
-      const bookingInfo = getBookingStatusFromStorage();
+      let idFromLocalStorage = null;
 
-      if (bookingInfo?.isBooked) {
-        setBookedSuccess(true);
-        if (bookingInfo.date) setSelectedDate(bookingInfo.date);
-        if (bookingInfo.time) setSelectedTime(bookingInfo.time);
+      if (typeof window !== "undefined") {
+        try {
+          const storedData = localStorage.getItem("acne_result_data");
+          idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+        } catch (err) {
+          console.error("Error accessing localStorage:", err);
+        }
       }
+
+      setCaseId(idFromLocalStorage || null);
 
       if (searchParams?.platform_order_id) {
         try {
@@ -85,14 +93,22 @@ const ThankYouLandingPage = ({ searchParams }) => {
     return () => { };
   }, [searchParams]);
 
-  // Load slots when we have a caseId and booking hasn't happened yet
   useEffect(() => {
-    if (caseId && !bookedSuccess) {
-      getAvailableSlots(caseId);
-    } else if (orderDetails !== null) {
-      setLoading(false);
-    }
-  }, [caseId, bookedSuccess, orderDetails]);
+    const fetchSlots = async () => {
+      if (caseId) {
+        const booked = await getActiveSlotDetails(caseId); // returns true if already booked
+        if (!booked) {
+          await getAvailableSlots(caseId);
+        } else {
+          setLoading(false);
+        }
+      } else if (orderDetails !== null) {
+        setLoading(false);
+      }
+    };
+
+    fetchSlots();
+  }, [caseId, orderDetails]);
 
   // Fetch order details
   const getOrderDetails = async (orderId) => {
@@ -100,7 +116,6 @@ const ThankYouLandingPage = ({ searchParams }) => {
       const res = await fetchRequest(ORDER_DETAILS(orderId));
       if (res.status === 200) {
         setOrderDetails(res.data);
-
       }
       return res;
     } catch (error) {
@@ -126,29 +141,72 @@ const ThankYouLandingPage = ({ searchParams }) => {
   // Fetch available slots
   const getAvailableSlots = async (id) => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetchRequest(GET_AVAILABLE_SLOTS(id));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch available slots");
+      }
+
       setAvailableSlots(response?.data || {});
     } catch (error) {
       console.error("Error fetching available slots:", error);
+      setError("Failed to load available time slots. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle booking a call
+  // Button loader component
+  const ButtonLoader = () => {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+      </div>
+    );
+  };
 
+  // Handle booking a call
   const bookACall = async () => {
-    await handleBookCall({
-      selectedDate,
-      selectedTime,
-      caseId,
-      availableSlots,
-      transformedSlots,
-      setCloseConfirm,
-      BOOK_SLOT_API
-    });
-    sendGtmEvents("book-call-confirmed-with-order")
+    setBookingError(null);
+    setLoadingBookCall(true);
+
+    try {
+      if (!selectedDate || !selectedTime) {
+        setBookingError(
+          "Please select both a date and time for your appointment."
+        );
+        setLoadingBookCall(false);
+        return;
+      }
+
+      await handleBookCall({
+        selectedDate,
+        selectedTime,
+        caseId,
+        availableSlots,
+        transformedSlots,
+        setCloseConfirm,
+        BOOK_SLOT_API,
+        onError: (error) => {
+          setBookingError(
+            error.message ||
+            "Failed to book your appointment. Please try again."
+          );
+        },
+      });
+      logGtmEvent("book-call-confirmed-with-order", {
+        gender: window.localStorage.getItem("user_gender"),
+      });
+    } catch (error) {
+      console.error("Error in bookACall:");
+      setBookingError(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+    } finally {
+      setLoadingBookCall(false);
+    }
   };
 
   // Redirect to skin test
@@ -162,12 +220,32 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
     if (confirmed) {
       setBookedSuccess(true);
+    }
+  };
 
-      // Confirm the booking in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("acne_booking_success", "true");
-        localStorage.removeItem("acne_booking_pending");
+  const getActiveSlotDetails = async (caseId) => {
+    try {
+      setError(null);
+      const response = await fetchRequest(GET_ACTIVE_SLOTS_API(caseId));
+
+      if (!response || response.status !== 200) {
+        throw new Error("Failed to fetch active slot details");
       }
+
+      const reminderDate = response?.data?.reminderDate;
+
+      if (reminderDate) {
+        const formattedDate = moment(reminderDate).format("ddd, MMM D, YYYY");
+        const formattedTime = moment(reminderDate).format("hh:mm A");
+        setSelectedDate(formattedDate);
+        setSelectedTime(formattedTime);
+        setBookedSuccess(true);
+      }
+    } catch (error) {
+      console.error("Error fetching active slot details:", error);
+      setError(
+        "Failed to fetch your active appointment details. Please try again later."
+      );
     }
   };
 
@@ -215,6 +293,10 @@ const ThankYouLandingPage = ({ searchParams }) => {
         bookedSuccess={bookedSuccess}
         doctorDetails={doctorDetails}
         handleBookCall={bookACall}
+        error={error}
+        bookingError={bookingError}
+        loadingBookCall={loadingBookCall}
+        ButtonLoader={ButtonLoader}
       />
     );
   };
@@ -237,7 +319,6 @@ const ThankYouLandingPage = ({ searchParams }) => {
           </div>
         </div>
       )}
-
     </>
   );
 };

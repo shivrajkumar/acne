@@ -83,44 +83,6 @@ export const getIconForPeriod = (period) => {
   }
 };
 
-
-/**
- * Retrieves booking status and details from localStorage.
- * Promotes a pending booking to a successful booking if found.
- *
- * @returns {{ isBooked: boolean, date: string | null, time: string | null } | null}
- * An object containing:
- * - `isBooked`: Whether the booking is confirmed or pending
- * - `date`: The stored booking date, or null if not set
- * - `time`: The stored booking time, or null if not set
- * Returns `null` if not in a browser environment.
- */
-export const getBookingStatusFromStorage = () => {
-  if (typeof window === "undefined") return null;
-
-  const storedBookingStatus = localStorage.getItem("acne_booking_success");
-  const storedBookingPending = localStorage.getItem("acne_booking_pending");
-  const storedDate = localStorage.getItem("acne_booking_date");
-  const storedTime = localStorage.getItem("acne_booking_time");
-
-  const isBooked =
-    storedBookingStatus === "true" || storedBookingPending === "true";
-
-  // Promote pending to success
-  if (storedBookingPending === "true") {
-    localStorage.setItem("acne_booking_success", "true");
-    localStorage.removeItem("acne_booking_pending");
-  }
-
-  return {
-    isBooked,
-    date: storedDate || null,
-    time: storedTime || null,
-  };
-};
-
-
-
 /**
  * Common function to handle booking a call
  * @param {string} selectedDate - The selected date in YYYY-MM-DD format
@@ -141,21 +103,30 @@ export const handleBookCall = async ({
   transformedSlots,
   setCloseConfirm,
   BOOK_SLOT_API,
-  onSuccess=()=>{},
-  onError=()=>{}
+  onSuccess = () => {},
+  onError = () => {},
 }) => {
   // Validate required parameters
   if (!selectedDate || !selectedTime || !caseId || !availableSlots) {
     const error = new Error("Missing required data for slot booking");
     console.error(error);
-    if (onError) onError(error);
+    onError(error);
     return null;
   }
 
   try {
     // Find the selected slot
     const selectedDateSlots = transformedSlots?.[selectedDate] || [];
-    const date = new Date(`${selectedDate} ${selectedTime}`);
+    const date = moment(`${selectedDate} ${selectedTime}`, "YYYY-MM-DD HH:mm");
+
+    // Check if date is valid before continuing
+    if (!date.isValid()) {
+      const error = new Error("Invalid date format");
+      console.error(error);
+      onError(error);
+      return null;
+    }
+
     const selectedTimeISOString = date.toISOString();
 
     const selectedSlot = selectedDateSlots.find(
@@ -165,7 +136,7 @@ export const handleBookCall = async ({
     if (!selectedSlot) {
       const error = new Error("Selected slot not found");
       console.error(error);
-      if (onError) onError(error);
+      onError(error);
       return null;
     }
 
@@ -190,34 +161,29 @@ export const handleBookCall = async ({
       body: JSON.stringify(slotPayload),
     });
 
-    // Handle successful response
+    // Handle API response based on status code
     if (response.status === 200) {
-      // Store booking details in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("acne_booking_pending", "true");
-        localStorage.setItem("acne_booking_date", selectedDate);
-        localStorage.setItem("acne_booking_time", selectedTime);
-      }
-
       // Show confirmation modal
       if (setCloseConfirm) {
         setCloseConfirm(true);
       }
 
       // Call success callback if provided
-      if (onSuccess) {
-        onSuccess(response);
-      }
-
+      onSuccess(response);
       return response;
     } else {
-      throw new Error(`Booking failed with status: ${response.status}`);
+      // Handle error response
+      const errorMessage =
+        response.data?.message ||
+        `Booking failed with status: ${response.status}`;
+      const error = new Error(errorMessage);
+      console.error(error);
+      onError(error);
+      return null;
     }
   } catch (error) {
     console.error("Error booking slot:", error);
-    if (onError) {
-      onError(error);
-    }
+    onError(error);
     return null;
   }
 };

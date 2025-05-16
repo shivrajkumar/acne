@@ -1,22 +1,37 @@
+"use client";
+
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import arrowIcon from "@assets/icons/up-arrow.png";
 import CrossIconIcon from "@assets/icons/close-circle.png";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
 import { trackMoEngageEvent } from "@/utils/moegage";
-import { sendGtmEvents } from "../generic/Gtm";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { metaCapi } from "@/helpers/metaCapiHelper";
+import { logGtmEvent } from "../generic/Gtm";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
-  const [isOn, setIsOn] = useState(true);
+  const [orderDisplayId, setOrderDisplayId] = useState(null);
+  const [data, setData] = useState(null);
 
-  const toggleSwitch = () => {
-    setIsOn(!isOn);
-  };
-  const data = JSON.parse(window.localStorage.getItem(`acne_result_data`));
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const orderDisplayIdFromStorage =
+        window.localStorage.getItem("orderDisplayId");
+
+      setOrderDisplayId(orderDisplayIdFromStorage);
+
+     // Only set cart data if no order has been placed
+      if (!orderDisplayIdFromStorage) {
+        const cartData = JSON.parse(
+          window.localStorage.getItem("acne_result_data")
+        );
+        setData(cartData);
+      }
+    }
+  }, []);
 
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
@@ -27,27 +42,60 @@ const CartPageHome = () => {
       syntheticId: window.localStorage.getItem("syntheticId"),
       caseId: data?.customerDetails?.caseId
     }
-    trackMoEngageEvent("acne-BeginCheckout", eventAttributes)
-    sendGtmEvents("checkout-started", eventAttributes)
+    trackMoEngageEvent("BeginCheckout", eventAttributes)
+    logGtmEvent("checkout-started", eventAttributes)
+    pixelCustomeEvent("Buy Now Clicked", eventAttributes);
+
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
     const fbc = getCookieValue('_fbc', document.cookie.split(';'));
-    const email = window.localStorage.getItem("user_email") ?? `${formData.phoneNumber}.unknown@traya.health`;
+    const email = window.localStorage.getItem("user_email");
     const phone = window.localStorage.getItem("user_phone");
-    const gender = window.localStorage.getItem("gender")
+    const gender = window.localStorage.getItem("gender");
 
     const capiPayload = {
-      "email": email,
-      "phone": phone,
-      "fbc": fbc,
-      "fbp": fbp,
-      "url": window.location.href,
-      "gender": gender
-
+      email: email,
+      phone: phone,
+      fbc: fbc,
+      fbp: fbp,
+      url: window.location.href,
+      gender: gender,
     };
     metaCapi(capiPayload, "CheckoutInitiated");
-
-
   };
+
+  // Empty cart with order display ID UI
+  const renderOrderDisplayIdEmptyCart = () => {
+    return (
+       <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
+        <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
+          Your cart is empty!
+        </h2>
+      </div>
+    );
+  };
+
+  // Regular empty cart UI
+  const renderRegularEmptyCart = () => {
+    return (
+      <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
+        <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
+          Your cart is empty!
+        </h2>
+        <p className="text-[16px] font-[400] text-Text/Body-Text mb-6 max-w-[320px]">
+          Take our free skin test to get personalized product recommendations
+          based on your skin needs.
+        </p>
+        <AcneTakeTheSkinTest
+          variant="black"
+          text="TAKE THE SKIN TEST"
+          tm=" "
+          redirectTo="/skin-test"
+          deskSize="desktopBig"
+        />
+      </div>
+    );
+  };
+
   return (
     <>
       {data ? (
@@ -56,7 +104,6 @@ const CartPageHome = () => {
           {isBreakdownDrawerOpen && (
             <div
               className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end overflow-y-scroll font-lato"
-              s
               onClick={() => setIsBreakdownDrawerOpen(false)}
             >
               {/*  Title */}
@@ -104,33 +151,6 @@ const CartPageHome = () => {
                       <p className="font-lato text-[12px] md:text-[14px] font-[400]">
                         {data?.doctorDetails?.experience}
                       </p>
-                    </div>
-                    <div
-                      className={`flex ms-[148px]  md:ms-0 md:justify-start md:flex-col`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-[14px] md:text-[14px]font-lato font-[400] text-gray-700">
-                          Opt-In
-                        </span>
-                        <button
-                          onClick={toggleSwitch}
-                          className="relative items-center cursor-pointer focus:outline-none"
-                          aria-pressed={isOn}
-                          role="switch"
-                        >
-                          <div
-                            className={`w-[52px] h-[32px] rounded-full transition-colors duration-300 ease-in-out ${isOn ? "bg-[#19785D]" : "bg-gray-300"
-                              }`}
-                          >
-                            <div
-                              className={`absolute w-[24px] h-[24px] top-[4px] bg-white rounded-full shadow transform transition-transform duration-300 ease-in-out ${isOn
-                                ? "translate-x-[24px]"
-                                : "translate-x-[4px]"
-                                }`}
-                            />
-                          </div>
-                        </button>
-                      </div>
                     </div>
                   </div>
                   {/*  Product info */}
@@ -221,7 +241,6 @@ const CartPageHome = () => {
                         <span className="text-[16px]  font-[400] leading-[150%]">
                           ₹{product.price}
                         </span>
-
                       </div>
                     </div>
                   </div>
@@ -229,16 +248,16 @@ const CartPageHome = () => {
               </div>
 
               {/* Checkbox */}
-              <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
-                <input
-                  type="checkbox"
-                  className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
-                  style={{ accentColor: "#237AB1" }}
-                />
-                <label className="text-[14px] font-[400] leading-[140%] text-Text/Label">
-                  Keep me posted about sales and offers
-                </label>
-              </div>
+                <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
+                  <input
+                    type="checkbox"
+                    className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
+                    style={{ accentColor: "#237AB1" }}
+                  />
+                  <label className="text-[14px] font-[400] leading-[140%] text-Text/Label">
+                    Keep me posted about sales and offers
+                  </label>
+                </div>
             </div>
 
             {/* Footer */}
@@ -255,33 +274,20 @@ const CartPageHome = () => {
                   <Image src={arrowIcon} alt="arrow" width={12} height={12} />
                 </div>
               </div>
-
-              <button
-                className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
-                onClick={placeOrder}
-              >
-                CHECKOUT
-              </button>
+                <button
+                  className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
+                  onClick={placeOrder}
+                >
+                  CHECKOUT
+                </button>
             </div>
           </div>
         </>
+         ) : // Show different empty cart UI based on whether orderDisplayId exists
+      orderDisplayId ? (
+        renderOrderDisplayIdEmptyCart()
       ) : (
-        <div className="flex flex-col justify-center items-center h-[80vh] text-center px-4 ">
-          <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
-            Your cart is empty!
-          </h2>
-          <p className="text-[16px] font-[400] text-Text/Body-Text mb-6 max-w-[320px]">
-            Take our free skin test to get personalized product recommendations
-            based on your skin needs.
-          </p>
-          <AcneTakeTheSkinTest
-            variant="black"
-            text="TAKE THE SKIN TEST"
-            tm=" "
-            redirectTo="/skin-test"
-            deskSize="desktopBig"
-          />
-        </div>
+        renderRegularEmptyCart()
       )}
     </>
   );

@@ -5,13 +5,13 @@ import ErrorBoundary from "@components/error/ErrorBoundary";
 import ShopfloBridge from "@constants/shopflowbridge";
 import { UTMManager } from "@helpers/UTMManager";
 import Script from "next/script";
-import { plusJakartaSans, nunitoSans, lato } from "./fonts";
+import { lato } from "./fonts";
 import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
+import ScrollTracker from "@/components/ScrollTracker";
+import PixelInit from "@/components/generic/Pixel";
+import PageViewTracker from "@/components/generic/PageViewTracker";
 
-// import PixelInit from "@/components/generic/Pixel";
-
-// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Clear Ritual: Personalised Acne Solutions Backed by Experts",
@@ -44,29 +44,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${nunitoSans.variable} ${lato.variable}`}
+      className={`${lato.variable}`}
     >
-      <meta name="robots" content="noindex,nofollow" />
+      <meta name="robots" content="index,follow" />
       <head>
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-        // crossOrigin="true"
-        /> */}
-        {/* <link
-          href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@800&display=swap"
-          rel="stylesheet"
-        ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
-          rel="stylesheet"
-        /> */}
+
         <Script src="/gtmHeadScript.js" strategy="beforeInteractive" />
+        {/* Clarity Script */}
         <Script
           id="clarityscript"
           dangerouslySetInnerHTML={{
@@ -76,7 +60,25 @@ export default function RootLayout({
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "r5ez6x39tu");`,
           }}
+          strategy="lazyOnload"
         ></Script>
+        {/* GtagScripts */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-98XNY2R926"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-98XNY2R926');
+            `,
+          }}
+        />
 
         {/* WebPage Schema */}
         <Script
@@ -118,7 +120,7 @@ export default function RootLayout({
                 "Clear Ritual provides personalised acne treatment plans combining Ayurveda, dermatology, and advanced science for clear, healthy skin.",
               contactPoint: {
                 "@type": "ContactPoint",
-                telephone: "+91-9167611114",
+                telephone: "+91-8424004697",
                 contactType: "Customer Service",
                 areaServed: "IN",
                 availableLanguage: "English",
@@ -174,6 +176,9 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }}>
+        <PixelInit />
+        <ScrollTracker />
+        <PageViewTracker />
         <ErrorBoundary>
           <UserDataCapture />
           <main>{children}</main>

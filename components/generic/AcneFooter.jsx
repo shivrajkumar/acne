@@ -12,8 +12,8 @@ import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import PhoneIcon from "@assets/icons/phone_icon.png";
 import MailIcon from "@assets/icons/mail_Icon.png";
 import { trackMoEngageEvent } from "@/utils/moegage";
-import { sendGtmEvents } from "./Gtm";
 import _ from 'lodash';
+import { logGtmEvent } from "./Gtm";
 
 const AcneFooter = () => {
   const [currentPath, setCurrentPath] = useState("");
@@ -24,21 +24,21 @@ const AcneFooter = () => {
   }, []);
 
   const PageClickEvent = (name, url) => {
-    trackMoEngageEvent(`acne-PageClicked_${name}`, {
+    trackMoEngageEvent(`PageClicked_${name}`, {
       from_page: currentPath,
       to_page: url,
       time: new Date().toISOString()
     });
-    sendGtmEvents(`footer-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    logGtmEvent(`footer-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
   };
 
   const socialIconsClickEvent = (name, link) => {
-    sendGtmEvents(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
-    sendGtmEvents(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link });
+    logGtmEvent(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    logGtmEvent(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link });
   };
 
   const contactIconsClickEvent = (name) => {
-    sendGtmEvents(`footer-contact-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    logGtmEvent(`footer-contact-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
   };
 
   return (
@@ -115,12 +115,12 @@ const AcneFooter = () => {
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
                 <a
-                  href="tel:+919167611114"
+                  href="tel:+918424004697"
                   className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
                   onClick={() => contactIconsClickEvent("Phone")}
                 >
                   <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
-                  +91 9167611114
+                  +91 8424004697
                 </a>
                 <a
                   href="mailto:customercare@clearritual.com"
@@ -143,10 +143,10 @@ const AcneFooter = () => {
                   <InstagramIcon />
                 </Link>
                 <Link
-                  href="https://wa.me/919167611114"
+                  href="https://wa.me/918424004697"
                   target="_blank"
                   className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
-                  onClick={() => socialIconsClickEvent("Whatsapp", "https://wa.me/919167611114")}
+                  onClick={() => socialIconsClickEvent("Whatsapp", "https://wa.me/918424004697")}
                 >
                   <WhatsAppIcon />
                 </Link>

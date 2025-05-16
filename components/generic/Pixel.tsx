@@ -11,11 +11,14 @@ export const FacebookPixelEventsInit: React.FC<Record<string, string>> = ({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const page = pathname === "/" ? "home" : pathname.replace(/^\/+/, "");
+      const finalEventName = eventName || `Pageview+${page}`;
+
       import("react-facebook-pixel")
         .then((x) => x.default)
         .then((ReactPixel) => {
-          ReactPixel.init("347408398098010");
-          ReactPixel.track(eventName ? eventName : "PageView");
+          ReactPixel.init("1214067770360774");
+          ReactPixel.track(finalEventName);
         });
     }
   }, [pathname, searchParams, eventName]);
@@ -23,10 +26,10 @@ export const FacebookPixelEventsInit: React.FC<Record<string, string>> = ({
   return null;
 };
 
-export default function PixelInit({eventName}:Record<string, string>) {
+export default function PixelInit({ eventName }: Record<string, string>) {
   return (
     <Suspense>
-      <FacebookPixelEventsInit   eventName={eventName}/>
+      <FacebookPixelEventsInit eventName={eventName} />
     </Suspense>
   );
 }
@@ -35,7 +38,7 @@ export const pixelCustomeEvent = async (name: string, data = {}) => {
     import("react-facebook-pixel")
       .then((x) => x.default)
       .then((ReactPixel) => {
-        ReactPixel.init("347408398098010");
+        ReactPixel.init("1214067770360774");
         ReactPixel.track(name, data);
       });
   }
