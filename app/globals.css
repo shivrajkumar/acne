@@ -299,15 +299,16 @@ body {
   }
 }
 
-@media (max-width: 1288px) {
-  .custom-root-cause-carousel .ant-carousel .slick-dots  {
-    bottom: 176px !important;
+
+@media (min-width: 1445px) and (max-width: 1500px) {
+  .custom-root-cause-carousel .ant-carousel .slick-dots {
+    bottom: -14px !important;
   }
 }
 
-@media (max-width: 1070px) {
+@media (min-width: 1025px) and (max-width: 1444px) {
   .custom-root-cause-carousel .ant-carousel .slick-dots {
-    bottom: -44px !important;
+    bottom: 290px !important;
   }
 }
 
