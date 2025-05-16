@@ -30,7 +30,7 @@ export default function AcneRealPeoplRealStories({
     if (sliderRef.current) {
       sliderRef.current.next();
     }
-    logGtmEvent("testimonials-clicked", { location: window.location.pathname })
+    logGtmEvent("testimonials-clicked", { location: window.location.pathname });
   };
 
   useEffect(() => {
@@ -52,17 +52,17 @@ export default function AcneRealPeoplRealStories({
       ? "17px"
       : "7px"
     : isDesktop
-      ? "-30px"
-      : "-17px";
+    ? "-30px"
+    : "-17px";
 
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow,
- slidesToScroll: reviewPage ? Math.floor(testimonials.length / 3) : 1,
+    slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 1500,
     responsive: [
       {
         breakpoint: 1156,
@@ -92,25 +92,28 @@ export default function AcneRealPeoplRealStories({
 
   return (
     <section
-      className={`${bgColor} ${reviewPage
-        ? " md:p-[4rem]"
-        : " p-[40px] xs:p-[28px] md:p-10 md:h-[670px] h-[615px]"
-        }  rounded-[24px] font-lato`}
+      className={`${bgColor} ${
+        reviewPage
+          ? " md:p-[4rem]"
+          : " p-[40px] xs:p-[28px] md:p-10 md:h-[670px] h-[615px]"
+      }  rounded-[24px] font-lato`}
       onMouseEnter={() => setShowArrows(true)}
       onMouseLeave={() => setShowArrows(false)}
     >
       {/* Header */}
       <div
-        className={`flex justify-between mb-[1.5rem] ${reviewPage ? " flex-col p-[12px] xl:p-0 xl:flex-row" : "items-center "
-          }`}
+        className={`flex justify-between mb-[1.5rem] ${
+          reviewPage ? " flex-col p-[12px] xl:p-0 xl:flex-row" : "items-center "
+        }`}
       >
         <div>
           <div className="bg-white border-[1px] border-Elements/Divider-Stroke rounded-[12px] py-[8px] px-[16px] font-lato text-[12px] md:text-[14px] w-fit ">
             Reviews
           </div>
           <h2
-            className={`font-lato text-[40px] xs:text-[28px] md:text-[40px] font-medium leading-[130%] tracking-[-0.02em] my-[40px] ${reviewPage ? "xs:my-[12px]" : "xs:my-[16px]"
-              } `}
+            className={`font-lato text-[40px] xs:text-[28px] md:text-[40px] font-medium leading-[130%] tracking-[-0.02em] my-[40px] ${
+              reviewPage ? "xs:my-[12px]" : "xs:my-[16px]"
+            } `}
           >
             <span className="hidden md:inline">Real People, Real Stories</span>
 
@@ -141,8 +144,9 @@ export default function AcneRealPeoplRealStories({
 
       {/* Testimonials Slider */}
       <div
-        className={`testimonials-slider relative ${!reviewPage ? "custom-slider-carousel" : ""
-          }`}
+        className={`testimonials-slider relative ${
+          !reviewPage ? "custom-slider-carousel" : ""
+        }`}
         id="realPeople-carousel-id"
         style={{ "--dots-bottom": dotsBottom }}
       >
@@ -158,8 +162,9 @@ export default function AcneRealPeoplRealStories({
                      ${whiteBg ? "bg-white p-[16px] rounded-[24px] " : ""}`}
                     >
                       <div
-                        className={`relative flex gap-2 rounded-[24px] xs:rounded-[16px] overflow-hidden ${reviewPage ? "h-[248px]" : "md:h-[326px] h-[160px]"
-                          }`}
+                        className={`relative flex gap-2 rounded-[24px] xs:rounded-[16px] overflow-hidden ${
+                          reviewPage ? "h-[248px]" : "md:h-[326px] h-[160px]"
+                        }`}
                       >
                         <div className="relative w-1/2">
                           <Image
@@ -190,10 +195,11 @@ export default function AcneRealPeoplRealStories({
 
                       <div className="text-center mt-4 ">
                         <div
-                          className={`${reviewPage
-                            ? "h-[104px] md:h-[134px] lg:h-[154px] xl:h-[124px]"
-                            : ""
-                            }`}
+                          className={`${
+                            reviewPage
+                              ? "h-[104px] md:h-[134px] lg:h-[154px] xl:h-[124px]"
+                              : ""
+                          }`}
                         >
                           {showNameBeforeQuote && (
                             <p className="font-lato text-[18px] text-[#171819] md:text-[16px] xs:text-[14px] font-[600] text-left leading-[135%] tracking-[-0.01rem]">
@@ -244,15 +250,17 @@ export default function AcneRealPeoplRealStories({
             {showArrows && (
               <>
                 <div
-                  className={`absolute ${reviewPage ? "top-[0]" : "top-[-33px]"
-                    } left-2  transform -translate-y-1/2 z-10 cursor-pointer hidden md:block`}
+                  className={`absolute ${
+                    reviewPage ? "top-[0]" : "top-[-33px]"
+                  } left-2  transform -translate-y-1/2 z-10 cursor-pointer hidden md:block`}
                   onClick={goToPrev}
                 >
                   <CustomLeftArrow reviewPage={true} />
                 </div>
                 <div
-                  className={`absolute right-2  ${reviewPage ? "top-[0]" : "top-[-33px]"
-                    } transform -translate-y-1/2 z-10 cursor-pointer hidden md:block`}
+                  className={`absolute right-2  ${
+                    reviewPage ? "top-[0]" : "top-[-33px]"
+                  } transform -translate-y-1/2 z-10 cursor-pointer hidden md:block`}
                   onClick={goToNext}
                 >
                   <CustomRightArrow reviewPage={true} />
