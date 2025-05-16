@@ -6,7 +6,7 @@ export const InstagramIcon = () => (
 
 export const TwitterIcon = () => (
   <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_65581_384)">
+    <g clipPath="url(#clip0_65581_384)">
       <path d="M11.11 0.543945H13.1169L8.71039 5.17251L13.8586 11.4513H9.81857L6.65545 7.63571L3.03422 11.4513H1.02728L5.69561 6.50071L0.765503 0.543945H4.90592L7.76363 4.02946L11.11 0.543945ZM10.4076 10.3646H11.5201L4.32129 1.5904H3.12584L10.4076 10.3646Z" fill="white" />
     </g>
     <defs>

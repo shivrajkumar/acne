@@ -60,9 +60,9 @@ export default function AcneRealPeoplRealStories({
     infinite: true,
     speed: 500,
     slidesToShow,
-    slidesToScroll: reviewPage ? testimonials.length / 3 : 1,
-    // autoplay: true,
-    autoplaySpeed: 1500,
+ slidesToScroll: reviewPage ? Math.floor(testimonials.length / 3) : 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
     responsive: [
       {
         breakpoint: 1156,
@@ -81,8 +81,8 @@ export default function AcneRealPeoplRealStories({
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
-          centerMode: reviewPage ? false : true,
-          centerPadding: "20px",
+          // centerMode: reviewPage ? false : true,
+          // centerPadding: "20px",
           dots: true,
           arrows: false,
         },

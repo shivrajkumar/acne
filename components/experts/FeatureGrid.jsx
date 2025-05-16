@@ -18,7 +18,7 @@ const SkinProgressCarousel = () => {
     centerMode: false, // Disable center mode to prevent overlap
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1400,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
