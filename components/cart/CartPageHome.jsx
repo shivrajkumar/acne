@@ -19,7 +19,7 @@ const CartPageHome = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const orderDisplayIdFromStorage =
-        window.localStorage.getItem("orderDisplayId");
+        window.localStorage.getItem("order_count");
 
       setOrderDisplayId(orderDisplayIdFromStorage);
 

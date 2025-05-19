@@ -46,8 +46,6 @@ const ThankYouLandingPage = ({ searchParams }) => {
     [availableSlots?.slotDetails, bookedSuccess]
   );
 
-
-
   // Check booking status from localStorage on mount
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +79,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
     fetchData();
 
     // Return empty cleanup function
-    return () => { };
+    return () => {};
   }, [searchParams]);
 
   useEffect(() => {
@@ -114,7 +112,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
           currency: "INR",
           order_items: res.data?.orderDetails?.orderLineItems,
           caseId: `${caseId}`,
-          transactionId: `${window.localStorage.getItem("user_tid")}`
+          transactionId: `${window.localStorage.getItem("user_tid")}`,
         });
         pixelCustomeEvent("Purchase", {
           gender: window.localStorage.getItem("user_gender"),
@@ -123,7 +121,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
           currency: "INR",
           order_items: res.data?.orderDetails?.orderLineItems,
           caseId: `${caseId}`,
-          transactionId: `${window.localStorage.getItem("user_tid")}`
+          transactionId: `${window.localStorage.getItem("user_tid")}`,
         });
       }
       return res;
@@ -201,7 +199,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
         onError: (error) => {
           setBookingError(
             error.message ||
-            "Failed to book your appointment. Please try again."
+              "Failed to book your appointment. Please try again."
           );
         },
       });
@@ -312,8 +310,10 @@ const ThankYouLandingPage = ({ searchParams }) => {
 
   return (
     <>
-      <AcneMarqueeBanner />
-      <AcneHeader />
+      <div className="md:relative sticky top-0 z-50">
+        <AcneMarqueeBanner />
+        <AcneHeader />
+      </div>
 
       {renderContent()}
 
