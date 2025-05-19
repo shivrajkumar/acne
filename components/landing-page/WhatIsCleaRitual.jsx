@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import Personalised from "@assets/svg/Personalised.svg";
 import SafeToUse from "@assets/svg/Safe_To_Use.svg";
@@ -7,6 +8,9 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { CDN_BASE_URL } from "@/constants/config";
 
 export default function WhatIsCleaRitual() {
+  let orderCount = window.localStorage.getItem("order_count");
+
+
   return (
     <section className="p-6 md:p-[40px] xs:p-[16px] border border-[#E3E3E2] rounded-[24px] flex flex-col md:flex-row gap-6 md:gap-[40px] md:min-h-[585px] min-h-[800px]">
       {/* Left Content */}
@@ -31,13 +35,19 @@ export default function WhatIsCleaRitual() {
           </div>
           {/* Button for Mobile */}
           <div className="hidden md:flex">
-            <AcneTakeTheSkinTest
+            {!orderCount ? <AcneTakeTheSkinTest
               variant="black"
               text="TAKE THE SKIN TEST"
               tm=" "
               redirectTo="/skin-test"
               deskSize="desktopBig"
-            />
+            /> : <AcneTakeTheSkinTest
+              variant="black"
+              text={`Book Your Call Now`}
+              tm={" "}
+              redirectTo={"/book-a-call?redirect=home"}
+              deskSize="desktopBig"
+            />}
           </div>
         </div>
 
@@ -72,13 +82,19 @@ export default function WhatIsCleaRitual() {
         </div>
 
         <div className="flex md:hidden justify-center mt-[24px]">
-          <AcneTakeTheSkinTest
+          {!orderCount ? <AcneTakeTheSkinTest
             variant="black"
             text="TAKE THE SKIN TEST"
             tm=" "
             redirectTo="/skin-test"
             deskSize="mobileBig"
-          />
+          /> : <AcneTakeTheSkinTest
+            variant="black"
+            text={`Book Your Call Now`}
+            tm={" "}
+            redirectTo={"/book-a-call?redirect=home"}
+            deskSize="mobileBig"
+          />}
         </div>
       </div>
 

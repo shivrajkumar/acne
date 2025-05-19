@@ -8,6 +8,8 @@ import { CDN_BASE_URL } from "@/constants/config";
 
 // Using named function for better debugging with React Fast Refresh
 function AcneThreefoldApproach() {
+  let orderCount = window.localStorage.getItem("order_count");
+
   return (
     <div className="p-[16px] md:p-[40px]  rounded-[24px] w-full mx-auto font-lato bg-Background/Beige h-[885px] lg:h-[720px]">
       {/* Badge */}
@@ -102,13 +104,19 @@ function AcneThreefoldApproach() {
 
           {/* Desktop Button */}
           <div className="mt-auto flex justify-end">
-            <AcneTakeTheSkinTest
+            {!orderCount ? <AcneTakeTheSkinTest
               variant="black"
               text="TAKE THE SKIN TEST"
               tm=" "
               redirectTo="/skin-test"
               deskSize="desktopBig"
-            />
+            /> : <AcneTakeTheSkinTest
+              variant="black"
+              text={`Book Your Call Now`}
+              tm={" "}
+              redirectTo={"/book-a-call?redirect=home"}
+              deskSize="desktopBig"
+            />}
           </div>
         </div>
       </div>
@@ -163,13 +171,19 @@ function AcneThreefoldApproach() {
         </div>
         {/* Mobile Button */}
         <div className="flex justify-center mt-4">
-          <AcneTakeTheSkinTest
+          {!orderCount ? <AcneTakeTheSkinTest
             variant="black"
             text="TAKE THE SKIN TEST"
             tm=" "
             redirectTo="/skin-test"
             deskSize="mobileBig"
-          />
+          /> : <AcneTakeTheSkinTest
+            variant="black"
+            text={`Book Your Call Now`}
+            tm={" "}
+            redirectTo={"/book-a-call?redirect=home"}
+            deskSize="mobileBig"
+          />}
         </div>
       </div>
     </div>

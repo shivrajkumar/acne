@@ -8,6 +8,7 @@ const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBanner
 
 const BannerSection = () => {
   const [syntheticId, setSyntheticId] = React.useState(null);
+  const orderCount = window.localStorage.getItem("order_count");
 
   useEffect(() => {
     const synthetic_Id = localStorage.getItem("syntheticId");
@@ -62,15 +63,21 @@ const BannerSection = () => {
               </p>
             </div>
             <div className="mt-[32px]">
-              <AcneTakeTheSkinTest
+              {!orderCount ? <AcneTakeTheSkinTest
                 variant="white"
                 text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
                 tm={" "}
                 redirectTo={"/skin-test"}
                 deskSize="mobileSmall"
-              />
+              /> : <AcneTakeTheSkinTest
+                variant="white"
+                text={`Book Your Call Now`}
+                tm={" "}
+                redirectTo={"/book-a-call?redirect=home"}
+                deskSize="mobileSmall"
+              />}
             </div>
-            {syntheticId && <div className=" -mt-[8px]">
+            {syntheticId && !orderCount && < div className=" -mt-[8px]">
               <AcneTakeTheSkinTest
                 variant="black"
                 text={"My Recommended plan"}
@@ -81,7 +88,7 @@ const BannerSection = () => {
             </div>}
           </div>
         </div>
-      </div>
+      </div >
 
       {/* Desktop Banner with Video */}
       < div className="sm:flex hidden flex-col items-start relative justify-center custom-black min-h-[20%]" >
@@ -120,15 +127,21 @@ const BannerSection = () => {
             </p>
           </div>
           <div className="flex justify-start" >
-            <AcneTakeTheSkinTest
+            {!orderCount ? <AcneTakeTheSkinTest
               variant="white"
               text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
               tm={" "}
               redirectTo={"/skin-test"}
               deskSize="desktopBig"
-            />
+            /> : <AcneTakeTheSkinTest
+              variant="white"
+              text={`Book Your Call Now`}
+              tm={" "}
+              redirectTo={"/book-a-call?redirect=home"}
+              deskSize="desktopBig"
+            />}
           </div>
-          {syntheticId && <div className="flex justify-start mt-[8px]" >
+          {syntheticId && !orderCount && < div className="flex justify-start mt-[8px]" >
             <AcneTakeTheSkinTest
               variant="black"
               text={"My Recommended plan"}
