@@ -6,9 +6,17 @@ import HighlyEffective from "@assets/svg/Highly_effective.svg";
 import TestedProducts from "@assets/svg/Tested_Products.svg";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { CDN_BASE_URL } from "@/constants/config";
+import { useEffect, useState } from "react";
 
 export default function WhatIsCleaRitual() {
-  let orderCount = window.localStorage.getItem("order_count");
+   const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  },[])
 
 
   return (

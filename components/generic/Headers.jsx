@@ -15,7 +15,8 @@ const Header = ({
 
   return (
     <>
-      <div className="bg-[#FFFFFF] h-[64px] px-[40px] py-[16px] md:px-[40px] md:py-[16px] xs:px-[16px] xs:py-[16px] flex justify-between  items-center">
+    <div className=" sticky top-0 z-50">
+       <div className="bg-[#FFFFFF] h-[64px] px-[40px] py-[16px] md:px-[40px] md:py-[16px] xs:px-[16px] xs:py-[16px] flex justify-between  items-center">
         <div>
           {currentQuestion && (
             <>
@@ -74,6 +75,8 @@ const Header = ({
       </div>
       {showProgress && <ProgressBar context={"questions"} />
       }
+    </div>
+     
     </>
   );
 };

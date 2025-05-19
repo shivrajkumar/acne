@@ -18,7 +18,14 @@ export default function AcneRealPeoplRealStories({
   const [isDesktop, setIsDesktop] = useState(false);
   const [showArrows, setShowArrows] = useState(false);
   const sliderRef = useRef(null);
-  let orderCount = window.localStorage.getItem("order_count");
+   const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  },[])
 
 
   // Functions to handle navigation

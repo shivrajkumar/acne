@@ -8,7 +8,14 @@ import RightArrowCircelLight from "@assets/icons/RightArrowCircleLight.svg";
 export default function AcneRootCauses({ rootcauses }) {
   const carouselRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  let orderCount = window.localStorage.getItem("order_count");
+   const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  },[])
 
 
   // Set isLoaded to true after component mounts to prevent initial animation

@@ -3,9 +3,17 @@ import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { useEffect, useState } from "react";
 
 export default function AcneHowItWorks({ howItWorks }) {
-  let orderCount = window.localStorage.getItem("order_count");
+  const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  },[])
 
   return (
     <>

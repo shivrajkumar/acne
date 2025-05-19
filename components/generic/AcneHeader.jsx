@@ -10,6 +10,7 @@ import CrossIconIcon from "@assets/icons/close-circle.png";
 import { Drawer } from "antd";
 import CartPageHome from "@components/cart/CartPageHome";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,20 +40,7 @@ const AcneHeader = () => {
 
 
     // Add body scroll lock effect when drawer is open
-    useEffect(() => {
-      if (isDrawerOpen) {
-        // Prevent scrolling on the body when drawer is open
-        document.body.style.overflow = 'hidden';
-      } else {
-        // Re-enable scrolling when drawer is closed
-        document.body.style.overflow = 'unset';
-      }
-      
-      // Cleanup function to ensure scrolling is re-enabled when component unmounts
-      return () => {
-        document.body.style.overflow = 'unset';
-      };
-    }, [isDrawerOpen]);
+  useBodyScrollLock(isDrawerOpen);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -74,7 +62,7 @@ const AcneHeader = () => {
   return (
     <header>
       {/* Main navigation */}
-      <div className="bg-[#FFFFFF] py-[12px] px-[16px] md:px-[40px] flex justify-between items-center h-[56px] border-b-[1px] font-lato">
+      <div className="bg-[#FFFFFF] relative py-[12px] px-[16px] md:px-[40px] flex justify-between items-center h-[56px] border-b-[1px] font-lato">
         {/* Mobile Menu Button - Only visible on mobile */}
         <button
           className="md:hidden flex items-center"
@@ -137,7 +125,7 @@ const AcneHeader = () => {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="fixed top-[13%]  w-[80%] h-[calc(100vh-56px)] bg-white z-50 md:hidden border-t">
+        <div className="fixed top-[96px]  w-[80%] h-[calc(100vh-56px)] bg-white z-50 md:hidden border-t">
           <div className="py-[12px] px-[16px] flex justify-between items-center border-b">
             <div className="font-lato text-[16px] font-[500] text-[#1F1F1F]">
               Menu

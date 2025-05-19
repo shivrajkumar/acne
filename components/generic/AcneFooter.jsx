@@ -108,7 +108,7 @@ const AcneFooter = () => {
                       onClick={() => PageClickEvent("TermsConditions", "/terms-conditions")}
                       className="text-neutral-50 font-lato text-[14px] leading-[140%]"
                     >
-                      Terms of Use
+                      Terms of Service
                     </Link>
                   </li>
                    <li>

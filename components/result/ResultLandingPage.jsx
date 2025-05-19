@@ -41,7 +41,7 @@ const ResultLandingPage = ({ searchParams }) => {
       const phone = window.localStorage.getItem("user_phone");
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
-      const storedOrderId = window.localStorage.getItem("orderDisplayId");
+      const storedOrderId = window.localStorage.getItem("order_count");
       if (storedOrderId) {
         setHasPlacedOrder(true);
       }
@@ -67,7 +67,6 @@ const ResultLandingPage = ({ searchParams }) => {
         gender: window.localStorage.getItem("user_gender"),
       });
     }
-
   }, [tId]);
 
   useEffect(() => {
@@ -130,7 +129,7 @@ const ResultLandingPage = ({ searchParams }) => {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
       caseId: `${resultData?.customerDetails?.caseId}`,
       currency: "INR",
-      transactionId: `${tId}`
+      transactionId: `${tId}`,
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     logGtmEvent("Buy Now Clicked", eventAttributes);
@@ -157,8 +156,10 @@ const ResultLandingPage = ({ searchParams }) => {
     <Loader />
   ) : (
     <CartProvider value={contextValue}>
-      <AcneMarqueeBanner />
-      <AcneHeader />
+      <div className="md:relative sticky top-0 z-50">
+        <AcneMarqueeBanner />
+        <AcneHeader />
+      </div>
       <div className="mx-[40px] xs:mx-[16px] gap-[40px] flex flex-col">
         <div ref={resultBannerRef}>
           <ResultBanner />

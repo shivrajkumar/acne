@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import "slick-carousel/slick/slick.css";
@@ -8,10 +8,17 @@ import { CDN_BASE_URL } from "@/constants/config";
 
 // Using named function for better debugging with React Fast Refresh
 function AcneThreefoldApproach() {
-  let orderCount = window.localStorage.getItem("order_count");
+   const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  },[])
 
   return (
-    <div className="p-[16px] md:p-[40px]  rounded-[24px] w-full mx-auto font-lato bg-Background/Beige h-[885px] md:h-[670px]">
+    <div className="p-[16px] md:p-[40px]  rounded-[24px] w-full mx-auto font-lato bg-Background/Beige h-[885px] lg:h-[720px]">
       {/* Badge */}
       <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-lato font-normal text-[12px] md:text-[14px] w-fit">
         Threefold Approach
