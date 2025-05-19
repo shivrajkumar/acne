@@ -5,6 +5,7 @@ import { Drawer } from "antd";
 import CartDetails from "./CartDetails";
 import CrossIcon from "@assets/icons/close-circle.png";
 import { useCartContext } from "../../context/CartContext";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const CartSummarySticky = () => {
   const [open, setOpen] = useState(false);
@@ -19,20 +20,7 @@ const CartSummarySticky = () => {
   } = useCartContext();
 
   // Add body scroll lock effect when drawer is open
-  useEffect(() => {
-    if (open) {
-      // Prevent scrolling on the body when drawer is open
-      document.body.style.overflow = "hidden";
-    } else {
-      // Re-enable scrolling when drawer is closed
-      document.body.style.overflow = "unset";
-    }
-
-    // Cleanup function to ensure scrolling is re-enabled when component unmounts
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [open]);
+  useBodyScrollLock(open);
 
   // Get first 3 products to display
   const displayProducts = productDetails?.slice(0, 3) || [];

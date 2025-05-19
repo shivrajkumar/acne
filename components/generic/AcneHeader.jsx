@@ -10,6 +10,7 @@ import CrossIconIcon from "@assets/icons/close-circle.png";
 import { Drawer } from "antd";
 import CartPageHome from "@components/cart/CartPageHome";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,20 +40,7 @@ const AcneHeader = () => {
 
 
     // Add body scroll lock effect when drawer is open
-    useEffect(() => {
-      if (isDrawerOpen) {
-        // Prevent scrolling on the body when drawer is open
-        document.body.style.overflow = 'hidden';
-      } else {
-        // Re-enable scrolling when drawer is closed
-        document.body.style.overflow = 'unset';
-      }
-      
-      // Cleanup function to ensure scrolling is re-enabled when component unmounts
-      return () => {
-        document.body.style.overflow = 'unset';
-      };
-    }, [isDrawerOpen]);
+  useBodyScrollLock(isDrawerOpen);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
