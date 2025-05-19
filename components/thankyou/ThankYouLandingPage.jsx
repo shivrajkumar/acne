@@ -107,6 +107,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
       const res = await fetchRequest(ORDER_DETAILS(orderId));
       if (res.status === 200) {
         setOrderDetails(res.data);
+        window.localStorage.setItem("order_count", res.data?.orderDetails?.orderSequence);
         logGtmEvent("Purchase", {
           gender: window.localStorage.getItem("user_gender"),
           orderId: `${res.data?.orderDetails?.orderId}`,

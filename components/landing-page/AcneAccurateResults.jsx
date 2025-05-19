@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import checkIcon from "@assets/icons/Check_Icon.png";
@@ -5,6 +6,8 @@ import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 function AccurateSkinTestResults() {
+  let orderCount = window.localStorage.getItem("order_count");
+
   return (
     <section className="bg-Background/Beige p-[28px] md:p-[40px] rounded-3xl">
       <div className="flex  md:flex-row justify-between gap-[40px]">
@@ -46,13 +49,19 @@ function AccurateSkinTestResults() {
             </div>
           </div>
 
-          <AcneTakeTheSkinTest
+          {!orderCount ? <AcneTakeTheSkinTest
             variant="black"
             text="TAKE THE SKIN TEST"
             tm=" "
             redirectTo="/skin-test"
             deskSize="desktopBig"
-          />
+          /> : <AcneTakeTheSkinTest
+            variant="black"
+            text={`Book Your Call Now`}
+            tm={" "}
+            redirectTo={"/book-a-call?redirect=home"}
+            deskSize="desktopBig"
+          />}
         </div>
 
         {/* Right Content - Image */}
@@ -75,6 +84,8 @@ function AccurateSkinTestResults() {
 
 // Mobile version component
 function AccurateSkinTestResultsMobile() {
+  let orderCount = window.localStorage.getItem("order_count");
+
   return (
     <section className="bg-Background/Beige p-[16px] rounded-[24px]">
       <div className="w-fit bg-white rounded-[12px] py-[8px] px-[16px] text-[12px] font-lato">
@@ -124,13 +135,19 @@ function AccurateSkinTestResultsMobile() {
         </div>
       </div>
       <div className="flex justify-center">
-        <AcneTakeTheSkinTest
+        {!orderCount ? <AcneTakeTheSkinTest
           variant="black"
           text="TAKE THE SKIN TEST"
           tm=" "
           redirectTo="/skin-test"
           deskSize="mobileBig"
-        />
+        /> : <AcneTakeTheSkinTest
+          variant="black"
+          text={`Book Your Call Now`}
+          tm={" "}
+          redirectTo={"/book-a-call?redirect=home"}
+          deskSize="mobileBig"
+        />}
       </div>
     </section>
   );

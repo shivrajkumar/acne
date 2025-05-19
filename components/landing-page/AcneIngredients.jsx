@@ -8,6 +8,8 @@ import { useRef, useState, useEffect } from "react";
 export default function AcneIngredients({ ingredients }) {
   const carouselRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  let orderCount = window.localStorage.getItem("order_count");
+
 
   // Set isLoaded to true after component mounts to prevent initial animation
   useEffect(() => {
@@ -27,13 +29,19 @@ export default function AcneIngredients({ ingredients }) {
           </h2>
         </div>
         <div className="hidden items-end md:flex">
-          <AcneTakeTheSkinTest
+          {!orderCount ? <AcneTakeTheSkinTest
             variant="black"
             text="TAKE THE SKIN TEST"
             tm=" "
             redirectTo="/skin-test"
             deskSize="desktopBig"
-          />
+          /> : <AcneTakeTheSkinTest
+            variant="black"
+            text={`Book Your Call Now`}
+            tm={" "}
+            redirectTo={"/book-a-call?redirect=home"}
+            deskSize="desktopBig"
+          />}
         </div>
       </div>
 
@@ -120,13 +128,19 @@ export default function AcneIngredients({ ingredients }) {
 
       {/* Mobile CTA */}
       <div className="flex items-end md:hidden mt-[40px] justify-center ">
-        <AcneTakeTheSkinTest
+        {!orderCount ? <AcneTakeTheSkinTest
           variant="black"
           text="TAKE THE SKIN TEST"
           tm=" "
           redirectTo="/skin-test"
           deskSize="mobileBig"
-        />
+        /> : <AcneTakeTheSkinTest
+          variant="black"
+          text={`Book Your Call Now`}
+          tm={" "}
+          redirectTo={"/book-a-call?redirect=home"}
+          deskSize="mobileBig"
+        />}
       </div>
     </div>
   );
