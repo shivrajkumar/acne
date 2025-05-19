@@ -17,7 +17,6 @@ const CartPageHome = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
       const orderDisplayIdFromStorage =
         window.localStorage.getItem("order_count");
 
@@ -30,7 +29,6 @@ const CartPageHome = () => {
         );
         setData(cartData);
       }
-    }
   }, []);
 
   const placeOrder = () => {
