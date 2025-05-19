@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function AcneHowItWorks({ howItWorks }) {
+  let orderCount = window.localStorage.getItem("order_count");
+
   return (
     <>
       {/* Desktop View */}
@@ -19,13 +21,19 @@ export default function AcneHowItWorks({ howItWorks }) {
             </h2>
           </div>
           <div className="hidden items-end md:flex">
-            <AcneTakeTheSkinTest
+            {!orderCount ? <AcneTakeTheSkinTest
               variant="black"
               text="Get Your Kit"
               tm=" "
               redirectTo="/skin-test"
               deskSize="desktopBig"
-            />
+            /> : <AcneTakeTheSkinTest
+              variant="black"
+              text={`Book Your Call Now`}
+              tm={" "}
+              redirectTo={"/book-a-call?redirect=home"}
+              deskSize="desktopBig"
+            />}
           </div>
         </div>
 
@@ -111,13 +119,19 @@ export default function AcneHowItWorks({ howItWorks }) {
           </div>
         </div>
         <div className="mx-auto flex justify-center">
-          <AcneTakeTheSkinTest
+          {!orderCount ? <AcneTakeTheSkinTest
             variant="black"
             text="GET YOUR KIT"
             tm=" "
             redirectTo="/skin-test"
             deskSize="mobileBig"
-          />
+          /> : <AcneTakeTheSkinTest
+            variant="black"
+            text={`Book Your Call Now`}
+            tm={" "}
+            redirectTo={"/book-a-call?redirect=home"}
+            deskSize="mobileBig"
+          />}
         </div>
       </div>
       {/* Mobile Button */}

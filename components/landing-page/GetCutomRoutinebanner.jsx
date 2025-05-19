@@ -1,9 +1,12 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function GetCustomRoutineBanner() {
+  let orderCount = window.localStorage.getItem("order_count");
+
   return (
     <section className="relative w-full rounded-[24px] xs:rounded-[16px]  overflow-hidden font-lato">
       {/* Desktop View - Hidden on Mobile */}
@@ -22,13 +25,19 @@ export default function GetCustomRoutineBanner() {
                 No More Guessing—Get a Skincare <br />Routine Made Just for You.
               </h1>
               <div className="flex justify-center">
-                <AcneTakeTheSkinTest
+                {!orderCount ? <AcneTakeTheSkinTest
                   variant="white"
                   text="TAKE THE SKIN TEST"
                   tm=" "
                   redirectTo="/skin-test"
                   deskSize="desktopBig"
-                />
+                /> : <AcneTakeTheSkinTest
+                  variant="white"
+                  text={`Book Your Call Now`}
+                  tm={" "}
+                  redirectTo={"/book-a-call?redirect=home"}
+                  deskSize="desktopBig"
+                />}
               </div>
             </div>
           </div>
@@ -56,13 +65,19 @@ export default function GetCustomRoutineBanner() {
               </h2>
 
               <div className="mt-[32px] mx-auto flex justify-center">
-                <AcneTakeTheSkinTest
+                {!orderCount ? <AcneTakeTheSkinTest
                   variant="white"
                   text="TAKE THE SKIN TEST"
                   tm=" "
                   redirectTo="/skin-test"
                   deskSize="mobileBig"
-                />{" "}
+                /> : <AcneTakeTheSkinTest
+                  variant="white"
+                  text={`Book Your Call Now`}
+                  tm={" "}
+                  redirectTo={"/book-a-call?redirect=home"}
+                  deskSize="mobileBig"
+                />}
               </div>
             </div>
           </div>

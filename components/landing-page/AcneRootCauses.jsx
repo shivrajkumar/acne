@@ -8,6 +8,8 @@ import RightArrowCircelLight from "@assets/icons/RightArrowCircleLight.svg";
 export default function AcneRootCauses({ rootcauses }) {
   const carouselRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  let orderCount = window.localStorage.getItem("order_count");
+
 
   // Set isLoaded to true after component mounts to prevent initial animation
   useEffect(() => {
@@ -27,13 +29,19 @@ export default function AcneRootCauses({ rootcauses }) {
           </h2>
         </div>
         <div className="hidden items-end md:flex">
-          <AcneTakeTheSkinTest
+          {!orderCount ? <AcneTakeTheSkinTest
             variant="black"
             text="Take The Skin test"
             tm=" "
             redirectTo="/skin-test"
             deskSize="desktopBig"
-          />
+          /> : <AcneTakeTheSkinTest
+            variant="black"
+            text={`Book Your Call Now`}
+            tm={" "}
+            redirectTo={"/book-a-call?redirect=home"}
+            deskSize="desktopBig"
+          />}
         </div>
       </div>
 
@@ -107,13 +115,19 @@ export default function AcneRootCauses({ rootcauses }) {
 
       {/* Mobile CTA */}
       <div className="flex items-end md:hidden mt-[80px] justify-center">
-        <AcneTakeTheSkinTest
+        {!orderCount ? <AcneTakeTheSkinTest
           variant="black"
           text="TAKE THE SKIN TEST"
           tm=" "
           redirectTo="/skin-test"
           deskSize="mobileBig"
-        />
+        /> : <AcneTakeTheSkinTest
+          variant="black"
+          text={`Book Your Call Now`}
+          tm={" "}
+          redirectTo={"/book-a-call?redirect=home"}
+          deskSize="mobileBig"
+        />}
       </div>
     </div>
   );
