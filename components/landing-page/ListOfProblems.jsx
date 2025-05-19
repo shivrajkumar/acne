@@ -6,7 +6,17 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function ListOfProblems({ listOfProblems }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  let orderCount = window.localStorage.getItem("order_count");
+ 
+    const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+  if (typeof window !== "undefined") {
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  }
+  },[])
 
 
   // Set isLoaded to true after component mounts

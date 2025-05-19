@@ -1,6 +1,6 @@
 "use client"
 import { CDN_BASE_URL } from "@/constants/config";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoMobile.mp4`;
@@ -8,7 +8,16 @@ const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBanner
 
 const BannerSection = () => {
   const [syntheticId, setSyntheticId] = React.useState(null);
-  const orderCount = window.localStorage.getItem("order_count");
+  const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+  if (typeof window !== "undefined") {
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  }
+  },[])
 
   useEffect(() => {
     const synthetic_Id = localStorage.getItem("syntheticId");

@@ -1,12 +1,22 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import checkIcon from "@assets/icons/Check_Icon.png";
 import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 function AccurateSkinTestResults() {
-  let orderCount = window.localStorage.getItem("order_count");
+  const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+  if (typeof window !== "undefined") {
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  }
+  },[])
+  
 
   return (
     <section className="bg-Background/Beige p-[28px] md:p-[40px] rounded-3xl">
@@ -84,7 +94,16 @@ function AccurateSkinTestResults() {
 
 // Mobile version component
 function AccurateSkinTestResultsMobile() {
-  let orderCount = window.localStorage.getItem("order_count");
+    const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+  if (typeof window !== "undefined") {
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  }
+  },[])
 
   return (
     <section className="bg-Background/Beige p-[16px] rounded-[24px]">

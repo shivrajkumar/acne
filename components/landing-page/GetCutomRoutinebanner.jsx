@@ -1,11 +1,20 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function GetCustomRoutineBanner() {
-  let orderCount = window.localStorage.getItem("order_count");
+   const [orderCount , setOrderCount] = useState(null);
+
+  useEffect(()=>{
+  if (typeof window !== "undefined") {
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+
+      setOrderCount(orderCountFromStorage);
+  }
+  },[])
 
   return (
     <section className="relative w-full rounded-[24px] xs:rounded-[16px]  overflow-hidden font-lato">
