@@ -41,7 +41,7 @@ const ResultLandingPage = ({ searchParams }) => {
       const phone = window.localStorage.getItem("user_phone");
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
-      const storedOrderId = window.localStorage.getItem("orderDisplayId");
+      const storedOrderId = window.localStorage.getItem("order_count");
       if (storedOrderId) {
         setHasPlacedOrder(true);
       }
