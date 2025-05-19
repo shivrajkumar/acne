@@ -38,9 +38,9 @@ const AcneHeader = () => {
     return () => window.removeEventListener("resize", checkIfDesktop);
   }, []);
 
-
-    // Add body scroll lock effect when drawer is open
+  // Add body scroll lock effect when drawer is open
   useBodyScrollLock(isDrawerOpen);
+  useBodyScrollLock(isMenuOpen);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -55,9 +55,9 @@ const AcneHeader = () => {
     trackMoEngageEvent(`PageClicked_${name}`, {
       from_page: currentPath,
       to_page: url,
-      time: new Date().toISOString()
+      time: new Date().toISOString(),
     });
-  }
+  };
 
   return (
     <header>
@@ -141,7 +141,10 @@ const AcneHeader = () => {
                 <Link
                   href="/about-us"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={() => { PageClickEvent("AboutUs", "/about-us"); toggleMenu() }}
+                  onClick={() => {
+                    PageClickEvent("AboutUs", "/about-us");
+                    toggleMenu();
+                  }}
                 >
                   About Us
                 </Link>
@@ -150,7 +153,10 @@ const AcneHeader = () => {
                 <Link
                   href="/experts"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={() => { PageClickEvent("Experts", "/experts"); toggleMenu() }}
+                  onClick={() => {
+                    PageClickEvent("Experts", "/experts");
+                    toggleMenu();
+                  }}
                 >
                   Experts
                 </Link>
@@ -159,7 +165,10 @@ const AcneHeader = () => {
                 <Link
                   href="/reviews"
                   className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
-                  onClick={() => { PageClickEvent("Reviews", "/reviews"); toggleMenu() }}
+                  onClick={() => {
+                    PageClickEvent("Reviews", "/reviews");
+                    toggleMenu();
+                  }}
                 >
                   Reviews
                 </Link>
@@ -168,7 +177,10 @@ const AcneHeader = () => {
           </nav>
 
           {/* Call to action button */}
-          <div className="absolute bottom-20 left-0 right-0 px-4">
+          <div
+            className="fixed  bottom-20 left-0 right-0 px-4"
+            style={{ width: "80%" }}
+          >
             <Link href="/skin-test">
               <button
                 className="w-full bg-black text-white py-4 rounded-full font-medium"
@@ -214,25 +226,24 @@ const AcneHeader = () => {
                   </h2>
                 </div>
 
-                  <div
-                    onClick={() => setIsDrawerOpen(false)}
-                    className="cursor-pointer"
-                  >
-                    <Image
-                      src={CrossIconIcon}
-                      alt="Cross Icon"
-                      width={24}
-                      height={24}
-                    />
-                  </div>
+                <div
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="cursor-pointer"
+                >
+                  <Image
+                    src={CrossIconIcon}
+                    alt="Cross Icon"
+                    width={24}
+                    height={24}
+                  />
                 </div>
-              }
-            >
-              <CartPageHome />
-            </Drawer>
-          </div>
-        )
-      }
+              </div>
+            }
+          >
+            <CartPageHome />
+          </Drawer>
+        </div>
+      )}
     </header>
   );
 };

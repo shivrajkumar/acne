@@ -11,7 +11,7 @@ const AboutUsMainComponent = () => {
 
     return (
         <>
-            <div className="md:relative sticky top-0 z-50">
+            <div className=" sticky top-0 z-50">
                 <AcneMarqueeBanner />
                 <AcneHeader />
             </div>
