@@ -12,11 +12,11 @@ export default function AcneIngredients({ ingredients }) {
 
   // Set isLoaded to true after component mounts to prevent initial animation
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    // if (typeof window !== "undefined") {
       const orderCountFromStorage = window.localStorage.getItem("order_count");
 
       setOrderCount(orderCountFromStorage);
-    }
+    // }
     setIsLoaded(true);
   }, []);
 

@@ -9,12 +9,10 @@ function AccurateSkinTestResults() {
   const [orderCount , setOrderCount] = useState(null);
 
   useEffect(()=>{
-  if (typeof window !== "undefined") {
       const orderCountFromStorage =
         window.localStorage.getItem("order_count");
 
       setOrderCount(orderCountFromStorage);
-  }
   },[])
   
 
@@ -97,12 +95,10 @@ function AccurateSkinTestResultsMobile() {
     const [orderCount , setOrderCount] = useState(null);
 
   useEffect(()=>{
-  if (typeof window !== "undefined") {
       const orderCountFromStorage =
         window.localStorage.getItem("order_count");
 
       setOrderCount(orderCountFromStorage);
-  }
   },[])
 
   return (
