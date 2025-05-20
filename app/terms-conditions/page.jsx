@@ -9,7 +9,9 @@ export default function page() {
     <>
       <Suspense>
         <AcneMarqueeBanner />
-        <AcneHeader />
+       <div className=" sticky top-0 z-50">
+          <AcneHeader />
+       </div>
         <TermsAndConditionsPage />
         <AcneFooter />
       </Suspense>
