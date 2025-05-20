@@ -280,8 +280,8 @@ const AcneBookACallPage = ({ searchParams }) => {
 
   return (
     <>
-      <div className="sticky top-0 z-50">
-        <AcneMarqueeBanner />
+      <AcneMarqueeBanner />
+      <div className="sticky top-0 z-50">  
         <AcneHeader />
       </div>
   

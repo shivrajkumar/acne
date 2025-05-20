@@ -6,8 +6,9 @@ import AcneFooter from "@/components/generic/AcneFooter";
 export default function page() {
   return (
     <>
-      <div className=" sticky top-0 z-50">
+      
         <AcneMarqueeBanner />
+      <div className=" sticky top-0 z-50">
         <AcneHeader />
       </div>
 

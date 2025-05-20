@@ -156,8 +156,9 @@ const ResultLandingPage = ({ searchParams }) => {
     <Loader />
   ) : (
     <CartProvider value={contextValue}>
-      <div className=" sticky top-0 z-50">
+    
         <AcneMarqueeBanner />
+      <div className="sticky top-0 z-50">
         <AcneHeader />
       </div>
       <div className="mx-[40px] xs:mx-[16px] gap-[40px] flex flex-col">

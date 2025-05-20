@@ -8,8 +8,8 @@ export default function page() {
   return (
     <>
       <Suspense>
+        <AcneMarqueeBanner />
          <div className=" sticky top-0 z-50">
-            <AcneMarqueeBanner />
             <AcneHeader />
          </div>
         <ReturnPolicyPage />
