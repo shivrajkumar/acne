@@ -506,11 +506,6 @@
             "title": "Incomplete Motion",
             "description": "Feeling like you haven't fully emptied your bowels, even after using the toilet.",
             "icon": "incomplete"
-          },
-            {
-            "title": "Diarrhoea",
-            "description": "Loose, watery stools that may occur frequently and suddenly, sometimes with urgency or stomach cramps",
-            "icon": ""
           }
         ]
       }
