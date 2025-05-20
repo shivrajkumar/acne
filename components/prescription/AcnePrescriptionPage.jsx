@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import Link from "next/link";
