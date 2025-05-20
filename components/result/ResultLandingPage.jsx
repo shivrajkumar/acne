@@ -133,7 +133,7 @@ const ResultLandingPage = ({ searchParams }) => {
     };
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     logGtmEvent("Buy Now Clicked", eventAttributes);
-    pixelCustomeEvent("Buy Now Clicked", eventAttributes);
+    pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
   };
 
