@@ -454,7 +454,7 @@ export default function UserBasicInfoForm() {
 
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-[24px] pt-0 lg:pt-6"
+            className="flex flex-col gap-[24px] pt-0 lg:pt-6 md:pb-[120px]"
           >
             <div>
               <input
