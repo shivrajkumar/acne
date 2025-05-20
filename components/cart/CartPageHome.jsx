@@ -44,7 +44,7 @@ const CartPageHome = () => {
     }
     trackMoEngageEvent("BeginCheckout", eventAttributes)
     logGtmEvent("checkout-started", eventAttributes)
-    pixelCustomeEvent("Buy Now Clicked", eventAttributes);
+    pixelCustomeEvent("Add to Cart", eventAttributes);
 
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
     const fbc = getCookieValue('_fbc', document.cookie.split(';'));

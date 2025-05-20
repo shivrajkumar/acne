@@ -8,10 +8,12 @@ import infoCircle from "@assets/icons/info-circle.png";
 import Loader from "../generic/Loader";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
+import { logGtmEvent } from "../generic/Gtm";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const MultiSelect = ({ block, context }) => {
   const {
-    apiResponse: { transactionId },
+    apiResponse: { transactionId, caseId, syntheticId },
     isHindi,
     setAllQuestionsFilled
   } = useContext(context);
@@ -80,6 +82,18 @@ const MultiSelect = ({ block, context }) => {
       if (block.id == "stress_level") {
         setAllQuestionsFilled(true);
       }
+      if (block.id == "digestive_issues") {
+        trackMoEngageEvent("GutRootCauses", {
+          syntheticId,
+          caseId,
+          question_text: block.text,
+          question_id: block.id,
+          response: selectedOptions,
+          completed_timestamp: new Date().toISOString(),
+        });
+        logGtmEvent("gut_root_cause", { question_text: block.text, question_id: block.id, response: selectedOptions, })
+      }
+
     } else {
       setError(_res?.data?.message || "An error occurred");
 
@@ -225,7 +239,7 @@ const MultiSelect = ({ block, context }) => {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <Image  src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
           </div>
@@ -241,7 +255,7 @@ const MultiSelect = ({ block, context }) => {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <Image  src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
           </div>
