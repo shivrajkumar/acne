@@ -122,6 +122,12 @@ const config: Config = {
         "Elements/Divider Stroke": "#E3E3E2",
         "Secondary/50": "#FEFDFC",
         "Secondary/400": "#AFA792",
+        "text-icon/title":"#2C2C2A",
+        "surface/disabled-state":"#F3F3F2",
+        "text-icon/subtitle":"#5E5E5A",
+        "text-icon/label-tertiary":"#787872",
+        "text-icon/body":"#40413E",
+        "Radial/Gradient":"#000000"
       },
       fontSize: {
         xxs: "0.6rem",
