@@ -7,29 +7,28 @@ const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerV
 const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoDesktop.mp4`;
 
 const BannerSection = () => {
-  const [syntheticId, setSyntheticId] = React.useState(null);
+  const [syntheticId, setSyntheticId] = useState(null);
   const [orderCount , setOrderCount] = useState(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(()=>{
-      const orderCountFromStorage =
-        window.localStorage.getItem("order_count");
 
+      const orderCountFromStorage =window.localStorage.getItem("order_count");
       setOrderCount(orderCountFromStorage);
+
+       const synthetic_Id = localStorage.getItem("syntheticId");
+        if (synthetic_Id) {
+          setSyntheticId(synthetic_Id);
+        }
   },[])
 
-  useEffect(() => {
-    const synthetic_Id = localStorage.getItem("syntheticId");
-    if (synthetic_Id) {
-      setSyntheticId(synthetic_Id);
-    }
-  }, []);
 
 
 
   return (
     <>
       {/* Mobile Banner with Video */}
-      <div className="flex sm:hidden flex-col items-start relative justify-center min-h-[250px]">
+      <div className="flex sm:hidden flex-col items-start relative justify-center min-h-[520px]">
         <div className="relative w-full h-full">
           {/* Video */}
           <video
@@ -38,8 +37,7 @@ const BannerSection = () => {
             muted
             loop
             playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
+            className="w-full min-h-[520px] object-cover"
           />
 
           {/* Overlay with the custom gradient */}
@@ -52,7 +50,7 @@ const BannerSection = () => {
           ></div>
 
           {/* Text positioned over the video */}
-          <div className="absolute bottom-8 left-0 w-full z-20 px-4 font-lato">
+          <div className={`absolute bottom-8 left-0 w-full z-20 px-4 font-lato `}>
             <div className="flex flex-col gap-[8px] font-lato text-[#FFFFFF]">
               <p className="font-lato font-[500] text-[16px] leading-[130%] -tracking-[1%]">
                 Designed by Dermatologists
@@ -95,10 +93,10 @@ const BannerSection = () => {
             </div>}
           </div>
         </div>
-      </div >
+      </div>
 
       {/* Desktop Banner with Video */}
-      < div className="sm:flex hidden flex-col items-start relative justify-center custom-black min-h-[20%]" >
+      <div className="sm:flex hidden flex-col items-start relative justify-center custom-black min-h-[20%]">
         <div className="relative w-full">
           <video
             src={desktop_video}
