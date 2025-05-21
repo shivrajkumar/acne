@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo.png";
@@ -17,6 +18,9 @@ const AcneHeader = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [marqueeHeight, setMarqueeHeight] = useState(0);
 
   // Detect if viewport is desktop size and set current path - safely
   useEffect(() => {
@@ -31,12 +35,54 @@ const AcneHeader = () => {
     // Check on initial load
     checkIfDesktop();
 
-    // Check on resize
-    window.addEventListener("resize", checkIfDesktop);
+    // Function to calculate visible heights and update position
+    const updateHeights = () => {
+      // Measure header height
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+
+      // Find marquee element
+      const marqueeElement =
+        document.querySelector(".marquee-container-new") ||
+        document.querySelector('[class*="acne-marquee"]') ||
+        document.querySelector('[class*="banner"]');
+
+      if (marqueeElement) {
+        // Check if marquee is visible (not scrolled out of view)
+        const marqueeRect = marqueeElement.getBoundingClientRect();
+
+        // If marquee is completely scrolled out of view, its height contribution is 0
+        if (marqueeRect.bottom <= 0) {
+          setMarqueeHeight(0);
+        } else if (marqueeRect.top < 0) {
+          // Marquee is partially visible - only count the visible portion
+          setMarqueeHeight(marqueeRect.height + marqueeRect.top);
+        } else {
+          // Marquee is fully visible
+          setMarqueeHeight(marqueeElement.offsetHeight);
+        }
+      } else {
+        setMarqueeHeight(0);
+      }
+    };
+
+    // Initial calculation
+    updateHeights();
+
+    // Update measurements on scroll and resize
+    window.addEventListener("scroll", updateHeights);
+    window.addEventListener("resize", updateHeights);
 
     // Cleanup
-    return () => window.removeEventListener("resize", checkIfDesktop);
+    return () => {
+      window.removeEventListener("scroll", updateHeights);
+      window.removeEventListener("resize", updateHeights);
+    };
   }, []);
+
+  // Calculate total offset whenever headerHeight or marqueeHeight changes
+  const totalTopOffset = headerHeight + marqueeHeight;
 
   // Add body scroll lock effect when drawer is open
   useBodyScrollLock(isDrawerOpen);
@@ -51,7 +97,6 @@ const AcneHeader = () => {
   };
 
   const PageClickEvent = (name, url) => {
-    // Using the saved path from useEffect instead of accessing window directly
     trackMoEngageEvent(`PageClicked_${name}`, {
       from_page: currentPath,
       to_page: url,
@@ -60,7 +105,7 @@ const AcneHeader = () => {
   };
 
   return (
-    <header>
+    <header ref={headerRef}>
       {/* Main navigation */}
       <div className="bg-[#FFFFFF] relative py-[12px] px-[16px] md:px-[40px] flex justify-between items-center h-[56px] border-b-[1px] font-lato">
         {/* Mobile Menu Button - Only visible on mobile */}
@@ -123,9 +168,15 @@ const AcneHeader = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Now positioned considering both header and marquee with scroll awareness */}
       {isMenuOpen && (
-        <div className="fixed top-[96px]  w-[80%] h-[calc(100vh-56px)] bg-white z-50 md:hidden border-t">
+        <div
+          className="fixed w-[80%] bg-white z-50 md:hidden border-t"
+          style={{
+            top: `${totalTopOffset}px`,
+            height: `calc(100vh - ${headerHeight}px)`,
+          }}
+        >
           <div className="py-[12px] px-[16px] flex justify-between items-center border-b">
             <div className="font-lato text-[16px] font-[500] text-[#1F1F1F]">
               Menu
@@ -178,7 +229,7 @@ const AcneHeader = () => {
 
           {/* Call to action button */}
           <div
-            className="fixed  bottom-20 left-0 right-0 px-4"
+            className="fixed bottom-20 left-0 right-0 px-4"
             style={{ width: "80%" }}
           >
             <Link href="/skin-test">

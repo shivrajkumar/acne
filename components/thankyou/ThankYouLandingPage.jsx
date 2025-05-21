@@ -305,6 +305,8 @@ const ThankYouLandingPage = ({ searchParams }) => {
         bookingError={bookingError}
         loadingBookCall={loadingBookCall}
         ButtonLoader={ButtonLoader}
+        setError={setError}
+        setBookingError={setBookingError}
       />
     );
   };

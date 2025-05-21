@@ -44,7 +44,7 @@ const CartSummarySticky = () => {
       <div
         className={`flex justify-between  ${
           !storedBookingStatus ? "md:flex-row flex-col" : ""
-        }  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center sticky bottom-0 bg-[#FFFFFF] w-full z-50  shadow-custom-medium`}
+        }  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center sticky bottom-0 bg-[#FFFFFF] w-full z-44  shadow-custom-medium`}
       >
         <div className="flex gap-[32px]">
           <div>

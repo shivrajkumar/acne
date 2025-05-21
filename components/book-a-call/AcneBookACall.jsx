@@ -246,10 +246,12 @@ const AcneBookACallPage = ({ searchParams }) => {
     return (
       <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px]">
         <div className="w-full max-w-[720px] mx-auto">
+          <div className="md:block hidden">
           {/* Display any API errors */}
           <ErrorMessage message={error} />
           {/* Display booking errors */}
           <ErrorMessage message={bookingError} isBookingError={true} />
+        </div>
 
           <BookFreeCall
             selectedDate={selectedDate}
@@ -260,10 +262,15 @@ const AcneBookACallPage = ({ searchParams }) => {
             transformedSlots={transformedSlots}
             bookedSuccess={bookedSuccess}
             bookACallOnly={true}
+            error={error}
+            bookingError={bookingError}
+            setBookingError={setBookingError}
+            setError={setError}
           />
+      
 
           {!bookedSuccess && selectedTime !== null && (
-            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[100] shadow-lg border-t border-gray-200">
+            <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[48] shadow-lg border-t border-gray-200">
               <button
                 className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
                 onClick={bookACall}

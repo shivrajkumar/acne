@@ -27,6 +27,8 @@ const OrderConfirmationView = ({
   bookingError,
   loadingBookCall,
   ButtonLoader,
+  setError,
+  setBookingError
 }) => {
   const errorRef = useRef(null);
 
@@ -82,6 +84,10 @@ const OrderConfirmationView = ({
                 setAvailableSlots={setAvailableSlots}
                 transformedSlots={transformedSlots}
                 bookedSuccess={bookedSuccess}
+                error={error}
+                bookingError={bookingError}
+                setBookingError={setBookingError}
+                setError={setError}
               />
             ) : (
               <ConfirmedSlotView
@@ -151,14 +157,7 @@ const OrderConfirmationView = ({
           </>
         )}
 
-        {/* Mobile error message near button */}
-        {(error || bookingError) && (
-          <div className="fixed bottom-[88px] left-0 right-0 z-50 px-4 md:hidden">
-            <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded">
-              <p className="text-sm text-red-700">{error || bookingError}</p>
-            </div>
-          </div>
-        )}
+    
 
         {/* Sticky button at bottom */}
         <div

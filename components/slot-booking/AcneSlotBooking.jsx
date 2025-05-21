@@ -17,6 +17,10 @@ function BookFreeCall({
   transformedSlots,
   bookedSuccess,
   bookACallOnly = false,
+  error = "", 
+  bookingError = "", 
+  setBookingError=()=>{},
+  setError=()=>{}
 }) {
   const [slidesToShow, setSlidesToShow] = useState(3);
   const [isMobile, setIsMobile] = useState(false);
@@ -55,21 +59,33 @@ function BookFreeCall({
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [availableDates, selectedDate]);
+  }, [availableDates, selectedDate, setSelectedDate]);
 
   const handleDateSelect = useCallback(
     (dateKey) => {
       setSelectedDate(dateKey);
       setSelectedTime(null); // Reset time selection when date changes
+      if (setError) {
+        setError(null);
+      }
+      if (setBookingError) {
+        setBookingError(null); 
+      }
     },
-    [setSelectedDate, setSelectedTime]
+    [setSelectedDate, setSelectedTime, setError, setBookingError]
   );
 
   const handleTimeSelect = useCallback(
     (time) => {
+      if (setError) {
+        setError(null);
+      }
+      if (setBookingError) {
+        setBookingError(null); 
+      }
       setSelectedTime(time);
     },
-    [setSelectedTime]
+    [setSelectedTime, setError, setBookingError]
   );
 
   const handleNext = () => {
@@ -226,21 +242,27 @@ function BookFreeCall({
                 : "No available slots"}
             </div>
           )}
+
+          {/* Error Message */}
+           {(error || bookingError) && (
+            <div className="sticky bottom-[88px] left-0 right-0 px-4 py-2 bg-white z-10 md:hidden md:bg-transparent w-full">
+              <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded">
+                <p className="text-sm text-red-700">{error || bookingError}</p>
+              </div>
+            </div>
+        )}
         </div>
       </div>
     );
   }
 
   // Case 2: when bookedSuccess is true and bookACallOnly is true
-
   if (bookedSuccess && bookACallOnly) {
     return (
-      <>
-        <ConfirmedSlotView
-          selectedDate={selectedDate}
-          selectedTime={selectedTime}
-        />
-      </>
+      <ConfirmedSlotView
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
+      />
     );
   }
 
