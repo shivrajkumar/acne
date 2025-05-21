@@ -31,7 +31,7 @@ export const Modal = (props) => {
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-30"
+        className="relative z-50"
         initialFocus={cancelButtonRef}
         onClose={props.setOpen}
       >
@@ -47,9 +47,9 @@ export const Modal = (props) => {
           <div className="fixed inset-0 bg-[#000000] bg-opacity-40 backdrop-blur-[2px]" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-30 w-screen overflow-y-auto">
-          {/* Changed to items-end on mobile and items-center on larger screens */}
-          <div className="flex min-h-full justify-center p-4 xs:pb-0 text-center items-end sm:items-center sm:p-0">
+        <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
+          {/* Changed to items-center for all screen sizes */}
+          <div className="flex min-h-full justify-center p-4 text-center items-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -59,7 +59,7 @@ export const Modal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform w-full bg-Background/AirBlue text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg rounded-t-[16px] sm:rounded-[16px]">
+              <Dialog.Panel className="relative transform w-full bg-Background/AirBlue text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg rounded-[16px]">
                 {
                   <div className="px-[24px] pb-[24px]">
                     <Dialog.Title
@@ -75,7 +75,7 @@ export const Modal = (props) => {
                       </div>
                     </Dialog.Title>
 
-                    <div className="border-t  pt-[8px]">
+                    <div className="border-t pt-[8px]">
                       <p className="text-[14px] font-lato font-[400] text-left mb-6 text-Text/Heading-Text">
                         {props.content?.text}
                       </p>
