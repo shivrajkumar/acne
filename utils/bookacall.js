@@ -115,19 +115,21 @@ export const handleBookCall = async ({
   }
 
   try {
-    // Find the selected slot
-    const selectedDateSlots = transformedSlots?.[selectedDate] || [];
-    const date = moment(`${selectedDate} ${selectedTime}`, "YYYY-MM-DD HH:mm");
+     const selectedDateSlots = transformedSlots?.[selectedDate] || [];
+    
+    // Parse the selected time (e.g., "01:15 PM") and create a moment object for the selected date
+    const selectedMoment = moment(`${selectedDate} ${selectedTime}`, "YYYY-MM-DD hh:mm A");
 
     // Check if date is valid before continuing
-    if (!date.isValid()) {
+    if (!selectedMoment.isValid()) {
       const error = new Error("Invalid date format");
       console.error(error);
       onError(error);
       return null;
     }
 
-    const selectedTimeISOString = date.toISOString();
+      // Convert to UTC to match the slot data format
+    const selectedTimeISOString = selectedMoment.utc().toISOString();
 
     const selectedSlot = selectedDateSlots.find(
       (slot) => slot.time === selectedTimeISOString
