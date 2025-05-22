@@ -115,9 +115,7 @@ export const handleBookCall = async ({
   }
 
   try {
-     const selectedDateSlots = transformedSlots?.[selectedDate] || [];
-    
-    // Parse the selected time (e.g., "01:15 PM") and create a moment object for the selected date
+    const selectedDateSlots = transformedSlots?.[selectedDate] || [];
     const selectedMoment = moment(`${selectedDate} ${selectedTime}`, "YYYY-MM-DD hh:mm A");
 
     // Check if date is valid before continuing
