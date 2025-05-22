@@ -8,7 +8,7 @@ import RootCause from "@assets/images/ocean-protocol.png";
 
 const AcneMarqueeBanner = () => {
   return (
-    <div className="bg-Background/AirBlue marque h-[40px] flex items-center flex-wrap overflow-hidden text-[12px] md:font-[400] font-[500]">
+    <div className="bg-Background/AirBlue marque h-[40px] flex items-center flex-wrap overflow-hidden text-[12px] md:font-[400] font-[500] marquee-container-new">
       <section className="logoMarqueeSection">
         <div id="logoMarqueeSection">
           <div className="default-content-container">
