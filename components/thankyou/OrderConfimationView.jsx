@@ -66,12 +66,10 @@ const OrderConfirmationView = ({
           orderDetails={orderDetails}
           setShowDrawer={setShowDrawer}
         />
-        <div className="md:block hidden">
-          {/* Display any API errors */}
+        {/* <div className="md:block hidden">
           <ErrorMessage message={error} />
-          {/* Display booking errors */}
           <ErrorMessage message={bookingError} isBookingError={true} />
-        </div>
+        </div> */}
 
         <div className="flex flex-col w-full lg:flex-row lg:gap-[40px]">
           <div className="lg:w-[50%]">

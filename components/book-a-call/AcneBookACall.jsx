@@ -246,12 +246,10 @@ const AcneBookACallPage = ({ searchParams }) => {
     return (
       <div className="flex flex-col items-center md:space-y-6 px-0 py-[32px] md:px-[80px] md:py-[32px]">
         <div className="w-full max-w-[720px] mx-auto">
-          <div className="md:block hidden">
-          {/* Display any API errors */}
+          {/* <div className="md:block hidden">
           <ErrorMessage message={error} />
-          {/* Display booking errors */}
           <ErrorMessage message={bookingError} isBookingError={true} />
-        </div>
+        </div> */}
 
           <BookFreeCall
             selectedDate={selectedDate}

@@ -3,6 +3,29 @@ import Image from 'next/image';
 import { startCase } from "lodash";
 import Information from "@assets/icons/information.png";
 import { useCartContext } from '../../context/CartContext';
+import StressIcon from "@assets/svg/stress_active.svg";
+import ToxinsIcon from "@assets/svg/toxin_active.svg";
+import LiverIcon from "@assets/svg/liver_active.svg";
+import HormoneIcon from "@assets/svg/hormone_active.svg";
+import GutIcon from "@assets/svg/gut_active.svg";
+
+const rootCausesIcons=(rootcauses)=>{
+    let rootcauseName = rootcauses.toLowerCase();
+      switch (rootcauseName) {
+    case "stress":
+      return StressIcon;
+    case "liver":
+      return LiverIcon;
+    case "toxins":
+      return ToxinsIcon;
+    case "hormone":
+      return HormoneIcon;
+      case "gut":
+      return GutIcon;
+    default:
+      return GutIcon;
+  }
+}
 
 const RootCauses = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -55,6 +78,7 @@ const RootCauses = () => {
 };
 
 const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, isMobile }) => {
+    console.log(rootCauseInfo,"info")
     const scrollContainerRef = useRef(null);
     const isUserScrolling = useRef(false);
     const isProgrammaticScroll = useRef(false);
@@ -119,7 +143,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     >
                         <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
                             <Image
-                                src={cause?.image}
+                                src={rootCausesIcons(cause?.name)} 
                                 alt={cause?.name}
                                 width={32}
                                 height={32}
@@ -153,7 +177,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                         >
                             <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
                                 <Image
-                                    src={cause?.image}
+                                     src={rootCausesIcons(cause?.name)} 
                                     alt={cause?.name}
                                     width={32}
                                     height={32}

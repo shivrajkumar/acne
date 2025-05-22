@@ -245,7 +245,7 @@ function BookFreeCall({
 
           {/* Error Message */}
            {(error || bookingError) && (
-            <div className="sticky bottom-[88px] left-0 right-0 px-4 py-2 bg-white z-10 md:hidden md:bg-transparent w-full">
+            <div className="sticky bottom-[88px] md:bottom-[98px] left-0 right-0 px-4 py-2 bg-white z-10  md:bg-transparent w-full">
               <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded">
                 <p className="text-sm text-red-700">{error || bookingError}</p>
               </div>
