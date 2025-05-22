@@ -13,65 +13,49 @@ function ConfirmedSlotView({
   height = "min-h-[60vh]",
 }) {
   return (
-    <>
-      <div
-        className={`flex flex-col items-center px-4 py-10 md:px-20 md:py-16 bg-[#F9FAFB] ${height}`}
-      >
-        <div className="w-full max-w-[720px] mx-auto">
-          <div className="bg-white border border-gray-200 rounded-3xl shadow-md p-6 md:p-10 flex flex-col items-center gap-6 md:gap-10 text-center">
-            {/* Confirmation Section */}
-            <div className="flex items-center gap-4 md:gap-6">
-              <Image
-                src={ConfirmedIcon}
-                alt="Confirmed"
-                width={48}
-                height={48}
-                className="w-12 h-12 md:w-16 md:h-16"
-              />
-              <p className="text-[20px] md:text-[26px] font-semibold text-gray-900">
-                Your call is booked successfully!
-              </p>
+    <div className={`flex flex-col items-center px-4 py-8 md:py-16 bg-[#F9FAFB] ${height}`}>
+      <div className="w-full max-w-[720px]">
+        <div className="bg-white border border-gray-200 rounded-3xl shadow-lg p-6 md:p-10 text-center space-y-6 md:space-y-10">
+          {/* Confirmation Header */}
+          <div className="flex flex-col items-center space-y-4">
+            <Image
+              src={ConfirmedIcon}
+              alt="Confirmed"
+              width={64}
+              height={64}
+              className="w-12 h-12 md:w-16 md:h-16"
+            />
+            <h1 className="text-xl md:text-2xl font-semibold text-gray-900">
+              Your call is booked successfully!
+            </h1>
+          </div>
+
+          {/* Subheading */}
+          <p className="text-base md:text-lg font-medium text-gray-700 leading-relaxed">
+            You're all set for your consultation with
+            <br className="hidden md:inline" /> our Skin Expert Doctors.
+          </p>
+
+          {/* Date and Time */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 text-[16px] md:text-[20px] text-gray-700">
+            {/* Date */}
+            <div className="flex items-center gap-2">
+              <Image src={CalenderIcon} alt="Date" width={20} height={20} />
+              <span>{moment(selectedDate || new Date()).format("MMM Do")}</span>
             </div>
 
-            {/* Heading */}
-            <h2 className="text-[18px] md:text-[22px] font-medium leading-snug text-gray-700">
-              You're all set for your consultation with our
-              <br className="hidden md:block" />
-              Skin Expert Doctors.
-            </h2>
+            {/* Divider */}
+            <div className="hidden sm:block w-[1px] h-6 bg-gray-300" />
 
-            {/* Date and Time Info */}
-            <div className="flex items-center gap-6 text-[16px] md:text-[20px] font-normal text-gray-700">
-              <div className="flex items-center gap-2">
-                <Image
-                  src={CalenderIcon}
-                  alt="Date"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5"
-                />
-                <span>
-                  {moment(selectedDate || new Date()).format("MMM Do")}
-                </span>
-              </div>
-
-              <div className="w-[1px] h-6 bg-gray-300" />
-
-              <div className="flex items-center gap-2">
-                <Image
-                  src={AccessTimeIcon}
-                  alt="Time"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5"
-                />
-                <span>{selectedTime}</span>
-              </div>
+            {/* Time */}
+            <div className="flex items-center gap-2">
+              <Image src={AccessTimeIcon} alt="Time" width={20} height={20} />
+              <span>{selectedTime}</span>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
