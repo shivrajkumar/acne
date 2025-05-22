@@ -44,9 +44,7 @@ const AcneHeader = () => {
 
       // Find marquee element
       const marqueeElement =
-        document.querySelector(".marquee-container-new") ||
-        document.querySelector('[class*="acne-marquee"]') ||
-        document.querySelector('[class*="banner"]');
+        document.querySelector(".marquee-container-new")
 
       if (marqueeElement) {
         // Check if marquee is visible (not scrolled out of view)
