@@ -78,7 +78,6 @@ const RootCauses = () => {
 };
 
 const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, isMobile }) => {
-    console.log(rootCauseInfo,"info")
     const scrollContainerRef = useRef(null);
     const isUserScrolling = useRef(false);
     const isProgrammaticScroll = useRef(false);
