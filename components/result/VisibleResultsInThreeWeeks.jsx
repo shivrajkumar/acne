@@ -39,7 +39,7 @@ const VisibleResultsInThreeWeeks = () => {
 
                 {/* Timeline Items */}
                 {timelineData.map((item, index) => (
-                    <div key={index} className="flex flex-col items-center w-1/3 relative z-10">
+                    <div key={index} className="flex flex-col items-center w-1/3 relative">
                         {/* Timeline Bubble */}
                         <div className="w-fit h-[32px] py-[4px] px-[16px] mb-6 flex items-center justify-center rounded-full bg-Tertiary/400 text-white text-center text-[12px] md:text-[14px] font-[400] font-lato ">
                             {item.period}
@@ -71,16 +71,16 @@ const VisibleResultsInThreeWeeks = () => {
                         {timelineData.map((item, index) => (
                             <div key={index} className={`relative ${index !== timelineData.length - 1 ? 'mb-24' : 'mb-10'} w-full text-center`}>
                                 {/* Timeline Bubble - Higher z-index */}
-                                <div className="mx-auto w-fit h-[32px] py-[4px] px-[16px] rounded-[40px] bg-Tertiary/400 flex items-center justify-center text-center font-medium relative" style={{ zIndex: 10 }}>
+                                <div className="mx-auto w-fit h-[32px] py-[4px] px-[16px] rounded-[40px] bg-Tertiary/400 flex items-center justify-center text-center font-medium relative" >
                                     <span className="text-[12px]  text-white font-[400] font-lato text-center">{item.period}</span>
                                 </div>
 
                                 {/* Benefits List - Higher z-index with background to cover line */}
-                                <div className="pt-8 relative" style={{ zIndex: 10 }}>
+                                <div className="pt-8 relative" >
                                     <ul className="list-disc flex flex-col pl-12 pr-4 items-center justify-center  bg-Secondary/50 py-[2px]">
                                         {item.benefits.map((benefit, i) => (
                                             <li key={i} className="relative   text-wrap">
-                                                <span className="relative z-10">
+                                                <span className="relative ">
                                                     <span className="absolute  text-[14px] font-[400] font-lato text-Text/Body-Text" style={{ zIndex: -1 }}></span>
                                                     {benefit}
                                                 </span>
