@@ -61,7 +61,6 @@ const VisibleResultsInThreeWeeks = () => {
                     <div
                         className="absolute left-1/2 top-0 w-0.5 bg-Tertiary/400 -ml-px"
                         style={{
-                            zIndex: 1,
                             height: 'calc(100% - 80px)'
                         }}
                     ></div>
