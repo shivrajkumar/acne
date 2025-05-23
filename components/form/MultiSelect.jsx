@@ -12,7 +12,6 @@ import { logGtmEvent } from "../generic/Gtm";
 import { trackMoEngageEvent } from "@/utils/moegage";
 
 const MultiSelect = ({ block, context }) => {
-  console.log(block, "block");
   const {
     apiResponse: { transactionId, caseId, syntheticId },
     isHindi,
