@@ -134,7 +134,7 @@ export const handleBookCall = async ({
     );
 
     if (!selectedSlot) {
-      const error = new Error("Selected slot not found");
+      const error = new Error("Something went wrong,Please try again");
       console.error(error);
       onError(error);
       return null;

@@ -15,7 +15,7 @@ const MultiSelect = ({ block, context }) => {
   const {
     apiResponse: { transactionId, caseId, syntheticId },
     isHindi,
-    setAllQuestionsFilled
+    setAllQuestionsFilled,
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
@@ -25,7 +25,6 @@ const MultiSelect = ({ block, context }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
 
   // Import the cookie library if not already imported
   // import Cookies from 'js-cookie';
@@ -91,9 +90,12 @@ const MultiSelect = ({ block, context }) => {
           response: selectedOptions,
           completed_timestamp: new Date().toISOString(),
         });
-        logGtmEvent("gut_root_cause", { question_text: block.text, question_id: block.id, response: selectedOptions, })
+        logGtmEvent("gut_root_cause", {
+          question_text: block.text,
+          question_id: block.id,
+          response: selectedOptions,
+        });
       }
-
     } else {
       setError(_res?.data?.message || "An error occurred");
 
@@ -104,14 +106,13 @@ const MultiSelect = ({ block, context }) => {
     setIsLoading(false);
   };
 
-
-
   const handleOptionToggle = (optionValue) => {
     setSelectedOptions((prev) => {
-
       // Handle "none" and "whole_face" specially
       if (optionValue === "none") {
-        return prev.includes("none") ? prev.filter((val) => val !== "none") : ["none"];
+        return prev.includes("none")
+          ? prev.filter((val) => val !== "none")
+          : ["none"];
       }
 
       if (optionValue === "whole_face") {
@@ -144,7 +145,6 @@ const MultiSelect = ({ block, context }) => {
     setError("");
   };
 
-
   const handleNextClick = async () => {
     if (selectedOptions.length === 0) {
       setError("Please select at least one option to continue");
@@ -155,8 +155,8 @@ const MultiSelect = ({ block, context }) => {
     const originalReply = Array.isArray(block.reply)
       ? block.reply
       : block.reply
-        ? [block.reply]
-        : [];
+      ? [block.reply]
+      : [];
     const hasChanged =
       JSON.stringify(selectedOptions.sort()) !==
       JSON.stringify(originalReply.sort());
@@ -196,14 +196,19 @@ const MultiSelect = ({ block, context }) => {
                 key={option.value}
                 className={`
                 flex justify-center items-center
-                  cursor-pointer rounded-[16px] w-[302px] ${block.optionMap?.length > 3
-                    ? "md:w-[302px]"
-                    : "md:w-[412px]"
-                  } xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px] hover:border-Primary/500
+                  cursor-pointer rounded-[16px] w-[302px] ${
+                    block.id === "acne_scars"
+                      ? "md:w-[412px]"
+                      : block.optionMap?.length > 3
+                      ? "md:w-[302px]"
+                      : "md:w-[412px]"
+                  }
+xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px] hover:border-Primary/500
                   border-[1px]  h-[96px]
-                  ${isSelected
-                    ? "border-Primary/500 bg-Primary/50"
-                    : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
+                  ${
+                    isSelected
+                      ? "border-Primary/500 bg-Primary/50"
+                      : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}
                 onClick={() => handleOptionToggle(option.value)}
@@ -239,7 +244,12 @@ const MultiSelect = ({ block, context }) => {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image
+                src={isHovered ? infoCircleBlack : infoCircle}
+                width={20}
+                height={20}
+                alt="Info"
+              />
               Learn More
             </button>
           </div>
@@ -255,7 +265,12 @@ const MultiSelect = ({ block, context }) => {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image
+                src={isHovered ? infoCircleBlack : infoCircle}
+                width={20}
+                height={20}
+                alt="Info"
+              />
               Learn More
             </button>
           </div>
@@ -273,8 +288,9 @@ const MultiSelect = ({ block, context }) => {
         <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
           <button
             type="submit"
-            className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
-              } transition-all duration-200 shadow-sm`}
+            className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${
+              selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
+            } transition-all duration-200 shadow-sm`}
             onClick={handleNextClick}
             disabled={selectedOptions.length === 0}
           >
