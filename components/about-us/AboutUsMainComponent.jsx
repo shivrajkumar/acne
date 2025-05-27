@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import AboutUsBanner from "./AboutUsBanner";
 import InfoSection from "./InfoSection";
 import SkinCareCarousel from "./SkinCareCarousel";
@@ -9,6 +9,7 @@ import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import AcneHeader from "../generic/AcneHeader";
 import AcneFooter from "../generic/AcneFooter";
 import Loader from "../generic/Loader";
+import useMediaLoader from "@/hooks/useMediaLoader";
 
 const AboutUsMainComponent = () => {
   const isLoading = useMediaLoader();
