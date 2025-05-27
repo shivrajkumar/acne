@@ -1,14 +1,33 @@
+"use client"
 import React from "react";
+import { Suspense } from "react";
 import FeatureGrid from "./FeatureGrid";
 import ExpertBanner from "./ExpertBanner";
 import SkincareMakeSense from "../about-us/SkincareMakeSenseAboutUs";
 import TrustedByDoctors from "./TrustedByDoctors";
-// import TeamGrid from "./TeamGrid";
-// import TeamGrid from "./TeamGrid";
+import AcneHeader from "@/components/generic/AcneHeader";
+import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
+import AcneFooter from "@/components/generic/AcneFooter";
+import useMediaLoader from "@/hooks/useMediaLoader";
+import Loader from "../generic/Loader";
 
-const AcneExperts = () => {
+const AcneExpertsPage = () => {
+  const isLoading = useMediaLoader();
+
+  // Show loader while loading
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="flex flex-col md:gap-y-[60px] gap-y-[40px] w-full overflow-hidden">
+    <>
+       <AcneMarqueeBanner />
+      <div className=" sticky top-0 z-50">
+        <AcneHeader />
+      </div>
+
+      <Suspense>
+         <div className="flex flex-col md:gap-y-[60px] gap-y-[40px] w-full overflow-hidden">
       <ExpertBanner />
       <TrustedByDoctors />
       <FeatureGrid />
@@ -21,7 +40,13 @@ const AcneExperts = () => {
         }
       />
     </div>
+      </Suspense>
+
+      <AcneFooter />
+    </>
+     
+  
   );
 };
 
-export default AcneExperts;
+export default AcneExpertsPage;
