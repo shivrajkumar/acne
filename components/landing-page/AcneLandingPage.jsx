@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import BannerSection from "./BannerSection";
 import ListOfProblems from "./ListOfProblems";
@@ -23,9 +24,16 @@ import AcneOurTeam from "./AcneOurTeam";
 import AcneAccurateResults from "./AcneAccurateResults";
 import AcneFooter from "../generic/AcneFooter";
 import LogMoengage from "../generic/LogMoengage";
+import Loader from "../generic/Loader";
+import useMediaLoader from "@/hooks/useMediaLoader";
 
 const AcneLandingPage = () => {
+  const isLoading = useMediaLoader();
 
+  // Show loader while loading
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="!font-lato">

@@ -1,22 +1,10 @@
-import AcneHeader from "@/components/generic/AcneHeader";
-import { Suspense } from "react";
-import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
-import AcneExperts from "../../components/experts/AcneExperts";
-import AcneFooter from "@/components/generic/AcneFooter";
+import React from "react";
+import AcneExpertsPage from "../../components/experts/AcneExperts";
+
 export default function page() {
   return (
     <>
-      
-        <AcneMarqueeBanner />
-      <div className=" sticky top-0 z-50">
-        <AcneHeader />
-      </div>
-
-      <Suspense>
-        <AcneExperts />
-      </Suspense>
-
-      <AcneFooter />
+      <AcneExpertsPage/>
     </>
   );
 }

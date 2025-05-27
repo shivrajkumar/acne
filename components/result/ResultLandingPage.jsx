@@ -22,6 +22,7 @@ import { getCookieValue } from "@/helpers/cookieHelper";
 import { metaCapi } from "@/helpers/metaCapiHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
+import useMediaLoader from "@/hooks/useMediaLoader";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -33,6 +34,9 @@ const ResultLandingPage = ({ searchParams }) => {
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
 
+  const isLoading = useMediaLoader();
+
+  // Initialize tracking data
   useEffect(() => {
     if (typeof window !== "undefined") {
       const fbp = getCookieValue("_fbp", document.cookie.split(";"));
@@ -42,6 +46,7 @@ const ResultLandingPage = ({ searchParams }) => {
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
       const storedOrderId = window.localStorage.getItem("order_count");
+      
       if (storedOrderId) {
         setHasPlacedOrder(true);
       }
@@ -60,45 +65,55 @@ const ResultLandingPage = ({ searchParams }) => {
     }
   }, []);
 
+  // Fetch result data when tId changes
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && tId) {
       fetchResult();
-      logGtmEvent("ReportGenerated", {
+       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
       });
     }
   }, [tId]);
 
+  // Handle sticky cart visibility on scroll
   useEffect(() => {
     const handleScroll = () => {
       if (resultBannerRef.current) {
-        const bannerBottom =
-          resultBannerRef.current.getBoundingClientRect().bottom;
+        const bannerBottom = resultBannerRef.current.getBoundingClientRect().bottom;
         setShowSticky(bannerBottom < 0);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    handleScroll(); // Initial check
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading]);
+  }, []);
 
   const fetchResult = async () => {
+    if (!tId) {
+      console.error("No transaction ID provided");
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetchRequest(RESULT_V2(tId));
       if (res.status === 200) {
         const caseId = res?.data?.customerDetails?.caseId;
+        setResultData(res.data);
+        localStorage.setItem(`acne_result_data_${tId}`, JSON.stringify(res.data));
+        
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
-        setResultData(res.data);
-        localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
+        
         metaCapi(capiPayload, "ReportGenerated/Lead");
+      } else {
+        console.error("Failed to fetch results:", res.status);
       }
-    } catch (e) {
-      console.error("Error fetching results:", e);
+    } catch (error) {
+      console.error("Error fetching results:", error);
     } finally {
       setLoading(false);
     }
@@ -118,24 +133,42 @@ const ResultLandingPage = ({ searchParams }) => {
   };
 
   const placeOrder = () => {
+    if (!resultData?.productsDetails || !resultData?.customerDetails?.caseId) {
+      console.error("Missing required order data");
+      return;
+    }
+
     handleBuyNowClick(
-      resultData?.productsDetails,
-      resultData?.customerDetails?.caseId
+      resultData.productsDetails,
+      resultData.customerDetails.caseId
     );
+    
     const eventAttributes = {
-      cart_value: `${resultData?.cartDetails?.totalCartValue}`,
-      item_count: `${resultData?.productsDetails.length}`,
+      cart_value: `${resultData?.cartDetails?.totalCartValue || 0}`,
+      item_count: `${resultData?.productsDetails?.length || 0}`,
       timestamp: new Date().toISOString(),
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
       caseId: `${resultData?.customerDetails?.caseId}`,
       currency: "INR",
       transactionId: `${tId}`,
     };
+    
+    // Track events
     trackMoEngageEvent("BeginCheckout", eventAttributes);
     logGtmEvent("Buy Now Clicked", eventAttributes);
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
   };
+
+  // Show loader while media is loading
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  // Show loader while fetching results
+  if (loading) {
+    return <Loader />;
+  }
 
   // Create the context value
   const contextValue = {
@@ -152,12 +185,9 @@ const ResultLandingPage = ({ searchParams }) => {
     hasPlacedOrder: hasPlacedOrder,
   };
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <CartProvider value={contextValue}>
-    
-        <AcneMarqueeBanner />
+      <AcneMarqueeBanner />
       <div className="sticky top-0 z-50">
         <AcneHeader />
       </div>
