@@ -42,16 +42,12 @@ const CartSummarySticky = () => {
   return (
     <>
       <div
-        className={`flex justify-between  ${
-          !storedBookingStatus ? "md:flex-row flex-col" : ""
-        }  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center sticky bottom-0 bg-[#FFFFFF] w-full z-44  shadow-custom-medium`}
+        className={`flex justify-between  py-[16px] px-[16px] md:py-[16px] md:px-[80px] items-center sticky bottom-0 bg-[#FFFFFF] w-full z-[44]  shadow-custom-medium`}
       >
         <div className="flex gap-[32px]">
           <div>
             <p
-              className={`${
-                !storedBookingStatus ? "md:block hidden" : ""
-              } text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]`}
+              className={`text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]`}
             >
               ₹{(cartData?.totalCartValue ?? 0).toFixed(2)}/-
             </p>
@@ -100,29 +96,25 @@ const CartSummarySticky = () => {
           </div>
         </div>
         <div
-          className={` flex    ${
-            !storedBookingStatus
-              ? " flex-row pt-3 md:w-auto w-full"
-              : "md:flex-row flex-col"
-          }  justify-between gap-3 items-center`}
+          className={` flex  
+             items-center`}
         >
-          <a
+          {/* <a
             href={`/book-a-call?caseId=${caseId}&redirect=result`}
             className={`${storedBookingStatus && "hidden"}`}
           >
             <button className="w-fit bg-Tertiary/600 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]">
               BOOK A CALL
             </button>
-          </a>
+          </a> */}
 
           {!hasPlacedOrder && (
             <button
-              className="w-fit bg-Tertiary/600 px-[24px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
+              className="w-full bg-Tertiary/600 px-[60px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
               onClick={handleBuyNowClick}
             >
               {cartData?.cta}{" "}
-              {!storedBookingStatus &&
-                ` ₹${(cartData?.totalCartValue ?? 0).toFixed(2)}/-`}
+            
             </button>
           )}
         </div>
