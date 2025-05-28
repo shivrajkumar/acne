@@ -91,29 +91,20 @@ const ResultLandingPage = ({ searchParams }) => {
   }, []);
 
   const fetchResult = async () => {
-    if (!tId) {
-      console.error("No transaction ID provided");
-      return;
-    }
-
     setLoading(true);
     try {
       const res = await fetchRequest(RESULT_V2(tId));
       if (res.status === 200) {
         const caseId = res?.data?.customerDetails?.caseId;
-        setResultData(res.data);
-        localStorage.setItem(`acne_result_data_${tId}`, JSON.stringify(res.data));
-        
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
-        
+        setResultData(res.data);
+        localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
         metaCapi(capiPayload, "ReportGenerated/Lead");
-      } else {
-        console.error("Failed to fetch results:", res.status);
       }
-    } catch (error) {
-      console.error("Error fetching results:", error);
+    } catch (e) {
+      console.error("Error fetching results:", e);
     } finally {
       setLoading(false);
     }
@@ -133,19 +124,14 @@ const ResultLandingPage = ({ searchParams }) => {
   };
 
   const placeOrder = () => {
-    if (!resultData?.productsDetails || !resultData?.customerDetails?.caseId) {
-      console.error("Missing required order data");
-      return;
-    }
-
-    handleBuyNowClick(
-      resultData.productsDetails,
-      resultData.customerDetails.caseId
+     handleBuyNowClick(
+      resultData?.productsDetails,
+      resultData?.customerDetails?.caseId
     );
     
     const eventAttributes = {
-      cart_value: `${resultData?.cartDetails?.totalCartValue || 0}`,
-      item_count: `${resultData?.productsDetails?.length || 0}`,
+      cart_value: `${resultData?.cartDetails?.totalCartValue}`,
+      item_count: `${resultData?.productsDetails?.length}`,
       timestamp: new Date().toISOString(),
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
       caseId: `${resultData?.customerDetails?.caseId}`,
