@@ -12,7 +12,12 @@ import Loader from "../generic/Loader";
 import useMediaLoader from "@/hooks/useMediaLoader";
 
 const AboutUsMainComponent = () => {
-  const isLoading = useMediaLoader();
+  
+const isLoading = useMediaLoader({
+  minLoadingTime: 2800,
+  maxLoadingTime: 3000,      
+  transitionDelay: 2000      
+});
 
   // Show loader while loading
   if (isLoading) {

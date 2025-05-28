@@ -12,6 +12,7 @@ export default function ExpertBanner() {
             alt="Expert Dermatologists"
             width={900}
             height={568}
+            priority
             className="object-contain"
           />
         </div>
