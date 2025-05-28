@@ -12,7 +12,11 @@ import useMediaLoader from "@/hooks/useMediaLoader";
 import Loader from "../generic/Loader";
 
 const AcneExpertsPage = () => {
-  const isLoading = useMediaLoader();
+ const isLoading = useMediaLoader({
+  minLoadingTime: 2800,
+  maxLoadingTime: 3000,      
+  transitionDelay: 2000      
+});
 
   // Show loader while loading
   if (isLoading) {
