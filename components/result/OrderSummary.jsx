@@ -177,8 +177,8 @@ const OrderSummary = () => {
                       src={product?.image}
                       alt={product?.name}
                       width={300}
-                      height={254}
-                      className="object-contain"
+                      height={220}
+                      className="object-contain w-[300px] h-[220px]"
                     />
                   </div>
 
@@ -204,7 +204,7 @@ const OrderSummary = () => {
 
                   {/* Composition */}
                   {product?.composition && (
-                    <p className="italic font-lato font-[500] text-[16px] leading-[130%] text-primary/700 mt-[20px]">
+                    <p className="italic font-lato font-[500] text-[16px] leading-[130%] text-primary/700 ">
                       {product?.composition}
                     </p>
                   )}
@@ -228,7 +228,7 @@ const OrderSummary = () => {
                       ))}
                     </div>
                   )}
-                  <div className="flex my-[8px]  justify-between font-lato font-[400] text-[14px] leading-[140%]  text-primary/700 ">
+                  <div className="flex   justify-between font-lato font-[400] text-[14px] leading-[140%]  text-primary/700 ">
                     {/* Container info */}
                     {product?.size && <p>Container: {product?.size}</p>}
 
