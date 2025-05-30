@@ -177,7 +177,7 @@ const OrderSummary = () => {
                       src={product?.image}
                       alt={product?.name}
                       width={300}
-                      height={200}
+                      height={220}
                       className="object-contain w-[300px] h-[220px]"
                     />
                   </div>
