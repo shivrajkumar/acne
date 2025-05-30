@@ -112,13 +112,20 @@ const OrderSummary = () => {
                     {product?.tags?.length > 0 && (
                       <div className="flex gap-[8px] flex-wrap">
                         {product.tags.map((tag, index) => (
-                          <div
-                            key={index}
-                            className="bg-Background/Beige px-[8px] h-[32px] flex items-center text-[14px] font-lato"
-                          >
-                            {tag}
-                          </div>
-                        ))}
+                        <div
+                          key={index}
+                          className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-lato  text-primary/700 "
+                        >
+                          <Image
+                            src={TickIcon}
+                            alt="Tick"
+                            width={23}
+                            height={23}
+                          />
+                          <span className="ml-[8px]"> {tag}</span>
+                        </div>
+                      ))}
+                    
                       </div>
                     )}
 
