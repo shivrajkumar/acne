@@ -317,7 +317,7 @@ const ProductPageModal = ({
 
      
 
-<div className="md:w-[50%] md:h-[650px]  md:overflow-y-scroll">
+<div className="md:w-[50%] md:h-[650px]  md:overflow-y-scroll md:pr-3">
  {/* Header Section */}
       <div className=" mb-6">
         <div className="flex justify-between items-start mb-4">
@@ -377,21 +377,30 @@ const ProductPageModal = ({
         <h2 className="md:text-[24px]  text-[18px] font-[600] leading-[140%] text-primary/700 ">
           Benefits
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 md:gap-4 gap-2">
-          {product.benefits.map((benefit, index) => (
-            <div key={index} className="flex items-center gap-2  pt-4">
-              <Image
-                src={ExpandIcon}
-                alt={benefit.label}
-                width={24}
-                height={24}
-              />
-              <span className="text-[12px] leading-[140%] font-[400] text-primary/700">
-                {benefit.label}
-              </span>
-            </div>
-          ))}
-        </div>
+     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 pt-4">
+  {product.benefits.map((benefit, index) => (
+ <div
+  key={index}
+  className={`
+    flex items-center gap-2 
+    ${index % 2 === 0 ? 'border-r  border-Elements/Divider-Stroke ' : ''}
+    ${index % 4 !== 3 ? 'md:border-r border-Elements/Divider-Stroke' : 'md:border-r-0'}
+  `}
+>
+
+      <Image
+        src={ExpandIcon}
+        alt={benefit.label}
+        width={24}
+        height={24}
+      />
+      <span className="text-[12px] leading-[140%] font-[400] text-primary/700">
+        {benefit.label}
+      </span>
+    </div>
+  ))}
+</div>
+
       </div>
 
       {/* Ideal For Section */}
@@ -441,7 +450,7 @@ const ProductPageModal = ({
                 className="border-b border-b-Elements/Divider-Stroke"
               >
                 <button
-                  className="w-full flex justify-between items-center p-4 text-left"
+                  className="w-full flex justify-between items-center p-2 text-left"
                   onClick={() => setExpandedIngredient(isOpen ? null : index)}
                 >
                   <span className="font-[400] md:text-[18px] text-[14px] leading-[140%] text-primary/700">
@@ -489,7 +498,7 @@ const ProductPageModal = ({
                 className="border-b border-b-Elements/Divider-Stroke"
               >
                 <button
-                  className="w-full flex justify-between items-center p-4 text-left"
+                  className="w-full flex justify-between items-center p-2 text-left"
                   onClick={() => setExpandedFAQ(isOpen ? null : index)}
                 >
                   <span className="font-[400] md:text-[18px] text-[14px] leading-[140%] text-primary/700">

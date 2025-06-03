@@ -11,11 +11,13 @@ import { Modal } from "antd";
 import { useState } from "react";
 import ProductPageModal from "./ProductDetailsModal";
 import closeIcon from "@assets/svg/close-circle.svg";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const OrderSummary = () => {
   const { productsDetails } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
+  useBodyScrollLock(isModalOpen);
 
   const showModal = (variantId) => {
     setSelectedVariantId(variantId);
