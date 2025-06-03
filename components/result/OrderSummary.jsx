@@ -74,7 +74,6 @@ const OrderSummary = () => {
         </p>
         <div className="flex flex-col gap-[24px] md:gap-[32px] mt-[24px] md:mt-[40px]">
           {productsDetails?.map((product) => {
-            console.log(productsDetails, "deatils");
             const { showAM, showPM } = getDosageIcons(product.dosageCode);
 
             return (
