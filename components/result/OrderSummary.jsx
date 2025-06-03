@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { startCase } from "lodash";
 import CartDetails from "./CartDetails";
@@ -6,9 +7,33 @@ import { useCartContext } from "../../context/CartContext";
 import AMIcon from "@assets/svg/AM.svg";
 import PMIcon from "@assets/svg/PM.svg";
 import TickIcon from "@assets/svg/tick.svg";
+import { Modal } from "antd";
+import { useState } from "react";
+import ProductPageModal from "./ProductDetailsModal";
+import closeIcon from "@assets/svg/close-circle.svg";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const OrderSummary = () => {
   const { productsDetails } = useCartContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVariantId, setSelectedVariantId] = useState(null);
+  useBodyScrollLock(isModalOpen);
+
+  const showModal = (variantId) => {
+    setSelectedVariantId(variantId);
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    console.log("Selected Variant ID:", selectedVariantId);
+    setIsModalOpen(false);
+    setSelectedVariantId(null);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setSelectedVariantId(null);
+  };
   // Helper function to determine which icons to show based on dosageCode
   const getDosageIcons = (dosageCode) => {
     if (!dosageCode) return { showAM: false, showNoon: false, showPM: false };
@@ -65,6 +90,7 @@ const OrderSummary = () => {
                       width={168}
                       height={168}
                       className="w-[168px] h-[168px]"
+                      // onClick={() => showModal(product?.variantId)} // ← Pass ID on click
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                       {showAM && (
@@ -112,20 +138,19 @@ const OrderSummary = () => {
                     {product?.tags?.length > 0 && (
                       <div className="flex gap-[8px] flex-wrap">
                         {product.tags.map((tag, index) => (
-                        <div
-                          key={index}
-                          className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-lato  text-primary/700 "
-                        >
-                          <Image
-                            src={TickIcon}
-                            alt="Tick"
-                            width={23}
-                            height={23}
-                          />
-                          <span className="ml-[8px]"> {tag}</span>
-                        </div>
-                      ))}
-                    
+                          <div
+                            key={index}
+                            className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-lato  text-primary/700 "
+                          >
+                            <Image
+                              src={TickIcon}
+                              alt="Tick"
+                              width={23}
+                              height={23}
+                            />
+                            <span className="ml-[8px]"> {tag}</span>
+                          </div>
+                        ))}
                       </div>
                     )}
 
@@ -179,6 +204,7 @@ const OrderSummary = () => {
                       width={300}
                       height={220}
                       className="object-contain w-[300px] h-[220px]"
+                      // onClick={() => showModal(product?.variantId)} // ← Pass ID on click
                     />
                   </div>
 
@@ -255,6 +281,33 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
+      <Modal
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+        title={null}
+        closable={false}
+        width={{
+          xs: '90%',
+          sm: '80%',
+          md: '70%',
+          lg: '60%',
+          xl: '70%',
+          xxl: '70%',
+        }}
+        styles={{ body: { position: "relative" } }}
+      >
+        {/* Custom Close Button */}
+        <button
+          onClick={handleCancel}
+          className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
+        >
+          <Image src={closeIcon} alt="close-icon" width={20} height={20} />
+        </button>
+
+        {/* Your modal content */}
+        <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
+      </Modal>
     </div>
   );
 };
