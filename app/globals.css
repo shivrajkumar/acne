@@ -322,6 +322,10 @@ body {
   bottom: -24px !important;
 }
 
+#carousel-id .ant-carousel .slick-dots {
+  bottom: 0px !important;
+}
+
 /* Inactive dots for all carousels */
 .ant-carousel .slick-dots li button {
   background-color: #bebebe !important;

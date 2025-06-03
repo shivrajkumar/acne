@@ -129,7 +129,9 @@ const config: Config = {
         "text-icon/body":"#40413E",
         "Radial/Gradient":"#000000",
         "primary/700":"#0E1518",
-        "color/cyan/6":"#041C1B"
+        "color/cyan/6":"#041C1B",
+        "Tertiary/500":"#16567E",
+        "Grey-Neutral/400":"#727678"
       },
       fontSize: {
         xxs: "0.6rem",
