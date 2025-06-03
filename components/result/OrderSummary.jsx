@@ -290,15 +290,15 @@ const OrderSummary = () => {
           sm: '80%',
           md: '70%',
           lg: '60%',
-          xl: '50%',
-          xxl: '40%',
+          xl: '70%',
+          xxl: '70%',
         }}
         styles={{ body: { position: "relative" } }}
       >
         {/* Custom Close Button */}
         <button
           onClick={handleCancel}
-          className="absolute top-0 right-0 h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
+          className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
         >
           <Image src={closeIcon} alt="close-icon" width={20} height={20} />
         </button>

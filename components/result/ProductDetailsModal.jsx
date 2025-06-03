@@ -261,10 +261,10 @@ const ProductPageModal = ({
   }
 
   return (
-    <div className="w-full mx-auto p-4 md:p-[40px] bg-white font-lato overflow-hidden">
+    <div className="w-full mx-auto p-4 md:p-[10px] bg-white font-lato overflow-hidden flex md:flex-row md: gap-5 flex-col">
        {/* Carousel Section - Fixed container */}
       <div
-        className={`relative h-[400px] md:h-[450px]  pt-6  md:mb-8 overflow-hidden ${
+        className={`relative h-[400px] md:h-[650px]  pt-6  md:mb-8 overflow-hidden md:w-[50%] ${
           isLoaded ? "opacity-100" : "opacity-0"
         } `}
         id="carousel-id"
@@ -273,7 +273,7 @@ const ProductPageModal = ({
         {/* Right Arrow - Hidden on mobile */}
         <div
           onClick={() => carouselRef.current?.next()}
-          className=" absolute right-[0px] top-[50%] transform -translate-y-1/2 z-10 cursor-pointer"
+          className=" absolute md:right-[46px] right-[0px] top-[50%] transform -translate-y-1/2 z-10 cursor-pointer"
         >
           <Image
             src={RightArrowCircelLight}
@@ -298,7 +298,7 @@ const ProductPageModal = ({
             {product.images.map((productImage, idx) => (
               <div
                 key={idx}
-                className="flex justify-center items-center h-[300px] md:h-[400px] px-2 mb-4"
+                className="flex justify-center items-center h-[300px] md:h-[550px] px-2 mb-4"
               >
                 <div className="flex items-center justify-center w-full h-full">
                   <Image
@@ -315,7 +315,10 @@ const ProductPageModal = ({
         </div>
       </div>
 
-      {/* Header Section */}
+     
+
+<div className="md:w-[50%] md:h-[650px]  md:overflow-y-scroll">
+ {/* Header Section */}
       <div className=" mb-6">
         <div className="flex justify-between items-start mb-4">
           <div>
@@ -369,8 +372,7 @@ const ProductPageModal = ({
           </button>
         </div>
       </div>
-
-      {/* Benefits Section */}
+   {/* Benefits Section */}
       <div className="mb-8">
         <h2 className="md:text-[24px]  text-[18px] font-[600] leading-[140%] text-primary/700 ">
           Benefits
@@ -569,6 +571,8 @@ const ProductPageModal = ({
           </button>
         )}
       </div>
+</div>
+     
     </div>
   );
 };
