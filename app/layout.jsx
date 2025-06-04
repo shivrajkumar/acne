@@ -179,10 +179,10 @@ export default function RootLayout({
         <PixelInit />
         <ScrollTracker />
         <PageViewTracker />
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
           <UserDataCapture />
           <main>{children}</main>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
         <Suspense>
           <UTMManager />
         </Suspense>
