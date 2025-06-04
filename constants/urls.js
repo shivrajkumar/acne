@@ -206,3 +206,7 @@ export const GET_ACTIVE_SLOTS_API = (caseId) =>
 export const CAPI_TRACKING_API = getUrl(
   `consumer-api/service/consumers/conversion-api/tracking`
 );
+
+export const GET_PRESCRIPTION_API = (userId) =>
+  getUrl(`consumer-api/service/doctors/prescriptions/order/${userId}`);
+
