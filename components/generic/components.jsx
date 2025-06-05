@@ -4,7 +4,7 @@ import Loader from "./Loader";
 const InputAge = lazy(() => import("@/components/form/InputAge"));
 const InputCheckbox = lazy(() => import("@/components/form/InputCheckbox"));
 const InputEmail = lazy(() => import("@/components/inputComponents/InputEmail"));
-// const InputImage = lazy(() => import("../form/InputImage"));
+const InputImage = lazy(() => import("@/components/form/InputImage"));
 const InputName = lazy(() => import("@/components/form/InputName"));
 const InputPhoneNumber = lazy(() => import("@/components/form/InputPhoneNumber"));
 const InputPhoneNumberV2 = lazy(() => import("@/components/form/InputPhoneNumberV2"));
@@ -24,7 +24,7 @@ const _components = {
   inputAge: InputAge,
   inputCheckbox: InputCheckbox,
   inputEmail: InputEmail,
-  // inputImage: InputImage,
+  inputImage: InputImage,
   inputName: InputName,
   inputPhoneNumber: InputPhoneNumber,
   inputRadio: InputRadio,
