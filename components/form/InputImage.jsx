@@ -6,19 +6,16 @@ import useFormSubmit from "@hooks/useFormSubmit";
 import isEmpty from "lodash/isEmpty";
 import { useRouter, useSearchParams } from "next/navigation";
 // import { MD5 } from "crypto-js";
-import selfie from "@assets/images/selfie.png";
+// import selfie from "@assets/images/selfie.png";
 import Image from "next/image";
 import { useEffect } from "react";
 import { CDN_BASE_URL } from "@constants/config";
 import { getCurrentTimeInReadableForm } from "@/helpers/timeFormatter";
-import { sendMoengageEvent } from "@/helpers/handleMoengage";
+// import { sendMoengageEvent } from "@/helpers/handleMoengage";
 import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
 
-const front_view = `${CDN_BASE_URL}website_images/localImages/scalpi_section/front_view.webp`;
-const top_view = `${CDN_BASE_URL}website_images/localImages/scalpi_section/top_view.webp`;
-const both_view = `${CDN_BASE_URL}website_images/localImages/scalpi_section/both_view.webp`;
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
-const scalpie = `${CDN_BASE_URL}website_images/localImages/scalpi_section/scalpie.webp`;
+const front_view = `${CDN_BASE_URL}website_images/localImages/scalpi_section/front_view.webp`;
 
 const InputImage = ({ block }) => {
   const {
@@ -40,25 +37,21 @@ const InputImage = ({ block }) => {
   const router = useRouter();
   const [showCam, setShowCam] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
-  const [scalpView, setScalpView] = useState("");
+  // const [scalpView, setScalpView] = useState("");
   const [notify, setNotify] = useState("");
   const [errNotify, setErrNotify] = useState("");
-  const [hairLossStage, setHairLossStage] = useState("");
   const [isPermissionChecking, setIsPermissionChecking] = useState(false);
   const searchParams = useSearchParams();
   const pageName = searchParams.get("page");
   const isTamilPage = pageName?.includes("tamil");
   const activeLanguage = window.localStorage.getItem("activeLanguage");
 
-
   useEffect(() => {
     const val = window.localStorage.getItem("photo_acne");
     const genderVal = window.localStorage.getItem("gender");
-    const viewOfScalp = window.localStorage.getItem("2c");
-    const hairLoss = window.localStorage.getItem("hairLossStage");
-    setHairLossStage(hairLoss)
+
+  
     setGender(genderVal);
-    setScalpView(viewOfScalp);
     if (block.reply) {
       setStoredImg(true);
       setShowButton(true);
@@ -71,9 +64,9 @@ const InputImage = ({ block }) => {
     const acneImage = window.localStorage.getItem("acneImage");
 
     if (acneImage) {
-      setReply(JSON.parse(scalpImage))
+      setReply(JSON.parse(scalpImage));
     }
-  }, [])
+  }, []);
 
   const fileToDataUri = (file) =>
     new Promise((resolve, reject) => {
@@ -111,7 +104,10 @@ const InputImage = ({ block }) => {
       const dataUri = await fileToDataUri(_result.compressedImage);
       window.localStorage.setItem("photo_acne", dataUri);
       if (isEmpty(_result.compressedImage)) return;
-      window.localStorage.setItem("acneImage", JSON.stringify(_result.compressedImage))
+      window.localStorage.setItem(
+        "acneImage",
+        JSON.stringify(_result.compressedImage)
+      );
       setReply(_result.compressedImage);
 
       saveReply(block.id, _result.compressedImage);
@@ -206,14 +202,18 @@ const InputImage = ({ block }) => {
       // For other browsers, use the standard permission flow
       if (navigator.permissions && navigator.permissions.query) {
         try {
-          const permissionStatus = await navigator.permissions.query({ name: "camera" });
+          const permissionStatus = await navigator.permissions.query({
+            name: "camera",
+          });
           if (permissionStatus.state === "denied") {
             showPermissionDeniedMessage();
             setIsPermissionChecking(false);
             return false;
           }
         } catch (e) {
-          console.warn("Permission API not supported, proceeding with getUserMedia check.");
+          console.warn(
+            "Permission API not supported, proceeding with getUserMedia check."
+          );
         }
       }
 
@@ -256,7 +256,9 @@ const InputImage = ({ block }) => {
             <span>Please enable camera permission.</span>
           </div>
           <span className="flex justify-center items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-            Tap <Image src={settingIcon} width={24} height={24} alt="settings" /> and allow camera access.
+            Tap{" "}
+            <Image src={settingIcon} width={24} height={24} alt="settings" />{" "}
+            and allow camera access.
           </span>
           <div
             className="upload-gallery-button bg-[#414042] px-1 py-3 text-[#fff] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
@@ -307,7 +309,7 @@ const InputImage = ({ block }) => {
     }
 
     // Use permission check for other browsers
-    handleCameraAccess().then(hasPermission => {
+    handleCameraAccess().then((hasPermission) => {
       if (hasPermission) {
         setShowCam(true);
       }
@@ -343,21 +345,15 @@ const InputImage = ({ block }) => {
           className="text-[17px] md:text-[24px] mt-0 font-bold  text-gray-700 text-left sm:text-center xs:text-center"
           id="photo_q"
         >
-          {
-            activeLanguage !== 'English' && isTamilPage
-              ? block.tamil_text
-              : block.text
-          }
+          {activeLanguage !== "English" && isTamilPage
+            ? block.tamil_text
+            : block.text}
         </p>
       </div>
 
       <div
-        className={`relative  mt-5 flex flex-col items-center justify-center ${scalpView === null
-          ? "border-2 border-gray-500 border-dashed"
-          : showButton
-            ? "border-2 border-gray-500 border-dashed"
-            : ""
-          } w-60 h-60 mx-auto `}
+        className={`relative  mt-5 flex flex-col items-center justify-center  "border-2 border-gray-500 border-dashed"
+         w-60 h-60 mx-auto `}
       >
         <input
           type="file"
@@ -391,66 +387,9 @@ const InputImage = ({ block }) => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center max-w-full max-h-full">
-            {scalpView === "Front only" && gender === "M" ? (
-              <div className="flex flex-col justify-center items-center">
-                <Image
-                  src={front_view}
-                  alt="front view"
-                  className="object-scale-down align-middle w-44 h-44 rounded-xl bg-[#BCBDC1] cursor-pointer"
-                  width={190}
-                  height={190}
-                  priority={false}
-                  onClick={openCamera}
-                />
-                <h2 className="font-sans font-[400] text-[17px] mt-[4px] text-[#5E5E5A] text-center">
-                  {"Try clicking a photo like the sample above"}
-                </h2>
-              </div>
-            ) : scalpView === "At the top of the head only" &&
-              gender === "M" ? (
-              <div className="flex flex-col justify-center items-center">
-                <Image
-                  src={top_view}
-                  alt="top view"
-                  className="object-scale-down align-middle w-44 h-44 rounded-xl bg-[#BCBDC1] cursor-pointer"
-                  width={190}
-                  height={190}
-                  priority={false}
-                  onClick={openCamera}
-                />
-                <h2 className="font-sans font-[400] text-[17px] mt-[4px] text-[#5E5E5A] text-center">
-                  {"Try clicking a photo like the sample above"}
-                </h2>
-              </div>
-            ) : scalpView === "Both front and top of the head" &&
-              gender === "M" ? (
-              <div className="flex flex-col justify-center items-center">
-                <Image
-                  src={both_view}
-                  alt="both"
-                  className="object-scale-down align-middle w-44 h-44 rounded-xl bg-[#BCBDC1] cursor-pointer"
-                  width={190}
-                  height={190}
-                  priority={false}
-                  onClick={openCamera}
-                />
-                <h2 className="font-sans font-[400] text-[17px] mt-[4px] text-[#5E5E5A] text-center">
-                  {"Try clicking a photo like the sample above"}
-                </h2>
-              </div>
-            ) : (gender === "F" && hairLossStage === 'true') ? (
+            <div className="flex flex-col justify-center items-center">
               <Image
-                src={scalpie}
-                alt="scalpie"
-                className="object-scale-down align-middle w-44 h-44 cursor-pointer"
-                width={190}
-                height={190}
-                priority={false}
-                onClick={openCamera}
-              />
-            ) : (
-              <Image
-                src={selfie}
+                src={front_view}
                 alt="selfie"
                 className="object-scale-down align-middle w-44 h-44 cursor-pointer"
                 width={190}
@@ -458,14 +397,18 @@ const InputImage = ({ block }) => {
                 priority={false}
                 onClick={openCamera}
               />
-            )}
+            </div>
           </div>
         )}
       </div>
       {!showButton ? (
         <div className="flex justify-center gap-2">
           <span
-            className={`block px-1 py-3 mt-4 uppercase rounded-lg ${modelTargetMale ? "border border-[#2C2C2A] text-[#2C2C2A]" : 'bg-brand-dark text-white'} xs:text-[12px] lg:text-[18px] cursor-pointer text-center w-[50%]`}
+            className={`block px-1 py-3 mt-4 uppercase rounded-lg ${
+              modelTargetMale
+                ? "border border-[#2C2C2A] text-[#2C2C2A]"
+                : "bg-brand-dark text-white"
+            } xs:text-[12px] lg:text-[18px] cursor-pointer text-center w-[50%]`}
             onClick={() => {
               inputRef.current && inputRef.current.click();
               const eventAttributesHeader = {
@@ -515,9 +458,7 @@ const InputImage = ({ block }) => {
           </span>
         </div>
       )}
-      {err !== "" && (
-             <span className="block text-[#BA9D86]">{err}</span>
-      )}
+      {err !== "" && <span className="block text-[#BA9D86]">{err}</span>}
 
       <>
         {showButton && (
