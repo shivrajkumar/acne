@@ -13,6 +13,8 @@ import { CDN_BASE_URL } from "@constants/config";
 import { getCurrentTimeInReadableForm } from "@/helpers/timeFormatter";
 // import { sendMoengageEvent } from "@/helpers/handleMoengage";
 import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
+import { fetchRequest } from "@/helpers/fetchRequest";
+import { IMAGE_UPLOAD_API } from "@/constants/urls";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
 const front_view = `${CDN_BASE_URL}website_images/localImages/scalpi_section/front_view.webp`;
@@ -21,7 +23,6 @@ const InputImage = ({ block }) => {
   const {
     saveReply,
     setAllQuestionsFilled,
-    modelTargetMale,
     apiResponse: { caseId },
   } = useContext(QuestionsContext);
 
@@ -50,7 +51,6 @@ const InputImage = ({ block }) => {
     const val = window.localStorage.getItem("photo_acne");
     const genderVal = window.localStorage.getItem("gender");
 
-  
     setGender(genderVal);
     if (block.reply) {
       setStoredImg(true);
@@ -64,7 +64,7 @@ const InputImage = ({ block }) => {
     const acneImage = window.localStorage.getItem("acneImage");
 
     if (acneImage) {
-      setReply(JSON.parse(scalpImage));
+      setReply(JSON.parse(acneImage));
     }
   }, []);
 
@@ -153,16 +153,43 @@ const InputImage = ({ block }) => {
 
   const _handleSubmit = async () => {
     if (reply) {
-      handleSubmit(reply);
-      setAllQuestionsFilled(true);
-    } else {
-      if (!block.reply) {
-        setErr("Please insert an image!");
-        return;
+      try {
+        // Convert Blob to File object properly
+        const fileName = reply.name || "upload.png";
+        const fileType = reply.type || "image/png";
+
+        const fileObject = new File([reply], fileName, {
+          type: fileType,
+          lastModified: Date.now(),
+        });
+
+        const formData = new FormData();
+        formData.append("file", fileObject, fileName);
+
+        const _options = {
+          method: "POST",
+          body: formData,
+        };
+
+        const userId = window.localStorage.getItem("user_cid");
+
+        const _res = await fetchRequest(IMAGE_UPLOAD_API(userId), _options);
+        console.log("Response:", _res);
+
+        // If success (you can change this condition based on your actual API structure)
+        if (_res?.success || _res?.status === 200) {
+          handleSubmit(reply); // or block.reply if needed
+          setAllQuestionsFilled(true);
+          window.localStorage.setItem("form_status", "filled");
+        } else {
+          setErr(_res?.message || "Image upload failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Upload error:", error);
+        setErr("Something went wrong. Please try again.");
       }
-      handleSubmit(block.reply);
-      router.push(SUBMISSION);
-      window.localStorage.setItem("form_status", "semi-filled");
+    } else {
+      setErr("Please insert an image!");
     }
   };
 
@@ -339,21 +366,23 @@ const InputImage = ({ block }) => {
   };
 
   return (
-    <div className="block max-w-2xl w-full  pt-0 bg-white mx-auto my-4">
-      <div className="w-full  px-2 ">
-        <p
-          className="text-[17px] md:text-[24px] mt-0 font-bold  text-gray-700 text-left sm:text-center xs:text-center"
-          id="photo_q"
-        >
-          {activeLanguage !== "English" && isTamilPage
-            ? block.tamil_text
-            : block.text}
-        </p>
-      </div>
+    <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-lato">
+      <label
+        className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+        htmlFor={block.id}
+      >
+        {block.text}
+      </label>
+
+      {block.sub_text && (
+        <label className="text-Text/Label font-lato font-[400] text-[14px] text-center">
+          {block.sub_text}
+        </label>
+      )}
 
       <div
-        className={`relative  mt-5 flex flex-col items-center justify-center  "border-2 border-gray-500 border-dashed"
-         w-60 h-60 mx-auto `}
+        className={`relative  mt-5 flex flex-col items-center justify-center  border-[1px]  border-primary/700 border-dashed
+         w-[300px] h-[230px] rounded-[8px] `}
       >
         <input
           type="file"
@@ -369,31 +398,31 @@ const InputImage = ({ block }) => {
               <Image
                 src={compressedImage}
                 alt="uploaded"
-                className="object-scale-down align-middle w-44 h-44"
-                width={190}
-                height={190}
-                id="scalpImg"
+                className="object-scale-down align-middle w-[228px] h-[182px]"
+                width={228}
+                height={182}
+                id="acneImg"
               />
             ) : (
               <Image
                 src={URL.createObjectURL(compressedImage)}
                 alt="uploaded"
-                className="object-scale-down align-middle w-44 h-44"
-                width={190}
-                height={190}
-                id="scalpImg"
+                className="object-scale-down align-middle  w-[228px] h-[182px]"
+                width={228}
+                height={182}
+                id="acneImg"
               />
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center max-w-full max-h-full">
+          <div className="flex flex-col items-center justify-center max-w-full max-h-full p-[24px]">
             <div className="flex flex-col justify-center items-center">
               <Image
                 src={front_view}
                 alt="selfie"
-                className="object-scale-down align-middle w-44 h-44 cursor-pointer"
-                width={190}
-                height={190}
+                className="object-scale-down align-middle w-[228px] h-[182px] cursor-pointer"
+                width={228}
+                height={182}
                 priority={false}
                 onClick={openCamera}
               />
@@ -402,91 +431,92 @@ const InputImage = ({ block }) => {
         )}
       </div>
       {!showButton ? (
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-2 w-[300px]">
           <span
-            className={`block px-1 py-3 mt-4 uppercase rounded-lg ${
-              modelTargetMale
-                ? "border border-[#2C2C2A] text-[#2C2C2A]"
-                : "bg-brand-dark text-white"
-            } xs:text-[12px] lg:text-[18px] cursor-pointer text-center w-[50%]`}
+            className={`block px-2 mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]`}
             onClick={() => {
               inputRef.current && inputRef.current.click();
-              const eventAttributesHeader = {
-                source: "web_native",
-                timestamps: getCurrentTimeInReadableForm(),
-              };
-              sendMoengageEvent(
-                "web_upload_photo_clicked",
-                eventAttributesHeader,
-                caseId
-              );
+              // const eventAttributesHeader = {
+              //   source: "web_native",
+              //   timestamps: getCurrentTimeInReadableForm(),
+              // };
+              // sendMoengageEvent(
+              //   "web_upload_photo_clicked",
+              //   eventAttributesHeader,
+              //   caseId
+              // );
             }}
           >
-            {"Upload Scalp Photo"}
+            {"Upload Image"}
           </span>
           <span
-            className="block px-3 py-3 mt-4 uppercase text-white rounded-lg bg-brand-dark xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-[50%]"
+            className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
             onClick={handleTakePictureClick}
           >
             {"Take A Picture"}
           </span>
         </div>
       ) : (
-        <div className="flex justify-center">
+        <div className="flex justify-center w-[300px]">
           <span
             onClick={() => {
               inputRef.current && inputRef.current.click();
-              const eventAttributesHeader = {
-                source: "web_native",
-                timestamps: getCurrentTimeInReadableForm(),
-              };
-              sendMoengageEvent(
-                "web_upload_photo_clicked",
-                eventAttributesHeader,
-                caseId
-              );
+              // const eventAttributesHeader = {
+              //   source: "web_native",
+              //   timestamps: getCurrentTimeInReadableForm(),
+              // };
+              // sendMoengageEvent(
+              //   "web_upload_photo_clicked",
+              //   eventAttributesHeader,
+              //   caseId
+              // );
             }}
-            className="block px-3 py-1 mt-2 text-brand-dark rounded-lg cursor-pointer text-center underline"
+            className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
           >
             {"CHANGE IMAGE"}
           </span>
           <span
             onClick={handleTakePictureClick}
-            className="block px-3 py-1 mt-2 text-brand-dark rounded-lg cursor-pointer text-center underline"
+            className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
           >
             {"TAKE A PICTURE"}
           </span>
         </div>
       )}
-      {err !== "" && <span className="block text-[#BA9D86]">{err}</span>}
+
+      {err !== "" && (
+        <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">
+          {err}
+        </span>
+      )}
 
       <>
         {showButton && (
-          <div className="flex flex-row flex-wrap justify-center mt-6 w-full sm:static bottom-0 left-0 right-0 sm:mb-4  bg-white pt-4 pb-2 z-10">
+          <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
             <div className="hidden xl:block lg:block md:block sm:block">
               <button
-                id="scalp_submit"
+                id="acne_submit"
                 onClick={() => _handleSubmit()}
-                className="uppercase px-32 my-2 py-2 bg-[#414042] text-white rounded-[4px] text-[22px] font-sans font-[600] focus:outline-none"
+                className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
               >
                 {compressingImage ? (
                   <span className="animate-pulse">Processing</span>
                 ) : (
-                  "SUBMIT"
+                  "NEXT"
                 )}
               </button>
             </div>
-            <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden">
-              <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0">
+            <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden ">
+              <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
                 <button
-                  id="scalp_submit"
+                  id="acne_submit"
                   onClick={() => _handleSubmit()}
-                  className="uppercase px-12 my-2 py-3 w-[95%] bg-[#414042] text-white rounded-[4px] text-[17px] font-sans font-[600] focus:outline-none"
+                  className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
                 >
                   {compressingImage ? (
                     <span className="animate-pulse">Processing</span>
                   ) : (
-                    "SUBMIT"
+                    "NEXT"
                   )}
                 </button>
               </div>

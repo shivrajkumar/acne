@@ -78,9 +78,9 @@ const MultiSelect = ({ block, context }) => {
       await handleSubmit(selectedOptions);
       setSelectedOptions([]);
 
-      if (block.id == "stress_level") {
-        setAllQuestionsFilled(true);
-      }
+     if (block.id =='photo_q'){
+          setAllQuestionsFilled(true);
+        }
       if (block.id == "digestive_issues") {
         trackMoEngageEvent("GutRootCauses", {
           syntheticId,

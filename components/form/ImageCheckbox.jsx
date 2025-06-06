@@ -102,9 +102,9 @@ const ImageCheckbox = ({ block, context }) => {
         logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
       }
 
-      if (block.id == "stress_level") {
-        setAllQuestionsFilled(true);
-      }
+        if (block.id == "photo_q") {
+          setAllQuestionsFilled(true);
+        }
     } else {
       setError(_res?.data?.message || "An error occurred");
     }

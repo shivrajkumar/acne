@@ -6,12 +6,16 @@ const DEFAUTL_OPTIONS = { method: "GET" };
 export const fetchRequest = async (url, options = { method: "GET" }) => {
   let data = {};
   let status = "";
+  const isFormData = options.body instanceof FormData
 
   try {
     const _options = {
       ...options,
       headers: {
-        "Content-Type": "application/json",
+        //  // Only set Content-Type if it's not FormData
+        ...(isFormData ? {} : {
+           "Content-Type": "application/json",
+           }),
         "x-tenant-id": "acne",
         "x-access-token": `${SECURITY_TOKEN}`,
       },

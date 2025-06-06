@@ -100,7 +100,7 @@ const InputCheckbox = ({ block, context }) => {
         //   window.localStorage.setItem("skipPhoto", true);
      
         //   // Router.push(SUBMISSION);
-        if (block.id =='stress_level'){
+        if (block.id =='photo_q'){
           setAllQuestionsFilled(true);
         }
         
