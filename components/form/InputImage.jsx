@@ -172,11 +172,8 @@ const InputImage = ({ block }) => {
         };
 
         const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
-        console.log("Response:", _res);
-
-        // If success (you can change this condition based on your actual API structure)
         if (_res?.success || _res?.status === 200) {
-          handleSubmit(reply); // or block.reply if needed
+          handleSubmit(reply);
           setAllQuestionsFilled(true);
           window.localStorage.setItem("form_status", "filled");
         } else {
