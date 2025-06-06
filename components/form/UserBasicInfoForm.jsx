@@ -278,7 +278,6 @@ export default function UserBasicInfoForm() {
           expires: COOKIES_EXPIRY,
         });
         window.localStorage.setItem("user_tid", _res.data.transactionId);
-
         if (_res.data.syntheticId) {
           Cookies.set("Synthetic_ID", _res.data.syntheticId, {
             domain: COOKIES_DOMAIN,

@@ -210,3 +210,6 @@ export const CAPI_TRACKING_API = getUrl(
 export const GET_PRESCRIPTION_API = (userId) =>
   getUrl(`consumer-api/service/doctors/prescriptions/order/${userId}`);
 
+export const IMAGE_UPLOAD_API = (userId) => {
+  return getUrl(`consumer-api/service/consumers/customer-images/upload-scalpie/${userId}`);
+};

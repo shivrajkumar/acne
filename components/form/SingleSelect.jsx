@@ -63,11 +63,13 @@ const SingleSelect = ({ block, context }) => {
       if (_res.status === 200) {
         await handleSubmit(reply);
         setReply("");
-
+        
+ if (block.id =='photo_q'){
+          setAllQuestionsFilled(true);
+        }
 
         if (block.id == "stress_level") {
           logGtmEvent("stress_level", { question_text: block.text, question_id: block.id, response: [reply], })
-          setAllQuestionsFilled(true);
         }
       } else {
         setError(_res?.data?.message || "An error occurred");

@@ -70,7 +70,7 @@ const InputRadio = ({ block, context }) => {
     } finally {
       if (_res.status === 200) {
         await handleSubmit(reply);
-        if (block.id =='stress_level' )
+        if (block.id =='photo_q' )
         {
           setAllQuestionsFilled(true);
           window.localStorage.setItem('form_status', 'filled');
