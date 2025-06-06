@@ -2,7 +2,7 @@ import { CDN_BASE_URL } from "@/constants/config";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
-// import closeIcon from "@assets/images/close.png";
+import closeIcon from "@assets/icons/close-circle.png";
 
 const imageBackground = `${CDN_BASE_URL}website_images/localImages/scalpi_section/image_background.webp`;
 const galaryIcon = `${CDN_BASE_URL}website_images/localImages/scalpi_section/galary.webp`;
@@ -147,7 +147,7 @@ const CameraAccess = ({ getImage, setShowCam, inputRef, err, errNotify, isInAppB
               className="absolute z-50 top-3 right-2 uppercase rounded-[100%]"
               onClick={() => setShowCam(false)}
             >
-              {/* <Image src={closeIcon} width={24} height={24} alt="close" /> */} close
+              <Image src={closeIcon} width={24} height={24} alt="close" />
             </button>
             <div className="flex flex-col items-center justify-center mb-4 gap-2">
               <Image src={cautionIcon} width={40} height={40} alt="caution" />
