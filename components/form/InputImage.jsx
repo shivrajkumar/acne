@@ -17,7 +17,7 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { IMAGE_UPLOAD_API } from "@/constants/urls";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
-const front_view = `${CDN_BASE_URL}website_images/localImages/scalpi_section/front_view.webp`;
+const front_view =  `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`
 
 const InputImage = ({ block }) => {
   const {
