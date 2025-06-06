@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { SUBMISSION } from "@constants/routes";
+// import { SUBMISSION } from "@constants/routes";
 import { QuestionsContext } from "@context/questions-store";
 import compressImage, { convertBase64URItoBlob } from "@helpers/compressImage";
 import useFormSubmit from "@hooks/useFormSubmit";
@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useEffect } from "react";
 import { CDN_BASE_URL } from "@constants/config";
-import { getCurrentTimeInReadableForm } from "@/helpers/timeFormatter";
+// import { getCurrentTimeInReadableForm } from "@/helpers/timeFormatter";
 // import { sendMoengageEvent } from "@/helpers/handleMoengage";
 import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
 import { fetchRequest } from "@/helpers/fetchRequest";
@@ -44,14 +44,14 @@ const InputImage = ({ block }) => {
   const [isPermissionChecking, setIsPermissionChecking] = useState(false);
   const searchParams = useSearchParams();
   const pageName = searchParams.get("page");
-  const isTamilPage = pageName?.includes("tamil");
-  const activeLanguage = window.localStorage.getItem("activeLanguage");
+  // const isTamilPage = pageName?.includes("tamil");
+  // const activeLanguage = window.localStorage.getItem("activeLanguage");
 
   useEffect(() => {
     const val = window.localStorage.getItem("photo_acne");
-    const genderVal = window.localStorage.getItem("gender");
+    // const genderVal = window.localStorage.getItem("gender");
 
-    setGender(genderVal);
+    // setGender(genderVal);
     if (block.reply) {
       setStoredImg(true);
       setShowButton(true);
@@ -171,9 +171,7 @@ const InputImage = ({ block }) => {
           body: formData,
         };
 
-        const userId = window.localStorage.getItem("user_cid");
-
-        const _res = await fetchRequest(IMAGE_UPLOAD_API(userId), _options);
+        const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
         console.log("Response:", _res);
 
         // If success (you can change this condition based on your actual API structure)
