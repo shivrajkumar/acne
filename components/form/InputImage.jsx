@@ -18,13 +18,13 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
-const front_view =  `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`
+const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
 const InputImage = ({ block }) => {
   const {
     saveReply,
     setAllQuestionsFilled,
-    apiResponse: { caseId ,transactionId },
+    apiResponse: { caseId, transactionId },
   } = useContext(QuestionsContext);
 
   const handleSubmit = useFormSubmit(QuestionsContext);
@@ -174,39 +174,39 @@ const InputImage = ({ block }) => {
 
         const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
         if (_res?.success || _res?.status === 200) {
+          const _formData = {
+            question_id: block.id,
+            field_key: block.id,
+            question_text: block.text,
+            response: reply,
+            status:
+              block.id == "photo_q"
+                ? formFillStatus.FILLED
+                : formFillStatus.SEMI_FILLED,
+            location_path: window.location.pathname + window.location.search,
+            source: "website",
+            response_type: block.type,
+          };
 
-             const _formData = {
-                    question_id: block.id,
-                    field_key: block.id,
-                    question_text: block.text,
-                    response: reply,
-                    status:
-                      block.id == "photo_q"
-                        ? formFillStatus.FILLED
-                        : formFillStatus.SEMI_FILLED,
-                    location_path: window.location.pathname + window.location.search,
-                    source: "website",
-                    response_type: block.type,
-                  };
-            
-                  const _options = {
-                    method: "POST",
-                    body: JSON.stringify(_formData),
-                  };
-            
-                  if (["customer_values"].includes(block.next)) {
-                    window.localStorage.setItem("form_status", "semi-filled");
-                  }
-            
-                  const response = await fetchRequest(TRANSACTION_API(transactionId), _options);
-                  console.log(response ,"response")
-                  if(response.status==200){
-                     handleSubmit(reply);
-       
-          setAllQuestionsFilled(true);
+          const _options = {
+            method: "POST",
+            body: JSON.stringify(_formData),
+          };
 
-                  }  
-          window.localStorage.setItem("form_status", "filled");
+          if (["customer_values"].includes(block.next)) {
+            window.localStorage.setItem("form_status", "semi-filled");
+          }
+
+          const response = await fetchRequest(
+            TRANSACTION_API(transactionId),
+            _options
+          );
+
+          if (response.status == 200) {
+            handleSubmit(reply);
+            setAllQuestionsFilled(true);
+            window.localStorage.setItem("form_status", "filled");
+          }
         } else {
           setErr(_res?.message || "Image upload failed. Please try again.");
         }
