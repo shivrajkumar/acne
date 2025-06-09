@@ -46,7 +46,7 @@ const ResultLandingPage = ({ searchParams }) => {
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
       const storedOrderId = window.localStorage.getItem("order_count");
-      
+
       if (storedOrderId) {
         setHasPlacedOrder(true);
       }
@@ -69,7 +69,7 @@ const ResultLandingPage = ({ searchParams }) => {
   useEffect(() => {
     if (typeof window !== "undefined" && tId) {
       fetchResult();
-       logGtmEvent("ReportGenerated", {
+      logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
       });
     }
@@ -124,11 +124,11 @@ const ResultLandingPage = ({ searchParams }) => {
   };
 
   const placeOrder = () => {
-     handleBuyNowClick(
+    handleBuyNowClick(
       resultData?.productsDetails,
       resultData?.customerDetails?.caseId
     );
-    
+
     const eventAttributes = {
       cart_value: `${resultData?.cartDetails?.totalCartValue}`,
       item_count: `${resultData?.productsDetails?.length}`,
@@ -138,10 +138,10 @@ const ResultLandingPage = ({ searchParams }) => {
       currency: "INR",
       transactionId: `${tId}`,
     };
-    
+
     // Track events
     trackMoEngageEvent("BeginCheckout", eventAttributes);
-    logGtmEvent("Buy Now Clicked", eventAttributes);
+    logGtmEvent("Add to Cart", eventAttributes);
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
   };

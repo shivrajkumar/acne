@@ -17,6 +17,7 @@ import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 import Loader from "../generic/Loader";
+import { logGtmEvent } from "../generic/Gtm";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
@@ -52,7 +53,8 @@ const InputImage = ({ block }) => {
 
   useEffect(() => {
     const val = window.localStorage.getItem("photo_acne");
-    // const genderVal = window.localStorage.getItem("gender");
+    const genderVal = window.localStorage.getItem("user_gender");
+    setGender(genderVal)
 
     // setGender(genderVal);
     if (block.reply) {
@@ -61,6 +63,7 @@ const InputImage = ({ block }) => {
       setCompressingImage(false);
       setCompressedImage(val);
     }
+    window?.localStorage.setItem("form_status", "semi-filled")
   }, [reply, block.reply]);
 
   useEffect(() => {
@@ -114,36 +117,7 @@ const InputImage = ({ block }) => {
       setReply(_result.compressedImage);
 
       saveReply(block.id, _result.compressedImage);
-      window.localStorage.setItem("form_status", "semi-filled");
-      // window.dataLayer = window.dataLayer || [];
-      // let user_email = window.localStorage.getItem("user_email");
-      // let user_phone = window.localStorage.getItem("user_phone");
-      // let user_synthetic_id = window.localStorage.getItem("user_syn");
-      // let LossStage = window.localStorage.getItem("2e");
-      // const encryptedEmail = user_email
-      //   ? MD5(user_email.trim()).toString()
-      //   : "";
-      // const encryptedPhone = user_phone
-      //   ? MD5(user_phone.trim()).toString()
-      //   : "";
-
-      // // Add the `view_item_list` event and associated data to the dataLayer
-      // let age = window.localStorage.getItem("age");
-      // let gender = window.localStorage.getItem("gender");
-      // window.dataLayer.push({
-      //   EID: encryptedEmail,
-      //   PageName: "Hair Diagnosis",
-      //   JourneyType: "Hair Test",
-      //   Section: "Doctor Assessment",
-      //   Age: age ? age : "",
-      //   Gender: gender ? gender : "",
-      //   MID: encryptedPhone,
-      //   LossStage: LossStage ? LossStage : "",
-      //   NAEID: user_email ? user_email.trim() : "",
-      //   NAMID: user_phone ? user_phone.trim() : "",
-      //   user_id: user_synthetic_id ? user_synthetic_id : "",
-      //   event: "DocAssessment_Submitted",
-      // });
+      logGtmEvent("Image_Upload", { gender: gender })
 
       setErr("");
       if (!storedImg) setCompressedImage(() => _result.compressedImage);
@@ -153,91 +127,92 @@ const InputImage = ({ block }) => {
     }
     setIsScanning(false);
   };
-const handleSuccessResponse = async (reply) => {
-  try {
-    setIsLoading(true);
-    await handleSubmit(reply);
-    setAllQuestionsFilled(true);
-    window.localStorage.setItem("form_status", "filled");
-  } catch (error) {
-    console.error("Error in handleSuccessResponse:", error);
-    setErr("Something went wrong while saving your response.");
-  } finally {
-    setIsLoading(false);
-  }
-};
 
-
-const _handleSubmit = async () => {
-  setIsLoading(true);
-  if (reply) {
+  const handleSuccessResponse = async (reply) => {
     try {
-      const fileName = reply.name || "upload.png";
-      const fileType = reply.type || "image/png";
+      setIsLoading(true);
+      await handleSubmit(reply);
+      setAllQuestionsFilled(true);
+      window.localStorage.setItem("form_status", "filled");
+    } catch (error) {
+      console.error("Error in handleSuccessResponse:", error);
+      setErr("Something went wrong while saving your response.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-      const fileObject = reply instanceof File
-        ? reply
-        : new File([reply], fileName, {
+
+  const _handleSubmit = async () => {
+    setIsLoading(true);
+    if (reply) {
+      try {
+        const fileName = reply.name || "upload.png";
+        const fileType = reply.type || "image/png";
+
+        const fileObject = reply instanceof File
+          ? reply
+          : new File([reply], fileName, {
             type: fileType,
             lastModified: Date.now(),
           });
 
-      const formData = new FormData();
-      formData.append("file", fileObject, fileName);
+        const formData = new FormData();
+        formData.append("file", fileObject, fileName);
 
-      const _uploadOptions = {
-        method: "POST",
-        body: formData,
-      };
-
-      const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _uploadOptions);
-
-      if (_res?.success || _res?.status === 200) {
-        const _formData = {
-          question_id: block.id,
-          field_key: block.id,
-          question_text: block.text,
-          response: reply,
-          status:
-            block.id === "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.SEMI_FILLED,
-          location_path: window.location.pathname + window.location.search,
-          source: "website",
-          response_type: block.type,
-        };
-
-        const _options = {
+        const _uploadOptions = {
           method: "POST",
-          body: JSON.stringify(_formData),
+          body: formData,
         };
 
-        if (["customer_values"].includes(block.next)) {
-          window.localStorage.setItem("form_status", "semi-filled");
-        }
+        const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _uploadOptions);
 
-        const response = await fetchRequest(
-          TRANSACTION_API(transactionId),
-          _options
-        );
+        if (_res?.success || _res?.status === 200) {
+          const _formData = {
+            question_id: block.id,
+            field_key: block.id,
+            question_text: block.text,
+            response: reply,
+            status:
+              block.id === "photo_q"
+                ? formFillStatus.FILLED
+                : formFillStatus.SEMI_FILLED,
+            location_path: window.location.pathname + window.location.search,
+            source: "website",
+            response_type: block.type,
+          };
 
-        if (response.status === 200) {
-          handleSuccessResponse(reply);
+          const _options = {
+            method: "POST",
+            body: JSON.stringify(_formData),
+          };
+
+          if (["customer_values"].includes(block.next)) {
+            window.localStorage.setItem("form_status", "semi-filled");
+          }
+
+          const response = await fetchRequest(
+            TRANSACTION_API(transactionId),
+            _options
+          );
+
+          if (response.status === 200) {
+            handleSuccessResponse(reply);
+          }
+        } else {
+          setErr(_res?.message || "Image upload failed. Please try again.");
         }
-      } else {
-        setErr(_res?.message || "Image upload failed. Please try again.");
+      } catch (error) {
+        console.error("Upload error:", error);
+        setErr("Something went wrong. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("Upload error:", error);
-      setErr("Something went wrong. Please try again.");
-    } finally {
+    } else {
+      setErr("Please insert an image!");
       setIsLoading(false);
     }
-  } else {
-    setErr("Please insert an image!");
-    setIsLoading(false);
-  }
-};
+  };
 
 
   // Improved browser detection for FB/IG browsers
@@ -414,149 +389,135 @@ const _handleSubmit = async () => {
 
   return (
     <>
-       {isLoading && <Loader />}
-    <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-lato">
-      <label
-        className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
-        htmlFor={block.id}
-      >
-        {block.text}
-      </label>
-
-      {block.sub_text && (
-        <label className="text-Text/Label font-lato font-[400] text-[14px] text-center">
-          {block.sub_text}
+      {isLoading && <Loader />}
+      <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-lato">
+        <label
+          className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          htmlFor={block.id}
+        >
+          {block.text}
         </label>
-      )}
 
-      <div
-        className={`relative  mt-5 flex flex-col items-center justify-center  border-[1px]  border-primary/700 border-dashed
+        {block.sub_text && (
+          <label className="text-Text/Label font-lato font-[400] text-[14px] text-center">
+            {block.sub_text}
+          </label>
+        )}
+
+        <div
+          className={`relative  mt-5 flex flex-col items-center justify-center  border-[1px]  border-primary/700 border-dashed
          w-[300px] h-[230px] rounded-[8px] `}
-      >
-        <input
-          type="file"
-          accept="image/*"
-          className="absolute top-0 left-0 -z-10 w-full h-full opacity-0 cursor-pointer"
-          id={block.id}
-          ref={inputRef}
-          onChange={handleImageUpload}
-        />
-        {compressedImage ? (
-          <div className="flex flex-col items-center justify-center max-w-full max-h-full">
-            {storedImg ? (
-              <Image
-                src={compressedImage}
-                alt="uploaded"
-                className="object-scale-down align-middle w-[228px] h-[182px]"
-                width={228}
-                height={182}
-                id="acneImg"
-              />
-            ) : (
-              <Image
-                src={URL.createObjectURL(compressedImage)}
-                alt="uploaded"
-                className="object-scale-down align-middle  w-[228px] h-[182px]"
-                width={228}
-                height={182}
-                id="acneImg"
-              />
-            )}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            className="absolute top-0 left-0 -z-10 w-full h-full opacity-0 cursor-pointer"
+            id={block.id}
+            ref={inputRef}
+            onChange={handleImageUpload}
+          />
+          {compressedImage ? (
+            <div className="flex flex-col items-center justify-center max-w-full max-h-full">
+              {storedImg ? (
+                <Image
+                  src={compressedImage}
+                  alt="uploaded"
+                  className="object-scale-down align-middle w-[228px] h-[182px]"
+                  width={228}
+                  height={182}
+                  id="acneImg"
+                />
+              ) : (
+                <Image
+                  src={URL.createObjectURL(compressedImage)}
+                  alt="uploaded"
+                  className="object-scale-down align-middle  w-[228px] h-[182px]"
+                  width={228}
+                  height={182}
+                  id="acneImg"
+                />
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center max-w-full max-h-full p-[24px]">
+              <div className="flex flex-col justify-center items-center ">
+                <Image
+                  src={front_view}
+                  alt="selfie"
+                  className=" w-[330px] h-[300px] object-scale-down align-middle cursor-pointer py-5 pt-7"
+                  width={330}
+                  height={300}
+                  priority={false}
+                  onClick={openCamera}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        {!showButton ? (
+          <div className="flex justify-center gap-2 w-[300px]">
+            <span
+              className={`block px-2 mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]`}
+              onClick={() => {
+                inputRef.current && inputRef.current.click();
+                // const eventAttributesHeader = {
+                //   source: "web_native",
+                //   timestamps: getCurrentTimeInReadableForm(),
+                // };
+                // sendMoengageEvent(
+                //   "web_upload_photo_clicked",
+                //   eventAttributesHeader,
+                //   caseId
+                // );
+              }}
+            >
+              {"Upload Image"}
+            </span>
+            <span
+              className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+              onClick={handleTakePictureClick}
+            >
+              {"Take A Picture"}
+            </span>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center max-w-full max-h-full p-[24px]">
-            <div className="flex flex-col justify-center items-center ">
-              <Image
-                src={front_view}
-                alt="selfie"
-                className=" w-[330px] h-[300px] object-scale-down align-middle cursor-pointer py-5 pt-7"
-                width={330}
-                height={300}
-                priority={false}
-                onClick={openCamera}
-              />
-            </div>
+          <div className="flex justify-center w-[300px]">
+            <span
+              onClick={() => {
+                inputRef.current && inputRef.current.click();
+                // const eventAttributesHeader = {
+                //   source: "web_native",
+                //   timestamps: getCurrentTimeInReadableForm(),
+                // };
+                // sendMoengageEvent(
+                //   "web_upload_photo_clicked",
+                //   eventAttributesHeader,
+                //   caseId
+                // );
+              }}
+              className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+            >
+              {"CHANGE IMAGE"}
+            </span>
+            <span
+              onClick={handleTakePictureClick}
+              className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+            >
+              {"TAKE A PICTURE"}
+            </span>
           </div>
         )}
-      </div>
-      {!showButton ? (
-        <div className="flex justify-center gap-2 w-[300px]">
-          <span
-            className={`block px-2 mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]`}
-            onClick={() => {
-              inputRef.current && inputRef.current.click();
-              // const eventAttributesHeader = {
-              //   source: "web_native",
-              //   timestamps: getCurrentTimeInReadableForm(),
-              // };
-              // sendMoengageEvent(
-              //   "web_upload_photo_clicked",
-              //   eventAttributesHeader,
-              //   caseId
-              // );
-            }}
-          >
-            {"Upload Image"}
-          </span>
-          <span
-            className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-            onClick={handleTakePictureClick}
-          >
-            {"Take A Picture"}
-          </span>
-        </div>
-      ) : (
-        <div className="flex justify-center w-[300px]">
-          <span
-            onClick={() => {
-              inputRef.current && inputRef.current.click();
-              // const eventAttributesHeader = {
-              //   source: "web_native",
-              //   timestamps: getCurrentTimeInReadableForm(),
-              // };
-              // sendMoengageEvent(
-              //   "web_upload_photo_clicked",
-              //   eventAttributesHeader,
-              //   caseId
-              // );
-            }}
-            className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-          >
-            {"CHANGE IMAGE"}
-          </span>
-          <span
-            onClick={handleTakePictureClick}
-            className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-          >
-            {"TAKE A PICTURE"}
-          </span>
-        </div>
-      )}
 
-      {err !== "" && (
-        <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">
-          {err}
-        </span>
-      )}
+        {err !== "" && (
+          <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">
+            {err}
+          </span>
+        )}
 
-      <>
-        {showButton && (
-          <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
-            <div className="hidden xl:block lg:block md:block sm:block">
-              <button
-                id="acne_submit"
-                onClick={() => _handleSubmit()}
-                className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
-              >
-                {compressingImage ? (
-                  <span className="animate-pulse">Processing</span>
-                ) : (
-                  "NEXT"
-                )}
-              </button>
-            </div>
-            <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden ">
-              <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+        <>
+          {showButton && (
+            <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+              <div className="hidden xl:block lg:block md:block sm:block">
                 <button
                   id="acne_submit"
                   onClick={() => _handleSubmit()}
@@ -569,26 +530,40 @@ const _handleSubmit = async () => {
                   )}
                 </button>
               </div>
+              <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden ">
+                <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+                  <button
+                    id="acne_submit"
+                    onClick={() => _handleSubmit()}
+                    className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
+                  >
+                    {compressingImage ? (
+                      <span className="animate-pulse">Processing</span>
+                    ) : (
+                      "NEXT"
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+        </>
+        {showCam ? (
+          <CameraAccess
+            setShowCam={setShowCam}
+            getImage={handleImageUpload}
+            err={notify}
+            inputRef={inputRef}
+            errNotify={errNotify}
+            isInAppBrowser={isInAppBrowser}
+            handleCamera={handleCamera}
+          />
+        ) : (
+          <></>
         )}
-      </>
-      {showCam ? (
-        <CameraAccess
-          setShowCam={setShowCam}
-          getImage={handleImageUpload}
-          err={notify}
-          inputRef={inputRef}
-          errNotify={errNotify}
-          isInAppBrowser={isInAppBrowser}
-          handleCamera={handleCamera}
-        />
-      ) : (
-        <></>
-      )}
-    </div>
+      </div>
     </>
-     
+
   );
 };
 
