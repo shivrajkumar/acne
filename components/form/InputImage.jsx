@@ -526,7 +526,7 @@ const InputImage = ({ block }) => {
                   {compressingImage ? (
                     <span className="animate-pulse">Processing</span>
                   ) : (
-                    "NEXT"
+                    "SUBMIT"
                   )}
                 </button>
               </div>
@@ -540,7 +540,7 @@ const InputImage = ({ block }) => {
                     {compressingImage ? (
                       <span className="animate-pulse">Processing</span>
                     ) : (
-                      "NEXT"
+                      "SUBMIT"
                     )}
                   </button>
                 </div>
