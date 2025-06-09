@@ -393,31 +393,31 @@ const InputImage = ({ block }) => {
               <Image
                 src={compressedImage}
                 alt="uploaded"
-                className="object-scale-down align-middle w-[228px] h-[182px]"
+                className="object-scale-down align-middle w-[228px] h-[330px]"
                 width={228}
-                height={182}
+                height={330}
                 id="acneImg"
               />
             ) : (
               <Image
                 src={URL.createObjectURL(compressedImage)}
                 alt="uploaded"
-                className="object-scale-down align-middle  w-[228px] h-[182px]"
+                className="object-scale-down align-middle  w-[228px] h-[330px]"
                 width={228}
-                height={182}
+                height={330}
                 id="acneImg"
               />
             )}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center max-w-full max-h-full p-[24px]">
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center ">
               <Image
                 src={front_view}
                 alt="selfie"
-                className="object-scale-down align-middle w-[228px] h-[182px] cursor-pointer"
-                width={228}
-                height={182}
+                className=" w-[330px] h-[330px] object-scale-down align-middle cursor-pointer py-5 pt-7"
+                width={330}
+                height={330}
                 priority={false}
                 onClick={openCamera}
               />
