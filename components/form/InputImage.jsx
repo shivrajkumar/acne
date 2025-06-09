@@ -16,6 +16,7 @@ import { CDN_BASE_URL } from "@constants/config";
 import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
+import Loader from "../generic/Loader";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
@@ -33,6 +34,7 @@ const InputImage = ({ block }) => {
   const [compressingImage, setCompressingImage] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [storedImg, setStoredImg] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
   const [reply, setReply] = useState(null);
   const [gender, setGender] = useState("");
@@ -151,73 +153,92 @@ const InputImage = ({ block }) => {
     }
     setIsScanning(false);
   };
+const handleSuccessResponse = async (reply) => {
+  try {
+    setIsLoading(true);
+    await handleSubmit(reply);
+    setAllQuestionsFilled(true);
+    window.localStorage.setItem("form_status", "filled");
+  } catch (error) {
+    console.error("Error in handleSuccessResponse:", error);
+    setErr("Something went wrong while saving your response.");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-  const _handleSubmit = async () => {
-    if (reply) {
-      try {
-        // Convert Blob to File object properly
-        const fileName = reply.name || "upload.png";
-        const fileType = reply.type || "image/png";
 
-        const fileObject = new File([reply], fileName, {
-          type: fileType,
-          lastModified: Date.now(),
-        });
+const _handleSubmit = async () => {
+  setIsLoading(true);
+  if (reply) {
+    try {
+      const fileName = reply.name || "upload.png";
+      const fileType = reply.type || "image/png";
 
-        const formData = new FormData();
-        formData.append("file", fileObject, fileName);
+      const fileObject = reply instanceof File
+        ? reply
+        : new File([reply], fileName, {
+            type: fileType,
+            lastModified: Date.now(),
+          });
+
+      const formData = new FormData();
+      formData.append("file", fileObject, fileName);
+
+      const _uploadOptions = {
+        method: "POST",
+        body: formData,
+      };
+
+      const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _uploadOptions);
+
+      if (_res?.success || _res?.status === 200) {
+        const _formData = {
+          question_id: block.id,
+          field_key: block.id,
+          question_text: block.text,
+          response: reply,
+          status:
+            block.id === "photo_q"
+              ? formFillStatus.FILLED
+              : formFillStatus.SEMI_FILLED,
+          location_path: window.location.pathname + window.location.search,
+          source: "website",
+          response_type: block.type,
+        };
 
         const _options = {
           method: "POST",
-          body: formData,
+          body: JSON.stringify(_formData),
         };
 
-        const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
-        if (_res?.success || _res?.status === 200) {
-          const _formData = {
-            question_id: block.id,
-            field_key: block.id,
-            question_text: block.text,
-            response: reply,
-            status:
-              block.id == "photo_q"
-                ? formFillStatus.FILLED
-                : formFillStatus.SEMI_FILLED,
-            location_path: window.location.pathname + window.location.search,
-            source: "website",
-            response_type: block.type,
-          };
-
-          const _options = {
-            method: "POST",
-            body: JSON.stringify(_formData),
-          };
-
-          if (["customer_values"].includes(block.next)) {
-            window.localStorage.setItem("form_status", "semi-filled");
-          }
-
-          const response = await fetchRequest(
-            TRANSACTION_API(transactionId),
-            _options
-          );
-
-          if (response.status == 200) {
-            handleSubmit(reply);
-            setAllQuestionsFilled(true);
-            window.localStorage.setItem("form_status", "filled");
-          }
-        } else {
-          setErr(_res?.message || "Image upload failed. Please try again.");
+        if (["customer_values"].includes(block.next)) {
+          window.localStorage.setItem("form_status", "semi-filled");
         }
-      } catch (error) {
-        console.error("Upload error:", error);
-        setErr("Something went wrong. Please try again.");
+
+        const response = await fetchRequest(
+          TRANSACTION_API(transactionId),
+          _options
+        );
+
+        if (response.status === 200) {
+          handleSuccessResponse(reply); // ✅ used here
+        }
+      } else {
+        setErr(_res?.message || "Image upload failed. Please try again.");
       }
-    } else {
-      setErr("Please insert an image!");
+    } catch (error) {
+      console.error("Upload error:", error);
+      setErr("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-  };
+  } else {
+    setErr("Please insert an image!");
+    setIsLoading(false);
+  }
+};
+
 
   // Improved browser detection for FB/IG browsers
   const isInAppBrowser = () => {
@@ -392,6 +413,8 @@ const InputImage = ({ block }) => {
   };
 
   return (
+    <>
+       {isLoading && <Loader />}
     <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-lato">
       <label
         className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
@@ -424,18 +447,18 @@ const InputImage = ({ block }) => {
               <Image
                 src={compressedImage}
                 alt="uploaded"
-                className="object-scale-down align-middle w-[228px] h-[330px]"
+                className="object-scale-down align-middle w-[228px] h-[182px]"
                 width={228}
-                height={330}
+                height={182}
                 id="acneImg"
               />
             ) : (
               <Image
                 src={URL.createObjectURL(compressedImage)}
                 alt="uploaded"
-                className="object-scale-down align-middle  w-[228px] h-[330px]"
+                className="object-scale-down align-middle  w-[228px] h-[182px]"
                 width={228}
-                height={330}
+                height={182}
                 id="acneImg"
               />
             )}
@@ -446,9 +469,9 @@ const InputImage = ({ block }) => {
               <Image
                 src={front_view}
                 alt="selfie"
-                className=" w-[330px] h-[330px] object-scale-down align-middle cursor-pointer py-5 pt-7"
+                className=" w-[330px] h-[300px] object-scale-down align-middle cursor-pointer py-5 pt-7"
                 width={330}
-                height={330}
+                height={300}
                 priority={false}
                 onClick={openCamera}
               />
@@ -564,6 +587,8 @@ const InputImage = ({ block }) => {
         <></>
       )}
     </div>
+    </>
+     
   );
 };
 
