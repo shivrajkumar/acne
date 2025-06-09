@@ -9,21 +9,22 @@ import { useRouter, useSearchParams } from "next/navigation";
 // import selfie from "@assets/images/selfie.png";
 import Image from "next/image";
 import { useEffect } from "react";
+import { formFillStatus } from "@/enums/QuestionEnums";
 import { CDN_BASE_URL } from "@constants/config";
 // import { getCurrentTimeInReadableForm } from "@/helpers/timeFormatter";
 // import { sendMoengageEvent } from "@/helpers/handleMoengage";
 import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
 import { fetchRequest } from "@/helpers/fetchRequest";
-import { IMAGE_UPLOAD_API } from "@/constants/urls";
+import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
-const front_view =  `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`
+const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
 const InputImage = ({ block }) => {
   const {
     saveReply,
     setAllQuestionsFilled,
-    apiResponse: { caseId },
+    apiResponse: { caseId, transactionId },
   } = useContext(QuestionsContext);
 
   const handleSubmit = useFormSubmit(QuestionsContext);
@@ -173,9 +174,39 @@ const InputImage = ({ block }) => {
 
         const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
         if (_res?.success || _res?.status === 200) {
-          handleSubmit(reply);
-          setAllQuestionsFilled(true);
-          window.localStorage.setItem("form_status", "filled");
+          const _formData = {
+            question_id: block.id,
+            field_key: block.id,
+            question_text: block.text,
+            response: reply,
+            status:
+              block.id == "photo_q"
+                ? formFillStatus.FILLED
+                : formFillStatus.SEMI_FILLED,
+            location_path: window.location.pathname + window.location.search,
+            source: "website",
+            response_type: block.type,
+          };
+
+          const _options = {
+            method: "POST",
+            body: JSON.stringify(_formData),
+          };
+
+          if (["customer_values"].includes(block.next)) {
+            window.localStorage.setItem("form_status", "semi-filled");
+          }
+
+          const response = await fetchRequest(
+            TRANSACTION_API(transactionId),
+            _options
+          );
+
+          if (response.status == 200) {
+            handleSubmit(reply);
+            setAllQuestionsFilled(true);
+            window.localStorage.setItem("form_status", "filled");
+          }
         } else {
           setErr(_res?.message || "Image upload failed. Please try again.");
         }
@@ -393,31 +424,31 @@ const InputImage = ({ block }) => {
               <Image
                 src={compressedImage}
                 alt="uploaded"
-                className="object-scale-down align-middle w-[228px] h-[182px]"
+                className="object-scale-down align-middle w-[228px] h-[330px]"
                 width={228}
-                height={182}
+                height={330}
                 id="acneImg"
               />
             ) : (
               <Image
                 src={URL.createObjectURL(compressedImage)}
                 alt="uploaded"
-                className="object-scale-down align-middle  w-[228px] h-[182px]"
+                className="object-scale-down align-middle  w-[228px] h-[330px]"
                 width={228}
-                height={182}
+                height={330}
                 id="acneImg"
               />
             )}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center max-w-full max-h-full p-[24px]">
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center ">
               <Image
                 src={front_view}
                 alt="selfie"
-                className="object-scale-down align-middle w-[228px] h-[182px] cursor-pointer"
-                width={228}
-                height={182}
+                className=" w-[330px] h-[330px] object-scale-down align-middle cursor-pointer py-5 pt-7"
+                width={330}
+                height={330}
                 priority={false}
                 onClick={openCamera}
               />
