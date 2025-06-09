@@ -222,7 +222,7 @@ const _handleSubmit = async () => {
         );
 
         if (response.status === 200) {
-          handleSuccessResponse(reply); // ✅ used here
+          handleSuccessResponse(reply);
         }
       } else {
         setErr(_res?.message || "Image upload failed. Please try again.");
