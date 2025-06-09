@@ -129,14 +129,14 @@ const Questions = () => {
 
   useEffect(() => {
 
-// Scroll to top when currentQuestion changes
-  if (currentQuestion) {
+    // Scroll to top when currentQuestion changes
+    if (currentQuestion) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
         pixelCustomeEvent('Form Start');
-        logGtmEvent("Form Start");
+        logGtmEvent("Form_Start");
       }
     }
   }, [currentQuestion]);

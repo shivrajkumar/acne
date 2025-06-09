@@ -53,6 +53,7 @@ const FormSubmission = () => {
   useEffect(() => {
     setAllQuestionsFilled(true);
     window.localStorage.setItem("form_status", "filled");
+    logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender })
     if (syntheticId) window.localStorage.setItem("syntheticId", syntheticId);
   }, [syntheticId]);
 
