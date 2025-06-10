@@ -86,7 +86,7 @@ const OrderSummary = () => {
                       width={168}
                       height={168}
                       className="w-[168px] h-[168px]"
-                      onClick={() => showModal(product?.variantId)} // ← Pass ID on click
+                      onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                       {showAM && (
@@ -200,7 +200,7 @@ const OrderSummary = () => {
                       width={300}
                       height={220}
                       className="object-contain w-[300px] h-[220px]"
-                      onClick={() => showModal(product?.variantId)} // ← Pass ID on click
+                      onClick={() => showModal(product?.variantId)}
                     />
                   </div>
 
