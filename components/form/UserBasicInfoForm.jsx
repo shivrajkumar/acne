@@ -272,6 +272,30 @@ export default function UserBasicInfoForm() {
           `${formData.phoneNumber}.unknown@traya.health`
         );
 
+        if (window.clarity && typeof window.clarity === 'function') {
+          try {
+            const caseId = _res.data.caseId || 'unknown';
+            const phoneNumber = _user.phone_number
+              ? _user.phone_number.toString().replace(/[^\d]/g, '')
+              : 'unknown';
+
+            window.clarity('identify', caseId, {
+              custom: {
+                phone: phoneNumber
+              }
+            });
+
+          } catch (error) {
+            console.error('Clarity identification error:', {
+              message: error.message,
+              stack: error.stack,
+              phoneNumber: _user.phone_number,
+              caseId: _res.data.caseId
+            });
+          }
+        }
+
+
         // Set cookies
         Cookies.set("Transaction_ID", _res.data.transactionId, {
           domain: COOKIES_DOMAIN,
@@ -477,11 +501,10 @@ export default function UserBasicInfoForm() {
                 value={formData.phoneNumber || ""}
                 onChange={handleChange}
                 placeholder="Phone Number"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
-                  errors.phoneNumber
-                    ? "border-red-500"
-                    : "border-Elements/Divider-Stroke"
-                } rounded-[16px] outline-none focus:outline-none`}
+                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.phoneNumber
+                  ? "border-red-500"
+                  : "border-Elements/Divider-Stroke"
+                  } rounded-[16px] outline-none focus:outline-none`}
                 maxLength={10}
                 pattern="[0-9]{10}"
                 required
@@ -501,11 +524,10 @@ export default function UserBasicInfoForm() {
                 value={formData.age || ""}
                 onChange={handleChange}
                 placeholder="Age"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
-                  errors.age
-                    ? "border-red-500"
-                    : "border-Elements/Divider-Stroke"
-                } rounded-[16px] outline-none focus:outline-none`}
+                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.age
+                  ? "border-red-500"
+                  : "border-Elements/Divider-Stroke"
+                  } rounded-[16px] outline-none focus:outline-none`}
                 min="1"
                 max="99"
                 required
@@ -519,11 +541,10 @@ export default function UserBasicInfoForm() {
             <div className="flex space-x-4 items-center">
               <button
                 type="button"
-                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${
-                  formData.gender === "M"
-                    ? "bg-Primary/50 border-[#237AB1]"
-                    : "bg-[#FFFFFF]"
-                }`}
+                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${formData.gender === "M"
+                  ? "bg-Primary/50 border-[#237AB1]"
+                  : "bg-[#FFFFFF]"
+                  }`}
                 onClick={() => handleGenderSelect("M")}
               >
                 <div className="flex items-center space-x-2 justify-center ">
@@ -534,11 +555,10 @@ export default function UserBasicInfoForm() {
 
               <button
                 type="button"
-                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${
-                  formData.gender === "F"
-                    ? "bg-Primary/50 border-[#237AB1]"
-                    : "bg-[#FFFFFF]"
-                }`}
+                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${formData.gender === "F"
+                  ? "bg-Primary/50 border-[#237AB1]"
+                  : "bg-[#FFFFFF]"
+                  }`}
                 onClick={() => handleGenderSelect("F")}
               >
                 <div className="flex items-center space-x-2 justify-center">
@@ -567,9 +587,8 @@ export default function UserBasicInfoForm() {
             <div className="fixed bottom-0 left-0 right-0 z-10  flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
               <button
                 type="submit"
-                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-lato ${
-                  isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
-                }`}
+                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-lato ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+                  }`}
                 disabled={!isFormValid}
               >
                 NEXT
