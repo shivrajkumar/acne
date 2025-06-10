@@ -213,3 +213,7 @@ export const GET_PRESCRIPTION_API = (userId) =>
 export const IMAGE_UPLOAD_API = (userId) => {
   return getUrl(`consumer-api/service/consumers/customer-images/upload-scalpie/${userId}`);
 };
+
+export const PRODUCT_BOTTOM_SHEET_API = (variantId) => {
+  return getUrl(`consumer-api/service/static-content/data/${variantId}`);
+};

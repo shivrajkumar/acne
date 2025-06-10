@@ -17,17 +17,13 @@ const OrderSummary = () => {
   const { productsDetails } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
+
   useBodyScrollLock(isModalOpen);
 
-  const showModal = (variantId) => {
-    setSelectedVariantId(variantId);
-    setIsModalOpen(true);
-  };
 
-  const handleOk = () => {
-    console.log("Selected Variant ID:", selectedVariantId);
-    setIsModalOpen(false);
-    setSelectedVariantId(null);
+  const showModal = (variantId) => {
+   setSelectedVariantId(`${variantId}_PDP`);
+    setIsModalOpen(true);
   };
 
   const handleCancel = () => {
@@ -90,7 +86,7 @@ const OrderSummary = () => {
                       width={168}
                       height={168}
                       className="w-[168px] h-[168px]"
-                      // onClick={() => showModal(product?.variantId)} // ← Pass ID on click
+                      onClick={() => showModal(product?.variantId)} // ← Pass ID on click
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                       {showAM && (
@@ -204,7 +200,7 @@ const OrderSummary = () => {
                       width={300}
                       height={220}
                       className="object-contain w-[300px] h-[220px]"
-                      // onClick={() => showModal(product?.variantId)} // ← Pass ID on click
+                      onClick={() => showModal(product?.variantId)} // ← Pass ID on click
                     />
                   </div>
 
