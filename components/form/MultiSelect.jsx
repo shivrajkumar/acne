@@ -77,10 +77,13 @@ const MultiSelect = ({ block, context }) => {
     if (_res.status === 200) {
       await handleSubmit(selectedOptions);
       setSelectedOptions([]);
+      if (block.id == "acne_scars") {
+        logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender") })
+      }
 
-     if (block.id =='photo_q'){
-          setAllQuestionsFilled(true);
-        }
+      if (block.id == 'photo_q') {
+        setAllQuestionsFilled(true);
+      }
       if (block.id == "digestive_issues") {
         trackMoEngageEvent("GutRootCauses", {
           syntheticId,
@@ -155,8 +158,8 @@ const MultiSelect = ({ block, context }) => {
     const originalReply = Array.isArray(block.reply)
       ? block.reply
       : block.reply
-      ? [block.reply]
-      : [];
+        ? [block.reply]
+        : [];
     const hasChanged =
       JSON.stringify(selectedOptions.sort()) !==
       JSON.stringify(originalReply.sort());
@@ -196,19 +199,17 @@ const MultiSelect = ({ block, context }) => {
                 key={option.value}
                 className={`
                 flex justify-center items-center
-                  cursor-pointer rounded-[16px] w-[302px] ${
-                    block.id === "acne_scars"
-                      ? "md:w-[412px]"
-                      : block.optionMap?.length > 3
+                  cursor-pointer rounded-[16px] w-[302px] ${block.id === "acne_scars"
+                    ? "md:w-[412px]"
+                    : block.optionMap?.length > 3
                       ? "md:w-[302px]"
                       : "md:w-[412px]"
                   }
 xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px] hover:border-Primary/500
                   border-[1px]  h-[96px]
-                  ${
-                    isSelected
-                      ? "border-Primary/500 bg-Primary/50"
-                      : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
+                  ${isSelected
+                    ? "border-Primary/500 bg-Primary/50"
+                    : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}
                 onClick={() => handleOptionToggle(option.value)}
@@ -288,9 +289,8 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
         <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
           <button
             type="submit"
-            className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${
-              selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
-            } transition-all duration-200 shadow-sm`}
+            className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
+              } transition-all duration-200 shadow-sm`}
             onClick={handleNextClick}
             disabled={selectedOptions.length === 0}
           >

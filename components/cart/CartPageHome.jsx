@@ -17,18 +17,18 @@ const CartPageHome = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-      const orderDisplayIdFromStorage =
-        window.localStorage.getItem("order_count");
+    const orderDisplayIdFromStorage =
+      window.localStorage.getItem("order_count");
 
-      setOrderDisplayId(orderDisplayIdFromStorage);
+    setOrderDisplayId(orderDisplayIdFromStorage);
 
-     // Only set cart data if no order has been placed
-      if (!orderDisplayIdFromStorage) {
-        const cartData = JSON.parse(
-          window.localStorage.getItem("acne_result_data")
-        );
-        setData(cartData);
-      }
+    // Only set cart data if no order has been placed
+    if (!orderDisplayIdFromStorage) {
+      const cartData = JSON.parse(
+        window.localStorage.getItem("acne_result_data")
+      );
+      setData(cartData);
+    }
   }, []);
 
   const placeOrder = () => {
@@ -43,7 +43,7 @@ const CartPageHome = () => {
 
     }
     trackMoEngageEvent("BeginCheckout", eventAttributes)
-    logGtmEvent("checkout-started", eventAttributes)
+    logGtmEvent("Add to Cart", eventAttributes)
     pixelCustomeEvent("Add to Cart", eventAttributes);
 
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
@@ -66,7 +66,7 @@ const CartPageHome = () => {
   // Empty cart with order display ID UI
   const renderOrderDisplayIdEmptyCart = () => {
     return (
-       <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
+      <div className="flex flex-col justify-center items-center my-auto text-center px-4 overflow-y-hidden">
         <h2 className="text-[24px] font-[700] text-Text/Heading-Text mb-3">
           Your cart is empty!
         </h2>
@@ -248,16 +248,16 @@ const CartPageHome = () => {
               </div>
 
               {/* Checkbox */}
-                <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
-                  <input
-                    type="checkbox"
-                    className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
-                    style={{ accentColor: "#237AB1" }}
-                  />
-                  <label className="text-[14px] font-[400] leading-[140%] text-Text/Label">
-                    Keep me posted about sales and offers
-                  </label>
-                </div>
+              <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
+                <input
+                  type="checkbox"
+                  className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
+                  style={{ accentColor: "#237AB1" }}
+                />
+                <label className="text-[14px] font-[400] leading-[140%] text-Text/Label">
+                  Keep me posted about sales and offers
+                </label>
+              </div>
             </div>
 
             {/* Footer */}
@@ -274,21 +274,21 @@ const CartPageHome = () => {
                   <Image src={arrowIcon} alt="arrow" width={12} height={12} />
                 </div>
               </div>
-                <button
-                  className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
-                  onClick={placeOrder}
-                >
-                  CHECKOUT
-                </button>
+              <button
+                className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
+                onClick={placeOrder}
+              >
+                CHECKOUT
+              </button>
             </div>
           </div>
         </>
-         ) : // Show different empty cart UI based on whether orderDisplayId exists
-      orderDisplayId ? (
-        renderOrderDisplayIdEmptyCart()
-      ) : (
-        renderRegularEmptyCart()
-      )}
+      ) : // Show different empty cart UI based on whether orderDisplayId exists
+        orderDisplayId ? (
+          renderOrderDisplayIdEmptyCart()
+        ) : (
+          renderRegularEmptyCart()
+        )}
     </>
   );
 };

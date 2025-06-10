@@ -2,27 +2,30 @@
 import { CDN_BASE_URL } from "@/constants/config";
 import React, { useEffect, useState } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { logGtmEvent } from "../generic/Gtm";
 
 const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoMobile.mp4`;
 const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoDesktop.mp4`;
 
 const BannerSection = () => {
   const [syntheticId, setSyntheticId] = useState(null);
-  const [orderCount , setOrderCount] = useState(null);
+  const [orderCount, setOrderCount] = useState(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
 
-      const orderCountFromStorage =window.localStorage.getItem("order_count");
-      setOrderCount(orderCountFromStorage);
+    const orderCountFromStorage = window.localStorage.getItem("order_count");
+    setOrderCount(orderCountFromStorage);
 
-       const synthetic_Id = localStorage.getItem("syntheticId");
-        if (synthetic_Id) {
-          setSyntheticId(synthetic_Id);
-        }
-  },[])
+    const synthetic_Id = localStorage.getItem("syntheticId");
+    if (synthetic_Id) {
+      setSyntheticId(synthetic_Id);
+    }
+  }, [])
 
-
+  const logGTM = () => {
+    logGtmEvent("HB_Form_Start")
+  }
 
 
   return (
@@ -67,22 +70,26 @@ const BannerSection = () => {
                 <br />for your unique skin needs
               </p>
             </div>
-            <div className="mt-[32px]">
-              {!orderCount ? <AcneTakeTheSkinTest
-                variant="white"
-                text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
-                tm={" "}
-                redirectTo={"/skin-test"}
-                deskSize="mobileSmall"
-              /> : <AcneTakeTheSkinTest
-                variant="white"
-                text={`Book Your Call Now`}
-                tm={" "}
-                redirectTo={"/book-a-call?redirect=home"}
-                deskSize="mobileSmall"
-              />}
+            <div className="mt-[32px]"
+            >
+              {!orderCount ?
+                <div onClick={logGTM}>
+                  <AcneTakeTheSkinTest
+                    variant="white"
+                    text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
+                    tm={" "}
+                    redirectTo={"/skin-test"}
+                    deskSize="mobileSmall"
+                  /></div>
+                : <AcneTakeTheSkinTest
+                  variant="white"
+                  text={`Book Your Call Now`}
+                  tm={" "}
+                  redirectTo={"/book-a-call?redirect=home"}
+                  deskSize="mobileSmall"
+                />}
             </div>
-            {syntheticId && !orderCount && < div className=" -mt-[8px]">
+            {syntheticId && !orderCount && < div className=" -mt-[8px]" onClick={logGTM}>
               <AcneTakeTheSkinTest
                 variant="black"
                 text={"My Recommended plan"}
@@ -131,30 +138,36 @@ const BannerSection = () => {
               <br />your unique skin needs
             </p>
           </div>
-          <div className="flex justify-start" >
-            {!orderCount ? <AcneTakeTheSkinTest
-              variant="white"
-              text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
-              tm={" "}
-              redirectTo={"/skin-test"}
-              deskSize="desktopBig"
-            /> : <AcneTakeTheSkinTest
-              variant="white"
-              text={`Book Your Call Now`}
-              tm={" "}
-              redirectTo={"/book-a-call?redirect=home"}
-              deskSize="desktopBig"
-            />}
+          <div className="flex justify-start"
+          >
+            {!orderCount ?
+              <div onClick={logGTM}>
+                <AcneTakeTheSkinTest
+                  variant="white"
+                  text={`${syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}`}
+                  tm={" "}
+                  redirectTo={"/skin-test"}
+                  deskSize="desktopBig"
+                />
+              </div> :
+              <AcneTakeTheSkinTest
+                variant="white"
+                text={`Book Your Call Now`}
+                tm={" "}
+                redirectTo={"/book-a-call?redirect=home"}
+                deskSize="desktopBig"
+              />}
           </div>
-          {syntheticId && !orderCount && < div className="flex justify-start mt-[8px]" >
-            <AcneTakeTheSkinTest
-              variant="black"
-              text={"My Recommended plan"}
-              tm={" "}
-              redirectTo={`/result?tid=${syntheticId}`}
-              deskSize="desktopBig"
-            />
-          </div>}
+          {syntheticId && !orderCount &&
+            < div className="flex justify-start mt-[8px]" >
+              <AcneTakeTheSkinTest
+                variant="black"
+                text={"My Recommended plan"}
+                tm={" "}
+                redirectTo={`/result?tid=${syntheticId}`}
+                deskSize="desktopBig"
+              />
+            </div>}
         </div>
       </div >
     </>
