@@ -232,114 +232,61 @@ const InputImage = ({ block }) => {
 
   // Camera access function with special handling for Android in-app browsers
   const handleCameraAccess = async () => {
-    // If already checking permission, don't start another check
-    if (isPermissionChecking) return false;
-
-    setIsPermissionChecking(true);
-
     try {
-      // For Android in-app browsers, skip the permissions.query which causes double prompts
-      if (isAndroidInAppBrowser()) {
-        try {
-          // For Android Instagram/Facebook browsers, just return true to open camera directly
-          // The actual permission will be requested by the CameraAccess component
-          setIsPermissionChecking(false);
-          return true;
-        } catch (error) {
-          showPermissionDeniedMessage(error);
-          setIsPermissionChecking(false);
-          return false;
-        }
+      const permissionStatus = await navigator.permissions.query({ name: 'camera' });
+
+      if (permissionStatus.state === 'denied') {
+        setNotify(
+          <>
+            <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+              <span>Tap</span>
+              <Image src={settingIcon} width={24} height={24} alt="settings" />
+              <span>and turn on camera to grant permission</span>
+            </div>
+            <span className="flex justify-center items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">and then click on Open Camera</span>
+            <div
+              className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
+              onClick={handleCamera}
+            >
+              {"Open Camera"}
+            </div>
+          </>
+        );
+        return false;
       }
 
-      // For other browsers, use the standard permission flow
-      if (navigator.permissions && navigator.permissions.query) {
-        try {
-          const permissionStatus = await navigator.permissions.query({
-            name: "camera",
-          });
-          if (permissionStatus.state === "denied") {
-            console.log("hereeee at denied")
-            showPermissionDeniedMessage();
-            setIsPermissionChecking(false);
-            return false;
-          }
-        } catch (e) {
-          console.warn(
-            "Permission API not supported, proceeding with getUserMedia check."
-          );
-        }
-      }
-
-      // Try accessing the camera
       await navigator.mediaDevices.getUserMedia({ video: true });
       setNotify(null);
-      setIsPermissionChecking(false);
       return true;
     } catch (error) {
-      console.error("Error accessing the camera:", error);
-      showPermissionDeniedMessage(error);
-      setIsPermissionChecking(false);
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        setNotify(
+          <>
+            <div className="w-full flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+              <span>Please enable camera permission for your browser and then click on Open Camera</span>
+            </div>
+            <div
+              className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
+              onClick={handleCamera}
+            >
+              {"Open Camera"}
+            </div>
+          </>
+        );
+      } else {
+        console.error('Error accessing the camera:', error);
+        setNotify('An unexpected error occurred. Please check your camera settings.');
+      }
       return false;
     }
   };
 
-  // Function to handle permission denied message
-  const showPermissionDeniedMessage = (error = null) => {
-    if (isInAppBrowser()) {
-      setNotify(
-        <>
-          <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-            <span>Camera access is blocked in this app.</span>
-          </div>
-          <span className="flex justify-center items-center font-sans font-[400] text-center text-[14px] text-[#0E0E0E]">
-            Open this page in Chrome or Safari to use the camera.
-          </span>
-          <div
-            className="upload-gallery-button bg-[#414042] px-1 py-3 text-[#fff] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
-            onClick={handleCamera}
-          >
-            {"Allow Access"}
-          </div>
-        </>
-      );
-    } else {
-      setNotify(
-        <>
-          <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-            <span>Please enable camera permission.</span>
-          </div>
-          <span className="flex justify-center items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-            Tap{" "}
-            <Image src={settingIcon} width={24} height={24} alt="settings" />{" "}
-            and allow camera access.
-          </span>
-          <div
-            className="upload-gallery-button bg-[#414042] px-1 py-3 text-[#fff] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
-            onClick={handleCamera}
-          >
-            {"Allow Access"}
-          </div>
-        </>
-      );
-    }
-
-    return false;
-  };
-
   const handleCamera = async () => {
-    // For Android in-app browsers, open camera directly
-    if (isAndroidInAppBrowser()) {
-      setShowCam(true);
-      return;
-    }
-
-    // For all other browsers, check permission first
     const hasPermission = await handleCameraAccess();
     if (hasPermission) {
       setShowCam(true);
     } else {
-      setErrNotify("Camera permission is still not allowed.");
+      setErrNotify('Camera permission still not allowed')
     }
   };
 
@@ -473,8 +420,10 @@ const InputImage = ({ block }) => {
               </span>
               <span
                 className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-                onClick={handleTakePictureClick}
-              >
+                onClick={() => {
+                  handleCameraAccess();
+                  setShowCam(true);
+                }}              >
                 {"Take A Picture"}
               </span>
             </div>
@@ -490,7 +439,10 @@ const InputImage = ({ block }) => {
                 {"CHANGE IMAGE"}
               </div>
               <div
-                onClick={handleTakePictureClick}
+                onClick={() => {
+                  handleCameraAccess();
+                  setShowCam(true);
+                }}
                 className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
               >
                 {"TAKE A PICTURE"}
