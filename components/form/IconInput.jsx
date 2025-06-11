@@ -60,9 +60,11 @@ const IconInput = ({ block, context }) => {
         question_text: block.text,
         response: [reply],
         status:
-          block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.SEMI_FILLED,
+          block.id == "stress_level"
+            ? formFillStatus.SEMI_FILLED :
+            block.id == "photo_q"
+              ? formFillStatus.FILLED
+              : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -224,7 +226,7 @@ const IconInput = ({ block, context }) => {
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
             <Modal
@@ -251,7 +253,7 @@ const IconInput = ({ block, context }) => {
               type="button"
             >
               {/* Replace with your actual image import */}
-              <Image src={isHovered? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
               Learn More
             </button>
             <Modal
