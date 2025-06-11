@@ -15,7 +15,7 @@ import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 
 const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
-const whiteheads =  `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
+const whiteheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
 const small_bumps = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/small_bumps.webp`;
 const pus_filled = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/pus_filled_pimples.webp`;
 const boils_nodules = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/big_boils.webp`;
@@ -69,9 +69,11 @@ const ImageCheckbox = ({ block, context }) => {
         question_text: block.text,
         response: selectedOptions,
         status:
-          block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.SEMI_FILLED,
+          block.id == "stress_level"
+            ? formFillStatus.SEMI_FILLED :
+            block.id == "photo_q"
+              ? formFillStatus.FILLED
+              : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -102,9 +104,9 @@ const ImageCheckbox = ({ block, context }) => {
         logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
       }
 
-        if (block.id == "photo_q") {
-          setAllQuestionsFilled(true);
-        }
+      if (block.id == "photo_q") {
+        setAllQuestionsFilled(true);
+      }
     } else {
       setError(_res?.data?.message || "An error occurred");
     }

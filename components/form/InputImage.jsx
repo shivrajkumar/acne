@@ -48,6 +48,7 @@ const InputImage = ({ block }) => {
   const [isPermissionChecking, setIsPermissionChecking] = useState(false);
   const searchParams = useSearchParams();
   const pageName = searchParams.get("page");
+  const [hideButtons, setHideButtons] = useState(false)
   // const isTamilPage = pageName?.includes("tamil");
   // const activeLanguage = window.localStorage.getItem("activeLanguage");
 
@@ -144,6 +145,7 @@ const InputImage = ({ block }) => {
 
 
   const _handleSubmit = async () => {
+    setHideButtons(true);
     setIsLoading(true);
     if (reply) {
       try {
@@ -174,9 +176,11 @@ const InputImage = ({ block }) => {
             question_text: block.text,
             response: reply,
             status:
-              block.id === "photo_q"
-                ? formFillStatus.FILLED
-                : formFillStatus.SEMI_FILLED,
+              block.id == "stress_level"
+                ? formFillStatus.SEMI_FILLED :
+                block.id == "photo_q"
+                  ? formFillStatus.FILLED
+                  : formFillStatus.DRAFT,
             location_path: window.location.pathname + window.location.search,
             source: "website",
             response_type: block.type,
@@ -255,6 +259,7 @@ const InputImage = ({ block }) => {
             name: "camera",
           });
           if (permissionStatus.state === "denied") {
+            console.log("hereeee at denied")
             showPermissionDeniedMessage();
             setIsPermissionChecking(false);
             return false;
@@ -454,59 +459,46 @@ const InputImage = ({ block }) => {
             </div>
           )}
         </div>
-        {!showButton ? (
-          <div className="flex justify-center gap-2 w-[300px]">
-            <span
-              className={`block px-2 mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]`}
-              onClick={() => {
-                inputRef.current && inputRef.current.click();
-                // const eventAttributesHeader = {
-                //   source: "web_native",
-                //   timestamps: getCurrentTimeInReadableForm(),
-                // };
-                // sendMoengageEvent(
-                //   "web_upload_photo_clicked",
-                //   eventAttributesHeader,
-                //   caseId
-                // );
-              }}
-            >
-              {"Upload Image"}
-            </span>
-            <span
-              className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-              onClick={handleTakePictureClick}
-            >
-              {"Take A Picture"}
-            </span>
-          </div>
-        ) : (
-          <div className="flex justify-center w-[300px]">
-            <span
-              onClick={() => {
-                inputRef.current && inputRef.current.click();
-                // const eventAttributesHeader = {
-                //   source: "web_native",
-                //   timestamps: getCurrentTimeInReadableForm(),
-                // };
-                // sendMoengageEvent(
-                //   "web_upload_photo_clicked",
-                //   eventAttributesHeader,
-                //   caseId
-                // );
-              }}
-              className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-            >
-              {"CHANGE IMAGE"}
-            </span>
-            <span
-              onClick={handleTakePictureClick}
-              className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
-            >
-              {"TAKE A PICTURE"}
-            </span>
-          </div>
-        )}
+        {!hideButtons && <div>
+          {!showButton ? (
+            <div className="flex justify-center gap-2 w-[300px]">
+              <span
+                className={`block px-2 mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]`}
+                onClick={() => {
+                  inputRef.current && inputRef.current.click();
+
+                }}
+              >
+                {"Upload Image"}
+              </span>
+              <span
+                className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+                onClick={handleTakePictureClick}
+              >
+                {"Take A Picture"}
+              </span>
+            </div>
+          ) : (
+            <div className="flex justify-center w-[300px]">
+              <div
+                onClick={() => {
+                  inputRef.current && inputRef.current.click();
+
+                }}
+                className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+              >
+                {"CHANGE IMAGE"}
+              </div>
+              <div
+                onClick={handleTakePictureClick}
+                className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+              >
+                {"TAKE A PICTURE"}
+              </div>
+            </div>
+          )}
+        </div>}
+
 
         {err !== "" && (
           <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">

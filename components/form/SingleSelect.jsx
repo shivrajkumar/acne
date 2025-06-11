@@ -43,9 +43,11 @@ const SingleSelect = ({ block, context }) => {
         question_text: block.text,
         response: [reply],
         status:
-          block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.SEMI_FILLED,
+          block.id == "stress_level"
+            ? formFillStatus.SEMI_FILLED :
+            block.id == "photo_q"
+              ? formFillStatus.FILLED
+              : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -63,8 +65,8 @@ const SingleSelect = ({ block, context }) => {
       if (_res.status === 200) {
         await handleSubmit(reply);
         setReply("");
-        
- if (block.id =='photo_q'){
+
+        if (block.id == 'photo_q') {
           setAllQuestionsFilled(true);
         }
 
