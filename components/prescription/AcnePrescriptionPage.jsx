@@ -16,21 +16,21 @@ const AcnePrescriptionPage = ({ searchParams }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const userId = searchParams?.userId;
+  const orderId = searchParams?.orderId;
 
   useEffect(() => {
-    if (userId) {
+    if (orderId) {
       fetchPrescriptionData();
     } else {
       setLoading(false);
     }
-  }, [userId]);
+  }, [orderId]);
 
   const fetchPrescriptionData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetchRequest(GET_PRESCRIPTION_API(userId));
+      const response = await fetchRequest(GET_PRESCRIPTION_API(orderId));
       setPrescriptionData(response.data);
     } catch (error) {
       console.error("Error fetching prescription data:", error);
@@ -82,7 +82,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
   const prescriptionInfo = Array.isArray(prescriptionData)? prescriptionData[0] : null;
 
   return (
-    <div className=" overflow-hidden  w-full font-lato">
+    <div className=" overflow-hidden  md:mx-auto font-lato md:w-[360px]">
       {Array.isArray(prescriptionData) && prescriptionData.length > 0 ? (
         <>
           <div    className="flex-1 pb-[120px]" ref={contentRef}>
@@ -141,19 +141,22 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     </p>
                   </div>
 
-                  {/* <div>
+                  <div>
                     <p className="text-text-icon/label-tertiary text-[14px] font-[400] leading-[140%]">
-                      {patient?.diagnosisType}
+                      {prescriptionInfo?.diagnosisType}
                     </p>
                     <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
-                      {patient?.diagnosis}
+                      {prescriptionInfo?.diagnosis}
                     </p>
-                  </div> */}
+                  </div> 
                 </div>
                 <div>
                   <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
                     {moment(prescriptionInfo?.customerInfo?.createdAt).format("DD MMMM YYYY")}
                   </p>
+                   <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
+                      {prescriptionInfo?.order?.orderDisplayId}
+                    </p>
                 </div>
               </div>
             </div>
@@ -187,7 +190,12 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     >
                       <div className="p-4 flex gap-[8px] text-text-icon/title text-[14px] font-[400] leading-[140%]">
                         <p className="font-[400]">{index+1}</p>
-                        <p className="font-[500]">{medicine?.productName}</p>
+                        <div className="flex flex-col">
+                              <p className="font-[500]">{medicine?.productName}</p>
+                                  <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
+                        {medicine?.size}</p>
+                        </div>
+                    
                       </div>
                       <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
                         <p>{medicine?.description}</p>
@@ -200,39 +208,39 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </div>
 
             {/* Treatment Duration */}
-            {/* <div className="p-[16px] bg-surface/disabled-state flex flex-col gap-[8px]">
+            <div className="p-[16px] bg-surface/disabled-state flex flex-col gap-[8px]">
               <h3 className="leading-[135%]  text-text-icon/body text-[18px] font-[400]">
-                {treatment?.title}
+                {prescriptionInfo?.treatment?.title}
               </h3>
               <p className="text-text-icon/body text-[14px] font-[400] leading-[140%]">
-                {treatment?.description}
+                {prescriptionInfo?.treatment?.description}
               </p>
-            </div> */}
+            </div>
 
             {/* Doctor Signatures */}
-            <div className="p-[16px] grid grid-cols-2 h-full">
-              <div className="col-span-1">
-                <div className="h-[40px] w-[158px] mb-1">
+            <div className=" grid grid-cols-2 h-full ml-2">
+              <div className="col-span-1 p-[16px]">
+                <div className="h-[300px] w-full mb-1 ">
                   <img
                     src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
                     alt="Doctor Signature "
-                    height={40}
-                    width={158}
-                    className="w-[158px] h-[40px] object-cover"
+                    height={140}
+                    width={258}
+                    className="w-[158px] h-[140px] object-contain"
                   />
                 </div>
-                <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
+                {/* <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
                   {prescriptionInfo?.doctorInfo?.firstName}{" "}
                   {prescriptionInfo?.doctorInfo?.lastName}
                 </p>
                 <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400]">
                   {prescriptionInfo?.doctorInfo?.qualifications[0]}
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
 
-          <div className="fixed bottom-0 left-0 right-0 z-10 bg-white shadow-lg border-t border-Elements/Divider-Stroke">
+          <div className="fixed bottom-0 left-0 right-0 z-10 bg-white shadow-lg border-t border-Elements/Divider-Stroke  md:w-[360px] md:mx-auto">
             <div className="flex justify-center items-center md:h-[104px] h-[88px] px-4">
               <button
                 className="bg-Neutral/800 text-[#fff] hover:bg-Primary/500 hover:text-[#fff] w-[296px] h-[56px] px-[40px] py-[16px] rounded-[100px] font-medium transition-colors"
