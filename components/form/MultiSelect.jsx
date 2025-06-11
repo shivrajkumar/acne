@@ -53,9 +53,11 @@ const MultiSelect = ({ block, context }) => {
         question_text: block.text,
         response: selectedOptions,
         status:
-          block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.SEMI_FILLED,
+          block.id == "stress_level"
+            ? formFillStatus.SEMI_FILLED :
+            block.id == "photo_q"
+              ? formFillStatus.FILLED
+              : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,

@@ -6,6 +6,7 @@ export const formResponseTypes = {
 }
 
 export const formFillStatus = {
+    "DRAFT": "DRAFT",
     "FILLED": "FILLED",
     "SEMI_FILLED": "SEMI_FILLED",
 }
