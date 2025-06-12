@@ -15,21 +15,22 @@ import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 const OrderSummary = () => {
   const { productsDetails } = useCartContext();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
 
-  useBodyScrollLock(isModalOpen);
+  // useBodyScrollLock(isModalOpen);
 
 
-  const showModal = (variantId) => {
-   setSelectedVariantId(`${variantId}_PDP`);
-    setIsModalOpen(true);
-  };
+  // const showModal = (variantId) => {
+  //  setSelectedVariantId(`${variantId}_PDP`);
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    setSelectedVariantId(null);
-  };
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedVariantId(null);
+  // };
+
   // Helper function to determine which icons to show based on dosageCode
   const getDosageIcons = (dosageCode) => {
     if (!dosageCode) return { showAM: false, showNoon: false, showPM: false };
@@ -86,7 +87,7 @@ const OrderSummary = () => {
                       width={168}
                       height={168}
                       className="w-[168px] h-[168px]"
-                      onClick={() => showModal(product?.variantId)}
+                    // onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                       {showAM && (
@@ -200,7 +201,7 @@ const OrderSummary = () => {
                       width={300}
                       height={220}
                       className="object-contain w-[300px] h-[220px]"
-                      onClick={() => showModal(product?.variantId)}
+                    // onClick={() => showModal(product?.variantId)}
                     />
                   </div>
 
@@ -277,7 +278,7 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      <Modal
+      {/*} <Modal
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
@@ -294,17 +295,17 @@ const OrderSummary = () => {
         styles={{ body: { position: "relative" } }}
       >
         {/* Custom Close Button */}
-        <button
-          onClick={handleCancel}
-          className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
-        >
-          <Image src={closeIcon} alt="close-icon" width={20} height={20} />
-        </button>
+      {/* <button
+        onClick={handleCancel}
+        className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
+      >
+        <Image src={closeIcon} alt="close-icon" width={20} height={20} />
+      </button>
 
-        {/* Your modal content */}
-        <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
-      </Modal>
-    </div>
+      {/* Your modal content */}
+      {/* <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
+    </Modal>  */}
+    </div >
   );
 };
 
