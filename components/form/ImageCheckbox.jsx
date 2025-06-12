@@ -70,10 +70,10 @@ const ImageCheckbox = ({ block, context }) => {
         response: selectedOptions,
         status:
           block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.DRAFT,
+            ? formFillStatus.FILLED
+            // block.id == "photo_q"
+            //   ? formFillStatus.FILLED
+            : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -104,7 +104,7 @@ const ImageCheckbox = ({ block, context }) => {
         logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
       }
 
-      if (block.id == "photo_q") {
+      if (block.id == "stress_level") {
         setAllQuestionsFilled(true);
       }
     } else {

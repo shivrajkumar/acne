@@ -61,10 +61,10 @@ const IconInput = ({ block, context }) => {
         response: [reply],
         status:
           block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.DRAFT,
+            ? formFillStatus.FILLED
+            // block.id == "photo_q"
+            //   ? formFillStatus.FILLED
+            : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -84,7 +84,7 @@ const IconInput = ({ block, context }) => {
         await handleSubmit(reply);
         setReply("");
 
-        if (block.id == "photo_q") {
+        if (block.id == "stress_level") {
           setAllQuestionsFilled(true);
           window.localStorage.setItem("form_status", "filled");
         }
