@@ -44,10 +44,10 @@ const SingleSelect = ({ block, context }) => {
         response: [reply],
         status:
           block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.DRAFT,
+            ? formFillStatus.FILLED
+            // block.id == "photo_q"
+            //   ? formFillStatus.FILLED
+            : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -66,11 +66,12 @@ const SingleSelect = ({ block, context }) => {
         await handleSubmit(reply);
         setReply("");
 
-        if (block.id == 'photo_q') {
-          setAllQuestionsFilled(true);
-        }
+        // if (block.id == 'photo_q') {
+        //   setAllQuestionsFilled(true);
+        // }
 
         if (block.id == "stress_level") {
+          setAllQuestionsFilled(true);
           logGtmEvent("stress_level", { question_text: block.text, question_id: block.id, response: [reply], })
         }
       } else {
