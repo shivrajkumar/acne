@@ -177,10 +177,10 @@ const InputImage = ({ block }) => {
             response: reply,
             status:
               block.id == "stress_level"
-                ? formFillStatus.FILLED
-                // block.id == "photo_q"
-                //   ? formFillStatus.FILLED
-                : formFillStatus.SEMI_FILLED,
+                ? formFillStatus.SEMI_FILLED :
+                block.id == "photo_q"
+                  ? formFillStatus.FILLED
+                  : formFillStatus.DRAFT,
             location_path: window.location.pathname + window.location.search,
             source: "website",
             response_type: block.type,

@@ -9,7 +9,7 @@ import { COOKIES_EXPIRY } from "@/constants/constants";
 const useFormSubmit = (context) => {
   const {
     addToPreviousQuestion,
-   
+
     currentQuestion,
     makeQuestionsList,
     nextQuestion,
@@ -97,12 +97,12 @@ const useFormSubmit = (context) => {
     makeQuestionsList();
     nextQuestion(currentQuestion.id, reply, currentQuestion);
 
-    // if (['photo_q'].includes(currentQuestion.next)) {
-    //   Cookies.set("form_status", "semi-filled", {
-    //     domain: COOKIES_DOMAIN,
-    //     expires: COOKIES_EXPIRY,
-    //   });
-    // }
+    if (['photo_q'].includes(currentQuestion.next)) {
+      Cookies.set("form_status", "semi-filled", {
+        domain: COOKIES_DOMAIN,
+        expires: COOKIES_EXPIRY,
+      });
+    }
   };
 
   return handleSubmit;
