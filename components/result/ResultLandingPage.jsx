@@ -61,7 +61,7 @@ const ResultLandingPage = ({ searchParams }) => {
       };
       pixelCustomeEvent("ReportGenerated", { gender: capiPayloadRes?.gender });
       setCapiPayload(capiPayloadRes);
-      metaCapi(capiPayloadRes, "ReportGenerated/Lead");
+      metaCapi(capiPayloadRes, "ReportGenerated");
     }
   }, []);
 
@@ -101,7 +101,7 @@ const ResultLandingPage = ({ searchParams }) => {
         }
         setResultData(res.data);
         localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
-        metaCapi(capiPayload, "ReportGenerated/Lead");
+        metaCapi(capiPayload, "ReportGenerated");
       }
     } catch (e) {
       console.error("Error fetching results:", e);
