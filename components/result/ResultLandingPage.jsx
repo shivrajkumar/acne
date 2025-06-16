@@ -156,7 +156,34 @@ const ResultLandingPage = ({ searchParams }) => {
     return <Loader />;
   }
 
-  // Create the context value
+  const addProductToCart = (product) => {
+
+    let updatedProductsDetails = [...resultData?.productsDetails];
+    let updatedOptionalProductsDetails = [...resultData?.optionalProductsDetails];
+
+    if (product) {
+      updatedProductsDetails.push({ ...product, isOptionalProduct: true });
+      updatedOptionalProductsDetails = updatedOptionalProductsDetails.filter(
+        optProduct => optProduct.variantId !== product.variantId
+      );
+
+      const newCartTotal = updatedProductsDetails.reduce(
+        (total, prod) => total + (prod.price || 0),
+        0
+      );
+
+      setResultData((prevData) => ({
+        ...prevData,
+        productsDetails: updatedProductsDetails,
+        optionalProductsDetails: updatedOptionalProductsDetails,
+        cartDetails: {
+          ...prevData.cartDetails,
+          totalCartValue: newCartTotal
+        }
+      }));
+    }
+  }
+
   const contextValue = {
     cartDetails: resultData?.cartDetails,
     productsDetails: resultData?.productsDetails,
@@ -169,6 +196,8 @@ const ResultLandingPage = ({ searchParams }) => {
     caseId: resultData?.customerDetails?.caseId,
     acne_booking_success: bookingStatus,
     hasPlacedOrder: hasPlacedOrder,
+    optionalProductsDetails: resultData?.optionalProductsDetails,
+    addProductToCart: addProductToCart
   };
 
   return (
