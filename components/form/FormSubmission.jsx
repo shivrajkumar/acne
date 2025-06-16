@@ -10,6 +10,8 @@ import {
   trackMoEngageEvent,
 } from "@/utils/moegage";
 import { pixelCustomeEvent } from "../generic/Pixel";
+import { metaCapi } from "@/helpers/metaCapiHelper";
+import { getCookieValue } from "@/helpers/cookieHelper";
 
 const FormSubmission = () => {
   const tid = window.localStorage.getItem("user_tid");
@@ -20,6 +22,24 @@ const FormSubmission = () => {
   } = useContext(QuestionsContext);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const fbp = getCookieValue("_fbp", document.cookie.split(";"));
+      const fbc = getCookieValue("_fbc", document.cookie.split(";"));
+      const email = window.localStorage.getItem("user_email");
+      const phone = window.localStorage.getItem("user_phone");
+      const gender = window.localStorage.getItem("user_gender");
+      const url = window.location.href;
+
+      const capiPayloadRes = {
+        email,
+        phone,
+        fbc,
+        fbp,
+        url,
+        gender,
+      };
+      metaCapi(capiPayloadRes, "Lead");
+    }
     // Send GTM event for form completion
     logGtmEvent("Lead", {
       name: window.localStorage.getItem("user_first_name"),
