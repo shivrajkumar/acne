@@ -5,7 +5,7 @@ import Image from "next/image";
 import { startCase } from "lodash";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
-const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
+const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
     return (
         <>
             {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
@@ -21,7 +21,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         width={168}
                         height={168}
                         className="w-[168px] h-[168px]"
-                    // onClick={() => showModal(product?.variantId)}
+                      onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                         {showAM && (
@@ -118,7 +118,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         </div>
                     )}
                 </div>
-            </div >
+            </div>
 
             {/* Mobile View */}
             < div className="flex md:hidden flex-col gap-[12px]  p-[12px]  relative" >
@@ -154,7 +154,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         width={300}
                         height={220}
                         className="object-contain w-[300px] h-[220px]"
-                    // onClick={() => showModal(product?.variantId)}
+                        onClick={() => showModal(product?.variantId)}
                     />
                 </div >
 

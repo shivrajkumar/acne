@@ -31,25 +31,34 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
     fetchEachProductDetails();
   }, [variantId]);
 
-  const fetchEachProductDetails = async () => {
-    setIsLoading(true);
-    setError(null); // Clear previous errors
-    
-    try {
-      const response = await fetchRequest(PRODUCT_BOTTOM_SHEET_API(variantId));
-      
-      if (!response?.data?.data) {
-        throw new Error('Product not found or invalid response');
-      }
-      
-      setProduct(response.data.data);
-    } catch (error) {
-      console.error('Error fetching product details:', error);
-      setError(error.message || 'Failed to load product details. Please try again.');
-    } finally {
-      setIsLoading(false);
+const fetchEachProductDetails = async () => {
+  setIsLoading(true);
+  setError(null); 
+
+  try {
+    const response = await fetchRequest(PRODUCT_BOTTOM_SHEET_API(variantId));
+
+    if (!response || response.status !== 200 || !response.data) {
+      throw new Error(
+        response?.data?.message || 'Failed to load product details. Please try again.'
+      );
     }
-  };
+
+    setProduct(response.data.data);
+  } catch (error) {
+    console.error('Error fetching product details:', error);
+
+    const errorMessage =
+      error?.response?.data?.message || 
+      error?.message || 
+      'Something went wrong. Please try again.';
+
+    setError(errorMessage);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const handleRetry = () => {
     fetchEachProductDetails();
