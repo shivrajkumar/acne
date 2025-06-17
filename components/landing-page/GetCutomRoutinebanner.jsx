@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 export default function GetCustomRoutineBanner() {
    const [orderCount , setOrderCount] = useState(null);

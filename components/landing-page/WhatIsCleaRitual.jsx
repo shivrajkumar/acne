@@ -5,8 +5,8 @@ import SafeToUse from "@assets/svg/Safe_To_Use.svg";
 import HighlyEffective from "@assets/svg/Highly_effective.svg";
 import TestedProducts from "@assets/svg/Tested_Products.svg";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
-import { CDN_BASE_URL } from "@/constants/config";
 import { useEffect, useState } from "react";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 export default function WhatIsCleaRitual() {
    const [orderCount , setOrderCount] = useState(null);

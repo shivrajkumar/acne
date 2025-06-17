@@ -1,10 +1,10 @@
-import { CDN_BASE_URL } from "@/constants/config";
 import Doc1 from "@assets/images/Doc1.png";
 import Doc2 from "@assets/images/Doc2.png";
 import Doc3 from "@assets/images/Doc3.png";
 import DocJulie from "@assets/images/DocJulie.png";
 import SignatureOne from "@assets/images/Signature1.png";
 import SignatureTwo from "@assets/images/Signature2.png";
+import { CDN_BASE_URL } from "./constants";
 // import drShailendra from "@assets/images/DrShailendera 1.png";
 // import drHarish from "@assets/images/Dr Haarish 1.png";
 // import drShefali from "@assets/images/Dr Shefali 1.png";
@@ -838,7 +838,6 @@ export const FAQResultPage = [
   },
 ];
 
-
 export const prescriptionData = {
   clinic: {
     primaryDoctor: {
@@ -846,15 +845,15 @@ export const prescriptionData = {
       qualification: "BAMS, Ayurveda",
       registrationLabel: "Medical Registration No.",
       registrationNumber: "I-53420-A",
-      signature:SignatureOne,
+      signature: SignatureOne,
     },
     secondaryDoctor: {
       name: "Dr. Divya Poulose",
       qualification: "M.B.B.S, MD (Dermatology)",
       registrationLabel: "MMC:",
       registrationNumber: "2022/087496",
-      signature:SignatureTwo,
-    }
+      signature: SignatureTwo,
+    },
   },
   patient: {
     name: "Jigrnet Choral",
@@ -862,7 +861,7 @@ export const prescriptionData = {
     gender: "Male",
     date: "18 May, 2025",
     diagnosisType: "Skin Diagnosis",
-    diagnosis: "Mild Acne"
+    diagnosis: "Mild Acne",
   },
   prescription: {
     header: "Medicine",
@@ -870,39 +869,43 @@ export const prescriptionData = {
       {
         id: 1,
         name: "Rohglow Facewash",
-        instructions: "Apply a pea-sized amount to damp skin, massage gently for 30-40 seconds, then rinse and pat dry.",
-        timing: "AM - PM"
+        instructions:
+          "Apply a pea-sized amount to damp skin, massage gently for 30-40 seconds, then rinse and pat dry.",
+        timing: "AM - PM",
       },
       {
         id: 2,
         name: "Aquasoft Moisturizing Lotion",
         instructions: "Apply evenly on clean skin and let it absorb fully.",
-        timing: "AM - PM"
+        timing: "AM - PM",
       },
       {
         id: 3,
         name: "Aziderm 10% Gel",
-        instructions: "Apply a thin layer only on acne-prone areas; avoid rubbing.",
-        timing: "PM"
+        instructions:
+          "Apply a thin layer only on acne-prone areas; avoid rubbing.",
+        timing: "PM",
       },
       {
         id: 4,
         name: "La Shield",
-        instructions: "Apply generously after moisturizer and reapply every 2-3 hours if outdoors.",
-        timing: "AM"
+        instructions:
+          "Apply generously after moisturizer and reapply every 2-3 hours if outdoors.",
+        timing: "AM",
       },
       {
         id: 5,
         name: "Baidyanath Guduchi",
         instructions: "Take the tablets after meals.",
-        dosage: "Dosage: 1 Tablet a Day"
-      }
-    ]
+        dosage: "Dosage: 1 Tablet a Day",
+      },
+    ],
   },
   treatment: {
     title: "Treatment Duration",
-    description: "Recommended for 4 weeks of regular usage in order to see results"
-  }
+    description:
+      "Recommended for 4 weeks of regular usage in order to see results",
+  },
 };
 // {
 //   id: 6,

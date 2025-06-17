@@ -4,7 +4,7 @@ import Image from "next/image";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { CDN_BASE_URL } from "@/constants/config";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 // Using named function for better debugging with React Fast Refresh
 function AcneThreefoldApproach() {

@@ -2,8 +2,8 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import checkIcon from "@assets/icons/Check_Icon.png";
-import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 function AccurateSkinTestResults() {
   const [orderCount , setOrderCount] = useState(null);
