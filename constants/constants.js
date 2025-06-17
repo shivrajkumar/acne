@@ -1,8 +1,10 @@
 // import Cookies from "js-cookie";
 // import { CDN_BASE_URL } from "./config";
 
+import { env } from "next-runtime-env";
+
 export const COOKIES_EXPIRY = 60; // Days
-export const CDN_BASE_URL = "https://d3twoz8hvcdm9h.cloudfront.net/";
+export const CDN_BASE_URL = env("NEXT_PUBLIC_CDN_BASE_URL") + "/";
 // var CONSULT_DOCTOR_FEES = "";
 // var MALE_RESULT_PAGE = "";
 // var FEMALE_RESULT_PAGE = "";
