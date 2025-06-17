@@ -9,10 +9,10 @@ import { Modal } from "./modal";
 import infoCircle from "@assets/icons/info-circle.png";
 
 // Import images for pimple types
-import { CDN_BASE_URL } from "@/constants/config";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
 const whiteheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;

@@ -1,11 +1,10 @@
-import { DEFAULT_API_URL, PUBLIC_API_URL_BASE } from "./config";
 import Cookies from "js-cookie";
+import { env } from "next-runtime-env";
 
 // Base urls
-const API_BASE_URL = DEFAULT_API_URL;
+const API_BASE_URL = env("NEXT_PUBLIC_DEFAULT_API_URL");
 // ends
-const PUBLIC_API_BASE_URL =
-  process.env.REACT_APP_PUBLIC_API_BASE_URL || PUBLIC_API_URL_BASE;
+const PUBLIC_API_BASE_URL = env("NEXT_PUBLIC_PUBLIC_API_URL_BASE");
 // function to generate url
 const getUrl = (url) => API_BASE_URL + url;
 // ends
@@ -168,7 +167,7 @@ export const CUSTOMER_DETAILS_API = getUrl("getCustomerDetails");
 export const PRODUCT_CONTENT_API = (id, language) => {
   return `${PUBLIC_API_BASE_URL}productContent/${id}?language=${language}`;
 };
-export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_URL_BASE}doctors/`;
+export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}doctors/`;
 
 export const GET_SKIN_TEST_CONFIG = getUrl(
   "consumer-api/service/static-content/data/ACNE_FORM_CONFIG"
@@ -200,8 +199,9 @@ export const BOOK_SLOT_API = getUrl(
 );
 
 export const GET_ACTIVE_SLOTS_API = (caseId) =>
-  getUrl(`consumer-api/service/engagements/engagement/active-slot-engagement/${caseId}`);
-
+  getUrl(
+    `consumer-api/service/engagements/engagement/active-slot-engagement/${caseId}`
+  );
 
 export const CAPI_TRACKING_API = getUrl(
   `consumer-api/service/consumers/conversion-api/tracking`
@@ -211,7 +211,9 @@ export const GET_PRESCRIPTION_API = (userId) =>
   getUrl(`consumer-api/service/doctors/prescriptions/order/${userId}`);
 
 export const IMAGE_UPLOAD_API = (userId) => {
-  return getUrl(`consumer-api/service/consumers/customer-images/upload-scalpie/${userId}`);
+  return getUrl(
+    `consumer-api/service/consumers/customer-images/upload-scalpie/${userId}`
+  );
 };
 
 export const PRODUCT_BOTTOM_SHEET_API = (variantId) => {

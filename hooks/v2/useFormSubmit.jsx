@@ -3,20 +3,23 @@
 import { useContext } from "react";
 import Cookies from "js-cookie";
 import { MD5 } from "crypto-js";
-import { COOKIES_DOMAIN } from "@/constants/config";
 import { COOKIES_EXPIRY } from "@/constants/constants";
 // import useSlots from "../useSlots";
 import { isGroupComplete } from "../../hooks/isGroupComplete";
 import { groupNameMapper } from "@/constants/groupNameMapper";
+import { env } from "next-runtime-env";
 const useFormSubmit = (context) => {
   const {
     addToPreviousQuestion,
     byId,
     currentQuestion,
     makeQuestionsList,
-    nextQuestion, 
+    nextQuestion,
     saveReply,
   } = useContext(context);
+
+  const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN")
+
 
   // const [getSlots] = useSlots(context);
 

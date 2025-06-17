@@ -10,7 +10,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { useEffect } from "react";
 import { formFillStatus } from "@/enums/QuestionEnums";
-import { CDN_BASE_URL } from "@constants/config";
 // import { getCurrentTimeInReadableForm } from "@/helpers/timeFormatter";
 // import { sendMoengageEvent } from "@/helpers/handleMoengage";
 import CameraAccess from "../inputComponents/cameraCapture/CameraAccess";
@@ -18,6 +17,7 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 import Loader from "../generic/Loader";
 import { logGtmEvent } from "../generic/Gtm";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;

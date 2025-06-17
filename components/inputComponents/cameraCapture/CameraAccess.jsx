@@ -1,8 +1,8 @@
-import { CDN_BASE_URL } from "@/constants/config";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import closeIcon from "@assets/icons/close-circle.png";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const imageBackground = `${CDN_BASE_URL}website_images/localImages/scalpi_section/image_background.webp`;
 const galaryIcon = `${CDN_BASE_URL}website_images/localImages/scalpi_section/galary.webp`;

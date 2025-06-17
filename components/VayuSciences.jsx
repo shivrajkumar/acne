@@ -1,8 +1,8 @@
-import { CDN_BASE_URL } from "@/constants/config";
+import { CDN_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import React from "react";
 
-const creameOne = `${CDN_BASE_URL}website_images/vayu_images/cream_2.webp`;
+const creameOne = `${CDN_BASE_URLBASE_URL}website_images/vayu_images/cream_2.webp`;
 const creameDesktop = `${CDN_BASE_URL}website_images/vayu_images/desktop_cream12.webp`;
 const vayuMockupDesktop = `${CDN_BASE_URL}website_images/vayu_images/vayu_mockup_33.webp`;
 
