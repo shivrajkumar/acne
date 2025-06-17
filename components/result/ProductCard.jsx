@@ -9,7 +9,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
     return (
         <>
             {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
-                {isOptional ? "SOLVE FOR YOUR ACNE SCARS NOW!" : "ADD NOW"}
+                {"SOLVE FOR YOUR ACNE SCARS NOW!"}
             </p>
             }
             <div className="hidden md:flex justify-between gap-[24px]">
@@ -46,11 +46,11 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                 {/* Text Content */}
                 <div className="flex flex-col gap-[16px] flex-1">
                     <div className="flex flex-col gap-[4px]">
-                        <p className="font-lato font-[500] text-[18px] text-Text/Heading-Text">
+                        <p className="font-lato font-[700] text-[18px] text-Text/Heading-Text">
                             {product?.name}
                         </p>
                         {product?.composition && (
-                            <p className="font-lato font-[500] text-[18px] text-Text/Heading-Text">
+                            <p className="font-lato font-[500] text-[16px] text-Text/Heading-Text italic">
                                 {product?.composition}
                             </p>
                         )}
@@ -91,7 +91,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                                 <span className="w-[20px] h-[20px] mr-[4px]">★</span>
                                 {product?.rating} ({product?.ratingPeopleCount})
                             </p>
-                            <p className="font-lato font-[600] text-[16px] text-Text/Heading-Text">
+                            <p className="font-lato font-[700] text-[16px] text-Text/Heading-Text">
                                 ₹{product?.price}
                             </p>
                         </div>
@@ -159,7 +159,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                 </div >
 
                 {/* Title + Price */}
-                < div className="flex justify-between items-center" >
+                < div className="flex justify-between items-center gap-[4px]" >
                     <p className="font-lato font-[600] text-[18px]  text-primary/700 leading-[140%]">
                         {product?.name}
                     </p>
