@@ -9,12 +9,15 @@ import { CDN_BASE_URL } from "@/constants/config";
 // Using named function for better debugging with React Fast Refresh
 function AcneThreefoldApproach() {
    const [orderCount , setOrderCount] = useState(null);
+   const [caseId , setCaseId] = useState(null);
 
   useEffect(()=>{
       const orderCountFromStorage =
         window.localStorage.getItem("order_count");
-
+        const storedData = localStorage.getItem("acne_result_data");
+        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
       setOrderCount(orderCountFromStorage);
+      setCaseId(idFromLocalStorage)
   },[])
 
   return (
@@ -121,7 +124,7 @@ function AcneThreefoldApproach() {
               variant="black"
               text={`Book Your Call Now`}
               tm={" "}
-              redirectTo={"/book-a-call?redirect=home"}
+              redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
               deskSize="desktopBig"
             />}
           </div>
@@ -188,7 +191,7 @@ function AcneThreefoldApproach() {
             variant="black"
             text={`Book Your Call Now`}
             tm={" "}
-            redirectTo={"/book-a-call?redirect=home"}
+            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
             deskSize="mobileBig"
           />}
         </div>

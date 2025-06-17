@@ -5,6 +5,7 @@ import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import arrowIcon from "@assets/icons/ArrowIcon.png";
 import { Carousel } from "antd";
+import { useEffect, useState } from "react";
 
 const SkinProgressCarousel = () => {
   const settings = {
@@ -130,6 +131,13 @@ const SkinProgressCarousel = () => {
   );
 };
 const FeatureGrid = () => {
+   const [caseId , setCaseId] = useState(null);
+  
+    useEffect(()=>{
+          const storedData = localStorage.getItem("acne_result_data");
+          const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+        setCaseId(idFromLocalStorage)
+    },[])
   return (
     <div className="bg-white px-[16px] md:px-[40px] p-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-4 relative">
@@ -157,7 +165,7 @@ const FeatureGrid = () => {
                     variant="black"
                     text={item.buttonText}
                     tm=" "
-                    redirectTo={item.redirect}
+                    redirectTo={item.redirect==="book-a-call" ?`/book-a-call?caseId=${caseId}&redirect=home`:item.redirect}
                     deskSize="desktopBig"
                   />
                 </div>

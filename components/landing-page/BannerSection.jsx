@@ -11,11 +11,15 @@ const BannerSection = () => {
   const [syntheticId, setSyntheticId] = useState(null);
   const [orderCount, setOrderCount] = useState(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [caseId , setCaseId] = useState(null);
 
   useEffect(() => {
 
-    const orderCountFromStorage = window.localStorage.getItem("order_count");
-    setOrderCount(orderCountFromStorage);
+      const orderCountFromStorage = window.localStorage.getItem("order_count");
+      const storedData = localStorage.getItem("acne_result_data");
+      const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+      setOrderCount(orderCountFromStorage);
+      setCaseId(idFromLocalStorage)
 
     const synthetic_Id = localStorage.getItem("syntheticId");
     if (synthetic_Id) {
@@ -85,7 +89,7 @@ const BannerSection = () => {
                   variant="white"
                   text={`Book Your Call Now`}
                   tm={" "}
-                  redirectTo={"/book-a-call?redirect=home"}
+                  redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
                   deskSize="mobileSmall"
                 />}
             </div>
@@ -154,7 +158,7 @@ const BannerSection = () => {
                 variant="white"
                 text={`Book Your Call Now`}
                 tm={" "}
-                redirectTo={"/book-a-call?redirect=home"}
+                redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
                 deskSize="desktopBig"
               />}
           </div>
@@ -169,7 +173,7 @@ const BannerSection = () => {
               />
             </div>}
         </div>
-      </div >
+      </div>
     </>
   );
 };
