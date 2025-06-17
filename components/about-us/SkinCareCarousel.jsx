@@ -3,8 +3,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import SkincareTestCard from "../SkincareTestCard";
 import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
-import { CDN_BASE_URL } from "@constants/config";
 import { Carousel } from "antd";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const SkinCareCarousel = () => {
   const [showArrows, setShowArrows] = useState(false);

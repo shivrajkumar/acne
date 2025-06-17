@@ -25,7 +25,7 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     DEFAULT_API_URL: process.env.NEXT_PUBLIC_DEFAULT_API_URL,
-    SECURITY_TOKEN: process.env.NEXT_PUBLIC_SECURITY_TOKEN,
+    SECURITY_TOKEN: process.env.NEXT_PUBLIC_API_TOKEN,
     PREVIEW_URL: process.env.NEXT_PUBLIC_PREVIEW_URL,
     COOKIES_DOMAIN: process.env.NEXT_PUBLIC_COOKIES_DOMAIN,
     RAZORPAY_KEY: process.env.NEXT_PUBLIC_RAZORPAY_KEY,

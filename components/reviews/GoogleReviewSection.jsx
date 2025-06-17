@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
-import { CDN_BASE_URL } from "@/constants/config";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const GoogleReviewSection = ({
   text,

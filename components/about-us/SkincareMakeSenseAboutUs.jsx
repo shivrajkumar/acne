@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { CDN_BASE_URL } from "@constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
   const defaultHeading = "Skincare That Finally Makes Sense";

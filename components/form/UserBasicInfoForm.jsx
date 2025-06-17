@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 import Loader from "../generic/Loader";
 import isEmpty from "lodash/isEmpty";
 import { INGESTION_API, TRANSACTION_API } from "@/constants/urls";
-import { COOKIES_DOMAIN } from "@/constants/config";
 import { COOKIES_EXPIRY } from "@/constants/constants";
 import maleIcon from "@assets/icons/MaleIcon.png";
 import femaleIcon from "@assets/icons/FemaleIcon.png";
@@ -22,6 +21,7 @@ import { metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
+import { env } from "next-runtime-env";
 
 export default function UserBasicInfoForm() {
   const {
@@ -33,6 +33,9 @@ export default function UserBasicInfoForm() {
     saveApiResponse,
     queryStrings: { utmData, cohort },
   } = useContext(QuestionsContext);
+
+  const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
+
 
   const [formData, setFormData] = useState({
     fullName: "",

@@ -1,8 +1,8 @@
 "use client"
-import { CDN_BASE_URL } from "@/constants/config";
 import React, { useEffect, useState } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { logGtmEvent } from "../generic/Gtm";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const mobile_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoMobile.mp4`;
 const desktop_video = `${CDN_BASE_URL}website_images/vayu/vayu_skin_2/HeroBannerVideoDesktop.mp4`;

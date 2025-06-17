@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import { featureGridData } from "@/constants/allVayuData";
-import { CDN_BASE_URL } from "@/constants/config";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import arrowIcon from "@assets/icons/ArrowIcon.png";
 import { Carousel } from "antd";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const SkinProgressCarousel = () => {
   const settings = {

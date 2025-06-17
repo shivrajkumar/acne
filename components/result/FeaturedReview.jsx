@@ -1,6 +1,6 @@
+import { CDN_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import React from "react";
-import { CDN_BASE_URL } from "@/constants/config";
 
 export default function FeaturedReview() {
     return (
@@ -32,7 +32,7 @@ export default function FeaturedReview() {
                         <div className=" md:text-[40px] text-[16px] text-left md:text-left  ">
                             <p className="text-[16px] md:text-[32px] font-[400]  !font-lato leading-[130%]">
                                 “I never knew what products to use or how to mix them.
-                                 Clear Ritual made it so simple – everything works together perfectly, and my skin has never been happier!”
+                                Clear Ritual made it so simple – everything works together perfectly, and my skin has never been happier!”
                             </p>
                             <p className="font-lato font-[400] text-[16px] xs:text-[18px] mt-[16px]">
                                 Manisha, 26

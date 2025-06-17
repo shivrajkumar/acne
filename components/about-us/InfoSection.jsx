@@ -1,7 +1,7 @@
 "use client";
 
+import { CDN_BASE_URL } from "@/constants/constants";
 import MainInfo from "./MainInfo";
-import { CDN_BASE_URL } from "@constants/config";
 
 const featuresList = ["Innovation", "Sustainability", "Transparency"];
 
