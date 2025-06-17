@@ -1,5 +1,5 @@
 "use client";
-import { CDN_BASE_URL } from "@/constants/config";
+import { CDN_BASE_URL } from "@/constants/constants";
 import React, { useState, useEffect, useRef } from "react";
 import ExpandIcon from "@assets/svg/expandIcon.svg";
 import CollapseIcon from "@assets/svg/collapseIcon.svg";
