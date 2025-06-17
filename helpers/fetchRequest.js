@@ -1,21 +1,24 @@
-import { SECURITY_TOKEN } from "@/constants/config";
 import Cookies from "js-cookie";
+import { env } from "next-runtime-env";
 
 const DEFAUTL_OPTIONS = { method: "GET" };
+const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 
 export const fetchRequest = async (url, options = { method: "GET" }) => {
   let data = {};
   let status = "";
-  const isFormData = options.body instanceof FormData
+  const isFormData = options.body instanceof FormData;
 
   try {
     const _options = {
       ...options,
       headers: {
         //  // Only set Content-Type if it's not FormData
-        ...(isFormData ? {} : {
-           "Content-Type": "application/json",
-           }),
+        ...(isFormData
+          ? {}
+          : {
+              "Content-Type": "application/json",
+            }),
         "x-tenant-id": "acne",
         "x-access-token": `${SECURITY_TOKEN}`,
       },

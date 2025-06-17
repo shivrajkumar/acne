@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import Cookies from "js-cookie";
 // import { MD5 } from "crypto-js";
-import { COOKIES_DOMAIN } from "@/constants/config";
 import { COOKIES_EXPIRY } from "@/constants/constants";
+import { env } from "next-runtime-env";
 // import { isGroupComplete } from "../hooks/isGroupComplete";
 // import { groupNameMapper } from "../constants/groupNameMapper";
 
@@ -15,6 +15,9 @@ const useFormSubmit = (context) => {
     nextQuestion,
     saveReply,
   } = useContext(context);
+
+  const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
+
 
   const handleSubmit = async (reply) => {
     reply = typeof reply === "string" ? reply.trim() : reply;

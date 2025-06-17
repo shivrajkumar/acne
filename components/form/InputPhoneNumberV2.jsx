@@ -6,9 +6,9 @@ import { isValidPhone } from "../../helpers/validation";
 import { INGESTION_API, TRANSACTION_API } from "@/constants/urls";
 import { fetchRequest } from "../../helpers/fetchRequest";
 import Cookies from "js-cookie";
-import { COOKIES_DOMAIN } from "@/constants/config";
 import { APP_TRAYA_DASHBOARD, COOKIES_EXPIRY } from "@/constants/constants";
 import { isEmpty } from "lodash";
+import { env } from "next-runtime-env";
 // import { handleFreshUserAttributes } from "../../app/api/handleFreshDesk";
 const InputPhoneNumber = ({ block, context }) => {
 	const {
@@ -16,6 +16,8 @@ const InputPhoneNumber = ({ block, context }) => {
 		saveApiResponse,
 		queryStrings: { utmData, cohort },
 	} = useContext(context);
+	const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN")
+
 
 	const handleSubmit = useFormSubmit(context);
 

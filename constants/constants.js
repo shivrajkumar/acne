@@ -2,6 +2,7 @@
 // import { CDN_BASE_URL } from "./config";
 
 export const COOKIES_EXPIRY = 60; // Days
+export const CDN_BASE_URL = "https://d3twoz8hvcdm9h.cloudfront.net/";
 // var CONSULT_DOCTOR_FEES = "";
 // var MALE_RESULT_PAGE = "";
 // var FEMALE_RESULT_PAGE = "";

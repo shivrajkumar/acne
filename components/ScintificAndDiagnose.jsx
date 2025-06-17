@@ -1,7 +1,7 @@
-import { CDN_BASE_URL } from "@/constants/config";
 import Image from "next/image";
 import React from "react";
 import AcneTakeTheSkinTest from "./generic/AcneTakeTheSkinTest";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const scintificBg = `${CDN_BASE_URL}website_images/vayu_images/scintific_bg_12.webp`;
 const diagnoseBg = `${CDN_BASE_URL}website_images/vayu_images/diagnose_bg_12.webp`;

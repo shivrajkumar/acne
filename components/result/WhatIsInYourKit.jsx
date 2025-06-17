@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import { CDN_BASE_URL } from "@/constants/config";
 import checkIcon from "@assets/icons/Check_Icon.png";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 function WhatIsInYourKitDesktop() {
   return (

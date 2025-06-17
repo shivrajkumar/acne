@@ -7,8 +7,8 @@ import { INGESTION_API, TRANSACTION_API } from "../../constants/urls";
 import Loader from "../generic/Loader";
 import { fetchRequest } from "../../helpers/fetchRequest";
 import Cookies from "js-cookie";
-import { COOKIES_DOMAIN } from "../../constants/config";
 import { COOKIES_EXPIRY } from "../../constants/constants";
+import { env } from "next-runtime-env";
 const InputEmail = ({ block, context }) => {
   const {
     questions,
@@ -17,6 +17,7 @@ const InputEmail = ({ block, context }) => {
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
+  const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN")
 
 
   const [err, setErr] = useState("");
@@ -58,7 +59,7 @@ const InputEmail = ({ block, context }) => {
     } catch (error) {
       console.warn(error.message);
     } finally {
-      if (_res.status === 200 ) {
+      if (_res.status === 200) {
         saveApiResponse(_res.data);
         handleSubmit(reply);
         setReply("");
@@ -87,7 +88,7 @@ const InputEmail = ({ block, context }) => {
 
         // eslint-disable-next-line no-unsafe-finally
         return _res.data.transactionId;
-      } 
+      }
       if (_res.status === 500) {
         setErr("Unexpected error occured, please contact Vayu support");
         setHasError(true);

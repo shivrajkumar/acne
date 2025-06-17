@@ -4,7 +4,7 @@ import {
   // getValidJSONFromString,
   RETRIEVE_CART_SHOPFLO,
 } from "@/constants/urls";
-import { SECURITY_TOKEN } from "@/constants/config";
+import { env } from "next-runtime-env";
 
 // const UTM_KEYS = [
 //   "utm_campaign",
@@ -17,6 +17,7 @@ import { SECURITY_TOKEN } from "@/constants/config";
 // ];
 
 //UTM related data will be handled later on
+const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 
 async function handleBuyNowClick(
   products,
@@ -50,7 +51,7 @@ async function handleBuyNowClick(
       //   name: "location",
       //   value: window.location.pathname + window.location.search,
       // });
-      const sessionId = window.Shopflo.getSessionId();
+      const sessionId = window.Shopflo?.getSessionId();
 
       let url = RETRIEVE_CART_SHOPFLO(caseId);
       const currenPathUrl = window.location.href;
