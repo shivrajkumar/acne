@@ -6,7 +6,7 @@ const API_BASE_URL = env("NEXT_PUBLIC_DEFAULT_API_URL");
 // ends
 const PUBLIC_API_BASE_URL = env("NEXT_PUBLIC_PUBLIC_API_URL_BASE");
 // function to generate url
-const getUrl = (url) => API_BASE_URL + url;
+const getUrl = (url) => API_BASE_URL + "/" + url;
 // ends
 
 export function getValidJSONFromString(strOrNull) {
@@ -160,14 +160,14 @@ export const UPLOAD_MULTIPLE_IMAGES = (userId) => {
 
 export const USER_ACTIVITY_LOG = getUrl("log-user-activity");
 
-export const GET_PRODUCTS = `${PUBLIC_API_BASE_URL}getProducts`;
+export const GET_PRODUCTS = `${PUBLIC_API_BASE_URL}/getProducts`;
 export const CHALLENGE_API = getUrl("auth/challenge");
 export const VALIDATE_API = getUrl("auth/validate");
 export const CUSTOMER_DETAILS_API = getUrl("getCustomerDetails");
 export const PRODUCT_CONTENT_API = (id, language) => {
-  return `${PUBLIC_API_BASE_URL}productContent/${id}?language=${language}`;
+  return `${PUBLIC_API_BASE_URL}/productContent/${id}?language=${language}`;
 };
-export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}doctors/`;
+export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}/doctors/`;
 
 export const GET_SKIN_TEST_CONFIG = getUrl(
   "consumer-api/service/static-content/data/ACNE_FORM_CONFIG"
