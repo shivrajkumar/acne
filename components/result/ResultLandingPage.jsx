@@ -99,8 +99,28 @@ const ResultLandingPage = ({ searchParams }) => {
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
-        setResultData(res.data);
-        localStorage.setItem(`acne_result_data`, JSON.stringify(res.data));
+          // Check if we have cached data and merge it with fresh data
+        const cachedData = localStorage.getItem(`acne_result_data`);
+        let finalData = res.data;
+        
+        if (cachedData) {
+          try {
+            const parsedCachedData = JSON.parse(cachedData);
+            // If cached data exists and is for the same case, preserve cart modifications
+            if (parsedCachedData?.customerDetails?.caseId === caseId) {
+              finalData = {
+                ...res.data,
+                productsDetails: parsedCachedData.productsDetails || res.data.productsDetails,
+                optionalProductsDetails: parsedCachedData.optionalProductsDetails || res.data.optionalProductsDetails,
+                cartDetails: parsedCachedData.cartDetails || res.data.cartDetails
+              };
+            }
+          } catch (e) {
+            console.error("Error parsing cached data during merge:", e);
+          }
+        }
+        setResultData(finalData);
+        localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
         metaCapi(capiPayload, "ReportGenerated");
       }
     } catch (e) {
@@ -157,9 +177,8 @@ const ResultLandingPage = ({ searchParams }) => {
   }
 
   const addProductToCart = (product) => {
-
-    let updatedProductsDetails = [...resultData?.productsDetails];
-    let updatedOptionalProductsDetails = [...resultData?.optionalProductsDetails];
+    let updatedProductsDetails = [...(resultData?.productsDetails || [])];
+    let updatedOptionalProductsDetails = [...(resultData?.optionalProductsDetails || [])];
 
     if (product) {
       updatedProductsDetails.push({ ...product, isOptionalProduct: true });
@@ -172,27 +191,56 @@ const ResultLandingPage = ({ searchParams }) => {
         0
       );
 
-      setResultData((prevData) => ({
-        ...prevData,
+      const newResultData = {
+        ...resultData,
         productsDetails: updatedProductsDetails,
         optionalProductsDetails: updatedOptionalProductsDetails,
         cartDetails: {
-          ...prevData.cartDetails,
+          ...resultData.cartDetails,
           totalCartValue: newCartTotal
         }
-      }));
-      localStorage.setItem(`acne_result_data`,
-        JSON.stringify({
-          ...resultData, productsDetails: updatedProductsDetails,
-          optionalProductsDetails: updatedOptionalProductsDetails,
-          cartDetails: {
-            ...resultData.cartDetails,
-            totalCartValue: newCartTotal
-          }
-        }));
+      };
 
+      setResultData(newResultData);
+      localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
     }
-  }
+  };
+
+  const removeProductFromCart = (product) => {
+    let updatedProductsDetails = [...(resultData?.productsDetails || [])];
+    let updatedOptionalProductsDetails = [...(resultData?.optionalProductsDetails || [])];
+
+    if (product) {
+      // Remove from main products (only if it was originally optional)
+      updatedProductsDetails = updatedProductsDetails.filter(
+        prod => !(prod.variantId === product.variantId && prod.isOptionalProduct)
+      );
+      
+      // Add back to optional products if it was originally optional
+      if (product.isOptionalProduct) {
+        const { isOptionalProduct, ...productWithoutFlag } = product;
+        updatedOptionalProductsDetails.push(productWithoutFlag);
+      }
+
+      const newCartTotal = updatedProductsDetails.reduce(
+        (total, prod) => total + (prod.price || 0),
+        0
+      );
+
+      const newResultData = {
+        ...resultData,
+        productsDetails: updatedProductsDetails,
+        optionalProductsDetails: updatedOptionalProductsDetails,
+        cartDetails: {
+          ...resultData.cartDetails,
+          totalCartValue: newCartTotal
+        }
+      };
+
+      setResultData(newResultData);
+      localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
+    }
+  };
 
   const contextValue = {
     cartDetails: resultData?.cartDetails,
@@ -207,7 +255,8 @@ const ResultLandingPage = ({ searchParams }) => {
     acne_booking_success: bookingStatus,
     hasPlacedOrder: hasPlacedOrder,
     optionalProductsDetails: resultData?.optionalProductsDetails,
-    addProductToCart: addProductToCart
+    addProductToCart: addProductToCart,
+    removeProductFromCart: removeProductFromCart
   };
 
   return (

@@ -1,11 +1,48 @@
+"use client"
 import AMIcon from "@assets/svg/AM.svg";
 import PMIcon from "@assets/svg/PM.svg";
 import TickIcon from "@assets/svg/tick.svg";
 import Image from "next/image";
 import { startCase } from "lodash";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { useCartContext } from "@/context/CartContext";
+import React from "react";
 
 const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
+        const { removeProductFromCart } = useCartContext();
+    
+    // Determine if this product was originally optional but has been added to cart
+    const wasOptionalAndAdded = product?.isOptionalProduct && !enableAddToCart;
+    
+    const handleButtonClick = () => {
+        if (wasOptionalAndAdded) {
+            // This is an optional product that was added, so remove it
+            removeProductFromCart(product);
+        } else if (enableAddToCart && !isOptional) {
+            // This is an optional product that can be added
+            addProductToCart(product);
+        }
+    };
+
+    const getButtonText = () => {
+        if (wasOptionalAndAdded) {
+            return "Remove";
+        } else if (isOptional) {
+            return "Added";
+        } else {
+            return "Add To Bag";
+        }
+    };
+
+    const getButtonVariant = () => {
+        if (wasOptionalAndAdded) {
+            return "blue"; 
+        } else if (isOptional) {
+            return "disabled";
+        } else {
+            return "blue";
+        }
+    };
     return (
         <>
             {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
@@ -20,7 +57,7 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
                         alt={product?.name}
                         width={168}
                         height={168}
-                        className="w-[168px] h-[168px] cursor-pointer"
+                        className="w-[168px] h-[168px] cursor-pointer object-cover"
                         onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
@@ -67,7 +104,7 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
                     </div>
 
                     {product?.tags?.length > 0 && (
-                        <div className="flex gap-[8px] flex-wrap">
+                        <div className={`flex gap-[8px] flex-wrap ${isOptional || enableAddToCart ? '2xl:w-[490px] md:w-[300px]' : ''}`}>
                             {product.tags.map((tag, index) => (
                                 <div
                                     key={index}
@@ -98,25 +135,22 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
                     )}
 
                     {product?.description && (
-                        <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%]">
+
+                        <p className={`font-lato font-[400] ${isOptional || enableAddToCart ? '' : ''} text-[16px] text-Text/Body-Text -tracking-[1%]`}>
                             {product.description}
                         </p>
                     )}
-                    {(isOptional || enableAddToCart) && (
-                        <div className={` `}
-                            onClick={() => {
-                                if (!isOptional) { addProductToCart(product) }
-                            }}>
-                            <AcneTakeTheSkinTest
-                                text={isOptional ? "Added" : "Add To Bag"}
-                                variant={isOptional ? "disabled" : "blue"}
-                                tm={" "}
-                                size={"desktopBig"}
-                                deskSize={"desktopBig"}
-
-                            />
-                        </div>
-                    )}
+               {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
+    <div className="inline-block md:inline-block" onClick={handleButtonClick}>
+        <AcneTakeTheSkinTest
+            text={getButtonText()}
+            variant={getButtonVariant()}
+            tm={" "}
+            size={"desktopLarge"}
+            deskSize={"desktopLarge"}
+        />
+    </div>
+)}
                 </div>
             </div>
 
@@ -227,23 +261,17 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
                         </p>
                     )
                 }
-                {
-                    (isOptional || enableAddToCart) && (
-                        <div className={`flex justify-center `}
-                            onClick={() => {
-                                if (!isOptional) { addProductToCart(product) }
-
-                            }}>
-                            <AcneTakeTheSkinTest
-                                text={isOptional ? "Added" : "Add To Bag"}
-                                variant={isOptional ? "disabled" : "blue"}
-                                tm={" "}
-                                size={"mobileSmall"}
-                                deskSize={"mobileSmall"}
-                            />
-                        </div>
-                    )
-                }
+                 {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
+                    <div className={`flex justify-center`} onClick={handleButtonClick}>
+                        <AcneTakeTheSkinTest
+                            text={getButtonText()}
+                            variant={getButtonVariant()}
+                            tm={" "}
+                            size={"mobileLarge"}
+                            deskSize={"mobileLarge"}
+                        />
+                    </div>
+                )}
             </div>
 
 

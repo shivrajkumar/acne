@@ -26,8 +26,10 @@ const AcneTakeTheSkinTest = ({
     mobileSmall: "w-[224px] h-[56px] text-[14px]",
     mobileBig: "w-[296px] h-[56px] text-[14px] px-[40px]",
     mobileMedium: "w-[236px] h-[56px] text-[14px] px-[40px]",
+    mobileLarge:"w-[314px] h-[56px] text-[14px] px-[40px]",
     desktopBig: "h-[56px] w-[246px] text-[14px]",
     desktopSmall: "h-[56px] w-[246px] text-[14px]",
+    desktopLarge:"2xl:w-[490px] md:w-[300px] h-[56px] text-[14px] px-[40px]",
 
   };
 
