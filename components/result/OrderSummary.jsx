@@ -3,27 +3,32 @@ import CartDetails from "./CartDetails";
 import { useCartContext } from "../../context/CartContext";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import { Modal } from "antd";
+import closeIcon from "@assets/svg/close-circle.svg";
+import ProductPageModal from "./ProductDetailsModal";
+import Image from "next/image";
 
 const OrderSummary = () => {
   const { productsDetails, optionalProductsDetails, addProductToCart } = useCartContext();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
   const [productAdded, setProductAdded] = useState(false)
 
 
 
-  // useBodyScrollLock(isModalOpen);
+  useBodyScrollLock(isModalOpen);
 
 
-  // const showModal = (variantId) => {
-  //  setSelectedVariantId(`${variantId}_PDP`);
-  //   setIsModalOpen(true);
-  // };
+  const showModal = (variantId) => {
+   setSelectedVariantId(`${variantId}_PDP`);
+    setIsModalOpen(true);
+  };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  //   setSelectedVariantId(null);
-  // };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setSelectedVariantId(null);
+  };
 
   // Helper function to determine which icons to show based on dosageCode
   const getDosageIcons = (dosageCode) => {
@@ -76,6 +81,7 @@ const OrderSummary = () => {
                   showAM={showAM}
                   showPM={showPM}
                   addProductToCart={addProductToCart}
+                  showModal={showModal}
                   isOptional={product?.isOptionalProduct} />
                 {/* Divider */}
                 <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
@@ -98,6 +104,7 @@ const OrderSummary = () => {
                           showPM={showPM}
                           enableAddToCart={true}
                           addProductToCart={addProductToCart}
+                          showModal={showModal}
                         />
                         {/* Divider */}
                       </div>
@@ -114,7 +121,7 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      {/*} <Modal
+      <Modal
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
@@ -131,7 +138,7 @@ const OrderSummary = () => {
         styles={{ body: { position: "relative" } }}
       >
         {/* Custom Close Button */}
-      {/* <button
+       <button
         onClick={handleCancel}
         className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
       >
@@ -139,9 +146,9 @@ const OrderSummary = () => {
       </button>
 
       {/* Your modal content */}
-      {/* <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
-    </Modal>  */}
-    </div >
+       <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
+    </Modal> 
+    </div>
   );
 };
 

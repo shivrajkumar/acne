@@ -5,7 +5,7 @@ import Image from "next/image";
 import { startCase } from "lodash";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
-const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
+const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
     return (
         <>
             {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
@@ -20,8 +20,8 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         alt={product?.name}
                         width={168}
                         height={168}
-                        className="w-[168px] h-[168px]"
-                    // onClick={() => showModal(product?.variantId)}
+                        className="w-[168px] h-[168px] cursor-pointer"
+                        onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                         {showAM && (
@@ -118,13 +118,13 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         </div>
                     )}
                 </div>
-            </div >
+            </div>
 
             {/* Mobile View */}
-            < div className="flex md:hidden flex-col gap-[12px]  p-[12px]  relative" >
+            <div className="flex md:hidden flex-col gap-[12px]  p-[12px]  relative" >
 
                 {/* AM/PM icons */}
-                < div className="absolute top-[8px] left-[8px] flex flex-col gap-[4px]" >
+                <div className="absolute top-[8px] left-[8px] flex flex-col gap-[4px]" >
                     {showAM && (
                         <div className="flex items-center gap-1">
                             <Image src={AMIcon} alt="AM" width={16} height={16} />
@@ -144,29 +144,29 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                             </div>
                         )
                     }
-                </div >
+                </div>
 
                 {/* Product Image */}
-                < div className="w-full flex justify-center" >
+                <div className="w-full flex justify-center" >
                     <Image
                         src={product?.image}
                         alt={product?.name}
                         width={300}
                         height={220}
-                        className="object-contain w-[300px] h-[220px]"
-                    // onClick={() => showModal(product?.variantId)}
+                        className="object-contain w-[300px] h-[220px] cursor-pointer"
+                        onClick={() => showModal(product?.variantId)}
                     />
-                </div >
+                </div>
 
                 {/* Title + Price */}
-                < div className="flex justify-between items-center gap-[4px]" >
+                <div className="flex justify-between items-center gap-[4px]" >
                     <p className="font-lato font-[600] text-[18px]  text-primary/700 leading-[140%]">
                         {product?.name}
                     </p>
                     <p className="font-lato font-[500] text-[18px]  text-color/cyan/6 leading-[23px]">
                         ₹{product?.price}
                     </p>
-                </div >
+                </div>
 
                 {/* Rating */}
                 {
@@ -244,7 +244,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         </div>
                     )
                 }
-            </div >
+            </div>
 
 
         </>
