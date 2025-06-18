@@ -181,6 +181,16 @@ const ResultLandingPage = ({ searchParams }) => {
           totalCartValue: newCartTotal
         }
       }));
+      localStorage.setItem(`acne_result_data`,
+        JSON.stringify({
+          ...resultData, productsDetails: updatedProductsDetails,
+          optionalProductsDetails: updatedOptionalProductsDetails,
+          cartDetails: {
+            ...resultData.cartDetails,
+            totalCartValue: newCartTotal
+          }
+        }));
+
     }
   }
 
