@@ -13,9 +13,7 @@ const OrderSummary = () => {
   const { productsDetails, optionalProductsDetails, addProductToCart } = useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
-  const [productAdded, setProductAdded] = useState(false)
-
-
+ 
 
   useBodyScrollLock(isModalOpen);
 
@@ -90,13 +88,13 @@ const OrderSummary = () => {
           })}
           {
             optionalProductsDetails?.length > 0 && (
-              <div className="flex flex-col gap-[16px] border-[2px] border-neutral-700 md:border-none">
+              <div className="flex flex-col  border-[2px] border-neutral-700 md:border-none">
 
                 {optionalProductsDetails.map((product) => {
                   const { showAM, showPM } = getDosageIcons(product.dosageCode);
                   return (
                     <>
-                      <div className=" ">
+                      <div  key={product.variantId}>
                         <ProductCard
                           key={product.variantId}
                           product={product}
