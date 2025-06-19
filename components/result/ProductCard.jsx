@@ -6,25 +6,59 @@ import Image from "next/image";
 import { startCase } from "lodash";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { useCartContext } from "@/context/CartContext";
-import React from "react";
+import React, { useState } from "react";
+import { message } from 'antd';
+import Loader from "../generic/Loader";
 
-const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
-        const { removeProductFromCart } = useCartContext();
-    
+const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
+    const { removeProductFromCart } = useCartContext();
+    const [isLoading, setIsLoading] = useState(false);
+
     // Determine if this product was originally optional but has been added to cart
     const wasOptionalAndAdded = product?.isOptionalProduct && !enableAddToCart;
-    
-    const handleButtonClick = () => {
-        if (wasOptionalAndAdded) {
-            // This is an optional product that was added, so remove it
-            removeProductFromCart(product);
-        } else if (enableAddToCart && !isOptional) {
-            // This is an optional product that can be added
-            addProductToCart(product);
+
+    const handleButtonClick = async () => {
+        setIsLoading(true);
+
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            if (wasOptionalAndAdded) {
+                removeProductFromCart(product);
+                message.success({
+                    content: 'Removed from cart',
+                    duration: 2,
+                    style: {
+                        marginTop: '5vh',
+                    },
+                });
+            } else if (enableAddToCart && !isOptional) {
+                addProductToCart(product);
+                message.success({
+                    content: 'Added to cart',
+                    duration: 2,
+                    style: {
+                        marginTop: '5vh',
+                    },
+                });
+            }
+        } catch (error) {
+            message.error({
+                content: 'Something went wrong',
+                duration: 2,
+                style: {
+                    marginTop: '20vh',
+                },
+            });
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const getButtonText = () => {
+        if (isLoading) {
+            return "Processing...";
+        }
         if (wasOptionalAndAdded) {
             return "Remove";
         } else if (isOptional) {
@@ -35,14 +69,18 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
     };
 
     const getButtonVariant = () => {
+        if (isLoading) {
+            return "disabled";
+        }
         if (wasOptionalAndAdded) {
-            return "blue"; 
+            return "blue";
         } else if (isOptional) {
             return "disabled";
         } else {
             return "blue";
         }
     };
+
     return (
         <>
             {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
@@ -135,22 +173,25 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
                     )}
 
                     {product?.description && (
-
                         <p className={`font-lato font-[400] ${isOptional || enableAddToCart ? '' : ''} text-[16px] text-Text/Body-Text -tracking-[1%]`}>
                             {product.description}
                         </p>
                     )}
-               {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
-    <div className="inline-block md:inline-block" onClick={handleButtonClick}>
-        <AcneTakeTheSkinTest
-            text={getButtonText()}
-            variant={getButtonVariant()}
-            tm={" "}
-            size={"desktopLarge"}
-            deskSize={"desktopLarge"}
-        />
-    </div>
-)}
+
+                    {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
+                        <div
+                            className="inline-block md:inline-block"
+                            onClick={!isLoading ? handleButtonClick : undefined}
+                        >
+                            {isLoading ? <Loader /> : <AcneTakeTheSkinTest
+                                text={getButtonText()}
+                                variant={getButtonVariant()}
+                                tm={" "}
+                                size={"desktopLarge"}
+                                deskSize={"desktopLarge"}
+                            />}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -261,15 +302,19 @@ const ProductCard = ({ product, showAM,showModal, showPM, isOptional = false, ad
                         </p>
                     )
                 }
-                 {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
-                    <div className={`flex justify-center`} onClick={handleButtonClick}>
-                        <AcneTakeTheSkinTest
+                {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
+                    <div
+                        className={`flex justify-center`}
+                        onClick={!isLoading ? handleButtonClick : undefined}
+                    >
+                        {isLoading ? <Loader /> : <AcneTakeTheSkinTest
                             text={getButtonText()}
                             variant={getButtonVariant()}
                             tm={" "}
                             size={"mobileLarge"}
                             deskSize={"mobileLarge"}
-                        />
+                            loading={isLoading}
+                        />}
                     </div>
                 )}
             </div>
