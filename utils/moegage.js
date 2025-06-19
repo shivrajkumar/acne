@@ -1,6 +1,7 @@
 import moengage from "@moengage/web-sdk";
 
 export const trackMoEngageEvent = (eventName, eventData) => {
+  console.log("Tracking MoEngage event:", eventName, eventData);
   const trackEventWhenLoaded = () => {
     if (moengage.isMoeLoaded()) {
       moengage.track_event(eventName, eventData);
