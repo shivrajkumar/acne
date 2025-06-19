@@ -33,6 +33,7 @@ const ResultLandingPage = ({ searchParams }) => {
   const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
+  const [cacheData, setCacheData] = useState(null);
 
   const isLoading = useMediaLoader();
 
@@ -99,13 +100,14 @@ const ResultLandingPage = ({ searchParams }) => {
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
-          // Check if we have cached data and merge it with fresh data
-        const cachedData = localStorage.getItem(`acne_result_data`);
+        // Check if we have cached data and merge it with fresh data
+        const _cachedData = localStorage.getItem(`acne_result_data`);
+        setCacheData(_cachedData);
         let finalData = res.data;
-        
-        if (cachedData) {
+
+        if (_cachedData) {
           try {
-            const parsedCachedData = JSON.parse(cachedData);
+            const parsedCachedData = JSON.parse(_cachedData);
             // If cached data exists and is for the same case, preserve cart modifications
             if (parsedCachedData?.customerDetails?.caseId === caseId) {
               finalData = {
@@ -148,7 +150,8 @@ const ResultLandingPage = ({ searchParams }) => {
       resultData?.productsDetails,
       resultData?.customerDetails?.caseId
     );
-
+    const updatedCart = cacheData || localStorage.getItem(`acne_result_data`);
+    const optionalProductAdded = JSON.parse(updatedCart)?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
     const eventAttributes = {
       cart_value: `${resultData?.cartDetails?.totalCartValue}`,
       item_count: `${resultData?.productsDetails?.length}`,
@@ -157,6 +160,7 @@ const ResultLandingPage = ({ searchParams }) => {
       caseId: `${resultData?.customerDetails?.caseId}`,
       currency: "INR",
       transactionId: `${tId}`,
+      optionalProductAdded: optionalProductAdded?.length > 0 ? optionalProductAdded : null,
     };
 
     // Track events
@@ -203,7 +207,14 @@ const ResultLandingPage = ({ searchParams }) => {
 
       setResultData(newResultData);
       localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
-    }
+      logGtmEvent("addon_scar_added", { product: product });
+      trackMoEngageEvent("addon_scar_added", {
+        timestamp: new Date().toISOString(),
+        syntheticId: tId ?? localStorage.getItem("syntheticId"),
+        caseId: resultData?.customerDetails?.caseId,
+        optionalProductAdded: product,
+      });
+    };
   };
 
   const removeProductFromCart = (product) => {
@@ -215,7 +226,7 @@ const ResultLandingPage = ({ searchParams }) => {
       updatedProductsDetails = updatedProductsDetails.filter(
         prod => !(prod.variantId === product.variantId && prod.isOptionalProduct)
       );
-      
+
       // Add back to optional products if it was originally optional
       if (product.isOptionalProduct) {
         const { isOptionalProduct, ...productWithoutFlag } = product;
@@ -239,6 +250,13 @@ const ResultLandingPage = ({ searchParams }) => {
 
       setResultData(newResultData);
       localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
+      logGtmEvent("addon_scar_removed", { product: product });
+      trackMoEngageEvent("addon_scar_removed", {
+        timestamp: new Date().toISOString(),
+        syntheticId: tId ?? localStorage.getItem("syntheticId"),
+        caseId: resultData?.customerDetails?.caseId,
+        optionalProductAdded: product,
+      });
     }
   };
 
