@@ -6,12 +6,11 @@ import Image from "next/image";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_PRESCRIPTION_API } from "@/constants/urls";
 import Loader from "../generic/Loader";
-import { useReactToPrint } from "react-to-print";
 import moment from "moment";
 import { CDN_BASE_URL } from "@/constants/constants";
+import { downloadPDF } from "@/helpers/downloadPDF";
 
 const AcnePrescriptionPage = ({ searchParams }) => {
-
   const [prescriptionData, setPrescriptionData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,9 +41,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
 
   const contentRef = useRef(null);
 
-  const downloadPDF = useReactToPrint({
-    contentRef,
-  });
+  // Add this state for download loading
 
   function parseDosageToTimes(dosage) {
     if (!dosage || typeof dosage !== "string") return "Not specified";
@@ -58,7 +55,6 @@ const AcnePrescriptionPage = ({ searchParams }) => {
 
     return times.length > 0 ? times.join(", ") : "Not specified";
   }
-
 
   if (loading) {
     return <Loader />;
@@ -79,10 +75,20 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     );
   }
 
-  const prescriptionInfo = Array.isArray(prescriptionData) ? prescriptionData[0] : null;
+  const prescriptionInfo = Array.isArray(prescriptionData)
+    ? prescriptionData[0]
+    : null;
+  console.log(prescriptionInfo?.doctorInfo, "sign");
+  console.log(
+    `${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.signatureUrl}`,
+    "full URL"
+  );
 
   return (
-    <div className=" overflow-hidden  md:mx-auto font-lato md:w-[360px]">
+    <div
+      className=" overflow-hidden  md:mx-auto font-lato md:w-[360px]"
+      id="pdf-content"
+    >
       {Array.isArray(prescriptionData) && prescriptionData.length > 0 ? (
         <>
           <div className="flex-1 pb-[120px]" ref={contentRef}>
@@ -134,7 +140,8 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
                       {prescriptionInfo?.customerInfo?.age},{" "}
                       {prescriptionInfo?.customerInfo?.gender
-                        ? prescriptionInfo?.customerInfo?.gender.toLowerCase() === "m"
+                        ? prescriptionInfo?.customerInfo?.gender.toLowerCase() ===
+                          "m"
                           ? "Male"
                           : "Female"
                         : ""}
@@ -148,15 +155,17 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
                       {prescriptionInfo?.diagnosis}
                     </p>
-                  </div> 
+                  </div>
                 </div>
                 <div>
                   <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                    {moment(prescriptionInfo?.customerInfo?.createdAt).format("DD MMMM YYYY")}
+                    {moment(prescriptionInfo?.customerInfo?.createdAt).format(
+                      "DD MMMM YYYY"
+                    )}
                   </p>
-                   <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
-                      {prescriptionInfo?.order?.orderDisplayId}
-                    </p>
+                  <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
+                    {prescriptionInfo?.order?.orderDisplayId}
+                  </p>
                 </div>
               </div>
             </div>
@@ -189,18 +198,17 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                       className="grid grid-cols-2 bg-surface/disabled-state mb-2 rounded-[8px]"
                     >
                       <div className="p-4 flex gap-[8px] text-text-icon/title text-[14px] font-[400] leading-[140%]">
-                        <p className="font-[400]">{index+1}</p>
+                        <p className="font-[400]">{index + 1}</p>
                         <div className="flex flex-col">
-                              <p className="font-[500]">{medicine?.productName}</p>
-                                  <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
-                        {medicine?.size}</p>
+                          <p className="font-[500]">{medicine?.productName}</p>
+                          <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
+                            {medicine?.size}
+                          </p>
                         </div>
-                    
                       </div>
                       <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
                         <p>{medicine?.description}</p>
                         <p>{parseDosageToTimes(medicine?.dosage)}</p>
-
                       </div>
                     </div>
                   ))}
@@ -208,7 +216,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </div>
 
             {/* Treatment Duration */}
-            <div className="p-[16px] bg-surface/disabled-state flex flex-col gap-[8px]">
+            <div className="p-[16px] mx-[16px] bg-surface/disabled-state flex flex-col gap-[8px]">
               <h3 className="leading-[135%]  text-text-icon/body text-[18px] font-[400]">
                 {prescriptionInfo?.treatment?.title}
               </h3>
@@ -250,7 +258,6 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               </button>
             </div>
           </div>
-
         </>
       ) : (
         <>
