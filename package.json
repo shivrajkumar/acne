@@ -17,7 +17,6 @@
     "crypto-js": "^4.1.1",
     "framer-motion": "^12.5.0",
     "html2canvas": "^1.4.1",
-    "html2pdf.js": "^0.10.3",
     "js-cookie": "^3.0.5",
     "json-logic-js": "^2.0.2",
     "jspdf": "^3.0.1",
