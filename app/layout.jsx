@@ -10,8 +10,7 @@ import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
 import ScrollTracker from "@/components/ScrollTracker";
 import PixelInit from "@/components/generic/Pixel";
-import PageViewTracker from "@/components/generic/PageViewTracker";
-
+import { PublicEnvScript } from 'next-runtime-env';
 
 export const metadata = {
   title: "Clear Ritual: Personalised Acne Solutions Backed by Experts",
@@ -48,7 +47,7 @@ export default function RootLayout({
     >
       <meta name="robots" content="index,follow" />
       <head>
-
+        <PublicEnvScript />
         <Script src="/gtmHeadScript.js" strategy="beforeInteractive" />
         {/* Clarity Script */}
         <Script
@@ -178,11 +177,10 @@ export default function RootLayout({
       <body style={{ fontSize: "16px" }}>
         <PixelInit />
         <ScrollTracker />
-        <PageViewTracker />
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
           <UserDataCapture />
           <main>{children}</main>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
         <Suspense>
           <UTMManager />
         </Suspense>

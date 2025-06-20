@@ -1,6 +1,6 @@
 "use client";
+import { CDN_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
-import { CDN_BASE_URL } from "@constants/config";
 
 export default function ExpertBanner() {
   return (

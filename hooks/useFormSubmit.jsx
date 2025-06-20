@@ -1,20 +1,23 @@
 import { useContext } from "react";
 import Cookies from "js-cookie";
 // import { MD5 } from "crypto-js";
-import { COOKIES_DOMAIN } from "@/constants/config";
 import { COOKIES_EXPIRY } from "@/constants/constants";
+import { env } from "next-runtime-env";
 // import { isGroupComplete } from "../hooks/isGroupComplete";
 // import { groupNameMapper } from "../constants/groupNameMapper";
 
 const useFormSubmit = (context) => {
   const {
     addToPreviousQuestion,
-   
+
     currentQuestion,
     makeQuestionsList,
     nextQuestion,
     saveReply,
   } = useContext(context);
+
+  const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
+
 
   const handleSubmit = async (reply) => {
     reply = typeof reply === "string" ? reply.trim() : reply;
@@ -97,12 +100,12 @@ const useFormSubmit = (context) => {
     makeQuestionsList();
     nextQuestion(currentQuestion.id, reply, currentQuestion);
 
-    // if (['photo_q'].includes(currentQuestion.next)) {
-    //   Cookies.set("form_status", "semi-filled", {
-    //     domain: COOKIES_DOMAIN,
-    //     expires: COOKIES_EXPIRY,
-    //   });
-    // }
+    if (['photo_q'].includes(currentQuestion.next)) {
+      Cookies.set("form_status", "semi-filled", {
+        domain: COOKIES_DOMAIN,
+        expires: COOKIES_EXPIRY,
+      });
+    }
   };
 
   return handleSubmit;

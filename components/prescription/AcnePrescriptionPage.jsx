@@ -7,11 +7,11 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_PRESCRIPTION_API } from "@/constants/urls";
 import Loader from "../generic/Loader";
 import { useReactToPrint } from "react-to-print";
-import { CDN_BASE_URL } from "@/constants/config";
 import moment from "moment";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const AcnePrescriptionPage = ({ searchParams }) => {
- 
+
   const [prescriptionData, setPrescriptionData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,18 +46,18 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     contentRef,
   });
 
-  function parseDosageToTimes(dosage){
-  if (!dosage || typeof dosage !== "string") return "Not specified";
+  function parseDosageToTimes(dosage) {
+    if (!dosage || typeof dosage !== "string") return "Not specified";
 
-  const [am, noon, pm] = dosage.split("-").map(Number);
+    const [am, noon, pm] = dosage.split("-").map(Number);
 
-  const times= [];
-  if (am) times.push("AM");
-  if (noon) times.push("Afternoon");
-  if (pm) times.push("PM");
+    const times = [];
+    if (am) times.push("AM");
+    if (noon) times.push("Afternoon");
+    if (pm) times.push("PM");
 
-  return times.length > 0 ? times.join(", ") : "Not specified";
-}
+    return times.length > 0 ? times.join(", ") : "Not specified";
+  }
 
 
   if (loading) {
@@ -79,13 +79,13 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     );
   }
 
-  const prescriptionInfo = Array.isArray(prescriptionData)? prescriptionData[0] : null;
+  const prescriptionInfo = Array.isArray(prescriptionData) ? prescriptionData[0] : null;
 
   return (
     <div className=" overflow-hidden  md:mx-auto font-lato md:w-[360px]">
       {Array.isArray(prescriptionData) && prescriptionData.length > 0 ? (
         <>
-          <div    className="flex-1 pb-[120px]" ref={contentRef}>
+          <div className="flex-1 pb-[120px]" ref={contentRef}>
             {/* Header */}
             <div className="bg-white h-[48px] flex flex-col gap-4 justify-center">
               <h1 className="text-text-icon/title text-[24px] leading-[130%] font-[400] pl-2">
@@ -165,7 +165,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             <div className="p-[16px]">
               <div className="flex items-center mb-4">
                 <h2 className=" text-[18px] text-text-icon/body font-[400] leading-[135%] ">
-                 Medicine
+                  Medicine
                 </h2>
               </div>
 
@@ -250,7 +250,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               </button>
             </div>
           </div>
-         
+
         </>
       ) : (
         <>

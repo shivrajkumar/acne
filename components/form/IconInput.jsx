@@ -84,7 +84,7 @@ const IconInput = ({ block, context }) => {
         await handleSubmit(reply);
         setReply("");
 
-        if (block.id == "photo_q") {
+        if (block.id == "stress_level") {
           setAllQuestionsFilled(true);
           window.localStorage.setItem("form_status", "filled");
         }
