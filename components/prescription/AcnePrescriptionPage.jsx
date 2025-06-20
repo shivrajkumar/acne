@@ -41,8 +41,6 @@ const AcnePrescriptionPage = ({ searchParams }) => {
 
   const contentRef = useRef(null);
 
-  // Add this state for download loading
-
   function parseDosageToTimes(dosage) {
     if (!dosage || typeof dosage !== "string") return "Not specified";
 
