@@ -78,11 +78,6 @@ const AcnePrescriptionPage = ({ searchParams }) => {
   const prescriptionInfo = Array.isArray(prescriptionData)
     ? prescriptionData[0]
     : null;
-  console.log(prescriptionInfo?.doctorInfo, "sign");
-  console.log(
-    `${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.signatureUrl}`,
-    "full URL"
-  );
 
   return (
     <div
