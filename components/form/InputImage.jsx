@@ -41,193 +41,104 @@ const InputImage = ({ block }) => {
   const [gender, setGender] = useState("");
   const router = useRouter();
   const [showCam, setShowCam] = useState(false);
-  const [isScanning, setIsScanning] = useState(false);
-  // const [scalpView, setScalpView] = useState("");
   const [notify, setNotify] = useState("");
   const [errNotify, setErrNotify] = useState("");
-  const [isPermissionChecking, setIsPermissionChecking] = useState(false);
-  const searchParams = useSearchParams();
-  const pageName = searchParams.get("page");
-  const [hideButtons, setHideButtons] = useState(false)
-  // const isTamilPage = pageName?.includes("tamil");
-  // const activeLanguage = window.localStorage.getItem("activeLanguage");
+  const [hideButtons, setHideButtons] = useState(false);
 
   useEffect(() => {
     const val = window.localStorage.getItem("photo_acne");
     const genderVal = window.localStorage.getItem("user_gender");
-    setGender(genderVal)
+    setGender(genderVal);
 
-    // setGender(genderVal);
-    if (block.reply) {
+    if (block.reply || val) {
       setStoredImg(true);
       setShowButton(true);
       setCompressingImage(false);
       setCompressedImage(val);
     }
-    window?.localStorage.setItem("form_status", "semi-filled")
-  }, [reply, block.reply]);
+  }, [block.reply]);
 
   useEffect(() => {
     const acneImage = window.localStorage.getItem("acneImage");
-
     if (acneImage) {
       setReply(JSON.parse(acneImage));
     }
   }, []);
 
-  const fileToDataUri = (file) =>
-    new Promise((resolve, reject) => {
+  const fileToDataUri = (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (event) => {
         resolve(event.target.result);
       };
-      reader.readAsDataURL(file ? file : "");
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
     });
+  };
 
   const handleImageUpload = async ({ target }, captured, imageUri) => {
+    let _image;
+    let dataUri;
+
     try {
-      let _image;
       if (!captured) {
         _image = target.files[0];
+        if (!_image) {
+          // If no new image is selected, do nothing
+          return;
+        }
+        dataUri = await fileToDataUri(_image);
+        window.localStorage.setItem("photo_acne", dataUri);
       } else {
         _image = await convertBase64URItoBlob(imageUri);
-      }
-
-      if (!_image) {
-        setCompressedImage(null);
-        setShowButton(false);
-        return;
+        dataUri = imageUri;
+        window.localStorage.setItem("photo_acne", dataUri);
       }
 
       setShowButton(true);
       setCompressingImage(true);
       const _result = await compressImage(_image);
       setCompressingImage(false);
+
       if (_result.hasError) {
         setErr(() => _result.error);
         setShowButton(false);
         return;
       }
-      const dataUri = await fileToDataUri(_result.compressedImage);
-      window.localStorage.setItem("photo_acne", dataUri);
+
       if (isEmpty(_result.compressedImage)) return;
-      window.localStorage.setItem(
-        "acneImage",
-        JSON.stringify(_result.compressedImage)
-      );
+
+      // Store the new compressed image
+      window.localStorage.setItem("acneImage", JSON.stringify(_result.compressedImage));
       setReply(_result.compressedImage);
 
       saveReply(block.id, _result.compressedImage);
-      logGtmEvent("Image_Upload", { gender: gender })
+      window.localStorage.setItem("form_status", "semi-filled");
 
       setErr("");
-      if (!storedImg) setCompressedImage(() => _result.compressedImage);
+      // Always set the new compressed image
+      setCompressedImage(_result.compressedImage);
+      setStoredImg(false); // Reset stored image flag to use object URL
     } catch (error) {
-      setErr("An error occurred during image upload.");
-      setShowButton(false);
-    }
-    setIsScanning(false);
-  };
-
-  const handleSuccessResponse = async (reply) => {
-    try {
-      setIsLoading(true);
-      await handleSubmit(reply);
-      setAllQuestionsFilled(true);
-      window.localStorage.setItem("form_status", "filled");
-    } catch (error) {
-      console.error("Error in handleSuccessResponse:", error);
-      setErr("Something went wrong while saving your response.");
-    } finally {
-      setIsLoading(false);
+      console.error("Image upload error:", error);
+      setErr("Failed to upload image. Please try again.");
     }
   };
 
 
   const _handleSubmit = async () => {
-    setHideButtons(true);
-    setIsLoading(true);
     if (reply) {
-      try {
-        const fileName = reply.name || "upload.png";
-        const fileType = reply.type || "image/png";
-
-        const fileObject = reply instanceof File
-          ? reply
-          : new File([reply], fileName, {
-            type: fileType,
-            lastModified: Date.now(),
-          });
-
-        const formData = new FormData();
-        formData.append("file", fileObject, fileName);
-
-        const _uploadOptions = {
-          method: "POST",
-          body: formData,
-        };
-
-        const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _uploadOptions);
-
-        if (_res?.success || _res?.status === 200) {
-          const _formData = {
-            question_id: block.id,
-            field_key: block.id,
-            question_text: block.text,
-            response: reply,
-            status:
-              block.id == "stress_level"
-                ? formFillStatus.SEMI_FILLED :
-                block.id == "photo_q"
-                  ? formFillStatus.FILLED
-                  : formFillStatus.DRAFT,
-            location_path: window.location.pathname + window.location.search,
-            source: "website",
-            response_type: block.type,
-          };
-
-          const _options = {
-            method: "POST",
-            body: JSON.stringify(_formData),
-          };
-
-          if (["customer_values"].includes(block.next)) {
-            window.localStorage.setItem("form_status", "semi-filled");
-          }
-
-          const response = await fetchRequest(
-            TRANSACTION_API(transactionId),
-            _options
-          );
-
-          if (response.status === 200) {
-            handleSuccessResponse(reply);
-          }
-        } else {
-          setErr(_res?.message || "Image upload failed. Please try again.");
-        }
-      } catch (error) {
-        console.error("Upload error:", error);
-        setErr("Something went wrong. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
+      handleSubmit(reply);
+      setAllQuestionsFilled(true);
     } else {
-      setErr("Please insert an image!");
-      setIsLoading(false);
+      if (!block.reply) {
+        setErr("Please insert an image!");
+        return;
+      }
+      handleSubmit(block.reply);
+      router.push(SUBMISSION);
+      window.localStorage.setItem("form_status", "semi-filled");
     }
-  };
-
-
-  // Improved browser detection for FB/IG browsers
-  const isInAppBrowser = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    return /FBAN|FBAV|Instagram/i.test(userAgent); // Checks for Facebook & Instagram
-  };
-
-  const isAndroidInAppBrowser = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    return isInAppBrowser() && /Android/i.test(userAgent);
   };
 
   // Camera access function with special handling for Android in-app browsers
@@ -290,58 +201,10 @@ const InputImage = ({ block }) => {
     }
   };
 
-  // Helper function to open camera with appropriate event tracking
-  const openCamera = () => {
-    // Track event
-    // const eventAttributesHeader = {
-    //   source: "web_native",
-    //   timestamps: getCurrentTimeInReadableForm(),
-    // };
-    // sendMoengageEvent(
-    //   "web_picture_clicked",
-    //   eventAttributesHeader,
-    //   caseId
-    // );
-
-    // Skip permission check for Android in-app browsers
-    if (isAndroidInAppBrowser()) {
-      setShowCam(true);
-      return;
-    }
-
-    // Use permission check for other browsers
-    handleCameraAccess().then((hasPermission) => {
-      if (hasPermission) {
-        setShowCam(true);
-      }
-    });
-  };
-
-  // Helper function to handle "Take a Picture" click with appropriate handling based on browser
-  const handleTakePictureClick = () => {
-    // For Android in-app browsers, directly show camera
-    if (isAndroidInAppBrowser()) {
-      setShowCam(true);
-    } else {
-      // For other browsers, check permissions first
-      handleCamera();
-    }
-
-    // Track event (regardless of browser)
-    // const eventAttributesHeader = {
-    //   source: "web_native",
-    //   timestamps: getCurrentTimeInReadableForm(),
-    // };
-    // sendMoengageEvent(
-    //   "web_take_picture_clicked",
-    //   eventAttributesHeader,
-    //   caseId
-    // );
-  };
-
   return (
     <>
       {isLoading && <Loader />}
+
       <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-lato">
         <label
           className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
@@ -400,7 +263,10 @@ const InputImage = ({ block }) => {
                   width={330}
                   height={300}
                   priority={false}
-                  onClick={openCamera}
+                  onClick={() => {
+                    handleCameraAccess();
+                    setShowCam(true);
+                  }}
                 />
               </div>
             </div>
@@ -408,24 +274,23 @@ const InputImage = ({ block }) => {
         </div>
         {!hideButtons && <div>
           {!showButton ? (
-            <div className="flex justify-center gap-2 w-[300px]">
-              <span
-                className={`block px-2 mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]`}
+            <div className="flex justify-between w-[280px]">
+              <button
+                className={`block  mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit`}
                 onClick={() => {
                   inputRef.current && inputRef.current.click();
-
                 }}
               >
                 {"Upload Image"}
-              </span>
-              <span
-                className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+              </button>
+              <button
+                className="block  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit"
                 onClick={() => {
                   handleCameraAccess();
                   setShowCam(true);
                 }}              >
                 {"Take A Picture"}
-              </span>
+              </button>
             </div>
           ) : (
             <div className="flex justify-center w-[300px]">
@@ -492,18 +357,14 @@ const InputImage = ({ block }) => {
             </div>
           )}
         </>
-        {showCam ? (
+        {showCam && (
           <CameraAccess
             setShowCam={setShowCam}
             getImage={handleImageUpload}
             err={notify}
             inputRef={inputRef}
             errNotify={errNotify}
-            isInAppBrowser={isInAppBrowser}
-            handleCamera={handleCamera}
           />
-        ) : (
-          <></>
         )}
       </div>
     </>
