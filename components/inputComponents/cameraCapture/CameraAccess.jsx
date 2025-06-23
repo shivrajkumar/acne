@@ -4,12 +4,9 @@ import Webcam from "react-webcam";
 import closeIcon from "@assets/icons/close-circle.png";
 import { CDN_BASE_URL } from "@/constants/constants";
 
-const imageBackground = `${CDN_BASE_URL}website_images/localImages/scalpi_section/image_background.webp`;
 const galaryIcon = `${CDN_BASE_URL}website_images/localImages/scalpi_section/galary.webp`;
-const resetIcon = `${CDN_BASE_URL}website_images/localImages/scalpi_section/reset.webp`;
 const imageCapture = `${CDN_BASE_URL}website_images/localImages/scalpi_section/image_capture.webp`;
 const cautionIcon = `${CDN_BASE_URL}website_images/localImages/caution_icon.webp`;
-
 
 const CameraAccess = ({ getImage, setShowCam, inputRef, err, errNotify }) => {
   const webcamRef = useRef(null);
@@ -24,13 +21,13 @@ const CameraAccess = ({ getImage, setShowCam, inputRef, err, errNotify }) => {
   };
 
   return (
-    <div className="absolute top-0 left-0 w-full h-full bg-black">
+    <div className="fixed top-0 left-0 w-full h-[100vh] bg-black z-50 overflow-hidden">
       <div className="flex items-center justify-center w-full h-full sm:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[25%] rounded-lg m-auto sm:mt-0 relative">
         <div className=" h-full w-full absolute z-50 ">
           <div className="picture_circle"></div>
           {!err && (
             <button
-              className="fixed z-50 top-20 text-xl right-2 px-2.5 py-1 uppercase rounded-[100%] border-red-700 text-white    font-bold"
+              className="fixed z-50 top-5 text-xl right-5 px-2.5 py-1 uppercase rounded-[100%] border-red-700 text-white font-bold"
               onClick={() => setShowCam(false)}
             >
               X
@@ -69,11 +66,10 @@ const CameraAccess = ({ getImage, setShowCam, inputRef, err, errNotify }) => {
               width={80}
             />
           </button>
-          <div className="w-[60px] h-[60px]"></div>
         </div>
       </div>
       {err && (
-        <div className="w-full flex justify-center relative">
+        <div className="w-full flex justify-center bottom-0 relative">
           <div className="fixed bottom-0 z-50 bg-white rounded-t-xl px-6 pt-6 pb-10 w-full md:w-[60%] lg:w-[50%] xl:w-[25%] flex flex-col justify-center items-center">
             <button
               className="absolute z-50 top-3 right-2 uppercase rounded-[100%]"
