@@ -128,16 +128,67 @@ const InputImage = ({ block }) => {
 
   const _handleSubmit = async () => {
     if (reply) {
-      handleSubmit(reply);
-      setAllQuestionsFilled(true);
-    } else {
-      if (!block.reply) {
-        setErr("Please insert an image!");
-        return;
+      try {
+        // Convert Blob to File object properly
+        const fileName = reply.name || "upload.png";
+        const fileType = reply.type || "image/png";
+
+        const fileObject = new File([reply], fileName, {
+          type: fileType,
+          lastModified: Date.now(),
+        });
+
+        const formData = new FormData();
+        formData.append("file", fileObject, fileName);
+
+        const _options = {
+          method: "POST",
+          body: formData,
+        };
+
+        const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
+        if (_res?.success || _res?.status === 200) {
+
+          const _formData = {
+            question_id: block.id,
+            field_key: block.id,
+            question_text: block.text,
+            response: reply,
+            status:
+              block.id == "photo_q"
+                ? formFillStatus.FILLED
+                : formFillStatus.SEMI_FILLED,
+            location_path: window.location.pathname + window.location.search,
+            source: "website",
+            response_type: block.type,
+          };
+
+          const _options = {
+            method: "POST",
+            body: JSON.stringify(_formData),
+          };
+
+          if (["customer_values"].includes(block.next)) {
+            window.localStorage.setItem("form_status", "semi-filled");
+          }
+
+          const response = await fetchRequest(TRANSACTION_API(transactionId), _options);
+          if (response.status == 200) {
+            handleSubmit(reply);
+
+            setAllQuestionsFilled(true);
+
+          }
+          window.localStorage.setItem("form_status", "filled");
+        } else {
+          setErr(_res?.message || "Image upload failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Upload error:", error);
+        setErr("Something went wrong. Please try again.");
       }
-      handleSubmit(block.reply);
-      router.push(SUBMISSION);
-      window.localStorage.setItem("form_status", "semi-filled");
+    } else {
+      setErr("Please insert an image!");
     }
   };
 
