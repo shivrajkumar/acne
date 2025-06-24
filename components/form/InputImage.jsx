@@ -252,6 +252,12 @@ const InputImage = ({ block }) => {
     }
   };
 
+  const openGallery = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -327,10 +333,8 @@ const InputImage = ({ block }) => {
           {!showButton ? (
             <div className="flex justify-between w-[280px]">
               <button
-                className={`block  mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit`}
-                onClick={() => {
-                  inputRef.current && inputRef.current.click();
-                }}
+                className={`block  mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit `}
+                onClick={openGallery}
               >
                 {"Upload Image"}
               </button>
@@ -344,25 +348,22 @@ const InputImage = ({ block }) => {
               </button>
             </div>
           ) : (
-            <div className="flex justify-center w-[300px]">
-              <div
-                onClick={() => {
-                  inputRef.current && inputRef.current.click();
-
-                }}
-                className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+            <div className="flex justify-between w-[280px]">
+              <button
+                onClick={openGallery}
+                className="block mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit "
               >
                 {"CHANGE IMAGE"}
-              </div>
-              <div
+              </button>
+              <button
                 onClick={() => {
                   handleCameraAccess();
                   setShowCam(true);
                 }}
-                className="block px-2  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-[50%]"
+                className="block mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit"
               >
                 {"TAKE A PICTURE"}
-              </div>
+              </button>
             </div>
           )}
         </div>}
