@@ -296,7 +296,7 @@ const ImageCheckbox = ({ block, context }) => {
         </div>
 
         {/* Add bottom padding to account for fixed button */}
-        <div className="h-[80px]"></div>
+        <div className="h-[30px]"></div>
       </div>
     </>
   );

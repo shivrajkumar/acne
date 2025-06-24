@@ -301,7 +301,7 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
         </div>
 
         {/* Add bottom padding to account for fixed button */}
-        <div className="h-[80px]"></div>
+        <div className="h-[25px]"></div>
       </div>
     </>
   );
