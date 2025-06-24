@@ -201,7 +201,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                       </div>
                       <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
                         <p>{medicine?.description}</p>
-                        <p>{parseDosageToTimes(medicine?.dosage)}</p>
+                        <p>{medicine?.category.toLowerCase()==="ayurveda"?<span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
                       </div>
                     </div>
                   ))}
