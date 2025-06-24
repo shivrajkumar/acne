@@ -5,14 +5,18 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { CDN_BASE_URL } from "@/constants/constants";
 
 export default function GetCustomRoutineBanner() {
-  const [orderCount, setOrderCount] = useState(null);
+   const [orderCount , setOrderCount] = useState(null);
+   const [caseId , setCaseId] = useState(null);
+  
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+          const storedData = localStorage.getItem("acne_result_data");
+         const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
 
-  useEffect(() => {
-    const orderCountFromStorage =
-      window.localStorage.getItem("order_count");
-
-    setOrderCount(orderCountFromStorage);
-  }, [])
+      setOrderCount(orderCountFromStorage);
+       setCaseId(idFromLocalStorage)
+  },[])
 
   return (
     <section className="relative w-full rounded-[24px] xs:rounded-[16px]  overflow-hidden font-lato">
@@ -42,7 +46,7 @@ export default function GetCustomRoutineBanner() {
                   variant="white"
                   text={`Book Your Call Now`}
                   tm={" "}
-                  redirectTo={"/book-a-call?redirect=home"}
+                  redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
                   deskSize="desktopBig"
                 />}
               </div>
@@ -82,7 +86,7 @@ export default function GetCustomRoutineBanner() {
                   variant="white"
                   text={`Book Your Call Now`}
                   tm={" "}
-                  redirectTo={"/book-a-call?redirect=home"}
+                  redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
                   deskSize="mobileBig"
                 />}
               </div>

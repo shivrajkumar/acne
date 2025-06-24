@@ -9,16 +9,17 @@ export default function AcneIngredients({ ingredients }) {
   const carouselRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [orderCount, setOrderCount] = useState(null);
+  const [caseId , setCaseId] = useState(null);
 
-  // Set isLoaded to true after component mounts to prevent initial animation
-  useEffect(() => {
-    // if (typeof window !== "undefined") {
-      const orderCountFromStorage = window.localStorage.getItem("order_count");
-
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+        const storedData = localStorage.getItem("acne_result_data");
+        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
       setOrderCount(orderCountFromStorage);
-    // }
-    setIsLoaded(true);
-  }, []);
+      setCaseId(idFromLocalStorage)
+      setIsLoaded(true);
+  },[])
 
   return (
     <div className="bg-Background/AirBlue py-[28px] px-4 pb-[40px] md:p-[40px] md:pb-[80px] rounded-[24px] w-full mx-auto md:h-[700px] relative">
@@ -46,7 +47,7 @@ export default function AcneIngredients({ ingredients }) {
               variant="black"
               text={`Book Your Call Now`}
               tm={" "}
-              redirectTo={"/book-a-call?redirect=home"}
+              redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
               deskSize="desktopBig"
             />
           )}
@@ -151,7 +152,7 @@ export default function AcneIngredients({ ingredients }) {
             variant="black"
             text={`Book Your Call Now`}
             tm={" "}
-            redirectTo={"/book-a-call?redirect=home"}
+            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
             deskSize="mobileBig"
           />
         )}

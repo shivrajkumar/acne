@@ -1,10 +1,20 @@
+"use client"
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 // import { CDN_BASE_URL } from "@/constants/config";
 import FemaleGeneralPractitioner from "@assets/images/female-general-practitioner.webp"
 
 export default function AcneOurTeam() {
+   const [caseId , setCaseId] = useState(null);
+  
+    useEffect(()=>{
+          const storedData = localStorage.getItem("acne_result_data");
+          const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+        setCaseId(idFromLocalStorage)
+    },[])
+  
+  
   return (
     <section className="bg-Background/Beige p-[28px] md:p-[40px]  rounded-[24px]">
       <div className="flex flex-col">
@@ -23,7 +33,7 @@ export default function AcneOurTeam() {
               variant="black"
               text="Book your call now"
               tm=" "
-              redirectTo={`/book-a-call?redirect=home`}
+              redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
               deskSize="desktopBig"
             />{" "}
           </div>
@@ -68,7 +78,7 @@ export default function AcneOurTeam() {
             variant="black"
             text="Book your call now"
             tm=" "
-            redirectTo={`/book-a-call?redirect=home`}
+            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
             deskSize="mobileBig"
           />{" "}
         </div>
