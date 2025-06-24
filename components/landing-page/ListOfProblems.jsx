@@ -6,16 +6,17 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function ListOfProblems({ listOfProblems }) {
   const [isLoaded, setIsLoaded] = useState(false);
- 
-    const [orderCount , setOrderCount] = useState(null);
-
-  useEffect(()=>{
-      const orderCountFromStorage =
+  const [caseId , setCaseId] = useState(null);
+  const [orderCount , setOrderCount] = useState(null);
+    
+    useEffect(()=>{
+       const orderCountFromStorage =
         window.localStorage.getItem("order_count");
-
-      setOrderCount(orderCountFromStorage);
-  },[])
-
+            const storedData = localStorage.getItem("acne_result_data");
+            const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+          setOrderCount(orderCountFromStorage);
+          setCaseId(idFromLocalStorage)
+    },[])
 
   // Set isLoaded to true after component mounts
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function ListOfProblems({ listOfProblems }) {
             variant="black"
             text={`Book Your Call Now`}
             tm={" "}
-            redirectTo={"/book-a-call?redirect=home"}
+            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
             deskSize="desktopBig"
           />}
         </div>
@@ -132,7 +133,7 @@ export default function ListOfProblems({ listOfProblems }) {
           variant="black"
           text={`Book Your Call Now`}
           tm={" "}
-          redirectTo={"/book-a-call?redirect=home"}
+          redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
           deskSize="mobileBig"
         />}
       </div>

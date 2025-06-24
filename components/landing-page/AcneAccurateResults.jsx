@@ -6,15 +6,18 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { CDN_BASE_URL } from "@/constants/constants";
 
 function AccurateSkinTestResults() {
-  const [orderCount, setOrderCount] = useState(null);
+  const [orderCount , setOrderCount] = useState(null);
+  const [caseId , setCaseId] = useState(null);
 
-  useEffect(() => {
-    const orderCountFromStorage =
-      window.localStorage.getItem("order_count");
-
-    setOrderCount(orderCountFromStorage);
-  }, [])
-
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+        const storedData = localStorage.getItem("acne_result_data");
+        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+      setOrderCount(orderCountFromStorage);
+      setCaseId(idFromLocalStorage)
+  },[])
+  
 
   return (
     <section className="bg-Background/Beige p-[28px] md:p-[40px] rounded-3xl">
@@ -67,7 +70,7 @@ function AccurateSkinTestResults() {
             variant="black"
             text={`Book Your Call Now`}
             tm={" "}
-            redirectTo={"/book-a-call?redirect=home"}
+            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
             deskSize="desktopBig"
           />}
         </div>
@@ -92,14 +95,17 @@ function AccurateSkinTestResults() {
 
 // Mobile version component
 function AccurateSkinTestResultsMobile() {
-  const [orderCount, setOrderCount] = useState(null);
+  const [caseId , setCaseId] = useState(null);
+  const [orderCount , setOrderCount] = useState(null);
 
-  useEffect(() => {
-    const orderCountFromStorage =
-      window.localStorage.getItem("order_count");
-
-    setOrderCount(orderCountFromStorage);
-  }, [])
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+        const storedData = localStorage.getItem("acne_result_data");
+        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+      setOrderCount(orderCountFromStorage);
+      setCaseId(idFromLocalStorage)
+  },[])
 
   return (
     <section className="bg-Background/Beige p-[16px] rounded-[24px]">
@@ -160,7 +166,7 @@ function AccurateSkinTestResultsMobile() {
           variant="black"
           text={`Book Your Call Now`}
           tm={" "}
-          redirectTo={"/book-a-call?redirect=home"}
+          redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
           deskSize="mobileBig"
         />}
       </div>

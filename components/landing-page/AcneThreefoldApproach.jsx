@@ -8,14 +8,17 @@ import { CDN_BASE_URL } from "@/constants/constants";
 
 // Using named function for better debugging with React Fast Refresh
 function AcneThreefoldApproach() {
-  const [orderCount, setOrderCount] = useState(null);
+   const [orderCount , setOrderCount] = useState(null);
+   const [caseId , setCaseId] = useState(null);
 
-  useEffect(() => {
-    const orderCountFromStorage =
-      window.localStorage.getItem("order_count");
-
-    setOrderCount(orderCountFromStorage);
-  }, [])
+  useEffect(()=>{
+      const orderCountFromStorage =
+        window.localStorage.getItem("order_count");
+        const storedData = localStorage.getItem("acne_result_data");
+        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+      setOrderCount(orderCountFromStorage);
+      setCaseId(idFromLocalStorage)
+  },[])
 
   return (
     <div className="p-[16px] md:p-[40px]  rounded-[24px] w-full mx-auto font-lato bg-Background/Beige h-[885px] lg:h-[720px]">
@@ -121,7 +124,7 @@ function AcneThreefoldApproach() {
               variant="black"
               text={`Book Your Call Now`}
               tm={" "}
-              redirectTo={"/book-a-call?redirect=home"}
+              redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
               deskSize="desktopBig"
             />}
           </div>
@@ -188,7 +191,7 @@ function AcneThreefoldApproach() {
             variant="black"
             text={`Book Your Call Now`}
             tm={" "}
-            redirectTo={"/book-a-call?redirect=home"}
+            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
             deskSize="mobileBig"
           />}
         </div>
