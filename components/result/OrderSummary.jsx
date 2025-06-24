@@ -1,29 +1,74 @@
 "use client";
 import CartDetails from "./CartDetails";
 import { useCartContext } from "../../context/CartContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ProductCard from "./ProductCard";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import { Modal } from "antd";
+import closeIcon from "@assets/svg/close-circle.svg";
+import ProductPageModal from "./ProductDetailsModal";
+import Image from "next/image";
+import { trackMoEngageEvent } from "@/utils/moegage";
+import { logGtmEvent } from "../generic/Gtm";
 
 const OrderSummary = () => {
   const { productsDetails, optionalProductsDetails, addProductToCart } = useCartContext();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
-  const [productAdded, setProductAdded] = useState(false)
+  const [hasTrackedOptionalProductSeen, setHasTrackedOptionalProductSeen] = useState(false);
+  const optionalProductsSectionRef = useRef(null);
 
+  useBodyScrollLock(isModalOpen);
 
+  useEffect(() => {
+    // Only proceed if there are optional products and event hasn't been tracked
+    if (optionalProductsDetails?.length > 0 && !hasTrackedOptionalProductSeen) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Track the event only once
+              trackMoEngageEvent("addon_scar_seen", {
+                product: optionalProductsDetails,
+              });
+              logGtmEvent("addon_scar_seen", {
+                product: optionalProductsDetails,
+              });
 
-  // useBodyScrollLock(isModalOpen);
+              // Mark as tracked and disconnect observer
+              setHasTrackedOptionalProductSeen(true);
+              observer.disconnect();
+            }
+          });
+        },
+        {
+          threshold: 0.1 // Trigger when at least 10% of the section is visible
+        }
+      );
 
+      // Start observing the optional products section
+      if (optionalProductsSectionRef.current) {
+        observer.observe(optionalProductsSectionRef.current);
+      }
 
-  // const showModal = (variantId) => {
-  //  setSelectedVariantId(`${variantId}_PDP`);
-  //   setIsModalOpen(true);
-  // };
+      // Cleanup function
+      return () => {
+        if (optionalProductsSectionRef.current) {
+          observer.unobserve(optionalProductsSectionRef.current);
+        }
+      };
+    }
+  }, [optionalProductsDetails, hasTrackedOptionalProductSeen]);
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  //   setSelectedVariantId(null);
-  // };
+  const showModal = (variantId) => {
+    setSelectedVariantId(`${variantId}_PDP`);
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setSelectedVariantId(null);
+  };
 
   // Helper function to determine which icons to show based on dosageCode
   const getDosageIcons = (dosageCode) => {
@@ -76,6 +121,7 @@ const OrderSummary = () => {
                   showAM={showAM}
                   showPM={showPM}
                   addProductToCart={addProductToCart}
+                  showModal={showModal}
                   isOptional={product?.isOptionalProduct} />
                 {/* Divider */}
                 <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
@@ -84,26 +130,26 @@ const OrderSummary = () => {
           })}
           {
             optionalProductsDetails?.length > 0 && (
-              <div className="flex flex-col gap-[16px] border-[2px] border-neutral-700 md:border-none">
-
+              <div
+                ref={optionalProductsSectionRef}
+                className="flex flex-col border-[2px] border-neutral-700 md:border-none"
+              >
                 {optionalProductsDetails.map((product) => {
                   const { showAM, showPM } = getDosageIcons(product.dosageCode);
                   return (
-                    <>
-                      <div className=" ">
-                        <ProductCard
-                          key={product.variantId}
-                          product={product}
-                          showAM={showAM}
-                          showPM={showPM}
-                          enableAddToCart={true}
-                          addProductToCart={addProductToCart}
-                        />
-                        {/* Divider */}
-                      </div>
+                    <div key={product.variantId}>
+                      <ProductCard
+                        key={product.variantId}
+                        product={product}
+                        showAM={showAM}
+                        showPM={showPM}
+                        enableAddToCart={true}
+                        addProductToCart={addProductToCart}
+                        showModal={showModal}
+                      />
+                      {/* Divider */}
                       <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
-                    </>
-
+                    </div>
                   );
                 })}
               </div>
@@ -114,7 +160,7 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      {/*} <Modal
+      <Modal
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
@@ -131,17 +177,17 @@ const OrderSummary = () => {
         styles={{ body: { position: "relative" } }}
       >
         {/* Custom Close Button */}
-      {/* <button
-        onClick={handleCancel}
-        className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
-      >
-        <Image src={closeIcon} alt="close-icon" width={20} height={20} />
-      </button>
+        <button
+          onClick={handleCancel}
+          className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
+        >
+          <Image src={closeIcon} alt="close-icon" width={20} height={20} />
+        </button>
 
-      {/* Your modal content */}
-      {/* <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
-    </Modal>  */}
-    </div >
+        {/* Your modal content */}
+        <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
+      </Modal>
+    </div>
   );
 };
 

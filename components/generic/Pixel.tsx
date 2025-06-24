@@ -12,7 +12,7 @@ export const FacebookPixelEventsInit: React.FC<Record<string, string>> = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       const page = pathname === "/" ? "home" : pathname.replace(/^\/+/, "");
-      const finalEventName = eventName || `Pageview+${page}`;
+      const finalEventName = eventName;
 
       import("react-facebook-pixel")
         .then((x) => x.default)

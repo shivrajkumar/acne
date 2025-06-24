@@ -17,6 +17,7 @@ import { handleBookCall, transformSlotData } from "../../utils/bookacall";
 import { logGtmEvent } from "../generic/Gtm";
 import moment from "moment";
 import { pixelCustomeEvent } from "../generic/Pixel";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -79,7 +80,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
     fetchData();
 
     // Return empty cleanup function
-    return () => {};
+    return () => { };
   }, [searchParams]);
 
   useEffect(() => {
@@ -105,6 +106,8 @@ const ThankYouLandingPage = ({ searchParams }) => {
       const res = await fetchRequest(ORDER_DETAILS(orderId));
       if (res.status === 200) {
         setOrderDetails(res.data);
+        const updatedCart = localStorage.getItem(`acne_result_data`);
+        const optionalProductAdded = JSON.parse(updatedCart)?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
         window.localStorage.setItem("order_count", res.data?.orderDetails?.orderSequence);
         logGtmEvent("Purchase", {
           gender: window.localStorage.getItem("user_gender"),
@@ -124,7 +127,21 @@ const ThankYouLandingPage = ({ searchParams }) => {
           caseId: `${caseId}`,
           transactionId: `${window.localStorage.getItem("user_tid")}`,
         });
+
+        if (optionalProductAdded?.length > 0) {
+          logGtmEvent("addon_scar_checkout_success", {
+            product: optionalProductAdded, caseId: `${caseId}`,
+            transactionId: `${window.localStorage.getItem("user_tid")}`,
+          });
+          trackMoEngageEvent("addon_scar_checkout_success", {
+            product: optionalProductAdded,
+            caseId: `${caseId}`,
+            transactionId: `${window.localStorage.getItem("user_tid")}`,
+            timestamp: new Date().toISOString(),
+          });
+        }
       }
+
       return res;
     } catch (error) {
       console.error("Error fetching order details:", error);

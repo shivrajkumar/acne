@@ -1,15 +1,90 @@
+"use client"
 import AMIcon from "@assets/svg/AM.svg";
 import PMIcon from "@assets/svg/PM.svg";
 import TickIcon from "@assets/svg/tick.svg";
 import Image from "next/image";
 import { startCase } from "lodash";
 import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
+import { useCartContext } from "@/context/CartContext";
+import React, { useState } from "react";
+import { message } from 'antd';
+import Loader from "../generic/Loader";
 
-const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
+const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, addProductToCart, enableAddToCart = false }) => {
+    const { removeProductFromCart } = useCartContext();
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Determine if this product was originally optional but has been added to cart
+    const wasOptionalAndAdded = product?.isOptionalProduct && !enableAddToCart;
+
+    const handleButtonClick = async () => {
+        setIsLoading(true);
+
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            if (wasOptionalAndAdded) {
+                removeProductFromCart(product);
+                message.success({
+                    content: 'Removed from cart',
+                    duration: 2,
+                    style: {
+                        marginTop: '5vh',
+                    },
+                });
+            } else if (enableAddToCart && !isOptional) {
+                addProductToCart(product);
+                message.success({
+                    content: 'Added to cart',
+                    duration: 2,
+                    style: {
+                        marginTop: '5vh',
+                    },
+                });
+            }
+        } catch (error) {
+            message.error({
+                content: 'Something went wrong',
+                duration: 2,
+                style: {
+                    marginTop: '20vh',
+                },
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const getButtonText = () => {
+        if (isLoading) {
+            return "Processing...";
+        }
+        if (wasOptionalAndAdded) {
+            return "Remove";
+        } else if (isOptional) {
+            return "Added";
+        } else {
+            return "Add To Bag";
+        }
+    };
+
+    const getButtonVariant = () => {
+        if (isLoading) {
+            return "disabled";
+        }
+        if (wasOptionalAndAdded) {
+            return "blue";
+        } else if (isOptional) {
+            return "disabled";
+        } else {
+            return "blue";
+        }
+    };
+
     return (
         <>
             {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
-                {isOptional ? "SOLVE FOR YOUR ACNE SCARS NOW!" : "ADD NOW"}
+                {"SOLVE FOR YOUR ACNE SCARS NOW!"}
             </p>
             }
             <div className="hidden md:flex justify-between gap-[24px]">
@@ -20,8 +95,8 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         alt={product?.name}
                         width={168}
                         height={168}
-                        className="w-[168px] h-[168px]"
-                    // onClick={() => showModal(product?.variantId)}
+                        className="w-[168px] h-[168px] cursor-pointer object-cover"
+                        onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                         {showAM && (
@@ -46,11 +121,11 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                 {/* Text Content */}
                 <div className="flex flex-col gap-[16px] flex-1">
                     <div className="flex flex-col gap-[4px]">
-                        <p className="font-lato font-[500] text-[18px] text-Text/Heading-Text">
+                        <p className="font-lato font-[700] text-[18px] text-Text/Heading-Text">
                             {product?.name}
                         </p>
                         {product?.composition && (
-                            <p className="font-lato font-[500] text-[18px] text-Text/Heading-Text">
+                            <p className="font-lato font-[500] text-[16px] text-Text/Heading-Text italic">
                                 {product?.composition}
                             </p>
                         )}
@@ -67,7 +142,7 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                     </div>
 
                     {product?.tags?.length > 0 && (
-                        <div className="flex gap-[8px] flex-wrap">
+                        <div className={`flex gap-[8px] flex-wrap ${isOptional || enableAddToCart ? '2xl:w-[490px] md:w-[300px]' : ''}`}>
                             {product.tags.map((tag, index) => (
                                 <div
                                     key={index}
@@ -91,40 +166,40 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                                 <span className="w-[20px] h-[20px] mr-[4px]">★</span>
                                 {product?.rating} ({product?.ratingPeopleCount})
                             </p>
-                            <p className="font-lato font-[600] text-[16px] text-Text/Heading-Text">
+                            <p className="font-lato font-[700] text-[16px] text-Text/Heading-Text">
                                 ₹{product?.price}
                             </p>
                         </div>
                     )}
 
                     {product?.description && (
-                        <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%]">
+                        <p className={`font-lato font-[400] ${isOptional || enableAddToCart ? '' : ''} text-[16px] text-Text/Body-Text -tracking-[1%]`}>
                             {product.description}
                         </p>
                     )}
-                    {(isOptional || enableAddToCart) && (
-                        <div className={` `}
-                            onClick={() => {
-                                if (!isOptional) { addProductToCart(product) }
-                            }}>
-                            <AcneTakeTheSkinTest
-                                text={isOptional ? "Added" : "Add To Bag"}
-                                variant={isOptional ? "disabled" : "blue"}
-                                tm={" "}
-                                size={"desktopBig"}
-                                deskSize={"desktopBig"}
 
-                            />
+                    {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
+                        <div
+                            className="inline-block md:inline-block"
+                            onClick={!isLoading ? handleButtonClick : undefined}
+                        >
+                            {isLoading ? <Loader /> : <AcneTakeTheSkinTest
+                                text={getButtonText()}
+                                variant={getButtonVariant()}
+                                tm={" "}
+                                size={"desktopLarge"}
+                                deskSize={"desktopLarge"}
+                            />}
                         </div>
                     )}
                 </div>
-            </div >
+            </div>
 
             {/* Mobile View */}
-            < div className="flex md:hidden flex-col gap-[12px]  p-[12px]  relative" >
+            <div className="flex md:hidden flex-col gap-[12px]  p-[12px]  relative" >
 
                 {/* AM/PM icons */}
-                < div className="absolute top-[8px] left-[8px] flex flex-col gap-[4px]" >
+                <div className="absolute top-[8px] left-[8px] flex flex-col gap-[4px]" >
                     {showAM && (
                         <div className="flex items-center gap-1">
                             <Image src={AMIcon} alt="AM" width={16} height={16} />
@@ -144,29 +219,29 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                             </div>
                         )
                     }
-                </div >
+                </div>
 
                 {/* Product Image */}
-                < div className="w-full flex justify-center" >
+                <div className="w-full flex justify-center" >
                     <Image
                         src={product?.image}
                         alt={product?.name}
                         width={300}
                         height={220}
-                        className="object-contain w-[300px] h-[220px]"
-                    // onClick={() => showModal(product?.variantId)}
+                        className="object-contain w-[300px] h-[220px] cursor-pointer"
+                        onClick={() => showModal(product?.variantId)}
                     />
-                </div >
+                </div>
 
                 {/* Title + Price */}
-                < div className="flex justify-between items-center" >
+                <div className="flex justify-between items-center gap-[4px]" >
                     <p className="font-lato font-[600] text-[18px]  text-primary/700 leading-[140%]">
                         {product?.name}
                     </p>
                     <p className="font-lato font-[500] text-[18px]  text-color/cyan/6 leading-[23px]">
                         ₹{product?.price}
                     </p>
-                </div >
+                </div>
 
                 {/* Rating */}
                 {
@@ -227,24 +302,22 @@ const ProductCard = ({ product, showAM, showPM, isOptional = false, addProductTo
                         </p>
                     )
                 }
-                {
-                    (isOptional || enableAddToCart) && (
-                        <div className={`flex justify-center `}
-                            onClick={() => {
-                                if (!isOptional) { addProductToCart(product) }
-
-                            }}>
-                            <AcneTakeTheSkinTest
-                                text={isOptional ? "Added" : "Add To Bag"}
-                                variant={isOptional ? "disabled" : "blue"}
-                                tm={" "}
-                                size={"mobileSmall"}
-                                deskSize={"mobileSmall"}
-                            />
-                        </div>
-                    )
-                }
-            </div >
+                {(isOptional || enableAddToCart || wasOptionalAndAdded) && (
+                    <div
+                        className={`flex justify-center`}
+                        onClick={!isLoading ? handleButtonClick : undefined}
+                    >
+                        {isLoading ? <Loader /> : <AcneTakeTheSkinTest
+                            text={getButtonText()}
+                            variant={getButtonVariant()}
+                            tm={" "}
+                            size={"mobileLarge"}
+                            deskSize={"mobileLarge"}
+                            loading={isLoading}
+                        />}
+                    </div>
+                )}
+            </div>
 
 
         </>
