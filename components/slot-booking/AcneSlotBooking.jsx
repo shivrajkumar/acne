@@ -45,14 +45,15 @@ function BookFreeCall({
     // Initial setup
     handleResize();
 
-    // Only set loading false if there are slots
-    if (availableDates.length > 0) {
-      setIsLoadingSlots(false);
+   // Set loading to false regardless of whether there are slots or not
+    setIsLoadingSlots(false);
 
-      // Auto-select the first available date if none selected
-      if (!selectedDate) {
-        setSelectedDate(availableDates[0]);
-      }
+    // Auto-select the first available date if none selected and there are dates
+    if (availableDates.length > 0 && !selectedDate) {
+      setSelectedDate(availableDates[0]);
+    } else {
+      // Set loading to false even when no slots to show the empty state
+      setIsLoadingSlots(false);
     }
 
     // Listen for resize
