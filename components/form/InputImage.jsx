@@ -88,11 +88,9 @@ const InputImage = ({ block }) => {
           return;
         }
         dataUri = await fileToDataUri(_image);
-        window.localStorage.setItem("photo_acne", dataUri);
       } else {
         _image = await convertBase64URItoBlob(imageUri);
         dataUri = imageUri;
-        window.localStorage.setItem("photo_acne", dataUri);
       }
 
       setShowButton(true);
@@ -108,9 +106,18 @@ const InputImage = ({ block }) => {
 
       if (isEmpty(_result.compressedImage)) return;
 
-      // Store the new compressed image
-      window.localStorage.setItem("acneImage", JSON.stringify(_result.compressedImage));
-      setReply(_result.compressedImage);
+      // Store the new compressed image with error handling for localStorage
+      try {
+        window.localStorage.setItem("photo_acne", dataUri);
+        window.localStorage.setItem("acneImage", JSON.stringify(_result.compressedImage));
+      } catch (storageError) {
+        if (storageError.name === 'QuotaExceededError') {
+          // If localStorage is full, use the compressed image directly
+          console.warn('Local storage quota exceeded. Using compressed image without storing.');
+        } else {
+          throw storageError;
+        }
+      }
 
       saveReply(block.id, _result.compressedImage);
       window.localStorage.setItem("form_status", "semi-filled");
@@ -119,9 +126,11 @@ const InputImage = ({ block }) => {
       // Always set the new compressed image
       setCompressedImage(_result.compressedImage);
       setStoredImg(false); // Reset stored image flag to use object URL
+      setReply(_result.compressedImage);
     } catch (error) {
       console.error("Image upload error:", error);
       setErr("Failed to upload image. Please try again.");
+      setShowButton(false);
     }
   };
 
@@ -316,7 +325,7 @@ const InputImage = ({ block }) => {
                 <Image
                   src={front_view}
                   alt="selfie"
-                  className=" w-[330px] h-[300px] object-scale-down align-middle cursor-pointer py-5 pt-7"
+                  className=" object-contain align-middle cursor-pointer "
                   width={330}
                   height={300}
                   priority={false}
@@ -383,6 +392,7 @@ const InputImage = ({ block }) => {
                   id="acne_submit"
                   onClick={() => _handleSubmit()}
                   className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
+                  disabled={compressingImage}
                 >
                   {compressingImage ? (
                     <span className="animate-pulse">Processing</span>
@@ -397,6 +407,8 @@ const InputImage = ({ block }) => {
                     id="acne_submit"
                     onClick={() => _handleSubmit()}
                     className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
+                    disabled={compressingImage}
+
                   >
                     {compressingImage ? (
                       <span className="animate-pulse">Processing</span>
