@@ -1,7 +1,7 @@
 "use client";
 import CartDetails from "./CartDetails";
 import { useCartContext } from "../../context/CartContext";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import ProductCard from "./ProductCard";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { Modal } from "antd";
@@ -10,6 +10,7 @@ import ProductPageModal from "./ProductDetailsModal";
 import Image from "next/image";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { logGtmEvent } from "../generic/Gtm";
+import useMediaQuery from "@/hooks/useMediaQuerry";
 
 const OrderSummary = () => {
   const { productsDetails, optionalProductsDetails, addProductToCart } = useCartContext();
@@ -17,8 +18,32 @@ const OrderSummary = () => {
   const [selectedVariantId, setSelectedVariantId] = useState(null);
   const [hasTrackedOptionalProductSeen, setHasTrackedOptionalProductSeen] = useState(false);
   const optionalProductsSectionRef = useRef(null);
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isModalOpenRef = useRef(false);
 
   useBodyScrollLock(isModalOpen);
+
+  // Sync ref with modal state to avoid stale values in event listeners (closure issue)
+  useEffect(() => {
+    isModalOpenRef.current = isModalOpen; // Update ref whenever modal state changes
+  } , [isModalOpen]);
+
+  // Handle mobile back button to close modal instead of navigating
+  useEffect(() => {
+    if (isDesktop) return; // Skip on desktop
+
+    const handlePopState = (e) => {
+      // Use ref to get current modal state (avoids stale closure)
+      if (isModalOpenRef.current) {
+        e.preventDefault(); // Prevent default back nav
+        setIsModalOpen(false);
+        setSelectedVariantId(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isDesktop]);
 
   useEffect(() => {
     // Only proceed if there are optional products and event hasn't been tracked
@@ -60,15 +85,32 @@ const OrderSummary = () => {
     }
   }, [optionalProductsDetails, hasTrackedOptionalProductSeen]);
 
-  const showModal = (variantId) => {
-    setSelectedVariantId(`${variantId}_PDP`);
+  const showModal = useCallback((variantId) => {
+    const fullVariantId = `${variantId}_PDP`;
+    setSelectedVariantId(fullVariantId);
     setIsModalOpen(true);
-  };
 
-  const handleCancel = () => {
+    // Push a history state to handle back button on mobile
+    if (!isDesktop) {
+      window.history.pushState(
+        { modalOpen: true, variantId: fullVariantId }, // state
+        '', // title (ignored)
+        window.location.href // no URL change
+      );
+    }
+  }, [isDesktop]);
+
+
+  const handleCancel = useCallback(() => {
     setIsModalOpen(false);
     setSelectedVariantId(null);
-  };
+
+    // Remove virtual history entry added for modal on mobile
+    if (!isDesktop && window.history.state?.modalOpen) {
+      window.history.back();
+    }
+  }, [isDesktop]);
+
 
   // Helper function to determine which icons to show based on dosageCode
   const getDosageIcons = (dosageCode) => {
@@ -174,12 +216,24 @@ const OrderSummary = () => {
           xl: '70%',
           xxl: '70%',
         }}
-        styles={{ body: { position: "relative" } }}
+       centered={isDesktop}
+      styles={{ 
+            body: { 
+              position: "relative",
+              borderRadius: 0,
+            },
+            content: {
+              borderRadius: 0,
+            },
+            mask: {
+              borderRadius: 0,
+            }
+          }}
       >
         {/* Custom Close Button */}
         <button
           onClick={handleCancel}
-          className="absolute md:top-[-22px]  top-[-56px] right-[-24px] md:right-[-60px] h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
+          className="absolute top-[-56px] right-[-24px] m h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
         >
           <Image src={closeIcon} alt="close-icon" width={20} height={20} />
         </button>
