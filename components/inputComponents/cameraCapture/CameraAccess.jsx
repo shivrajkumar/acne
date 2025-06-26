@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import closeIcon from "@assets/icons/close-circle.png";
 import { CDN_BASE_URL } from "@/constants/constants";

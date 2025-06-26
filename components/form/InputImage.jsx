@@ -79,7 +79,6 @@ const InputImage = ({ block }) => {
   const handleImageUpload = async ({ target }, captured, imageUri) => {
     let _image;
     let dataUri;
-
     try {
       if (!captured) {
         _image = target.files[0];
@@ -87,10 +86,14 @@ const InputImage = ({ block }) => {
           // If no new image is selected, do nothing
           return;
         }
+        logGtmEvent('image_upload_success', { location: window?.location?.pathname, question: block.id });
+
         dataUri = await fileToDataUri(_image);
       } else {
+        logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block.id });
         _image = await convertBase64URItoBlob(imageUri);
         dataUri = imageUri;
+        logGtmEvent('image_takepicture_success', { location: window?.location?.pathname, question: block.id });
       }
 
       setShowButton(true);
@@ -203,7 +206,7 @@ const InputImage = ({ block }) => {
 
   const handleCameraAccess = async () => {
     try {
-
+      logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block?.id });
       // Create a reusable notification component
       const createCameraNotification = () => (
         <>
@@ -277,6 +280,7 @@ const InputImage = ({ block }) => {
 
   const handleCamera = async () => {
     try {
+      logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block?.id });
 
       // Explicitly request camera access
       const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
@@ -311,6 +315,7 @@ const InputImage = ({ block }) => {
   };
 
   const openGallery = () => {
+    logGtmEvent('image_upload_opened', { location: window?.location?.pathname, question: block?.id });
     if (inputRef.current) {
       inputRef.current.click();
     }
