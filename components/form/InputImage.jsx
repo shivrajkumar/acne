@@ -79,7 +79,6 @@ const InputImage = ({ block }) => {
   const handleImageUpload = async ({ target }, captured, imageUri) => {
     let _image;
     let dataUri;
-
     try {
       if (!captured) {
         _image = target.files[0];
@@ -87,10 +86,14 @@ const InputImage = ({ block }) => {
           // If no new image is selected, do nothing
           return;
         }
+        logGtmEvent('image_upload_success', { location: window?.location?.pathname, question: block.id });
+
         dataUri = await fileToDataUri(_image);
       } else {
+        logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block.id });
         _image = await convertBase64URItoBlob(imageUri);
         dataUri = imageUri;
+        logGtmEvent('image_takepicture_success', { location: window?.location?.pathname, question: block.id });
       }
 
       setShowButton(true);
@@ -201,67 +204,118 @@ const InputImage = ({ block }) => {
     }
   };
 
-  // Camera access function with special handling for Android in-app browsers
   const handleCameraAccess = async () => {
     try {
-      const permissionStatus = await navigator.permissions.query({ name: 'camera' });
+      logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block?.id });
+      // Create a reusable notification component
+      const createCameraNotification = () => (
+        <>
+          <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+            <span>Please enable camera access</span>
+          </div>
+          <div
+            className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
+            onClick={() => {
+              handleCamera();
+            }}
+          >
+            {"Open Camera"}
+          </div>
+        </>
+      );
 
-      if (permissionStatus.state === 'denied') {
-        setNotify(
-          <>
-            <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-              <span>Tap</span>
-              <Image src={settingIcon} width={24} height={24} alt="settings" />
-              <span>and turn on camera to grant permission</span>
-            </div>
-            <span className="flex justify-center items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">and then click on Open Camera</span>
-            <div
-              className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
-              onClick={handleCamera}
-            >
-              {"Open Camera"}
-            </div>
-          </>
-        );
-        return false;
+      // Check permission status
+      const permissionStatus = await navigator?.permissions?.query({ name: 'camera' });
+
+      // Handle different permission states
+      switch (permissionStatus.state) {
+        case 'granted':
+          try {
+            const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
+
+            // Close the stream immediately
+            stream.getTracks().forEach(track => track.stop());
+
+            setShowCam(true);
+            setNotify(null);
+            return true;
+          } catch (mediaError) {
+            console.error("Error getting user media:", mediaError);
+            setNotify(createCameraNotification());
+            return false;
+          }
+
+        case 'denied':
+          setNotify(
+            <>
+              <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+                <span>Camera access is currently blocked</span>
+              </div>
+              {createCameraNotification()}
+            </>
+          );
+          return false;
+
+        case 'prompt':
+        default:
+          setNotify(createCameraNotification());
+          return false;
       }
-
-      await navigator.mediaDevices.getUserMedia({ video: true });
-      setNotify(null);
-      return true;
     } catch (error) {
-      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-        setNotify(
-          <>
-            <div className="w-full flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-              <span>Please enable camera permission for your browser and then click on Open Camera</span>
-            </div>
-            <div
-              className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full mt-6"
-              onClick={handleCamera}
-            >
-              {"Open Camera"}
-            </div>
-          </>
-        );
-      } else {
-        console.error('Error accessing the camera:', error);
-        setNotify('An unexpected error occurred. Please check your camera settings.');
-      }
+      console.error("Unexpected error in handleCameraAccess:", error);
+
+      // Fallback notification with Open Camera button
+      setNotify(
+        <>
+          <div className="w-full flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+            <span>An unexpected error occurred</span>
+          </div>
+          {createCameraNotification()}
+        </>
+      );
+
       return false;
     }
   };
 
   const handleCamera = async () => {
-    const hasPermission = await handleCameraAccess();
-    if (hasPermission) {
+    try {
+      logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block?.id });
+
+      // Explicitly request camera access
+      const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
+
+      // Close the stream immediately
+      stream.getTracks().forEach(track => track.stop());
+
       setShowCam(true);
-    } else {
-      setErrNotify('Camera permission still not allowed')
+      setNotify(null);
+    } catch (error) {
+      console.error("Camera access failed:", error);
+
+      // Detailed error handling
+      const errorMessage = error.name === 'NotAllowedError'
+        ? "Camera access was denied. Please check your browser settings."
+        : "An error occurred while accessing the camera.";
+
+      setNotify(
+        <>
+          <div className="text-red-500 mb-4 text-center flex justify-center">{errorMessage}</div>
+          <div
+            className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full"
+            onClick={() => {
+              handleCamera();
+            }}
+          >
+            {"Retry Open Camera"}
+          </div>
+        </>
+      );
     }
   };
 
   const openGallery = () => {
+    logGtmEvent('image_upload_opened', { location: window?.location?.pathname, question: block?.id });
     if (inputRef.current) {
       inputRef.current.click();
     }
@@ -352,7 +406,7 @@ const InputImage = ({ block }) => {
                 onClick={() => {
                   handleCameraAccess();
                   setShowCam(true);
-                }}              >
+                }}             >
                 {"Take A Picture"}
               </button>
             </div>
@@ -428,6 +482,7 @@ const InputImage = ({ block }) => {
             err={notify}
             inputRef={inputRef}
             errNotify={errNotify}
+            key={Date.now()}
           />
         )}
       </div>
