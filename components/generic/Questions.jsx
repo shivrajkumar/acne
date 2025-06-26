@@ -36,6 +36,7 @@ const Questions = () => {
   const [tabClosed, setTabClosed] = useState("");
   const [isReload, setIsReload] = useState(false);
 
+
   // const pathname = usePathname();
   // const searchParams = useSearchParams();
   // const _page = searchParams.get("page");
@@ -90,32 +91,46 @@ const Questions = () => {
   }
 
   useEffect(() => {
-    // Check if page was reloaded
-    if (window.performance && performance.navigation.type === 1) {
-      setIsReload(true);
+    if (typeof window !== 'undefined') {
+      let isReloadDetected = false;
+
+      // Use modern reload detection
+      try {
+        const navEntry = performance.getEntriesByType("navigation")[0];
+        if (navEntry?.type === "reload") {
+          isReloadDetected = true;
+        }
+        setIsReload(isReloadDetected);
+      } catch (e) {
+        // fallback - no crash
+        setIsReload(false);
+      }
+
+      try {
+        const val = localStorage?.getItem("form_status");
+        const tabStatus = localStorage?.getItem("tabclosed");
+
+        // fallback defaults
+        setFormStatus(val || "");
+        setTabClosed(tabStatus || "false");
+      } catch (err) {
+        // Safari/localStorage blocked or unavailable
+        setFormStatus("");
+        setTabClosed("false");
+      }
+
+      // Save tabclosed on unload
+      const handleBeforeUnload = () => {
+        try {
+          localStorage.setItem("tabclosed", "true");
+        } catch (err) {
+          // fail silently
+        }
+      };
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => window.removeEventListener("beforeunload", handleBeforeUnload);
     }
-
-    // Restore saved state if available
-    const val = window.localStorage.getItem("form_status");
-    const tabStatus = window.localStorage.getItem("tabclosed");
-    if (tabStatus) {
-      setTabClosed(tabStatus);
-    }
-    if (val) {
-      setFormStatus(val);
-    }
-
-    // Set up proper event listener for tab/window closing
-    const handleBeforeUnload = () => {
-      window.localStorage.setItem("tabclosed", "true");
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Clean up event listener on unmount
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
   }, []);
 
 

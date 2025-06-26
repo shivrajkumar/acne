@@ -11,14 +11,28 @@ const cautionIcon = `${CDN_BASE_URL}website_images/localImages/caution_icon.webp
 const CameraAccess = ({ getImage, setShowCam, inputRef, err, errNotify }) => {
   const webcamRef = useRef(null);
   const wrapperRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState(null);
 
   const capturePhoto = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
-    getImage({}, true, imageSrc);
-    setShowCam(false);
+    try {
+      if (!webcamRef.current) {
+        console.error("Webcam ref is not available");
+        return;
+      }
+
+      const imageSrc = webcamRef.current.getScreenshot();
+
+      if (imageSrc) {
+        getImage({}, true, imageSrc);
+        setShowCam(false);
+      } else {
+        console.error("Failed to capture screenshot");
+      }
+    } catch (error) {
+      console.error("Error capturing photo:", error);
+    }
   };
+
+
 
   return (
     <div className="fixed top-0 left-0 w-full h-[100vh] bg-black z-50 overflow-hidden">
