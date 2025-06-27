@@ -227,6 +227,20 @@ const InputImage = ({ block }) => {
       // Check permission status
       const permissionStatus = await navigator?.permissions?.query({ name: 'camera' });
 
+      permissionStatus.onchange = async() => {
+        if (permissionStatus.state === 'denied') {
+        setNotify(
+            <>
+              <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+                <span>Camera access is currently blocked</span>
+              </div>
+              {createCameraNotification()}
+            </>
+          );
+          return false;
+        }
+      }
+
       // Handle different permission states
       switch (permissionStatus.state) {
         case 'granted':
@@ -257,6 +271,8 @@ const InputImage = ({ block }) => {
           return false;
 
         case 'prompt':
+          return false;
+
         default:
           setNotify(createCameraNotification());
           return false;
