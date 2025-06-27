@@ -224,59 +224,76 @@ const InputImage = ({ block }) => {
         </>
       );
 
-      // Check permission status
-      const permissionStatus = await navigator?.permissions?.query({ name: 'camera' });
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-      permissionStatus.onchange = async() => {
-        if (permissionStatus.state === 'denied') {
-        setNotify(
-            <>
-              <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-                <span>Camera access is currently blocked</span>
-              </div>
-              {createCameraNotification()}
-            </>
-          );
+      if (isSafari || !navigator.permissions) {
+        // Fallback for iOS Safari
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          stream.getTracks().forEach(track => track.stop());
+          setShowCam(true);
+          setNotify(null);
+          return true;
+        } catch (error) {
+          console.error("Safari fallback error:", error);
+          setNotify(createCameraNotification());
           return false;
+        }
+      } else {
+        const permissionStatus = await navigator.permissions.query({ name: 'camera' });
+
+        permissionStatus.onchange = async() => {
+          if (permissionStatus.state === 'denied') {
+          setNotify(
+              <>
+                <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+                  <span>Camera access is currently blocked</span>
+                </div>
+                {createCameraNotification()}
+              </>
+            );
+            return false;
+          }
+        }
+
+        // Handle different permission states
+        switch (permissionStatus.state) {
+          case 'granted':
+            try {
+              const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
+
+              // Close the stream immediately
+              stream.getTracks().forEach(track => track.stop());
+
+              setShowCam(true);
+              setNotify(null);
+              return true;
+            } catch (mediaError) {
+              console.error("Error getting user media:", mediaError);
+              setNotify(createCameraNotification());
+              return false;
+            }
+
+          case 'denied':
+            setNotify(
+              <>
+                <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
+                  <span>Camera access is currently blocked</span>
+                </div>
+                {createCameraNotification()}
+              </>
+            );
+            return false;
+
+          case 'prompt':
+            return false;
+
+          default:
+            setNotify(createCameraNotification());
+            return false;
         }
       }
 
-      // Handle different permission states
-      switch (permissionStatus.state) {
-        case 'granted':
-          try {
-            const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
-
-            // Close the stream immediately
-            stream.getTracks().forEach(track => track.stop());
-
-            setShowCam(true);
-            setNotify(null);
-            return true;
-          } catch (mediaError) {
-            console.error("Error getting user media:", mediaError);
-            setNotify(createCameraNotification());
-            return false;
-          }
-
-        case 'denied':
-          setNotify(
-            <>
-              <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
-                <span>Camera access is currently blocked</span>
-              </div>
-              {createCameraNotification()}
-            </>
-          );
-          return false;
-
-        case 'prompt':
-          return false;
-
-        default:
-          setNotify(createCameraNotification());
-          return false;
-      }
     } catch (error) {
       console.error("Unexpected error in handleCameraAccess:", error);
 
