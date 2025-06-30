@@ -77,7 +77,6 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     ? prescriptionData[0]
     : null;
 
-  console.log("prescriptionInfo", prescriptionInfo);
 
   return (
     <div
