@@ -77,6 +77,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     ? prescriptionData[0]
     : null;
 
+
   return (
     <div
       className=" overflow-hidden  md:mx-auto font-lato md:w-[360px]"
@@ -84,7 +85,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     >
       {Array.isArray(prescriptionData) && prescriptionData.length > 0 ? (
         <>
-          <div className="flex-1 pb-[120px]" ref={contentRef}>
+          <div className="flex-1 " ref={contentRef}>
             {/* Header */}
             <div className="bg-white h-[48px] flex flex-col gap-4 justify-center">
               <h1 className="text-text-icon/title text-[24px] leading-[130%] font-[400] pl-2">
@@ -119,6 +120,23 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     </p>
                   </div>
                 </div>
+                {prescriptionInfo?.secondaryDoctorInfo &&
+                  <div className="flex flex-col gap-2">
+                    <div>
+                      <p className="text-[14px] font-[400] leading-[140%]">
+                        {prescriptionInfo?.secondaryDoctorInfo?.firstName}{" "}
+                        {prescriptionInfo?.secondaryDoctorInfo?.lastName}
+                      </p>
+                      <p className="text-[14px] font-[400] leading-[140%]">
+                        {prescriptionInfo?.secondaryDoctorInfo?.qualifications[0]}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[12px] font-[400] leading-[150%] w-[130px] text-wrap">
+                        Reg No. - {prescriptionInfo?.secondaryDoctorInfo?.registrationNumber}
+                      </p>
+                    </div>
+                  </div>}
               </div>
             </div>
             {/* Patient Info */}
@@ -201,7 +219,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                       </div>
                       <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
                         <p>{medicine?.description}</p>
-                        <p>{medicine?.category.toLowerCase()==="ayurveda"?<span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
+                        <p>{medicine?.category.toLowerCase() === "ayurveda" ? <span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
                       </div>
                     </div>
                   ))}
@@ -238,6 +256,19 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                   {prescriptionInfo?.doctorInfo?.qualifications[0]}
                 </p> */}
               </div>
+              {prescriptionInfo?.secondaryDoctorInfo &&
+                <div className="col-span-1 ">
+                  <div className="h-[300px] w-full mb-1 ">
+                    <img
+                      src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
+                      alt="Doctor Signature "
+                      height={140}
+                      width={258}
+                      className="w-[158px] h-[140px] object-contain"
+                    />
+                  </div>
+                </div>
+              }
             </div>
           </div>
 
@@ -274,8 +305,9 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </p>
           </div>
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 
