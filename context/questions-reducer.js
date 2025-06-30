@@ -1,6 +1,7 @@
 import * as ACTIONS from "./questions-actions";
 import getQuestions from "./getQuestions";
 import { normalize, schema } from "normalizr";
+import getQueryStrings from "./getQueryStrings";
 
 const questionsReducer = (state, action) => {
   switch (action.type) {
@@ -288,6 +289,69 @@ const questionsReducer = (state, action) => {
         ...state,
         userFormResponses: action.payload,
       };
+    }
+    case ACTIONS.RESET_STATE: {
+      const currentQuestions = state.byId;
+      const currentFirstQuestion = state.firstQuestion;
+
+      // Partial reset while preserving question structure
+      const resetState = {
+        byId: currentQuestions,
+        currentQuestion: currentQuestions[currentFirstQuestion] || {},
+        questions: state.questions,
+        firstQuestion: currentFirstQuestion,
+        previousQuestions: [],
+        apiResponse: {},
+        selectedSlots: {},
+        queryStrings: getQueryStrings(),
+        previewURL: "",
+        slots: [],
+        allQuestionsFilled: false,
+        isHindi: false,
+        isMale: null,
+      };
+
+      try {
+        const localStorageItemsToRemove = [
+          "form_status",
+          "user_phone",
+          "user_email",
+          "user_tid",
+          "syntheticId",
+          "state" + window.location.pathname,
+        ];
+
+        localStorageItemsToRemove.forEach((item) => {
+          try {
+            localStorage.removeItem(item);
+          } catch (err) {
+            console.warn(`Failed to remove localStorage item: ${item}`, err);
+          }
+        });
+
+        Object.keys(resetState.byId).forEach((key) => {
+          delete resetState.byId[key].reply;
+          delete resetState.byId[key].genderReply;
+          delete resetState.byId[key].otherAttributes;
+        });
+
+        if (typeof document !== "undefined") {
+          const cookiesToRemove = [
+            "Transaction_ID",
+            "Synthetic_ID",
+            "form_status",
+            "user_basic_info",
+          ];
+
+          cookiesToRemove.forEach((cookieName) => {
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${COOKIES_DOMAIN}`;
+          });
+        }
+      } catch (error) {
+        console.error("Error during state reset:", error);
+      }
+
+      return resetState;
     }
 
     default:

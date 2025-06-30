@@ -35,7 +35,7 @@ const VayuQuestionsContextProvider = ({ children }) => {
       GET_USER_FORM_RESPONSES(state.apiResponse.transactionId)
     );
     if (result.status === 200) {
-      const {data}=result;
+      const { data } = result;
       dispatch({ type: ACTIONS.SAVE_USER_FORM_RESPONSES, payload: data });
     }
   };
@@ -122,6 +122,10 @@ const VayuQuestionsContextProvider = ({ children }) => {
     });
   };
 
+  const resetState = () => {
+    dispatch({ type: ACTIONS.RESET_STATE });
+  };
+
   return (
     <QuestionsContext.Provider
       value={{
@@ -153,6 +157,7 @@ const VayuQuestionsContextProvider = ({ children }) => {
         setQuestionAttributes,
         changeLanguage,
         setIsMale,
+        resetState,
       }}
     >
       {children}

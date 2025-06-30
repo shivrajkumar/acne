@@ -31,6 +31,7 @@ export default function UserBasicInfoForm() {
     saveGenderReply,
     currentQuestion,
     saveApiResponse,
+    resetState,
     queryStrings: { utmData, cohort },
   } = useContext(QuestionsContext);
 
@@ -149,8 +150,34 @@ export default function UserBasicInfoForm() {
     return "";
   };
 
+  const clearPreviousResponses = () => {
+
+    // Reset context state completely
+    if (resetState && typeof resetState === 'function') {
+      resetState();
+    }
+
+    // Reset errors
+    setErrors({
+      fullName: "",
+      phoneNumber: "",
+      age: "",
+      gender: "",
+    });
+  };
+
+
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === 'phoneNumber') {
+      const currentStoredPhone = window.localStorage.getItem('user_phone')?.substring(3);
+      if (currentStoredPhone && currentStoredPhone !== value) {
+        clearPreviousResponses();
+      }
+    }
 
     // Update form data
     setFormData((prevData) => ({
