@@ -9,6 +9,9 @@ import Loader from "../generic/Loader";
 import moment from "moment";
 import { CDN_BASE_URL } from "@/constants/constants";
 import { downloadPDF } from "@/helpers/downloadPDF";
+//Need to remove these once the image assets are updated
+import DrSailendra from "@assets/images/Dr_Shailendra_Sign.webp";
+import DrSasiSign from "@assets/images/Dr_Sasi_Sign.webp";
 
 const AcnePrescriptionPage = ({ searchParams }) => {
   const [prescriptionData, setPrescriptionData] = useState([]);
@@ -77,10 +80,10 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     ? prescriptionData[0]
     : null;
 
-
+  console.log("prescriptonInfo", prescriptionData);
   return (
     <div
-      className=" overflow-hidden  md:mx-auto font-lato md:w-[360px]"
+      className="   md:mx-auto font-lato md:w-[360px]"
       id="pdf-content"
     >
       {Array.isArray(prescriptionData) && prescriptionData.length > 0 ? (
@@ -140,42 +143,38 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               </div>
             </div>
             {/* Patient Info */}
-            <div className=" px-[16px] py-[20px] bg-surface/disabled-state h-[132px]">
-              <div className="flex justify-between">
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                      {prescriptionInfo?.customerInfo?.firstName}{" "}
+            <div className="px-[16px] py-[20px] bg-surface/disabled-state h-auto">
+              <div className="flex justify-between gap-2 ">
+                <div className="flex flex-col gap-3 w-[60%]">
+                  <div className="overflow-hidden">
+                    <p className="text-text-icon/title text-[14px] leading-[140%] font-[400] break-words break-all">
+                      {prescriptionInfo?.customerInfo?.firstName}
                       {prescriptionInfo?.customerInfo?.lastName}
                     </p>
                     <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
                       {prescriptionInfo?.customerInfo?.age},{" "}
                       {prescriptionInfo?.customerInfo?.gender
-                        ? prescriptionInfo?.customerInfo?.gender.toLowerCase() ===
-                          "m"
+                        ? prescriptionInfo?.customerInfo?.gender.toLowerCase() === "m"
                           ? "Male"
                           : "Female"
                         : ""}
                     </p>
                   </div>
-
                   <div>
                     <p className="text-text-icon/label-tertiary text-[14px] font-[400] leading-[140%]">
                       {prescriptionInfo?.diagnosisType}
                     </p>
                     <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
-                      {prescriptionInfo?.diagnosis}
+                      {prescriptionInfo?.diagnosis?.split(",")[1] || "Moderate"}
                     </p>
                   </div>
                 </div>
-                <div>
+                <div className="">
                   <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                    {moment(prescriptionInfo?.customerInfo?.createdAt).format(
-                      "DD MMMM YYYY"
-                    )}
+                    {moment(prescriptionInfo?.customerInfo?.createdAt).format("DD MMMM, YYYY")}
                   </p>
-                  <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%]">
-                    {prescriptionInfo?.order?.orderDisplayId}
+                  <p className="text-text-icon/subtitle text-[12px] font-[400] leading-[150%] flex ">
+                    Order Id: {prescriptionInfo?.order?.orderDisplayId}
                   </p>
                 </div>
               </div>
@@ -227,7 +226,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </div>
 
             {/* Treatment Duration */}
-            <div className="p-[16px] mx-[16px] bg-surface/disabled-state flex flex-col gap-[8px]">
+            <div className="p-[16px]  bg-surface/disabled-state flex flex-col gap-[8px]">
               <h3 className="leading-[135%]  text-text-icon/body text-[18px] font-[400]">
                 {prescriptionInfo?.treatment?.title}
               </h3>
@@ -237,35 +236,48 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </div>
 
             {/* Doctor Signatures */}
-            <div className=" grid grid-cols-2 h-full ml-2">
-              <div className="col-span-1 p-[16px]">
-                <div className="h-[300px] w-full mb-1 ">
+            <div className=" flex justify-between py-[24px] px-[16px]">
+              <div className="col-span-1">
+                <div className="h-[200px] w-full mb-1 ">
                   <img
-                    src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
+                    // src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
+                    src={DrSailendra.src}
                     alt="Doctor Signature "
                     height={140}
                     width={258}
-                    className="w-[158px] h-[140px] object-contain"
+                    className="w-[158px] h-[40px] object-contain mb-[8px]"
                   />
+                  <div>
+                    <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
+                      {prescriptionInfo?.doctorInfo?.firstName}{" "}
+                      {prescriptionInfo?.doctorInfo?.lastName}
+                    </p>
+                    <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                      {prescriptionInfo?.doctorInfo?.qualifications[0]}
+                    </p>
+                  </div>
                 </div>
-                {/* <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                  {prescriptionInfo?.doctorInfo?.firstName}{" "}
-                  {prescriptionInfo?.doctorInfo?.lastName}
-                </p>
-                <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400]">
-                  {prescriptionInfo?.doctorInfo?.qualifications[0]}
-                </p> */}
               </div>
               {prescriptionInfo?.secondaryDoctorInfo &&
                 <div className="col-span-1 ">
-                  <div className="h-[300px] w-full mb-1 ">
+                  <div className="h-[200px] w-full mb-1  ">
                     <img
-                      src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
+                      // src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
+                      src={DrSasiSign.src}
                       alt="Doctor Signature "
                       height={140}
                       width={258}
-                      className="w-[158px] h-[140px] object-contain"
+                      className="w-[158px] h-[40px] object-contain mb-[8px]"
                     />
+                    <div>
+                      <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
+                        {prescriptionInfo?.secondaryDoctorInfo?.firstName}{" "}
+                        {prescriptionInfo?.secondaryDoctorInfo?.lastName}
+                      </p>
+                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                        {prescriptionInfo?.secondaryDoctorInfo?.qualifications[0]}
+                      </p>
+                    </div>
                   </div>
                 </div>
               }
