@@ -194,7 +194,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                   <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
                     Name
                   </div>
-                  <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
+                  <div className="p-2 ps-4 text-text-icon/subtitle leading-[20px] font-[400]">
                     Instructions
                   </div>
                 </div>
@@ -269,7 +269,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                   <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
                     Name
                   </div>
-                  <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
+                  <div className="p-2 ps-4 text-text-icon/subtitle leading-[20px] font-[400]">
                     Instructions
                   </div>
                 </div>
@@ -319,6 +319,13 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                       <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
                         {prescriptionInfo?.doctorInfo?.qualifications?.join(", ")}
                       </p>
+                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                        {prescriptionInfo?.doctorInfo?.registrationText}
+                      </p>
+                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]p">
+
+                        {prescriptionInfo?.doctorInfo?.registrationNumber}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -335,6 +342,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               <p className="text-text-icon/body text-[14px] font-[400] leading-[140%]">
                 {prescriptionInfo?.treatment?.description}
               </p>
+
             </div>
 
 
