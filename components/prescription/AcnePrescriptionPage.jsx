@@ -32,6 +32,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     try {
       const response = await fetchRequest(GET_PRESCRIPTION_API(orderId));
       setPrescriptionData(response.data);
+
     } catch (error) {
       console.error("Error fetching prescription data:", error);
       setError("Failed to load prescription data");
@@ -77,6 +78,10 @@ const AcnePrescriptionPage = ({ searchParams }) => {
   const prescriptionInfo = Array.isArray(prescriptionData)
     ? prescriptionData[0]
     : null;
+
+  const enableAyurvedicProducts = () => prescriptionInfo?.items?.some(
+    (item) => item?.category?.toLowerCase() === "ayurveda"
+  );
 
   return (
     <div
@@ -252,82 +257,83 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               <Divider />
             </div>
 
-            <div className="px-[16px] pb-[16px] pt-[0px]">
-              <div className="flex items-center">
-                <h2 className=" text-[18px] text-text-icon/body font-[400] leading-[135%] ">
-                  MEDICINE
-                </h2>
-              </div>
-
-              <div className="overflow-hidden">
-                {/* Table Header */}
-                <div className="grid grid-cols-2 font-medium text-sm">
-                  <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
-                    Name
-                  </div>
-                  <div className="p-2 ps-4 text-text-icon/subtitle leading-[20px] font-[400]">
-                    Instructions
-                  </div>
+            {enableAyurvedicProducts() &&
+              <div className="px-[16px] pb-[16px] pt-[0px]">
+                <div className="flex items-center">
+                  <h2 className=" text-[18px] text-text-icon/body font-[400] leading-[135%] ">
+                    MEDICINE
+                  </h2>
                 </div>
-                {/* Ayurvedic Medicines */}
 
-                {Array.isArray(prescriptionInfo?.items) &&
-                  prescriptionInfo.items.length > 0 &&
-                  prescriptionInfo?.items.map((medicine, index) => (
-                    medicine.category === "ayurveda" &&
-                    <div
-                      key={medicine?.id}
-                      className="grid grid-cols-2 bg-surface/disabled-state mb-2 rounded-[8px]"
-                    >
-                      <div className="p-4 flex gap-[8px] text-text-icon/title text-[14px] font-[400] leading-[140%]">
-                        <p className="font-[400]">{index + 1}</p>
-                        <div className="flex flex-col">
-                          <p className="font-[500]">{medicine?.productName}</p>
-                          <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
-                            {medicine?.size}
-                          </p>
+                <div className="overflow-hidden">
+                  {/* Table Header */}
+                  <div className="grid grid-cols-2 font-medium text-sm">
+                    <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
+                      Name
+                    </div>
+                    <div className="p-2 ps-4 text-text-icon/subtitle leading-[20px] font-[400]">
+                      Instructions
+                    </div>
+                  </div>
+
+                  {/* Ayurvedic Medicines */}
+                  {Array.isArray(prescriptionInfo?.items) &&
+                    prescriptionInfo.items.length > 0 &&
+                    prescriptionInfo?.items.map((medicine, index) => (
+                      medicine.category === "ayurveda" &&
+                      <div
+                        key={medicine?.id}
+                        className="grid grid-cols-2 bg-surface/disabled-state mb-2 rounded-[8px]"
+                      >
+                        <div className="p-4 flex gap-[8px] text-text-icon/title text-[14px] font-[400] leading-[140%]">
+                          <p className="font-[400]">{index + 1}</p>
+                          <div className="flex flex-col">
+                            <p className="font-[500]">{medicine?.productName}</p>
+                            <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
+                              {medicine?.size}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
+                          <p>{medicine?.description}</p>
+                          <p>{medicine?.category.toLowerCase() === "ayurveda" ? <span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
                         </div>
                       </div>
-                      <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
-                        <p>{medicine?.description}</p>
-                        <p>{medicine?.category.toLowerCase() === "ayurveda" ? <span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              {/* Doctor Signatures */}
-              <div className={` flex justify-between py-[10px] px-[16px] ${prescriptionInfo?.isLocked ? "blur-sm" : ""}`}>
-                <div className="col-span-1">
-                  <div className=" w-full mb-1 ">
-                    <img
-                      src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
-                      alt="Doctor Signature "
-                      height={140}
-                      width={258}
-                      className="w-[158px] h-[40px] object-contain mb-[8px]"
-                    />
-                    <div>
-                      <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                        {prescriptionInfo?.doctorInfo?.firstName}{" "}
-                        {prescriptionInfo?.doctorInfo?.lastName}
-                      </p>
-                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
-                        {prescriptionInfo?.doctorInfo?.qualifications?.join(", ")}
-                      </p>
-                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
-                        {prescriptionInfo?.doctorInfo?.registrationText}
-                      </p>
-                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]p">
+                    ))}
+                </div>
+                {/* Doctor Signatures */}
+                <div className={` flex justify-between py-[10px] px-[16px] ${prescriptionInfo?.isLocked ? "blur-sm" : ""}`}>
+                  <div className="col-span-1">
+                    <div className=" w-full mb-1 ">
+                      <img
+                        src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
+                        alt="Doctor Signature "
+                        height={140}
+                        width={258}
+                        className="w-[158px] h-[40px] object-contain mb-[8px]"
+                      />
+                      <div>
+                        <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
+                          {prescriptionInfo?.doctorInfo?.firstName}{" "}
+                          {prescriptionInfo?.doctorInfo?.lastName}
+                        </p>
+                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                          {prescriptionInfo?.doctorInfo?.qualifications?.join(", ")}
+                        </p>
+                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                          {prescriptionInfo?.doctorInfo?.registrationText}
+                        </p>
+                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]p">
 
-                        {prescriptionInfo?.doctorInfo?.registrationNumber}
-                      </p>
+                          {prescriptionInfo?.doctorInfo?.registrationNumber}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <Divider />
               </div>
-              <Divider />
-
-            </div>
+            }
 
             {/* Treatment Duration */}
             <div className="p-[16px]  bg-surface/disabled-state flex flex-col gap-[8px] mb-[70px]">
