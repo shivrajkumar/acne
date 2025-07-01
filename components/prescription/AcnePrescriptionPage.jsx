@@ -12,6 +12,7 @@ import { downloadPDF } from "@/helpers/downloadPDF";
 //Need to remove these once the image assets are updated
 import DrSailendra from "@assets/images/Dr_Shailendra_Sign.webp";
 import DrSasiSign from "@assets/images/Dr_Sasi_Sign.webp";
+import { Divider } from "antd";
 
 const AcnePrescriptionPage = ({ searchParams }) => {
   const [prescriptionData, setPrescriptionData] = useState([]);
@@ -80,7 +81,6 @@ const AcnePrescriptionPage = ({ searchParams }) => {
     ? prescriptionData[0]
     : null;
 
-  console.log("prescriptonInfo", prescriptionData);
   return (
     <div
       className="   md:mx-auto font-lato md:w-[360px]"
@@ -105,7 +105,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                 />
                 <img src={RxLogo.src} alt="Rx" height="32" width="25" />
               </div>
-              <div className=" flex justify-between mt-2  ">
+              <div className={` flex justify-between mt-2 ${prescriptionInfo?.isLocked ? "blur-sm" : ""} `}>
                 <div className="flex flex-col gap-2">
                   <div>
                     <p className="text-[14px] font-[400] leading-[140%]">
@@ -113,7 +113,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                       {prescriptionInfo?.doctorInfo?.lastName}
                     </p>
                     <p className="text-[14px] font-[400] leading-[140%]">
-                      {prescriptionInfo?.doctorInfo?.qualifications[0]}
+                      {prescriptionInfo?.doctorInfo?.qualifications?.join(", ")}
                     </p>
                   </div>
                   <div>
@@ -131,7 +131,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                         {prescriptionInfo?.secondaryDoctorInfo?.lastName}
                       </p>
                       <p className="text-[14px] font-[400] leading-[140%]">
-                        {prescriptionInfo?.secondaryDoctorInfo?.qualifications[0]}
+                        {prescriptionInfo?.secondaryDoctorInfo?.qualifications?.join(", ")}
                       </p>
                     </div>
                     <div>
@@ -143,7 +143,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               </div>
             </div>
             {/* Patient Info */}
-            <div className="px-[16px] py-[20px] bg-surface/disabled-state h-auto">
+            <div className={`px-[16px] py-[20px] bg-surface/disabled-state h-auto ${prescriptionInfo?.isLocked ? "blur-sm" : ""}`}>
               <div className="flex justify-between gap-2 ">
                 <div className="flex flex-col gap-3 w-[60%]">
                   <div className="overflow-hidden">
@@ -181,10 +181,10 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </div>
 
             {/* Medicine Section */}
-            <div className="p-[16px]">
-              <div className="flex items-center mb-4">
+            <div className="pt-[16px] px-[16px] py-[10px]">
+              <div className="flex items-center ">
                 <h2 className=" text-[18px] text-text-icon/body font-[400] leading-[135%] ">
-                  Medicine
+                  MEDICINE
                 </h2>
               </div>
 
@@ -203,6 +203,82 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                 {Array.isArray(prescriptionInfo?.items) &&
                   prescriptionInfo.items.length > 0 &&
                   prescriptionInfo?.items.map((medicine, index) => (
+                    medicine.category !== "ayurveda" &&
+                    <div
+                      key={medicine?.id}
+                      className={`grid grid-cols-2 bg-surface/disabled-state mb-2 rounded-[8px] `}
+                    >
+                      <div className="p-4 flex gap-[8px] text-text-icon/title text-[14px] font-[400] leading-[140%]">
+                        <p className="font-[400]">{index + 1}</p>
+                        <div className="flex flex-col">
+                          <p className="font-[500]">{medicine?.productName}</p>
+                          <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
+                            {medicine?.size}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
+                        <p>{medicine?.description}</p>
+                        <p>{medicine?.category.toLowerCase() === "ayurveda" ? <span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+              {/* Doctor Signatures */}
+              <div className={` flex justify-between py-[10px] px-[16px] ${prescriptionInfo?.isLocked ? "blur-sm" : ""}`}>
+                {prescriptionInfo?.secondaryDoctorInfo &&
+                  <div className="col-span-1 ">
+                    <div className=" w-full mb-1  ">
+                      <img
+                        // src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
+                        src={DrSasiSign.src}
+                        alt="Doctor Signature "
+                        height={140}
+                        width={258}
+                        className="w-[158px] h-[40px] object-contain mb-[8px]"
+                      />
+                      <div>
+                        <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
+                          {prescriptionInfo?.secondaryDoctorInfo?.firstName}{" "}
+                          {prescriptionInfo?.secondaryDoctorInfo?.lastName}
+                        </p>
+                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                          {prescriptionInfo?.secondaryDoctorInfo?.qualifications?.join(", ")}
+                        </p>
+                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                          Reg No. - {prescriptionInfo?.secondaryDoctorInfo?.registrationNumber}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+              <Divider />
+            </div>
+
+            <div className="px-[16px] pb-[16px] pt-[0px]">
+              <div className="flex items-center">
+                <h2 className=" text-[18px] text-text-icon/body font-[400] leading-[135%] ">
+                  MEDICINE
+                </h2>
+              </div>
+
+              <div className="overflow-hidden">
+                {/* Table Header */}
+                <div className="grid grid-cols-2 font-medium text-sm">
+                  <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
+                    Name
+                  </div>
+                  <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
+                    Instructions
+                  </div>
+                </div>
+                {/* Ayurvedic Medicines */}
+
+                {Array.isArray(prescriptionInfo?.items) &&
+                  prescriptionInfo.items.length > 0 &&
+                  prescriptionInfo?.items.map((medicine, index) => (
+                    medicine.category === "ayurveda" &&
                     <div
                       key={medicine?.id}
                       className="grid grid-cols-2 bg-surface/disabled-state mb-2 rounded-[8px]"
@@ -223,10 +299,36 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     </div>
                   ))}
               </div>
+              {/* Doctor Signatures */}
+              <div className={` flex justify-between py-[10px] px-[16px] ${prescriptionInfo?.isLocked ? "blur-sm" : ""}`}>
+                <div className="col-span-1">
+                  <div className=" w-full mb-1 ">
+                    <img
+                      // src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
+                      src={DrSailendra.src}
+                      alt="Doctor Signature "
+                      height={140}
+                      width={258}
+                      className="w-[158px] h-[40px] object-contain mb-[8px]"
+                    />
+                    <div>
+                      <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
+                        {prescriptionInfo?.doctorInfo?.firstName}{" "}
+                        {prescriptionInfo?.doctorInfo?.lastName}
+                      </p>
+                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
+                        {prescriptionInfo?.doctorInfo?.qualifications?.join(", ")}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Divider />
+
             </div>
 
             {/* Treatment Duration */}
-            <div className="p-[16px]  bg-surface/disabled-state flex flex-col gap-[8px]">
+            <div className="p-[16px]  bg-surface/disabled-state flex flex-col gap-[8px] mb-[70px]">
               <h3 className="leading-[135%]  text-text-icon/body text-[18px] font-[400]">
                 {prescriptionInfo?.treatment?.title}
               </h3>
@@ -235,64 +337,16 @@ const AcnePrescriptionPage = ({ searchParams }) => {
               </p>
             </div>
 
-            {/* Doctor Signatures */}
-            <div className=" flex justify-between py-[24px] px-[16px]">
-              <div className="col-span-1">
-                <div className="h-[200px] w-full mb-1 ">
-                  <img
-                    // src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
-                    src={DrSailendra.src}
-                    alt="Doctor Signature "
-                    height={140}
-                    width={258}
-                    className="w-[158px] h-[40px] object-contain mb-[8px]"
-                  />
-                  <div>
-                    <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                      {prescriptionInfo?.doctorInfo?.firstName}{" "}
-                      {prescriptionInfo?.doctorInfo?.lastName}
-                    </p>
-                    <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
-                      {prescriptionInfo?.doctorInfo?.qualifications[0]}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              {prescriptionInfo?.secondaryDoctorInfo &&
-                <div className="col-span-1 ">
-                  <div className="h-[200px] w-full mb-1  ">
-                    <img
-                      // src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
-                      src={DrSasiSign.src}
-                      alt="Doctor Signature "
-                      height={140}
-                      width={258}
-                      className="w-[158px] h-[40px] object-contain mb-[8px]"
-                    />
-                    <div>
-                      <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                        {prescriptionInfo?.secondaryDoctorInfo?.firstName}{" "}
-                        {prescriptionInfo?.secondaryDoctorInfo?.lastName}
-                      </p>
-                      <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
-                        {prescriptionInfo?.secondaryDoctorInfo?.qualifications[0]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
+
           </div>
 
-          <div className="fixed bottom-0 left-0 right-0 z-10 bg-white shadow-lg border-t border-Elements/Divider-Stroke  md:w-[360px] md:mx-auto">
-            <div className="flex justify-center items-center md:h-[104px] h-[88px] px-4">
-              <button
-                className="bg-Neutral/800 text-[#fff] hover:bg-Primary/500 hover:text-[#fff] w-[296px] h-[56px] px-[40px] py-[16px] rounded-[100px] font-medium transition-colors"
-                onClick={downloadPDF}
-              >
-                DOWNLOAD
-              </button>
-            </div>
+          <div className="fixed bottom-0 left-0 right-0 z-10  shadow-custom-top   md:w-[360px] md:mx-auto">
+            <button
+              className="bg-Neutral/800 text-[#fff] hover:bg-Primary/500 hover:text-[#fff] w-full h-[56px] px-[40px] py-[16px] font-medium transition-colors"
+              onClick={downloadPDF}
+            >
+              DOWNLOAD
+            </button>
           </div>
         </>
       ) : (
