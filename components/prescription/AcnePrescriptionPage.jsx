@@ -9,9 +9,6 @@ import Loader from "../generic/Loader";
 import moment from "moment";
 import { CDN_BASE_URL } from "@/constants/constants";
 import { downloadPDF } from "@/helpers/downloadPDF";
-//Need to remove these once the image assets are updated
-import DrSailendra from "@assets/images/Dr_Shailendra_Sign.webp";
-import DrSasiSign from "@assets/images/Dr_Sasi_Sign.webp";
 import { Divider } from "antd";
 
 const AcnePrescriptionPage = ({ searchParams }) => {
@@ -230,8 +227,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                   <div className="col-span-1 ">
                     <div className=" w-full mb-1  ">
                       <img
-                        // src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
-                        src={DrSasiSign.src}
+                        src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
                         alt="Doctor Signature "
                         height={140}
                         width={258}
@@ -304,8 +300,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                 <div className="col-span-1">
                   <div className=" w-full mb-1 ">
                     <img
-                      // src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
-                      src={DrSailendra.src}
+                      src={`${CDN_BASE_URL}${prescriptionInfo?.doctorInfo?.doctorSignature}`}
                       alt="Doctor Signature "
                       height={140}
                       width={258}
