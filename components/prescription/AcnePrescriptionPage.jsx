@@ -10,6 +10,7 @@ import moment from "moment";
 import { CDN_BASE_URL } from "@/constants/constants";
 import { downloadPDF } from "@/helpers/downloadPDF";
 import { Divider } from "antd";
+import PrescriptionProductList from "./PrescriptionProductList";
 
 const AcnePrescriptionPage = ({ searchParams }) => {
   const [prescriptionData, setPrescriptionData] = useState([]);
@@ -183,79 +184,18 @@ const AcnePrescriptionPage = ({ searchParams }) => {
             </div>
 
             {/* Medicine Section */}
-            <div className="pt-[16px] px-[16px] py-[10px]">
-              <div className="flex items-center ">
-                <h2 className=" text-[18px] text-text-icon/body font-[400] leading-[135%] ">
-                  MEDICINE
-                </h2>
-              </div>
+            <PrescriptionProductList
+              prescriptionInfo={prescriptionInfo?.items?.filter((prod) => prod?.category !== "ayurveda")}
+              doctorInfo={prescriptionInfo?.secondaryDoctorInfo}
+              isLocked={prescriptionInfo?.isLocked}
+              parseDosageToTimes={parseDosageToTimes} />
 
-              <div className="overflow-hidden">
-                {/* Table Header */}
-                <div className="grid grid-cols-2 font-medium text-sm">
-                  <div className="p-2 text-text-icon/subtitle leading-[20px] font-[400]">
-                    Name
-                  </div>
-                  <div className="p-2 ps-4 text-text-icon/subtitle leading-[20px] font-[400]">
-                    Instructions
-                  </div>
-                </div>
-
-                {/* Medicines */}
-                {Array.isArray(prescriptionInfo?.items) &&
-                  prescriptionInfo.items.length > 0 &&
-                  prescriptionInfo?.items.map((medicine, index) => (
-                    medicine.category !== "ayurveda" &&
-                    <div
-                      key={medicine?.id}
-                      className={`grid grid-cols-2 bg-surface/disabled-state mb-2 rounded-[8px] `}
-                    >
-                      <div className="p-4 flex gap-[8px] text-text-icon/title text-[14px] font-[400] leading-[140%]">
-                        <p className="font-[400]">{index + 1}</p>
-                        <div className="flex flex-col">
-                          <p className="font-[500]">{medicine?.productName}</p>
-                          <p className="text-text-icon/body text-[12px] font-[400] leading-[140%]">
-                            {medicine?.size}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="p-4 text-text-icon/body text-[12px] leading-[150%] font-[400] flex flex-col gap-[8px]">
-                        <p>{medicine?.description}</p>
-                        <p>{medicine?.category.toLowerCase() === "ayurveda" ? <span>Dosage: {medicine?.comment || medicine?.info}</span> : parseDosageToTimes(medicine?.dosage)}</p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              {/* Doctor Signatures */}
-              <div className={` flex justify-between py-[10px] px-[16px] ${prescriptionInfo?.isLocked ? "blur-sm" : ""}`}>
-                {prescriptionInfo?.secondaryDoctorInfo &&
-                  <div className="col-span-1 ">
-                    <div className=" w-full mb-1  ">
-                      <img
-                        src={`${CDN_BASE_URL}${prescriptionInfo?.secondaryDoctorInfo?.doctorSignature}`}
-                        alt="Doctor Signature "
-                        height={140}
-                        width={258}
-                        className="w-[158px] h-[40px] object-contain mb-[8px]"
-                      />
-                      <div>
-                        <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
-                          {prescriptionInfo?.secondaryDoctorInfo?.firstName}{" "}
-                          {prescriptionInfo?.secondaryDoctorInfo?.lastName}
-                        </p>
-                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
-                          {prescriptionInfo?.secondaryDoctorInfo?.qualifications?.join(", ")}
-                        </p>
-                        <p className="text-[12px] text-text-icon/label-tertiary leading-[150%] font-[400] mt-[2px]">
-                          Reg No. - {prescriptionInfo?.secondaryDoctorInfo?.registrationNumber}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                }
-              </div>
-              <Divider />
-            </div>
+            {enableAyurvedicProducts() &&
+              <PrescriptionProductList
+                prescriptionInfo={prescriptionInfo?.items?.filter((prod) => prod?.category === "ayurveda")}
+                doctorInfo={prescriptionInfo?.doctorInfo}
+                isLocked={prescriptionInfo?.isLocked} />
+            }
 
             {enableAyurvedicProducts() &&
               <div className="px-[16px] pb-[16px] pt-[0px]">
@@ -352,7 +292,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
           <div className="fixed bottom-0 left-0 right-0 z-10  shadow-custom-top   md:w-[360px] md:mx-auto">
             <button
               className="bg-Neutral/800 text-[#fff] hover:bg-Primary/500 hover:text-[#fff] w-full h-[56px] px-[40px] py-[16px] font-medium transition-colors"
-              onClick={downloadPDF}
+              onClick={() => downloadPDF(prescriptionInfo?.customerInfo?.firstName)}
             >
               DOWNLOAD
             </button>
