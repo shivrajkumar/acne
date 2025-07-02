@@ -158,6 +158,8 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
               setExpandedCourseDurationSec(!expandedCourseDurationSec)
             }
           >
+            {console.log(product, "product")}
+            
             <div className="flex items-center gap-2 mb-2">
               <div className="flex items-center text-[14px] text-primary/700 leading-[150%] font-[400]">
                 <Image src={tickIcon} alt="tick Icon" width={23} height={23} />
