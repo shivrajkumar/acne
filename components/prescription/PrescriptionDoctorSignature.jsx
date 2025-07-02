@@ -2,7 +2,7 @@ import { CDN_BASE_URL } from "@/constants/constants";
 
 const PrescriptionDoctorSignature = ({ doctorInfo, isLocked = false }) => {
     return (
-        <div className={` flex justify-between py-[10px] px-[16px] ${isLocked ? "blur-sm" : ""}`}>
+        <div className={` flex justify-between py-[16px] px-[16px] ${isLocked ? "blur-sm" : ""}`}>
             <div className="col-span-1">
                 <div className=" w-full mb-1 ">
                     <img
