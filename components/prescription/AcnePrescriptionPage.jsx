@@ -172,7 +172,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
                     </p>
                   </div>
                 </div>
-                <div className="">
+                <div className="text-right">
                   <p className="text-text-icon/title text-[14px] leading-[140%] font-[400]">
                     {moment(prescriptionInfo?.customerInfo?.createdAt).format("DD MMMM, YYYY")}
                   </p>
@@ -215,14 +215,14 @@ const AcnePrescriptionPage = ({ searchParams }) => {
 
           </div>
 
-          <div className="fixed bottom-0 left-0 right-0 z-10  shadow-custom-top   md:w-[360px] md:mx-auto">
+          {!prescriptionInfo?.isLocked && <div className="fixed bottom-0 left-0 right-0 z-10  shadow-custom-top   md:w-[360px] md:mx-auto">
             <button
               className="bg-Neutral/800 text-[#fff] hover:bg-Primary/500 hover:text-[#fff] w-full h-[56px] px-[40px] py-[16px] font-medium transition-colors"
               onClick={() => downloadPDF(prescriptionInfo?.customerInfo?.firstName)}
             >
               DOWNLOAD
             </button>
-          </div>
+          </div>}
         </>
       ) : (
         <>
