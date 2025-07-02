@@ -5,7 +5,7 @@ export default function page({ searchParams }) {
   return (
     <>
       <Suspense>
-        <AcnePrescriptionPage  searchParams={searchParams}/>
+        <AcnePrescriptionPage searchParams={searchParams} />
       </Suspense>
     </>
   );

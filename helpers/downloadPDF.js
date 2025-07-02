@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { message } from "antd";
 
-export const downloadPDF = async () => {
+export const downloadPDF = async (name = "") => {
   const element = document.getElementById("pdf-content");
   if (!element) return;
   const loadingMessage = message.loading("Generating PDF...", 0);
@@ -107,8 +107,9 @@ export const downloadPDF = async () => {
 
     loadingMessage();
     message.loading("Downloading PDF...", 0);
-
-    pdf.save("prescription.pdf");
+    if (name) {
+      pdf.save(`${name}_prescription.pdf`);
+    } else pdf.save("prescription.pdf");
 
     // Success message
     message.success("PDF downloaded successfully!");
