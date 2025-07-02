@@ -318,6 +318,8 @@ const questionsReducer = (state, action) => {
           "user_email",
           "user_tid",
           "syntheticId",
+          "photo_acne",
+          "acneImage",
           "state" + window.location.pathname,
         ];
 
