@@ -129,12 +129,12 @@ const OTPVerification = ({
             </button>
           )}
         </div>
-        <p className="text-center">
+        <div className="text-center">
           OTP Only for Development
           <p className="text-[#414042] text-md font-bold mt-2 text-center">
             OTP: {generatedOTP}
           </p>
-        </p>
+        </div>
 
 
         <LoginButton

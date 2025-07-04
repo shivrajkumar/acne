@@ -15,7 +15,7 @@ import { message } from "antd";
 
 const LoginPage = ({ closeModal }) => {
   const { login } = useAuth();
-  // const router = useRouter();
+  const router = useRouter();
 
   const [animate, setAnimate] = useState(false);
   const [phoneInput, setPhoneInput] = useState("");
@@ -81,7 +81,7 @@ const LoginPage = ({ closeModal }) => {
           setOtpError(false);
           setTimeLeft(30);
         } else {
-          setApiError("Failed to generate OTP. Please try again.");
+          setApiError(res.data?.message);
         }
       } catch (error) {
         console.error("Error generating OTP:", error);
@@ -129,10 +129,10 @@ const LoginPage = ({ closeModal }) => {
         })
       });
 
-      if (!res.hasError) {
+      if (res.status === 201) {
         const { data } = res;
         setTransactionId(data.transactionId);
-
+        setgeneratedOTP(data?.debug?.otp)
         setTimeLeft(30);
         setOtp(new Array(6).fill(""));
         setOtpError(false);
@@ -160,7 +160,7 @@ const LoginPage = ({ closeModal }) => {
           token: enteredOtp,
         }),
       });
-      if (res.status == 201) {
+      if (res.status === 201) {
         const { data } = res;
 
         const {
