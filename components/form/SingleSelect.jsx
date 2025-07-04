@@ -24,6 +24,7 @@ const SingleSelect = ({ block, context }) => {
   const [reply, setReply] = useState(null);
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const gender = localStorage.getItem("user_gender")
 
 
   useEffect(() => {
@@ -149,6 +150,9 @@ const SingleSelect = ({ block, context }) => {
                         {option.sub_text}
                       </p>
                     )}
+                    {block.id === "pimples_frequency" && option.name === "Once a month" && gender === "F" && <p className="text-[14px] font-lato font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
+                      Aligned with my menstrual cycle
+                    </p>}
                   </div>
                 </div>
                 <input
@@ -210,20 +214,6 @@ const SingleSelect = ({ block, context }) => {
             />
           </div>
         )}
-
-        {/* {(block.id === "has_dandruff" || block.id === "stress_level" ) ? null :  (
-          <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 md:mx-0 xs:mx-4">
-            <button
-              type="submit"
-              className={`py-4 w-full max-w-md font-semibold text-white rounded-full 
-              ${ reply ? "bg-Neutral/900" : "bg-Neutral/400"} transition-all duration-200 shadow-sm`}
-              onClick={handleNextClick}
-              disabled={!reply}
-            >
-              NEXT
-            </button>
-          </div>
-        )} */}
       </div>
     </>
   );
