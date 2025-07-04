@@ -19,6 +19,9 @@ const OTPVerification = ({
   otpError,
   setTimeLeft,
   inputRefs,
+  apiError,
+  isLoading,
+  generatedOTP
 }) => {
   useEffect(() => {
     // Focus on first input field when OTP screen appears
@@ -38,9 +41,8 @@ const OTPVerification = ({
   return (
     <div className="md:p-6 p-[16px]">
       <div
-        className={`relative transition-all duration-700 ${
-          animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}
+        className={`relative transition-all duration-700 ${animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
       >
         <h2 className="text-[28px] text-[#141515] leading-[130%] font-[400] text-center">
           OTP Verification
@@ -64,6 +66,13 @@ const OTPVerification = ({
           </button>
         </p>
 
+        {/* API Error Message */}
+        {apiError && (
+          <div className="text-center text-red-500 text-sm mb-4">
+            {apiError}
+          </div>
+        )}
+
         {/* OTP Inputs */}
         <div className="flex justify-center gap-[10px] mt-6">
           {otp.map((digit, index) => (
@@ -76,11 +85,10 @@ const OTPVerification = ({
               value={digit}
               onChange={(e) => handleOtpChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`md:w-[69px] md:h-[64px] w-[57px] h-[64px] text-center text-[16px] font-[400] text-[#141515] leading-[24px] rounded-[12px] border-[1px] outline-none transition-all ${
-                otpError
-                  ? "border-[#B3261E] ring-1 ring-[#B3261E] text-[#B3261E]"
-                  : "border-[#E3E3E2] focus:border-[#237AB1] focus:border-[3px] focus:ring-[#237AB1]"
-              }`}
+              className={`md:w-[49px] md:h-[54px] w-[37px] h-[44px] text-center text-[16px] font-[400] text-[#141515] leading-[24px] rounded-[12px] border-[1px] outline-none transition-all ${otpError
+                ? "border-[#B3261E] ring-1 ring-[#B3261E] text-[#B3261E]"
+                : "border-[#E3E3E2] focus:border-[#237AB1] focus:border-[3px] focus:ring-[#237AB1]"
+                }`}
             />
           ))}
         </div>
@@ -121,11 +129,19 @@ const OTPVerification = ({
             </button>
           )}
         </div>
+        <p className="text-center">
+          OTP Only for Development
+          <p className="text-[#414042] text-md font-bold mt-2 text-center">
+            OTP: {generatedOTP}
+          </p>
+        </p>
+
 
         <LoginButton
-          onClick={handleVerify}
-          children={"VERIFY"}
-          disabled={!isOtpComplete}
+          onClick={() => { handleVerify(); }}
+          children={isLoading ? "VERIFYING..." : "VERIFY"}
+          // disabled={!isOtpComplete || otpError || isLoading}
+          variant={!isOtpComplete || otpError || isLoading ? "disabled" : "black"}
         />
 
         <div className="flex md:hidden">
