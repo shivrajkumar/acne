@@ -25,6 +25,7 @@ const LoginButton = ({
 }) => {
   const buttonVariants = {
     black: "bg-[#141515] hover:bg-Primary/500 hover:text-[#fff]",
+    disabled: "bg-[#141515] text-[#fff] cursor-not-allowed",
   };
 
   const buttonSizes = {
@@ -40,7 +41,7 @@ const LoginButton = ({
     <button
       type={type}
       disabled={disabled}
-      onClick={onClick}
+      onClick={() => { onClick(); }}
       className={`flex justify-center items-center rounded-full -tracking-[1%] transition-all duration-300 hover:shadow-lg ${buttonVariants[variant]} ${buttonSizes[size]} ${textStyles[textSize]} ${className}`}
     >
       {children}

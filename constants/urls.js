@@ -219,3 +219,23 @@ export const IMAGE_UPLOAD_API = (userId) => {
 export const PRODUCT_BOTTOM_SHEET_API = (variantId) => {
   return getUrl(`consumer-api/service/static-content/data/${variantId}`);
 };
+
+export const GENERATE_OTP_API = () => {
+  return `${API_BASE_URL}/auth/otp/generate`;
+};
+
+export const RESEND_OTP_API = () => {
+  return `${API_BASE_URL}/auth/otp/generate?resend=true`;
+};
+
+export const VALIDATE_OTP_API = () => {
+  return `${API_BASE_URL}/auth/otp/validate`;
+};
+
+export const LOGOUT_API = () => {
+  return `${API_BASE_URL}/auth/otp/logout`;
+};
+
+export const REFRESH_TOKEN_API = (token) => {
+  return `${API_BASE_URL}/auth/refresh-token/${token}`;
+};
