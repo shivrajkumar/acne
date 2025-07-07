@@ -29,6 +29,16 @@ const LoginPage = ({ closeModal }) => {
   const inputRefs = useRef([]);
   const [verifySuccess, setVerifySuccess] = useState(false)
   const [generatedOTP, setgeneratedOTP] = useState("");
+  const [isCustomer, setIsCustomer] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const phone = localStorage.getItem("user_phone").substring(3)
+      setPhoneInput(phone);
+      setApiError("Looks like you've already placed an order. Please login to know more details.")
+      setIsCustomer(true);
+    }
+  }, [])
 
   useEffect(() => {
     // Display success message at the top of the screen
@@ -178,7 +188,11 @@ const LoginPage = ({ closeModal }) => {
           closeModal();
         }
         setVerifySuccess(true);
-        router.push('/'); // Need to redirect to post login pages
+        if (isCustomer) {
+          router.push(`book-a-call?caseId=${transactionId}`)
+        } else {
+          router.push('/');// Need to redirect to post login pages
+        }
       } else {
         setOtpError(true);
         setApiError("Invalid OTP. Please try again.");
