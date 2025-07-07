@@ -22,6 +22,7 @@ import { getCookieValue } from "@/helpers/cookieHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import { env } from "next-runtime-env";
+import { useRouter } from "next/navigation";
 
 export default function UserBasicInfoForm() {
   const {
@@ -35,6 +36,7 @@ export default function UserBasicInfoForm() {
   } = useContext(QuestionsContext);
 
   const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
+  const router = useRouter()
 
 
   const [formData, setFormData] = useState({
@@ -318,7 +320,7 @@ export default function UserBasicInfoForm() {
         });
         window.localStorage.setItem("form_status", "draft");
 
-        return _res.data.transactionId;
+        return { tid: _res.data.transactionId, isOrderedCsx: _res.data.latest_order_id ? true : false };
       }
 
       if (_res && _res.status === 500) {
@@ -413,15 +415,15 @@ export default function UserBasicInfoForm() {
     // Begin API submission
     setIsLoading(true);
 
-    const transactionId = await _submitBasicInfo();
+    const userDetails = await _submitBasicInfo();
 
-    if (!isEmpty(transactionId) && !isEmpty(utmData)) {
-      await submitUTMData(transactionId);
+    if (!isEmpty(userDetails.tid) && !isEmpty(utmData)) {
+      await submitUTMData(userDetails.tid);
     }
 
     setIsLoading(false);
 
-    if (isEmpty(transactionId)) {
+    if (isEmpty(userDetails.tid)) {
       return; // Stop if submission failed
     }
 
@@ -446,11 +448,15 @@ export default function UserBasicInfoForm() {
     if (currentQuestion && currentQuestion.id === "user_basic_info") {
       saveReply("user_basic_info", "completed");
 
-      // Move to next question - this is key to navigation
-      nextQuestion("user_basic_info", "completed");
-      const url = new URL(window.location.href);
-      url.searchParams.set("tid", transactionId);
-      window.history.replaceState({}, "", url.toString());
+      if (userDetails?.isOrderedCsx) {
+        router.push("/login")
+      } else {
+        // Move to next question - this is key to navigation
+        nextQuestion("user_basic_info", "completed");
+        const url = new URL(window.location.href);
+        url.searchParams.set("tid", userDetails?.tid);
+        window.history.replaceState({}, "", url.toString());
+      }
     }
   };
 
