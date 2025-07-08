@@ -4,7 +4,7 @@ import { QuestionsContext } from "@context/questions-store";
 import compressImage, { convertBase64URItoBlob } from "@helpers/compressImage";
 import useFormSubmit from "@hooks/useFormSubmit";
 import isEmpty from "lodash/isEmpty";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 // import { MD5 } from "crypto-js";
 // import selfie from "@assets/images/selfie.png";
 import Image from "next/image";
@@ -19,7 +19,6 @@ import Loader from "../generic/Loader";
 import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
 
-const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
 const InputImage = ({ block }) => {
