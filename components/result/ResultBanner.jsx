@@ -42,7 +42,7 @@ const ResultBanner = () => {
               Skin Type:
             </p>
             <p className="text-Text/Body-Text text-[14px] md:text-[16px] sm:text-[14px] font-[600] leading-[1.5]">
-              {skinType ? startCase(skinType) : ""}
+              {skinType || ""}
             </p>
           </div>
           <div className="flex gap-[8px]">
