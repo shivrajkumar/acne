@@ -29,15 +29,15 @@ const ProductReview = ({reviews}) => {
                           renderStars(review?.rating, "text-Secondary/400")}
                       </div>
                     </div>
-                    <p className="text-[16px] font-[400] leading-[130%] text-primary/700">
+                   {review?.review_heading&& <p className="text-[16px] font-[400] leading-[130%] text-primary/700">
                       {review?.review_heading}
-                    </p>
-                    <p className="text-[12px] font-[400] leading-[130%] text-Text/Disabled py-1">
+                    </p>}
+                   {review?.review_about&& <p className="text-[12px] font-[400] leading-[130%] text-Text/Disabled py-1">
                       {review?.review_about}
-                    </p>
-                    <p className="text-[14px] font-[400] leading-[130%] text-primary/700 py-2 pb-4">
+                    </p>}
+                   {review?.review_text &&<p className="text-[14px] font-[400] leading-[130%] text-primary/700 py-2 pb-4">
                       {review?.review_text}
-                    </p>
+                    </p>}
                   </div>
                 ))}
             </div>
