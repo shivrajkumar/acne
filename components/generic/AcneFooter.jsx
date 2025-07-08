@@ -120,6 +120,15 @@ const AcneFooter = () => {
                       Return Policy
                     </Link>
                   </li>
+                      <li>
+                    <Link
+                      href="/faq"
+                      onClick={() => PageClickEvent("FAQ", "/faq")}
+                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                    >
+                      FAQ
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
