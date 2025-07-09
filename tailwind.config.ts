@@ -134,7 +134,11 @@ const config: Config = {
         "Grey-Neutral/400": "#727678",
         ProductAddNow: "#FFC942",
         "Tertiary/200": "#8CC5FA",
-        "grey/200":"#BCC2C4"
+        "grey/200": "#BCC2C4",
+        "Warning/300": "#FBF1A6",
+        "Secondary/500": "#635E51",
+        "Secondary/100": "#F7F5EE",
+        "Secondary/200": "#D8CEB4",
       },
       fontSize: {
         xxs: "0.6rem",

@@ -23,6 +23,7 @@ import { metaCapi } from "@/helpers/metaCapiHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import useMediaLoader from "@/hooks/useMediaLoader";
+import ResultBannerV2 from "./ResultBannerV2";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -285,7 +286,7 @@ const ResultLandingPage = ({ searchParams }) => {
       </div>
       <div className="mx-[40px] xs:mx-[16px] gap-[40px] flex flex-col">
         <div ref={resultBannerRef}>
-          <ResultBanner />
+          <ResultBannerV2 />
         </div>
         <OrderSummary />
         <VisibleResultsInThreeWeeks />

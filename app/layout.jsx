@@ -177,10 +177,10 @@ export default function RootLayout({
       <body style={{ fontSize: "16px" }}>
         <PixelInit />
         <ScrollTracker />
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
           <UserDataCapture />
           <main>{children}</main>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
         <Suspense>
           <UTMManager />
         </Suspense>
