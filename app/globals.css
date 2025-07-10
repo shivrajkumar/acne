@@ -299,7 +299,6 @@ body {
   }
 }
 
-
 @media (min-width: 1445px) and (max-width: 1500px) {
   .custom-root-cause-carousel .ant-carousel .slick-dots {
     bottom: -14px !important;
@@ -312,11 +311,7 @@ body {
   }
 }
 
-
-
-
 /* <-------------- Antd Carousel changes ----------->*/
-
 
 .ant-carousel .slick-dots {
   bottom: -24px !important;
@@ -441,4 +436,14 @@ body {
 .custom-icon-fill {
   filter: contrast(15%);
   fill: "#505354";
+}
+
+.custom-icon-fill-grey {
+  filter: contrast(15%);
+  fill: "#635E51";
+}
+
+.custom-icon-fill-light-grey {
+  filter: contrast(15%);
+  fill: "#929798";
 }
