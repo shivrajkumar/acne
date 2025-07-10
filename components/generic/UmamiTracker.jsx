@@ -10,7 +10,6 @@ export default function UmamiTracker() {
                     payload.id = caseId;
                 }
 
-                console.log('beforeSendHandler', payload);
                 return payload;
             };
         }
