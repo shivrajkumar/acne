@@ -327,6 +327,12 @@ export default function UserBasicInfoForm() {
           }
         }
 
+        if (window.umami && typeof window.umami === 'function') {
+          // if we previously had user information and now are setting a new customer
+          // in this case identify the customer with
+          // window.umami.identify(_res.data.caseId)
+        }
+
 
         // Set cookies
         Cookies.set("Transaction_ID", _res.data.transactionId, {
