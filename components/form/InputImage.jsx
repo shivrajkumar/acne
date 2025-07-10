@@ -4,7 +4,7 @@ import { QuestionsContext } from "@context/questions-store";
 import compressImage, { convertBase64URItoBlob } from "@helpers/compressImage";
 import useFormSubmit from "@hooks/useFormSubmit";
 import isEmpty from "lodash/isEmpty";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 // import { MD5 } from "crypto-js";
 // import selfie from "@assets/images/selfie.png";
 import Image from "next/image";
@@ -19,7 +19,6 @@ import Loader from "../generic/Loader";
 import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
 
-const settingIcon = `${CDN_BASE_URL}website_images/localImages/setting_icon.webp`;
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
 const InputImage = ({ block }) => {
@@ -242,9 +241,9 @@ const InputImage = ({ block }) => {
       } else {
         const permissionStatus = await navigator.permissions.query({ name: 'camera' });
 
-        permissionStatus.onchange = async() => {
+        permissionStatus.onchange = async () => {
           if (permissionStatus.state === 'denied') {
-          setNotify(
+            setNotify(
               <>
                 <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
                   <span>Camera access is currently blocked</span>
@@ -353,6 +352,41 @@ const InputImage = ({ block }) => {
       inputRef.current.click();
     }
   };
+
+  const handleSkip = async () => {
+    try {
+      const _formData = {
+        question_id: block.id,
+        field_key: block.id,
+        question_text: block.text,
+        response: reply ?? [],
+        status:
+          block.id == "photo_q"
+            ? formFillStatus.FILLED
+            : formFillStatus.SEMI_FILLED,
+        location_path: window.location.pathname + window.location.search,
+        source: "website",
+        response_type: block.type,
+      };
+
+      const _options = {
+        method: "POST",
+        body: JSON.stringify(_formData),
+      };
+      const response = await fetchRequest(TRANSACTION_API(transactionId), _options);
+      if (response.status == 200) {
+        handleSubmit(reply);
+
+        setAllQuestionsFilled(true);
+
+      }
+      window.localStorage.setItem("form_status", "filled");
+    } catch (error) {
+      console.error(error);
+      setErr("Something went wrong. Please try again.");
+    }
+
+  }
 
   return (
     <>
@@ -472,7 +506,7 @@ const InputImage = ({ block }) => {
         )}
 
         <>
-          {showButton && (
+          {showButton ? (
             <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
               <div className="hidden xl:block lg:block md:block sm:block">
                 <button
@@ -506,7 +540,32 @@ const InputImage = ({ block }) => {
                 </div>
               </div>
             </div>
-          )}
+          ) : <>
+            <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+              <div className="hidden xl:block lg:block md:block sm:block">
+                <button
+                  id="acne_submit"
+                  onClick={() => handleSkip()}
+                  className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
+                  disabled={compressingImage}
+                >
+                  SKIP
+                </button>
+              </div>
+              <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden ">
+                <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+                  <button
+                    id="acne_submit"
+                    onClick={() => handleSkip()}
+                    className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
+                    disabled={compressingImage}
+
+                  >
+                    SKIP
+                  </button>
+                </div>
+              </div>
+            </div></>}
         </>
         {showCam && (
           <CameraAccess

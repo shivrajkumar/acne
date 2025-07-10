@@ -54,6 +54,7 @@ export const fetchRequestWithoutAuth = async (url, options = {}) => {
         ...DEFAULT_OPTIONS.headers,
         ...options.headers,
       },
+      credentials: "include",
     };
 
     const response = await fetch(url, _options);
