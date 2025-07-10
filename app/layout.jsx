@@ -11,6 +11,7 @@ import UserDataCapture from "@/components/generic/UserDataCapture";
 import ScrollTracker from "@/components/ScrollTracker";
 import PixelInit from "@/components/generic/Pixel";
 import { PublicEnvScript } from 'next-runtime-env';
+import UmamiTracker from "@components/generic/UmamiTracker";
 
 export const metadata = {
   title: "Clear Ritual: Personalised Acne Solutions Backed by Experts",
@@ -49,6 +50,7 @@ export default function RootLayout({
       <head>
         <PublicEnvScript />
         <Script src="/gtmHeadScript.js" strategy="beforeInteractive" />
+        <UmamiTracker />
         {/* Clarity Script */}
         <Script
           id="clarityscript"

@@ -303,6 +303,7 @@ export default function UserBasicInfoForm() {
           "user_email",
           `${formData.phoneNumber}.unknown@traya.health`
         );
+        window.localStorage.setItem("caseId", _res.data.caseId);
 
         if (window.clarity && typeof window.clarity === 'function') {
           try {
@@ -326,7 +327,6 @@ export default function UserBasicInfoForm() {
             });
           }
         }
-
 
         // Set cookies
         Cookies.set("Transaction_ID", _res.data.transactionId, {
