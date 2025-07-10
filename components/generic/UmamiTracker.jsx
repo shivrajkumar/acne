@@ -5,7 +5,12 @@ export default function UmamiTracker() {
     useEffect(() => {
         if (typeof window !== undefined) {
             window.beforeSendHandler = function (type, payload) {
-                // console.log("TRACKER PLOAD", type, payload);
+                const caseId = window.localStorage.getItem('caseId');
+                if (caseId) {
+                    payload.id = caseId;
+                }
+
+                console.log('beforeSendHandler', payload);
                 return payload;
             };
         }
