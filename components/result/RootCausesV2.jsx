@@ -31,7 +31,7 @@ const rootCausesIcons = (rootcauses) => {
 const RootCausesV2 = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
-    const { rootCausesDetails: rootCauses } = useCartContext();
+    const { rootCausesDetails: rootCauses, acneStageDetails } = useCartContext();
 
     // Check if it's mobile view
     useEffect(() => {
@@ -52,20 +52,19 @@ const RootCausesV2 = () => {
     return rootCauses && (
         <div className="w-full md:w-[550px]">
             <div className="rounded-[5px] bg-Secondary/100 p-[16px] md:p-[24px] flex flex-col gap-[24px] md:gap-[32px]">
-                {/* Clock Icon */}
                 <div className='flex flex-col gap-[8px] md:gap-[16px]'>
-                    <div className='flex flex-row justify-between'>
-                        <div className='text-center justify-center flex flex-col  gap-[5px] md:gap-[8px] '>
-                            <h2 className="text-[20px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-lato font-[500]">{"Acne Stage"}</h2>
-                            <p className="text-[12px] md:text-[18px] font-lato font-[400] text-Secondary/500">{"Open Pores"}<span className='text-[14px] md:text-[28px] uppercase ms-[4px] md:ms-[16px]'>{"TRUE"}</span></p>
-                            <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Pigmentation"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{"PRESENT"}</span></p>
-                            <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{"HYPERPRODUCTION"}</span></p>
+                    <div className='relative '>
+                        <div className='text-center justify-center flex flex-col   '>
+                            <h2 className="text-[20px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-lato font-[500] mb-[5px] md:mb-[8px]">{acneStageDetails?.code ?? "Acne Stage"}</h2>
+                            <p className="text-[12px] md:text-[18px] font-lato font-[400] text-Secondary/500">{"Open Pores"}<span className='text-[14px] md:text-[28px] uppercase ms-[4px] md:ms-[16px]'>{acneStageDetails?.isOpenPores ?? "TRUE"}</span></p>
+                            <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Pigmentation"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.pigmentation ?? "PRESENT"}</span></p>
+                            <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.sebumProduction ?? "HYPERPRODUCTION"}</span></p>
 
                         </div>
-                        <div className='hidden md:flex  items-start '>
+                        <div className='hidden md:block absolute top-0 right-0'>
                             <Image src={Information} alt='Info' width={32} height={32} />
                         </div>
-                        <div className='flex md:hidden items-start '>
+                        <div className='block md:hidden  absolute top-0 right-0'>
                             <Image src={Information} alt='Info' width={24} height={24} />
                         </div>
                     </div>
@@ -141,25 +140,25 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
     return (
         <div className='flex flex-col gap-[8px] md:gap-[16px]'>
             {/* Desktop View */}
-            <div className="hidden md:flex w-fit bg-Secondary/100 rounded-[16px]">
+            <div className="hidden md:flex w-fit bg-Secondary/100 p-[16px] rounded-[16px]">
                 {rootCauseInfo?.map((cause, index) => (
                     <div
                         key={cause?.name}
-                        className={`w-[92px] h-[80px] py-[8px] px-[24px] flex flex-col gap-[4px] items-center justify-center cursor-pointer ${index === activeIndex ? "bg-Secondary/200  rounded-full" : ""
-                            }`}
+                        className={` h-[60px] pb-[4px] px-[2px] flex flex-col gap-[4px] items-center justify-center cursor-pointer`}
                         onClick={() => setActiveIndex(index)}
                     >
-                        <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
+                        <div className={`w-[96px] h-[40px] py-[4px] px-[32px] flex items-center justify-center  ${index === activeIndex ? "bg-Secondary/200  rounded-full" : ""
+                            }`}>
                             <Image
                                 src={rootCausesIcons(cause?.name)}
                                 alt={cause?.name}
                                 width={32}
                                 height={32}
-                                className={` object-center fill-Neutral/600 ${index === activeIndex ? "" : "custom-icon-fill"}`}
+                                className={`w-[32px] h-[32px] object-center  fill-[#929798] ${index === activeIndex ? "custom-icon-fill-grey" : "custom-icon-fill-light-grey"}`}
                                 style={{ objectFit: 'contain' }}
                             />
                         </div>
-                        <div className={`text-[14px] font-lato font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
+                        <div className={`text-[14px] font-lato font-[500]  ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
                             }`}>
                             {startCase(cause?.name)}
                         </div>
@@ -171,7 +170,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
             <div className="md:hidden w-full">
                 <div
                     ref={scrollContainerRef}
-                    className="flex overflow-x-scroll hide-scrollbar bg-Secondary/100 rounded-[16px]"
+                    className="flex overflow-x-scroll hide-scrollbar bg-Secondary/100 rounded-[8px]"
                     onScroll={handleScroll}
                     onTouchStart={() => { isUserScrolling.current = true; }}
                     onTouchEnd={() => { isUserScrolling.current = false; }}
@@ -179,22 +178,22 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     {rootCauseInfo?.map((cause, index) => (
                         <div
                             key={cause?.name}
-                            className={` px-[24px] py-[8px] gap-[4px] flex flex-col items-center justify-center flex-shrink-0 `}
+                            className={` px-[8px] py-[4px] gap-[12px] flex flex-col items-center justify-center flex-shrink-0 `}
                             onClick={() => setActiveIndex(index)}
                         >
-                            <div className={`w-[40px] h-[32px] py-[4px] px-[12px] mb-1 flex items-center justify-center pt-2 ${index === activeIndex ? "bg-Secondary/200 rounded-[100px]" : ""
+                            <div className={`w-[48px] h-[32px] py-[6px] px-[14px]  flex gap-[20px] items-center justify-center ${index === activeIndex ? "bg-Secondary/200 rounded-[100px]" : ""
                                 }`}>
                                 <Image
                                     src={rootCausesIcons(cause?.name)}
                                     alt={cause?.name}
-                                    width={32}
-                                    height={32}
-                                    className={`object-center fill-[#929798] ${index === activeIndex ? "custom-icon-fill-grey" : "custom-icon-fill-light-grey"}`}
+                                    width={24}
+                                    height={24}
+                                    className={`h-[24px] w-[24px] object-center fill-[#929798] ${index === activeIndex ? "custom-icon-fill-grey" : "custom-icon-fill-light-grey"}`}
                                     style={{ objectFit: 'contain' }}
                                 />
                             </div>
 
-                            <span className={`text-[14px] font-lato font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
+                            <span className={`text-[14px] font-lato font-[500] ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
                                 }`}>
                                 {startCase(cause?.name)}
                             </span>
@@ -202,28 +201,11 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     ))}
                 </div>
 
-                {/* Pagination Dots */}
-                <div className="flex justify-center mt-2">
-                    {rootCauseInfo?.map((_, index) => (
-                        <div
-                            key={index}
-                            className={`h-1 mx-1 rounded-full cursor-pointer ${index === activeIndex
-                                ? "w-6 bg-black"
-                                : index < activeIndex
-                                    ? "w-2 bg-gray-400"
-                                    : index === activeIndex + 1
-                                        ? "w-2 bg-gray-400"
-                                        : "w-2 bg-gray-200"
-                                }`}
-                            onClick={() => setActiveIndex(index)}
-                        />
-                    ))}
-                </div>
             </div>
 
             {/* Description */}
-            <div className="text-[16px] min-h-[100px] md:min-h-[50px]">
-                <p className='font-lato font-[400] text-Text/Body-Text'>
+            <div className="text-[12px] md:text-[16px] min-h-[50px]">
+                <p className='font-lato font-[400] text-Grey/900'>
                     {rootCauseInfo[activeIndex]?.description}
                 </p>
             </div>

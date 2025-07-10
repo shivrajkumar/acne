@@ -139,6 +139,8 @@ const config: Config = {
         "Secondary/500": "#635E51",
         "Secondary/100": "#F7F5EE",
         "Secondary/200": "#D8CEB4",
+        "Grey/400": "#929798",
+        "Grey/900": "#0F1B28",
       },
       fontSize: {
         xxs: "0.6rem",

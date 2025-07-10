@@ -275,7 +275,8 @@ const ResultLandingPage = ({ searchParams }) => {
     hasPlacedOrder: hasPlacedOrder,
     optionalProductsDetails: resultData?.optionalProductsDetails,
     addProductToCart: addProductToCart,
-    removeProductFromCart: removeProductFromCart
+    removeProductFromCart: removeProductFromCart,
+    acneStageDetails: resultData?.acneStageDetails
   };
 
   return (
