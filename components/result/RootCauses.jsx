@@ -9,22 +9,22 @@ import LiverIcon from "@assets/svg/liver_active.svg";
 import HormoneIcon from "@assets/svg/hormone_active.svg";
 import GutIcon from "@assets/svg/gut_active.svg";
 
-const rootCausesIcons=(rootcauses)=>{
+const rootCausesIcons = (rootcauses) => {
     let rootcauseName = rootcauses.toLowerCase();
-      switch (rootcauseName) {
-    case "stress":
-      return StressIcon;
-    case "liver":
-      return LiverIcon;
-    case "toxins":
-      return ToxinsIcon;
-    case "hormone":
-      return HormoneIcon;
-      case "gut":
-      return GutIcon;
-    default:
-      return GutIcon;
-  }
+    switch (rootcauseName) {
+        case "stress":
+            return StressIcon;
+        case "liver":
+            return LiverIcon;
+        case "toxins":
+            return ToxinsIcon;
+        case "hormone":
+            return HormoneIcon;
+        case "gut":
+            return GutIcon;
+        default:
+            return GutIcon;
+    }
 }
 
 const RootCauses = () => {
@@ -100,7 +100,6 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     behavior: 'smooth'
                 });
 
-                // Reset the flag after the scroll animation is likely complete
                 setTimeout(() => {
                     isProgrammaticScroll.current = false;
                 }, 500);
@@ -108,9 +107,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
         }
     }, [activeIndex, isMobile]);
 
-    // Handle scroll navigation
     const handleScroll = () => {
-        // Only process scroll events that are initiated by the user, not our programmatic scrolls
         if (isMobile && scrollContainerRef.current && !isProgrammaticScroll.current && isUserScrolling.current) {
             const scrollContainer = scrollContainerRef.current;
             const containerWidth = scrollContainer.offsetWidth;
@@ -142,7 +139,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     >
                         <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
                             <Image
-                                src={rootCausesIcons(cause?.name)} 
+                                src={rootCausesIcons(cause?.name)}
                                 alt={cause?.name}
                                 width={32}
                                 height={32}
@@ -176,7 +173,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                         >
                             <div className="w-[40px] h-[40px] mb-1 flex items-center justify-center pt-2">
                                 <Image
-                                     src={rootCausesIcons(cause?.name)} 
+                                    src={rootCausesIcons(cause?.name)}
                                     alt={cause?.name}
                                     width={32}
                                     height={32}
