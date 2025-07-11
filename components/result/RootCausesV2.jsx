@@ -9,6 +9,9 @@ import LiverIcon from "@assets/svg/liver_active.svg";
 import HormoneIcon from "@assets/svg/hormone_active.svg";
 import GutIcon from "@assets/svg/gut_active.svg";
 import { Divider } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+
+
 
 const rootCausesIcons = (rootcauses) => {
     let rootcauseName = rootcauses.toLowerCase();
@@ -55,18 +58,18 @@ const RootCausesV2 = () => {
                 <div className='flex flex-col gap-[8px] md:gap-[16px]'>
                     <div className='relative '>
                         <div className='text-center justify-center flex flex-col   '>
-                            <h2 className="text-[20px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-lato font-[500] mb-[5px] md:mb-[8px]">{acneStageDetails?.code ?? "Acne Stage"}</h2>
+                            <h2 className="text-[40px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-lato font-[400] mb-[5px] md:mb-[8px]">{acneStageDetails?.code ?? "Acne Stage"}</h2>
                             <p className="text-[12px] md:text-[18px] font-lato font-[400] text-Secondary/500">{"Open Pores"}<span className='text-[14px] md:text-[28px] uppercase ms-[4px] md:ms-[16px]'>{acneStageDetails?.isOpenPores ?? "TRUE"}</span></p>
                             <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Pigmentation"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.pigmentation ?? "PRESENT"}</span></p>
                             <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.sebumProduction ?? "HYPERPRODUCTION"}</span></p>
 
                         </div>
-                        <div className='hidden md:block absolute top-0 right-0'>
-                            <Image src={Information} alt='Info' width={32} height={32} />
-                        </div>
-                        <div className='block md:hidden  absolute top-0 right-0'>
-                            <Image src={Information} alt='Info' width={24} height={24} />
-                        </div>
+                        <InfoCircleOutlined className=' hidden md:block absolute top-0 right-0 text-Secondary/500  fill-[#929798] custom-icon-fill-light-grey' style={{
+                            fontSize: 24,
+                        }} />
+                        <InfoCircleOutlined className='block md:hidden absolute top-0 right-0 text-Secondary/500  fill-[#929798] custom-icon-fill-light-grey' style={{
+                            fontSize: 18,
+                        }} />
                     </div>
                 </div>
 
@@ -140,7 +143,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
     return (
         <div className='flex flex-col gap-[8px] md:gap-[16px]'>
             {/* Desktop View */}
-            <div className="hidden md:flex w-fit bg-Secondary/100 p-[16px] rounded-[16px]">
+            <div className="hidden md:flex w-full bg-Secondary/100 p-[16px] rounded-[16px] md:justify-evenly">
                 {rootCauseInfo?.map((cause, index) => (
                     <div
                         key={cause?.name}
@@ -178,10 +181,10 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                     {rootCauseInfo?.map((cause, index) => (
                         <div
                             key={cause?.name}
-                            className={` px-[8px] py-[4px] gap-[12px] flex flex-col items-center justify-center flex-shrink-0 `}
+                            className={` px-[8px] py-[4px] flex flex-col items-center justify-center flex-shrink-0 `}
                             onClick={() => setActiveIndex(index)}
                         >
-                            <div className={`w-[48px] h-[32px] py-[6px] px-[14px]  flex gap-[20px] items-center justify-center ${index === activeIndex ? "bg-Secondary/200 rounded-[100px]" : ""
+                            <div className={` h-auto py-[6px] px-[14px]  flex gap-[20px] items-center justify-center ${index === activeIndex ? "bg-Secondary/200 rounded-[100px]" : ""
                                 }`}>
                                 <Image
                                     src={rootCausesIcons(cause?.name)}
@@ -205,7 +208,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
 
             {/* Description */}
             <div className="text-[12px] md:text-[16px] min-h-[50px]">
-                <p className='font-lato font-[400] text-Grey/900'>
+                <p className='font-lato font-[400] text-Grey/900 text-[12px]'>
                     {rootCauseInfo[activeIndex]?.description}
                 </p>
             </div>

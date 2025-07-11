@@ -8,13 +8,13 @@ const progressMapping = {
     // Acne Levels
     mild: 25,
     moderate: 50,
-    severe: 75,
+    severe: 90,
 
     // Skin Types
-    dry: 25,
+    dry: 15,
     normal: 50,
-    oily: 80,
-    combination: 75
+    oily: 90,
+    combination: 80
 };
 
 const ResultBannerV2 = () => {
@@ -34,19 +34,22 @@ const ResultBannerV2 = () => {
         customerDetails?.firstName ? startCase(customerDetails.firstName) : "",
         [customerDetails]
     );
+    const formattedSkinType = skinType?.split("+");
+    const formattedAcneGrading = acneGrading.split(" ");
+
 
     return (
-        <div className="w-full overflow-hidden bg-Secondary/50 border border-[#AFA792] p-[40px] xs:p-[24px] sm:p-[24px] md:p-[40px] rounded-[24px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px] ">
+        <div className="w-full overflow-hidden bg-Secondary/50 border-[1px] border-Grey/300 p-[40px] xs:p-[24px] sm:p-[24px] md:p-[40px] rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px] ">
             <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
                 <div>
-                    <h1 className="text-[28px] md:text-[44px] font-lato font-[500] text-Text/Heading-Text leading-[1.3] md:w-[600px] w-[260px] break-words">
-                        {customerName}{" "}
+                    <h1 className="text-[28px] md:text-[44px] font-lato font-[400] text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
+                        {customerName}
                         <span>, Your Personalised Skin Analysis is Ready.</span>
                     </h1>
 
-                    <p className="text-[14px] md:text-[16px] font-lato font-[500] text-Text/Heading-Text mt-[12px]">
-                        Based on your skin type, acne type, and internal health,
-                        we've created a personalised skincare ritual to help you achieve long-lasting results.
+                    <p className="text-[16px] md:text-[16px] font-lato font-[400] leading-[1.5] text-Grey/500 mt-[12px]">
+                        We have 21 skin profiles, coded from A1 to C8. Based on your skin, acne, and internal health,
+                        we give you a personalised skincare ritual.
                     </p>
                 </div>
 
@@ -77,13 +80,13 @@ const ResultBannerV2 = () => {
                             ></div>
                             <div className="relative w-full">
                                 <p
-                                    className="absolute text-Text/Body-Text text-[12px] font-[400] bg-Warning/300 py-[2px] px-[4px] leading-[1.5] "
+                                    className="absolute text-Text/Body-Text text-[12px] font-[400] bg-Warning/300 py-[2px] px-[4px] leading-[1.5]"
                                     style={{
-                                        left: `${acneProgress + (typeof window !== 'undefined' && window.innerWidth < 576 ? 6 : 3)}%`,
-                                        transform: 'translateX(-50%) translateY(-90%)'
+                                        left: `${acneProgress + 1}%`,
+                                        transform: 'translateX(0%) translateY(-100%)'
                                     }}
                                 >
-                                    {acneGrading ? startCase(acneGrading.split(" ")[2]) : ""}
+                                    {acneGrading ? startCase(formattedAcneGrading[2]) : ""}
                                 </p>
                             </div>
                         </div>
@@ -112,24 +115,26 @@ const ResultBannerV2 = () => {
                                     transform: 'translateX(-50%)',
                                 }}
                             ></div>
-                            <div className="relative w-full">
+                            <div className="relative w-full flex flex-col items-start ">
+
+                                {formattedSkinType?.length > 1 && <p
+                                    className={`absolute text-Text/Body-Text text-[12px] font-[400] bg-Warning/300 py-[2px] px-[4px] leading-[1.5] w-fit flex flex-nowrap whitespace-nowrap `}
+                                    style={{
+                                        left: `${skinTypeProgress + 1}%`,
+                                        transform: `translateX(0%) translateY(-190%)`
+                                    }}
+                                >
+                                    {formattedSkinType ? `+ ${startCase(formattedSkinType[1])}` : ""}
+                                </p>}
                                 <p
                                     className="absolute text-Text/Body-Text text-[12px] font-[400] bg-Warning/300 py-[2px] px-[4px] leading-[1.5] w-fit"
                                     style={{
-                                        left: `${skinTypeProgress + (typeof window !== 'undefined' && window.innerWidth < 576 ? 12 : 8)}%`,
-                                        transform: 'translateX(-50%) translateY(-200%)'
+                                        left: `${skinTypeProgress + 1}%`,
+                                        transform: `translateX(0%) translateY(-70%)`,
+
                                     }}
                                 >
-                                    {skinType ? startCase(skinType.split("+")[0]) : ""}
-                                </p>
-                                <p
-                                    className="absolute text-Text/Body-Text text-[12px] font-[400] bg-Warning/300 py-[2px] px-[4px] leading-[1.5] min-w-[125px] flex"
-                                    style={{
-                                        left: `${skinTypeProgress + (typeof window !== 'undefined' && window.innerWidth < 576 ? 15 : 8)}%`,
-                                        transform: `translateX(-50%)  translateY(-90%)`,
-                                    }}
-                                >
-                                    {skinType ? `+ ${startCase(skinType.split("+")[1])}` : ""}
+                                    {formattedSkinType ? startCase(formattedSkinType[0]) : ""}
                                 </p>
                             </div>
                         </div>
@@ -140,7 +145,7 @@ const ResultBannerV2 = () => {
             <div className=" md:mt-0">
                 <RootCausesV2 />
             </div>
-        </div>
+        </div >
     );
 };
 
