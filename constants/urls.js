@@ -169,9 +169,8 @@ export const PRODUCT_CONTENT_API = (id, language) => {
 };
 export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}/doctors/`;
 
-export const GET_SKIN_TEST_CONFIG = getUrl(
-  "consumer-api/service/static-content/data/ACNE_FORM_CONFIG"
-);
+export const GET_SKIN_TEST_CONFIG =
+  "consumer-api/service/static-content/data/ACNE_FORM_CONFIG";
 
 export const GET_USER_FORM_RESPONSES = (tranasctionId) =>
   getUrl(`consumer-api/service/acne-forms/responses/${tranasctionId}`);
@@ -220,22 +219,16 @@ export const PRODUCT_BOTTOM_SHEET_API = (variantId) => {
   return getUrl(`consumer-api/service/static-content/data/${variantId}`);
 };
 
-export const GENERATE_OTP_API = () => {
-  return `${API_BASE_URL}/auth/otp/generate`;
-};
+const PROXY_PREFIX = "/api/proxy";
 
-export const RESEND_OTP_API = () => {
-  return `${API_BASE_URL}/auth/otp/generate?resend=true`;
-};
+export const GENERATE_OTP_API = () => `${PROXY_PREFIX}/auth/otp/generate`;
 
-export const VALIDATE_OTP_API = () => {
-  return `${API_BASE_URL}/auth/otp/validate`;
-};
+export const RESEND_OTP_API = () =>
+  `${PROXY_PREFIX}/auth/otp/generate?resend=true`;
 
-export const LOGOUT_API = () => {
-  return `${API_BASE_URL}/auth/otp/logout`;
-};
+export const VALIDATE_OTP_API = () => `${PROXY_PREFIX}/auth/otp/validate`;
 
-export const REFRESH_TOKEN_API = (token) => {
-  return `${API_BASE_URL}/auth/refresh-token/${token}`;
-};
+export const LOGOUT_API = () => `${PROXY_PREFIX}/auth/otp/logout`;
+
+export const REFRESH_TOKEN_API = (token) =>
+  `${PROXY_PREFIX}/auth/refresh-token/${token}`;

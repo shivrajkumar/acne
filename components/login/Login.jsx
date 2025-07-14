@@ -11,7 +11,7 @@ import LoginFooter from "./LoginFooter";
 import LoginButton from "./LoginButton";
 import { fetchRequestWithoutAuth } from "@/helpers/fetchRequest";
 import { GENERATE_OTP_API, RESEND_OTP_API, VALIDATE_OTP_API } from "@/constants/urls";
-import { message } from "antd";
+import { Alert, message } from "antd";
 
 const LoginPage = ({ closeModal }) => {
   const { login } = useAuth();
@@ -32,7 +32,8 @@ const LoginPage = ({ closeModal }) => {
   const [isCustomer, setIsCustomer] = useState(false)
   const searchParams = useSearchParams()
   const isRedirected = searchParams.get("redirectFrom")
-  
+
+
   useEffect(() => {
     if (typeof window !== undefined && isRedirected) {
       const phone = localStorage.getItem("user_phone")?.substring(3)
