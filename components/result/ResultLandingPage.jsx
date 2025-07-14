@@ -170,7 +170,9 @@ const ResultLandingPage = ({ searchParams }) => {
     logGtmEvent("Add to Cart", eventAttributes);
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
-    trackUmamiEvent('checkout_initialized', { syntheticId: syntheticId });
+    trackUmamiEvent('checkout_initialized', {
+      syntheticId: tId ?? window.localStorage.getItem("syntheticId")
+    });
   };
 
   // Show loader while media is loading

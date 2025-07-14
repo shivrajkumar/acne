@@ -26,7 +26,7 @@ export default function UmamiTracker() {
 }
 
 export const trackUmamiEvent = async (eventName, attributes) => {
-    if (typeof window !== 'undefined' && window.umami && typeof window.umami === 'function') {
+    if (window && window.umami) {
         try {
             await window.umami.track(eventName, attributes);
         } catch (e) {
