@@ -18,6 +18,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import moment from "moment";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -126,6 +127,11 @@ const ThankYouLandingPage = ({ searchParams }) => {
           order_items: res.data?.orderDetails?.orderLineItems,
           caseId: `${caseId}`,
           transactionId: `${window.localStorage.getItem("user_tid")}`,
+        });
+        trackUmamiEvent('order_placed', {
+          syntheticId:  `${window.localStorage.getItem("user_tid")}`,
+          revenue: res.data?.orderDetails?.totalPrice,
+          currency: 'INR'
         });
 
         if (optionalProductAdded?.length > 0) {

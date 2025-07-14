@@ -24,3 +24,16 @@ export default function UmamiTracker() {
         </script>
     );
 }
+
+export const trackUmamiEvent = async (eventName, attributes) => {
+    if (typeof window !== 'undefined' && window.umami && typeof window.umami === 'function') {
+        try {
+            await window.umami.track(eventName, attributes);
+        } catch (e) {
+            console.error('Umami event error:', {
+                message: e.message,
+                stack: e.stack,
+            });
+        }
+    }
+};

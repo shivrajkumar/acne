@@ -23,6 +23,7 @@ import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import { env } from "next-runtime-env";
 import { useRouter } from "next/navigation";
+import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
 export default function UserBasicInfoForm() {
   const {
@@ -327,6 +328,8 @@ export default function UserBasicInfoForm() {
             });
           }
         }
+
+        trackUmamiEvent('form_started', { syntheticId: _res.data.syntheticId });
 
         // Set cookies
         Cookies.set("Transaction_ID", _res.data.transactionId, {

@@ -24,6 +24,7 @@ import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import useMediaLoader from "@/hooks/useMediaLoader";
 import ResultBannerV2 from "./ResultBannerV2";
+import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -169,6 +170,7 @@ const ResultLandingPage = ({ searchParams }) => {
     logGtmEvent("Add to Cart", eventAttributes);
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
+    trackUmamiEvent('checkout_initialized', { syntheticId: syntheticId });
   };
 
   // Show loader while media is loading
