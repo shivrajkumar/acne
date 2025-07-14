@@ -108,7 +108,7 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
   }
 
   return (
-    <div className="w-full mx-auto bg-white font-lato overflow-hidden flex md:flex-row md: gap-5 flex-col md:h-[400px]">
+    <div className="w-full mx-auto bg-white font-lato overflow-hidden flex md:flex-row md:gap-5 flex-col md:h-[400px]">
       {/* Carousel Section - Fixed container */}
       <ProductCarousel images={product?.content?.images} />
 
