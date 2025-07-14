@@ -19,7 +19,7 @@ export default function UmamiTracker() {
         <script
             defer
             src="https://umami.dev.hav-g.in/script.js"
-            data-website-id="5f55e752-9b42-4a0f-b664-fb92a77353e6"
+            data-website-id="612391cc-ff23-40c2-a67b-f42856abbbe6"
             data-before-send="beforeSendHandler">
         </script>
     );
