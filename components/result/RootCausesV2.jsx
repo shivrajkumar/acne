@@ -152,7 +152,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
     return (
         <div className='flex flex-col gap-[8px] md:gap-[16px]'>
             {/* Desktop View */}
-            <div className="hidden md:flex w-full bg-Secondary/100 p-[16px] rounded-[16px] md:justify-evenly">
+            <div className="hidden md:flex w-full bg-Secondary/100 p-[16px] rounded-[16px] justify-normal">
                 {rootCauseInfo?.map((cause, index) => (
                     <div
                         key={cause?.name}
