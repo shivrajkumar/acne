@@ -12,6 +12,7 @@ import {
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
+import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
 const FormSubmission = () => {
   const tid = window.localStorage.getItem("user_tid");
@@ -53,6 +54,8 @@ const FormSubmission = () => {
       gender: window.localStorage.getItem("user_gender"),
       age: window.localStorage.getItem("user_age"),
     });
+
+    trackUmamiEvent('form_completed', { syntheticId: syntheticId });
 
     //Send MOE Events
     trackMoEngageEvent("FormSubmit", {
