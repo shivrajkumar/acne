@@ -9,7 +9,7 @@ import LiverIcon from "@assets/svg/liver_active.svg";
 import HormoneIcon from "@assets/svg/hormone_active.svg";
 import GutIcon from "@assets/svg/gut_active.svg";
 import { Divider } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import ResultInfoPopover from './ResultInfoModal';
 
 
 
@@ -64,12 +64,21 @@ const RootCausesV2 = () => {
                             <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.sebumProduction ?? "HYPERPRODUCTION"}</span></p>
 
                         </div>
-                        <InfoCircleOutlined className=' hidden md:block absolute top-0 right-0 text-Secondary/500  fill-[#929798] custom-icon-fill-light-grey' style={{
-                            fontSize: 24,
-                        }} />
-                        <InfoCircleOutlined className='block md:hidden absolute top-0 right-0 text-Secondary/500  fill-[#929798] custom-icon-fill-light-grey' style={{
-                            fontSize: 18,
-                        }} />
+                        <div className='absolute top-0 right-0' >
+                            <ResultInfoPopover
+                                content="Skin Profile"
+                                styles='hidden md:block text-Secondary/500 fill-[#929798] custom-icon-fill-light-grey'
+                                size={24}
+                                id="modal-info"
+                            />
+                            <ResultInfoPopover
+                                content="Skin Profile"
+                                styles='block md:hidden text-Secondary/500 fill-[#929798] custom-icon-fill-light-grey'
+                                size={18}
+                                id="modal-info"
+
+                            />
+                        </div>
                     </div>
                 </div>
 
