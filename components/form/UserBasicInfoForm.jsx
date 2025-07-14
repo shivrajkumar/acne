@@ -476,7 +476,7 @@ export default function UserBasicInfoForm() {
       saveReply("user_basic_info", "completed");
 
       if (userDetails?.isOrderedCsx) {
-        router.push("/login")
+        router.push("/login?redirectFrom=questions")
       } else {
         // Move to next question - this is key to navigation
         nextQuestion("user_basic_info", "completed");

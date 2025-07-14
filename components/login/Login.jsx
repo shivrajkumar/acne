@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import CloseCircle from "@assets/svg/close-circle.svg";
@@ -30,10 +30,12 @@ const LoginPage = ({ closeModal }) => {
   const [verifySuccess, setVerifySuccess] = useState(false)
   const [generatedOTP, setgeneratedOTP] = useState("");
   const [isCustomer, setIsCustomer] = useState(false)
-
+  const searchParams = useSearchParams()
+  const isRedirected = searchParams.get("redirectFrom")
+  
   useEffect(() => {
-    if (typeof window !== undefined) {
-      const phone = localStorage.getItem("user_phone").substring(3)
+    if (typeof window !== undefined && isRedirected) {
+      const phone = localStorage.getItem("user_phone")?.substring(3)
       setPhoneInput(phone);
       setApiError("Looks like you've already placed an order. Please login to know more details.")
       setIsCustomer(true);
@@ -332,13 +334,14 @@ const LoginPage = ({ closeModal }) => {
                 <LoginButton
                   onClick={handleContinue}
                   children={isLoading ? "SENDING..." : "CONTINUE"}
-                  disabled={phoneInput.length < 10 || isLoading}
+                  disabled={phoneInput?.length < 10 || isLoading}
                 />
                 <LoginFooter textLink1={"/privacy-policy"} textLink2={"/terms-conditions"} />
               </div>
             )}
           </div>
         </div>
+        {verifySuccess && <Alert type="success" message="Login Successful" />}
       </div>
     </>
   );
