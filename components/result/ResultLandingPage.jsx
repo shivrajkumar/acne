@@ -170,7 +170,7 @@ const ResultLandingPage = ({ searchParams }) => {
     logGtmEvent("Add to Cart", eventAttributes);
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
-    trackUmamiEvent('checkout_initialized', {
+    trackUmamiEvent('checkout_initiated', {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId")
     });
   };
