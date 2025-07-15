@@ -14,20 +14,20 @@ const FaqContactInfo = ({ icon: Icon, title, content, subContent, cin }) => {
       <div className="flex-1">
         <Text 
           strong 
-          className="text-sm text-gray-900 block mb-1"
+          className="text-sm text-black block mb-1"
         >
           {title}
         </Text>
         
         <Text 
-          className="text-sm text-gray-600 leading-relaxed block"
+          className="text-sm text-black leading-relaxed block"
         >
           {content}
         </Text>
         
         {subContent && (
           <Text 
-            className="text-[14px] text-gray-600 block mt-0.5"
+            className="text-[14px] text-black block mt-0.5"
           >
             {subContent}
           </Text>

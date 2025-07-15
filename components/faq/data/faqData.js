@@ -174,7 +174,7 @@ export const sidebarItems = [
 ];
 
 export const contactInfo = {
-  email: "jay@nabsof.com",
+  email: "customercare@clearritual.com",
   company: "Fitchi Health Solutions Pvt Ltd",
   address: "4th Floor, A Wing, Krislon House,Krishanlal Marwah Rd, Saki Vihar Rd, Andheri East, Mumbai, Maharashtra 400072",
   cin: "CIN: U87903MH2019PTC328243",
