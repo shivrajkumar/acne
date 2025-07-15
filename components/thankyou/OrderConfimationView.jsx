@@ -46,9 +46,8 @@ const OrderConfirmationView = ({
     return (
       <div
         ref={isBookingError ? null : errorRef}
-        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${
-          isBookingError ? "mt-4" : ""
-        }`}
+        className={`bg-red-50 border-l-4 border-red-500 p-4 mb-4 ${isBookingError ? "mt-4" : ""
+          }`}
       >
         <div className="flex items-start">
           <div className="ml-3">
@@ -122,7 +121,7 @@ const OrderConfirmationView = ({
               className="mobile-cart-drawer"
               title={
                 <div className="flex flex-row items-center justify-between w-full">
-                  <h2 className="font-lato font-[400] leading-[130%] text-[16px] text-Text/Heading-Text -tracking-[1%]">
+                  <h2 className="font-sophiaPro font-[400] leading-[130%] text-[16px] text-Text/Heading-Text -tracking-[1%]">
                     Order Summary
                   </h2>
                   <div
@@ -155,13 +154,12 @@ const OrderConfirmationView = ({
           </>
         )}
 
-    
+
 
         {/* Sticky button at bottom */}
         <div
-          className={`${
-            !bookedSuccess && selectedTime !== null ? "" : "hidden"
-          } fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md`}
+          className={`${!bookedSuccess && selectedTime !== null ? "" : "hidden"
+            } fixed bottom-0 left-0 right-0 z-10 bg-white shadow-md`}
         >
           <div className="flex justify-center items-center md:h-[104px] h-[88px] border-t-[1px] border-t-Elements/Divider-Stroke">
             <button

@@ -28,13 +28,13 @@ export default function FeaturedReview() {
                     </div>
 
                     {/* Quote Section - Full width on mobile, half width on desktop */}
-                    <div className=" w-full md:w-1/2 p-[16px]  md::p-[24px] md:p-10 flex flex-col justify-center rounded-[16px] !font-lato font-[400]">
+                    <div className=" w-full md:w-1/2 p-[16px]  md::p-[24px] md:p-10 flex flex-col justify-center rounded-[16px] !font-sophiaPro font-[400]">
                         <div className=" md:text-[40px] text-[16px] text-left md:text-left  ">
-                            <p className="text-[16px] md:text-[32px] font-[400]  !font-lato leading-[130%]">
+                            <p className="text-[16px] md:text-[32px] font-[400]  !font-sophiaPro leading-[130%]">
                                 “I never knew what products to use or how to mix them.
                                 Clear Ritual made it so simple – everything works together perfectly, and my skin has never been happier!”
                             </p>
-                            <p className="font-lato font-[400] text-[16px] xs:text-[18px] mt-[16px]">
+                            <p className="font-sophiaPro font-[400] text-[16px] xs:text-[18px] mt-[16px]">
                                 Manisha, 26
                             </p>
                         </div>

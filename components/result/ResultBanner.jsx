@@ -12,24 +12,24 @@ const ResultBanner = () => {
   return (
     <div className="w-full overflow-hidden bg-Secondary/50 border border-[#AFA792] p-[40px] xs:p-[24px] sm:p-[24px] md:p-[40px] rounded-[24px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between ">
       <div className="w-full  flex flex-col gap-[16px] md:gap-[40px] ">
-      <div>
-        <h1 className="text-[28px] md:text-[44px] font-lato font-[500] text-Text/Heading-Text leading-[1.3] md:w-[600px] w-[260px] break-words">
-          Thank you {" "}
-          <span>
-            {customerDetails?.firstName
-              ? startCase(customerDetails.firstName)
-              : ""}
-          </span>
-          !
-        </h1>
+        <div>
+          <h1 className="text-[28px] md:text-[44px] font-sophiaPro font-[500] text-Text/Heading-Text leading-[1.3] md:w-[600px] w-[260px] break-words">
+            Thank you {" "}
+            <span>
+              {customerDetails?.firstName
+                ? startCase(customerDetails.firstName)
+                : ""}
+            </span>
+            !
+          </h1>
 
-        <p className="text-[28px] md:text-[44px] font-lato font-[500] text-Text/Heading-Text leading-[1.3]">
-          Your Personalised Skin
-          <br />
-          Analysis is Ready.
-        </p>
-      </div>
-        
+          <p className="text-[28px] md:text-[44px] font-sophiaPro font-[500] text-Text/Heading-Text leading-[1.3]">
+            Your Personalised Skin
+            <br />
+            Analysis is Ready.
+          </p>
+        </div>
+
         <div className="flex flex-col gap-[8px]">
           <div className="flex gap-[8px]">
             <Image

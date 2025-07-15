@@ -48,6 +48,7 @@ export default function RootLayout({
     >
       <meta name="robots" content="index,follow" />
       <head>
+        <link rel="stylesheet" href="https://use.typekit.net/mjr0vlf.css" />
         <PublicEnvScript />
         <Script src="/gtmHeadScript.js" strategy="beforeInteractive" />
         <UmamiTracker />
@@ -176,7 +177,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body style={{ fontSize: "16px" }}>
+      <body style={{ fontSize: "16px" }} className="font-sophiaPro">
         <PixelInit />
         <ScrollTracker />
         <ErrorBoundary>

@@ -9,32 +9,32 @@ function WhatIsInYourKitDesktop() {
       <div className="flex  md:flex-row justify-between gap-[40px]">
         {/* Left Content */}
         <div className="md:w-[60%] flex flex-col justify-start gap-[16px] w-[620px]">
-          <h2 className="text-[40px]  font-[500] font-lato my-[20px] leading-[130%]">
+          <h2 className="text-[40px]  font-[500] font-sophiaPro my-[20px] leading-[130%]">
             Everything You Get with Your Kit
           </h2>
 
           <div className="space-y-[30px] mb-[16px]">
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={24} height={24} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-lato leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
                 Free shipping, delivered straight to your door
               </p>
             </div>
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={24} height={24} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-lato leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
                 A dermatologist-designed, personalized skincare plan{" "}
               </p>
             </div>
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={24} height={24} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-lato leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
                 Skin experts to support you every step of the way
               </p>
             </div>
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={24} height={24} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-lato leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
                 Effective products tailored just for you
               </p>
             </div>
@@ -81,25 +81,25 @@ function WhatIsInYourKitMobile() {
       <div className="flex flex-col mb-4 gap-[16px]">
         <div className="flex items-center  gap-[16px]">
           <Image src={checkIcon} width={24} height={24} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-lato leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
             Free shipping, delivered straight to your door{" "}
           </p>
         </div>
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={24} height={24} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-lato leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
             A dermatologist-designed, personalized skincare plan{" "}
           </p>
         </div>
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={24} height={24} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-lato leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
             Skin experts to support you every step of the way{" "}
           </p>
         </div>
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={24} height={24} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-lato leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
             Effective products tailored just for you{" "}
           </p>
         </div>

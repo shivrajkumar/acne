@@ -32,7 +32,7 @@ const LoginPage = ({ closeModal }) => {
   const [isCustomer, setIsCustomer] = useState(false)
   const searchParams = useSearchParams()
   const isRedirected = searchParams.get("redirectFrom")
-  
+
   useEffect(() => {
     if (typeof window !== undefined && isRedirected) {
       const phone = localStorage.getItem("user_phone")?.substring(3)
@@ -212,7 +212,7 @@ const LoginPage = ({ closeModal }) => {
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black flex items-center justify-center z-50 font-lato transition-all duration-500 ease-in-out ${animate ? "bg-opacity-50" : "bg-opacity-0"
+        className={`fixed inset-0 bg-black flex items-center justify-center z-50 font-sophiaPro transition-all duration-500 ease-in-out ${animate ? "bg-opacity-50" : "bg-opacity-0"
           }`}
       >
         <div

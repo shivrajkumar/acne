@@ -9,18 +9,18 @@ import { useEffect, useState } from "react";
 import { CDN_BASE_URL } from "@/constants/constants";
 
 export default function WhatIsCleaRitual() {
-   const [orderCount , setOrderCount] = useState(null);
-   const [caseId , setCaseId] = useState(null);
-  
-  useEffect(()=>{
-      const orderCountFromStorage =
-        window.localStorage.getItem("order_count");
-          const storedData = localStorage.getItem("acne_result_data");
-         const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+  const [orderCount, setOrderCount] = useState(null);
+  const [caseId, setCaseId] = useState(null);
 
-      setOrderCount(orderCountFromStorage);
-       setCaseId(idFromLocalStorage)
-  },[])
+  useEffect(() => {
+    const orderCountFromStorage =
+      window.localStorage.getItem("order_count");
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+
+    setOrderCount(orderCountFromStorage);
+    setCaseId(idFromLocalStorage)
+  }, [])
 
 
   return (
@@ -28,10 +28,10 @@ export default function WhatIsCleaRitual() {
       {/* Left Content */}
       <div className="md:w-1/2 flex flex-col justify-between">
         <div className="flex flex-col gap-4 md:gap-[16px]">
-          <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-lato font-normal text-[14px] w-fit">
+          <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[14px] w-fit">
             What is Clear Ritual?
           </div>
-          <h2 className="font-lato text-[40px] md:text-[40px] xs:text-[28px] font-[500] leading-[130%] tracking-[-0.02em] text-wrap xl:w-[620px] md:w-[333px] w-[300px]">
+          <h2 className="font-sophiaPro text-[40px] md:text-[40px] xs:text-[28px] font-[500] leading-[130%] tracking-[-0.02em] text-wrap xl:w-[620px] md:w-[333px] w-[300px]">
             The Best Brands, Handpicked by Dermatologists for Your Acne Routine
           </h2>
           <div className="w-full flex justify-center md:hidden">
@@ -64,14 +64,14 @@ export default function WhatIsCleaRitual() {
         </div>
 
         {/* Features */}
-        <div className="grid grid-cols-2 gap-6 md:flex md:flex-wrap md:gap-[40px] mt-6 md:mt-8 font-lato">
+        <div className="grid grid-cols-2 gap-6 md:flex md:flex-wrap md:gap-[40px] mt-6 md:mt-8 font-sophiaPro">
           {[
             { img: Personalised, text: "Personalised" },
             { img: SafeToUse, text: "Safe to Use" },
             { img: TestedProducts, text: "Tested Products" },
             { img: HighlyEffective, text: "Highly Effective" },
           ].map(({ img, text }, index) => (
-            <div key={index} className="flex flex-col items-center font-lato">
+            <div key={index} className="flex flex-col items-center font-sophiaPro">
               <Image
                 src={img}
                 alt={text}
@@ -86,7 +86,7 @@ export default function WhatIsCleaRitual() {
                 height={40}
                 className="hidden xs:flex"
               />
-              <p className="font-lato text-[16px] md:text-[14px] xs:text-[14px]  font-medium leading-[135%] text-Text/Body-Text ">
+              <p className="font-sophiaPro text-[16px] md:text-[14px] xs:text-[14px]  font-medium leading-[135%] text-Text/Body-Text ">
                 {text}
               </p>
             </div>

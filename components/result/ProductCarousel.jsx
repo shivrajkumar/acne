@@ -73,13 +73,12 @@ const ProductCarousel = ({ images = [] }) => {
         </Carousel>
 
         {/* Slide Indicators */}
-        <div className="flex justify-center items-center gap-4 font-lato">
+        <div className="flex justify-center items-center gap-4 font-sophiaPro">
           {images.map((_, idx) => (
             <button
               key={idx}
-              className={`text-[12px] font-[400] cursor-pointer leading-[130%] transition-colors hover:opacity-80 ${
-                currentSlide === idx ? "text-black" : "text-grey/200"
-              }`}
+              className={`text-[12px] font-[400] cursor-pointer leading-[130%] transition-colors hover:opacity-80 ${currentSlide === idx ? "text-black" : "text-grey/200"
+                }`}
               onClick={() => handleGoTo(idx)}
               aria-label={`Go to slide ${idx + 1}`}
             >

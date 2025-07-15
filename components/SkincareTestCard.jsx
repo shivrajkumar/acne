@@ -36,7 +36,7 @@ const SkincareTestCard = ({ title, mobileImage, desktopImage }) => {
 
       {/* Content Layer */}
       <div className="rounded-3xl flex flex-col justify-between absolute top-0 bottom-0 left-0 right-0 px-3 py-3 text-xl font-semibold">
-        <h2 className="md:w-[361px] font-[400] text-[24px] md:text-[40px] font-lato md:leading-[120%] md:pt-[2rem] md:pl-[2rem]">
+        <h2 className="md:w-[361px] font-[400] text-[24px] md:text-[40px] font-sophiaPro md:leading-[120%] md:pt-[2rem] md:pl-[2rem]">
           {title}
         </h2>
 

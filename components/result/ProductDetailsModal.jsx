@@ -31,7 +31,7 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
     fetchEachProductDetails();
   }, [variantId]);
 
-    // Add ref for the scrollable content area
+  // Add ref for the scrollable content area
   const scrollableContentRef = useRef(null);
 
   // Focus the scrollable area when component mounts
@@ -51,7 +51,7 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
       if (!response || response.status !== 200 || !response.data) {
         throw new Error(
           response?.data?.message ||
-            "Failed to load product details. Please try again."
+          "Failed to load product details. Please try again."
         );
       }
 
@@ -77,7 +77,7 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
   // Loading State - Fixed to be centered and take full width
   if (isLoading) {
     return (
-      <div className="w-full bg-white font-lato">
+      <div className="w-full bg-white font-sophiaPro">
         <div className="flex items-center justify-center min-h-[400px]">
           <Loader />
         </div>
@@ -88,7 +88,7 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
   // Error State
   if (error) {
     return (
-      <div className="w-full mx-auto p-4 md:p-[10px] bg-white font-lato">
+      <div className="w-full mx-auto p-4 md:p-[10px] bg-white font-sophiaPro">
         <ProductErrorState
           error={error}
           onRetry={handleRetry}
@@ -101,14 +101,14 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
   // No product data state
   if (!product || !product.content) {
     return (
-      <div className="w-full mx-auto p-4 md:p-[10px] bg-white font-lato">
+      <div className="w-full mx-auto p-4 md:p-[10px] bg-white font-sophiaPro">
         <ProductEmptyState onCancel={handleCancel} />
       </div>
     );
   }
 
   return (
-    <div className="w-full mx-auto bg-white font-lato overflow-hidden flex md:flex-row md:gap-5 flex-col md:h-[400px]">
+    <div className="w-full mx-auto bg-white font-sophiaPro overflow-hidden flex md:flex-row md:gap-5 flex-col md:h-[400px]">
       {/* Carousel Section - Fixed container */}
       <ProductCarousel images={product?.content?.images} />
 

@@ -26,7 +26,7 @@ const OrderSummary = () => {
   // Sync ref with modal state to avoid stale values in event listeners (closure issue)
   useEffect(() => {
     isModalOpenRef.current = isModalOpen; // Update ref whenever modal state changes
-  } , [isModalOpen]);
+  }, [isModalOpen]);
 
   // Handle mobile back button to close modal instead of navigating
   useEffect(() => {
@@ -144,12 +144,12 @@ const OrderSummary = () => {
     <div className="md:px-[40px] w-full flex flex-col md:flex-row justify-between gap-[24px] md:gap-[60px] bg-Secondary/50  rounded-[24px]">
       <div className="w-full md:w-[56%]">
         <h1
-          className="text-Text/Heading-Text font-lato font-[500] text-[28px] md:text-[32px]"
+          className="text-Text/Heading-Text font-sophiaPro font-[500] text-[28px] md:text-[32px]"
           id="order_summary"
         >
           Order Summary
         </h1>
-        <p className="font-lato font-[500] text-[18px] text-Text/Label">
+        <p className="font-sophiaPro font-[500] text-[18px] text-Text/Label">
           Your Cart
         </p>
         <div className="flex flex-col gap-[24px] md:gap-[32px] mt-[24px] md:mt-[40px]">
@@ -216,19 +216,19 @@ const OrderSummary = () => {
           xl: '70%',
           xxl: '70%',
         }}
-       centered={isDesktop}
-      styles={{ 
-            body: { 
-              position: "relative",
-              borderRadius: 0,
-            },
-            content: {
-              borderRadius: 0,
-            },
-            mask: {
-              borderRadius: 0,
-            }
-          }}
+        centered={isDesktop}
+        styles={{
+          body: {
+            position: "relative",
+            borderRadius: 0,
+          },
+          content: {
+            borderRadius: 0,
+          },
+          mask: {
+            borderRadius: 0,
+          }
+        }}
       >
         {/* Custom Close Button */}
         <button

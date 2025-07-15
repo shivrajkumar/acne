@@ -10,7 +10,7 @@ const OnloadFormPage = () => {
   const [syntheticId, setSyntheticId] = useState("");
   const [tabClosed, setTabClosed] = useState("");
   const [formStatus, setFormStatus] = useState("");
-  const router=useRouter()
+  const router = useRouter()
 
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const OnloadFormPage = () => {
 
 
   return (
-    <div className={` h-screen mx-auto max-w-2xl px-6 pb-8 bg-white font-lato flex justify-center items-center `}>
+    <div className={` h-screen mx-auto max-w-2xl px-6 pb-8 bg-white font-sophiaPro flex justify-center items-center `}>
       <div className="flex flex-col items-center justify-center gap-4 h-2/5 sm:h-auto xs:mx-2">
         <h2 className="text-2xl font-bold text-center sm:text-4xl lg:text-6xl text-gray-600 sm:text-brand-gray-dark">
           Hey There!
@@ -60,7 +60,7 @@ const OnloadFormPage = () => {
             <button
               // className="mb-4 focus:outline-none text-brand-accent border-2 rounded-2xl py-4 px-4 xl:px-6 w-10/12 sm:w-9/12 md:w-9/12 lg:w-9/12 xl:w-9/12 border-brand-accent xs:px-2"
               className="w-[298px]  mt-6 h-[56px] justify-center text-sm flex  bg-Neutral/900 text-[#FFFFFF] py-4 px-10 text-[16px]   font-semibold  rounded-[1000px]  uppercase"
-                onClick={() => handleRedirections({ val: "refill", queryStrings, router })}
+              onClick={() => handleRedirections({ val: "refill", queryStrings, router })}
             >
               <span className="font-[400] uppercase text-center">
                 Start from beginning
@@ -69,7 +69,7 @@ const OnloadFormPage = () => {
             <button
               // className="mb-4 focus:outline-none text-brand-accent border-2 rounded-2xl py-4 px-4 xl:px-6 w-10/12 sm:w-9/12 md:w-9/12 lg:w-9/12 xl:w-9/12 border-brand-accent "
               className="w-[298px]  h-[56px] justify-center text-sm flex bg-neutral-400 text-[#FFFFFF] py-4 px-10 text-[16px]   font-semibold  rounded-[1000px]  uppercase"
-                onClick={() => handleRedirections({ val: "editAgain", router })}
+              onClick={() => handleRedirections({ val: "editAgain", router })}
             >
               <span className="font-[400] uppercase text-center">
                 Continue where I left

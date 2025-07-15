@@ -110,14 +110,14 @@ const SingleSelect = ({ block, context }) => {
 
       <div className="flex flex-col mt-8 sm:mt-8 w-full max-w-3xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px]">
         <label
-          className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
           htmlFor={block.id}
         >
           {isHindi ? block.hindi_text : block.text}
         </label>
 
         {block.sub_text && (
-          <label className="text-Text/Label font-lato font-[400] text-[14px] text-center">
+          <label className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center">
             {block.sub_text}
           </label>
         )}
@@ -142,15 +142,15 @@ const SingleSelect = ({ block, context }) => {
               >
                 <div className="flex items-center md:flex-row  xs:flex-col gap-[4px]">
                   <div className="flex flex-col flex-grow gap-[4px]">
-                    <h3 className="text-[16px] font-lato font-[500] leading-[150%] text-Text/Heading-Text text-center md:text-cente items-center -tracking-[1%]">
+                    <h3 className="text-[16px] font-sophiaPro font-[500] leading-[150%] text-Text/Heading-Text text-center md:text-cente items-center -tracking-[1%]">
                       {option.name}
                     </h3>
                     {option.sub_text && (
-                      <p className="text-[14px] font-lato font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
+                      <p className="text-[14px] font-sophiaPro font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
                         {option.sub_text}
                       </p>
                     )}
-                    {block.id === "pimples_frequency" && option.name === "Once a month" && gender === "F" && <p className="text-[14px] font-lato font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
+                    {block.id === "pimples_frequency" && option.name === "Once a month" && gender === "F" && <p className="text-[14px] font-sophiaPro font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
                       Aligned with my menstrual cycle
                     </p>}
                   </div>
@@ -171,7 +171,7 @@ const SingleSelect = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-2 mb-24 md:hidden">
             <button
-              className="font-lato font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -189,7 +189,7 @@ const SingleSelect = ({ block, context }) => {
         )}
 
         {error && (
-          <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">
+          <span className="block mt-4 text-red-500 text-center font-sophiaPro text-[14px]">
             {error}
           </span>
         )}
@@ -197,7 +197,7 @@ const SingleSelect = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 flex md:flex xs:hidden">
             <button
-              className="font-lato font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke  rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke  rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}

@@ -38,10 +38,10 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
         {/* Content */}
         <div className={`relative z-10 max-w-7xl w-full px-6  md:px-20 ${expertsPage ? "pt-[26rem]" : "pt-[2rem]"}  pb-[4rem] md:pt-16 md:pb-0 `}>
           <div className="text-black max-w-[600px] flex flex-col gap-[10px] md:gap-[con32px]">
-            <h1 className="text-[40px] md:text-[44px] md:w-[399px]  w-[312px] text-wrap font-[500] leading-[120%] tracking-[0.02em] font-lato">
+            <h1 className="text-[40px] md:text-[44px] md:w-[399px]  w-[312px] text-wrap font-[500] leading-[120%] tracking-[0.02em] font-sophiaPro">
               {heading ? heading : defaultHeading}
             </h1>
-            <p className="text-[14px] md:text-[16px] leading-[1.5] tracking-[-0.01em] font-lato md:w-[420px] text-wrap">
+            <p className="text-[14px] md:text-[16px] leading-[1.5] tracking-[-0.01em] font-sophiaPro md:w-[420px] text-wrap">
               {subText ? subText : defaultSubText}
             </p>
 

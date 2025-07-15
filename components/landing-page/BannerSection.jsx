@@ -11,15 +11,15 @@ const BannerSection = () => {
   const [syntheticId, setSyntheticId] = useState(null);
   const [orderCount, setOrderCount] = useState(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [caseId , setCaseId] = useState(null);
+  const [caseId, setCaseId] = useState(null);
 
   useEffect(() => {
 
-      const orderCountFromStorage = window.localStorage.getItem("order_count");
-      const storedData = localStorage.getItem("acne_result_data");
-      const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-      setOrderCount(orderCountFromStorage);
-      setCaseId(idFromLocalStorage)
+    const orderCountFromStorage = window.localStorage.getItem("order_count");
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+    setOrderCount(orderCountFromStorage);
+    setCaseId(idFromLocalStorage)
 
     const synthetic_Id = localStorage.getItem("syntheticId");
     if (synthetic_Id) {
@@ -57,19 +57,19 @@ const BannerSection = () => {
           ></div>
 
           {/* Text positioned over the video */}
-          <div className={`absolute bottom-8 left-0 w-full z-20 px-4 font-lato `}>
-            <div className="flex flex-col gap-[8px] font-lato text-[#FFFFFF]">
-              <p className="font-lato font-[500] text-[16px] leading-[130%] -tracking-[1%]">
+          <div className={`absolute bottom-8 left-0 w-full z-20 px-4 font-sophiaPro `}>
+            <div className="flex flex-col gap-[8px] font-sophiaPro text-[#FFFFFF]">
+              <p className="font-sophiaPro font-[500] text-[16px] leading-[130%] -tracking-[1%]">
                 Designed by Dermatologists
               </p>
-              <p className="font-lato font-[500] text-[40px] leading-[120%] -tracking-[3%]">
+              <p className="font-sophiaPro font-[500] text-[40px] leading-[120%] -tracking-[3%]">
                 Personalised
                 <br />
                 Acne Care
                 <br />
                 That Works
               </p>
-              <p className="font-lato font-[500] text-[14px] leading-[140%] -tracking-[1%]">
+              <p className="font-sophiaPro font-[500] text-[14px] leading-[140%] -tracking-[1%]">
                 Discover acne treatments crafted
                 <br />for your unique skin needs
               </p>
@@ -125,19 +125,19 @@ const BannerSection = () => {
             }}
           ></div>
         </div>
-        <div className="absolute items-start ps-[80px] flex flex-col font-lato">
+        <div className="absolute items-start ps-[80px] flex flex-col font-sophiaPro">
           <div className="flex flex-col gap-[8px] mb-[32px]">
-            <p className="font-lato font-[500] text-[18px] leading-[135%] tracking-[-1%] text-[#FFFFFF]">
+            <p className="font-sophiaPro font-[500] text-[18px] leading-[135%] tracking-[-1%] text-[#FFFFFF]">
               Designed by Dermatologists
             </p>
-            <p className="font-lato font-[500] text-[54px] leading-[120%] tracking-[-2%] text-[#FFFFFF]">
+            <p className="font-sophiaPro font-[500] text-[54px] leading-[120%] tracking-[-2%] text-[#FFFFFF]">
               Personalised
               <br />
               Acne Care
               <br />
               That Works
             </p>
-            <p className="font-lato font-[500] text-[18px] leading-[135%] tracking-[-1%] text-[#FFFFFF]">
+            <p className="font-sophiaPro font-[500] text-[18px] leading-[135%] tracking-[-1%] text-[#FFFFFF]">
               Discover acne treatments crafted for
               <br />your unique skin needs
             </p>

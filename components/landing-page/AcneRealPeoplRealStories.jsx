@@ -18,17 +18,17 @@ export default function AcneRealPeoplRealStories({
   const [isDesktop, setIsDesktop] = useState(false);
   const [showArrows, setShowArrows] = useState(false);
   const sliderRef = useRef(null);
-  const [orderCount , setOrderCount] = useState(null);
-  const [caseId , setCaseId] = useState(null);
+  const [orderCount, setOrderCount] = useState(null);
+  const [caseId, setCaseId] = useState(null);
 
-  useEffect(()=>{
-      const orderCountFromStorage =
-        window.localStorage.getItem("order_count");
-        const storedData = localStorage.getItem("acne_result_data");
-        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-      setOrderCount(orderCountFromStorage);
-      setCaseId(idFromLocalStorage)
-  },[])
+  useEffect(() => {
+    const orderCountFromStorage =
+      window.localStorage.getItem("order_count");
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+    setOrderCount(orderCountFromStorage);
+    setCaseId(idFromLocalStorage)
+  }, [])
 
 
   // Functions to handle navigation
@@ -107,7 +107,7 @@ export default function AcneRealPeoplRealStories({
       className={`${bgColor} ${reviewPage
         ? " md:p-[4rem]"
         : " p-[40px] xs:p-[28px] md:p-10 md:h-[670px] h-[615px]"
-        }  rounded-[24px] font-lato`}
+        }  rounded-[24px] font-sophiaPro`}
       onMouseEnter={() => setShowArrows(true)}
       onMouseLeave={() => setShowArrows(false)}
     >
@@ -117,11 +117,11 @@ export default function AcneRealPeoplRealStories({
           }`}
       >
         <div>
-          <div className="bg-white border-[1px] border-Elements/Divider-Stroke rounded-[12px] py-[8px] px-[16px] font-lato text-[12px] md:text-[14px] w-fit ">
+          <div className="bg-white border-[1px] border-Elements/Divider-Stroke rounded-[12px] py-[8px] px-[16px] font-sophiaPro text-[12px] md:text-[14px] w-fit ">
             Reviews
           </div>
           <h2
-            className={`font-lato text-[40px] xs:text-[28px] md:text-[40px] font-medium leading-[130%] tracking-[-0.02em] my-[40px] ${reviewPage ? "xs:my-[12px]" : "xs:my-[16px]"
+            className={`font-sophiaPro text-[40px] xs:text-[28px] md:text-[40px] font-medium leading-[130%] tracking-[-0.02em] my-[40px] ${reviewPage ? "xs:my-[12px]" : "xs:my-[16px]"
               } `}
           >
             <span className="hidden md:inline">Real People, Real Stories</span>
@@ -146,19 +146,19 @@ export default function AcneRealPeoplRealStories({
         </div>
         {reviewPage && (
           <div className=" flex md:hidden ">
-        {!orderCount ? <AcneTakeTheSkinTest
-            variant="black"
-            text="TAKE THE SKIN TEST"
-            tm=" "
-            redirectTo="/skin-test"
-            deskSize="desktopSmall"
-          /> : <AcneTakeTheSkinTest
-            variant="black"
-            text={`Book Your Call Now`}
-            tm={" "}
-            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
-            deskSize="desktopSmall"
-          />}
+            {!orderCount ? <AcneTakeTheSkinTest
+              variant="black"
+              text="TAKE THE SKIN TEST"
+              tm=" "
+              redirectTo="/skin-test"
+              deskSize="desktopSmall"
+            /> : <AcneTakeTheSkinTest
+              variant="black"
+              text={`Book Your Call Now`}
+              tm={" "}
+              redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
+              deskSize="desktopSmall"
+            />}
           </div>
         )}
       </div>
@@ -220,22 +220,22 @@ export default function AcneRealPeoplRealStories({
                             }`}
                         >
                           {showNameBeforeQuote && (
-                            <p className="font-lato text-[18px] text-[#171819] md:text-[16px] xs:text-[14px] font-[600] text-left leading-[135%] tracking-[-0.01rem]">
+                            <p className="font-sophiaPro text-[18px] text-[#171819] md:text-[16px] xs:text-[14px] font-[600] text-left leading-[135%] tracking-[-0.01rem]">
                               {testimonial.name}
                             </p>
                           )}
                           {showNameBeforeQuote && (
-                            <p className="font-lato text-[16px] md:text-[16px] xs:text-[14px] mb-6 mt-4 font-[400] text-left leading-[150%] tracking-[-0.01rem]">
+                            <p className="font-sophiaPro text-[16px] md:text-[16px] xs:text-[14px] mb-6 mt-4 font-[400] text-left leading-[150%] tracking-[-0.01rem]">
                               {`${testimonial.quote}`}
                             </p>
                           )}
                           {!showNameBeforeQuote && (
-                            <p className="font-lato text-[16px] md:text-[16px] xs:text-[14px] font-[400] mb-[8px] text-center leading-[140%]">
+                            <p className="font-sophiaPro text-[16px] md:text-[16px] xs:text-[14px] font-[400] mb-[8px] text-center leading-[140%]">
                               {`"${testimonial.quote}"`}
                             </p>
                           )}
                           {!showNameBeforeQuote && (
-                            <p className="font-lato text-[16px] md:text-[16px] xs:text-[14px] font-[600] text-center leading-[150%]">
+                            <p className="font-sophiaPro text-[16px] md:text-[16px] xs:text-[14px] font-[600] text-center leading-[150%]">
                               {testimonial.name}
                             </p>
                           )}
@@ -244,7 +244,7 @@ export default function AcneRealPeoplRealStories({
                         {showHelpedSolve &&
                           testimonial.helped_solve?.length > 0 && (
                             <div className="text-left min-h-[120px]  md:min-h-[130px] lg:min-h-[130px] xl:min-h-[130px] max-h-[150px] mt-[20px]">
-                              <p className="md:text-[14px] font-lato font-[400] text-Text/Body-Text mb-2">
+                              <p className="md:text-[14px] font-sophiaPro font-[400] text-Text/Body-Text mb-2">
                                 Helped Solve
                               </p>
                               <div className="flex flex-wrap gap-2">
@@ -285,7 +285,7 @@ export default function AcneRealPeoplRealStories({
             )}
           </>
         ) : (
-          <div className="text-center p-4 font-lato">
+          <div className="text-center p-4 font-sophiaPro">
             No testimonials available
           </div>
         )}

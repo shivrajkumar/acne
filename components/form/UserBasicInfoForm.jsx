@@ -506,10 +506,10 @@ export default function UserBasicInfoForm() {
       {isLoading && <Loader />}
       <div className="w-full ">
         <>
-          <h1 className="font-lato font-[400] xl:text-[44px] text-[28px] text-Text/Heading-Text italic -tracking-[2%] text-center">
+          <h1 className="font-sophiaPro font-[400] xl:text-[44px] text-[28px] text-Text/Heading-Text italic -tracking-[2%] text-center">
             Tell Us About Yourself
           </h1>
-          <p className="text-Text/Label font-lato font-[400] text-[14px] text-center my-[16px]  ">
+          <p className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center my-[16px]  ">
             We start by collecting your details to create a unique ID for your
             skin.
           </p>
@@ -626,7 +626,7 @@ export default function UserBasicInfoForm() {
             <div className="fixed bottom-0 left-0 right-0 z-10  flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
               <button
                 type="submit"
-                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-lato ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
                   }`}
                 disabled={!isFormValid}
               >

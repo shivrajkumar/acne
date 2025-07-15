@@ -27,6 +27,7 @@ const config: Config = {
       mukta: ["Mukta", "sans-serif"],
       jakara: ["var(--font-plus-jakarta)", "sans-serif"],
       lato: ["var(--font-lato)", "sans-serif"],
+      sophiaPro: ["sofia-pro"],
     },
     extend: {
       animation: {

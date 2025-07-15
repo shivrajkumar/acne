@@ -47,18 +47,18 @@ const CartSummarySticky = () => {
         <div className="flex gap-[32px]">
           <div>
             <p
-              className={`text-[24px] md:text-[30px] font-lato font-[600] text-Text/Heading-Text -tracking-[1%]`}
+              className={`text-[24px] md:text-[30px] font-sophiaPro font-[600] text-Text/Heading-Text -tracking-[1%]`}
             >
               ₹{(cartData?.totalCartValue ?? 0).toFixed(2)}/-
             </p>
             <button
               onClick={scrollToOrderSummary}
-              className="md:underline font-lato font-[500] text-[14px] -tracking-[2%] text-Neutral/800 hidden md:flex items-center "
+              className="md:underline font-sophiaPro font-[500] text-[14px] -tracking-[2%] text-Neutral/800 hidden md:flex items-center "
             >
               Order Summary
             </button>
             <div
-              className="md:underline font-lato font-[500] text-[14px] -tracking-[2%] text-Neutral/800 flex md:hidden items-center cursor-pointer"
+              className="md:underline font-sophiaPro font-[500] text-[14px] -tracking-[2%] text-Neutral/800 flex md:hidden items-center cursor-pointer"
               onClick={() => setOpen(true)}
             >
               Order Summary
@@ -88,7 +88,7 @@ const CartSummarySticky = () => {
                 onClick={scrollToOrderSummary}
                 className="flex items-center justify-center border-[1px] border-Elements/Divider-Stroke w-[56px] h-full rounded-[8px] p-[4px]"
               >
-                <span className="font-lato text-[14px] font-[500] text-Neutral/800">
+                <span className="font-sophiaPro text-[14px] font-[500] text-Neutral/800">
                   +{remainingCount} more
                 </span>
               </button>
@@ -114,7 +114,7 @@ const CartSummarySticky = () => {
               onClick={handleBuyNowClick}
             >
               {cartData?.cta}{" "}
-            
+
             </button>
           )}
         </div>
@@ -128,7 +128,7 @@ const CartSummarySticky = () => {
         className="mobile-cart-drawer"
         title={
           <div className="flex flex-row items-center justify-between w-full ">
-            <h2 className="font-lato font-[600] text-[18px] text-Text/Heading-Text -tracking-[1%]">
+            <h2 className="font-sophiaPro font-[600] text-[18px] text-Text/Heading-Text -tracking-[1%]">
               Order Summary
             </h2>
             <div onClick={() => setOpen(false)} className="cursor-pointer ">

@@ -7,24 +7,24 @@ const TermsConditionsPage = () => {
     <div className="flex lg:justify-center">
       <div className="px-4 pb-14 lg:w-[65%] lg:px-0 mt-20">
         <div className="flex items-center gap-x-1 mb-8">
-          <a href="/" className="font-lato text-xs text-gray-700">
+          <a href="/" className="font-sophiaPro text-xs text-gray-700">
             HOME
           </a>
           <Image src={rightArrow} alt="logo" width={12} height={12} />
           <a
             href="/terms-conditions"
-            className="font-lato text-xs text-gray-700"
+            className="font-sophiaPro text-xs text-gray-700"
           >
             TERMS OF SERVICE
           </a>
         </div>
-        <h2 className="font-lato font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
+        <h2 className="font-sophiaPro font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
           TERMS OF SERVICE
         </h2>
-        <p className="font-lato  italic text-[15px] my-4">
+        <p className="font-sophiaPro  italic text-[15px] my-4">
           Last updated on 30th April, 2025
         </p>
-        <div className="font-lato text-[17px]">
+        <div className="font-sophiaPro text-[17px]">
           <p>
             This document is an electronic record in terms of Information
             Technology Act, 2000 and rules thereunder, as applicable and the

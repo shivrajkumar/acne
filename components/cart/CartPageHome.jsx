@@ -104,7 +104,7 @@ const CartPageHome = () => {
           {/* Custom Breakdown Drawer */}
           {isBreakdownDrawerOpen && (
             <div
-              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end overflow-y-scroll font-lato"
+              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end overflow-y-scroll font-sophiaPro"
               onClick={() => setIsBreakdownDrawerOpen(false)}
             >
               {/*  Title */}
@@ -114,7 +114,7 @@ const CartPageHome = () => {
               >
                 {/* Close Button */}
                 <div className="flex justify-between items-center mb-4 py-[16px] px-[12px] border-b-[1px]  border-b-Overlay Popup/Divider Stroke ">
-                  <h2 className="text-[16px] font-[500] leading-[130%]  text-Text/Heading-Text -tracking-[1%] font-lato">
+                  <h2 className="text-[16px] font-[500] leading-[130%]  text-Text/Heading-Text -tracking-[1%] font-sophiaPro">
                     Estimated Total
                   </h2>
 
@@ -142,14 +142,14 @@ const CartPageHome = () => {
                       className="rounded-full w-[104px] h-[104px] object-cover"
                     />
 
-                    <div className="flex flex-col flex-grow font-lato">
-                      <p className="font-lato font-[400] text-[16px] -tracking-[1%] ">
+                    <div className="flex flex-col flex-grow font-sophiaPro">
+                      <p className="font-sophiaPro font-[400] text-[16px] -tracking-[1%] ">
                         {data?.doctorDetails?.name}
                       </p>
-                      <p className="font-lato text-[12px] md:text-[14px] font-[400]">
+                      <p className="font-sophiaPro text-[12px] md:text-[14px] font-[400]">
                         {data?.doctorDetails?.education}
                       </p>
-                      <p className="font-lato text-[12px] md:text-[14px] font-[400]">
+                      <p className="font-sophiaPro text-[12px] md:text-[14px] font-[400]">
                         {data?.doctorDetails?.experience}
                       </p>
                     </div>
@@ -162,8 +162,8 @@ const CartPageHome = () => {
                         key={index}
                         className="flex gap-[24px] justify-between"
                       >
-                        <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{`(${product?.quantity}) ${product?.name}`}</p>
-                        <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] ">
+                        <p className="font-sophiaPro font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{`(${product?.quantity}) ${product?.name}`}</p>
+                        <p className="font-sophiaPro font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] ">
                           ₹{product.price.toFixed(2)}
                         </p>
                       </div>
@@ -176,35 +176,35 @@ const CartPageHome = () => {
 
                   <div className={`flex  flex-col gap-[16px] mt-[16px]`}>
                     <div className="flex justify-between">
-                      <p className="font-lato font-[400] text-[14px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">
+                      <p className="font-sophiaPro font-[400] text-[14px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">
                         Subtotal
                       </p>
-                      <p className="font-lato font-[400] text-[14px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%]">
+                      <p className="font-sophiaPro font-[400] text-[14px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%]">
                         ₹{data?.cartDetails?.totalCartValue?.toFixed(2)}
                       </p>
                     </div>
 
                     <div className={` flex  justify-between`}>
-                      <p className="font-lato font-[400] text-[14px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">
+                      <p className="font-sophiaPro font-[400] text-[14px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">
                         Shipping
                       </p>
-                      <p className="font-lato font-[400] text-[14px] tmd:ext-[18px] text-[#FFFFFF] -tracking-[1%] bg-Semantic/Success w-fit h-[28px] py-[4px] px-[16px] rounded-[8px] flex items-center">
+                      <p className="font-sophiaPro font-[400] text-[14px] tmd:ext-[18px] text-[#FFFFFF] -tracking-[1%] bg-Semantic/Success w-fit h-[28px] py-[4px] px-[16px] rounded-[8px] flex items-center">
                         {data?.cartDetails?.shippingCharges}
                       </p>
                     </div>
 
                     <div className={` flex justify-between`}>
-                      <p className="font-lato font-[600] text-[16px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">
+                      <p className="font-sophiaPro font-[600] text-[16px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">
                         {"Total (pre-tax)"}
                       </p>
-                      <p className="font-lato font-[500] text-[16px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%]">
+                      <p className="font-sophiaPro font-[500] text-[16px] tmd:ext-[18px] text-Text/Body-Text -tracking-[1%]">
                         ₹{data?.cartDetails?.totalCartValue?.toFixed(2)}
                       </p>
                     </div>
                   </div>
 
                   <div className="border-t border-Elements/DividerStroke mt-[16px]">
-                    <p className="flex text-[14px] font-lato font-[400] pt-[12px] text-Text/Label text-center justify-center">
+                    <p className="flex text-[14px] font-sophiaPro font-[400] pt-[12px] text-Text/Label text-center justify-center">
                       {data?.cartDetails?.disclaimer}
                     </p>
                   </div>

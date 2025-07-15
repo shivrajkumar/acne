@@ -51,7 +51,7 @@ const AcneFooter = () => {
               <Link href="/" onClick={() => PageClickEvent("Home", "/")}>
                 <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
               </Link>
-              <p className="font-lato font-[400] text-[14px] leading-[1.4%] text-neutral-50">Targeted Acne Care, Visible Results.</p>
+              <p className="font-sophiaPro font-[400] text-[14px] leading-[1.4%] text-neutral-50">Targeted Acne Care, Visible Results.</p>
             </div>
 
             <div className="block md:flex gap-8 justify-between">
@@ -61,7 +61,7 @@ const AcneFooter = () => {
                     <Link
                       href="/skin-test"
                       onClick={() => PageClickEvent("SkinTest", "/skin-test")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       Take Our Skin Test
                     </Link>
@@ -70,7 +70,7 @@ const AcneFooter = () => {
                     <Link
                       href="/about-us"
                       onClick={() => PageClickEvent("AboutUs", "/about-us")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       About Us
                     </Link>
@@ -79,7 +79,7 @@ const AcneFooter = () => {
                     <Link
                       href="/experts"
                       onClick={() => PageClickEvent("Experts", "/experts")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       Our Experts
                     </Link>
@@ -88,7 +88,7 @@ const AcneFooter = () => {
                     <Link
                       href="/reviews"
                       onClick={() => PageClickEvent("Reviews", "/reviews")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       Reviews
                     </Link>
@@ -97,7 +97,7 @@ const AcneFooter = () => {
                     <Link
                       href="/privacy-policy"
                       onClick={() => PageClickEvent("PrivacyPolicy", "/privacy-policy")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       Privacy & Policy
                     </Link>
@@ -106,16 +106,16 @@ const AcneFooter = () => {
                     <Link
                       href="/terms-conditions"
                       onClick={() => PageClickEvent("TermsConditions", "/terms-conditions")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       Terms of Service
                     </Link>
                   </li>
-                   <li>
+                  <li>
                     <Link
                       href="/return-policy"
                       onClick={() => PageClickEvent("ReturnPolicy", "/return-policy")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
                     >
                       Return Policy
                     </Link>
@@ -125,7 +125,7 @@ const AcneFooter = () => {
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
                 <a
                   href="tel:+918424004697"
-                  className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px]"
+                  className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%] flex gap-[8px]"
                   onClick={() => contactIconsClickEvent("Phone")}
                 >
                   <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
@@ -133,7 +133,7 @@ const AcneFooter = () => {
                 </a>
                 <a
                   href="mailto:customercare@clearritual.com"
-                  className="text-neutral-50 font-lato text-[14px] leading-[140%] flex gap-[8px] items-center"
+                  className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%] flex gap-[8px] items-center"
                   onClick={() => contactIconsClickEvent("Email")}
                 >
                   <span>
@@ -174,7 +174,7 @@ const AcneFooter = () => {
       </div>
 
       {/* Copyright Section - both desktop and mobile */}
-      <div className="ms-[16px] md:ms-[80px] text-[14px] pb-[16px] md:py-[24px] font-lato font-[400] text-neutral-50 text-left leading-[1.4%]">
+      <div className="ms-[16px] md:ms-[80px] text-[14px] pb-[16px] md:py-[24px] font-sophiaPro font-[400] text-neutral-50 text-left leading-[1.4%]">
         © 2025 Clear Ritual. All rights reserved.
       </div>
     </div>
