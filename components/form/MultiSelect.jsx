@@ -178,7 +178,7 @@ const MultiSelect = ({ block, context }) => {
     <>
       {isLoading && <Loader />}
 
-      <div className="flex flex-col mt-8 sm:mt-8 w-full max-w-3xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px]">
+      <div className="flex flex-col mt-8 sm:mt-8 w-full mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px]">
         <label
           className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
           htmlFor={block.id}
@@ -192,7 +192,7 @@ const MultiSelect = ({ block, context }) => {
           </label>
         )}
 
-        <div className="flex flex-wrap justify-center sm:justify-center gap-[16px] md:gap-[16px] xs:gap-[8px] mt-[16px] md:mt-[16px] xs:mt-[8px] w-full">
+        <div className="flex flex-wrap justify-center sm:justify-center gap-[16px] md:gap-[16px] xs:gap-[8px] mt-[16px] md:mt-[16px] xs:mt-[8px] w-full max-w-3xl mx-auto">
           {block.optionMap?.map((option) => {
             const isSelected = selectedOptions.includes(option.value);
 
