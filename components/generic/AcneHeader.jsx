@@ -149,6 +149,13 @@ const AcneHeader = () => {
           >
             Reviews
           </Link>
+          <Link
+            href="/blog"
+            className="font-sophiaPro font-[400] text-[14px] leading-[140%] text-[#313233]"
+            onClick={() => PageClickEvent("Blogs", "/blog")}
+          >
+            Blogs
+          </Link>
         </div>
 
         {/* Right side icons */}
