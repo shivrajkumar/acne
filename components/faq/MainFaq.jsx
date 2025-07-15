@@ -1,5 +1,5 @@
 'use client';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import { Layout, Card, Row, Col, Divider } from 'antd';
 import FaqSection from './components/FaqSection';
 import SideBarNavItem from './components/SideBarNavItem';
@@ -12,12 +12,15 @@ import WorkingHoursIcon from '@assets/svg/Off.svg'
 const { Content } = Layout;
 
 const MainFaq = () => {
-
   const sectionRefs = useRef([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   const handleScrollTo = (index) => {
     sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
+    setSelectedIndex(index)
   };
+
+  console.log('selectedIndex', selectedIndex)
 
   return (
     <Layout className="min-h-screen bg-white">
@@ -36,8 +39,9 @@ const MainFaq = () => {
                   <SideBarNavItem
                     key={item}
                     label={item}
-                    isActive={false}
                     onClick={() => handleScrollTo(index)}
+                    index={index}
+                    selectedIndex={selectedIndex}
                   />
                 ))}
               </div>
@@ -47,8 +51,9 @@ const MainFaq = () => {
                   <SideBarNavItem
                     key={item}
                     label={item}
-                    isActive={false}
                     onClick={() => handleScrollTo(index)}
+                    index={index}
+                    selectedIndex={selectedIndex}
 
                   />
                 ))}
