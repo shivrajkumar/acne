@@ -27,7 +27,7 @@ const MainFaq = () => {
           <Col xs={24} lg={7}>
             {/* Navigation Card */}
             <Card className="mb-6 rounded-lg bg-[#F9F7F2]">
-              <div className="mb-8 font-bold text-gray-900 text-[18px] md:text-[40px]">
+              <div className="mb-8 font-sophiaPro font-bold text-gray-900 text-[18px] md:text-[40px]">
                 FAQ
               </div>
               

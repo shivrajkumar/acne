@@ -14,7 +14,7 @@ const FaqSection = forwardRef(({ title, items }, ref) =>  {
 
   return (
     <div ref={ref} className="mb-16">
-      <div className="mb-6 font-bold tracking-wide text-gray-900 text-[18px] md:text-[40px]">{title}</div>
+      <div className="mb-6 font-bold tracking-wide font-sophiaPro text-black text-[18px] md:text-[40px]">{title}</div>
       
       <div className="shadow-none border-none bg-[#F9F7F2]">
         <div className="divide-y divide-gray-200">

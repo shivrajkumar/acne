@@ -14,7 +14,7 @@ const FaqItem = ({ question, answer, isOpen, onToggle }) => {
         onClick={onToggle}
         className="w-full h-auto py-4 px-0 flex justify-between items-center text-left border-none shadow-none hover:bg-transparent"
       >
-        <Text strong className="text-sm text-gray-900">
+        <Text strong className="text-sm font-sophiaPro text-gray-900">
           {question}
         </Text>
         <div className="w-6 h-6 rounded-full flex items-center justify-center">
@@ -30,7 +30,7 @@ const FaqItem = ({ question, answer, isOpen, onToggle }) => {
       
       {isOpen && (
         <div className="pb-4 pr-8 animate-fadeIn">
-          <Text className="text-sm text-gray-600 leading-relaxed">
+          <Text className="text-sm font-sophiaPro text-gray-600 leading-relaxed">
             {answer}
           </Text>
         </div>
