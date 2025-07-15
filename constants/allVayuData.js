@@ -78,15 +78,6 @@ export const doctorExpert = [
     description: `Dr Siddhi Sonawane specialises in facial aesthetics, cosmetology, dermatosurgery, and core dermatology. She actively contributes to community dermatology outreach under NUHM, focusing on accessible skin health solutions.`,
   },
   {
-    id: 5,
-    name: "Dr Shriya saha",
-    qualification: "MBBS, MD - Dermatology",
-    doctorImage: `${CDN_BASE_URL}website_images/vayu/experts_page/dr-shriya-shah.webp`,
-    experince: "7 Years",
-    patients: "81038+ Patients",
-    description: `A distinguished dermatologist with MBBS (Hons) and MD in Dermatology, Dr Shriya Saha offers expert and compassionate care, helping patients navigate diverse and complex skin concerns with personalised treatment plans.`,
-  },
-  {
     id: 6,
     name: "Dr Kalyani Deshmukh",
     qualification: "MBBS, MD (Dermatology)",
@@ -908,78 +899,7 @@ export const prescriptionData = {
   },
 };
 
-export const faqDataHelpPage = {
-    products: [
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      }
-    ],
-    shipping: [
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      }
-    ],
-    orders: [
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      }
-    ],
-    returns: [
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      },
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      }
-    ],
-    contact: [
-      {
-        question: "Question XYZ",
-        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      }
-    ]
-  };
+
 // {
 //   id: 6,
 //   src: `${CDN_BASE_URL}website_images/vayu_images/open_pores.webp`,
