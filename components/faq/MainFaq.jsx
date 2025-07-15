@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Layout, Card, Row, Col, Typography } from 'antd';
+import { Layout, Card, Row, Col, Divider } from 'antd';
 import FaqSection from './components/FaqSection';
 import SideBarNavItem from './components/SideBarNavItem';
 import FaqContactInfo from './components/FaqContactInfo';
@@ -10,7 +10,6 @@ import MailIcon from '@assets/svg/mail.svg'
 import WorkingHoursIcon from '@assets/svg/Off.svg'
 
 const { Content } = Layout;
-const { Title } = Typography;
 
 const MainFaq = () => {
   return (
@@ -25,7 +24,7 @@ const MainFaq = () => {
                 FAQ
               </div>
               
-              <div className="flex md:hidden gap-1 overflow-x-auto scrollbar-hide">
+              <div className="flex md:hidden gap-1 overflow-x-auto hide-scrollbar">
                 {sidebarItems.map((item) => (
                   <SideBarNavItem
                     key={item}
@@ -49,15 +48,14 @@ const MainFaq = () => {
             </Card>
 
             {/* Contact Information Card */}
-            <Card 
-              className="rounded-lg"
-              bodyStyle={{ padding: '24px' }}
-            >
+            <div className="mt-12">
               <FaqContactInfo
                 icon={MailIcon}
                 title="Write to Us"
                 content={contactInfo.email}
               />
+                <Divider className="my-6" />
+
               
               <FaqContactInfo
                 icon={AddressIcon}
@@ -66,6 +64,8 @@ const MainFaq = () => {
                 subContent={contactInfo.address}
                 cin={contactInfo.cin}
               />
+                <Divider className="my-6" />
+
               
               <FaqContactInfo
                 icon={WorkingHoursIcon}
@@ -73,7 +73,7 @@ const MainFaq = () => {
                 content={contactInfo.workingHours}
                 subContent={contactInfo.workingDays}
               />
-            </Card>
+            </div>
           </Col>
 
           {/* Main Content */}
@@ -85,6 +85,7 @@ const MainFaq = () => {
                   key={section}
                   title={section}
                   items={faqData[section] || []}
+                  id={section.toLowerCase().replace(/\s+/g, '-')}
                 />
               ))}
             </div>
