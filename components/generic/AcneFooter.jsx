@@ -120,7 +120,7 @@ const AcneFooter = () => {
                       Return Policy
                     </Link>
                   </li>
-                      {/* <li>
+                  <li>
                     <Link
                       href="/faq"
                       onClick={() => PageClickEvent("FAQ", "/faq")}
@@ -128,7 +128,7 @@ const AcneFooter = () => {
                     >
                       FAQ
                     </Link>
-                  </li> */}
+                  </li>
                 </ul>
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
