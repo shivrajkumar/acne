@@ -104,7 +104,7 @@ const AcneHeader = () => {
   return (
     <header ref={headerRef}>
       {/* Main navigation */}
-      <div className="bg-[#FFFFFF] relative py-[12px] px-[16px] md:px-[40px] flex justify-between items-center h-[56px] border-b-[1px] font-lato">
+      <div className="bg-[#FFFFFF] relative py-[12px] px-[16px] md:px-[40px] flex justify-between items-center h-[56px] border-b-[1px] font-sophiaPro">
         {/* Mobile Menu Button - Only visible on mobile */}
         <button
           className="md:hidden flex items-center"
@@ -130,21 +130,21 @@ const AcneHeader = () => {
         <div className="hidden md:flex space-x-8 mr-[32px] md:mr-[160px]">
           <Link
             href="/about-us"
-            className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            className="font-sophiaPro font-[400] text-[14px] leading-[140%] text-[#313233]"
             onClick={() => PageClickEvent("AboutUs", "/about-us")}
           >
             About Us
           </Link>
           <Link
             href="/experts"
-            className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            className="font-sophiaPro font-[400] text-[14px] leading-[140%] text-[#313233]"
             onClick={() => PageClickEvent("Experts", "/experts")}
           >
             Experts
           </Link>
           <Link
             href="/reviews"
-            className="font-lato font-[400] text-[14px] leading-[140%] text-[#313233]"
+            className="font-sophiaPro font-[400] text-[14px] leading-[140%] text-[#313233]"
             onClick={() => PageClickEvent("Reviews", "/reviews")}
           >
             Reviews
@@ -175,7 +175,7 @@ const AcneHeader = () => {
           }}
         >
           <div className="py-[12px] px-[16px] flex justify-between items-center border-b">
-            <div className="font-lato text-[16px] font-[500] text-[#1F1F1F]">
+            <div className="font-sophiaPro text-[16px] font-[500] text-[#1F1F1F]">
               Menu
             </div>
             <button onClick={toggleMenu}>
@@ -188,7 +188,7 @@ const AcneHeader = () => {
               <li className="py-[12px] px-[16px]">
                 <Link
                   href="/about-us"
-                  className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
+                  className="font-sophiaPro text-[14px] font-[400] text-Text/Heading-Text]"
                   onClick={() => {
                     PageClickEvent("AboutUs", "/about-us");
                     toggleMenu();
@@ -200,7 +200,7 @@ const AcneHeader = () => {
               <li className="py-[12px] px-[16px]">
                 <Link
                   href="/experts"
-                  className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
+                  className="font-sophiaPro text-[14px] font-[400] text-Text/Heading-Text]"
                   onClick={() => {
                     PageClickEvent("Experts", "/experts");
                     toggleMenu();
@@ -212,7 +212,7 @@ const AcneHeader = () => {
               <li className="py-[12px] px-[16px]">
                 <Link
                   href="/reviews"
-                  className="font-lato text-[14px] font-[400] text-Text/Heading-Text]"
+                  className="font-sophiaPro text-[14px] font-[400] text-Text/Heading-Text]"
                   onClick={() => {
                     PageClickEvent("Reviews", "/reviews");
                     toggleMenu();
@@ -269,7 +269,7 @@ const AcneHeader = () => {
                     onClick={() => setIsDrawerOpen(false)}
                     className="cursor-pointer"
                   />
-                  <h2 className="font-lato text-[16px] font-[400]  text-Text/Heading-Text -tracking-[1%]">
+                  <h2 className="font-sophiaPro text-[16px] font-[400]  text-Text/Heading-Text -tracking-[1%]">
                     Your Cart
                   </h2>
                 </div>

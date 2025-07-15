@@ -37,13 +37,13 @@ const MainInfo = ({
       >
         <div>
           {heading && (
-            <h2 className="font-lato text-[28px] md:text-[40px] font-[500] leading-[130%]">
+            <h2 className="font-sophiaPro text-[28px] md:text-[40px] font-[500] leading-[130%]">
               {heading}
             </h2>
           )}
           {description && (
             <p
-              className={`font-lato text-[#171819] font-[400] leading-[150%] md:text-[16px] pt-2 text-[16px] ${descriptionClassName}`}
+              className={`font-sophiaPro text-[#171819] font-[400] leading-[150%] md:text-[16px] pt-2 text-[16px] ${descriptionClassName}`}
             >
               {description}
             </p>
@@ -54,7 +54,7 @@ const MainInfo = ({
               {features.map((item, index) => (
                 <li key={index} className="flex items-start gap-2 text-gray-800">
                   <Image src={CheckCircle} alt="tick icon" width={20} height={20} />
-                  <span className="font-[400] font-lato text-[14px] md:text-[18px] leading-[135%] tracking-normal">
+                  <span className="font-[400] font-sophiaPro text-[14px] md:text-[18px] leading-[135%] tracking-normal">
                     {item}
                   </span>
                 </li>

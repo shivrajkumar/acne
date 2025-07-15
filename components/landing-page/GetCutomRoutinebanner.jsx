@@ -5,21 +5,21 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { CDN_BASE_URL } from "@/constants/constants";
 
 export default function GetCustomRoutineBanner() {
-   const [orderCount , setOrderCount] = useState(null);
-   const [caseId , setCaseId] = useState(null);
-  
-  useEffect(()=>{
-      const orderCountFromStorage =
-        window.localStorage.getItem("order_count");
-          const storedData = localStorage.getItem("acne_result_data");
-         const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+  const [orderCount, setOrderCount] = useState(null);
+  const [caseId, setCaseId] = useState(null);
 
-      setOrderCount(orderCountFromStorage);
-       setCaseId(idFromLocalStorage)
-  },[])
+  useEffect(() => {
+    const orderCountFromStorage =
+      window.localStorage.getItem("order_count");
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+
+    setOrderCount(orderCountFromStorage);
+    setCaseId(idFromLocalStorage)
+  }, [])
 
   return (
-    <section className="relative w-full rounded-[24px] xs:rounded-[16px]  overflow-hidden font-lato">
+    <section className="relative w-full rounded-[24px] xs:rounded-[16px]  overflow-hidden font-sophiaPro">
       {/* Desktop View - Hidden on Mobile */}
       <div className="hidden md:block relative">
         <div className="relative w-full h-[520px]">
@@ -32,7 +32,7 @@ export default function GetCustomRoutineBanner() {
 
           <div className="absolute inset-0 top-[35%] flex flex-col mx-auto items-center justify-center">
             <div className="text-center text-white  px-4">
-              <h1 className="text-[44px] font-[500]  mb-8 font-lato">
+              <h1 className="text-[44px] font-[500]  mb-8 font-sophiaPro">
                 No More Guessing—Get a Skincare <br />Routine Made Just for You.
               </h1>
               <div className="flex justify-center">
@@ -67,7 +67,7 @@ export default function GetCustomRoutineBanner() {
 
           <div className="absolute inset-0 top-[35%] flex flex-col items-center justify-center p-6">
             <div className="text-center text-white">
-              <h2 className="text-[28px] font-[500] leading-tight mb-6 font-lato">
+              <h2 className="text-[28px] font-[500] leading-tight mb-6 font-sophiaPro">
                 No More Guessing—
                 <br />
                 Get a Skincare Routine

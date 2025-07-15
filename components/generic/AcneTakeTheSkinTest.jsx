@@ -50,7 +50,7 @@ const AcneTakeTheSkinTest = ({
         <a
           href={redirectTo}
           onClick={handleClick}
-          className={`flex ${hairTestButtonColor[variant]}  ${hairTestButtonColor[size]}  ${hairTestButtonColor[deskSize]} font-[400] mt-4 items-center justify-center font-lato rounded-[1000px] uppercase
+          className={`flex ${hairTestButtonColor[variant]}  ${hairTestButtonColor[size]}  ${hairTestButtonColor[deskSize]} font-[400] mt-4 items-center justify-center font-sophiaPro rounded-[1000px] uppercase
            ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] py-[16px] `}
           id={hairTestId}
 
@@ -72,7 +72,7 @@ const AcneTakeTheSkinTest = ({
         <a
           href={redirectTo}
           onClick={handleClick}
-          className={`flex ${hairTestButtonColor[variant]} justify-center items-center ${hairTestButtonColor[deskSize]}  font-lato font-[400] rounded-[1000px] uppercase 
+          className={`flex ${hairTestButtonColor[variant]} justify-center items-center ${hairTestButtonColor[deskSize]}  font-sophiaPro font-[400] rounded-[1000px] uppercase 
           ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] -tracking-[1%] py-[16px]`}
           id={hairTestId}
         >

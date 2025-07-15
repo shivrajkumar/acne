@@ -58,10 +58,10 @@ const RootCausesV2 = () => {
                 <div className='flex flex-col gap-[8px] md:gap-[16px]'>
                     <div className='relative '>
                         <div className='text-center justify-center flex flex-col   '>
-                            <h2 className="text-[40px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-lato font-[400] mb-[5px] md:mb-[8px]">{acneStageDetails?.code ?? "Acne Stage"}</h2>
-                            <p className="text-[12px] md:text-[18px] font-lato font-[400] text-Secondary/500">{"Open Pores"}<span className='text-[14px] md:text-[28px] uppercase ms-[4px] md:ms-[16px]'>{acneStageDetails?.isOpenPores ?? "TRUE"}</span></p>
-                            <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Pigmentation"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.pigmentation ?? "PRESENT"}</span></p>
-                            <p className="text-[12px] md:text-[18px] font-lato font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.sebumProduction ?? "HYPERPRODUCTION"}</span></p>
+                            <h2 className="text-[40px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-sophiaPro font-[400] mb-[5px] md:mb-[8px]">{acneStageDetails?.code ?? "Acne Stage"}</h2>
+                            <p className="text-[12px] md:text-[18px] font-sophiaPro font-[400] text-Secondary/500">{"Open Pores"}<span className='text-[14px] md:text-[28px] uppercase ms-[4px] md:ms-[16px]'>{acneStageDetails?.isOpenPores ?? "TRUE"}</span></p>
+                            <p className="text-[12px] md:text-[18px] font-sophiaPro font-[400]  text-Secondary/500">{"Pigmentation"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.pigmentation ?? "PRESENT"}</span></p>
+                            <p className="text-[12px] md:text-[18px] font-sophiaPro font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.sebumProduction ?? "HYPERPRODUCTION"}</span></p>
 
                         </div>
                         <div className='absolute top-0 right-0' >
@@ -84,7 +84,7 @@ const RootCausesV2 = () => {
 
             </div>
             <div className='mt-[16px] md:mt-[40px]'>
-                <h2 className="text-[20px] md:text-[28px] text-primary/700 -tracking-[1%] font-lato font-[700]">{"Your Root Causes"}</h2>
+                <h2 className="text-[20px] md:text-[28px] text-primary/700 -tracking-[1%] font-sophiaPro font-[700]">{"Your Root Causes"}</h2>
             </div>
             <Divider className="w-full h-[1.12px] bg-[#CECDC9] p-0 my-[16px]" />
             <RootCauseIconComponent
@@ -170,7 +170,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                                 style={{ objectFit: 'contain' }}
                             />
                         </div>
-                        <div className={`text-[14px] font-lato font-[500]  ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
+                        <div className={`text-[14px] font-sophiaPro font-[500]  ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
                             }`}>
                             {startCase(cause?.name)}
                         </div>
@@ -205,7 +205,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                                 />
                             </div>
 
-                            <span className={`text-[14px] font-lato font-[500] ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
+                            <span className={`text-[14px] font-sophiaPro font-[500] ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
                                 }`}>
                                 {startCase(cause?.name)}
                             </span>
@@ -217,7 +217,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
 
             {/* Description */}
             <div className="text-[12px] md:text-[16px] min-h-[50px]">
-                <p className='font-lato font-[400] text-Grey/900 text-[12px]'>
+                <p className='font-sophiaPro font-[400] text-Grey/900 text-[12px]'>
                     {rootCauseInfo[activeIndex]?.description}
                 </p>
             </div>

@@ -40,7 +40,7 @@ const InfoSection = () => {
 
       <MainInfo
         description="At Clear Ritual, we hold ourselves to the highest standards. We cut through the hype to focus only on what genuinely works for your acne. No empty promises, no harsh ingredients—just science-backed, dermatologist-approved solutions for clear, healthy skin."
-        descriptionClassName="md:text-[36px] font-[400] md:p-[60px] px-2 text-[28px] font-lato !leading-[130%] tracking-[-0.02em] font-heading"
+        descriptionClassName="md:text-[36px] font-[400] md:p-[60px] px-2 text-[28px] font-sophiaPro !leading-[130%] tracking-[-0.02em] font-heading"
         imageSrc={`${CDN_BASE_URL}website_images/clear_rituals/about_us_page/page-info-four.webp`}
         imageAlt=""
         imagePosition="left"

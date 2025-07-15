@@ -7,21 +7,21 @@ const PrivacyAndPolicyPage = () => {
     <div className="flex justify-center">
       <div className="px-4 pb-14 lg:w-[65%] lg:px-0 mt-20">
         <div className="flex items-center gap-x-1 mb-8">
-          <a href="/" className="font-lato text-xs text-gray-700">
+          <a href="/" className="font-sophiaPro text-xs text-gray-700">
             HOME
           </a>
           <Image src={rightArrow} alt="logo" width={12} height={12} />
-          <a href="/privacy-policy" className="font-lato text-xs text-gray-700">
+          <a href="/privacy-policy" className="font-sophiaPro text-xs text-gray-700">
             PRIVACY POLICY
           </a>
         </div>
-        <h2 className="font-lato font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
+        <h2 className="font-sophiaPro font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
           Privacy Policy
         </h2>
-        <p className="font-lato  italic text-[15px] my-4">
+        <p className="font-sophiaPro  italic text-[15px] my-4">
           Last updated on 30th April, 2025
         </p>
-        <p className="font-lato text-[17px]">
+        <p className="font-sophiaPro text-[17px]">
           Welcome to our website/mobile site accessible at
           clearritual.com(“Site”) or mobile application “Clear Ritual” (the Site
           and mobile application are collectively referred to as the
@@ -50,7 +50,7 @@ const PrivacyAndPolicyPage = () => {
         <p className="ont-lato text-[17px]">
           This Privacy Policy is published in compliance with, inter alia:
         </p>
-        <ul className="list-disc font-lato text-[17px] pl-6">
+        <ul className="list-disc font-sophiaPro text-[17px] pl-6">
           <br />
           <li>
             Section 43A of the Information Technology Act, 2000 (“IT Act”);
@@ -69,11 +69,11 @@ const PrivacyAndPolicyPage = () => {
           </li>
           <br /> <br />
         </ul>
-        <p className="font-lato font-bold text-[17px]">General Terms:</p>
+        <p className="font-sophiaPro font-bold text-[17px]">General Terms:</p>
         <br />
         <div className="flex pl-4">
           <strong className="pr-4">i</strong>{" "}
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             By accessing or using the Platform or the Service, or by otherwise
             giving us your information, you confirm that you have the capacity
             to enter into a legally binding contract under Indian law, in
@@ -87,7 +87,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="flex pl-4">
           <strong className="pr-4">ii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             You hereby consent to our collection, use, sharing, and disclosure
             of your information as described in this Privacy Policy. We reserve
             the right to change, modify, add or delete portions of the terms of
@@ -102,7 +102,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="flex pl-4">
           <strong className="pr-4">iii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             If you are accessing or using Services or the Platform from an
             overseas location, you do so at your own risk, and shall be solely
             liable for compliance with any applicable local laws.
@@ -110,7 +110,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="flex pl-4">
           <strong className="pr-4">iv.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             If you do not agree with any of the terms and conditions of this
             Privacy Policy, please do not proceed further to use the Platform or
             any Services.
@@ -119,7 +119,7 @@ const PrivacyAndPolicyPage = () => {
         <br /> <br />
         <div className="flex">
           <strong className="pr-4">1.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Privacy Policy Applicability:
           </p>{" "}
           <br />
@@ -127,7 +127,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="flex pl-4">
           <strong className="pr-4">a.</strong>{" "}
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             This Privacy Policy applies only to the information we collect
             through our Services, in email, text and other electronic
             communications sent through or in connection with our Services.
@@ -136,7 +136,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-4">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             This Privacy Policy does not apply to the information that you
             provide to, or that is collected by, any third-party, that you use
             in connection with the services of such third-party. We encourage
@@ -147,13 +147,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">2.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Information collected
           </p>{" "}
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-8">
+        <p className="font-sophiaPro text-[17px] pl-8">
           We may collect several types of information from and about users of
           our Services, including: (i) Your personal information- Personal
           information is the information that can be associated with a specific
@@ -177,7 +177,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Information you give us: We receive and store any information you
             enter on our Platform or provide us in any other way. When you
             register on the Platform, we may collect registration details such
@@ -247,7 +247,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Information from Other Sources: We might receive information about
             you such as order details, your details shared with our partners
             etc. from other sources including from our partners, advertisers or
@@ -259,7 +259,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">c.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Cookies and Other Tracking Technologies: We utilize “cookies” and
             other tracking technologies. A “cookie” is a small text file that
             may be used, for example, to collect information about activity on
@@ -289,7 +289,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">d.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Third party tools and software: We use third party SDKs in the
             Platform. Majority of them are different payment options by which
             you can make a payment for an order. In order to enhance your
@@ -305,7 +305,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">e.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Automatic Information: We receive and store certain types of
             information whenever you interact with us. For example, we obtain
             certain types of information when your web browser accesses the Site
@@ -347,7 +347,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">3.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Use of the information{" "}
           </p>{" "}
           <br />
@@ -355,7 +355,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="pl-4 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We use information collected, in a variety of ways in order to
             provide the Services and to operate our business, including the
             following:
@@ -364,7 +364,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">i.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To carry out our obligations arising from your requests for the
             products and Services;
           </p>
@@ -372,14 +372,14 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">ii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To facilitate the diagnosis and screenings;
           </p>
         </div>
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">iii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To operate and improve the Platform in order to foster a positive
             user experience and to improve our business as a whole;
           </p>
@@ -387,14 +387,14 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">iv.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To process and deliver your order with us;
           </p>
         </div>
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">v.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To enable your access to the Platform to purchase products and avail
             the Services;
           </p>
@@ -402,7 +402,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">vi.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To assist with the facilitation of the consultations with coaches,
             healthcare practitioners, including to send you information and
             updates about the consultations you have availed;
@@ -411,7 +411,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">vii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Analysing data, tracking trends, building algorithms, creating
             databases for rating systems, recommendations engines, etc.;
           </p>
@@ -419,7 +419,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">viii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Research, growth and development of our or our group entities'
             business (including building upon our network of our consulting
             healthcare practitioners, partners etc);{" "}
@@ -428,7 +428,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">ix.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We use the information that you provide for such purposes such as
             responding to your requests, customising your orders, improving our
             Platform or communicating with you{" "}
@@ -437,7 +437,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">x.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             For non-targeting reasons such as frequency capping, compliance,
             billing, ad reporting or delivery, market research or product
             development purposes;{" "}
@@ -446,21 +446,21 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xi.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To comply with applicable law;
           </p>
         </div>
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To conduct audits and quality assessment procedures;
           </p>
         </div>
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xiii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To analyse the use of our resources, troubleshooting problems and
             improving our products and Services, by using the information
             regarding your mobile device and software.
@@ -469,7 +469,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xiv.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Contacting users, both during and after an order, for updates,
             resolution of queries, order details, consultations, follow-up
             consultations or offering new products or services;
@@ -478,7 +478,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xv.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To investigate, prevent, or take action regarding illegal
             activities, suspected fraud, situations involving potential threats
             to the safety of any person, violations of our Terms, or as
@@ -488,7 +488,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xvi.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To respond to any queries that you may have, and to communicate
             information to you, including notifications of any promotions or
             alerts, any changes/updates to the Platform, or the introduction of
@@ -499,7 +499,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-10">
           <strong className="pr-4">xvii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To contact you, by way of SMS, email and phone calls, from time to
             time to record your valuable feedback on our products and Services,
             as they currently stand, and/or any potential products and services
@@ -510,7 +510,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]"></p>
+          <p className="font-sophiaPro text-[17px]"></p>
           We may use “cookies” information and “automatically collected”
           information we collect on the Platform to (i) personalize our
           Services, such as remembering your information so that you will not
@@ -525,7 +525,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">c.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We may access or store your information if it is necessary to
             detect, prevent or address fraud and other illegal activity or to
             protect the safety, property or rights of the Platform or others.
@@ -534,7 +534,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">d.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We may use information regarding your location or the location of
             your device through which you access the Service for a number of
             purposes, including without limitation to confirm you are located in
@@ -545,7 +545,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-4 flex">
           <strong className="pr-4">e.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We may collect, analyze, use, publish, create and sell de-identified
             information, of which your personal or sensitive personal
             information might be a component, for any business or other purpose
@@ -556,13 +556,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">4.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Transfer of the information{" "}
           </p>{" "}
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-8">
+        <p className="font-sophiaPro text-[17px] pl-8">
           By using the Platform, you accept the terms hereof and hereby consent
           to the storage and processing of the personal information and SPDI by
           third parties. We may disclose personal information that we collect,
@@ -572,14 +572,14 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             General Information Disclosures
           </p>
         </div>
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">i.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To our holding companies, subsidiaries and affiliates, which are
             entities under our common ownership or control.{" "}
           </p>
@@ -587,7 +587,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">ii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To contractors, advertisers/service providers, credit information
             agencies, analytics and research partners, other banks or financial
             institutions, insurers or intermediaries and other third parties
@@ -601,7 +601,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">iii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To a buyer or other successor in the event of a merger, divestiture,
             restructuring, reorganization, dissolution or other sale or transfer
             of some or all our assets, whether as a going concern or as part of
@@ -613,7 +613,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">iv.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To third parties to market their products or services to you which
             we feel may be of interest or beneficial to you. We contractually
             require these third parties to keep personal information
@@ -624,14 +624,14 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">v.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             To fulfil the purpose for which you provide it.
           </p>
         </div>
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">vi.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             For any other purpose disclosed by us when you provide the
             information.
           </p>
@@ -639,7 +639,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">vii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Coaches and our representatives to enable to offer any type of help,
             assistance required during your association with us, and advice;
           </p>
@@ -647,7 +647,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">viii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Healthcare practitioners, experts, professionals for diagnostics,
             consultations or therapeutic purposes;{" "}
           </p>
@@ -655,7 +655,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Service Providers. We may share your information with outside
             vendors that we use for a variety of purposes, such as to send you
             communications via emails, messages or tele-call to inform you about
@@ -683,7 +683,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">c.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Legal Purposes. We may share your information when we believe in
             good faith that such sharing is reasonably necessary in order to
             investigate, prevent, or take action regarding possible illegal
@@ -702,7 +702,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">d.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Improving Our business: You acknowledge that we have a right to use
             a recorded copy of your telephonic conversation, and consultation
             records, and your diagnostic test reports for providing and
@@ -721,7 +721,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">e.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Social Networks. If you interact with social media features on our
             Services, such as the Facebook Like button, or use your social media
             credentials to log-in or post content, these features may collect
@@ -734,13 +734,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">f.</strong>
-          <p className="font-lato text-[17px]"></p>To enforce or apply our Terms
+          <p className="font-sophiaPro text-[17px]"></p>To enforce or apply our Terms
           and other agreements, including for billing and collection purposes.
         </div>
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">g.</strong>
-          <p className="font-lato text-[17px]"></p>If we believe disclosure is
+          <p className="font-sophiaPro text-[17px]"></p>If we believe disclosure is
           necessary or appropriate to protect our rights, property, or safety,
           our users or others. This includes exchanging information with other
           companies and organizations for the purposes of fraud protection and
@@ -749,14 +749,14 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">h.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Consent. We may share your information in any other circumstances
             where we have your consent.
           </p>
         </div>
         <br />
         <div className="flex">
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Transfer to third parties and outside India: Subject to applicable
             law, we may at our sole discretion, transfer personal information
             and SPDI to any other body corporate (as defined under the
@@ -776,13 +776,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">5.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Information Security
           </p>{" "}
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           We maintain electronic, physical and procedural safeguards in
           connection with the collection, storage and disclosure of personal
           information (including SPDI). We endeavor to protect the security of
@@ -834,7 +834,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">6.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Accessing and correcting the information
           </p>{" "}
           <br />
@@ -842,7 +842,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="pl-10 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             The Platform, for the limited purpose of viewing, and, in certain
             cases, modifying, and deleting, gives you access to a broad range of
             information about your account and your interactions with the
@@ -858,7 +858,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Your right to review, update, correct, and delete your personal
             information may be limited, subject to the applicable law:
           </p>
@@ -866,14 +866,14 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">i.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             If your requests are abusive or unreasonably excessive,
           </p>
         </div>
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">ii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Where the rights or safety of another person or persons would be
             encroached upon, or
           </p>
@@ -881,7 +881,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex pl-12">
           <strong className="pr-4">iii.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             If the information or material you request relates to existing or
             anticipated legal proceedings between you and us, or providing
             access to you would prejudice negotiations between us or an
@@ -894,7 +894,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">7.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Retention of information
           </p>{" "}
           <br />
@@ -902,7 +902,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="pl-10 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We also have measures in place to ensure that SPDI which is in our
             possession or under our control, is destroyed and/or anonymized as
             soon as it is reasonable to assume that: (i) the purposes for which
@@ -914,7 +914,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             We may, however, reserve the right to retain and store your personal
             information for our business purposes, whether such personal
             information has been deleted or not. After a period of time, your
@@ -926,7 +926,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">c.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             If you wish to withdraw your consent for processing your personal
             information and SPDI, cancel your account, or request that we no
             longer use your personal information and SPDI, please contact us at
@@ -940,7 +940,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">d.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Please note that uninstalling the mobile application will not result
             in deletion of Your personal information or SPDI.
           </p>
@@ -948,7 +948,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">8.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Third-party links
           </p>{" "}
           <br />
@@ -956,7 +956,7 @@ const PrivacyAndPolicyPage = () => {
         </div>
         <div className="pl-10 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             The Platform may include hyperlinks to various external websites,
             and may also include advertisements, and hyperlinks to applications,
             content or resources (“Third Party Links”). We have no control over
@@ -973,7 +973,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             You further acknowledge and agree that we are not liable for any
             loss or damage which may be incurred/suffered by you as a result of
             the collection and/or disclosure of your information via Third Party
@@ -999,13 +999,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">9.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Changes to Privacy Policy
           </p>{" "}
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           We may amend this Privacy Policy from time to time to reflect changes
           in the law, our data collection and use practices, the features of the
           Services, or advances in technology. Please check this page
@@ -1022,13 +1022,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">10.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Permissible Age
           </p>{" "}
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           Use of the Platform is available only to persons who can form a
           legally binding contract under the Indian Contract Act, 1872. If you
           are under 18 years of age, then please do not use or access the
@@ -1046,18 +1046,18 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">11.</strong>
-          <p className="font-lato text-[17px] font-bold">
+          <p className="font-sophiaPro text-[17px] font-bold">
             Grievance Officer
           </p>{" "}
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           In accordance with the IT Act and the SPDI Rules, the name and contact
           details of the Grievance Officer are provided below:
         </p>
         <br />
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           Name: Sulakshana Sarathy <br />
           Address: 1st Floor, Interface 16 Road, Malad, Mindspace, Malad West,
           Mumbai, Maharashtra - 400064
@@ -1065,7 +1065,7 @@ const PrivacyAndPolicyPage = () => {
           Email: customercare@clearritual.com
         </p>
         <br />
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           We shall endeavour to resolve your grievances within one month from
           the date of receipt of such grievance.
         </p>
@@ -1073,11 +1073,11 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">12.</strong>
-          <p className="font-lato text-[17px] font-bold">Contact Us</p>
+          <p className="font-sophiaPro text-[17px] font-bold">Contact Us</p>
           <br />
           <br />
         </div>
-        <p className="font-lato text-[17px] pl-7">
+        <p className="font-sophiaPro text-[17px] pl-7">
           If you have any queries relating to the processing/ usage of
           information provided by you or the Privacy Policy or if you would like
           to raise any other inquiries, you may email us at the contact
@@ -1087,13 +1087,13 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="flex">
           <strong className="pr-4">13.</strong>
-          <p className="font-lato text-[17px] font-bold">Miscellaneous</p>{" "}
+          <p className="font-sophiaPro text-[17px] font-bold">Miscellaneous</p>{" "}
           <br />
           <br />
         </div>
         <div className="pl-10 flex">
           <strong className="pr-4">a.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Indemnity: You agree and undertake to indemnify us in any suit or
             dispute by any third party arising out of disclosure of information
             by you to third parties either through the Platform or otherwise and
@@ -1106,7 +1106,7 @@ const PrivacyAndPolicyPage = () => {
         <br />
         <div className="pl-10 flex">
           <strong className="pr-4">b.</strong>
-          <p className="font-lato text-[17px]">
+          <p className="font-sophiaPro text-[17px]">
             Severability: Each section of this Privacy Policy shall be and
             remain separate from and independent of and severable from all and
             any other clauses herein except where otherwise expressly indicated

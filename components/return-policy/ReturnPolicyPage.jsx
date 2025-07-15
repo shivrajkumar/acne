@@ -7,27 +7,27 @@ const ReturnPolicyPage = () => {
     <div className="flex lg:justify-center">
       <div className="px-4 pb-14 lg:w-[65%] lg:px-0 mt-20">
         <div className="flex items-center gap-x-1 mb-8">
-          <a href="/" className="font-lato text-xs text-gray-700">
+          <a href="/" className="font-sophiaPro text-xs text-gray-700">
             HOME
           </a>
           <Image src={rightArrow} alt="logo" width={12} height={12} />
-          <a href="/return-policy" className="font-lato text-xs text-gray-700">
+          <a href="/return-policy" className="font-sophiaPro text-xs text-gray-700">
             RETURN, REFUND AND CANCELLATION POLICY
           </a>
         </div>
-        <h2 className="font-lato font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
+        <h2 className="font-sophiaPro font-bold xs:text-[30px] md:text-[50px] text-left leading-[44px] mb-1 lg:leading-[60px]">
           RETURN, REFUND AND CANCELLATION POLICY
         </h2>
-        <p className="font-lato text-[17px] my-4">
+        <p className="font-sophiaPro text-[17px] my-4">
           This is Tatvartha Health Private Limited’s ("Clear Ritual") returns,
           refund and cancellation policy. Please read this policy in consonance
           with our Terms of Service available{" "}
-          <a href="/terms-conditions" className="font-lato font-[600] ">
+          <a href="/terms-conditions" className="font-sophiaPro font-[600] ">
             [here]
           </a>
           .
         </p>
-        <div className="font-lato text-[17px]">
+        <div className="font-sophiaPro text-[17px]">
           <br />
           <div className="flex">
             <strong className="pr-4">1.</strong>
@@ -208,7 +208,7 @@ const ReturnPolicyPage = () => {
           </ul>
           <br />
           <br />
-          <p className="font-lato text-[17px] my-4">
+          <p className="font-sophiaPro text-[17px] my-4">
             We apologise for any inconvenience caused; refund processing times
             may be subject to delays due to various factors including bank
             policies or circumstances beyond our control.

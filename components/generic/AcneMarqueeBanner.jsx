@@ -25,7 +25,7 @@ const AcneMarqueeBanner = () => {
                       alt="Guidance"
                       loading="eager"
                     />
-                    <p className="whitespace-nowrap font-lato text-[12px] font-[400] leading[1.5%] -tracking-[3%]">
+                    <p className="whitespace-nowrap font-sophiaPro text-[12px] font-[400] leading[1.5%] -tracking-[3%]">
                       Guidance from Skin Experts
                     </p>
                   </div>

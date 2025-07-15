@@ -25,10 +25,10 @@ const VisibleResultsInThreeWeeks = () => {
 
     return (
         <div className=" bg-Secondary/50 border border-[#AFA792] p-4 md:p-10 flex flex-col gap-0 md:gap-[48px] rounded-[24px]">
-            <h1 className="md:block hidden font-lato  leading-[120%]font-[500] text-[28px] md:text-[44px] text-Text/Heading-Text text-center mb-8 md:mb-12">
+            <h1 className="md:block hidden font-sophiaPro  leading-[120%]font-[500] text-[28px] md:text-[44px] text-Text/Heading-Text text-center mb-8 md:mb-12">
                 Visible Results in Less Than 3 <br /> Weeks
             </h1>
-            <h1 className=" md:hidden flex font-lato font-[500] text-[28px] md:text-[44px] text-Text/Heading-Text text-center mb-8 md:mb-12">
+            <h1 className=" md:hidden flex font-sophiaPro font-[500] text-[28px] md:text-[44px] text-Text/Heading-Text text-center mb-8 md:mb-12">
                 Visible Results in Less Than 3 Weeks
             </h1>
 
@@ -41,14 +41,14 @@ const VisibleResultsInThreeWeeks = () => {
                 {timelineData.map((item, index) => (
                     <div key={index} className="flex flex-col items-center w-1/3 relative">
                         {/* Timeline Bubble */}
-                        <div className="w-fit h-[32px] py-[4px] px-[16px] mb-6 flex items-center justify-center rounded-full bg-Tertiary/400 text-white text-center text-[12px] md:text-[14px] font-[400] font-lato ">
+                        <div className="w-fit h-[32px] py-[4px] px-[16px] mb-6 flex items-center justify-center rounded-full bg-Tertiary/400 text-white text-center text-[12px] md:text-[14px] font-[400] font-sophiaPro ">
                             {item.period}
                         </div>
 
                         {/* Benefits List */}
                         <ul className="list-disc w-[294px] flex flex-col justify-center items-center">
                             {item.benefits.map((benefit, i) => (
-                                <li key={i} className="text-[14px] md:text-[18px] font-[400] font-lato text-Text/Body-Text">{benefit}</li>
+                                <li key={i} className="text-[14px] md:text-[18px] font-[400] font-sophiaPro text-Text/Body-Text">{benefit}</li>
                             ))}
                         </ul>
                     </div>
@@ -71,7 +71,7 @@ const VisibleResultsInThreeWeeks = () => {
                             <div key={index} className={`relative ${index !== timelineData.length - 1 ? 'mb-24' : 'mb-10'} w-full text-center`}>
                                 {/* Timeline Bubble - Higher z-index */}
                                 <div className="mx-auto w-fit h-[32px] py-[4px] px-[16px] rounded-[40px] bg-Tertiary/400 flex items-center justify-center text-center font-medium relative" >
-                                    <span className="text-[12px]  text-white font-[400] font-lato text-center">{item.period}</span>
+                                    <span className="text-[12px]  text-white font-[400] font-sophiaPro text-center">{item.period}</span>
                                 </div>
 
                                 {/* Benefits List - Higher z-index with background to cover line */}
@@ -80,7 +80,7 @@ const VisibleResultsInThreeWeeks = () => {
                                         {item.benefits.map((benefit, i) => (
                                             <li key={i} className="relative   text-wrap">
                                                 <span className="relative ">
-                                                    <span className="absolute  text-[14px] font-[400] font-lato text-Text/Body-Text" style={{ zIndex: -1 }}></span>
+                                                    <span className="absolute  text-[14px] font-[400] font-sophiaPro text-Text/Body-Text" style={{ zIndex: -1 }}></span>
                                                     {benefit}
                                                 </span>
                                             </li>

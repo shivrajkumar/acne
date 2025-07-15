@@ -392,16 +392,16 @@ const InputImage = ({ block }) => {
     <>
       {isLoading && <Loader />}
 
-      <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-lato">
+      <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-sophiaPro">
         <label
-          className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
           htmlFor={block.id}
         >
           {block.text}
         </label>
 
         {block.sub_text && (
-          <label className="text-Text/Label font-lato font-[400] text-[14px] text-center">
+          <label className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center">
             {block.sub_text}
           </label>
         )}
@@ -500,7 +500,7 @@ const InputImage = ({ block }) => {
 
 
         {err !== "" && (
-          <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">
+          <span className="block mt-4 text-red-500 text-center font-sophiaPro text-[14px]">
             {err}
           </span>
         )}

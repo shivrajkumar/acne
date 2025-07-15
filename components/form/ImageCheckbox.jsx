@@ -168,12 +168,12 @@ const ImageCheckbox = ({ block, context }) => {
       {isLoading && <Loader />}
 
       <div className="flex flex-col w-full pt-6 sm:pt-8 px-4 sm:px-6 max-w-screen-xl mx-auto">
-        <h2 className="text-[44px] md:text-[44px] xs:text-[28px] font-lato font-[400] text-Text/Heading-Text italic -tracking-[2%] text-center mb-2">
+        <h2 className="text-[44px] md:text-[44px] xs:text-[28px] font-sophiaPro font-[400] text-Text/Heading-Text italic -tracking-[2%] text-center mb-2">
           {isHindi ? block.hindi_text : block.text}
         </h2>
 
         {block.sub_text && (
-          <p className="text-[14px] sm:text-[16px] font-lato font-[400] text-Text/Label text-center mb-6">
+          <p className="text-[14px] sm:text-[16px] font-sophiaPro font-[400] text-Text/Label text-center mb-6">
             {isHindi ? block.hindi_sub_text : block.sub_text}
           </p>
         )}
@@ -246,7 +246,7 @@ const ImageCheckbox = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-10 mb-16 md:hidden">
             <button
-              className="font-lato font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center  bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center  bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -262,7 +262,7 @@ const ImageCheckbox = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 hidden md:flex">
             <button
-              className="font-lato font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}

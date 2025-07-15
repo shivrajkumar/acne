@@ -42,12 +42,12 @@ const ResultBannerV2 = () => {
         <div className="w-full overflow-hidden bg-Secondary/50 border-[1px] border-Grey/300 p-[40px] xs:p-[24px] sm:p-[24px] md:p-[40px] rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
             <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
                 <div>
-                    <h1 className="text-[28px] md:text-[44px] font-lato font-[400] text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
+                    <h1 className="text-[28px] md:text-[44px] font-sophiaPro font-[400] text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
                         {customerName}
                         <span>, Your Personalised Skin Analysis is Ready.</span>
                     </h1>
 
-                    <p className="text-[16px] md:text-[16px] font-lato font-[400] leading-[1.5] text-Grey/500 mt-[12px]">
+                    <p className="text-[16px] md:text-[16px] font-sophiaPro font-[400] leading-[1.5] text-Grey/500 mt-[12px]">
                         We have 21 skin profiles, coded from A1 to C8. Based on your skin, acne, and internal health,
                         we give you a personalised skincare ritual.
                     </p>

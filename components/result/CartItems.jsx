@@ -1,4 +1,4 @@
-const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThankYouPage = false, totalCartValue, productsDetails ,  hasPlacedOrder = false}) => {
+const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThankYouPage = false, totalCartValue, productsDetails, hasPlacedOrder = false }) => {
     // Calculate the total cart value from the items
     const subtotal = totalCartValue || cartDetails?.totalCartValue || 0;
 
@@ -15,17 +15,17 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
             <div className={`${isMobile ? 'flex' : 'hidden md:flex'} flex-col gap-[16px] ${!isThankYouPage && "mt-[24px]"}`}>
                 {isThankYouPage && !isMobile &&
                     <>
-                        <div className="font-lato font-[400] text-Text/Body-Text text-[24px] -tracking-[0.5px]">Your Order Summary</div>
+                        <div className="font-sophiaPro font-[400] text-Text/Body-Text text-[24px] -tracking-[0.5px]">Your Order Summary</div>
                         <div className="flex gap-[24px] justify-between">
-                            <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{`(1) Dermatologist Appointment`}</p>
-                            <p className="font-lato font-[400] text-[14px] md:text-[18px] text-[#FFFFFF] -tracking-[1%] bg-Semantic/Success w-fit h-[28px] py-[4px] px-[16px] rounded-[8px] flex items-center">{'Free'}</p>
+                            <p className="font-sophiaPro font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{`(1) Dermatologist Appointment`}</p>
+                            <p className="font-sophiaPro font-[400] text-[14px] md:text-[18px] text-[#FFFFFF] -tracking-[1%] bg-Semantic/Success w-fit h-[28px] py-[4px] px-[16px] rounded-[8px] flex items-center">{'Free'}</p>
                         </div>
                     </>
                 }
                 {productsDetailsUpdated?.map((product, index) => (
                     <div key={index} className="flex gap-[24px] justify-between">
-                        <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{`(${product.quantity}) ${product.name}`}</p>
-                        <p className="font-lato font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] ">₹{(product.price).toFixed(2)}</p>
+                        <p className="font-sophiaPro font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{`(${product.quantity}) ${product.name}`}</p>
+                        <p className="font-sophiaPro font-[400] text-[16px] text-Text/Body-Text -tracking-[1%] ">₹{(product.price).toFixed(2)}</p>
                     </div>
                 ))}
             </div>
@@ -34,18 +34,18 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
 
             <div className={`${isMobile ? 'flex' : 'hidden md:flex'} flex-col gap-[16px] mt-[16px]`}>
                 <div className="flex justify-between">
-                    <p className="font-lato font-[400] text-[14px] md:text-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">Subtotal</p>
-                    <p className="font-lato font-[400] text-[14px] md:text-[18px] text-Text/Body-Text -tracking-[1%]">₹{subtotal.toFixed(2)}</p>
+                    <p className="font-sophiaPro font-[400] text-[14px] md:text-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">Subtotal</p>
+                    <p className="font-sophiaPro font-[400] text-[14px] md:text-[18px] text-Text/Body-Text -tracking-[1%]">₹{subtotal.toFixed(2)}</p>
                 </div>
 
                 <div className={`${isMobile ? 'flex' : 'hidden md:flex'} justify-between`}>
-                    <p className="font-lato font-[400] text-[14px] md:text-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">Shipping</p>
-                    <p className="font-lato font-[400] text-[14px] md:text-[18px] text-[#FFFFFF] -tracking-[1%] bg-Semantic/Success w-fit h-[28px] py-[4px] px-[16px] rounded-[8px] flex items-center">{cartDetails?.shippingCharges || 'Free'}</p>
+                    <p className="font-sophiaPro font-[400] text-[14px] md:text-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">Shipping</p>
+                    <p className="font-sophiaPro font-[400] text-[14px] md:text-[18px] text-[#FFFFFF] -tracking-[1%] bg-Semantic/Success w-fit h-[28px] py-[4px] px-[16px] rounded-[8px] flex items-center">{cartDetails?.shippingCharges || 'Free'}</p>
                 </div>
 
                 <div className={`${isMobile ? 'flex' : 'hidden md:flex'} justify-between`}>
-                    <p className="font-lato font-[500] text-[16px] md:text-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{"Total (pre-tax)"}</p>
-                    <p className="font-lato font-[500] text-[16px] md:text-[18px] text-Text/Body-Text -tracking-[1%]">₹{subtotal.toFixed(2)}</p>
+                    <p className="font-sophiaPro font-[500] text-[16px] md:text-[18px] text-Text/Body-Text -tracking-[1%] overflow-ellipsis">{"Total (pre-tax)"}</p>
+                    <p className="font-sophiaPro font-[500] text-[16px] md:text-[18px] text-Text/Body-Text -tracking-[1%]">₹{subtotal.toFixed(2)}</p>
                 </div>
             </div>
 
@@ -68,8 +68,8 @@ const CartItems = ({ cartItems, cartDetails, isMobile, handleBuyNowClick, isThan
             }
 
             <div className={`${isThankYouPage && "mt-[24px]"}`}>
-            <div className={`${isMobile ? 'flex' : 'hidden md:flex'} border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px]`}></div>
-                <p className={`${isMobile ? 'flex' : 'hidden md:flex'} text-[14px]  pt-[16px] font-lato font-[400] text-Text/Label text-center justify-center`}>
+                <div className={`${isMobile ? 'flex' : 'hidden md:flex'} border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px]`}></div>
+                <p className={`${isMobile ? 'flex' : 'hidden md:flex'} text-[14px]  pt-[16px] font-sophiaPro font-[400] text-Text/Label text-center justify-center`}>
                     {cartDetails?.disclaimer || 'No additional duties and taxes collected upon delivery.'}
                 </p>
             </div>

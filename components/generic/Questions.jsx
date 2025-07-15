@@ -196,7 +196,7 @@ const Questions = () => {
       {!allQuestionsFilled ? (
         <div className={`overflow-hidden ${currentQuestion?.component === "multiSelect" || currentQuestion?.component === "imageCheckbox" ? "h-full" : "h-[89vh]"} md:h-[90vh]`}>
           <Suspense fallback={<Loader />}>
-            <div className="flex flex-col items-center justify-start font-lato  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] bg-Secondary/50 min-h-screen">
+            <div className="flex flex-col items-center justify-start font-sophiaPro  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] bg-Secondary/50 min-h-screen">
               {currentQuestion && currentQuestion.id === "user_basic_info" ? (
                 <UserBasicInfoForm />
               ) : (

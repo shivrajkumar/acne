@@ -63,7 +63,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
 
   if (error) {
     return (
-      <div className="w-full font-lato flex items-center justify-center min-h-screen">
+      <div className="w-full font-sophiaPro flex items-center justify-center min-h-screen">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="text-red-500 text-[48px]">⚠️</div>
           <p className="text-text-icon/title text-[16px] font-[500]">Error</p>
@@ -86,7 +86,7 @@ const AcnePrescriptionPage = ({ searchParams }) => {
 
   return (
     <div
-      className="   md:mx-auto font-lato md:w-[360px]"
+      className="   md:mx-auto font-sophiaPro md:w-[360px]"
       id="pdf-content"
     >
       {Array.isArray(prescriptionData) && prescriptionData.length > 0 ? (

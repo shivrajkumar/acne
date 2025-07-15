@@ -83,7 +83,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
 
     return (
         <>
-            {(isOptional || enableAddToCart) && <p className="font-lato font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
+            {(isOptional || enableAddToCart) && <p className="font-sophiaPro font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
                 {"SOLVE FOR YOUR ACNE SCARS NOW!"}
             </p>
             }
@@ -121,21 +121,21 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                 {/* Text Content */}
                 <div className="flex flex-col gap-[16px] flex-1">
                     <div className="flex flex-col gap-[4px]">
-                        <p className="font-lato font-[700] text-[18px] text-Text/Heading-Text">
+                        <p className="font-sophiaPro font-[700] text-[18px] text-Text/Heading-Text">
                             {product?.name}
                         </p>
                         {product?.composition && (
-                            <p className="font-lato font-[500] text-[16px] text-Text/Heading-Text italic">
+                            <p className="font-sophiaPro font-[500] text-[16px] text-Text/Heading-Text italic">
                                 {product?.composition}
                             </p>
                         )}
                         {product?.size && (
-                            <p className="font-lato font-[400] text-Text/Label text-[14px]">
+                            <p className="font-sophiaPro font-[400] text-Text/Label text-[14px]">
                                 Container: {product?.size}
                             </p>
                         )}
                         {product?.dosage && (
-                            <p className="font-lato font-[400] text-Text/Label text-[14px]">
+                            <p className="font-sophiaPro font-[400] text-Text/Label text-[14px]">
                                 Dosage: {startCase(product?.dosage)}
                             </p>
                         )}
@@ -146,7 +146,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                             {product.tags.map((tag, index) => (
                                 <div
                                     key={index}
-                                    className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-lato  text-primary/700 "
+                                    className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-sophiaPro  text-primary/700 "
                                 >
                                     <Image
                                         src={TickIcon}
@@ -162,18 +162,18 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
 
                     {product?.rating && product?.price && (
                         <div className="flex gap-[16px]">
-                            <p className="font-lato font-[400] text-[16px] text-Text/Body-Text">
+                            <p className="font-sophiaPro font-[400] text-[16px] text-Text/Body-Text">
                                 <span className="w-[20px] h-[20px] mr-[4px]">★</span>
                                 {product?.rating} ({product?.ratingPeopleCount})
                             </p>
-                            <p className="font-lato font-[700] text-[16px] text-Text/Heading-Text">
+                            <p className="font-sophiaPro font-[700] text-[16px] text-Text/Heading-Text">
                                 ₹{product?.price}
                             </p>
                         </div>
                     )}
 
                     {product?.description && (
-                        <p className={`font-lato font-[400] ${isOptional || enableAddToCart ? '' : ''} text-[16px] text-Text/Body-Text -tracking-[1%]`}>
+                        <p className={`font-sophiaPro font-[400] ${isOptional || enableAddToCart ? '' : ''} text-[16px] text-Text/Body-Text -tracking-[1%]`}>
                             {product.description}
                         </p>
                     )}
@@ -235,10 +235,10 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
 
                 {/* Title + Price */}
                 <div className="flex justify-between items-center gap-[4px]" >
-                    <p className="font-lato font-[600] text-[18px]  text-primary/700 leading-[140%]">
+                    <p className="font-sophiaPro font-[600] text-[18px]  text-primary/700 leading-[140%]">
                         {product?.name}
                     </p>
-                    <p className="font-lato font-[500] text-[18px]  text-color/cyan/6 leading-[23px]">
+                    <p className="font-sophiaPro font-[500] text-[18px]  text-color/cyan/6 leading-[23px]">
                         ₹{product?.price}
                     </p>
                 </div>
@@ -246,7 +246,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                 {/* Rating */}
                 {
                     product?.rating && (
-                        <p className="font-lato font-[400] text-[14px] text-Text/Body-Text flex items-center leading-[140%]">
+                        <p className="font-sophiaPro font-[400] text-[14px] text-Text/Body-Text flex items-center leading-[140%]">
                             <span className="text-[20px] mr-[4px] text-Neutral/800">
                                 ★
                             </span>
@@ -258,7 +258,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                 {/* Composition */}
                 {
                     product?.composition && (
-                        <p className="italic font-lato font-[500] text-[16px] leading-[130%] text-primary/700 ">
+                        <p className="italic font-sophiaPro font-[500] text-[16px] leading-[130%] text-primary/700 ">
                             {product?.composition}
                         </p>
                     )
@@ -271,7 +271,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                             {product.tags.map((tag, index) => (
                                 <div
                                     key={index}
-                                    className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-lato  text-primary/700 "
+                                    className="border border-Neutral/600 px-[8px] font-[1400] h-[28px] text-[14px] flex items-center leading-[140%] font-sophiaPro  text-primary/700 "
                                 >
                                     <Image
                                         src={TickIcon}
@@ -285,7 +285,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                         </div>
                     )
                 }
-                <div className="flex   justify-between font-lato font-[400] text-[14px] leading-[140%]  text-primary/700 ">
+                <div className="flex   justify-between font-sophiaPro font-[400] text-[14px] leading-[140%]  text-primary/700 ">
                     {/* Container info */}
                     {product?.size && <p>Container: {product?.size}</p>}
 
@@ -297,7 +297,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                 {/* Description */}
                 {
                     product?.description && (
-                        <p className="font-lato font-[400] leading-[140%] text-[14px] text-Neutral/800 -tracking-[1%] my-1">
+                        <p className="font-sophiaPro font-[400] leading-[140%] text-[14px] text-Neutral/800 -tracking-[1%] my-1">
                             {product.description}
                         </p>
                     )

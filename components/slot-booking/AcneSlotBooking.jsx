@@ -17,10 +17,10 @@ function BookFreeCall({
   transformedSlots,
   bookedSuccess,
   bookACallOnly = false,
-  error = "", 
-  bookingError = "", 
-  setBookingError=()=>{},
-  setError=()=>{}
+  error = "",
+  bookingError = "",
+  setBookingError = () => { },
+  setError = () => { }
 }) {
   const [slidesToShow, setSlidesToShow] = useState(3);
   const [isMobile, setIsMobile] = useState(false);
@@ -45,7 +45,7 @@ function BookFreeCall({
     // Initial setup
     handleResize();
 
-   // Set loading to false regardless of whether there are slots or not
+    // Set loading to false regardless of whether there are slots or not
     setIsLoadingSlots(false);
 
     // Auto-select the first available date if none selected and there are dates
@@ -70,7 +70,7 @@ function BookFreeCall({
         setError(null);
       }
       if (setBookingError) {
-        setBookingError(null); 
+        setBookingError(null);
       }
     },
     [setSelectedDate, setSelectedTime, setError, setBookingError]
@@ -82,7 +82,7 @@ function BookFreeCall({
         setError(null);
       }
       if (setBookingError) {
-        setBookingError(null); 
+        setBookingError(null);
       }
       setSelectedTime(time);
     },
@@ -104,7 +104,7 @@ function BookFreeCall({
   // Case 1: Display booking interface when not booked yet
   if (!bookedSuccess) {
     return (
-      <div className="mx-auto md:p-[24px] rounded-[24px] md:rounded-[24px] border border-Elements/Divider-Stroke w-full relative font-lato flex flex-col md:gap-[40px] gap-0 bg-white">
+      <div className="mx-auto md:p-[24px] rounded-[24px] md:rounded-[24px] border border-Elements/Divider-Stroke w-full relative font-sophiaPro flex flex-col md:gap-[40px] gap-0 bg-white">
         {/* Heading */}
         <div className="md:p-0 p-[16px]">
           <h2 className="font-[400] md:text-[24px] text-[20px] tracking-[0.5px] leading-[130%]">
@@ -138,18 +138,17 @@ function BookFreeCall({
                   onClick={() => handleDateSelect(dateKey)}
                 >
                   <div
-                    className={`h-[80px] w-full p-[16px] rounded-[16px] flex flex-col justify-center items-center cursor-pointer ${
-                      selectedDate === dateKey
+                    className={`h-[80px] w-full p-[16px] rounded-[16px] flex flex-col justify-center items-center cursor-pointer ${selectedDate === dateKey
                         ? "bg-Background/AirBlue border border-Tertiary/400"
                         : "bg-white border border-Elements/Divider-Stroke"
-                    }`}
+                      }`}
                   >
                     <p className="md:text-[16px] text-[14px] leading-[140%] text-center">
                       {moment(dateKey).isSame(moment(), "day")
                         ? "Today"
                         : moment(dateKey).isSame(moment().add(1, "day"), "day")
-                        ? "Tomorrow"
-                        : moment(dateKey).format("dddd")}
+                          ? "Tomorrow"
+                          : moment(dateKey).format("dddd")}
                     </p>
                     <p className="text-[14px] leading-[140%] text-center">
                       {moment(dateKey).format("MMM D")}
@@ -190,10 +189,10 @@ function BookFreeCall({
         )}
 
         {/* Time Slots */}
-        <div className="flex flex-col gap-[16px] font-lato md:py-0 md:px-0 py-[32px] px-[16px]">
+        <div className="flex flex-col gap-[16px] font-sophiaPro md:py-0 md:px-0 py-[32px] px-[16px]">
           {selectedDate &&
-          transformedSlots[selectedDate] &&
-          transformedSlots[selectedDate].length > 0 ? (
+            transformedSlots[selectedDate] &&
+            transformedSlots[selectedDate].length > 0 ? (
             Object.entries(
               groupSlotsByPeriod(transformedSlots[selectedDate])
             ).map(([period, times]) => {
@@ -222,11 +221,10 @@ function BookFreeCall({
                         <button
                           key={idx}
                           onClick={() => handleTimeSelect(time)}
-                          className={`md:w-[181px] md:h-[56px] flex justify-center items-center h-[48px] w-[101px] rounded-[16px] p-[16px] border text-[14px] font-[400] ${
-                            selectedTime === time
+                          className={`md:w-[181px] md:h-[56px] flex justify-center items-center h-[48px] w-[101px] rounded-[16px] p-[16px] border text-[14px] font-[400] ${selectedTime === time
                               ? "bg-Background/AirBlue border-Tertiary/400"
                               : "bg-white border-Elements/Divider-Stroke hover:bg-Background/AirBlue"
-                          }`}
+                            }`}
                         >
                           {time}
                         </button>
@@ -245,13 +243,13 @@ function BookFreeCall({
           )}
 
           {/* Error Message */}
-           {(error || bookingError) && (
+          {(error || bookingError) && (
             <div className="sticky bottom-[88px] md:bottom-[98px] left-0 right-0 px-4 py-2 bg-white z-10  md:bg-transparent w-full">
               <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded">
                 <p className="text-sm text-red-700">{error || bookingError}</p>
               </div>
             </div>
-        )}
+          )}
         </div>
       </div>
     );

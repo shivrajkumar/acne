@@ -61,8 +61,8 @@ const RootCauses = () => {
                     </div>
                     {/* Title and Subtitle */}
                     <div>
-                        <h2 className="text-[20px] md:text-[24px] text-Text/Heading-Text -tracking-[1%] font-lato font-[500]">{"Your Root Causes"}</h2>
-                        <p className="text-[12px] md:text-[14px] font-lato font-[400] text-Text/Label">{"Need Extra Support"}</p>
+                        <h2 className="text-[20px] md:text-[24px] text-Text/Heading-Text -tracking-[1%] font-sophiaPro font-[500]">{"Your Root Causes"}</h2>
+                        <p className="text-[12px] md:text-[14px] font-sophiaPro font-[400] text-Text/Label">{"Need Extra Support"}</p>
                     </div>
                 </div>
                 {/* Root Causes Icons - Desktop and Mobile Views */}
@@ -147,7 +147,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                                 style={{ objectFit: 'contain' }}
                             />
                         </div>
-                        <div className={`text-[14px] font-lato font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
+                        <div className={`text-[14px] font-sophiaPro font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
                             }`}>
                             {startCase(cause?.name)}
                         </div>
@@ -182,7 +182,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
                                 />
                             </div>
 
-                            <span className={`text-[14px] font-lato font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
+                            <span className={`text-[14px] font-sophiaPro font-[500] ${index === activeIndex && cause?.name === "Stress" ? "text-Semantic/Error" : "text-Neutral/700"
                                 }`}>
                                 {startCase(cause?.name)}
                             </span>
@@ -211,7 +211,7 @@ const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, is
 
             {/* Description */}
             <div className="text-[16px] min-h-[100px] md:min-h-[50px]">
-                <p className='font-lato font-[400] text-Text/Body-Text'>
+                <p className='font-sophiaPro font-[400] text-Text/Body-Text'>
                     {rootCauseInfo[activeIndex]?.description}
                 </p>
             </div>

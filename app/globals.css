@@ -13,7 +13,7 @@
 
 /* Example font usage */
 body {
-  font-family: var(--font-lato);
+  font-family: sofia-pro, sans-serif;
   /* font-size: 16px; */
 }
 
