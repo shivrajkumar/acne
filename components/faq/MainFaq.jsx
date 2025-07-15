@@ -24,7 +24,7 @@ const MainFaq = () => {
                 FAQ
               </div>
               
-              <div className="flex md:hidden gap-1 overflow-x-auto hide-scrollbar">
+              <div className="flex md:hidden gap-4 overflow-x-auto hide-scrollbar">
                 {sidebarItems.map((item) => (
                   <SideBarNavItem
                     key={item}
@@ -35,7 +35,7 @@ const MainFaq = () => {
                 ))}
               </div>
 
-              <div className="hidden md:flex flex-col gap-1">
+              <div className="hidden md:flex flex-col gap-1 items-start">
                 {sidebarItems.map((item) => (
                   <SideBarNavItem
                     key={item}
