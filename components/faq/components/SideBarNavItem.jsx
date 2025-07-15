@@ -3,11 +3,13 @@ import { Button } from "antd";
 import React from "react";
 
 const SideBarNavItem = ({ label, onClick }) => {
+  console.log(onclick)
+  
   return (
     <Button
       type="text"
       onClick={onClick}
-      className="cursor-pointer py-2 px-4 text-left text-sm font-normal !text-black border-1 !border-black rounded-3xl md:border-none md:rounded-none md:px-0"
+      className="cursor-pointer py-2 px-4 font-lato text-left text-sm font-normal !text-black border-1 !border-black rounded-3xl md:border-none md:rounded-none md:px-0"
     >
       {label}
     </Button>
