@@ -31,15 +31,13 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
     fetchEachProductDetails();
   }, [variantId]);
 
-  // Add ref for the scrollable content area
-  const scrollableContentRef = useRef(null);
-
-  // Focus the scrollable area when component mounts
-  useEffect(() => {
-    if (scrollableContentRef.current && !isLoading && !error && product) {
-      scrollableContentRef.current.focus();
-    }
-  }, [isLoading, error, product]);
+  // causing unnecessary scroll onload. 
+  // const scrollableContentRef = useRef(null);
+  // useEffect(() => {
+  //   if (scrollableContentRef.current && !isLoading && !error && product) {
+  //     scrollableContentRef.current.focus();
+  //   }
+  // }, [isLoading, error, product]);
 
   const fetchEachProductDetails = async () => {
     setIsLoading(true);
@@ -112,7 +110,8 @@ const ProductPageModal = ({ variantId, handleCancel }) => {
       {/* Carousel Section - Fixed container */}
       <ProductCarousel images={product?.content?.images} />
 
-      <div ref={scrollableContentRef}
+      <div 
+      // ref={scrollableContentRef}
         className="md:w-[50%] md:overflow-y-scroll md:p-[40px] focus:outline-none"
         tabIndex={0}
         role="region"
