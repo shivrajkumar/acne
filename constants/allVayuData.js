@@ -907,6 +907,79 @@ export const prescriptionData = {
       "Recommended for 4 weeks of regular usage in order to see results",
   },
 };
+
+export const faqDataHelpPage = {
+    products: [
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      }
+    ],
+    shipping: [
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      }
+    ],
+    orders: [
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      }
+    ],
+    returns: [
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      },
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      }
+    ],
+    contact: [
+      {
+        question: "Question XYZ",
+        answer: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+      }
+    ]
+  };
 // {
 //   id: 6,
 //   src: `${CDN_BASE_URL}website_images/vayu_images/open_pores.webp`,
