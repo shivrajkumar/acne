@@ -4,6 +4,7 @@ import AcneHeader from "@/components/generic/AcneHeader";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
 import AcneFooter from "@/components/generic/AcneFooter";
 import FAQBanner from "./FAQBanner";
+import FAQContent from "./FAQContent";
 
 const AcneFAQPage = () => {
   return (
@@ -15,6 +16,7 @@ const AcneFAQPage = () => {
 
       <Suspense>
         <FAQBanner/>
+        <FAQContent/>
       </Suspense>
 
       <AcneFooter />

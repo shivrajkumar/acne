@@ -135,6 +135,7 @@ const config: Config = {
         "Grey-Neutral/400": "#727678",
         ProductAddNow: "#FFC942",
         "Tertiary/200": "#8CC5FA",
+<<<<<<< HEAD
         "grey/200": "#BCC2C4",
         "Warning/300": "#FBF1A6",
         "Secondary/500": "#635E51",
@@ -144,6 +145,11 @@ const config: Config = {
         "Grey/900": "#0F1B28",
         "Grey/500": "#505354",
         "Grey/300": "#C5CBCB",
+=======
+        "grey/200":"#BCC2C4",
+        "Grey/900":"#0F1B28",
+        "Secondary/500":"#635E51"
+>>>>>>> 0a9777b (done all the changes)
       },
       fontSize: {
         xxs: "0.6rem",
