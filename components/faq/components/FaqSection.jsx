@@ -1,8 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import FaqItem from './FaqItem';
 
-const FaqSection = ({ title, items, id }) => {
+const FaqSection = forwardRef(({ title, items }, ref) =>  {
   const [openItems, setOpenItems] = useState({});
 
   const toggleItem = (index) => {
@@ -13,7 +13,7 @@ const FaqSection = ({ title, items, id }) => {
   };
 
   return (
-    <div id={id} className="mb-16">
+    <div ref={ref} className="mb-16">
       <div className="mb-6 font-bold tracking-wide text-gray-900 text-[18px] md:text-[40px]">{title}</div>
       
       <div className="shadow-none border-none bg-[#F9F7F2]">
@@ -31,6 +31,6 @@ const FaqSection = ({ title, items, id }) => {
       </div>
     </div>
   );
-};
+});
 
 export default FaqSection;

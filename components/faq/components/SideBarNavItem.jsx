@@ -3,6 +3,8 @@ import { Button } from "antd";
 import React from "react";
 
 const SideBarNavItem = ({ label, onClick }) => {
+  console.log(onclick)
+  
   return (
     <Button
       type="text"

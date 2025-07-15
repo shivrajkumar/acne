@@ -17,8 +17,8 @@ const page = () => {
       <div className="absolute inset-0 bg-black/40 bg-opacity-50"></div>
 
         <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="text-white text-[24px] md:text-[87px] font-rubik font-bold text-center">
-            In case you were wondering...
+          <div className="text-white text-[24px] font-sophiaPro md:text-[87px] font-normal text-center">
+            For Your Information...
           </div>
         </div>
       </div>

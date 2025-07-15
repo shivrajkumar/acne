@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, {useRef} from 'react';
 import { Layout, Card, Row, Col, Divider } from 'antd';
 import FaqSection from './components/FaqSection';
 import SideBarNavItem from './components/SideBarNavItem';
@@ -12,6 +12,13 @@ import WorkingHoursIcon from '@assets/svg/Off.svg'
 const { Content } = Layout;
 
 const MainFaq = () => {
+
+  const sectionRefs = useRef([]);
+
+  const handleScrollTo = (index) => {
+    sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Layout className="min-h-screen bg-white">
       <Content className="py-8 px-3 md:px-8 md:container mx-auto w-full">
@@ -25,23 +32,24 @@ const MainFaq = () => {
               </div>
               
               <div className="flex md:hidden gap-4 overflow-x-auto hide-scrollbar">
-                {sidebarItems.map((item) => (
+                {sidebarItems.map((item, index) => (
                   <SideBarNavItem
                     key={item}
                     label={item}
                     isActive={false}
-                    onClick={() => {}}
+                    onClick={() => handleScrollTo(index)}
                   />
                 ))}
               </div>
 
               <div className="hidden md:flex flex-col gap-1 items-start">
-                {sidebarItems.map((item) => (
+                {sidebarItems.map((item, index) => (
                   <SideBarNavItem
                     key={item}
                     label={item}
                     isActive={false}
-                    onClick={() => {}}
+                    onClick={() => handleScrollTo(index)}
+
                   />
                 ))}
               </div>
@@ -80,12 +88,12 @@ const MainFaq = () => {
           <Col xs={24} lg={16}>
             <div className="rounded-lg bg-[#F9F7F2] p-6">
               {/* Display all FAQ sections */}
-              {sidebarItems.map((section) => (
+              {sidebarItems.map((section, index) => (
                 <FaqSection 
                   key={section}
                   title={section}
                   items={faqData[section] || []}
-                  id={section.toLowerCase().replace(/\s+/g, '-')}
+                  ref={(el) => (sectionRefs.current[index] = el)}
                 />
               ))}
             </div>
