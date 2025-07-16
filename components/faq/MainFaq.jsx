@@ -1,13 +1,11 @@
 'use client';
 import React, {useRef, useState} from 'react';
-import { Layout, Card, Row, Col, Divider } from 'antd';
 import FaqSection from './components/FaqSection';
+import { CDN_BASE_URL } from '@/constants/constants';
+import { Layout, Card, Row, Col, Divider } from 'antd';
 import SideBarNavItem from './components/SideBarNavItem';
 import FaqContactInfo from './components/FaqContactInfo';
 import { faqData, sidebarItems, contactInfo } from './data/faqData';
-import AddressIcon from '@assets/svg/address_icon.svg'
-import MailIcon from '@assets/svg/mail.svg'
-import WorkingHoursIcon from '@assets/svg/Off.svg'
 
 const { Content } = Layout;
 
@@ -19,8 +17,6 @@ const MainFaq = () => {
     sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
     setSelectedIndex(index)
   };
-
-  console.log('selectedIndex', selectedIndex)
 
   return (
     <Layout className="min-h-screen bg-white">
@@ -63,7 +59,7 @@ const MainFaq = () => {
             {/* Contact Information Card */}
             <div className="mt-12">
               <FaqContactInfo
-                icon={MailIcon}
+                icon={`${CDN_BASE_URL}acne/faq-webp/mail.webp`}
                 title="Write to Us"
                 content={contactInfo.email}
               />
@@ -71,7 +67,7 @@ const MainFaq = () => {
 
               
               <FaqContactInfo
-                icon={AddressIcon}
+                icon={`${CDN_BASE_URL}acne/faq-webp/address.webp`}
                 title="Mailing Address"
                 content={contactInfo.company}
                 subContent={contactInfo.address}
@@ -81,7 +77,7 @@ const MainFaq = () => {
 
               
               <FaqContactInfo
-                icon={WorkingHoursIcon}
+                icon={`${CDN_BASE_URL}acne/faq-webp/timings.webp`}
                 title="Working Hours:"
                 content={contactInfo.workingHours}
                 subContent={contactInfo.workingDays}

@@ -175,9 +175,9 @@ export const sidebarItems = [
 
 export const contactInfo = {
   email: "customercare@clearritual.com",
-  company: "Fitchi Health Solutions Pvt Ltd",
-  address: "4th Floor, A Wing, Krislon House,Krishanlal Marwah Rd, Saki Vihar Rd, Andheri East, Mumbai, Maharashtra 400072",
-  cin: "CIN: U87903MH2019PTC328243",
+  company: "Clear Ritual",
+  address: "1st Floor, Interface 16 Road, Malad, Mindspace, Malad West, Mumbai, Maharashtra - 400064",
+  cin: "",
   workingHours: "9AM - 6PM IST",
   workingDays: "Monday to Saturday"
 };
