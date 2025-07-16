@@ -126,8 +126,8 @@ export default function UserBasicInfoForm() {
     if (isNaN(age)) {
       return "Age must be a number";
     }
-    if (age <= 0) {
-      return "Age must be greater than 0";
+    if (age < 18) {
+      return "Clear Ritual treatment is available to adults 18 and above";
     }
     if (age >= 100) {
       return "Age must be less than 100";
