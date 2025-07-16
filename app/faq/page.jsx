@@ -1,14 +1,14 @@
 import React from "react";
 import MainFaq from "@/components/faq/MainFaq";
 import Image from "next/image";
-import FaqBanner from '@assets/images/faq-banner.webp'
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const page = () => {
   return (
     <>
       <div className="relative w-full h-[400px]">
         <Image 
-          src={FaqBanner} 
+          src={`${CDN_BASE_URL}acne/faq-webp/faq-banner.webp`} 
           fill 
           priority 
           className="object-cover" 

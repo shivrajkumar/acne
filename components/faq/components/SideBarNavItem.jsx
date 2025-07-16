@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { ArrowRightOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { ArrowRightOutlined } from "@ant-design/icons";
 
 const SideBarNavItem = ({ label, onClick, index, selectedIndex }) => {
   const isSelected = selectedIndex === index;
