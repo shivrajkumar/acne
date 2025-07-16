@@ -1,13 +1,12 @@
 import Cookies from "js-cookie";
 import { env } from "next-runtime-env";
 
-// Base urls
-const API_BASE_URL = env("NEXT_PUBLIC_DEFAULT_API_URL");
-// ends
 const PUBLIC_API_BASE_URL = env("NEXT_PUBLIC_PUBLIC_API_URL_BASE");
 // function to generate url
-const getUrl = (url) => API_BASE_URL + "/" + url;
-// ends
+
+const PROXY_PREFIX = "/api/proxy";
+
+const getUrl = (url) => `${PROXY_PREFIX}/${url}`; // ends
 
 export function getValidJSONFromString(strOrNull) {
   if (typeof strOrNull !== "string") {
@@ -169,8 +168,7 @@ export const PRODUCT_CONTENT_API = (id, language) => {
 };
 export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}/doctors/`;
 
-export const GET_SKIN_TEST_CONFIG =
-  "consumer-api/service/static-content/data/ACNE_FORM_CONFIG";
+export const GET_SKIN_TEST_CONFIG = `${PROXY_PREFIX}/consumer-api/service/static-content/data/ACNE_FORM_CONFIG`;
 
 export const GET_USER_FORM_RESPONSES = (tranasctionId) =>
   getUrl(`consumer-api/service/acne-forms/responses/${tranasctionId}`);
@@ -218,8 +216,6 @@ export const IMAGE_UPLOAD_API = (userId) => {
 export const PRODUCT_BOTTOM_SHEET_API = (variantId) => {
   return getUrl(`consumer-api/service/static-content/data/${variantId}`);
 };
-
-const PROXY_PREFIX = "/api/proxy";
 
 export const GENERATE_OTP_API = () => `${PROXY_PREFIX}/auth/otp/generate`;
 

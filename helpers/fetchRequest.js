@@ -29,14 +29,6 @@ export const fetchRequest = async (url, options = { method: "GET" }) => {
         data: null,
         hasError: false,
         status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods":
-            "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-          "Access-Control-Allow-Headers":
-            "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
-          "Access-Control-Allow-Credentials": "true",
-        },
       };
     }
 
@@ -46,25 +38,18 @@ export const fetchRequest = async (url, options = { method: "GET" }) => {
         ...(isFormData ? {} : { "Content-Type": "application/json" }),
         "x-tenant-id": "acne",
         "x-access-token": `${SECURITY_TOKEN}`,
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods":
-          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
-        "Access-Control-Allow-Credentials": "true",
+        "Accept-Encoding": " br, gzip, deflate",
         ...options.headers,
       },
-      // Ensure credentials are included for CORS
-      credentials: "include",
     };
 
     const _res = await fetch(url, _options);
-
     status = _res.status;
     const contentType = _res.headers.get("content-type");
 
     if (contentType?.includes("application/json")) {
       data = await _res.json();
+      console.log("Response Data:", data);
     }
   } catch (error) {
     console.warn(error.message);

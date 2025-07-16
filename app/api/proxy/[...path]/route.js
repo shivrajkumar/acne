@@ -10,39 +10,40 @@ export async function POST(req, { params }) {
   return proxyRequest(req, params);
 }
 
-async function proxyRequest(req, params) {
-  const targetPath = params.path.join("/");
+export async function PUT(req, { params }) {
+  return proxyRequest(req, params);
+}
+
+export async function DELETE(req, { params }) {
+  return proxyRequest(req, params);
+}
+
+async function proxyRequest(req, { path }) {
+  const targetPath = path.join("/");
   const targetUrl = `${BACKEND_URL}/${targetPath}`;
 
   const headers = new Headers(req.headers);
-  headers.set("host", new URL(BACKEND_URL).host);
-  headers.set("origin", BACKEND_URL);
 
-  const body =
-    req.method !== "GET" && req.method !== "HEAD"
-      ? await req.text()
-      : undefined;
+  headers.delete("content-length");
+  headers.delete("accept-encoding");
 
-  const response = await fetch(targetUrl, {
+  const fetchOptions = {
     method: req.method,
     headers,
-    body,
-    credentials: "include",
-  });
+    body: req.method !== "GET" && req.method !== "HEAD" ? req.body : undefined,
+    duplex: "half",
+  };
 
-  const responseBody = await response.arrayBuffer();
+  const backendResponse = await fetch(targetUrl, fetchOptions);
 
-  const setCookie = response.headers.get("set-cookie");
+  const responseHeaders = new Headers(backendResponse.headers);
+  responseHeaders.delete("content-encoding");
+  responseHeaders.delete("content-length");
 
-  const responseHeaders = new Headers(response.headers);
-
-  if (setCookie) {
-    const adjustedCookie = setCookie.replace(/Domain=[^;]+;?/gi, "");
-    responseHeaders.set("set-cookie", adjustedCookie);
-  }
+  const responseBody = await backendResponse.arrayBuffer();
 
   return new NextResponse(responseBody, {
-    status: response.status,
+    status: backendResponse.status,
     headers: responseHeaders,
   });
 }
