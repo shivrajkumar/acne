@@ -28,7 +28,7 @@ export default function WhatIsCleaRitual() {
       {/* Left Content */}
       <div className="md:w-1/2 flex flex-col justify-between">
         <div className="flex flex-col gap-4 md:gap-[16px]">
-          <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[14px] w-fit">
+          <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[12px] md:text-[14px] w-fit">
             What is Clear Ritual?
           </div>
           <h2 className="font-sophiaPro text-[40px] md:text-[40px] xs:text-[28px] font-[400] leading-[130%] tracking-[-0.02em] text-wrap xl:w-[620px] md:w-[333px] w-[300px]">

@@ -109,7 +109,7 @@ function AccurateSkinTestResultsMobile() {
 
   return (
     <section className="bg-Background/Beige p-[16px] rounded-[24px]">
-      <div className="w-fit bg-white rounded-[12px] py-[8px] px-[16px] text-[12px] font-sophiaPro">
+      <div className="w-fit bg-white rounded-[12px] py-[8px] px-[16px] text-[12px] md:text-[14px] font-sophiaPro">
         Accurate Results
       </div>
 

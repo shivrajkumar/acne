@@ -19,7 +19,7 @@ export default function AcneOurTeam() {
     <section className="bg-Background/Beige p-[28px] md:p-[40px]  rounded-[24px]">
       <div className="flex flex-col">
         {/* Header */}
-        <div className="w-fit bg-white rounded-[12px] py-2 px-4 text-sm mb-3 font-sophiaPro ">
+        <div className="w-fit bg-white rounded-[12px] py-2 px-4 text-[12px] md:text-[14px] mb-3 font-sophiaPro ">
           Our Team
         </div>
 
