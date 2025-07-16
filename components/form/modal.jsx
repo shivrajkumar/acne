@@ -64,7 +64,7 @@ export const Modal = (props) => {
                   <div className="px-[24px] pb-[24px]">
                     <Dialog.Title
                       as="h3"
-                      className="text-[32px] xs:text-[24px] md:text-[32px] font-[500] pt-[24px] pb-[16px] font-sophiaPro text-left text-Text/Heading-Text -tracking-[2%] flex items-center justify-between gap-[24px]"
+                      className="text-[32px] xs:text-[24px] md:text-[32px] font-[400] pt-[24px] pb-[16px] font-sophiaPro text-left text-Text/Heading-Text -tracking-[2%] flex items-center justify-between gap-[24px]"
                     >
                       {props.content?.heading}
                       <div

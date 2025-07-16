@@ -34,7 +34,7 @@ export default function AcneRootCauses({ rootcauses }) {
 
       <div className="flex justify-between mt-[16px] mb-[40px]">
         <div className="flex flex-col justify-between items-start">
-          <h2 className="text-[28px] md:text-[40px] font-sophiaPro font-[500] text-Text/Heading-Text md:w-[620px] w-[300px] leading-[130%]">
+          <h2 className="text-[28px] md:text-[40px] font-sophiaPro font-[400] text-Text/Heading-Text md:w-[620px] w-[300px] leading-[130%]">
             Acne Starts from Within — We Fix the Root Cause.
           </h2>
         </div>
@@ -112,7 +112,7 @@ export default function AcneRootCauses({ rootcauses }) {
                       className="rounded-lg w-14 h-14 object-contain"
                     />
                   </div>
-                  <p className="text-[16px] md:text-[18px] font-[500] font-sophiaPro">{problem.name}</p>
+                  <p className="text-[16px] md:text-[18px] font-[400] font-sophiaPro">{problem.name}</p>
                   <p className="text-[14px] md:text-[16px] font-[400]  font-sophiaPro">
                     {problem.description}
                   </p>

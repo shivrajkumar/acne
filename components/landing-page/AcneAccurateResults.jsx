@@ -28,7 +28,7 @@ function AccurateSkinTestResults() {
             Accurate Results
           </div>
 
-          <h2 className="text-[28px] md:text-[40px] font-[500] font-sophiaPro  mb-[16px]  leading-[130%] ">
+          <h2 className="text-[28px] md:text-[40px] font-[400] font-sophiaPro  mb-[16px]  leading-[130%] ">
             Our Advanced Skin Test Deeply Analyses <br />
             {`Your Skin to Create a Personalised Acne Care Plan, Crafted by Dermatology Experts.`}
           </h2>
@@ -36,25 +36,25 @@ function AccurateSkinTestResults() {
           <div className="flex flex-col gap-[16px]">
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={20} height={20} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[135%]">
                 Instant skin analysis
               </p>
             </div>
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={20} height={20} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[135%]">
                 Personalised skincare routine crafted just for you
               </p>
             </div>
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={20} height={20} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[135%]">
                 Expert guidance from dermatologists
               </p>
             </div>
             <div className="flex items-center gap-[16px]">
               <Image src={checkIcon} width={20} height={20} alt="Icon" />
-              <p className="text-[18px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[135%]">
+              <p className="text-[18px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[135%]">
                 Products designed to work seamlessly together
               </p>
             </div>
@@ -113,7 +113,7 @@ function AccurateSkinTestResultsMobile() {
         Accurate Results
       </div>
 
-      <h2 className="text-[28px] font-[500] my-[16px] font-sophiaPro leading-[130%]">
+      <h2 className="text-[28px] font-[400] my-[16px] font-sophiaPro leading-[130%]">
         Our Advanced Skin Test Deeply Analyses Your Skin to Create a
         Personalised Acne Care Plan, Crafted by Dermatology Experts.
       </h2>
@@ -132,25 +132,25 @@ function AccurateSkinTestResultsMobile() {
       <div className="flex flex-col mb-4 gap-[16px]">
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={20} height={20} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[140%]">
             Instant skin analysis
           </p>
         </div>
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={20} height={20} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[140%]">
             Personalised skincare routine crafted just for you
           </p>
         </div>
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={20} height={20} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[140%]">
             Expert guidance from dermatologists
           </p>
         </div>
         <div className="flex items-center gap-[16px]">
           <Image src={checkIcon} width={20} height={20} alt="Icon" />
-          <p className="text-[14px] text-Text/Heading-Text font-[500] font-sophiaPro leading-[140%]">
+          <p className="text-[14px] text-Text/Heading-Text font-[400] font-sophiaPro leading-[140%]">
             Products designed to work seamlessly together
           </p>
         </div>
