@@ -32,7 +32,7 @@ export default function GetCustomRoutineBanner() {
 
           <div className="absolute inset-0 top-[35%] flex flex-col mx-auto items-center justify-center">
             <div className="text-center text-white  px-4">
-              <h1 className="text-[44px] font-[500]  mb-8 font-sophiaPro">
+              <h1 className="text-[44px] font-[400]  mb-8 font-sophiaPro">
                 No More Guessing—Get a Skincare <br />Routine Made Just for You.
               </h1>
               <div className="flex justify-center">
@@ -67,7 +67,7 @@ export default function GetCustomRoutineBanner() {
 
           <div className="absolute inset-0 top-[35%] flex flex-col items-center justify-center p-6">
             <div className="text-center text-white">
-              <h2 className="text-[28px] font-[500] leading-tight mb-6 font-sophiaPro">
+              <h2 className="text-[28px] font-[400] leading-tight mb-6 font-sophiaPro">
                 No More Guessing—
                 <br />
                 Get a Skincare Routine

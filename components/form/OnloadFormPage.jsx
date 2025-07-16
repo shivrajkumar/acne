@@ -28,10 +28,10 @@ const OnloadFormPage = () => {
   return (
     <div className={` h-screen mx-auto max-w-2xl px-6 pb-8 bg-white font-sophiaPro flex justify-center items-center `}>
       <div className="flex flex-col items-center justify-center gap-4 h-2/5 sm:h-auto xs:mx-2">
-        <h2 className="text-2xl font-bold text-center sm:text-4xl lg:text-6xl text-gray-600 sm:text-brand-gray-dark">
+        <h2 className="text-2xl font-[400] text-center sm:text-4xl lg:text-6xl text-gray-600 sm:text-brand-gray-dark">
           Hey There!
         </h2>
-        <h4 className="font-bold text-center sm:text-2xl text-gray-700 sm:text-brand-gray-dark">
+        <h4 className="font-[400] text-center sm:text-2xl text-gray-700 sm:text-brand-gray-dark">
           You have taken the skin test before.
         </h4>
         {syntheticId ? (

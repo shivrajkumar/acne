@@ -28,7 +28,7 @@ export default function AcneIngredients({ ingredients }) {
       </div>
       <div className="flex justify-between mt-[16px] mb-[16px] md:mt-[16px] md:mb-[40px] ">
         <div className="flex flex-col justify-between items-start">
-          <h2 className="text-[28px] md:text-[40px]  font-[500] text-Text/Heading-Text font-sophiaPro leading-[130%]">
+          <h2 className="text-[28px] md:text-[40px]  font-[400] text-Text/Heading-Text font-sophiaPro leading-[130%]">
             Ingredients You Can Trust - Safe &<br />
             Effective.
           </h2>
@@ -123,7 +123,7 @@ export default function AcneIngredients({ ingredients }) {
                   />
                 </div>
                 <div className="text-left w-full">
-                  <p className="text-[24px] md:text-[16px] xs:text-[16px] font-[500] font-sophiaPro text-Text/Heading-Text leading-[130%]">
+                  <p className="text-[24px] md:text-[16px] xs:text-[16px] font-[400] font-sophiaPro text-Text/Heading-Text leading-[130%]">
                     {ingredient.name}
                   </p>
                   <p className="text-[14px] md:text-[14px] xs:text-[14px] text-Text/Heading-Text font-normal mt-1 leading-[140%]">

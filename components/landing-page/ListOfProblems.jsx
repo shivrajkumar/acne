@@ -45,7 +45,7 @@ export default function ListOfProblems({ listOfProblems }) {
         </div>
         <div className="flex justify-between my-[40px] xs:my-[16px]">
           <div className="flex flex-col justify-between items-start">
-            <h2 className=" md:text-[40px] text-[28px] font-[500] leading-[130%] text-Text/Heading-Text">
+            <h2 className=" md:text-[40px] text-[28px] font-[400] leading-[130%] text-Text/Heading-Text">
               {"Acne Comes in All Forms —"} <br />
               Clear Ritual Has the Right Solution for You
             </h2>
@@ -84,7 +84,7 @@ export default function ListOfProblems({ listOfProblems }) {
               height={211}
               className="rounded-[8px] object-cover w-full h-full"
             />
-            <h3 className="text-[18px] font-[500] font-sophiaPro text-Text/Heading-Text">
+            <h3 className="text-[18px] font-[400] font-sophiaPro text-Text/Heading-Text">
               {problem.title}
             </h3>
           </div>
@@ -112,7 +112,7 @@ export default function ListOfProblems({ listOfProblems }) {
                       priority={index < 2} // Prioritize loading the first two images
                     />
                   </div>
-                  <h3 className="text-[14px] font-[500] font-sophiaPro text-Text/Heading-Text">
+                  <h3 className="text-[14px] font-[400] font-sophiaPro text-Text/Heading-Text">
                     {problem.title}
                   </h3>
                 </div>

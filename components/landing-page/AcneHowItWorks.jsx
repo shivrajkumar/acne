@@ -27,7 +27,7 @@ export default function AcneHowItWorks({ howItWorks }) {
         </div>
         <div className="flex justify-between mt-[16px] mb -[16px]">
           <div className="flex flex-col justify-between items-start">
-            <h2 className="text-[28px] md:text-[40px] xs:text-[28px] font-[500] leading-[130%] font-sophiaPro text-Text/Heading-Text">
+            <h2 className="text-[28px] md:text-[40px] xs:text-[28px] font-[400] leading-[130%] font-sophiaPro text-Text/Heading-Text">
               Clear Skin, Simplified: <br /> Your Personalised 3-Step Process
             </h2>
           </div>
@@ -80,7 +80,7 @@ export default function AcneHowItWorks({ howItWorks }) {
         </div>
 
         <div className="my-[20px]">
-          <h2 className="text-[28px] font-[500] text-Text/Heading-Text font-sophiaPro leading-[130%]">
+          <h2 className="text-[28px] font-[400] text-Text/Heading-Text font-sophiaPro leading-[130%]">
             The Easiest <br /> Process for the Best Results
           </h2>
         </div>
@@ -108,7 +108,7 @@ export default function AcneHowItWorks({ howItWorks }) {
                       <div className="bg-Background/AirBlue px-[16px] py-[4px] text-black rounded-full inline-block mb-2 text-[12px] md:text-[18px] font-sophiaPro">
                         STEP {index + 1}
                       </div>
-                      <h3 className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro">
+                      <h3 className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro">
                         {value.title}
                       </h3>
                       <p className="text-[12px] text-Text/Heading-Text mb-1 font-sophiaPro">
@@ -165,7 +165,7 @@ function CustomerCard({ value }) {
         />
       </div>
       <div className="flex flex-col justify-center px-3 rounded-lg items-center gap-[8px] mt-[24px] text-center">
-        <h2 className="text-[24px] pb-1 pt-2 text-Text/Heading-Text font-sophiaPro leading-[130%] font-[500] ">
+        <h2 className="text-[24px] pb-1 pt-2 text-Text/Heading-Text font-sophiaPro leading-[130%] font-[400] ">
           {value.title}
         </h2>
         <p className="text-[16px] text-Text/Heading-Text pb-3 font-[400] text-center px-[40px] font-sophiaPro">

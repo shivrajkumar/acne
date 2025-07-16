@@ -50,8 +50,8 @@ const AcneTakeTheSkinTest = ({
         <a
           href={redirectTo}
           onClick={handleClick}
-          className={`flex ${hairTestButtonColor[variant]}  ${hairTestButtonColor[size]}  ${hairTestButtonColor[deskSize]} font-[400] mt-4 items-center justify-center font-sophiaPro rounded-[1000px] uppercase
-           ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] py-[16px] `}
+          className={`flex ${hairTestButtonColor[variant]}  ${hairTestButtonColor[size]}  ${hairTestButtonColor[deskSize]} font-[400] mt-4 items-center justify-center font-sophiaPro rounded-[1000px] uppercase  shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
+           ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] tracking-[0.5px] py-[16px] `}
           id={hairTestId}
 
         >
@@ -72,8 +72,8 @@ const AcneTakeTheSkinTest = ({
         <a
           href={redirectTo}
           onClick={handleClick}
-          className={`flex ${hairTestButtonColor[variant]} justify-center items-center ${hairTestButtonColor[deskSize]}  font-sophiaPro font-[400] rounded-[1000px] uppercase 
-          ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] -tracking-[1%] py-[16px]`}
+          className={`flex ${hairTestButtonColor[variant]} justify-center items-center ${hairTestButtonColor[deskSize]}  font-sophiaPro font-[400] rounded-[1000px] uppercase shadow-[0px_4px_4px_rgba(0,0,0,0.25)] text-[14px] ${hairTestButtonColor[size]}
+          ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] tracking-[0.5px] py-[16px]`}
           id={hairTestId}
         >
           {text ? text : "Take The Skin Test"}{" "}

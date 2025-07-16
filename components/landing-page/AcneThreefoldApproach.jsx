@@ -41,13 +41,13 @@ function AcneThreefoldApproach() {
       {/* Heading Section */}
       <div className="flex justify-between mt-[16px] mb-[16px] md:mt-[16px] md:mb-[40px] ">
         <div className="flex flex-col justify-between items-start">
-          <h2 className="text-[28px] md:text-[40px] font-sophiaPro font-[500] text-Text/Heading-Text leading-[130%]">
+          <h2 className="text-[28px] md:text-[40px] font-sophiaPro font-[400] text-Text/Heading-Text leading-[130%] ">
             We Combine the <br />
             Best of the Three Worlds.
           </h2>
         </div>
         {/* Desktop subtitle - hidden on mobile */}
-        <div className="hidden md:flex  text-Text/Body-Text font-sophiaPro font-[400] text-[14px] leading-[140%]  items-end justify-between pr-[106px]">
+        <div className="hidden md:flex  text-Text/Body-Text font-sophiaPro font-[400] text-[14px] leading-[140%]  items-end justify-between ">
           <p>
             Our acne solutions combine the power of Ayurveda, expert dermatology, and advanced science for clear, lasting results
           </p>
@@ -76,7 +76,7 @@ function AcneThreefoldApproach() {
               <div className="bg-Primary/500 text-white rounded-full w-[24px] h-[24px] flex items-center justify-center mr-4">
                 <span>1</span>
               </div>
-              <span className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro leading-[135%]">
+              <span className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro leading-[135%]">
                 Ayurveda
               </span>
             </div>
@@ -91,7 +91,7 @@ function AcneThreefoldApproach() {
               <div className="bg-Primary/500 text-white rounded-full w-[24px] h-[24px] flex items-center justify-center mr-4">
                 <span>2</span>
               </div>
-              <span className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro">
+              <span className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro">
                 Dermatology
               </span>
             </div>
@@ -106,7 +106,7 @@ function AcneThreefoldApproach() {
               <div className="bg-Primary/500 text-white rounded-full w-[24px] h-[24px] flex items-center justify-center mr-4">
                 <span>3</span>
               </div>
-              <span className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro leading-[135%]">
+              <span className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro leading-[135%]">
                 Advanced Formulas
               </span>
             </div>
@@ -144,7 +144,7 @@ function AcneThreefoldApproach() {
             <div className="bg-Primary/500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-sophiaPro">
               <span>1</span>
             </div>
-            <span className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro leading-[135%]">
+            <span className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro leading-[135%]">
               Ayurveda
             </span>
           </div>
@@ -159,7 +159,7 @@ function AcneThreefoldApproach() {
             <div className="bg-Primary/500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-sophiaPro">
               <span>2</span>
             </div>
-            <span className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro">
+            <span className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro">
               Dermatology
             </span>
           </div>
@@ -174,7 +174,7 @@ function AcneThreefoldApproach() {
             <div className="bg-Primary/500 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-sophiaPro">
               <span>3</span>
             </div>
-            <span className="text-[16px] font-[500] text-Text/Heading-Text font-sophiaPro leading-[135%]">
+            <span className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro leading-[135%]">
               Advanced Formulas
             </span>
           </div>

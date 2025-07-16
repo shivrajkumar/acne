@@ -31,7 +31,7 @@ export default function WhatIsCleaRitual() {
           <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[14px] w-fit">
             What is Clear Ritual?
           </div>
-          <h2 className="font-sophiaPro text-[40px] md:text-[40px] xs:text-[28px] font-[500] leading-[130%] tracking-[-0.02em] text-wrap xl:w-[620px] md:w-[333px] w-[300px]">
+          <h2 className="font-sophiaPro text-[40px] md:text-[40px] xs:text-[28px] font-[400] leading-[130%] tracking-[-0.02em] text-wrap xl:w-[620px] md:w-[333px] w-[300px]">
             The Best Brands, Handpicked by Dermatologists for Your Acne Routine
           </h2>
           <div className="w-full flex justify-center md:hidden">

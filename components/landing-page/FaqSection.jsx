@@ -18,7 +18,7 @@ const FAQSection = ({ data }) => {
     <div className="w-full  mx-auto p-[16px] md:p-[40px] ">
       <div className="md:flex md:justify-between">
         <div className="md:w-5/12 mb-8 md:mb-0">
-          <h2 className="text-[28px] md:text-[40px] font-sophiaPro font-[500] leading-[130%] text-Text/Heading-Text">
+          <h2 className="text-[28px] md:text-[40px] font-sophiaPro font-[400] leading-[130%] text-Text/Heading-Text">
             {`Have Questions? We've Got You Covered...`}
           </h2>
         </div>
@@ -45,7 +45,7 @@ const FaqItem = ({ question, answer, isOpen, toggleOpen }) => {
         onClick={toggleOpen}
         className="flex items-center justify-between cursor-pointer transition-all duration-300"
       >
-        <h3 className="text-[16px] md:text-[18px] text-Text/Heading-Text font-sophiaPro font-[500] leading-[135%] py-[16px]">
+        <h3 className="text-[16px] md:text-[18px] text-Text/Heading-Text font-sophiaPro font-[400] leading-[135%] py-[16px]">
           {question}
         </h3>
         <div className="flex-shrink-0 transition-transform duration-300">
