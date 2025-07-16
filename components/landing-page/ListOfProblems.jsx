@@ -40,7 +40,7 @@ export default function ListOfProblems({ listOfProblems }) {
   return (
     <div className="bg-[#FAF9F6]  p-0 md:p-[40px] rounded-[24px] w-full mx-auto">
       <div className="p-[28px] md:p-0">
-        <div className="bg-white border-[1px]  border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[14px] w-fit">
+        <div className="bg-white border-[1px]  border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[12px] md:text-[14px] w-fit">
           We Solve
         </div>
         <div className="flex justify-between my-[40px] xs:my-[16px]">

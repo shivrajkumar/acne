@@ -22,7 +22,7 @@ export default function AcneHowItWorks({ howItWorks }) {
     <>
       {/* Desktop View */}
       <div className="hidden bg-[#FFFFFF] p-[16px] md:p-[40px] lg:p-[40px] rounded-[24px] w-full mx-auto border-[1px] border-Elements/Divider-Stroke xs:hidden sm:hidden md:block lg:block xl:block">
-        <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-normal text-[14px] w-fit font-sophiaPro">
+        <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-normal text-[12px] md:text-[14px] w-fit font-sophiaPro">
           How It Works
         </div>
         <div className="flex justify-between mt-[16px] mb -[16px]">
