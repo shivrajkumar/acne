@@ -3,10 +3,17 @@ import { TokenManager } from "@/utils/tokenManager";
 import { env } from "next-runtime-env";
 
 const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
+
+// Default headers to support pre-flight requests
 const DEFAULT_OPTIONS = {
   headers: {
     "Content-Type": "application/json",
     "x-tenant-id": "acne",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
+    "Access-Control-Allow-Credentials": "true",
   },
 };
 
@@ -16,29 +23,42 @@ export const fetchRequest = async (url, options = { method: "GET" }) => {
   const isFormData = options.body instanceof FormData;
 
   try {
+    // Handle OPTIONS pre-flight request
+    if (options.method === "OPTIONS") {
+      return {
+        data: null,
+        hasError: false,
+        status: 200,
+      };
+    }
+
     const _options = {
       ...options,
       headers: {
-        ...(isFormData
-          ? {}
-          : {
-              "Content-Type": "application/json",
-            }),
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
         "x-tenant-id": "acne",
         "x-access-token": `${SECURITY_TOKEN}`,
+        "Accept-Encoding": " br, gzip, deflate",
+        ...options.headers,
       },
     };
 
     const _res = await fetch(url, _options);
-
     status = _res.status;
     const contentType = _res.headers.get("content-type");
-    if (contentType?.includes("application/json")) data = await _res.json();
+
+    if (contentType?.includes("application/json")) {
+      data = await _res.json();
+      console.log("Response Data:", data);
+    }
   } catch (error) {
     console.warn(error.message);
   } finally {
-    // eslint-disable-next-line no-unsafe-finally
-    return { data, hasError: !(status === 200), status };
+    return {
+      data,
+      hasError: !(status === 200),
+      status,
+    };
   }
 };
 
@@ -56,6 +76,15 @@ export const fetchRequestWithoutAuth = async (url, options = {}) => {
       },
       credentials: "include",
     };
+
+    if (options.method === "OPTIONS") {
+      return {
+        data: null,
+        hasError: false,
+        status: 200,
+        headers: _options.headers,
+      };
+    }
 
     const response = await fetch(url, _options);
 
@@ -88,13 +117,17 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
   let data = null;
   let status = 500;
 
+  // Handle token refresh if needed
   if (TokenManager.isAccessTokenExpired(accessToken)) {
     try {
       const refreshResponse = await fetch(REFRESH_TOKEN_API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
         },
+        credentials: "include",
         body: JSON.stringify({ refreshToken }),
       });
 
@@ -120,6 +153,23 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
     }
   }
 
+  // Handle OPTIONS pre-flight request
+  if (options.method === "OPTIONS") {
+    return {
+      data: null,
+      hasError: false,
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
+        "Access-Control-Allow-Credentials": "true",
+      },
+    };
+  }
+
   const authOptions = {
     ...DEFAULT_OPTIONS,
     ...options,
@@ -127,7 +177,14 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
       ...DEFAULT_OPTIONS.headers,
       ...options.headers,
       Authorization: `Bearer ${accessToken}`,
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
+      "Access-Control-Allow-Credentials": "true",
     },
+    // Ensure credentials are included for CORS
+    credentials: "include",
   };
 
   try {
