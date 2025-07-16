@@ -37,7 +37,7 @@ const BlogsLanding = () => {
               readTime={item.readTime}
               title={item.title}
               description={item.description}
-              onClick={() => {}}
+              slug={item.slug}
             />
           ))}
         </div>
