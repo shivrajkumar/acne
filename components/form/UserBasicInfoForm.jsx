@@ -587,7 +587,7 @@ export default function UserBasicInfoForm() {
                 onClick={() => handleGenderSelect("M")}
               >
                 <div className="flex items-center space-x-2 justify-center ">
-                  <Image src={maleIcon} width={24} height={24} alt="Icon" />
+                  <Image src={femaleIcon} width={24} height={24} alt="Icon" />
                   <span className="text-[16px] font-[400]">Male</span>
                 </div>
               </button>
@@ -601,7 +601,7 @@ export default function UserBasicInfoForm() {
                 onClick={() => handleGenderSelect("F")}
               >
                 <div className="flex items-center space-x-2 justify-center">
-                  <Image src={femaleIcon} width={24} height={24} alt="Icon" />
+                  <Image src={maleIcon} width={24} height={24} alt="Icon" />
                   <span className="text-[16px] font-[400]">Female</span>
                 </div>
               </button>
