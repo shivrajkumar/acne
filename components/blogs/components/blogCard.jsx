@@ -3,10 +3,12 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import Link from "next/link";
 
-const BlogCard = ({ image, date, readTime, title, description, onClick }) => {
+const BlogCard = ({ image, date, readTime, title, description, onClick, slug }) => {
   return (
-    <div className="w-full h-[488px] md:w-[310px] md:h-[500px] relative mb-4">
+    <Link href={`/blog/${slug}`}>
+    <div className="w-full h-[488px] md:w-[335px] md:h-[500px] relative mb-4">
       <div className="w-full h-72 relative overflow-hidden">
         <Image
           src={image}
@@ -36,6 +38,7 @@ const BlogCard = ({ image, date, readTime, title, description, onClick }) => {
         Read more <ArrowRightOutlined className="font-extralight" />
       </Button>
     </div>
+    </Link>
   );
 };
 

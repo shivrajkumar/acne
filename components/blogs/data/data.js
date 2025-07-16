@@ -1,84 +1,47 @@
 export const blogLandingData = [
   {
-    id: "natural-ingredients-hair-growth",
-    title: "Steps to Building a Custom Morning Skincare Routine",
-    description:
-      "Discover the best natural ingredients for promoting hair growth and achieving long-lasting thickness.",
+    slug: 'what-causes-acne',
+    title: "What Causes Acne? Breaking Down the Science",
+    description: "Acne is one of the most common skin conditions in the world, affecting people of all ages and skin types. Yet, despite how widespread it is, most people don’t fully understand what causes it or why it tends to show up in certain areas like the back, jawline, or cheeks.",
     image: "/images/blogs/image-1.webp",
     date: "March 24, 2025",
     readTime: "5 MIN READ",
     filter: "Skin Education",
   },
   {
-    id: "scalp-care-routine",
-    title: "What Are Peptides for Skin?",
-    description:
-      "A step-by-step guide to keeping your scalp healthy, nourished, and free of buildup.",
+    slug: "hormonal-acne-vs-bacterial-acne",
+    title: "Hormonal Acne vs Bacterial Acne – What’s the Difference?",
+    description: "Acne is often seen as one single skin condition, but in reality, not all breakouts are the same. Treating every pimple the same way can lead to confusion, frustration, and results that don’t last.",
     image: "/images/blogs/image-2.webp",
     date: "April 10, 2025",
     readTime: "4 MIN READ",
     filter: "Acne Education",
   },
   {
-    id: "hair-oil-benefits",
-    title:
-      "What is Niacinamide? The Skincare Ingredient You Need to Know About.",
-    description:
-      "Learn the science-backed benefits of regular oiling for stronger, shinier hair.",
+    slug: "how-to-identify-if-your-acne-is-hormonal",
+    title: "How to Identify If Your Acne Is Hormonal",
+    description: "Not all acne is the same — and if your breakouts keep recurring in the same spots, especially around your jawline or chin, there’s a good chance your acne is hormonal.",
     image: "/images/blogs/image-3.webp",
     date: "May 5, 2025",
     readTime: "3 MIN READ",
     filter: "Skin Education",
   },
   {
-    id: "hair-oil-benefits",
-    title: "What Do Antioxidants Do For The Skin?",
-    description:
-      "Learn the science-backed benefits of regular oiling for stronger, shinier hair.",
+    slug: "why-adult-acne-is-more-common-than-you-think",
+    title: "Why Adult Acne Is More Common Than You Think",
+    description: "Acne isn’t just something people grow out of. For many adults — particularly women — breakouts persist well into their 20s, 30s, and 40s. In fact, adult acne is increasingly common, and its causes are often more complex than those in adolescence.",
     image: "/images/blogs/image-4.webp",
     date: "May 5, 2025",
     readTime: "3 MIN READ",
     filter: "Acne Education",
   },
   {
-    id: "hair-oil-benefits",
-    title: "The Beginner’s Guide to Skin Cycling",
-    description:
-      "Learn the science-backed benefits of regular oiling for stronger, shinier hair.",
+    slug: "is-your-acne-linked-to-pcos",
+    title: "Is Your Acne Linked to PCOS? Here’s What You Need to Know",
+    description: "Polycystic Ovary Syndrome (PCOS) is a hormonal condition that affects nearly 1 in 5 women of reproductive age — and one of its most visible signs is persistent acne. Unlike typical breakouts, PCOS acne often follows a specific pattern, shows resistance to conventional treatments, and may be a sign of deeper hormonal imbalances.",
     image: "/images/blogs/image-5.webp",
     date: "May 5, 2025",
     readTime: "3 MIN READ",
     filter: "Skin Education",
-  },
-  {
-    id: "hair-oil-benefits",
-    title:
-      "Why Use a Moisturizer at Night? Your Guide to Choosing Our Best Nighttime Skincare",
-    description:
-      "Learn the science-backed benefits of regular oiling for stronger, shinier hair.",
-    image: "/images/blogs/image-6.webp",
-    date: "May 5, 2025",
-    readTime: "3 MIN READ",
-    filter: "Acne Education",
-  },
-  {
-    id: "hair-oil-benefits",
-    title: "Understanding Vitamin C in Skincare: The Science and Your Skin",
-    description:
-      "Learn the science-backed benefits of regular oiling for stronger, shinier hair.",
-    image: "/images/blogs/image-7.webp",
-    date: "May 5, 2025",
-    readTime: "3 MIN READ",
-    filter: "Skin Education",
-  },
-  {
-    id: "hair-oil-benefits",
-    title: "What’s Your Skin’s Antioxidant Persona?",
-    description:
-      "Learn the science-backed benefits of regular oiling for stronger, shinier hair.",
-    image: "/images/blogs/image-8.webp",
-    date: "May 5, 2025",
-    readTime: "3 MIN READ",
-    filter: "Acne Education",
-  },
+  }
 ];
