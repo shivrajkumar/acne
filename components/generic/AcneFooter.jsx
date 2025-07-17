@@ -44,7 +44,7 @@ const AcneFooter = () => {
   return (
     <div className="bg-Neutral/900">
       {/* Desktop Footer */}
-      <div className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[80px]">
+      <div id="site-footer" className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[80px]">
         <div className="">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col gap-[28px]">

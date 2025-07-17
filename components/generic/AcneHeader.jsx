@@ -228,6 +228,18 @@ const AcneHeader = () => {
                   Reviews
                 </Link>
               </li>
+              <li className="py-[12px] px-[16px]">
+                <Link
+                  href="/blog"
+                  className="font-sophiaPro text-[14px] font-[400] text-Text/Heading-Text]"
+                  onClick={() => {
+                    PageClickEvent("Blogs", "/Blog");
+                    toggleMenu();
+                  }}
+                >
+                  Blogs
+                </Link>
+              </li>
             </ul>
           </nav>
 
