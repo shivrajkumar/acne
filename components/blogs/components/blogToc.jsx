@@ -96,7 +96,7 @@ export const BlogTableOfContents = ({ items, sections }) => {
                 className={`block text-sm pl-4 border-l-2 
                   ${
                     isActive
-                      ? "border-primary-dark text-primary-dark font-semibold"
+                      ? "border-black text-black font-semibold"
                       : "border-transparent text-gray-600"
                   }
                   hover:text-black transition-all duration-200

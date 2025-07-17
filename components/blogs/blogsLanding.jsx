@@ -1,6 +1,5 @@
 "use client";
-import { Button } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BlogCard from "./components/blogCard";
 import { blogLandingData } from "./data/data";
 import ReturnToDiagnostic from "./components/returnToDiagnostics";
@@ -10,10 +9,30 @@ const BlogsLanding = () => {
   const [selectedFilter, setSelectedFilter] = useState("All Articles");
   const filters = ["All Articles", "Acne Education", "Skin Education"];
   const filteredBlogs = selectedFilter === "All Articles" ? blogLandingData : blogLandingData.filter((blog) => blog.filter === selectedFilter);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   const handleClick = (filter) => {
     setSelectedFilter(filter);
   };
+
+  useEffect(() => {
+    const footer = document.getElementById("site-footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0,
+      }
+    );
+
+    observer.observe(footer);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="px-4 md:px-10">
@@ -42,7 +61,15 @@ const BlogsLanding = () => {
           ))}
         </div>
       </div>
-      <ReturnToDiagnostic/>
+      <div
+        className={`transition-all duration-300 ${
+          isFooterVisible ? "relative" : "sticky bottom-0"
+        }`}
+      >
+        <div className="w-full flex justify-center">
+          <ReturnToDiagnostic />
+        </div>
+      </div>
     </div>
   );
 };
