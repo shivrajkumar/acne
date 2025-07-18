@@ -129,6 +129,15 @@ const AcneFooter = () => {
                       FAQ
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      href="/blog"
+                      onClick={() => PageClickEvent("Blogs", "/blog")}
+                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
+                    >
+                      Blogs
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
