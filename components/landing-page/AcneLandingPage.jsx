@@ -14,7 +14,7 @@ import FAQSection from "./FaqSection";
 import AcneThreeFoldApproach from "./AcneThreefoldApproach";
 import GetCustomRoutineBanner from "./GetCutomRoutinebanner";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
-import AcneHeader from "../generic/AcneHeader";
+import AcneHeader from "../generic/Header/AcneHeader";
 import WhatIsCleaRitual from "./WhatIsCleaRitual";
 import AcneRealPeoplRealStories from "./AcneRealPeoplRealStories";
 import AcneHowItWorks from "./AcneHowItWorks";

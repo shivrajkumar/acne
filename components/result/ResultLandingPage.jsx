@@ -14,7 +14,7 @@ import CartSummarySticky from "./CartSummarySticky";
 import handleBuyNowClick from "./handleBuyNowClick";
 import { CartProvider } from "../../context/CartContext";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
-import AcneHeader from "../generic/AcneHeader";
+import AcneHeader from "../generic/Header/AcneHeader";
 import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
