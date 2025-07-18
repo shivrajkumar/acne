@@ -144,6 +144,7 @@ const config: Config = {
         "Grey/900": "#0F1B28",
         "Grey/500": "#505354",
         "Grey/300": "#C5CBCB",
+        "Warning/500": "#F4E06B",
       },
       fontSize: {
         xxs: "0.6rem",

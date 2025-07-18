@@ -8,7 +8,7 @@ import AcneRealPeoplRealStories from "../landing-page/AcneRealPeoplRealStories";
 import { Suspense } from "react";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
 import AcneFooter from "@/components/generic/AcneFooter";
-import AcneHeader from "@/components/generic/AcneHeader";
+import AcneHeader from "@/components/generic/Header/AcneHeader";
 import Loader from "../generic/Loader";
 import useMediaLoader from "@/hooks/useMediaLoader";
 import { CDN_BASE_URL } from "@/constants/constants";
