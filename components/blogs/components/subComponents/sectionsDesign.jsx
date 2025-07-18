@@ -4,12 +4,14 @@ import PointsList from "./pointsList";
 import Paragraph from "./paragraph";
 import Description from "./description";
 import SubSectionRenderer from "./subSectionRenderer";
+import parse from "html-react-parser";
+
 
 const WithTextPointsNote = ({ section }) => (
   <div className="space-y-5">
     {section.text && (
       <h3 className="text-base font-normal text-gray-900 mb-4">
-        {section.text}
+        {parse(section.text)}
       </h3>
     )}
     {section.points && section.points.length > 0 && (

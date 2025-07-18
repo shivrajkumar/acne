@@ -11,6 +11,7 @@ import { Drawer } from "antd";
 import CartPageHome from "@components/cart/CartPageHome";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import { AiOutlineUser } from "react-icons/ai";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -160,6 +161,10 @@ const AcneHeader = () => {
 
         {/* Right side icons */}
         <div className="flex items-center space-x-4">
+          {/* To be uncommented after testing. */}
+          {/* <Link href='/login'>
+            <AiOutlineUser />
+          </Link> */}
           <span className="cursor-pointer">
             <Image
               src={ShopIcon}
@@ -279,6 +284,12 @@ const AcneHeader = () => {
             }}
             title={
               <div className="flex flex-row items-center justify-between w-full h-[64px]">
+                {/* To be uncommented after testing. */}
+                {/* <div>
+                  <Link href='/login'>
+                    <AiOutlineUser />
+                  </Link>
+                </div> */}
                 <div className="flex items-center space-x-2">
                   <Image
                     src={ShopIcon}
