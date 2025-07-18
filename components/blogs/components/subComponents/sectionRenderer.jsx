@@ -41,7 +41,7 @@ const SectionRenderer = ({ section, index }) => {
         </div>
       )}
 
-      <div className="mb-8 mt-0">
+      <div className="mb-8 mt-10">
         <SubHeading subHeading={section.title ?? ""} />
         {section.description && (
           <div className="mb-4">
