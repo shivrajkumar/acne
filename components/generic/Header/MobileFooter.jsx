@@ -80,7 +80,7 @@ const MobileFooter = ({
                     </button>
                     {expandedSections.products && (
                         <ul className="mt-1 space-y-2">
-                            <li>
+                            <li className="flex gap-[4px] items-center">
                                 <Link
                                     href="/"
                                     onClick={() => PageClickEvent("Shop", "/")}
@@ -88,10 +88,13 @@ const MobileFooter = ({
                                 >
                                     Shop
                                 </Link>
+                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                                    Coming Soon
+                                </div>
                             </li>
                         </ul>
                     )}
-                    <Divider className="bg-white mt-2 p-0 mb-0"/>
+                    <Divider className="bg-white mt-2 p-0 mb-0" />
                 </div>
 
                 {/* Navigate Section */}
@@ -141,32 +144,38 @@ const MobileFooter = ({
                                     Blogs
                                 </Link>
                             </li>
-                            <li>
+                            <li className="flex gap-[4px] items-center">
                                 <Link
-                                    href="/ingredients"
+                                    href="/"
                                     onClick={() => PageClickEvent("Ingredients", "/")}
                                     className="text-Grey/50 text-[12px] font-[400]"
                                 >
                                     Know Your Ingredients
                                 </Link>
+                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                                    Coming Soon
+                                </div>
                             </li>
                             <li>
                                 <Link
-                                    href="/results"
+                                    href="/reviews"
                                     onClick={() => PageClickEvent("Results", "/reviews")}
                                     className="text-Grey/50 text-[12px] font-[400]"
                                 >
                                     Results
                                 </Link>
                             </li>
-                            <li>
+                            <li className="flex gap-[4px] items-center">
                                 <Link
-                                    href="/editorial-standards"
+                                    href="/"
                                     onClick={() => PageClickEvent("EditorialStandards", "/")}
                                     className="text-Grey/50 text-[12px] font-[400]"
                                 >
                                     Editorial Standards
                                 </Link>
+                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                                    Coming Soon
+                                </div>
                             </li>
                         </ul>
                     )}
