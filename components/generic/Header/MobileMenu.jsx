@@ -24,15 +24,15 @@ const MobileMenu = ({
 
     return (
         <div
-            className="fixed w-[80%] bg-white z-50 md:hidden border-t"
+            className="fixed w-[80%] bg-white z-50 md:hidden border-t overflow-y-scroll"
             style={{
                 top: `${totalTopOffset}px`,
-                height: `calc(100vh - ${headerHeight}px)`,
+                height: `calc(100vh - ${totalTopOffset}px)`,
             }}
         >
 
-            <nav className="flex-1 overflow-y-auto">
-                <div className="px-[16px] py-[12px]">
+            <nav className="flex-1">
+                <div className={`px-[16px] py-[12px] ${expandedSection ? "pb-10" : "pb-40"}`}>
                     {navigationItems.map((item, index) => (
                         <div key={index} className="mb-4">
                             {item.hasDropdown && item.dropdownContent ? (
@@ -98,9 +98,7 @@ const MobileMenu = ({
                 </div>
             </nav>
             {/* Call to action button */}
-            <div className="absolute bottom-20 left-0 right-0 px-4">
-                <Divider />
-
+            <div className="sticky bottom-0 left-0 right-0 px-4 bg-white border-t pt-4 pb-4">
                 <Link href="/skin-test">
                     <button
                         className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"

@@ -15,7 +15,6 @@ import _ from 'lodash';
 import { logGtmEvent } from "./Gtm";
 import AppStore from "@assets/images/app_store.webp";
 import PlayStore from "@assets/images/google_play.webp";
-import ClearRitualLogoLarge from "@assets/images/CRIconLarge.webp";
 import MobileFooter from "./Header/MobileFooter";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 
@@ -48,9 +47,9 @@ const AcneFooter = () => {
   };
 
   return (
-    <div className="bg-Grey/900 text-white min-h-screen">
+    <div className="bg-Grey/900 text-white ">
       {/* Main Footer Content */}
-      <div className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[0px]">
+      <div className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[32px]">
         <div className="flex md:hidden px-[16px] md:px-[80px] pb-[60px]">
           <div className="text-center">
             <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
@@ -66,9 +65,9 @@ const AcneFooter = () => {
           />
         </div>
         <div className="hidden md:block">
-          <div className="flex gap-[32px] justify-between">
+          <div className="flex justify-between">
 
-            <div className="md:col-span-4">
+            <div className="mr-[32px]">
               <div className="bg-white rounded-[24px] px-[40px] py-[24px] text-center text-black w-[328px] md:w-[397px] gap-[12px]">
                 <p className="md:text-[16px] font-medium mb-2 text-gray-600">Customised Care. Clinical Results.</p>
                 <h3 className="text-[24px] md:text-[40px] font-[400] mb-1 leading-tight">
@@ -88,26 +87,41 @@ const AcneFooter = () => {
                   </button>
                 </div>
               </div>
+              <div className=" hidden md:flex ">
+                <div className="text-center">
+                  <Image
+                    src={ClearRitualLogo}
+                    alt="Clear Ritual Logo"
+                    width={402}
+                    height={57}
+                    className=" h-[57px] mt-[48px]"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Products Column */}
-            <div className="md:mr-[24px]">
+            <div className="">
               <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Products</h4>
               <ul className="space-y-4">
-                <li>
+                <li className="flex gap-[4px]">
                   <Link
-                    href="/products"
-                    onClick={() => PageClickEvent("Shop", "/products")}
+                    href="/"
+                    onClick={() => PageClickEvent("Shop", "/")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
                     Shop
                   </Link>
+                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                    Coming Soon
+                  </div>
                 </li>
               </ul>
+
             </div>
 
             {/* Navigate Column */}
-            <div className="md:mr-[24px]">
+            <div className="">
               <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Navigate</h4>
               <ul className="space-y-4">
                 <li>
@@ -146,38 +160,44 @@ const AcneFooter = () => {
                     Blogs
                   </Link>
                 </li>
-                <li>
+                <li className="flex gap-[4px] items-center">
                   <Link
-                    href="/ingredients"
-                    onClick={() => PageClickEvent("Ingredients", "/ingredients")}
+                    href="/"
+                    onClick={() => PageClickEvent("Ingredients", "/")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
                     Know Your Ingredients
                   </Link>
+                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                    Coming Soon
+                  </div>
                 </li>
                 <li>
                   <Link
                     href="/results"
-                    onClick={() => PageClickEvent("Results", "/results")}
+                    onClick={() => PageClickEvent("Reviews", "/reviews")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
                     Results
                   </Link>
                 </li>
-                <li>
+                <li className="flex gap-[4px]">
                   <Link
-                    href="/editorial-standards"
-                    onClick={() => PageClickEvent("EditorialStandards", "/editorial-standards")}
+                    href="/"
+                    onClick={() => PageClickEvent("EditorialStandards", "/")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
                     Editorial Standards
                   </Link>
+                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                    Coming Soon
+                  </div>
                 </li>
               </ul>
             </div>
 
             {/* Connect Column */}
-            <div className="md:mr-[24px]">
+            <div className="">
               <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Connect</h4>
               <ul className="space-y-4">
                 <li>
@@ -218,7 +238,7 @@ const AcneFooter = () => {
             </div>
 
             {/* Legal Column */}
-            <div className="md:mr-[24px]">
+            <div className="">
               <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Legal</h4>
               <ul className="space-y-4">
                 <li>
@@ -252,7 +272,7 @@ const AcneFooter = () => {
             </div>
 
             {/* Social Icons Column */}
-            <div className="md:mr-[24px] mt-3">
+            <div className=" mt-3">
               <div className="flex md:flex-col space-x-4 md:space-x-0 md:space-y-6 md:items-end">
                 <Link
                   href="https://www.instagram.com/clear.ritual/"
@@ -284,21 +304,10 @@ const AcneFooter = () => {
 
         </div>
 
-        {/* Large Clear Ritual Branding */}
-        <div className=" hidden md:flex px-[16px] md:px-[80px] pb-[60px]">
-          <div className="text-center">
-            <Image
-              src={ClearRitualLogoLarge}
-              alt="Clear Ritual Logo"
-              width={1200}
-              height={181}
-              className="mx-auto  w-full h-[181px] mt-[48px]"
-            />
-          </div>
-        </div>
+
 
         {/* Copyright Section */}
-        <div className="mt-[16px] md:mt-[0px] pb-[24px] pt-[16px]  md:px-[80px] ">
+        <div className=" md:mt-[0px] py-[24px]  md:px-[80px] ">
           <div className="text-left md:text-center">
             <p className="text-gray-50 text-[12px]">
               © 2025 Clear Ritual. All rights reserved.
@@ -306,7 +315,7 @@ const AcneFooter = () => {
           </div>
         </div>
       </div >
-    </div>
+    </div >
   );
 };
 
