@@ -15,7 +15,7 @@ export const navigationItems = [
           items: [
             {
               name: "Oily Control Facewash",
-              href: "/products/oily-control-facewash",
+              href: "/",
               badge: "Coming Soon",
             },
             {
@@ -25,17 +25,17 @@ export const navigationItems = [
             },
             {
               name: "Deep Hydration Moisturiser",
-              href: "/products/deep-hydration-moisturiser",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Lightweight Sunscreen",
-              href: "/products/lightweight-sunscreen",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Skin Food Range",
-              href: "/products/skin-food-range",
+              href: "/",
               badge: "Coming Soon",
             },
           ],
@@ -102,12 +102,12 @@ export const navigationItems = [
             { name: "Clear Ritual Blog", href: "/blog" },
             {
               name: "Know your Ingredients",
-              href: "/ingredients",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Editorial Standards",
-              href: "/editorial-standards",
+              href: "/",
               badge: "Coming Soon",
             },
           ],
