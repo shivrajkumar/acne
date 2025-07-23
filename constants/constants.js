@@ -5,6 +5,7 @@ import { env } from "next-runtime-env";
 
 export const COOKIES_EXPIRY = 60; // Days
 export const CDN_BASE_URL = env("NEXT_PUBLIC_CDN_BASE_URL") + "/";
+export const SHOPIFY_CDN_BASE_URL = 'https://cdn.shopify.com/s/files/1/0100/1622/7394/files/'
 // var CONSULT_DOCTOR_FEES = "";
 // var MALE_RESULT_PAGE = "";
 // var FEMALE_RESULT_PAGE = "";

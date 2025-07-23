@@ -1,9 +1,10 @@
-'use client'
-import React from 'react';
-import { Button, Typography } from 'antd';
-import Image from 'next/image';
-import PlusIcon from '@/assets/svg/Plus.svg';
-import MinusIcon from '@/assets/svg/Minus.svg';
+"use client";
+import React from "react";
+import { Button, Typography } from "antd";
+import Image from "next/image";
+import PlusIcon from "@/assets/svg/Plus.svg";
+import MinusIcon from "@/assets/svg/Minus.svg";
+import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 
 const { Text } = Typography;
 
@@ -14,20 +15,21 @@ const FaqItem = ({ question, answer, isOpen, onToggle }) => {
         onClick={onToggle}
         className="w-full h-auto py-4 px-0 flex justify-between items-center text-left border-none shadow-none hover:bg-transparent"
       >
-        <Text strong className="text-sm font-sophiaPro w-3/4 md:w-full text-gray-900">
+        <Text
+          strong
+          className="text-sm font-sophiaPro w-3/4 md:w-full text-gray-900"
+        >
           {question}
         </Text>
         <div className="w-6 h-6 rounded-full flex items-center justify-center">
-          <Image
-            src={isOpen ? MinusIcon : PlusIcon}
-            alt={isOpen ? 'Collapse' : 'Expand'}
-            width={20}
-            height={20}
-            className="text-white"
-          />
+          {isOpen ? (
+            <AiFillMinusCircle size={20} className="" />
+          ) : (
+            <AiFillPlusCircle size={20} className="" />
+          )}
         </div>
       </div>
-      
+
       {isOpen && (
         <div className="pb-4 pr-8 animate-fadeIn">
           <Text className="text-sm font-sophiaPro text-gray-600 leading-relaxed">
