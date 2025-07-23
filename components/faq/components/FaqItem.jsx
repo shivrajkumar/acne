@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { Button, Typography } from 'antd';
 import Image from 'next/image';
@@ -10,11 +11,10 @@ const FaqItem = ({ question, answer, isOpen, onToggle }) => {
   return (
     <div className="border-b border-gray-200 last:border-b-0 cursor-pointer">
       <div
-        type="text"
         onClick={onToggle}
         className="w-full h-auto py-4 px-0 flex justify-between items-center text-left border-none shadow-none hover:bg-transparent"
       >
-        <Text strong className="text-sm font-sophiaPro text-gray-900">
+        <Text strong className="text-sm font-sophiaPro w-3/4 md:w-full text-gray-900">
           {question}
         </Text>
         <div className="w-6 h-6 rounded-full flex items-center justify-center">
