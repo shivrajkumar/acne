@@ -20,10 +20,11 @@ export async function DELETE(req, { params }) {
 
 async function proxyRequest(req, { path }) {
   const targetPath = path.join("/");
-  const targetUrl = `${BACKEND_URL}/${targetPath}`;
+  const url = new URL(req.url);
+  const query = url.searchParams.toString();
+  const targetUrl = `${BACKEND_URL}/${targetPath}${query ? `?${query}` : ""}`;
 
   const headers = new Headers(req.headers);
-
   headers.delete("content-length");
   headers.delete("accept-encoding");
 
