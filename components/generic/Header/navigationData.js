@@ -67,8 +67,8 @@ export const navigationItems = [
     },
   },
   {
-    title: "Reviews",
-    name: "Reviews",
+    title: "Results",
+    name: "Results",
     href: "/reviews",
     hasDropdown: true,
     dropdownContent: {
