@@ -1,7 +1,7 @@
 'use client';
 import React, {useRef, useState} from 'react';
 import FaqSection from './components/FaqSection';
-import { CDN_BASE_URL } from '@/constants/constants';
+import { CDN_BASE_URL, SHOPIFY_CDN_BASE_URL } from '@/constants/constants';
 import { Layout, Card, Row, Col, Divider } from 'antd';
 import SideBarNavItem from './components/SideBarNavItem';
 import FaqContactInfo from './components/FaqContactInfo';
@@ -59,15 +59,15 @@ const MainFaq = () => {
             {/* Contact Information Card */}
             <div className="mt-12">
               <FaqContactInfo
-                icon={`${CDN_BASE_URL}acne/faq-webp/mail.webp`}
+                icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
                 title="Write to Us"
                 content={contactInfo.email}
               />
                 <Divider className="my-6" />
 
-              
               <FaqContactInfo
-                icon={`${CDN_BASE_URL}acne/faq-webp/address.webp`}
+                // icon={`${CDN_BASE_URL}acne/faq-webp/address.webp`}
+                icon={`${SHOPIFY_CDN_BASE_URL}address.webp`}
                 title="Mailing Address"
                 content={contactInfo.company}
                 subContent={contactInfo.address}
@@ -75,9 +75,8 @@ const MainFaq = () => {
               />
                 <Divider className="my-6" />
 
-              
               <FaqContactInfo
-                icon={`${CDN_BASE_URL}acne/faq-webp/timings.webp`}
+                icon={`${SHOPIFY_CDN_BASE_URL}timings.webp`}
                 title="Working Hours:"
                 content={contactInfo.workingHours}
                 subContent={contactInfo.workingDays}
