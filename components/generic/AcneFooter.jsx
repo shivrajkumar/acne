@@ -8,12 +8,18 @@ import {
   WhatsAppIcon,
 } from "@assets/svg/Social_Icons";
 import Image from "next/image";
-import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import PhoneIcon from "@assets/icons/phone_icon.png";
 import MailIcon from "@assets/icons/mail_Icon.png";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import _ from 'lodash';
 import { logGtmEvent } from "./Gtm";
+import AppStore from "@assets/images/app_store.webp";
+import PlayStore from "@assets/images/google_play.webp";
+import ClearRitualLogoLarge from "@assets/images/CRIconLarge.webp";
+import MobileFooter from "./Header/MobileFooter";
+import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
+
+
 
 const AcneFooter = () => {
   const [currentPath, setCurrentPath] = useState("");
@@ -42,129 +48,216 @@ const AcneFooter = () => {
   };
 
   return (
-    <div className="bg-Neutral/900">
-      {/* Desktop Footer */}
-      <div id="site-footer" className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[80px]">
-        <div className="">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="flex flex-col gap-[28px]">
-              <Link href="/" onClick={() => PageClickEvent("Home", "/")}>
-                <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
-              </Link>
-              <p className="font-sophiaPro font-[400] text-[14px] leading-[1.4%] text-neutral-50">Targeted Acne Care, Visible Results.</p>
+    <div className="bg-Grey/900 text-white min-h-screen">
+      {/* Main Footer Content */}
+      <div className="px-[16px] pt-[32px] pb-[8px] md:px-[80px] md:pt-[80px] md:pb-[0px]">
+        <div className="flex md:hidden px-[16px] md:px-[80px] pb-[60px]">
+          <div className="text-center">
+            <Image src={ClearRitualLogo} alt="Clear Ritual" height={72} width={430} />
+            <p className="text-left text-[14px] font-sophiaPro font-[400] leading-[1.4] mt-[16px]">Targeted Acne Care, Visible Results.</p>
+          </div>
+        </div>
+        <div className="md:hidden">
+          <MobileFooter
+            currentPath={currentPath}
+            PageClickEvent={PageClickEvent}
+            socialIconsClickEvent={socialIconsClickEvent}
+            contactIconsClickEvent={contactIconsClickEvent}
+          />
+        </div>
+        <div className="hidden md:block">
+          <div className="flex gap-[32px] justify-between">
+
+            <div className="md:col-span-4">
+              <div className="bg-white rounded-[24px] px-[40px] py-[24px] text-center text-black w-[328px] md:w-[397px] gap-[12px]">
+                <p className="md:text-[16px] font-medium mb-2 text-gray-600">Customised Care. Clinical Results.</p>
+                <h3 className="text-[24px] md:text-[40px] font-[400] mb-1 leading-tight">
+                  Coming Soon.
+                </h3>
+                <h3 className="text-[24px] md:text-[40px] font-[400] mb-6 leading-tight">
+                  Clear Ritual App.
+                </h3>
+                <p className="text-[16px] mb-8 text-black">For iOS and Android</p>
+                <div className="flex flex-col sm:flex-row justify-center gap-[8px]">
+                  <button className="  flex items-center justify-center ">
+                    <Image src={AppStore} alt="App Store Download App" width={120} height={38} />
+                  </button>
+                  <button className=" flex items-center justify-center ">
+                    <Image src={PlayStore} alt="App Store Download App" width={120} height={38} />
+
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div className="block md:flex gap-8 justify-between">
-              <div className="flex flex-col gap-[12px]">
-                <ul className="space-y-3">
-                  <li>
-                    <Link
-                      href="/skin-test"
-                      onClick={() => PageClickEvent("SkinTest", "/skin-test")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      Take Our Skin Test
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about-us"
-                      onClick={() => PageClickEvent("AboutUs", "/about-us")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/experts"
-                      onClick={() => PageClickEvent("Experts", "/experts")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      Our Experts
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/reviews"
-                      onClick={() => PageClickEvent("Reviews", "/reviews")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      Reviews
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/privacy-policy"
-                      onClick={() => PageClickEvent("PrivacyPolicy", "/privacy-policy")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      Privacy & Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/terms-conditions"
-                      onClick={() => PageClickEvent("TermsConditions", "/terms-conditions")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      Terms of Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/return-policy"
-                      onClick={() => PageClickEvent("ReturnPolicy", "/return-policy")}
-                      className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%]"
-                    >
-                      Return Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/faq"
-                      onClick={() => PageClickEvent("FAQ", "/faq")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
-                    >
-                      FAQ
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/blog"
-                      onClick={() => PageClickEvent("Blogs", "/blog")}
-                      className="text-neutral-50 font-lato text-[14px] leading-[140%]"
-                    >
-                      Blogs
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="flex flex-col mt-[16px] md:mt-0 gap-[12px]">
-                <a
-                  href="tel:+918424004697"
-                  className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%] flex gap-[8px]"
-                  onClick={() => contactIconsClickEvent("Phone")}
-                >
-                  <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
-                  +91 8424004697
-                </a>
-                <a
-                  href="mailto:customercare@clearritual.com"
-                  className="text-neutral-50 font-sophiaPro text-[14px] leading-[140%] flex gap-[8px] items-center"
-                  onClick={() => contactIconsClickEvent("Email")}
-                >
-                  <span>
-                    <Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
-                  </span>
-                  customercare@clearritual.com
-                </a>
-              </div>
-              <div className="flex my-[32px] md:my-0 md:flex-col items-center gap-[12px]">
+            {/* Products Column */}
+            <div className="md:mr-[24px]">
+              <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Products</h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link
+                    href="/products"
+                    onClick={() => PageClickEvent("Shop", "/products")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Shop
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Navigate Column */}
+            <div className="md:mr-[24px]">
+              <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Navigate</h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link
+                    href="/skin-test"
+                    onClick={() => PageClickEvent("SkinTest", "/skin-test")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Take the Skin Test
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/about-us"
+                    onClick={() => PageClickEvent("AboutUs", "/about-us")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/experts"
+                    onClick={() => PageClickEvent("Experts", "/experts")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Our Experts
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/blog"
+                    onClick={() => PageClickEvent("Blogs", "/blog")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Blogs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/ingredients"
+                    onClick={() => PageClickEvent("Ingredients", "/ingredients")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Know Your Ingredients
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/results"
+                    onClick={() => PageClickEvent("Results", "/results")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Results
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/editorial-standards"
+                    onClick={() => PageClickEvent("EditorialStandards", "/editorial-standards")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Editorial Standards
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Connect Column */}
+            <div className="md:mr-[24px]">
+              <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Connect</h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link
+                    href="/faq"
+                    onClick={() => PageClickEvent("FAQ", "/faq")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    FAQs
+                  </Link>
+                </li>
+                <li>
+                  <div className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >Get in Touch</div>
+                </li>
+                <li>
+                  <a
+                    href="tel:+918424004697"
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-sophiaPro  leading-[140%] flex gap-[8px]"
+                    onClick={() => contactIconsClickEvent("Phone")}
+                  >
+                    <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
+                    +91 8424004697
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:customercare@clearritual.com"
+                    className="text-gray-300  font-sophiaPro text-[16px] leading-[140%] flex gap-[8px]"
+                    onClick={() => contactIconsClickEvent("Email")}
+                  >
+                    <span><Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
+                    </span>
+                    customercare@clearritual.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal Column */}
+            <div className="md:mr-[24px]">
+              <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Legal</h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    onClick={() => PageClickEvent("PrivacyPolicy", "/privacy-policy")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms-conditions"
+                    onClick={() => PageClickEvent("TermsConditions", "/terms-conditions")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Terms of use
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/return-policy"
+                    onClick={() => PageClickEvent("ReturnPolicy", "/return-policy")}
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
+                  >
+                    Return Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Social Icons Column */}
+            <div className="md:mr-[24px] mt-3">
+              <div className="flex md:flex-col space-x-4 md:space-x-0 md:space-y-6 md:items-end">
                 <Link
                   href="https://www.instagram.com/clear.ritual/"
                   target="_blank"
-                  className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
+                  className="text-gray-300 hover:text-white transition-colors text-2xl"
                   onClick={() => socialIconsClickEvent("Instagram", "https://www.instagram.com/clear.ritual/")}
                 >
                   <InstagramIcon />
@@ -172,7 +265,7 @@ const AcneFooter = () => {
                 <Link
                   href="https://wa.me/918424004697"
                   target="_blank"
-                  className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
+                  className="text-gray-300 hover:text-white transition-colors text-2xl"
                   onClick={() => socialIconsClickEvent("Whatsapp", "https://wa.me/918424004697")}
                 >
                   <WhatsAppIcon />
@@ -180,7 +273,7 @@ const AcneFooter = () => {
                 <Link
                   href="https://x.com/ClearRitual"
                   target="_blank"
-                  className="text-gray-600 hover:text-gray-900 mb-0 md:mb-[12px]"
+                  className="text-gray-300 hover:text-white transition-colors text-2xl"
                   onClick={() => socialIconsClickEvent("X", "https://x.com/ClearRitual")}
                 >
                   <TwitterIcon />
@@ -188,13 +281,31 @@ const AcneFooter = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Copyright Section - both desktop and mobile */}
-      <div className="ms-[16px] md:ms-[80px] text-[14px] pb-[16px] md:py-[24px] font-sophiaPro font-[400] text-neutral-50 text-left leading-[1.4%]">
-        © 2025 Clear Ritual. All rights reserved.
-      </div>
+        </div>
+
+        {/* Large Clear Ritual Branding */}
+        <div className=" hidden md:flex px-[16px] md:px-[80px] pb-[60px]">
+          <div className="text-center">
+            <Image
+              src={ClearRitualLogoLarge}
+              alt="Clear Ritual Logo"
+              width={1200}
+              height={181}
+              className="mx-auto  w-full h-[181px] mt-[48px]"
+            />
+          </div>
+        </div>
+
+        {/* Copyright Section */}
+        <div className="mt-[16px] md:mt-[0px] pb-[24px] pt-[16px]  md:px-[80px] ">
+          <div className="text-left md:text-center">
+            <p className="text-gray-50 text-[12px]">
+              © 2025 Clear Ritual. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div >
     </div>
   );
 };
