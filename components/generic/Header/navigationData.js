@@ -15,27 +15,27 @@ export const navigationItems = [
           items: [
             {
               name: "Oily Control Facewash",
-              href: "/products/oily-control-facewash",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Acne-Safe Moisturiser",
-              href: "/products/acne-safe-moisturiser",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Deep Hydration Moisturiser",
-              href: "/products/deep-hydration-moisturiser",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Lightweight Sunscreen",
-              href: "/products/lightweight-sunscreen",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Skin Food Range",
-              href: "/products/skin-food-range",
+              href: "/",
               badge: "Coming Soon",
             },
           ],
@@ -67,17 +67,17 @@ export const navigationItems = [
     },
   },
   {
-    title: "Reviews",
-    name: "Reviews",
+    title: "Results",
+    name: "Results",
     href: "/reviews",
     hasDropdown: true,
     dropdownContent: {
       sections: [
         {
           mainLink: {
-            title: "Reviews",
+            title: "Results",
             href: "/reviews",
-            name: "Reviews",
+            name: "Results",
           },
           items: [{ name: "Reviews", href: "/reviews" }],
         },
@@ -102,12 +102,12 @@ export const navigationItems = [
             { name: "Clear Ritual Blog", href: "/blog" },
             {
               name: "Know your Ingredients",
-              href: "/ingredients",
+              href: "/",
               badge: "Coming Soon",
             },
             {
               name: "Editorial Standards",
-              href: "/editorial-standards",
+              href: "/",
               badge: "Coming Soon",
             },
           ],
