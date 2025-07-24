@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import BuildYourRitual from "@assets/images/Build_Your_Ritual.webp"
+import BuildYourRitual from "@assets/images/NavbarCTA.webp"
 import ArrowRight from "@assets/icons/ArrowRight.webp";
 import Image from "next/image";
 
@@ -10,8 +10,8 @@ const CallToActionSection = () => {
     return (
         <div className="w-[370px] h-[180px] " >
             <div className="w-[370px] h-[180px]  py-[24px] px-[16px] text-white relative overflow-hidden" style={{ backgroundImage: `url(${BuildYourRitual.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <div className="relative z-10">
-                    <h4 className="font-sophiaPro text-[18px] font-[400] mb-[10px] text-[#2E2930]">
+                <div className="relative z-10 mt-[24px]">
+                    <h4 className="font-sophiaPro text-[18px] font-[400] mb-[10px] text-[#2E2930] tracking-[0.5px]">
                         Build your Ritual <br />now.
                     </h4>
                     <Link href="/skin-test">

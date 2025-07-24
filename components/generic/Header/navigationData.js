@@ -20,7 +20,7 @@ export const navigationItems = [
             },
             {
               name: "Acne-Safe Moisturiser",
-              href: "/products/acne-safe-moisturiser",
+              href: "/",
               badge: "Coming Soon",
             },
             {
@@ -75,9 +75,9 @@ export const navigationItems = [
       sections: [
         {
           mainLink: {
-            title: "Reviews",
+            title: "Results",
             href: "/reviews",
-            name: "Reviews",
+            name: "Results",
           },
           items: [{ name: "Reviews", href: "/reviews" }],
         },
