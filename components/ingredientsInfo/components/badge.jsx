@@ -1,6 +1,6 @@
 export default function Badge({ children }) {
   return (
-    <span className="text-xs bg-[#F2F4FF] text-[#2D4CF2] px-3 py-1 rounded-full font-medium">
+    <span className="text-xs bg-[#FFF88A] text-gray-900 px-1 md:px-3 py-1 font-medium">
       {children}
     </span>
   );
