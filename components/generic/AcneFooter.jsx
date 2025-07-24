@@ -209,9 +209,12 @@ const AcneFooter = () => {
                     FAQs
                   </Link>
                 </li>
-                <li>
+                <li className="flex gap-[4px] items-center">
                   <div className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >Get in Touch</div>
+                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                    Coming Soon
+                  </div>
                 </li>
                 <li>
                   <a

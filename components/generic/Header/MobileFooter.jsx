@@ -73,7 +73,7 @@ const MobileFooter = ({
                 <div className=" pb-2">
                     <button
                         onClick={() => toggleSection('products')}
-                        className="w-full flex justify-between items-center "
+                        className="w-full flex justify-between items-center py-2"
                     >
                         <h4 className="font-[400] font-sophiaPro text-[14px] leading-[1.4] text-white">Products</h4>
                         <ChevronIcon isExpanded={expandedSections.products} />
@@ -84,7 +84,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/"
                                     onClick={() => PageClickEvent("Shop", "/")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Shop
                                 </Link>
@@ -112,7 +112,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/skin-test"
                                     onClick={() => PageClickEvent("SkinTest", "/skin-test")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Take the Skin Test
                                 </Link>
@@ -121,7 +121,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/about-us"
                                     onClick={() => PageClickEvent("AboutUs", "/about-us")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     About Us
                                 </Link>
@@ -130,7 +130,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/experts"
                                     onClick={() => PageClickEvent("Experts", "/experts")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Our Experts
                                 </Link>
@@ -139,7 +139,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/blog"
                                     onClick={() => PageClickEvent("Blogs", "/blog")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Blogs
                                 </Link>
@@ -148,7 +148,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/"
                                     onClick={() => PageClickEvent("Ingredients", "/")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Know Your Ingredients
                                 </Link>
@@ -160,7 +160,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/reviews"
                                     onClick={() => PageClickEvent("Results", "/reviews")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Results
                                 </Link>
@@ -169,7 +169,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/"
                                     onClick={() => PageClickEvent("EditorialStandards", "/")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Editorial Standards
                                 </Link>
@@ -198,13 +198,16 @@ const MobileFooter = ({
                                 <Link
                                     href="/faq"
                                     onClick={() => PageClickEvent("FAQ", "/")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     FAQs
                                 </Link>
                             </li>
-                            <li>
-                                <div className="text-Grey/50 text-[12px] font-[400]">Get in Touch</div>
+                            <li className="flex gap-[4px] items-center">
+                                <div className="text-Grey/50 text-[14px] font-[400]">Get in Touch</div>
+                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                                    Coming Soon
+                                </div>
                             </li>
                         </ul>
                     )}
@@ -227,7 +230,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/privacy-policy"
                                     onClick={() => PageClickEvent("PrivacyPolicy", "/privacy-policy")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Privacy Policy
                                 </Link>
@@ -236,7 +239,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/terms-conditions"
                                     onClick={() => PageClickEvent("TermsConditions", "/terms-conditions")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Terms of use
                                 </Link>
@@ -245,7 +248,7 @@ const MobileFooter = ({
                                 <Link
                                     href="/return-policy"
                                     onClick={() => PageClickEvent("ReturnPolicy", "/return-policy")}
-                                    className="text-Grey/50 text-[12px] font-[400]"
+                                    className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Return Policy
                                 </Link>
@@ -266,7 +269,7 @@ const MobileFooter = ({
                     </a>
                     <a
                         href="mailto:customercare@clearritual.com"
-                        className="flex items-center  text-white font-sophiaPro text-[14px] leading-[140%] flex gap-[8px]"
+                        className=" items-center  text-white font-sophiaPro text-[14px] leading-[140%] flex gap-[8px]"
                         onClick={() => contactIconsClickEvent("Email")}
                     >
                         <span><Image src={MailIcon} alt="Mail Icon" width={24} height={24} />
