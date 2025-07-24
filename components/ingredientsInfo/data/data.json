@@ -10,13 +10,15 @@
     "badges": ["Antioxidant", "Scalp Health", "Anti - Bacterial"],
     "image": {
       "alt": "Jasmin Flower",
-      "src": "/images/ingredients/jasmin.png"
+      "src": ""
     },
     "productReference": {
       "found_in": "Found in:",
       "product_name": "Product Name Lorem ipsum dummy text",
-      "button_label": "Product Details"
+      "button_label": "Product Details",
+      "product_image": ""
     },
+    "preText": "If you’ve ever wondered how Aladdin’s princess gets that shiny, gorgeous hair, look no further than her name—Jasmine.",
     "summary": "The flowers of the Arabian Jasmin plant have long been steeped in water and used as a conditioning rinse to smooth strands and reduce frizz because of their moisturizing properties. Jasmin leaf extract is believed to strengthen hair’s roots, preventing brittleness and enhancing shine.",
     "sections": [
       {
@@ -32,11 +34,9 @@
         "content": [
           "Native to India, jasminum sambac is a climbing shrub used in many traditional rituals in Asia. Used to flavor green tea, this “superwater” is also known in the ayurvedic medicine for its antibacterial, antioxidant and anti-inflammatory virtues.",
           "The way to obtain it is simple and sustainable. First, leaves or flowers are put in warm water (kind of like making tea on a larger scale). The steam is then cooled and collected to create the water extract. This process allows for active agents from the plant to be obtained without altering it, all without the use of synthetic solvents or chemical treatments. At Prose, we choose organic plants to be sure that no chemicals are left behind.",
-          "More information on Behind-the-Scenes Science coming soon!"
+          "More information on Behind-the-Scenes Science coming soon!",
+          "This information is provided for educational purposes only and is not intended to be used to treat any health conditions. Medical advice should always come from your physician. The articles mentioned are for reference only and are unaffiliated with Prose."
         ]
-      },
-      {
-        "note": "This information is provided for educational purposes only and is not intended to be used to treat any health conditions. Medical advice should always come from your physician. The articles mentioned are for reference only and are unaffiliated with Prose."
       }
     ],
     "related_ingredients": {
@@ -56,15 +56,18 @@
     "bottom_highlights": [
       {
         "value": "2+",
-        "label": "Years of Development."
+        "label": "Years of Development.",
+        "color": "#F4E06B"
       },
       {
         "value": "4",
-        "label": "Advisory Boards Conducted."
+        "label": "Advisory Boards Conducted.",
+        "color": "#7FC8F8"
       },
       {
         "value": "4",
-        "label": "Clinical Studies and Publications."
+        "label": "Clinical Studies and Publications.",
+        "color": "#CDE3C1"
       }
     ]
   }
