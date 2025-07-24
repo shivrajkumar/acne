@@ -102,7 +102,7 @@ export const navigationItems = [
             { name: "Clear Ritual Blog", href: "/blog" },
             {
               name: "Know your Ingredients",
-              href: "/",
+              href: "/ingredients",
               badge: "Coming Soon",
             },
             {
