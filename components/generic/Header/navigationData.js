@@ -107,7 +107,7 @@ export const navigationItems = [
             },
             {
               name: "Editorial Standards",
-              href: "/",
+              href: "/editorial-standards",
               badge: "Coming Soon",
             },
           ],
