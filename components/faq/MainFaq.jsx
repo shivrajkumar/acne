@@ -57,7 +57,7 @@ const MainFaq = () => {
             </Card>
 
             {/* Contact Information Card */}
-            <div className="mt-12">
+            <div className="mt-12 hidden md:block">
               <FaqContactInfo
                 icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
                 title="Write to Us"
@@ -98,6 +98,32 @@ const MainFaq = () => {
               ))}
             </div>
           </Col>
+
+          <div className="mt-12 block md:hidden">
+              <FaqContactInfo
+                icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
+                title="Write to Us"
+                content={contactInfo.email}
+              />
+                <Divider className="my-6" />
+
+              <FaqContactInfo
+                // icon={`${CDN_BASE_URL}acne/faq-webp/address.webp`}
+                icon={`${SHOPIFY_CDN_BASE_URL}address.webp`}
+                title="Mailing Address"
+                content={contactInfo.company}
+                subContent={contactInfo.address}
+                cin={contactInfo.cin}
+              />
+                <Divider className="my-6" />
+
+              <FaqContactInfo
+                icon={`${SHOPIFY_CDN_BASE_URL}timings.webp`}
+                title="Working Hours:"
+                content={contactInfo.workingHours}
+                subContent={contactInfo.workingDays}
+              />
+            </div>
         </Row>
       </Content>
     </Layout>
