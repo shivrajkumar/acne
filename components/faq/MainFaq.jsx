@@ -99,7 +99,7 @@ const MainFaq = () => {
             </div>
           </Col>
 
-          <div className="mt-12 block md:hidden">
+          <div className="mt-12 block md:hidden px-4">
               <FaqContactInfo
                 icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
                 title="Write to Us"
