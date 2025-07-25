@@ -74,6 +74,7 @@ const MobileMenu = ({
                                                     ))}
                                                 </div>
                                             ))}
+                                            {item?.name === "Products" && <p className="text-[9px] font-[400] text-Grey/900 leading-[1.5]">{`(We can't wait for you to try this)`}</p>}
                                         </div>
                                     )}
                                 </div>
@@ -98,7 +99,7 @@ const MobileMenu = ({
                 </div>
             </nav>
             {/* Call to action button */}
-            <div className="sticky bottom-0 left-0 right-0 px-4 bg-white border-t pt-4 pb-4">
+            <div className="sticky bottom-0 left-0 right-0 px-4 bg-white border-t pt-4 pb-20">
                 <Link href="/skin-test">
                     <button
                         className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
