@@ -109,7 +109,7 @@ import { navigationItems } from "./navigationData"; const AcneHeader = () => {
     const rightEdge = anchorLeftPosition + dropdownWidth;
 
     if (rightEdge > headerWidth) {
-      return headerWidth - dropdownWidth;
+      return headerWidth - dropdownWidth - 5;
     }
 
     return anchorLeftPosition;
@@ -189,7 +189,7 @@ import { navigationItems } from "./navigationData"; const AcneHeader = () => {
 
       {openDropdown && (
         <div
-          className="absolute bg-white border-b shadow-lg z-50 hidden md:block w-[728px] h-[228px] p-[24px]"
+          className="absolute bg-white border-b shadow-lg z-50 hidden md:block w-fit min-w-[177px] h-fit min-h-[130px] p-[24px]"
           style={{
             top: '100%',
             left: `${getDropdownPosition()}px`

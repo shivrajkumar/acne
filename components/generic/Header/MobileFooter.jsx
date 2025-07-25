@@ -141,7 +141,7 @@ const MobileFooter = ({
                                     onClick={() => PageClickEvent("Blogs", "/blog")}
                                     className="text-Grey/50 text-[14px] font-[400]"
                                 >
-                                    Blogs
+                                    Ritual Blogs
                                 </Link>
                             </li>
                             <li className="flex gap-[4px] items-center">

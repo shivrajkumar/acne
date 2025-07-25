@@ -8,11 +8,15 @@ export const navigationItems = [
       sections: [
         {
           mainLink: {
-            title: "Products",
-            href: "/",
-            name: "Products",
+            title: "Shop",
+            name: "Shop",
           },
           items: [
+            {
+              name: "View All Products",
+              href: "/",
+              badge: "Coming Soon",
+            },
             {
               name: "Oily Control Facewash",
               href: "/",
@@ -34,7 +38,12 @@ export const navigationItems = [
               badge: "Coming Soon",
             },
             {
-              name: "Skin Food Range",
+              name: "Skin Food Range 01 - 08",
+              href: "/",
+              badge: "Coming Soon",
+            },
+            {
+              name: "Skin Food 09",
               href: "/",
               badge: "Coming Soon",
             },
@@ -54,7 +63,6 @@ export const navigationItems = [
         {
           mainLink: {
             title: "About Us",
-            href: "/about-us",
             name: "AboutUs",
           },
           items: [
@@ -76,7 +84,6 @@ export const navigationItems = [
         {
           mainLink: {
             title: "Results",
-            href: "/reviews",
             name: "Results",
           },
           items: [{ name: "Reviews", href: "/reviews" }],
@@ -88,21 +95,20 @@ export const navigationItems = [
   {
     title: "Ritual Reports",
     name: "RitualReports",
-    href: "/blog",
+    href: "/",
     hasDropdown: true,
     dropdownContent: {
       sections: [
         {
           mainLink: {
             title: "Ritual Reports",
-            href: "/blog",
             name: "RitualReports",
           },
           items: [
-            { name: "Clear Ritual Blog", href: "/blog" },
+            { name: "Clear Ritual Blog", href: "/", badge: "Coming Soon" },
             {
               name: "Know your Ingredients",
-              href: "/ingredients",
+              href: "/",
               badge: "Coming Soon",
             },
             {
