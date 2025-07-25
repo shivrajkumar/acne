@@ -112,7 +112,7 @@ const AcneFooter = () => {
                   >
                     Shop
                   </Link>
-                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                  <div className="py-[2px] h-fit px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
                     Coming Soon
                   </div>
                 </li>
@@ -151,14 +151,17 @@ const AcneFooter = () => {
                     Our Experts
                   </Link>
                 </li>
-                <li>
+                <li className="flex gap-[4px] items-center">
                   <Link
-                    href="/blog"
-                    onClick={() => PageClickEvent("Blogs", "/blog")}
+                    href="/"
+                    onClick={() => PageClickEvent("Blogs", "/")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
-                    Blogs
+                    Ritual Blogs
                   </Link>
+                  <div className="py-[2px] px-[4px] h-fit text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                    Coming Soon
+                  </div>
                 </li>
                 <li className="flex gap-[4px] items-center">
                   <Link
@@ -168,13 +171,13 @@ const AcneFooter = () => {
                   >
                     Know Your Ingredients
                   </Link>
-                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                  <div className="py-[2px] px-[4px] h-fit text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
                     Coming Soon
                   </div>
                 </li>
                 <li>
                   <Link
-                    href="/results"
+                    href="/reviews"
                     onClick={() => PageClickEvent("Reviews", "/reviews")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
@@ -189,7 +192,7 @@ const AcneFooter = () => {
                   >
                     Editorial Standards
                   </Link>
-                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                  <div className="py-[2px] px-[4px] h-fit text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
                     Coming Soon
                   </div>
                 </li>
@@ -212,14 +215,14 @@ const AcneFooter = () => {
                 <li className="flex gap-[4px] items-center">
                   <div className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >Get in Touch</div>
-                  <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                  <div className="py-[2px] px-[4px] h-fit text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
                     Coming Soon
                   </div>
                 </li>
                 <li>
                   <a
                     href="tel:+918424004697"
-                    className="text-Grey/50 text-[12px] md:text-[16px] font-sophiaPro  leading-[140%] flex gap-[8px]"
+                    className="text-Grey/50 text-[12px] md:text-[16px] font-sophiaPro  leading-[140%] flex gap-[5px]"
                     onClick={() => contactIconsClickEvent("Phone")}
                   >
                     <span><Image src={PhoneIcon} alt="Phone Icon" width={24} height={24} /></span>
@@ -229,7 +232,7 @@ const AcneFooter = () => {
                 <li>
                   <a
                     href="mailto:customercare@clearritual.com"
-                    className="text-gray-300  font-sophiaPro text-[16px] leading-[140%] flex gap-[8px]"
+                    className="text-Grey/50  font-sophiaPro text-[16px] leading-[140%] flex gap-[5px]"
                     onClick={() => contactIconsClickEvent("Email")}
                   >
                     <span><Image src={MailIcon} alt="Mail Icon" width={24} height={24} />

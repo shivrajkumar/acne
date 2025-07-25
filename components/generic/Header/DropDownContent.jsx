@@ -12,7 +12,7 @@ const DropdownContent = ({
     showCTA = true
 }) => {
     return (
-        <div className="flex  justify-between">
+        <div className="flex gap-[80px] justify-between">
             <div className={`${showCTA ? 'flex-1' : 'w-full'} `}>
                 {sections.map((section, sectionIndex) => (
                     <div key={sectionIndex} className="flex-1">
@@ -20,16 +20,13 @@ const DropdownContent = ({
                         <div className="space-y-2">
                             {section.mainLink && (
                                 <div className="mb-2 flex items-center gap-[8px]">
-                                    <Link
-                                        href={section.mainLink.href}
-                                        className="font-sophiaPro text-[14px] font-[700] text-Grey/900 hover:text-Primary/500 transition-colors "
-                                        onClick={() => {
-                                            PageClickEvent(section.mainLink.name, section.mainLink.href);
-                                            onLinkClick();
-                                        }}
+                                    <p
+
+                                        className="font-sophiaPro text-[14px] font-[700] text-Grey/900"
+
                                     >
                                         {section.mainLink.title}
-                                    </Link>
+                                    </p>
                                     <RightOutlined className="w-[10px] h-[10px] p-0 mt-1" />
 
                                 </div>
@@ -38,7 +35,7 @@ const DropdownContent = ({
                                 <div key={index} className="flex items-center gap-[8px]">
                                     <Link
                                         href={item.href}
-                                        className="font-sophiaPro text-[14px] font-[400] text-Grey/900 hover:text-Primary/500 transition-colors"
+                                        className={`font-sophiaPro text-[14px] font-[400] text-Grey/900 hover:text-Primary/500 transition-colors ${item?.name.includes("View") ? "font-[600]" : ""}`}
                                         onClick={() => {
                                             PageClickEvent(item.name.replace(/\s+/g, ''), item.href);
                                             onLinkClick();
@@ -53,6 +50,7 @@ const DropdownContent = ({
                                     )}
                                 </div>
                             ))}
+                            {section?.mainLink?.title === "Shop" && <p className="text-[9px] font-[400] text-Grey/900 leading-[1.5]">{`(We can't wait for you to try this)`}</p>}
                         </div>
                     </div>
                 ))}
