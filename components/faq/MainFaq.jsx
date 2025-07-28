@@ -19,8 +19,8 @@ const MainFaq = () => {
   };
 
   return (
-    <Layout className="min-h-screen bg-white">
-      <Content className="py-8 px-3 md:px-8 md:container mx-auto w-full">
+    <Layout className="bg-white" style={{border: '1px solid red'}}>
+      <Content className="py-8 px-4 md:px-8 md:container mx-auto w-full">
         <Row gutter={[32, 32]}>
           {/* Sidebar */}
           <Col xs={24} lg={7}>
