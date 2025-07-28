@@ -23,6 +23,11 @@ export const navigationItems = [
               badge: "Coming Soon",
             },
             {
+              name: "Hydrating Facewash",
+              href: "/",
+              badge: "Coming Soon",
+            },
+            {
               name: "Acne-Safe Moisturiser",
               href: "/",
               badge: "Coming Soon",
@@ -105,7 +110,7 @@ export const navigationItems = [
             name: "RitualReports",
           },
           items: [
-            { name: "Clear Ritual Blog", href: "/", badge: "Coming Soon" },
+            { name: "Ritual Blog", href: "/", badge: "Coming Soon" },
             {
               name: "Know your Ingredients",
               href: "/",

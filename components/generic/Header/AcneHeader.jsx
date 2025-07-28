@@ -12,7 +12,10 @@ import DropdownContent from "./DropDownContent";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "./CartDrawer";
 import DropdownMenu from "./DropDownMenu";
-import { navigationItems } from "./navigationData"; const AcneHeader = () => {
+import { navigationItems } from "./navigationData"; 
+
+
+const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
