@@ -71,7 +71,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     title: "Our Editorial Policy - How We Write, Review and Research at Clear Ritual",
-    description: "Discover Clear Ritual's dermatologist-approved acne treatments. Take our free skin test and get a personalised plan for visible, lasting results.",
+    description: "Learn how Clear Ritual creates science-backed, dermatologist-reviewed skincare content. No fluff, no hype - just honest, medically sound information you can trust.",
     url: "clearritual.com/pages/editorial-policy"
   }
 };
