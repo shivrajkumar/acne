@@ -102,7 +102,7 @@ const MobileMenu = ({
             <div className="sticky bottom-0 left-0 right-0 px-4 bg-white border-t pt-4 pb-20">
                 <Link href="/skin-test">
                     <button
-                        className="w-full bg-[#3B52F5] text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
+                        className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
                         onClick={onToggle}
                     >
                         <span>TAKE THE SKIN TEST</span>
