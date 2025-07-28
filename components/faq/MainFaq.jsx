@@ -19,7 +19,7 @@ const MainFaq = () => {
   };
 
   return (
-    <Layout className="bg-white" style={{border: '1px solid red'}}>
+    <Layout className="bg-white">
       <Content className="py-8 px-4 md:px-8 md:container mx-auto w-full">
         <Row gutter={[32, 32]}>
           {/* Sidebar */}
