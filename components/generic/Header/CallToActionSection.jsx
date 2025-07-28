@@ -14,7 +14,7 @@ const CallToActionSection = () => {
                     Build your Ritual <br />now.
                 </h4>
                 <Link href="/skin-test">
-                    <button className="bg-Primary/500 text-white px-6 py-2 rounded-full text-[14px] font-[500] hover:bg-[#171819] transition-colors flex items-center space-x-2">
+                    <button className="bg-[#3B52F5] text-white px-6 py-2 rounded-full text-[14px] font-[500] hover:bg-[#171819] transition-colors flex items-center space-x-2">
                         <span>TAKE THE SKIN TEST</span>
                         <Image
                             src={ArrowRight}

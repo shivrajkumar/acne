@@ -186,8 +186,8 @@ const AcneFooter = () => {
                 </li>
                 <li className="flex gap-[4px]">
                   <Link
-                    href="/"
-                    onClick={() => PageClickEvent("EditorialStandards", "/")}
+                    href="/editorial-standards"
+                    onClick={() => PageClickEvent("EditorialStandards", "/editorial-standards")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
                     Editorial Standards
