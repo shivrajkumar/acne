@@ -135,14 +135,17 @@ const MobileFooter = ({
                                     Our Experts
                                 </Link>
                             </li>
-                            <li>
+                            <li className="flex gap-[4px] items-center">
                                 <Link
-                                    href="/blog"
-                                    onClick={() => PageClickEvent("Blogs", "/blog")}
+                                    href="/"
+                                    onClick={() => PageClickEvent("Blogs", "/")}
                                     className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Ritual Blogs
                                 </Link>
+                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                                    Coming Soon
+                                </div>
                             </li>
                             <li className="flex gap-[4px] items-center">
                                 <Link
@@ -167,15 +170,12 @@ const MobileFooter = ({
                             </li>
                             <li className="flex gap-[4px] items-center">
                                 <Link
-                                    href="/"
-                                    onClick={() => PageClickEvent("EditorialStandards", "/")}
+                                    href="/editorial-standards"
+                                    onClick={() => PageClickEvent("EditorialStandards", "/editorial-standards")}
                                     className="text-Grey/50 text-[14px] font-[400]"
                                 >
                                     Editorial Standards
                                 </Link>
-                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
-                                    Coming Soon
-                                </div>
                             </li>
                         </ul>
                     )}
