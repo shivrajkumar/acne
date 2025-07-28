@@ -24,7 +24,7 @@ const MobileMenu = ({
 
     return (
         <div
-            className="fixed w-[80%] bg-white z-50 md:hidden border-t overflow-y-scroll"
+            className="fixed w-[85%] bg-white z-50 md:hidden border-t overflow-y-scroll"
             style={{
                 top: `${totalTopOffset}px`,
                 height: `calc(100vh - ${totalTopOffset}px)`,
@@ -66,7 +66,7 @@ const MobileMenu = ({
                                                                 {subItem.name}
                                                             </Link>
                                                             {subItem.badge && (
-                                                                <span className="bg-[#FEF3C7] text-[#92400E] px-2 py-1 rounded text-xs font-medium">
+                                                                <span className="bg-[#FFF88A] text-[#0F1B28] px-2 py-1 rounded text-xs font-medium">
                                                                     {subItem.badge}
                                                                 </span>
                                                             )}
@@ -102,7 +102,7 @@ const MobileMenu = ({
             <div className="sticky bottom-0 left-0 right-0 px-4 bg-white border-t pt-4 pb-20">
                 <Link href="/skin-test">
                     <button
-                        className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
+                        className="w-full bg-[#3B52F5] text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
                         onClick={onToggle}
                     >
                         <span>TAKE THE SKIN TEST</span>

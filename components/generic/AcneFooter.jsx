@@ -192,9 +192,6 @@ const AcneFooter = () => {
                   >
                     Editorial Standards
                   </Link>
-                  <div className="py-[2px] px-[4px] h-fit text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
-                    Coming Soon
-                  </div>
                 </li>
               </ul>
             </div>
