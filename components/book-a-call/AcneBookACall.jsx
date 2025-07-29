@@ -270,7 +270,7 @@ const AcneBookACallPage = ({ searchParams }) => {
           {!bookedSuccess && selectedTime !== null && (
             <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[48] shadow-lg border-t border-gray-200">
               <button
-                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
+                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Primary/500 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
                 onClick={bookACall}
                 disabled={loadingBookCall}
               >
