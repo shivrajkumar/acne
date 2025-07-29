@@ -4,32 +4,12 @@ import React from "react";
 import { Breadcrumb } from "antd";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import RightChevron from "@assets/svg/rightArrow.svg";
 import Image from "next/image";
+import RightChevron from "@assets/svg/rightArrow.svg";
 
 const BreadcrumbNavigator = () => {
   const pathname = usePathname();
-
   const pathSegments = pathname.split("/").filter(Boolean);
-
-  const breadcrumbItems = pathSegments.map((segment, index) => {
-    const href = "/" + pathSegments.slice(0, index + 1).join("/");
-    const label = decodeURIComponent(segment).replace(/-/g, " ");
-
-    return {
-      title:
-        index === pathSegments.length - 1 ? (
-          <span className="capitalize">{label}</span>
-        ) : (
-          <Link
-            href={href}
-            className="capitalize text-blue-600 hover:underline"
-          >
-            {label}
-          </Link>
-        ),
-    };
-  });
 
   return (
     <div className="flex items-center justify-between mb-4">
@@ -51,7 +31,30 @@ const BreadcrumbNavigator = () => {
               </Link>
             ),
           },
-          ...breadcrumbItems,
+          ...pathSegments.map((segment, index) => {
+            const href = "/" + pathSegments.slice(0, index + 1).join("/");
+
+            const label =
+              {
+                faq: "Frequently Asked Questions",
+                contact: "Contact Us",
+                blog: "Blogs",
+              }[segment.toLowerCase()] || segment.replace(/-/g, " ");
+
+            return {
+              title:
+                index === pathSegments.length - 1 ? (
+                  <span className="capitalize">{label}</span>
+                ) : (
+                  <Link
+                    href={href}
+                    className="capitalize text-blue-600 hover:underline"
+                  >
+                    {label}
+                  </Link>
+                ),
+            };
+          }),
         ]}
       />
     </div>
