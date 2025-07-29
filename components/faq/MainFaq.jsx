@@ -12,10 +12,14 @@ const MainFaq = () => {
   const sectionRefs = useRef([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const handleScrollTo = (index) => {
-    sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
-    setSelectedIndex(index)
-  };
+const handleScrollTo = (index) => {
+  const section = sectionRefs.current[index];
+  if (section) {
+    const offsetTop = section.getBoundingClientRect().top + window.scrollY - 40;
+    window.scrollTo({ top: offsetTop, behavior: "smooth" });
+    setSelectedIndex(index);
+  }
+};
 
   return (
     <Layout className="bg-white">

@@ -220,7 +220,7 @@ const IconInput = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-10 mb-16 md:hidden">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px] text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px] text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -246,7 +246,7 @@ const IconInput = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 flex md:flex xs:hidden">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}

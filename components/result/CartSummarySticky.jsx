@@ -110,7 +110,7 @@ const CartSummarySticky = () => {
 
           {!hasPlacedOrder && (
             <button
-              className="w-full bg-Tertiary/600 px-[60px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[16px] font-[500] -tracking-[1%]"
+              className="w-full bg-Primary/500 px-[60px] md:px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[16px] font-[500] -tracking-[1%]"
               onClick={handleBuyNowClick}
             >
               {cartData?.cta}{" "}
