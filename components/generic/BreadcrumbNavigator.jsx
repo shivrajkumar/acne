@@ -1,0 +1,61 @@
+"use client";
+
+import React from "react";
+import { Breadcrumb } from "antd";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import RightChevron from "@assets/svg/rightArrow.svg";
+import Image from "next/image";
+
+const BreadcrumbNavigator = () => {
+  const pathname = usePathname();
+
+  const pathSegments = pathname.split("/").filter(Boolean);
+
+  const breadcrumbItems = pathSegments.map((segment, index) => {
+    const href = "/" + pathSegments.slice(0, index + 1).join("/");
+    const label = decodeURIComponent(segment).replace(/-/g, " ");
+
+    return {
+      title:
+        index === pathSegments.length - 1 ? (
+          <span className="capitalize">{label}</span>
+        ) : (
+          <Link
+            href={href}
+            className="capitalize text-blue-600 hover:underline"
+          >
+            {label}
+          </Link>
+        ),
+    };
+  });
+
+  return (
+    <div className="flex items-center justify-between mb-4">
+      <Breadcrumb
+        separator={
+          <Image
+            src={RightChevron}
+            alt="arrow"
+            width={12}
+            height={12}
+            className="inline-block"
+          />
+        }
+        items={[
+          {
+            title: (
+              <Link href="/" className="text-black">
+                Home
+              </Link>
+            ),
+          },
+          ...breadcrumbItems,
+        ]}
+      />
+    </div>
+  );
+};
+
+export default BreadcrumbNavigator;

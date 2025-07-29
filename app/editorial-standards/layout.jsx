@@ -2,6 +2,7 @@ import React from "react";
 import AcneFooter from "@/components/generic/AcneFooter";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
 import AcneHeader from "@/components/generic/Header/AcneHeader";
+import Head from "next/head";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -88,7 +89,9 @@ const Layout = ({ children }) => {
         />
       </Head>
       <AcneMarqueeBanner />
-      <AcneHeader />
+      <div className="sticky top-0 z-50 bg-white">
+        <AcneHeader />
+      </div>
       {children}
       <AcneFooter />
     </div>

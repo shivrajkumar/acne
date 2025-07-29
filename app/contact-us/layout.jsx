@@ -1,8 +1,7 @@
 import AcneFooter from "@/components/generic/AcneFooter";
-import AcneHeader from "@/components/generic/Header/AcneHeader";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
+import AcneHeader from "@/components/generic/Header/AcneHeader";
 import React from "react";
-import BreadcrumbNavigator from "@/components/generic/BreadcrumbNavigator";
 
 const Layout = ({ children }) => {
   return (
@@ -11,7 +10,7 @@ const Layout = ({ children }) => {
       <div className="sticky top-0 z-50 bg-white">
         <AcneHeader />
       </div>
-      {children}
+        {children}
       <AcneFooter />
     </div>
   );

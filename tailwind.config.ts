@@ -93,7 +93,7 @@ const config: Config = {
         "Elements/Divider-Stroke": "#E3E3E2",
         "Neutral/900": "#171819",
         "Background/AirBlue": "#DCEBF2",
-        "Primary/500": "#2872A1",
+        "Primary/500": "#3B52F5",
         "Background/Beige": "#F9F7F2",
         "Primary/900": "#081720",
         "Neutral/100": "#E5E5E5",

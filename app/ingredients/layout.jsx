@@ -7,7 +7,9 @@ const Layout = ({ children }) => {
   return (
     <div>
       <AcneMarqueeBanner />
-      <AcneHeader />
+      <div className="sticky top-0 z-50 bg-white">
+        <AcneHeader />
+      </div>
       {children}
       <AcneFooter />
     </div>

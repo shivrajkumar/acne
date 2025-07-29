@@ -110,10 +110,10 @@ export const navigationItems = [
             name: "RitualReports",
           },
           items: [
-            { name: "Ritual Blogs", href: "/", badge: "Coming Soon" },
+            { name: "Ritual Blogs", href: "/blog", badge: "Coming Soon" },
             {
               name: "Know your Ingredients",
-              href: "/",
+              href: "/ingredients",
               badge: "Coming Soon",
             },
             {
