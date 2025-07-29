@@ -35,7 +35,7 @@ const VisibleResultsInThreeWeeks = () => {
             {/* Desktop Timeline (Horizontal) */}
             <div className="hidden md:flex justify-between items-start relative mx-12 pb-[5rem]">
                 {/* Timeline Line */}
-                <div className="absolute top-4 left-0 right-0 h-[3px] bg-Tertiary/400" ></div>
+                <div className="absolute top-4 left-0 right-0 h-[3px] bg-Tertiary/400"></div>
 
                 {/* Timeline Items */}
                 {timelineData.map((item, index) => (
@@ -75,10 +75,10 @@ const VisibleResultsInThreeWeeks = () => {
                                 </div>
 
                                 {/* Benefits List - Higher z-index with background to cover line */}
-                                <div className="pt-8 relative" >
-                                    <ul className="list-disc flex flex-col pl-12 pr-4 items-center justify-center  bg-Secondary/50 py-[2px]">
+                                <div className="pt-8 relative">
+                                    <ul className="list-disc flex flex-col pl-4 pr-4 items-center justify-center  bg-Secondary/50 py-[2px]">
                                         {item.benefits.map((benefit, i) => (
-                                            <li key={i} className="relative   text-wrap">
+                                            <li key={i} className="relative text-wrap">
                                                 <span className="relative ">
                                                     <span className="absolute  text-[14px] font-[400] font-sophiaPro text-Text/Body-Text" style={{ zIndex: -1 }}></span>
                                                     {benefit}
