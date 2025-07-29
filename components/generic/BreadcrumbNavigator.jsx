@@ -37,7 +37,7 @@ const BreadcrumbNavigator = () => {
 
             const label =
               {
-                faq: "Help & FAQs",
+                faq: "Help and FAQs",
                 contact: "Contact Us",
                 blog: "Blogs",
               }[segment.toLowerCase()] || segment.replace(/-/g, " ");

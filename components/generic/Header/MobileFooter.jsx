@@ -56,7 +56,7 @@ const MobileFooter = ({
                         Clear Ritual App.
                     </h3>
                     <p className="text-[16px] mb-8 text-black">For iOS and Android</p>
-                    <div className="flex flex-col gap-[8px]">
+                    <div className="flex gap-[8px]">
                         <button className="flex items-center justify-center">
                             <Image src={AppStore} alt="App Store Download App" width={120} height={38} />
                         </button>

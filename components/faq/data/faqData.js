@@ -69,7 +69,7 @@ export const faqData = {
     {
       question: "What if I’m not available at the time of delivery?",
       answer:
-        "No worries. Our courier partner will attempt delivery up to 3 times. If you miss it or face any issues, just reach out at customercare@clearritual.com, and we’ll help get your products to you.",
+        "No worries. Our courier partner will attempt delivery up to 3 times. If you miss it or face any issues, just reach out at <a href='mailto:customercare@clearritual.com' class='underline'>customercare@clearritual.com</a>, and we’ll help get your products to you.",
     },
   ],
   "ORDERS AND PAYMENT": [
@@ -130,7 +130,7 @@ export const faqData = {
     {
       question: "I can’t upload my image – what do I do?",
       answer:
-        "Try refreshing the page or switching to a different browser. If the issue persists, reach out to our support team at +91-8424004697, and we’ll help you complete the process manually.",
+        "Try refreshing the page or switching to a different browser. If the issue persists, reach out to our support team at <a href='tel:+91-8424004697' class='underline'>+91-8424004697</a>, and we’ll help you complete the process manually.",
     },
     {
       question: "Who are the Clear Ritual skin experts?",
