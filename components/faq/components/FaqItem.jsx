@@ -31,11 +31,10 @@ const FaqItem = ({ question, answer, isOpen, onToggle }) => {
       </div>
 
       {isOpen && (
-        <div className="pb-4 pr-8 animate-fadeIn">
-          <Text className="text-sm font-sophiaPro text-gray-600 leading-relaxed">
-            {answer}
-          </Text>
-        </div>
+        <div
+          className="text-sm font-sophiaPro text-gray-600 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: answer }}
+        />
       )}
     </div>
   );
