@@ -4,6 +4,7 @@ import BlogCard from "./components/blogCard";
 import { blogLandingData } from "./data/data";
 import ReturnToDiagnostic from "./components/returnToDiagnostics";
 import FilterButtons from "./components/filterButtons";
+import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
 const BlogsLanding = () => {
   const [selectedFilter, setSelectedFilter] = useState("All Articles");
@@ -36,6 +37,9 @@ const BlogsLanding = () => {
 
   return (
     <div className="px-4 md:px-10">
+      <div className="mt-10">
+        <BreadcrumbNavigator />
+      </div>
       <div className="flex flex-col gap-5">
         <div className="text-[40px] md:text-[87px] font-sophiaPro">
           Clear Ritual Blog

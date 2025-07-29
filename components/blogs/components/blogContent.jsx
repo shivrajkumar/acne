@@ -1,5 +1,6 @@
 import React from "react";
 import SectionRenderer from "./subComponents/sectionRenderer";
+import BreadcrumbNavigator from "@/components/generic/BreadcrumbNavigator";
 
 const BlogContent = ({ article }) => {
   console.log(article, ": article in BlogContent");
@@ -23,7 +24,9 @@ const BlogContent = ({ article }) => {
 
   return (
     <div className="md:container md:mx-auto mt-12 px-4">
-      <div>Blogs / Skin</div>
+      <div className="mt-10">
+        <BreadcrumbNavigator />
+      </div>
       
       <div className="mb-2">
         {article.title && (

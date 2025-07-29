@@ -6,8 +6,7 @@ import { Layout, Card, Row, Col, Divider } from 'antd';
 import SideBarNavItem from './components/SideBarNavItem';
 import FaqContactInfo from './components/FaqContactInfo';
 import { faqData, sidebarItems, contactInfo } from './data/faqData';
-
-const { Content } = Layout;
+import BreadcrumbNavigator from '../generic/BreadcrumbNavigator';
 
 const MainFaq = () => {
   const sectionRefs = useRef([]);
@@ -20,16 +19,21 @@ const MainFaq = () => {
 
   return (
     <Layout className="bg-white">
-      <Content className="py-8 px-4 md:px-8 md:container mx-auto w-full">
+      <div className="py-8 px-4 md:px-8 md:container mx-auto w-full">
+        
+        {/* Breadcrumb Navigation */}
+        <div className="mb-8">
+          <BreadcrumbNavigator />
+        </div>
+
         <Row gutter={[32, 32]}>
           {/* Sidebar */}
           <Col xs={24} lg={7}>
-            {/* Navigation Card */}
             <Card className="mb-6 rounded-lg bg-[#F9F7F2]">
               <div className="mb-8 font-sophiaPro font-bold text-gray-900 text-[18px] md:text-[40px]">
                 FAQ
               </div>
-              
+
               <div className="flex md:hidden gap-4 overflow-x-auto hide-scrollbar">
                 {sidebarItems.map((item, index) => (
                   <SideBarNavItem
@@ -50,31 +54,27 @@ const MainFaq = () => {
                     onClick={() => handleScrollTo(index)}
                     index={index}
                     selectedIndex={selectedIndex}
-
                   />
                 ))}
               </div>
             </Card>
 
-            {/* Contact Information Card */}
+            {/* Desktop Contact Info */}
             <div className="mt-12 hidden md:block">
               <FaqContactInfo
                 icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
                 title="Write to Us"
                 content={contactInfo.email}
               />
-                <Divider className="my-6" />
-
+              <Divider className="my-6" />
               <FaqContactInfo
-                // icon={`${CDN_BASE_URL}acne/faq-webp/address.webp`}
                 icon={`${SHOPIFY_CDN_BASE_URL}address.webp`}
                 title="Mailing Address"
                 content={contactInfo.company}
                 subContent={contactInfo.address}
                 cin={contactInfo.cin}
               />
-                <Divider className="my-6" />
-
+              <Divider className="my-6" />
               <FaqContactInfo
                 icon={`${SHOPIFY_CDN_BASE_URL}timings.webp`}
                 title="Working Hours:"
@@ -87,9 +87,8 @@ const MainFaq = () => {
           {/* Main Content */}
           <Col xs={24} lg={16}>
             <div className="rounded-lg bg-[#F9F7F2] p-6">
-              {/* Display all FAQ sections */}
               {sidebarItems.map((section, index) => (
-                <FaqSection 
+                <FaqSection
                   key={section}
                   title={section}
                   items={faqData[section] || []}
@@ -99,33 +98,31 @@ const MainFaq = () => {
             </div>
           </Col>
 
+          {/* Mobile Contact Info */}
           <div className="mt-12 block md:hidden px-4">
-              <FaqContactInfo
-                icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
-                title="Write to Us"
-                content={contactInfo.email}
-              />
-                <Divider className="my-6" />
-
-              <FaqContactInfo
-                // icon={`${CDN_BASE_URL}acne/faq-webp/address.webp`}
-                icon={`${SHOPIFY_CDN_BASE_URL}address.webp`}
-                title="Mailing Address"
-                content={contactInfo.company}
-                subContent={contactInfo.address}
-                cin={contactInfo.cin}
-              />
-                <Divider className="my-6" />
-
-              <FaqContactInfo
-                icon={`${SHOPIFY_CDN_BASE_URL}timings.webp`}
-                title="Working Hours:"
-                content={contactInfo.workingHours}
-                subContent={contactInfo.workingDays}
-              />
-            </div>
+            <FaqContactInfo
+              icon={`${SHOPIFY_CDN_BASE_URL}mail.webp`}
+              title="Write to Us"
+              content={contactInfo.email}
+            />
+            <Divider className="my-6" />
+            <FaqContactInfo
+              icon={`${SHOPIFY_CDN_BASE_URL}address.webp`}
+              title="Mailing Address"
+              content={contactInfo.company}
+              subContent={contactInfo.address}
+              cin={contactInfo.cin}
+            />
+            <Divider className="my-6" />
+            <FaqContactInfo
+              icon={`${SHOPIFY_CDN_BASE_URL}timings.webp`}
+              title="Working Hours:"
+              content={contactInfo.workingHours}
+              subContent={contactInfo.workingDays}
+            />
+          </div>
         </Row>
-      </Content>
+      </div>
     </Layout>
   );
 };

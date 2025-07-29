@@ -8,22 +8,33 @@ import { FaArrowRight } from "react-icons/fa";
 import jasmin from "@assets/images/jasmin.webp";
 import foundIn from "@assets/images/found_in.webp";
 import useMediaQuery from "@/hooks/useMediaQuerry";
+import BreadcrumbNavigator from "@/components/generic/BreadcrumbNavigator";
 
 export default function IngredientDetail({ data }) {
   const mobileScreen = useMediaQuery("(max-width: 600px)");
-  console.log("Data::;", data);
 
   return (
     <div className="px-0 md:px-24 py-8 flex flex-col mb-20">
       {/* Top Row: Name, Origin, Badges */}
-      <div className="flex md:flex-row flex-col justify-between items-start md:items-center w-full mb-6 md:container mx-auto px-4 md:px-24">
+      <div className="w-full mb-6 md:container mx-auto px-4 md:px-24 flex flex-col md:flex-row justify-between gap-y-4 md:gap-y-0 md:items-center">
+        {/* Left: Name + Origin */}
         <div className="text-sm text-gray-600">
           {data.name}, {data.origin}
         </div>
-        <div className="flex gap-2">
-          {data.badges.map((badge) => (
-            <Badge key={badge}>{badge}</Badge>
-          ))}
+
+        {/* Right: Breadcrumbs + Badges */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between w-full md:w-3/5">
+          {/* Breadcrumb */}
+          <div className="order-2 md:order-1 mt-4">
+            <BreadcrumbNavigator />
+          </div>
+
+          {/* Badges */}
+          <div className="order-1 md:order-2 flex flex-wrap gap-2">
+            {data.badges.map((badge) => (
+              <Badge key={badge}>{badge}</Badge>
+            ))}
+          </div>
         </div>
       </div>
 

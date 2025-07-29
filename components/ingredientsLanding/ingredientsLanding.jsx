@@ -6,6 +6,7 @@ import IngredientToggle from "./components/ingredientsToggle";
 import AZTabs from "./components/azTabs";
 import IngredientGrid from "./components/ingredientsGrid";
 import IngredientsFaqSection from "./components/ingredientsFaq";
+import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
 const IngredientsLanding = ({}) => {
   return (
@@ -13,6 +14,9 @@ const IngredientsLanding = ({}) => {
       <div>
         <IngredientsHeroSection />
         <IngredientsFeaturesBar />
+        <div className="mt-10 px-4 md:px-12 md:container mx-auto">
+          <BreadcrumbNavigator />
+        </div>
         <PillarsSection />
         <div className="py-10 px-4 md:px-12 md:container mx-auto">
           <h2 className="text-2xl md:text-4xl font-normal font-sophiaPro text-start md:text-center mb-4">
