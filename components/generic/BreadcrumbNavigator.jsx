@@ -34,12 +34,13 @@ const BreadcrumbNavigator = () => {
           },
           ...pathSegments.map((segment, index) => {
             const href = "/" + pathSegments.slice(0, index + 1).join("/");
-
+            
             const label =
               {
                 faq: "Help and FAQs",
                 contact: "Contact Us",
                 blog: "Blogs",
+                'editorial-standards': "Editorial Standards",
               }[segment.toLowerCase()] || segment.replace(/-/g, " ");
 
             return {
