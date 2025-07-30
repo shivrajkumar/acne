@@ -27,7 +27,7 @@ const BreadcrumbNavigator = () => {
         items={[
           {
             title: (
-              <Link href="/" className="text-black">
+              <Link href="/" className="text-black font-sophiaPro font-normal text-[12px] md:text-[16px]">
                 Home
               </Link>
             ),
@@ -45,11 +45,11 @@ const BreadcrumbNavigator = () => {
             return {
               title:
                 index === pathSegments.length - 1 ? (
-                  <span className="capitalize">{label}</span>
+                  <span className="font-sophiaPro font-normal text-[12px] md:text-[16px]">{label}</span>
                 ) : (
                   <Link
                     href={href}
-                    className="capitalize text-blue-600 hover:underline"
+                    className="capitalize text-black hover:underline font-sophiaPro font-normal text-[12px] md:text-[16px]"
                   >
                     {label}
                   </Link>
