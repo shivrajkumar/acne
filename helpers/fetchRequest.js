@@ -17,7 +17,7 @@ const DEFAULT_OPTIONS = {
   },
 };
 
-export const fetchRequest = async (url, options = { method: "GET" }) => {
+export const fetchRequest = async (url, options = { method: "GET" }, token) => {
   let data = {};
   let status = "";
   const isFormData = options.body instanceof FormData;
@@ -36,8 +36,9 @@ export const fetchRequest = async (url, options = { method: "GET" }) => {
       ...options,
       headers: {
         ...(isFormData ? {} : { "Content-Type": "application/json" }),
+        "x-tenant-id": "traya",
         "x-tenant-id": "acne",
-        "x-access-token": `${SECURITY_TOKEN}`,
+        "x-access-token": `e2623576-930b-48b6-81e2-a3cb5e37f47d`,
         "Accept-Encoding": " br, gzip, deflate",
         ...options.headers,
       },
@@ -49,7 +50,6 @@ export const fetchRequest = async (url, options = { method: "GET" }) => {
 
     if (contentType?.includes("application/json")) {
       data = await _res.json();
-      console.log("Response Data:", data);
     }
   } catch (error) {
     console.warn(error.message);

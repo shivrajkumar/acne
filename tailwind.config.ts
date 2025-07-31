@@ -146,6 +146,8 @@ const config: Config = {
         "Grey/300": "#C5CBCB",
         "Warning/500": "#F4E06B",
         "Grey/50": "#F8F9F9",
+        "Grey/100": "#F4F6F6",
+        "Grey/200": "#E9EDED",
       },
       fontSize: {
         xxs: "0.6rem",
@@ -175,6 +177,8 @@ const config: Config = {
       backgroundImage: {
         "aqua-gradient-border":
           "linear-gradient(90deg, #F9F7F2 0%, #BED9C7 21.31%, #BED9C7 81.11%, #F9F7F2 100%)",
+        "custom-blue-gradient":
+          "linear-gradient(90deg, #FFFFFF 0%, #DCEBF2 100%)",
       },
       boxShadow: {
         "custom-top": "0px -4px 32px 0px rgba(0, 0, 0, 0.25)",
