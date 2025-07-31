@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import { MOENGAGE_APP_ID } from "../constants/config";
+import { MOENGAGE_APP_ID } from "../constants/constants";
 
 export const initializeMoengage = () => {
   !(function (e, n, i, t, a, r, o, d) {

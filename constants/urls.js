@@ -181,7 +181,7 @@ export const RETRIEVE_CART_SHOPFLO = (caseId) =>
 
 export const ORDER_DETAILS = (orderId) =>
   getUrl(
-    `consumer-api/service/orders/orders/get-order-details-by-order-id-number?orderId=${orderId}`
+    `consumer-api/service/orders/orders/get-order-details-by-order-id-number?orderNumber=${orderId}`
   );
 
 export const GET_AVAILABLE_SLOTS = (caseId) =>
@@ -228,3 +228,6 @@ export const LOGOUT_API = () => `${PROXY_PREFIX}/auth/otp/logout`;
 
 export const REFRESH_TOKEN_API = (token) =>
   `${PROXY_PREFIX}/auth/refresh-token/${token}`;
+
+export const REPEAT_ORDER_DETAILS = (caseId) =>
+  getUrl(`consumer-api/service/recommendations/acne-reorder/${caseId}`);
