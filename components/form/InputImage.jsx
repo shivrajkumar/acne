@@ -1,3 +1,4 @@
+"use client";
 import { useContext, useRef, useState } from "react";
 // import { SUBMISSION } from "@constants/routes";
 import { QuestionsContext } from "@context/questions-store";
@@ -20,6 +21,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { FaCameraRetro } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
@@ -45,7 +47,11 @@ const InputImage = ({ block }) => {
   const [notify, setNotify] = useState("");
   const [errNotify, setErrNotify] = useState("");
   const [hideButtons, setHideButtons] = useState(false);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(null)
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+  const [showBox, setShowBox] = useState(true);
+
+  const text = block.whyWeAsk.text || "";
+  const [before, after] = text.split("A close-up photo");
 
   useEffect(() => {
     const val = window.localStorage.getItem("photo_acne");
@@ -229,7 +235,7 @@ const InputImage = ({ block }) => {
 
   const handleCameraAccess = async () => {
     setShowCam(true);
-    
+
     try {
       logGtmEvent("image_takepicture_opened", {
         location: window?.location?.pathname,
@@ -437,13 +443,13 @@ const InputImage = ({ block }) => {
   };
 
   const triggerFileInput = () => {
-  if (inputRef.current) {
-    inputRef.current.value = "";
-    inputRef.current.click();
-  }
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.click();
+    }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     return () => {
       if (imagePreviewUrl) {
         URL.revokeObjectURL(imagePreviewUrl);
@@ -455,7 +461,7 @@ const InputImage = ({ block }) => {
     <>
       {isLoading && <Loader />}
 
-      <div className="flex flex-col items-center  mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-sophiaPro">
+      <div className="flex flex-col items-center mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-sophiaPro">
         <label
           className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
           htmlFor={block.id}
@@ -464,7 +470,7 @@ const InputImage = ({ block }) => {
         </label>
 
         {block.sub_text && (
-          <label className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center">
+          <label className="text-Text/Label font-sophiaPro font-normal text-[14px] text-center">
             {block.sub_text}
           </label>
         )}
@@ -480,7 +486,7 @@ const InputImage = ({ block }) => {
                       : typeof compressedImage === "string"
                       ? compressedImage
                       : ""
-                    }
+                  }
                   alt="uploaded"
                   width={100}
                   height={100}
@@ -510,20 +516,20 @@ const InputImage = ({ block }) => {
               />
             </>
           ) : (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col md:flex-row  justify-center gap-4 sm:justify-start">
               {/* Take a Picture Card */}
               <div
                 onClick={handleCameraAccess}
-                className="flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[240px] h-[230px] rounded-[8px] cursor-pointer"
+                className="flex flex-col items-center justify-center border-[1px] border-dashed border-primary/100 w-[180px] h-[180px] sm:w-[240px] sm:h-[230px] rounded-[8px] cursor-pointer"
               >
-                <FaCameraRetro size={48} className="text-gray-700 mb-4" />
-                <span className="text-[14px] font-medium underline underline-offset-4 text-gray-800">
+                <FaCameraRetro size={40} className="text-gray-700 mb-4" />
+                <span className="text-[13px] sm:text-[14px] font-medium underline underline-offset-4 text-gray-800">
                   TAKE A PICTURE
                 </span>
               </div>
 
               {/* Upload a Picture Card */}
-              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[240px] h-[230px] rounded-[8px] cursor-pointer">
+              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[180px] h-[180px] sm:w-[240px] sm:h-[230px] rounded-[8px] cursor-pointer">
                 <input
                   type="file"
                   accept="image/*"
@@ -532,10 +538,10 @@ const InputImage = ({ block }) => {
                   onChange={handleImageUpload}
                 />
                 <MdOutlineAddPhotoAlternate
-                  size={52}
+                  size={42}
                   className="text-gray-700 mb-4 z-0"
                 />
-                <span className="text-[14px] font-medium underline underline-offset-4 text-gray-800 z-0">
+                <span className="text-[13px] sm:text-[14px] font-medium underline underline-offset-4 text-gray-800 z-0">
                   UPLOAD A PICTURE
                 </span>
               </div>
@@ -585,7 +591,7 @@ const InputImage = ({ block }) => {
             </div>
           ) : (
             <>
-              <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+              {/* <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
                 <div className="hidden xl:block lg:block md:block sm:block">
                   <button
                     id="acne_submit"
@@ -608,7 +614,7 @@ const InputImage = ({ block }) => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </>
           )}
         </>
@@ -623,6 +629,26 @@ const InputImage = ({ block }) => {
           />
         )}
       </div>
+      {showBox && (
+        <div className="bg-Warning/500 relative bottom-0 left-0 md:fixed md:bottom-4 md:left-4 rounded-xl p-6 flex flex-col justify-start z-50 shadow-lg w-[338px] mt-10 md:mt-0">
+          <button
+            onClick={() => setShowBox(false)}
+            className="absolute -top-3 -right-3 text-black bg-white rounded-full p-1 shadow-md"
+            aria-label="Close"
+          >
+            <AiOutlineClose size={20} />
+          </button>
+
+          <div className="text-[16px] font-sophiaPro font-normal text-black">
+            {block.whyWeAsk.heading}
+          </div>
+
+          <div className="text-[12px] mt-4 font-sophiaPro font-normal text-black">
+            {before}
+            <span className="font-semibold">A close-up photo{after}</span>
+          </div>
+        </div>
+      )}
     </>
   );
 };
