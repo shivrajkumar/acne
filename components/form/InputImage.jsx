@@ -18,6 +18,8 @@ import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 import Loader from "../generic/Loader";
 import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import { FaCameraRetro } from "react-icons/fa";
 
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
@@ -43,6 +45,7 @@ const InputImage = ({ block }) => {
   const [notify, setNotify] = useState("");
   const [errNotify, setErrNotify] = useState("");
   const [hideButtons, setHideButtons] = useState(false);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null)
 
   useEffect(() => {
     const val = window.localStorage.getItem("photo_acne");
@@ -85,14 +88,23 @@ const InputImage = ({ block }) => {
           // If no new image is selected, do nothing
           return;
         }
-        logGtmEvent('image_upload_success', { location: window?.location?.pathname, question: block.id });
+        logGtmEvent("image_upload_success", {
+          location: window?.location?.pathname,
+          question: block.id,
+        });
 
         dataUri = await fileToDataUri(_image);
       } else {
-        logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block.id });
+        logGtmEvent("image_takepicture_opened", {
+          location: window?.location?.pathname,
+          question: block.id,
+        });
         _image = await convertBase64URItoBlob(imageUri);
         dataUri = imageUri;
-        logGtmEvent('image_takepicture_success', { location: window?.location?.pathname, question: block.id });
+        logGtmEvent("image_takepicture_success", {
+          location: window?.location?.pathname,
+          question: block.id,
+        });
       }
 
       setShowButton(true);
@@ -111,11 +123,16 @@ const InputImage = ({ block }) => {
       // Store the new compressed image with error handling for localStorage
       try {
         window.localStorage.setItem("photo_acne", dataUri);
-        window.localStorage.setItem("acneImage", JSON.stringify(_result.compressedImage));
+        window.localStorage.setItem(
+          "acneImage",
+          JSON.stringify(_result.compressedImage)
+        );
       } catch (storageError) {
-        if (storageError.name === 'QuotaExceededError') {
+        if (storageError.name === "QuotaExceededError") {
           // If localStorage is full, use the compressed image directly
-          console.warn('Local storage quota exceeded. Using compressed image without storing.');
+          console.warn(
+            "Local storage quota exceeded. Using compressed image without storing."
+          );
         } else {
           throw storageError;
         }
@@ -129,13 +146,19 @@ const InputImage = ({ block }) => {
       setCompressedImage(_result.compressedImage);
       setStoredImg(false); // Reset stored image flag to use object URL
       setReply(_result.compressedImage);
+
+      if (_result.compressedImage instanceof Blob) {
+        const url = URL.createObjectURL(_result.compressedImage);
+        setImagePreviewUrl(url);
+      } else {
+        setImagePreviewUrl(null);
+      }
     } catch (error) {
       console.error("Image upload error:", error);
       setErr("Failed to upload image. Please try again.");
       setShowButton(false);
     }
   };
-
 
   const _handleSubmit = async () => {
     if (reply) {
@@ -159,7 +182,6 @@ const InputImage = ({ block }) => {
 
         const _res = await fetchRequest(IMAGE_UPLOAD_API(caseId), _options);
         if (_res?.success || _res?.status === 200) {
-
           const _formData = {
             question_id: block.id,
             field_key: block.id,
@@ -183,12 +205,14 @@ const InputImage = ({ block }) => {
             window.localStorage.setItem("form_status", "semi-filled");
           }
 
-          const response = await fetchRequest(TRANSACTION_API(transactionId), _options);
+          const response = await fetchRequest(
+            TRANSACTION_API(transactionId),
+            _options
+          );
           if (response.status == 200) {
             handleSubmit(reply);
 
             setAllQuestionsFilled(true);
-
           }
           window.localStorage.setItem("form_status", "filled");
         } else {
@@ -204,8 +228,13 @@ const InputImage = ({ block }) => {
   };
 
   const handleCameraAccess = async () => {
+    setShowCam(true);
+    
     try {
-      logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block?.id });
+      logGtmEvent("image_takepicture_opened", {
+        location: window?.location?.pathname,
+        question: block?.id,
+      });
       // Create a reusable notification component
       const createCameraNotification = () => (
         <>
@@ -223,13 +252,17 @@ const InputImage = ({ block }) => {
         </>
       );
 
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
 
       if (isSafari || !navigator.permissions) {
         // Fallback for iOS Safari
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          stream.getTracks().forEach(track => track.stop());
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          stream.getTracks().forEach((track) => track.stop());
           setShowCam(true);
           setNotify(null);
           return true;
@@ -239,10 +272,12 @@ const InputImage = ({ block }) => {
           return false;
         }
       } else {
-        const permissionStatus = await navigator.permissions.query({ name: 'camera' });
+        const permissionStatus = await navigator.permissions.query({
+          name: "camera",
+        });
 
         permissionStatus.onchange = async () => {
-          if (permissionStatus.state === 'denied') {
+          if (permissionStatus.state === "denied") {
             setNotify(
               <>
                 <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
@@ -253,16 +288,18 @@ const InputImage = ({ block }) => {
             );
             return false;
           }
-        }
+        };
 
         // Handle different permission states
         switch (permissionStatus.state) {
-          case 'granted':
+          case "granted":
             try {
-              const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
+              const stream = await navigator?.mediaDevices?.getUserMedia({
+                video: true,
+              });
 
               // Close the stream immediately
-              stream.getTracks().forEach(track => track.stop());
+              stream.getTracks().forEach((track) => track.stop());
 
               setShowCam(true);
               setNotify(null);
@@ -273,7 +310,7 @@ const InputImage = ({ block }) => {
               return false;
             }
 
-          case 'denied':
+          case "denied":
             setNotify(
               <>
                 <div className="flex justify-center gap-1 items-center font-sans font-[400] text-[14px] text-[#0E0E0E]">
@@ -284,7 +321,7 @@ const InputImage = ({ block }) => {
             );
             return false;
 
-          case 'prompt':
+          case "prompt":
             return false;
 
           default:
@@ -292,7 +329,6 @@ const InputImage = ({ block }) => {
             return false;
         }
       }
-
     } catch (error) {
       console.error("Unexpected error in handleCameraAccess:", error);
 
@@ -312,13 +348,18 @@ const InputImage = ({ block }) => {
 
   const handleCamera = async () => {
     try {
-      logGtmEvent('image_takepicture_opened', { location: window?.location?.pathname, question: block?.id });
+      logGtmEvent("image_takepicture_opened", {
+        location: window?.location?.pathname,
+        question: block?.id,
+      });
 
       // Explicitly request camera access
-      const stream = await navigator?.mediaDevices?.getUserMedia({ video: true });
+      const stream = await navigator?.mediaDevices?.getUserMedia({
+        video: true,
+      });
 
       // Close the stream immediately
-      stream.getTracks().forEach(track => track.stop());
+      stream.getTracks().forEach((track) => track.stop());
 
       setShowCam(true);
       setNotify(null);
@@ -326,13 +367,16 @@ const InputImage = ({ block }) => {
       console.error("Camera access failed:", error);
 
       // Detailed error handling
-      const errorMessage = error.name === 'NotAllowedError'
-        ? "Camera access was denied. Please check your browser settings."
-        : "An error occurred while accessing the camera.";
+      const errorMessage =
+        error.name === "NotAllowedError"
+          ? "Camera access was denied. Please check your browser settings."
+          : "An error occurred while accessing the camera.";
 
       setNotify(
         <>
-          <div className="text-red-500 mb-4 text-center flex justify-center">{errorMessage}</div>
+          <div className="text-red-500 mb-4 text-center flex justify-center">
+            {errorMessage}
+          </div>
           <div
             className="upload-gallery-button bg-[#E6F0BD] px-1 py-3 text-[#40413E] rounded-lg xs:text-[14px] lg:text-[18px] cursor-pointer text-center w-full"
             onClick={() => {
@@ -347,7 +391,10 @@ const InputImage = ({ block }) => {
   };
 
   const openGallery = () => {
-    logGtmEvent('image_upload_opened', { location: window?.location?.pathname, question: block?.id });
+    logGtmEvent("image_upload_opened", {
+      location: window?.location?.pathname,
+      question: block?.id,
+    });
     if (inputRef.current) {
       inputRef.current.click();
     }
@@ -373,20 +420,36 @@ const InputImage = ({ block }) => {
         method: "POST",
         body: JSON.stringify(_formData),
       };
-      const response = await fetchRequest(TRANSACTION_API(transactionId), _options);
+      const response = await fetchRequest(
+        TRANSACTION_API(transactionId),
+        _options
+      );
       if (response.status == 200) {
         handleSubmit(reply);
 
         setAllQuestionsFilled(true);
-
       }
       window.localStorage.setItem("form_status", "filled");
     } catch (error) {
       console.error(error);
       setErr("Something went wrong. Please try again.");
     }
+  };
 
+  const triggerFileInput = () => {
+  if (inputRef.current) {
+    inputRef.current.value = "";
+    inputRef.current.click();
   }
+  };
+
+    useEffect(() => {
+    return () => {
+      if (imagePreviewUrl) {
+        URL.revokeObjectURL(imagePreviewUrl);
+      }
+    };
+  }, [imagePreviewUrl]);
 
   return (
     <>
@@ -406,98 +469,79 @@ const InputImage = ({ block }) => {
           </label>
         )}
 
-        <div
-          className={`relative  mt-5 flex flex-col items-center justify-center  border-[1px]  border-primary/700 border-dashed
-         w-[300px] h-[230px] rounded-[8px] `}
-        >
-          <input
-            type="file"
-            accept="image/*"
-            className="absolute top-0 left-0 -z-10 w-full h-full opacity-0 cursor-pointer"
-            id={block.id}
-            ref={inputRef}
-            onChange={handleImageUpload}
-          />
+        <div className="mt-6 flex flex-col items-center justify-center">
           {compressedImage ? (
-            <div className="flex flex-col items-center justify-center max-w-full max-h-full">
-              {storedImg ? (
+            <>
+              <div className="border border-dashed border-gray-400 rounded-md w-[300px] h-[230px] flex items-center justify-center">
                 <Image
-                  src={compressedImage}
+                  src={
+                    compressedImage instanceof Blob
+                      ? URL.createObjectURL(compressedImage)
+                      : typeof compressedImage === "string"
+                      ? compressedImage
+                      : ""
+                    }
                   alt="uploaded"
-                  className="object-scale-down align-middle w-[228px] h-[182px]"
-                  width={228}
-                  height={182}
-                  id="acneImg"
+                  width={100}
+                  height={100}
+                  className="object-cover w-[300px] h-[230px] rounded-md p-8"
                 />
-              ) : (
-                <Image
-                  src={URL.createObjectURL(compressedImage)}
-                  alt="uploaded"
-                  className="object-scale-down align-middle  w-[228px] h-[182px]"
-                  width={228}
-                  height={182}
-                  id="acneImg"
-                />
-              )}
-            </div>
+              </div>
+              <div className="flex gap-8 mt-4">
+                <button
+                  onClick={triggerFileInput}
+                  className="text-[14px] font-normal font-sophiaPro underline underline-offset-4 text-Primary/700"
+                >
+                  CHANGE IMAGE
+                </button>
+                <button
+                  onClick={handleCameraAccess}
+                  className="text-[14px] font-normal underline underline-offset-4 text-primary/700"
+                >
+                  TAKE A PICTURE
+                </button>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                ref={inputRef}
+                onChange={handleImageUpload}
+              />
+            </>
           ) : (
-            <div className="flex flex-col items-center justify-center max-w-full max-h-full p-[24px]">
-              <div className="flex flex-col justify-center items-center ">
-                <Image
-                  src={front_view}
-                  alt="selfie"
-                  className=" object-contain align-middle cursor-pointer "
-                  width={330}
-                  height={300}
-                  priority={false}
-                  onClick={() => {
-                    handleCameraAccess();
-                    setShowCam(true);
-                  }}
+            <div className="flex flex-wrap gap-4">
+              {/* Take a Picture Card */}
+              <div
+                onClick={handleCameraAccess}
+                className="flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[240px] h-[230px] rounded-[8px] cursor-pointer"
+              >
+                <FaCameraRetro size={48} className="text-gray-700 mb-4" />
+                <span className="text-[14px] font-medium underline underline-offset-4 text-gray-800">
+                  TAKE A PICTURE
+                </span>
+              </div>
+
+              {/* Upload a Picture Card */}
+              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[240px] h-[230px] rounded-[8px] cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  ref={inputRef}
+                  onChange={handleImageUpload}
                 />
+                <MdOutlineAddPhotoAlternate
+                  size={52}
+                  className="text-gray-700 mb-4 z-0"
+                />
+                <span className="text-[14px] font-medium underline underline-offset-4 text-gray-800 z-0">
+                  UPLOAD A PICTURE
+                </span>
               </div>
             </div>
           )}
         </div>
-        {!hideButtons && <div>
-          {!showButton ? (
-            <div className="flex justify-between w-[280px]">
-              <button
-                className={`block  mt-4 uppercase  underline underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit `}
-                onClick={openGallery}
-              >
-                {"Upload Image"}
-              </button>
-              <button
-                className="block  mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit"
-                onClick={() => {
-                  handleCameraAccess();
-                  setShowCam(true);
-                }}             >
-                {"Take A Picture"}
-              </button>
-            </div>
-          ) : (
-            <div className="flex justify-between w-[280px]">
-              <button
-                onClick={openGallery}
-                className="block mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit "
-              >
-                {"CHANGE IMAGE"}
-              </button>
-              <button
-                onClick={() => {
-                  handleCameraAccess();
-                  setShowCam(true);
-                }}
-                className="block mt-4 uppercase underline  underline-offset-4 decoration-[#6C6C6C] text-primary/700 text-[14px] cursor-pointer text-center w-fit"
-              >
-                {"TAKE A PICTURE"}
-              </button>
-            </div>
-          )}
-        </div>}
-
 
         {err !== "" && (
           <span className="block mt-4 text-red-500 text-center font-sophiaPro text-[14px]">
@@ -529,7 +573,6 @@ const InputImage = ({ block }) => {
                     onClick={() => _handleSubmit()}
                     className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
                     disabled={compressingImage}
-
                   >
                     {compressingImage ? (
                       <span className="animate-pulse">Processing</span>
@@ -540,32 +583,34 @@ const InputImage = ({ block }) => {
                 </div>
               </div>
             </div>
-          ) : <>
-            <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
-              <div className="hidden xl:block lg:block md:block sm:block">
-                <button
-                  id="acne_submit"
-                  onClick={() => handleSkip()}
-                  className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
-                  disabled={compressingImage}
-                >
-                  SKIP
-                </button>
-              </div>
-              <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden ">
-                <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+          ) : (
+            <>
+              <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+                <div className="hidden xl:block lg:block md:block sm:block">
                   <button
                     id="acne_submit"
                     onClick={() => handleSkip()}
                     className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
                     disabled={compressingImage}
-
                   >
                     SKIP
                   </button>
                 </div>
+                <div className="border-white border block xl:hidden lg:hidden md:hidden sm:hidden ">
+                  <div className="border-white border rounded w-full flex justify-center align-center fixed bottom-0 right-0 bg-white font-bold focus:outline-none z-0 py-6">
+                    <button
+                      id="acne_submit"
+                      onClick={() => handleSkip()}
+                      className="w-[300px] h-[56px] px-[40px] py-[16px] font-[400] text-white rounded-full bg-Neutral/900 transition-all duration-200 shadow-sm"
+                      disabled={compressingImage}
+                    >
+                      SKIP
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div></>}
+            </>
+          )}
         </>
         {showCam && (
           <CameraAccess
@@ -579,7 +624,6 @@ const InputImage = ({ block }) => {
         )}
       </div>
     </>
-
   );
 };
 
