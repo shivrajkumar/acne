@@ -480,7 +480,7 @@ const InputImage = ({ block }) => {
         <div className="mt-6 flex flex-col items-center justify-center">
           {compressedImage ? (
             <>
-              <div className="border border-dashed border-gray-400 rounded-md w-[300px] h-[230px] flex items-center justify-center">
+              <div className="border border-dashed border-black rounded-md w-[300px] h-[230px] flex items-center justify-center">
                 <Image
                   src={
                     compressedImage instanceof Blob
@@ -522,7 +522,7 @@ const InputImage = ({ block }) => {
               {/* Take a Picture Card */}
               <div
                 onClick={handleCameraAccess}
-                className="flex flex-col items-center justify-center border-[1px] border-dashed border-primary/100 w-[140px] h-[140px] sm:w-[220px] sm:h-[220px] rounded-[8px] cursor-pointer"
+                className="flex flex-col items-center justify-center border-[1px] border-dashed border-black w-[140px] h-[140px] sm:w-[220px] sm:h-[220px] rounded-[8px] cursor-pointer"
               >
                 <FaCameraRetro size={40} className="text-gray-700 mb-4" />
                 <span className="text-[13px] sm:text-[14px] font-medium underline underline-offset-4 text-gray-800">
@@ -531,7 +531,7 @@ const InputImage = ({ block }) => {
               </div>
 
               {/* Upload a Picture Card */}
-              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[140px] h-[140px] sm:w-[240px] sm:h-[230px] rounded-[8px] cursor-pointer">
+              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-black w-[140px] h-[140px] sm:w-[220px] sm:h-[220px] rounded-[8px] cursor-pointer">
                 <input
                   type="file"
                   accept="image/*"
