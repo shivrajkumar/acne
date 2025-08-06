@@ -202,45 +202,7 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      <Modal
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        title={null}
-        closable={false}
-        width={{
-          xs: '100%',
-          sm: '80%',
-          md: '70%',
-          lg: '60%',
-          xl: '70%',
-          xxl: '70%',
-        }}
-        centered={isDesktop}
-        styles={{
-          body: {
-            position: "relative",
-            borderRadius: 0,
-          },
-          content: {
-            borderRadius: 0,
-          },
-          mask: {
-            borderRadius: 0,
-          }
-        }}
-      >
-        {/* Custom Close Button */}
-        <button
-          onClick={handleCancel}
-          className="absolute top-[-56px] right-[-24px] m h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
-        >
-          <Image src={closeIcon} alt="close-icon" width={20} height={20} />
-        </button>
-
-        {/* Your modal content */}
-        <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
-      </Modal>
+      {isModalOpen && <ProductPageModal variantId={productInfo} handleCancel={handleCancel} open={isModalOpen} />}
     </div>
   );
 };

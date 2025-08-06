@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { RightOutlined } from "@ant-design/icons";
 import ArrowRight from "@assets/icons/ArrowRight.webp";
 import { Divider } from "antd";
+import { usePathname } from "next/navigation";
 
 const MobileMenu = ({
     isOpen,
@@ -12,15 +13,40 @@ const MobileMenu = ({
     totalTopOffset,
     headerHeight,
     PageClickEvent,
-    navigationItems
+    navigationItems,
 }) => {
     const [expandedSection, setExpandedSection] = useState(null);
+    const [orderCount, setOrderCount] = useState(null);
+    const [syntheticId, setSyntheticId] = useState(null);
+    const [caseId, setCaseId] = useState(null);
+    const pathName = usePathname()
+
+
+    useEffect(() => {
+        if (typeof window !== undefined) {
+            const orderCountFromStorage = window?.localStorage.getItem("order_count");
+            const syntheticId = window?.localStorage.getItem('syntheticId');
+            const caseId = window?.localStorage.getItem('caseId');
+
+            if (syntheticId) {
+                setSyntheticId(syntheticId);
+            }
+            if (caseId) {
+                setCaseId(caseId);
+            }
+            if (orderCountFromStorage) {
+                setOrderCount(orderCountFromStorage);
+            }
+        }
+    }, [])
 
     if (!isOpen) return null;
 
     const toggleSection = (sectionName) => {
         setExpandedSection(expandedSection === sectionName ? null : sectionName);
     };
+
+
 
     return (
         <div
@@ -100,21 +126,38 @@ const MobileMenu = ({
             </nav>
             {/* Call to action button */}
             <div className="sticky bottom-0 left-0 right-0 px-4 bg-white border-t pt-4 pb-20">
-                <Link href="/skin-test">
-                    <button
-                        className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
-                        onClick={onToggle}
-                    >
-                        <span>TAKE THE SKIN TEST</span>
-                        <Image
-                            src={ArrowRight}
-                            alt="Arrow"
-                            width={16}
-                            height={16}
-                            className="w-4 h-4"
-                        />
-                    </button>
-                </Link>
+                {!pathName.includes("recommendedcart") && !orderCount ?
+                    <Link href="/skin-test">
+                        <button
+                            className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
+                            onClick={onToggle}
+                        >
+                            <span>{syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}
+                            </span>
+                            <Image
+                                src={ArrowRight}
+                                alt="Arrow"
+                                width={16}
+                                height={16}
+                                className="w-4 h-4"
+                            />
+                        </button>
+                    </Link> :
+                    <Link href={`/book-a-call?caseId=${caseId}&redirect=home`}>
+                        <button
+                            className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
+                            onClick={onToggle}
+                        >
+                            <span>Book A Call</span>
+                            <Image
+                                src={ArrowRight}
+                                alt="Arrow"
+                                width={16}
+                                height={16}
+                                className="w-4 h-4"
+                            />
+                        </button>
+                    </Link>}
             </div>
         </div>
     );
