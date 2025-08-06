@@ -1,13 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-// import { gtmEcommerce } from "@helpers/gtmHelpers";
 
-// import {
-//     handlePreDefinedUserAttributes,
-//     moengageTrackEvent,
-// } from "@helpers/handleMoengage";
-// import { getCurrentTimeInReadableForm } from "@helpers/timeFormatter";
-// import { PLATFORM } from "@constants/constants";
+import { getCurrentTimeInReadableForm } from "@helpers/timeFormatter";
+import { PLATFORM } from "@constants/constants";
 import { usePathname } from "next/navigation";
 import { REPEAT_ORDER_DETAILS } from "@/constants/urls";
 import { getParamValue } from "@/helpers/getParamValue";
@@ -20,6 +15,13 @@ import AcneHeader from "../generic/Header/AcneHeader";
 import AcneFooter from "../generic/AcneFooter";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
 import Loader from "../generic/Loader";
+import {
+    callAfterMoegageIsLoaded,
+    trackMoEngageEvent,
+} from "@/utils/moegage";
+import { logGtmEvent } from "../generic/Gtm";
+import moengage from "@moengage/web-sdk";
+
 
 
 
@@ -41,7 +43,6 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
     const [placeOrderClicked, setPlaceOrderClicked] = useState(false);
     const [productData, setProductData] = useState([]);
     const [buttonText, setButtonText] = useState("Add to cart");
-    // const [caseId, setCaseId] = useState("");
     const [upSellProduct, setUpSellProduct] = useState([]);
     const [removedProduct, setRemovedProduct] = useState([]);
     const [cxName, setCxName] = useState("");
@@ -65,6 +66,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
     const disableProductId = ["45277154377906", "45584051339442"];
     const validCaseId = /^[0-1a-f]/.test(caseId);
     const [latestOrderDate, setLatestOrderDate] = useState('');
+    const [deletedProduct, setDeletedProducts] = useState([])
 
 
 
@@ -79,7 +81,11 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
         if (id) {
             (async () => {
 
-                // handlePreDefinedUserAttributes("add_unique_user_id", id);
+                callAfterMoegageIsLoaded(() => {
+                    moengage.update_unique_user_id(id);
+                    moengage.add_user_attribute("synthetic_id", id);
+                    moengage.add_user_attribute("case_id", id);
+                });
                 await getProductList(id);
             })();
         }
@@ -137,6 +143,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                     isCombo: false,
                     dosage: item.dosage,
                     description: item.description,
+                    size: item.size
                 }));
 
                 setProductData(_productsData);
@@ -152,6 +159,8 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                     isCombo: false,
                     dosage: item.dosage,
                     description: item.description,
+                    size: item.size,
+                    rating: item.rating,
                 }));
 
                 setUpSellProduct([..._upSellProduct]);
@@ -166,24 +175,21 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                 }));
                 setRemovedProduct(_removedProduct);
 
-                // moengageTrackEvent("reorder_native_page_loaded", {
-                //     case_id: id,
-                //     gender: _res.data?.gender,
-                //     platform: PLATFORM,
-                //     timestamp: getCurrentTimeInReadableForm(),
-                //     screenName: "reorder_page_native",
-                //     cartValue: cartValue,
-                //     utm_source: utmDetails.utm_source,
-                //     utm_campaign: utmDetails.utm_campaign,
-                //     utm_medium: utmDetails.utm_medium,
-                //     order_count: _res?.data?.orderCount,
-                //     // caseId_tag: validCaseId ? "A" : "B"
-                // });
+                trackMoEngageEvent("repurchase_page_load", {
+                    case_id: id,
+                    platform: PLATFORM,
+                    timestamp: getCurrentTimeInReadableForm(),
+                    screenName: "repurchase_page",
+                    cartValue: cartValue,
+                    utm_source: utmDetails.utm_source,
+                    utm_campaign: utmDetails.utm_campaign,
+                    utm_medium: utmDetails.utm_medium,
+                    order_count: _res?.data?.orderCount,
+                });
             } else if (_res.hasError) {
                 setIsError(true);
             }
         } catch (e) { console.error(e); setIsError(true) }
-        // const _res = props.reOrderData;
 
 
         const utmDetails = getUtmDetails();
@@ -215,6 +221,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                     val.img = val.img;
                     val.dosage = val.dosage;
                     val.description = val.description;
+                    val.size = val.size
 
                     cartData.push(val);
                     totalTemp = Number(val.totalPrice) + Number(totalTemp);
@@ -237,6 +244,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                 isCombo: false,
                 dosage: item.dosage,
                 description: item.description,
+                size: item.size
             };
         });
 
@@ -430,17 +438,19 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
         } else if (isMonth === "3") {
             getNewDiscount(Number(newTotalPrice) + Number(item.price));
         }
-
-        // let gtmObj = {
-        //     totalPrice: totalPrice + Number(item.price),
-        //     cartData: counters,
-        //     section: "login",
-        //     pagename: "recommendation",
-        // };
-        // gtmEcommerce(gtmObj, "add_to_cart");
+        trackMoEngageEvent("product_added_repurchase", {
+            case_id: id,
+            platform: PLATFORM,
+            timestamp: getCurrentTimeInReadableForm(),
+            screenName: "repurchase_page",
+            cartValue: isMonth == 1 ? totalPrice : newTotalPrice,
+            plan_selected: isMonth === "1" ? "1" : "3",
+            addedProduct: item
+        })
     };
 
     const deleteItem = (item, index) => {
+        setDeletedProducts([...deletedProduct, item])
         let counters = [...cartData];
         let _counters = [...upSellProduct];
         let _newItem = cartData[index];
@@ -460,14 +470,15 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
         setCartData(counters);
         setUpSellProduct(_counters);
         setCartItemCount(Number(cartItemCount) - Number(item.itemCount));
-
-        let gtmObj = {
-            totalPrice: totalPrice,
-            cartData: cartData,
-            section: "login",
-            pagename: "recommendation",
-        };
-        // gtmEcommerce(gtmObj, "remove_from_cart");
+        trackMoEngageEvent("product_removed_repurchase", {
+            case_id: id,
+            platform: PLATFORM,
+            timestamp: getCurrentTimeInReadableForm(),
+            screenName: "repurchase_page",
+            cartValue: isMonth == 1 ? totalPrice : newTotalPrice,
+            plan_selected: isMonth === "1" ? "1" : "3",
+            removedProduct: item
+        })
     };
 
     const getOneMonthCart = () => {
@@ -481,18 +492,11 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
         getDiscount(_1Month_Price);
         setTotalPrice(_1Month_Price);
         setCartData([...oneMonthCart]);
-        // let gtmObj = {
-        //     totalPrice: totalPrice,
-        //     cartData: cartData,
-        //     section: "login",
-        //     pagename: "recommendation",
-        // };
-        // gtmEcommerce(gtmObj, "1monthPlan_Clicked");
+
     };
 
     const getThreeMonthCart = () => {
         setIsMonth("3");
-
         let _3Month_Price = 0;
         [...threeMonthCart].forEach((item) => {
             _3Month_Price =
@@ -502,13 +506,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
         setNewTotalPrice(_3Month_Price);
         setCartData([...threeMonthCart]);
 
-        // let gtmObj = {
-        //     totalPrice: newTotalPrice,
-        //     cartData: cartData,
-        //     section: "login",
-        //     pagename: "recommendation",
-        // };
-        // gtmEcommerce(gtmObj, "3monthPlan_Clicked");
+
     };
 
     const placeOrder = async () => {
@@ -522,43 +520,36 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
             },
             {}
         );
-        // moengageTrackEvent("continue_clicked", {
-        //     case_id: id,
-        //     gender: gender,
-        //     platform: PLATFORM,
-        //     timestamp: getCurrentTimeInReadableForm(),
-        //     screenName: "reorder_page_native",
-        //     cartValue: isMonth == 1 ? totalPrice : newTotalPrice,
-        //     utm_source: utmDetails.utm_source,
-        //     utm_campaign: utmDetails.utm_campaign,
-        //     utm_medium: utmDetails.utm_medium,
-        //     plan_selected: isMonth === "1" ? "1" : "3",
-        //     bulk_exp: orderCount >= 5 ? "A" : "B",
-        // });
-        // let productDescriptions = [];
-        // cartData.forEach((val) => {
-        //     let objVal = {
-        //         product_id: val.id,
-        //         name: val.name,
-        //         itemCount: val.itemCount,
-        //         price: val.price,
-        //         image_url: [null],
-        //         quantity: val.itemCount,
-        //     };
-        //     productDescriptions.push(objVal);
-        // });
+        trackMoEngageEvent("repurchase_checkout_initiated", {
+            case_id: id,
+            gender: gender,
+            platform: PLATFORM,
+            timestamp: getCurrentTimeInReadableForm(),
+            screenName: "repurchase_page",
+            cartValue: isMonth == 1 ? totalPrice : newTotalPrice,
+            product: cartData,
+            utm_source: utmDetails.utm_source,
+            utm_campaign: utmDetails.utm_campaign,
+            utm_medium: utmDetails.utm_medium,
+            plan_selected: isMonth === "1" ? "1" : "3",
+        });
+        logGtmEvent("repurchase_page_activity",
+            {
+                user_id: id,
+                products_selected: cartData,
+                products_removed: (deletedProduct ?? []).filter(
+                    (deleted) => !cartData.some((item) => item.id === deleted.id)
+                ),
+                cart_value: isMonth == 1 ? totalPrice : newTotalPrice,
+                checkout_status: "Initiated"
+            }
 
-        handleBuyNowClick(cartData, id,)
-        // let gtmObj = {
-        //     totalPrice: isMonth == 1 ? totalPrice : newTotalPrice,
-        //     cartData: cartData,
-        //     section: "login",
-        //     pagename: "recommendation",
-        // };
-        // gtmEcommerce(gtmObj, "begin_checkout");
+        )
+
+        handleBuyNowClick(cartData, id, isMonth === "1" ? discountCodeShopflo : newDiscountCodeShopflo)
+
         localStorage.setItem("journey_type", "recommendedcart");
     };
-
 
     const loaderProp = ({ src }) => {
         return src;
@@ -587,7 +578,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
             <RecommendedCartHeader />
             <AcneMarqueeBanner />
             <div className=" sticky top-0 z-50">
-                <AcneHeader />
+                <AcneHeader disableCart={true} />
             </div>
             <RecommendedCartMiddleComponent
                 showSidebar={showSidebar}

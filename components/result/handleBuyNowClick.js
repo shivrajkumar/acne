@@ -22,6 +22,7 @@ const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 async function handleBuyNowClick(
   products,
   caseId,
+  discountCode = "",
   tags = ["ORDER_SOURCE_WEB_V2", "SHOPFLO"]
 ) {
   try {
@@ -71,6 +72,9 @@ async function handleBuyNowClick(
           sessionId: sessionId,
           note_attributes: utmParams,
           success_url: "API_URL",
+          discountData: {
+            discountCode: discountCode,
+          },
         }),
       });
 

@@ -4,6 +4,9 @@ import CourseCompletedSlide from "./CourseCompletedSlide";
 import BuyButton from "./BuyButton";
 import RecommendedItems from "./RecommendedItems";
 import RecommendedCartOfferAndUserInfo from "./RecommendedCartOfferAndUserInfo";
+import ProductPageModal from "../result/ProductDetailsModal";
+
+
 
 // Lazy load SliderSample component
 const SliderSample = lazy(() => import("./SliderSample"), {
@@ -27,17 +30,13 @@ function RecommendedCartMiddleComponent({
     const [discountPrice, setDiscountPrice] = useState(null);
     const [newDiscountPrice, setNewDiscountPrice] = useState(null);
     const [productInfo, setProductInfo] = useState(null);
-    // const [otherProductInfo, setOtherProductInfo] = useState(null);
-    // const [open, setOpen] = useState(false);
+    const [otherProductInfo, setOtherProductInfo] = useState(null);
+    const [open, setOpen] = useState(false);
     const [showToast, setShowToast] = useState({ show: false, text: "" });
 
+
     // Hooks
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathName = usePathname();
     const recommendedItemsRef = useRef(null);
-
-
 
 
     const containerBgClass = useMemo(() =>
@@ -49,37 +48,22 @@ function RecommendedCartMiddleComponent({
     // Calculate discount prices
     useEffect(() => {
         const calculateDiscountPrice = (price, discountPercent) => {
-            if (!price || !discountPercent) return null;
-            return price - (price * (discountPercent / 100));
+            return price - price * (discountPercent / 100);
         };
+
         setDiscountPrice(calculateDiscountPrice(props.totalPrice, props.discountCode));
         setNewDiscountPrice(calculateDiscountPrice(props.newTotalPrice, props.newDiscountCode));
     }, [props.totalPrice, props.newTotalPrice, props.discountCode, props.newDiscountCode]);
 
     // Memoized functions
-    // const getProductInfoAndOpen = useCallback(async (id) => {
-    //     try {
-    //         const response = await fetchRequest(PRODUCT_CONTENT_V2_API(id));
+    const getProductInfoAndOpen = useCallback(async (id) => {
+        const fullVariantId = `${id}_PDP`;
+        setProductInfo(fullVariantId);
+        setOpen(true)
 
-    //         // Track MoEngage event
-
-
-    //         if (response.status === 200) {
-    //             setProductInfo(response.data);
-    //         } else {
-    //             setProductInfo(null);
-    //         }
-    //         setOpen(true);
-    //     } catch (error) {
-    //         console.error("Error fetching product info:", error);
-    //         setProductInfo(null);
-    //         setOpen(true);
-    //     }
-    // }, [props.id, props.isMale]);
+    }, [props.id, props.isMale]);
 
     const showToastForWhile = useCallback((addOrRemove, text) => {
-        // Note: Toast functionality is commented out in original code
-        // This is a placeholder for when toast is re-enabled
         setShowToast({ show: true, text });
         setTimeout(() => {
             setShowToast({ show: false, text: "" });
@@ -116,7 +100,7 @@ function RecommendedCartMiddleComponent({
                 <p className="font-sophiaPro text-[#414042] text-[20px] font-[600] px-1 ">
                     Products You Might Like
                 </p>
-                <p className="font-sophiaPro text-[#727272] text-[16px] font-[300] px-1 ">
+                <p className="font-sophiaPro text-[#727272] text-[14px] md:text-[16px] font-[300] px-1 my-[4px] md:my-[12px]">
                     Feel free to add them as per your need
                 </p>
                 <div className="flex justify-center md:mt-[1.5%] text-center">
@@ -127,8 +111,8 @@ function RecommendedCartMiddleComponent({
                         setRemovedProduct={props.setRemovedProduct}
                         _addItem={handleAddItem}
                         isMale={props.isMale}
-                    // getProductInfoAndOpen={getProductInfoAndOpen}
-                    // setOtherProductInfo={setOtherProductInfo}
+                        getProductInfoAndOpen={getProductInfoAndOpen}
+                        setOtherProductInfo={setOtherProductInfo}
                     />
                 </div>
             </div>
@@ -156,7 +140,9 @@ function RecommendedCartMiddleComponent({
                 {renderBanner()}
 
                 <div className="flex flex-col items-center content-center justify-center text-center xl:px-10 xl:pt-4 xl:pb-10 xs:py-4 xs:px-3 overflow-hidden">
+
                     <div className="xl:w-9/12 xs:w-full">
+
                         <RecommendedCartOfferAndUserInfo
                             {...props}
                             discountPrice={discountPrice}
@@ -165,7 +151,9 @@ function RecommendedCartMiddleComponent({
                             validCaseId={validCaseId}
                             discountDaysLeft={discountDaysLeft}
                         />
-
+                        <p className="text-left my-[20px] md:my-[40px] text-[24px] md:text-[40px] font-[400] leading-[1.3] tracking-[0.5px]">
+                            Your Next Personalised Skincare Kit
+                        </p>
                         <div ref={recommendedItemsRef}>
                             {renderCourseCompletedSlide()}
                         </div>
@@ -173,8 +161,8 @@ function RecommendedCartMiddleComponent({
                         <RecommendedItems
                             {...props}
                             showToastForWhile={showToastForWhile}
-                            // getProductInfoAndOpen={getProductInfoAndOpen}
-                            // setOtherProductInfo={setOtherProductInfo}
+                            getProductInfoAndOpen={getProductInfoAndOpen}
+                            setOtherProductInfo={setOtherProductInfo}
                             disableProductId={disableProductId}
                         />
                     </div>
@@ -191,20 +179,9 @@ function RecommendedCartMiddleComponent({
                 coinsData={coinsData}
             />
 
-            {/* Commented out components from original code */}
-            {/* <Toaster /> */}
-            {/* {open && (
-                <ProductDetailsComponentV2
-                    open={open}
-                    setOpen={setOpen}
-                    productData={productInfo}
-                    isMale={props.isMale}
-                    id={props.id}
-                    viewType={"drawer"}
-                    searchParams={searchParams}
-                    pathName={pathName}
-                />
-            )} */}
+            {open && (
+                <ProductPageModal variantId={productInfo} handleCancel={() => { setOpen(false) }} open={open} />
+            )}
         </>
     );
 }

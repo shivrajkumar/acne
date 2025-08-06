@@ -1,5 +1,5 @@
 import startCase from "lodash/startCase";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 
 const RecommendedCartOfferAndUserInfo = ({
     setSavings = () => { },
@@ -49,11 +49,11 @@ const RecommendedCartOfferAndUserInfo = ({
     }, []);
 
     const formatPrice = useCallback((price) => {
-        return `Rs. ${Math.round(Number(price)).toLocaleString()}`;
+        return `₹ ${Math.round(Number(price)).toLocaleString()}`;
     }, []);
 
     const formatOriginalPrice = useCallback((price) => {
-        return `Rs. ${Number(price).toLocaleString()}`;
+        return `₹ ${Number(price).toLocaleString()}`;
     }, []);
 
 
@@ -101,7 +101,7 @@ const RecommendedCartOfferAndUserInfo = ({
                             <p className="font-[400] font-sophiaPro md:text-[16px] ">
                                 <span className="hidden md:block">{`A 1-month supply. `}</span>
                             </p>
-                            <p className="font-[400] font-sophiaPro text-[12px] md:text-[14px] leading-[1.5]">Free shipping.</p>
+                            <p className="font-[400] font-sophiaPro text-[12px] md:text-[14px] leading-[1.5] mt-[8px] md:mt-0 -ms-[25px] md:-ms-0">Free shipping.</p>
                         </div>
                     </div>
 
@@ -112,7 +112,7 @@ const RecommendedCartOfferAndUserInfo = ({
                                     {formatOriginalPrice(props.totalPrice)}
                                 </span>
                             )}
-                            <span className={"text-[14px] md:text-[20px] ml-[2px] whitespace-nowrap font-sophiaPro font-[600] "}>
+                            <span className={"text-[14px] md:text-[18px] ml-[2px] whitespace-nowrap font-sophiaPro font-[700] "}>
                                 {props.discountCode && props.discountValidityByPlan?._1Month ? formatPrice(props.discountPrice) : formatPrice(props?.totalPrice)}
                             </span>
 
@@ -148,32 +148,39 @@ const RecommendedCartOfferAndUserInfo = ({
                             </div>
 
                         </div>
-                        <div className="flex-col gap-[12px]">
+                        <div className="flex-col gap-[12px] ">
                             <p className={getKitLabelStyle(isSelected)}>
                                 {kitText}
                                 {props.newDiscountCode && props.discountValidityByPlan?._3Month && (
-                                    <span className={"hidden md:block font-[400] whitespace-nowrap font-sophiaPro ml-[8px] bg-Warning/500 text-center text-[12px] md:text-[13px] px-[4px] rounded-[2px] leading-[1.5]"
+                                    <span className={"hidden md:flex font-[400] whitespace-nowrap font-sophiaPro ml-[8px] bg-Warning/500 text-center text-[12px] md:text-[13px] px-[4px] rounded-[2px] leading-[1.5] text-Grey/900"
                                     } style={{ alignSelf: "center" }}>
-                                        {` SAVE ${props?.newDiscountCode}%  `}
+                                        {` SAVE ${props?.newDiscountCode}%`}
                                     </span>
                                 )}
                             </p>
-                            <p className="font-[400] font-sophiaPro text-Grey/900 text-[14px] md:text-[16px] ">
-                                <span className="hidden md:block">{`A 3-month supply. With ${props?.newDiscountCode}% off. `}</span>
-                                <span className="font-[400] md:font-[700] block ">{`(Just ${formatPrice(Math.ceil(props.newDiscountPrice / 3))} per kit)`}</span>
+                            {props.newDiscountCode && props.discountValidityByPlan?._3Month && (
+                                <p className={"block md:hidden font-[400] whitespace-nowrap font-sophiaPro ml-[8px] bg-Warning/500 text-center text-[12px] md:text-[13px] px-[4px] rounded-[2px] leading-[1.5] text-Grey/900 w-fit mt-[8px] my-[4px]  -ms-[25px] "
+                                } style={{ alignSelf: "center" }}>
+                                    {` SAVE ${props?.newDiscountCode}%`}
+                                </p>
+                            )}
+                            <p className="font-[400] font-sophiaPro text-Grey/900 text-[14px] md:text-[16px] flex-col md:flex  -ms-[25px] md:-ms-0 ">
+                                <span className="hidden md:block font-[400] text-[16px]">{`A 3-month supply. With ${props?.newDiscountCode}% off.`}</span>
+                                <span className="font-[400] md:font-[700] text-[14px]">{`(Just ${formatPrice(Math.floor(props.newDiscountPrice / 3))} per kit.)`}</span>
                             </p>
-                            <p className="font-[400] font-sophiaPro  text-Grey/500 text-[12px] md:text-[14px] leading-[1.5]">And Free shipping.</p>
+                            <p className="font-[400] font-sophiaPro  text-Grey/500 text-[12px] md:text-[14px] leading-[1.5] -ms-[25px] md:-ms-0">And Free shipping.</p>
                         </div>
                     </div>
-                    <div className=" flex-col hidden md:flex items-center justify-start gap-[4px]">
-                        <span className={"text-[14px] md:text-[20px] ml-[1px] font-[600] whitespace-nowrap font-sophiaPro"}>
-                            {formatPrice(props.newDiscountPrice)}
-                        </span>
+                    <div className="  hidden md:flex  justify-start gap-[4px]">
                         {props.newDiscountCode && props.discountValidityByPlan?._3Month && (
-                            <span className={"font-[300] line-through text-center text-[10px] md:text-[13px] font-sophiaPro xl:px-1 xs:px-0 sm:mx-1 mx-1 whitespace-nowrap text-Grey/500"}>
+                            <span className={"font-[300] line-through text-center text-[10px] md:text-[13px] font-sophiaPro  whitespace-nowrap text-Grey/500 mt-2"}>
                                 {formatOriginalPrice(props.newTotalPrice)}
                             </span>
                         )}
+                        <span className={"text-[14px] md:text-[18px] ml-[1px] font-[700] whitespace-nowrap font-sophiaPro flex self-start"}>
+                            {formatPrice(props.newDiscountPrice)}
+                        </span>
+
 
                     </div>
                     <div className="flex md:hidden items-center justify-start gap-[4px] mt-auto absolute bottom-3">

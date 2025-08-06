@@ -13,8 +13,8 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
     const isDesktop = useMemo(() => windowWidth > 640, [windowWidth]);
 
     const celebrateImageDimensions = useMemo(() => ({
-        width: isDesktop ? 60 : 30,
-        height: isDesktop ? 30 : 20
+        width: isDesktop ? 66 : 42,
+        height: isDesktop ? 60 : 39
     }), [isDesktop]);
 
     const buttonColor = useMemo(() =>
@@ -60,9 +60,9 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
     // Memoized components
     const CelebrationOverlay = useMemo(() => (
         <div className="absolute z-50 backdrop-blur-[1.5px] right-0 top-0 bottom-0 w-[100%] bg-[#000000a5] rounded-lg overflow-hidden">
-            <div className="ml-5 mt-6 md:ml-16 md:mt-10 mr-1">
+            <div className="p-2">
                 <div className="flex">
-                    <p className="text-white text-[18px] md:text-[35px] md:mt-0 font-fredoka">
+                    <p className="text-white text-[28px] md:text-[50px] md:mt-0 font-sophiaPro font-[400] md:font-[600]">
                         Congratulations
                     </p>
                     <Image
@@ -74,7 +74,7 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
                         className="rounded-xl"
                     />
                 </div>
-                <p className="text-white text-[15px] md:text-[25px] text-left">
+                <p className="text-white font-sophiaPro font-[400]   text-[14px] md:text-[24px] text-left">
                     {allItemsAppended} course completed
                 </p>
             </div>
@@ -84,13 +84,12 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
     const ProductImage = useCallback(({ content }) => (
         <div className="flex flex-col justify-end w-[30%]">
             <div style={{ width: "100%", borderRadius: "4px" }}>
-                <div className="w-[80%]">
+                <div className="w-[100%]">
                     <a href={content.onlineStoreUrl}>
                         <Image
-                            src={content.image_url.cartImgUrl}
-                            width={40}
-                            height={40}
-                            layout="responsive"
+                            src={content.image}
+                            width={180}
+                            height={180}
                             priority={true}
                             alt="Medicine Image"
                             className="rounded-xl"
@@ -103,64 +102,67 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
 
     const ProductInfo = useCallback(({ content }) => (
         <div>
-            <p className="text-left font-sans text-[#414042] font-[600] text-[16px] md:text-[22px] md:mt-[5%]">
+            <p className={`text-left font-sophiaPro text-[#414042] font-[500] text-[17px] md:text-[22px]`}>
                 {content.name}
             </p>
         </div>
     ), []);
 
     const QuantityControls = useCallback(({ content, index }) => (
-        <div className="w-[100%]">
+        <div className=" font-sophiaPro border-Grey/200  text-[14px] font-[400] border-[1px] rounded-full flex items-center justify-between py-auto w-[80px] px-2">
             <button
-                className={`relative ${buttonColor} border-[1px] border-solid rounded w-6 h-6 align-top`}
-                onClick={handleDecreaseClick(content, index)}
+                type="button"
+                className={` font-[400] text-[20px] my-auto`}
+                aria-label="Decrease quantity"
             >
-                <span className="absolute -top-[13px] left-[5.5px] text-white text-[22px] font-[500]">
-                    _
-                </span>
+                –
             </button>
+
             <input
                 type="text"
-                className="w-6 h-6 border-none align-top align-center bg-[#fff] font-[600]"
+                className="border-none text-Grey/900 font-[400] bg-transparent focus:outline-none text-[15px] w-[20px]"
                 disabled
                 style={{
                     color: "#000",
                     textAlign: "center",
+
                 }}
                 value={content.itemCount}
                 readOnly
+                aria-label={`Quantity ${content.itemCount}`}
             />
+
             <button
-                className={`relative ${buttonColor} border-[1px] border-solid rounded w-6 h-6 align-top`}
-            // onClick={() => props.incItem(content, index)} - Commented out as in original
+                type="button"
+                className={` font-[400] text-[20px] my-auto`}
+                aria-label="Increase quantity"
             >
-                <span className="absolute -top-[6.5px] left-[4.5px] text-white text-[22px] font-[400]">
-                    +
-                </span>
+                +
             </button>
         </div>
     ), [buttonColor, handleDecreaseClick]);
 
     const SlideContent = useCallback(({ content, index }) => (
-        <div className="border border-solid p-2 rounded-md my-2 relative bg-white">
+        <div className="border border-solid p-[12px] md:p-[24px] rounded-[8px] my-2 relative bg-white transition-all ease-in"
+        >
             {CelebrationOverlay}
             <div className="flex w-[100%] space-x-4 pl-[1%]">
                 <ProductImage content={content} />
                 <div className="w-[70%]">
                     <div
                         style={{ width: "100%", height: "100%" }}
-                        className="pt-2 flex flex-col justify-between"
+                        className=" flex flex-col justify-between"
                     >
                         <ProductInfo content={content} />
                         <div className="">
                             <div className="flex justify-between">
                                 <div className="flex w-[100%] space-x-2">
                                     <div className="w-[55%] md:w-[75%]">
-                                        <p className="text-[18px] md:text-[20px] font-[700] align-top font-sans text-[#414042] text-left">
+                                        <p className="text-[18px] md:text-[20px] font-[500] align-top font-sophiaPro text-[#414042] text-left">
                                             ₹ {content.price}
                                         </p>
                                     </div>
-                                    <div className="w-[45%] md:w-[25%]">
+                                    <div className="w-[45%] md:w-[25%] flex justify-end">
                                         <QuantityControls content={content} index={index} />
                                     </div>
                                 </div>

@@ -25,9 +25,7 @@ const RecommendedItems = (props) => {
         validId ? "w-full" : "w-[70%]", [validId]
     );
 
-    const getTitleMarginTop = useCallback(() =>
-        validId ? "mt-[2%]" : "md:mt-[5%]", [validId]
-    );
+
 
     // Callbacks
     const handleReduce = useCallback((event, cart, index) => {
@@ -40,18 +38,8 @@ const RecommendedItems = (props) => {
     }, [props.decItem]);
 
     const returnProductBenefit = useCallback((product, index) => {
-        const normalizedProductName = product.title.toLocaleLowerCase();
-        const benefitData = removeData.find((item) => {
-            const normalizedItemName = item.product.toLocaleLowerCase();
-            return (
-                normalizedItemName === normalizedProductName ||
-                (normalizedItemName === "scalp oil" &&
-                    normalizedProductName.includes("scalp oil"))
-            );
-        });
-
-        const benefit = benefitData?.effect ||
-            `${product.title} supports healthier hair by addressing key hair fall factors.`;
+        const benefit = product?.description ||
+            `${product.title} supports healthier skin by addressing key skin concerns.`;
 
         setProductData({ ...product, benefit, index });
         setShowPopup(true);
@@ -74,11 +62,11 @@ const RecommendedItems = (props) => {
         setShowPopup(false);
     }, []);
 
-    // const handleProductClick = useCallback((cart) => (e) => {
-    //     e.stopPropagation();
-    //     // props.getProductInfoAndOpen(cart.id);
-    //     // props.setOtherProductInfo(cart);
-    // }, [props.getProductInfoAndOpen, props.setOtherProductInfo]);
+    const handleProductClick = useCallback((cart) => (e) => {
+        e.stopPropagation();
+        props.getProductInfoAndOpen(cart.id);
+        props.setOtherProductInfo(cart);
+    }, [props.getProductInfoAndOpen, props.setOtherProductInfo]);
 
     const handleIncrement = useCallback((e, cart, index) => {
         e.stopPropagation();
@@ -118,9 +106,8 @@ const RecommendedItems = (props) => {
                         <a href={cart.onlineStoreUrl}>
                             <Image
                                 src={cart.img}
-                                width={40}
-                                height={40}
-                                layout="responsive"
+                                width={180}
+                                height={180}
                                 priority={true}
                                 alt="Medicine Image"
                                 className="rounded-xl"
@@ -133,34 +120,36 @@ const RecommendedItems = (props) => {
     }, [validId]);
 
     const ProductInfo = useCallback(({ cart }) => {
-        const titleMarginTop = getTitleMarginTop();
 
         return (
             <div>
-                <p className={`text-left font-sophiaPro text-[#414042] font-[500] text-[17px] md:text-[22px] ${titleMarginTop}`}>
+                <p className={`text-left font-sophiaPro text-[#414042] font-[500] text-[17px] md:text-[22px]`}>
                     {cart.title}
                 </p>
                 {/* <p className="text-left text-[12px] md:text-[17px] font-[500] text-[#777777]">
                     {cart.description}
-                </p>
-         */}
-                <p className="text-left text-[12px] md:text-[17px] text-[#777777] capitalize">
+                </p> */}
+                {cart.size && <p className="text-left text-[12px] md:text-[17px] text-[#777777] capitalize">
+                    Container : {cart.size}
+                </p>}
+
+                {cart.dosage && <p className="text-left text-[12px] md:text-[17px] text-[#777777] capitalize">
                     Dosage : {cart.dosage}
-                </p>
+                </p>}
             </div>
         );
-    }, [getTitleMarginTop]);
+    }, []);
 
     const QuantityControls = useCallback(({ cart, index }) => {
         const isDisabled = props?.disableProductId?.includes(cart?.id);
 
         return (
-            <div className="w-full border-Grey/200  text-[14px] font-[400] border-[1px] rounded-full flex items-center justify-between">
+            <div className=" font-sophiaPro border-Grey/200  text-[14px] font-[400] border-[1px] rounded-full flex items-center justify-between py-auto w-[80px] px-2">
                 <button
                     type="button"
                     onClick={(e) => handleReduce(e, cart, index)}
                     disabled={isDisabled}
-                    className={`px-3 py-1 font-[400]`}
+                    className={` font-[400] text-[20px] my-auto`}
                     aria-label="Decrease quantity"
                 >
                     –
@@ -168,12 +157,12 @@ const RecommendedItems = (props) => {
 
                 <input
                     type="text"
-                    className="border-none text-Grey/900 font-[600] bg-transparent focus:outline-none"
+                    className="border-none text-Grey/900 font-[400] bg-transparent focus:outline-none text-[15px] w-[20px]"
                     disabled
                     style={{
                         color: "#000",
                         textAlign: "center",
-                        width: "40px"
+
                     }}
                     value={cart.itemCount}
                     readOnly
@@ -184,7 +173,7 @@ const RecommendedItems = (props) => {
                     type="button"
                     onClick={(e) => { handleIncrement(e, cart, index) }}
                     disabled={isDisabled}
-                    className={` px-3 py-1 font-[400]`}
+                    className={` font-[400] text-[20px] my-auto`}
                     aria-label="Increase quantity"
                 >
                     +
@@ -199,9 +188,9 @@ const RecommendedItems = (props) => {
 
         return (
             <div
-                className="border border-solid p-2 rounded-md my-2 relative bg-white transition-all ease-in"
+                className="border border-solid p-[12px] md:p-[24px] rounded-[8px] my-2 relative bg-white transition-all ease-in cursor-pointer"
                 key={index}
-            // onClick={handleProductClick(cart)}
+                onClick={handleProductClick(cart)}
             >
                 <ProductBadge cart={cart} />
                 <div className="flex w-[100%] space-x-4 pl-[1%]">
@@ -209,7 +198,7 @@ const RecommendedItems = (props) => {
                     <div className={imageContainerWidth}>
                         <div
                             style={{ width: "100%", height: "100%" }}
-                            className="pt-2 flex flex-col justify-between"
+                            className=" flex flex-col justify-between"
                         >
                             <ProductInfo cart={cart} />
                             <div className="">
@@ -220,7 +209,7 @@ const RecommendedItems = (props) => {
                                                 ₹ {cart.price}
                                             </p>
                                         </div>
-                                        <div className="w-[45%] md:w-[25%]">
+                                        <div className="w-[45%] md:w-[25%] flex justify-end">
                                             <QuantityControls cart={cart} index={index} />
                                         </div>
                                     </div>
