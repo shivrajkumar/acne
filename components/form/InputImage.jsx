@@ -463,14 +463,14 @@ const InputImage = ({ block }) => {
 
       <div className="flex flex-col items-center mt-8 sm:mt-8 w-full mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-sophiaPro">
         <label
-          className="font-lato font-[400] text-[40px] xs:text-[28px] md:text-[40px] text-Text/Heading-Text -tracking-[2%] text-center mx-6"
+          className="font-sophiaPro font-[400] text-[40px] xs:text-[28px] md:text-[40px] text-Text/Heading-Text -tracking-[2%] text-center mx-6"
           htmlFor={block.id}
         >
           {block.text}
         </label>
 
         {block.sub_text && (
-          <label className="text-[#6E6E6E] font-lato font-normal text-[16px] text-center">
+          <label className="text-[#6E6E6E] font-sophiaPro font-normal text-[16px] text-center">
             {block.sub_text}
           </label>
         )}
