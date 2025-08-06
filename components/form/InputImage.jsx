@@ -114,6 +114,7 @@ const InputImage = ({ block }) => {
       }
 
       setShowButton(true);
+      setShowBox(false);
       setCompressingImage(true);
       const _result = await compressImage(_image);
       setCompressingImage(false);
@@ -235,6 +236,7 @@ const InputImage = ({ block }) => {
 
   const handleCameraAccess = async () => {
     setShowCam(true);
+    setShowBox(false);
 
     try {
       logGtmEvent("image_takepicture_opened", {
