@@ -461,16 +461,16 @@ const InputImage = ({ block }) => {
     <>
       {isLoading && <Loader />}
 
-      <div className="flex flex-col items-center mt-8 sm:mt-8 w-full max-w-4xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-sophiaPro">
+      <div className="flex flex-col items-center mt-8 sm:mt-8 w-full mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px] font-sophiaPro">
         <label
-          className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          className="font-lato font-[400] text-[40px] xs:text-[28px] md:text-[40px] text-Text/Heading-Text -tracking-[2%] text-center mx-6"
           htmlFor={block.id}
         >
           {block.text}
         </label>
 
         {block.sub_text && (
-          <label className="text-Text/Label font-sophiaPro font-normal text-[14px] text-center">
+          <label className="text-[#6E6E6E] font-lato font-normal text-[16px] text-center">
             {block.sub_text}
           </label>
         )}
@@ -630,7 +630,7 @@ const InputImage = ({ block }) => {
         )}
       </div>
       {(showBox && !compressedImage) && (
-        <div className="bg-Warning/500 fixed bottom-0 left-1/2 -translate-x-1/2 md:fixed md:bottom-4 md:left-4 rounded-t-xl p-6 flex flex-col justify-start z-50 shadow-lg w-[338px] mt-10 md:mt-0">
+        <div className="bg-Warning/500 fixed bottom-0 left-1/2 transform -translate-x-1/2 md:left-4 md:translate-x-0 md:bottom-4 rounded-t-xl p-6 flex flex-col justify-start z-50 shadow-lg w-[338px] mt-10 md:mt-0">
           <button
             onClick={() => setShowBox(false)}
             className="absolute -top-3 -right-3 text-black bg-white rounded-full p-1 shadow-md"
