@@ -516,11 +516,11 @@ const InputImage = ({ block }) => {
               />
             </>
           ) : (
-            <div className="flex flex-col md:flex-row  justify-center gap-4 sm:justify-start">
+            <div className="flex md:flex-row justify-center gap-4 sm:justify-start">
               {/* Take a Picture Card */}
               <div
                 onClick={handleCameraAccess}
-                className="flex flex-col items-center justify-center border-[1px] border-dashed border-primary/100 w-[180px] h-[180px] sm:w-[240px] sm:h-[230px] rounded-[8px] cursor-pointer"
+                className="flex flex-col items-center justify-center border-[1px] border-dashed border-primary/100 w-[140px] h-[140px] sm:w-[220px] sm:h-[220px] rounded-[8px] cursor-pointer"
               >
                 <FaCameraRetro size={40} className="text-gray-700 mb-4" />
                 <span className="text-[13px] sm:text-[14px] font-medium underline underline-offset-4 text-gray-800">
@@ -529,7 +529,7 @@ const InputImage = ({ block }) => {
               </div>
 
               {/* Upload a Picture Card */}
-              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[180px] h-[180px] sm:w-[240px] sm:h-[230px] rounded-[8px] cursor-pointer">
+              <div className="relative flex flex-col items-center justify-center border-[1px] border-dashed border-primary/70 w-[140px] h-[140px] sm:w-[240px] sm:h-[230px] rounded-[8px] cursor-pointer">
                 <input
                   type="file"
                   accept="image/*"
@@ -629,8 +629,8 @@ const InputImage = ({ block }) => {
           />
         )}
       </div>
-      {showBox && (
-        <div className="bg-Warning/500 relative bottom-0 left-0 md:fixed md:bottom-4 md:left-4 rounded-xl p-6 flex flex-col justify-start z-50 shadow-lg w-[338px] mt-10 md:mt-0">
+      {(showBox && !compressedImage) && (
+        <div className="bg-Warning/500 fixed bottom-0 left-1/2 -translate-x-1/2 md:fixed md:bottom-4 md:left-4 rounded-t-xl p-6 flex flex-col justify-start z-50 shadow-lg w-[338px] mt-10 md:mt-0">
           <button
             onClick={() => setShowBox(false)}
             className="absolute -top-3 -right-3 text-black bg-white rounded-full p-1 shadow-md"
