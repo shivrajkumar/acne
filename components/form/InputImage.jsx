@@ -492,7 +492,7 @@ const InputImage = ({ block }) => {
                   alt="uploaded"
                   width={100}
                   height={100}
-                  className="object-cover w-[300px] h-[230px] rounded-md p-8"
+                  className="object-contain w-[300px] h-[230px] rounded-md p-8"
                 />
               </div>
               <div className="flex gap-8 mt-4">
