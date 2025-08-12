@@ -17,11 +17,13 @@ import AppStore from "@assets/images/app_store.webp";
 import PlayStore from "@assets/images/google_play.webp";
 import MobileFooter from "./Header/MobileFooter";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
+import { usePathname } from "next/navigation";
 
 
 
 const AcneFooter = () => {
   const [currentPath, setCurrentPath] = useState("");
+  const pathname = usePathname()
 
   // Safely get the current path when component mounts
   useEffect(() => {
@@ -124,7 +126,7 @@ const AcneFooter = () => {
             <div className="">
               <h4 className="font-[700] font-sophiaPro text-[14px] leading-[1.4] md:text-[18px] mb-6 text-white">Navigate</h4>
               <ul className="space-y-4">
-                <li>
+                {!pathname?.includes("recommendedcart") && <li>
                   <Link
                     href="/skin-test"
                     onClick={() => PageClickEvent("SkinTest", "/skin-test")}
@@ -132,7 +134,7 @@ const AcneFooter = () => {
                   >
                     Take the Skin Test
                   </Link>
-                </li>
+                </li>}
                 <li>
                   <Link
                     href="/about-us"

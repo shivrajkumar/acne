@@ -15,7 +15,7 @@ import DropdownMenu from "./DropDownMenu";
 import { navigationItems } from "./navigationData";
 
 
-const AcneHeader = ({ disableCart = false }) => {
+const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -24,7 +24,17 @@ const AcneHeader = ({ disableCart = false }) => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [marqueeHeight, setMarqueeHeight] = useState(0);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [cartData, setCartData] = useState(null)
 
+  useEffect(() => {
+    let savedCart;
+    if (typeof window !== undefined) {
+      savedCart = JSON.parse(
+        window.localStorage.getItem("acne_result_data")
+      );
+      setCartData(savedCart);
+    }
+  }, [])
 
   useEffect(() => {
     const checkIfDesktop = () => {
@@ -179,7 +189,7 @@ const AcneHeader = ({ disableCart = false }) => {
         </div>
 
         <div className="flex items-center space-x-4">
-          {!disableCart && <span className="cursor-pointer">
+          {cartData && <span className="cursor-pointer">
             <Image
               src={ShopIcon}
               width={24}

@@ -18,7 +18,7 @@ const BuyButton = (props) => {
                             <div className="flex flex-row flex-wrap md:flex-nowrap items-center">
                                 <div className="text-[16px] md:text-[24px] text-[#414042] min-w-0">
                                     <div className="flex flex-col">
-                                        <div className="flex flex-wrap items-center -mb-2">
+                                        <div className="hidden md:flex flex-wrap items-center -mb-2">
                                             {(props.isMonth === "1"
                                                 ? show1monthDiscount
                                                 : show3MonthsDiscount) && (
@@ -33,7 +33,7 @@ const BuyButton = (props) => {
                                                     </span>
                                                 )}
 
-                                            <span className="text-[16px] md:text-[24px] font-[600] ml-[8px] whitespace-nowrap">
+                                            <span className="text-[16px] md:text-[24px] font-[600] ml-[8px] whitespace-nowrap ">
                                                 ₹{" "}
                                                 {props.isMonth === "1"
                                                     ? Math.round(
@@ -59,7 +59,43 @@ const BuyButton = (props) => {
                                                 (Inclusive of all taxes)
                                             </span>
                                         </div>
+                                        <div className="block md:hidden items-center -mb-2">
+                                            {(props.isMonth === "1"
+                                                ? show1monthDiscount
+                                                : show3MonthsDiscount) && (
+                                                    <span
+                                                        className="font-[400] line-through text-[16px] md:text-[24px]  text-ellipsis overflow-hidden whitespace-nowrap max-w-[100px] md:max-w-[150px]"
+                                                        style={{ color: "#929292" }}
+                                                    >
+                                                        ₹
+                                                        {props.isMonth === "1"
+                                                            ? Number(props.totalPrice)?.toLocaleString()
+                                                            : Number(props.newTotalPrice)?.toLocaleString()}
+                                                    </span>
+                                                )}
+                                            <div>
+                                                <span className="text-[16px] md:text-[24px] font-[600]  whitespace-nowrap ">
+                                                    ₹ {props.isMonth === "1"
+                                                        ? Math.round(
+                                                            Number(
+                                                                show1monthDiscount ? props.discountPrice : props?.totalPrice
+                                                            )
+                                                        )?.toLocaleString()
+                                                        : Math.round(Number(props.newDiscountPrice))?.toLocaleString()}
+                                                </span>
 
+                                                {(props.isMonth === "1" && show1monthDiscount) && (
+                                                    <span className="text-[12px] md:text-[18px] text-[#E15E5E] ml-[4px] whitespace-nowrap ">
+                                                        ({"-" + props.discountCode}%OFF)
+                                                    </span>
+                                                )}
+                                                {(props.isMonth === "3" && show3MonthsDiscount) && (
+                                                    <span className="text-[12px] md:text-[18px] text-[#E15E5E] ml-[4px] whitespace-nowrap ">
+                                                        ({"-" + props.newDiscountCode}%OFF)
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
                                         <div>
                                             <span className="flex md:hidden text-[12px] md:text-[16px] text-brand-dark font-[400] mt-2">
                                                 (Inclusive of all taxes)

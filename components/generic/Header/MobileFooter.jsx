@@ -11,6 +11,7 @@ import PlayStore from "@assets/images/google_play.webp";
 import PhoneIcon from "@assets/icons/phone_icon.png";
 import MailIcon from "@assets/icons/mail_Icon.png";
 import { Divider } from "antd";
+import { usePathname } from "next/navigation";
 
 const MobileFooter = ({
     currentPath,
@@ -24,6 +25,9 @@ const MobileFooter = ({
         connect: false,
         legal: false
     });
+
+    const pathname = usePathname()
+
 
     const toggleSection = (section) => {
         setExpandedSections(prev => ({
@@ -108,7 +112,7 @@ const MobileFooter = ({
                     </button>
                     {expandedSections.navigate && (
                         <ul className="mt-1 space-y-2">
-                            <li>
+                            {!pathname.includes("recommendedcart") && <li>
                                 <Link
                                     href="/skin-test"
                                     onClick={() => PageClickEvent("SkinTest", "/skin-test")}
@@ -116,7 +120,7 @@ const MobileFooter = ({
                                 >
                                     Take the Skin Test
                                 </Link>
-                            </li>
+                            </li>}
                             <li>
                                 <Link
                                     href="/about-us"

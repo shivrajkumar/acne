@@ -409,7 +409,8 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
         setRemovedProduct(updatedRemovedProduct);
     };
 
-    const _addItem = (item, index) => {
+    const _addItem = (item) => {
+        const recommendedProduct = productData?.filter((product) => product?.id == item?.id)
         let obj = {
             ...item,
             id: item.id,
@@ -419,8 +420,9 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
             totalPrice: Number(item.price),
             itemCount: isMonth === "1" ? 1 : 3,
             isCombo: false,
-            product_added: true,
+            product_added: recommendedProduct.length > 0 ? false : true,
         };
+
         const counters = [...cartData, obj];
         setCartItemCount(Number(cartItemCount) + 1);
         setTotalPrice(totalPrice + Number(item.price));
@@ -578,7 +580,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
             <RecommendedCartHeader />
             <AcneMarqueeBanner />
             <div className=" sticky top-0 z-50">
-                <AcneHeader disableCart={true} />
+                <AcneHeader />
             </div>
             <RecommendedCartMiddleComponent
                 showSidebar={showSidebar}
