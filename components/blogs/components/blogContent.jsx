@@ -4,7 +4,6 @@ import BreadcrumbNavigator from "@/components/generic/BreadcrumbNavigator";
 import AuthorCard from "./authorCard";
 
 const BlogContent = ({ article }) => {
-  console.log(article, ": article in BlogContent");
 
   if (!article) {
     return (
@@ -47,7 +46,7 @@ const BlogContent = ({ article }) => {
 
       <div>
         {sections.map((section, index) => (
-          <SectionRenderer key={index} section={section} index={index} />
+          <SectionRenderer key={index} section={section} index={index} blog={article}/>
         ))}
       </div>
     </div>

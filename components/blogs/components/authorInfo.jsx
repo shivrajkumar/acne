@@ -7,6 +7,7 @@ export default function AuthorInfo({
   writer = "Sian Ferguson",
   publishedDate = "04/16/2022",
   designationDate = "04/16/2022",
+  showModal
 }) {
   return (
     <div className="text-left">
@@ -23,7 +24,8 @@ export default function AuthorInfo({
 
       <button
         type="button"
-        className="mt-4 inline-block text-sm font-semibold underline underline-offset-2"
+        className="mt-4 inline-block text-sm font-normal underline underline-offset-2"
+        onClick={showModal}
       >
         LEARN MORE
       </button>
