@@ -42,7 +42,7 @@ const BlogContent = ({ article }) => {
         )}
       </div>
 
-      <AuthorCard/>
+      <AuthorCard blog={article}/>
 
       <div>
         {sections.map((section, index) => (
