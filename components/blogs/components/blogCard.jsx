@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Link from "next/link";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const BlogCard = ({ image, date, readTime, title, description, onClick, slug }) => {
   return (
@@ -11,7 +12,7 @@ const BlogCard = ({ image, date, readTime, title, description, onClick, slug }) 
     <div className="w-full h-[488px] md:w-[335px] md:h-[500px] relative mb-4">
       <div className="w-full h-72 relative overflow-hidden">
         <Image
-          src={image}
+          src={`${CDN_BASE_URL}${image}`}
           alt={title}
           fill
           className="object-cover"
