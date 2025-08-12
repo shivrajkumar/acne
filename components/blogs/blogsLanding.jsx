@@ -65,7 +65,7 @@ const BlogsLanding = () => {
           ))}
         </div>
       </div>
-      <div
+      {/* <div
         className={`transition-all duration-300 ${
           isFooterVisible ? "relative" : "sticky bottom-0"
         }`}
@@ -73,7 +73,7 @@ const BlogsLanding = () => {
         <div className="w-full flex justify-center">
           <ReturnToDiagnostic />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

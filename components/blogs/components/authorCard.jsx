@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import AuthorInfo from "./authorInfo";
 import SocialLinks from "./socialLinks";
@@ -10,12 +10,17 @@ import DrDivya from "@assets/images/dr-divya.webp";
 import AuthorModal from "./authorModal";
 
 export default function AuthorCard({
+  blog,
   reviewer = "Dr Divya Poulose",
   reviewerTitle = "MBBS, MD (Dermatology)",
   writer = "Sian Ferguson",
   publishedDate = "04/16/2022",
   designationDate = "03/14/2025",
-  social = {instagram: 'https://www.instagram.com/clear.ritual/', whatsapp: 'https://wa.me/918424004697', twitter: 'https://x.com/ClearRitual'},
+  social = {
+    linkedIn: "",
+    whatsapp: "https://wa.me/918424004697",
+    twitter: "https://x.com/ClearRitual",
+  },
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,7 +31,7 @@ export default function AuthorCard({
 
   return (
     <>
-      <section  className="w-full hidden md:block">
+      <section className="w-full hidden md:block">
         <div className="mx-auto max-w-6xl bg-[#D7DEFE] rounded-2xl p-6 md:p-8 flex items-center gap-6">
           <div className="flex-shrink-0">
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-gray-200">
@@ -55,9 +60,8 @@ export default function AuthorCard({
 
             <div className="flex flex-col items-end gap-4">
               <SocialLinks
-                instagram={social.instagram}
-                whatsapp={social.whatsapp}
-                twitter={social.twitter}
+                blogTitle={blog.title}
+                blogUrl={`https://acne.dev.hav-g.in/blog/${blog.slug}`}
               />
               <FactBadge label="Fact-Based" />
             </div>
@@ -68,27 +72,29 @@ export default function AuthorCard({
       {/* Mobile layout */}
       <div
         onClick={showModal}
-        className="bg-[#F9F7F4] rounded-2xl p-4 flex shadow-sm md:hidden cursor-pointer"
+        className="bg-[#F9F7F4] p-4 flex shadow-sm md:hidden cursor-pointer"
       >
-        <Image
-          src={DrDivya}
-          alt={reviewer}
-          width={64}
-          height={64}
-          className="w-16 h-16 rounded-full object-cover"
-        />
+        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+          <Image
+            src={DrDivya}
+            alt={reviewer}
+            width={80}
+            height={80}
+            className="object-cover w-full h-full"
+          />
+        </div>
 
-        <div className="flex flex-col ml-4">
-          <div className="mt-3 space-y-1 text-sm text-gray-800">
+        <div className="flex flex-col ml-6">
+          <div className="space-y-1 text-sm text-gray-800">
             <p>
               Reviewed by{" "}
               <span className="font-semibold">
                 {reviewer}, {reviewerTitle}
               </span>
             </p>
-            <p>
+            {/* <p>
               Written by <span className="font-semibold">{writer}</span>
-            </p>
+            </p> */}
             <p>
               Published <span className="font-medium">{publishedDate}</span>
             </p>

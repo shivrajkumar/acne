@@ -46,7 +46,7 @@ const BreadcrumbNavigator = () => {
             return {
               title:
                 index === pathSegments.length - 1 ? (
-                  <span className="font-sophiaPro font-normal text-[12px] md:text-[16px]">{label}</span>
+                  <span className="font-sophiaPro font-normal text-[12px] md:text-[16px] capitalize">{label}</span>
                 ) : (
                   <Link
                     href={href}

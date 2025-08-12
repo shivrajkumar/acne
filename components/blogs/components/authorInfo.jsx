@@ -17,7 +17,7 @@ export default function AuthorInfo({
           <span className="font-semibold">{reviewer}</span>
           {reviewerTitle ? <>, {reviewerTitle}</> : null}
         </p>
-        <p className="leading-tight mt-1 text-Grey/500">Written by <span className="font-medium text-Grey/900">{writer}</span></p>
+        {/* <p className="leading-tight mt-1 text-Grey/500">Written by <span className="font-medium text-Grey/900">{writer}</span></p> */}
         <p className="leading-tight mt-1 text-Grey/500">Published <span className="font-medium text-Grey/900">{publishedDate}</span></p>
         <p className="leading-tight mt-1 text-Grey/500">Designation <span className="font-medium text-Grey/900">{designationDate}</span></p>
       </div>
