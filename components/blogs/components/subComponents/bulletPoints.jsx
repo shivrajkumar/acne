@@ -4,7 +4,7 @@ import ContentRenderer from "./contentRenderer";
 const BulletPoint = ({ point, className = "", showBullet = true }) => {
   if (!showBullet) {
     return (
-      <div className={`text-lg ${className}`}>
+      <div className={`text-[16px] ${className}`}>
         <ContentRenderer content={point} />
       </div>
     );
@@ -12,7 +12,7 @@ const BulletPoint = ({ point, className = "", showBullet = true }) => {
 
   return (
     <ul className={`list-disc ${className}`}>
-      <li className="text-xl leading-relaxed">
+      <li className="text-[16px] leading-relaxed">
         <ContentRenderer content={point} />
       </li>
     </ul>

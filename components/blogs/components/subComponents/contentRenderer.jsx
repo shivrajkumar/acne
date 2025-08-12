@@ -9,7 +9,7 @@ const ContentRenderer = ({ content, className = "" }) => {
     return (
       <ul className={`list-disc pl-3 space-y-2 ${className}`}>
         {content.map((item, index) => (
-          <li key={index} className="text-base text-[#727678] md:text-black leading-relaxed">
+          <li key={index} className="text-[14px] md:text-base text-[#727678] md:text-black leading-relaxed">
             {renderContent(item)}
           </li>
         ))}

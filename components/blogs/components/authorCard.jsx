@@ -14,8 +14,8 @@ export default function AuthorCard({
   reviewer = "Dr Divya Poulose",
   reviewerTitle = "MBBS, MD (Dermatology)",
   writer = "Sian Ferguson",
-  publishedDate = "04/16/2022",
-  designationDate = "03/14/2025",
+  publishedDate = "12/08/2025",
+  designationDate = "12/08/2025",
   social = {
     linkedIn: "",
     whatsapp: "https://wa.me/918424004697",
@@ -70,10 +70,7 @@ export default function AuthorCard({
       </section>
 
       {/* Mobile layout */}
-      <div
-        onClick={showModal}
-        className="bg-[#F9F7F4] p-4 flex shadow-sm md:hidden cursor-pointer"
-      >
+      <div className="bg-[#F9F7F4] p-4 flex shadow-sm md:hidden cursor-pointer">
         <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
           <Image
             src={DrDivya}
@@ -104,19 +101,14 @@ export default function AuthorCard({
           </div>
 
           <div className="mt-4">
-            <p className="text-sm font-medium border-b border-gray-300 pb-1">
+            <p onClick={showModal} className="text-sm font-medium border-b border-gray-300 pb-1">
               Learn more
             </p>
             <div className="flex gap-4 mt-2 justify-start">
-              <a href={social.instagram || "#"} aria-label="Instagram">
-                <FaInstagram size={20} />
-              </a>
-              <a href={social.whatsapp || "#"} aria-label="WhatsApp">
-                <FaWhatsapp size={20} />
-              </a>
-              <a href={social.x || "#"} aria-label="X">
-                <FaXTwitter size={20} />
-              </a>
+              <SocialLinks
+                blogTitle={blog.title}
+                blogUrl={`https://acne.dev.hav-g.in/blog/${blog.slug}`}
+              />
             </div>
           </div>
 
