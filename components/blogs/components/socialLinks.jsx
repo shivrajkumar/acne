@@ -46,11 +46,11 @@ export default function SocialLinks({ blogTitle, blogUrl }) {
       </IconWrapper>
 
       {/* Instagram */}
-      <IconWrapper href={shareLinks.linkedIn} label="LinkedIn">
+      <IconWrapper href={shareLinks.linkedIn} label="Share on LinkedIn">
         <FaLinkedin />
       </IconWrapper>
 
-      <IconWrapper href={shareLinks.facebook} label="LinkedIn">
+      <IconWrapper href={shareLinks.facebook} label="Share on Facebook">
         <FaFacebook />
       </IconWrapper>
     </div>
