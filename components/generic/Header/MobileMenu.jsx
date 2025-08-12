@@ -4,14 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { RightOutlined } from "@ant-design/icons";
 import ArrowRight from "@assets/icons/ArrowRight.webp";
-import { Divider } from "antd";
 import { usePathname } from "next/navigation";
 
 const MobileMenu = ({
     isOpen,
     onToggle,
     totalTopOffset,
-    headerHeight,
     PageClickEvent,
     navigationItems,
 }) => {

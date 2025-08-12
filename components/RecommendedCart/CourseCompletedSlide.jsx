@@ -60,8 +60,8 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
     // Memoized components
     const CelebrationOverlay = useMemo(() => (
         <div className="absolute z-50 backdrop-blur-[1.5px] right-0 top-0 bottom-0 w-[100%] bg-[#000000a5] rounded-lg overflow-hidden">
-            <div className="p-2">
-                <div className="flex">
+            <div className="p-2 flex-col justify-center items-center gap-[8px] md:gap-[32px] py-auto">
+                <div className="flex justify-center items-center gap-[8px] ">
                     <p className="text-white text-[28px] md:text-[50px] md:mt-0 font-sophiaPro font-[400] md:font-[600]">
                         Congratulations
                     </p>
@@ -74,7 +74,7 @@ const CourseCompletedSlide = ({ contents, ...props }) => {
                         className="rounded-xl"
                     />
                 </div>
-                <p className="text-white font-sophiaPro font-[400]   text-[14px] md:text-[24px] text-left">
+                <p className="text-white font-sophiaPro font-[400]  text-[14px] md:text-[24px] ">
                     {allItemsAppended} course completed
                 </p>
             </div>

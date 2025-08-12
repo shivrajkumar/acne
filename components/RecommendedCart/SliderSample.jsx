@@ -10,7 +10,7 @@ export default function SliderSample(props) {
         const hasHalfStar = rating % 1 >= 0.5;
 
         return (
-            <div className="flex space-x-[2px] text-Warning/500 text-[8px] md:text-[14px] m-2">
+            <div className="flex space-x-[2px] text-Warning/500 w-[12px] h-[12px] md:w-[14px] md:h-[14px] text-[12px] md:text-[14px] m-2">
                 {[...Array(5)].map((_, index) => (
                     <span key={index}>
                         {index < fullStars
@@ -26,18 +26,20 @@ export default function SliderSample(props) {
 
     const settings = {
         dots: true,
-        infinite: false,
-        speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: false,
+        speed: 600,
+        cssEase: "ease-in-out",
+        swipeToSlide: true,
         responsive: [
             {
                 breakpoint: 768, // Mobile
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 1,
-
+                    speed: 600,
+                    cssEase: "ease-in-out",
                 },
             },
         ],
@@ -54,7 +56,7 @@ export default function SliderSample(props) {
                     <div
                         key={index}
                         onClick={() => {
-                            props.getProductInfoAndOpen(data.variantId);
+                            props.getProductInfoAndOpen(data.id);
                             props.setOtherProductInfo(data);
                         }}
                         className="relative bg-white p-[4px] md:p-[12px] rounded-md  mx-[4px] md:mx-[12px] cursor-pointer  min-h-[400px] md:min-h-[400px]  flex flex-col justify-start text-left"

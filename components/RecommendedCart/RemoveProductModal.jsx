@@ -37,9 +37,14 @@ const RemoveProductModal = ({
                     width={72}
                     height={72}
                 />
-                <p className="font-sophiaPro font-[600] text-[17px] leading-[20px] text-[#303030] text-left">
-                    {removedProduct?.benefit}
-                </p>
+                <div>
+                    <p className="font-sophiaPro font-[600] text-[17px] leading-[20px] text-[#303030] text-left">
+                        {removedProduct?.title}
+                    </p>
+                    <p className="font-sophiaPro font-[400] text-[14px] leading-[20px] text-[#303030] text-left">
+                        {removedProduct?.benefit}
+                    </p>
+                </div>
             </div>
             <Divider className="p-0 my-2 border-[1px] border-[#0000001A] " />
             <div className="flex flex-col gap-[12px]">

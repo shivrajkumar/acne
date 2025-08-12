@@ -40,7 +40,7 @@ function RecommendedCartMiddleComponent({
 
 
     const containerBgClass = useMemo(() =>
-        props.isMale ? "bg-white" : "bg-[#F7F3F2]",
+        props.isMale ? "bg-white" : "bg-white",
         [props.isMale]
     );
 
