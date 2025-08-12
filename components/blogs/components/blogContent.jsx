@@ -1,6 +1,7 @@
 import React from "react";
 import SectionRenderer from "./subComponents/sectionRenderer";
 import BreadcrumbNavigator from "@/components/generic/BreadcrumbNavigator";
+import AuthorCard from "./authorCard";
 
 const BlogContent = ({ article }) => {
   console.log(article, ": article in BlogContent");
@@ -41,6 +42,8 @@ const BlogContent = ({ article }) => {
           </p>
         )}
       </div>
+
+      <AuthorCard/>
 
       <div>
         {sections.map((section, index) => (
