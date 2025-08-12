@@ -5,8 +5,8 @@ export default function AuthorInfo({
   reviewer = "Sara Harcharik Perkins, MD",
   reviewerTitle = "",
   writer = "Sian Ferguson",
-  publishedDate = "04/16/2022",
-  designationDate = "04/16/2022",
+  publishedDate = "12/08/2025",
+  designationDate = "12/08/2025",
   showModal
 }) {
   return (
@@ -19,7 +19,7 @@ export default function AuthorInfo({
         </p>
         {/* <p className="leading-tight mt-1 text-Grey/500">Written by <span className="font-medium text-Grey/900">{writer}</span></p> */}
         <p className="leading-tight mt-1 text-Grey/500">Published <span className="font-medium text-Grey/900">{publishedDate}</span></p>
-        <p className="leading-tight mt-1 text-Grey/500">Designation <span className="font-medium text-Grey/900">{designationDate}</span></p>
+        <p className="leading-tight mt-1 text-Grey/500">Updated <span className="font-medium text-Grey/900">{designationDate}</span></p>
       </div>
 
       <button
