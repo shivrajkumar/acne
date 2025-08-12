@@ -15,19 +15,19 @@ export default function AuthorCard({
   writer = "Sian Ferguson",
   publishedDate = "04/16/2022",
   designationDate = "03/14/2025",
-  social = {},
+  social = {instagram: 'https://www.instagram.com/clear.ritual/', whatsapp: 'https://wa.me/918424004697', twitter: 'https://x.com/ClearRitual'},
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const showModal = () => setIsModalOpen(true);
+  const showModal = (e) => {
+    setIsModalOpen(true);
+  };
   const handleCancel = () => setIsModalOpen(false);
 
   return (
     <>
-      {/* Desktop layout */}
-      <section onClick={showModal} className="w-full hidden md:block">
-        <div className="mx-auto max-w-6xl bg-[#D7DEFE] rounded-2xl p-6 md:p-8 flex items-center gap-6 cursor-pointer">
-          {/* Avatar */}
+      <section  className="w-full hidden md:block">
+        <div className="mx-auto max-w-6xl bg-[#D7DEFE] rounded-2xl p-6 md:p-8 flex items-center gap-6">
           <div className="flex-shrink-0">
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-gray-200">
               <Image
@@ -49,6 +49,7 @@ export default function AuthorCard({
                 writer={writer}
                 publishedDate={publishedDate}
                 designationDate={designationDate}
+                showModal={showModal}
               />
             </div>
 
@@ -56,7 +57,7 @@ export default function AuthorCard({
               <SocialLinks
                 instagram={social.instagram}
                 whatsapp={social.whatsapp}
-                x={social.x}
+                twitter={social.twitter}
               />
               <FactBadge label="Fact-Based" />
             </div>
@@ -69,7 +70,6 @@ export default function AuthorCard({
         onClick={showModal}
         className="bg-[#F9F7F4] rounded-2xl p-4 flex shadow-sm md:hidden cursor-pointer"
       >
-        {/* Profile image */}
         <Image
           src={DrDivya}
           alt={reviewer}
@@ -78,11 +78,13 @@ export default function AuthorCard({
           className="w-16 h-16 rounded-full object-cover"
         />
 
-        {/* Text details */}
         <div className="flex flex-col ml-4">
           <div className="mt-3 space-y-1 text-sm text-gray-800">
             <p>
-              Reviewed by <span className="font-semibold">{reviewer}, {reviewerTitle}</span>
+              Reviewed by{" "}
+              <span className="font-semibold">
+                {reviewer}, {reviewerTitle}
+              </span>
             </p>
             <p>
               Written by <span className="font-semibold">{writer}</span>
@@ -95,7 +97,6 @@ export default function AuthorCard({
             </p>
           </div>
 
-          {/* Learn More */}
           <div className="mt-4">
             <p className="text-sm font-medium border-b border-gray-300 pb-1">
               Learn more
@@ -113,7 +114,6 @@ export default function AuthorCard({
             </div>
           </div>
 
-          {/* Fact-Based button */}
           <button
             type="button"
             className="mt-5 w-3/4 flex items-center justify-center gap-2 rounded-full bg-[#002B45] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#004266] focus:outline-none focus:ring-2 focus:ring-[#002B45] focus:ring-offset-2"
@@ -137,7 +137,6 @@ export default function AuthorCard({
         </div>
       </div>
 
-      {/* Author Modal */}
       <AuthorModal
         open={isModalOpen}
         onCancel={handleCancel}

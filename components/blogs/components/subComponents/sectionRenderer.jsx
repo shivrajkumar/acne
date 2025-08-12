@@ -11,8 +11,9 @@ import { generateSectionId } from "../../helpers/utils";
 import { Heading } from "./heading";
 import { SubHeading } from "./subHeading";
 import Description from "./description";
+import { BlogTableOfContents } from "../blogToc";
 
-const SectionRenderer = ({ section, index }) => {
+const SectionRenderer = ({ section, index, blog }) => {
   const sectionId = generateSectionId(section.heading, index);
   console.log(sectionId, ": sectionId");
 
@@ -46,6 +47,11 @@ const SectionRenderer = ({ section, index }) => {
         {section.description && (
           <div className="mb-4">
             <Description description={section.description} />
+          </div>
+        )}
+        {index === 0 && (
+          <div className="block md:hidden">
+            <BlogTableOfContents items={blog.toc} sections={blog.section} />
           </div>
         )}
       </div>
