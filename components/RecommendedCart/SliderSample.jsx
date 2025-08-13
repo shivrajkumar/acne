@@ -54,14 +54,14 @@ export default function SliderSample(props) {
             >
                 {_data.map((data, index) => (
                     <div
-                        key={index}
+                        key={data.id || index}
                         onClick={() => {
                             props.getProductInfoAndOpen(data.id);
                             props.setOtherProductInfo(data);
                         }}
                         className="relative bg-white p-[4px] md:p-[12px] rounded-md  mx-[4px] md:mx-[12px] cursor-pointer  min-h-[400px] md:min-h-[400px]  flex flex-col justify-start text-left"
                     >
-                        <div className="bg-[#FAF8F3]">
+                        <div className="bg-white border-[1px] border-lightGray rounded-[8px] border-b-0 rounded-b-none">
                             {/* Rating + Badge */}
                             <div className="flex justify-between items-center ">
                                 {renderStars(data.rating)}
@@ -71,7 +71,7 @@ export default function SliderSample(props) {
                             </div>
 
                             {/* Image */}
-                            <div className="flex justify-center mb-4 ">
+                            <div className="flex justify-center ">
                                 <Image
                                     src={data.img}
                                     width={180}
@@ -80,32 +80,34 @@ export default function SliderSample(props) {
                                     objectFit="contain"
                                     priority
                                     unoptimized
-                                    className="bg-[#FAF8F3]"
+                                    className=""
                                 />
                             </div>
                         </div>
-                        {/* Title */}
-                        <div className="font-sophiaPro text-[16px] md:text-[18px] font-[700] text-Grey/900 mb-[4px] leading-[1.4] tracking-[0.5px]">
-                            {data.title}
-                        </div>
+                        <div className="border-[1px] border-t-0 border-lightGray rounded-[8px] rounded-t-none p-[4px]">
+                            {/* Title */}
+                            <div className="font-sophiaPro text-[16px] md:text-[18px] font-[700] text-Grey/900 mb-[4px] leading-[1.4] tracking-[0.5px]">
+                                {data.title}
+                            </div>
 
-                        {/* Description */}
-                        <div className="font-sophiaPro text-[12px] md:text-[14px] font-[400] text-Grey/900 leading-[1.3]">
-                            {data.description}
-                        </div>
+                            {/* Description */}
+                            <div className="font-sophiaPro text-[12px] md:text-[14px] font-[400] text-Grey/900 leading-[1.3]">
+                                {data.description}
+                            </div>
 
-                        {/* Price */}
-                        <div className="font-sophiaPro text-[14px] md:text-[16px] font-[500] text-Grey/900 leading-[1.3] my-[4px]">
-                            ₹ {data.price}
-                        </div>
-                        <div className="flex justify-center items-start self-center  p-[4px] md:p-[12px]">
-                            <button
-                                id='add_to_cart_order_summary'
-                                className={`absolute bottom-[0%]  h-[40px] mx-auto text-center text-[14px] border-[1px] border-black px-[24px] text-black rounded-full w-[90%] hover:bg-Grey/900 hover:text-white transition-all duration-300`}
-                                onClick={(e) => { e.stopPropagation(); props._addItem(data, index); }}
-                            >
-                                ADD TO CART
-                            </button>
+                            {/* Price */}
+                            <div className="font-sophiaPro text-[14px] md:text-[16px] font-[500] text-Grey/900 leading-[1.3] my-[4px]">
+                                ₹ {data.price}
+                            </div>
+                            <div className="flex justify-center items-start self-center  p-[4px] md:p-[12px]">
+                                <button
+                                    id='add_to_cart_order_summary'
+                                    className="absolute bottom-[0%] h-[40px] mx-auto text-center text-[14px] border-[1px] border-black px-[24px] text-black rounded-full w-[90%] hover:bg-Grey/900 hover:text-white focus:bg-white focus:text-black transition-all duration-300"
+                                    onClick={(e) => { e.stopPropagation(); props._addItem(data, index); }}
+                                >
+                                    ADD TO CART
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ))}
