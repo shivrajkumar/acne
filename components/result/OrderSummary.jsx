@@ -202,7 +202,8 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      {isModalOpen && <ProductPageModal variantId={productInfo} handleCancel={handleCancel} open={isModalOpen} />}
+      {isModalOpen && <ProductPageModal
+        variantId={selectedVariantId} handleCancel={handleCancel} open={isModalOpen} />}
     </div>
   );
 };
