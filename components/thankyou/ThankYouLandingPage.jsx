@@ -56,7 +56,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
       if (typeof window !== "undefined") {
         try {
           const storedData = localStorage.getItem("acne_result_data");
-          idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+          idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId || localStorage.getItem("caseId");
         } catch (err) {
           console.error("Error accessing localStorage:", err);
         }
