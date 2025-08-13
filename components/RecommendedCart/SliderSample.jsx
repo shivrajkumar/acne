@@ -84,7 +84,7 @@ export default function SliderSample(props) {
                                 />
                             </div>
                         </div>
-                        <div className="border-[1px] border-t-0 border-lightGray rounded-[8px] rounded-t-none p-[4px]">
+                        <div className="border-[1px] border-t-0 border-lightGray rounded-[8px] rounded-t-none p-[4px] min-h-[200px] md:min-h-[200px]">
                             {/* Title */}
                             <div className="font-sophiaPro text-[16px] md:text-[18px] font-[700] text-Grey/900 mb-[4px] leading-[1.4] tracking-[0.5px]">
                                 {data.title}
@@ -102,7 +102,7 @@ export default function SliderSample(props) {
                             <div className="flex justify-center items-start self-center  p-[4px] md:p-[12px]">
                                 <button
                                     id='add_to_cart_order_summary'
-                                    className="absolute bottom-[0%] h-[40px] mx-auto text-center text-[14px] border-[1px] border-black px-[24px] text-black rounded-full w-[90%] hover:bg-Grey/900 hover:text-white focus:bg-white focus:text-black transition-all duration-300"
+                                    className="absolute bottom-[5%] md:bottom-[7%] h-[40px] mx-auto text-center text-[14px] border-[1px] border-black px-[24px] text-black rounded-full w-[90%] hover:bg-Grey/900 hover:text-white focus:bg-white focus:text-black transition-all duration-300"
                                     onClick={(e) => { e.stopPropagation(); props._addItem(data, index); }}
                                 >
                                     ADD TO CART
