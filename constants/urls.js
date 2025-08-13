@@ -181,7 +181,7 @@ export const RETRIEVE_CART_SHOPFLO = (caseId) =>
 
 export const ORDER_DETAILS = (orderId) =>
   getUrl(
-    `consumer-api/service/orders/orders/get-order-details-by-order-id-number?orderNumber=${orderId}`
+    `consumer-api/service/orders/orders/get-order-details-by-order-id-number?orderId=${orderId}`
   );
 
 export const GET_AVAILABLE_SLOTS = (caseId) =>
