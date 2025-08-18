@@ -3,7 +3,7 @@ import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import crypto from "crypto";
 
 export const metaCapi = async (
-    { url, email, phone, fbc, fbp, gender, order_id },
+    { url, email, phone, fbc, fbp, gender, order_id, path },
     eventName
 ) => {
     const eventTime = Date.now();
@@ -17,7 +17,7 @@ export const metaCapi = async (
         url: url,
         domain: window.location.hostname,
         gender: gender,
-        event_id: generateEventId(eventName, phone, eventTime, order_id),
+        event_id: generateEventId(eventName, phone, eventTime, order_id, path),
     };
 
     /*  const res = await fetchRequest(CAPI_TRACKING_API, {
@@ -32,7 +32,7 @@ export const metaCapi = async (
     }));
 };
 
-const generateEventId = (eventName, phone, eventTime, orderId) => {
+const generateEventId = (eventName, phone, eventTime, orderId, path) => {
     if (phone) {
         const eventId = `${eventName}_${hash(phone)}`
         if (orderId) {
@@ -42,7 +42,10 @@ const generateEventId = (eventName, phone, eventTime, orderId) => {
         return eventId;
     } else {
         // page view and other events where customer phone is not known
-        return `${eventName}_${eventTime}`;
+        const eventId = `${eventName}_${eventTime}`;
+        if (path) {
+            return `${eventId}_${path.replace("/", "")}`;
+        }
     }
 }
 
