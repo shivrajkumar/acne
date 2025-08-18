@@ -3,7 +3,7 @@ import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import crypto from "crypto";
 
 export const metaCapi = async (
-    { url, email, phone, fbc, fbp, gender, order_id, path },
+    { url, email, phone, fbc, fbp, gender, name, order_id, path },
     eventName
 ) => {
     const eventTime = Date.now();
@@ -17,6 +17,7 @@ export const metaCapi = async (
         url: url,
         domain: window.location.hostname,
         gender: gender,
+        full_name: name,
         event_id: generateEventId(eventName, phone, eventTime, order_id, path),
     };
 
@@ -55,5 +56,5 @@ const hash = (input) => {
     if (!input) {
         return;
     }
-    return crypto.createHash('sha256').update(input).digest('hex');
+    return crypto.createHash('sha256').update(input?.trim() || "").digest('hex');
 }
