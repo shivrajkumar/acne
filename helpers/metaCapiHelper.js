@@ -26,10 +26,12 @@ export const metaCapi = async (
   });
   return res;*/
 
-    await trackUmamiEvent("capi_event", JSON.stringify({
-        ...body,
-        tenant_id: "acne"
-    }));
+    await trackUmamiEvent("capi_event", {
+        capi_payload: JSON.stringify({
+            ...body,
+            tenant_id: "acne"
+        })
+    });
 };
 
 const generateEventId = (eventName, phone, eventTime, orderId, path) => {
