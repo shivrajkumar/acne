@@ -14,8 +14,8 @@ export const navigationItems = [
           items: [
             {
               name: "View All Products",
-              href: "/",
-              badge: "Coming Soon",
+              href: "/view-all-products",
+              // badge: "Coming Soon",
             },
             {
               name: "Oily Control Facewash",
