@@ -1,11 +1,16 @@
 import React from "react";
 import ProductsBanner from "./components/productsBanner";
 import ShopByConcern from "./components/shop-by-concern";
-import product1 from '@assets/images/products-1.webp'
-import product2 from '@assets/images/products-2.webp'
-import product3 from '@assets/images/products-3.webp'
+import product1 from "@assets/images/products-1.webp";
+import product2 from "@assets/images/products-2.webp";
+import product3 from "@assets/images/products-3.webp";
 import { shopByConcerns } from "./data/data";
 import ConcernSection from "./components/concern-section";
+import WhyItWorks from "./components/why-it-works";
+import IdealSkincareRitual from "./components/ideal-skincare-ritual";
+import TroubleTen from "./components/trouble-ten";
+import RitualShowcase from "./components/ritual-showcase";
+import SocialTrust from "./components/social-trust";
 
 const ProductsMainLanding = () => {
   return (
@@ -32,12 +37,20 @@ const ProductsMainLanding = () => {
         ]}
       />
 
-    <div className="w-6/12 px-4 md:px-12 py-8 text-[28px]">This isn’t just goodbye. These products will soon disappear from the Clear Ritual range. Now is the time to fill up!</div>
-
+      <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-20 text-[28px]">
+        This isn’t just goodbye. These products will soon disappear from the
+        Clear Ritual range. Now is the time to fill up!
+      </div>
 
       {shopByConcerns.map((concern) => (
         <ConcernSection key={concern.title} concern={concern} />
       ))}
+
+      <WhyItWorks />
+      <IdealSkincareRitual />
+      <TroubleTen />
+      <RitualShowcase />
+      <SocialTrust />
     </div>
   );
 };

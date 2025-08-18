@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import ProductCard from "./product-card";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import SectionTitle from "./section-title";
 
 export default function ConcernSection({ concern }) {
   const scrollRef = useRef(null);
@@ -18,9 +19,7 @@ export default function ConcernSection({ concern }) {
   return (
     <section className="w-full px-4 md:px-12 py-8 relative">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold text-[#0F172A]">
-          {concern.title}.
-        </h2>
+        <SectionTitle title={concern.title}/>
         <div className="flex items-center gap-2">
           <button
             onClick={() => scroll("left")}

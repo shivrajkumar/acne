@@ -1,10 +1,11 @@
 import Image from "next/image";
 import React from "react";
+import SectionTitle from "./section-title";
 
 const ShopByConcern = ({ title = "Shop By Concern", items = [] }) => {
   return (
     <section className="w-full px-4 md:px-12 py-8">
-      <h2 className="text-xl md:text-[40px] font-medium mb-6 text-Grey/900">{title}</h2>
+      <SectionTitle title={title}/>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {items.map((item, index) => (

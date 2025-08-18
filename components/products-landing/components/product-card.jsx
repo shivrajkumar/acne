@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function ProductCard({ product }) {
   return (
     <div className="flex-none w-[430px] h-auto bg-white overflow-hidden">
-      <div className="relative w-full h-[300px]">
+      <div className="relative w-full h-[442px]">
         <Image
           src={product.image}
           alt={product.name}
