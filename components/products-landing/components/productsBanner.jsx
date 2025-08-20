@@ -10,7 +10,7 @@ const ProductsBanner = ({
   titleSizeMobile = "text-[28px]",
   titleSizeDesktop = "md:text-[87px]",
   fontWeight = "font-normal",
-  containerClasses = "px-4 md:px-12 py-12",
+  containerClasses = "px-4 md:px-12 py-10",
 }) => {
   return (
     <section
@@ -34,7 +34,7 @@ const ProductsBanner = ({
 
         {subtitle && (
           <p
-            className="mt-4 text-lg md:text-xl"
+            className="mt-4 text-[16px] md:text-xl"
             style={{ color: subtitleColor }}
           >
             {subtitle}

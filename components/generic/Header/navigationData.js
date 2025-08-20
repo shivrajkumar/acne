@@ -49,8 +49,8 @@ export const navigationItems = [
             },
             {
               name: "Skin Food 09",
-              href: "/",
-              badge: "Coming Soon",
+              href: "/skin-food",
+              // badge: "Coming Soon",
             },
           ],
         },
