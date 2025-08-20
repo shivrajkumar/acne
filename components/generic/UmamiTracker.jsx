@@ -1,27 +1,13 @@
 "use client"
-import { useEffect } from 'react';
+
 import { isEmpty } from "lodash";
 
 export default function UmamiTracker() {
-    useEffect(() => {
-        if (typeof window !== undefined) {
-            window.beforeSendHandler = function (type, payload) {
-                const caseId = window.localStorage.getItem('caseId');
-                if (caseId) {
-                    payload.id = caseId;
-                }
-
-                return payload;
-            };
-        }
-    }, []);
-
     return (
         <script
             defer
             src="https://umami.dev.hav-g.in/script.js"
-            data-website-id="612391cc-ff23-40c2-a67b-f42856abbbe6"
-            data-before-send="beforeSendHandler">
+            data-website-id="612391cc-ff23-40c2-a67b-f42856abbbe6">
         </script>
     );
 }
