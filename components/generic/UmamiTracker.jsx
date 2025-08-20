@@ -1,5 +1,6 @@
 "use client"
 import { useEffect } from 'react';
+import { isEmpty } from "lodash";
 
 export default function UmamiTracker() {
     useEffect(() => {
@@ -34,6 +35,31 @@ export const trackUmamiEvent = async (eventName, attributes) => {
                 message: e.message,
                 stack: e.stack,
             });
+        }
+    }
+};
+
+export const identifyUmamiUser = async (traits = {}) => {
+    if (isEmpty(traits)) {
+        return;
+    }
+
+    if (typeof window !== "undefined" && window.umami) {
+        try {
+            const { email, phone_number } = traits;
+            let { case_id } = traits;
+
+            if (!case_id) {
+                case_id = window.localStorage.getItem("caseId");
+            }
+
+            await window.umami.identify({
+                caseId: case_id,
+                email,
+                phone_number
+            });
+        } catch (e) {
+            console.error("Umami identify error:", e);
         }
     }
 };
