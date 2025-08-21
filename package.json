@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.6.2",
     "@headlessui/react": "^1.7.18",
     "@moengage/web-sdk": "^2.47.0",
     "antd": "^5.24.6",

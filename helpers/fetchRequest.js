@@ -1,6 +1,7 @@
 import { REFRESH_TOKEN_API } from "@/constants/urls";
 import { TokenManager } from "@/utils/tokenManager";
 import { env } from "next-runtime-env";
+import { getFingerprint } from "./fingerprint";
 
 const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 
@@ -67,12 +68,15 @@ export const fetchRequestWithoutAuth = async (url, options = {}) => {
   let status = 500;
 
   try {
+    const fingerprint = await getFingerprint();
+
     const _options = {
       ...DEFAULT_OPTIONS,
       ...options,
       headers: {
         ...DEFAULT_OPTIONS.headers,
         ...options.headers,
+        "x-fp-id": fingerprint,
       },
       credentials: "include",
     };

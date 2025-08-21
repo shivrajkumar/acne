@@ -86,8 +86,8 @@ const OTPVerification = ({
               onChange={(e) => handleOtpChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               className={`md:w-[49px] md:h-[54px] w-[37px] h-[44px] text-center text-[16px] font-[400] text-[#141515] leading-[24px] rounded-[12px] border-[1px] outline-none transition-all ${otpError
-                ? "border-[#B3261E] ring-1 ring-[#B3261E] text-[#B3261E]"
-                : "border-[#E3E3E2] focus:border-[#237AB1] focus:border-[3px] focus:ring-[#237AB1]"
+                ? "border-[#EC5B4B] ring-1 ring-[#EC5B4B] text-[#EC5B4B]"
+                : "border-[#E3E3E2] focus:border-[#3B52F5] focus:border-[3px] focus:ring-[#3B52F5] focus-ring-1"
                 }`}
             />
           ))}
@@ -95,7 +95,7 @@ const OTPVerification = ({
 
         {/* OTP Error Message */}
         {otpError && (
-          <p className="text-left text-sm text-[#B3261E] mt-2">
+          <p className="text-left text-sm text-[#EC5B4B] mt-2">
             OTP entered is invalid. Please try again.
           </p>
         )}

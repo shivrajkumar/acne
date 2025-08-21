@@ -7,27 +7,56 @@ const USER_STORAGE_KEY = "user";
 
 export const TokenManager = {
   setTokens: (accessToken, accessTokenExpiry) => {
-    Cookies.set(ACCESS_TOKEN_COOKIE, accessToken, {
-      expires: accessTokenExpiry,
+    // Store encoded JSON (token + expiry)
+    const payload = { accessToken, accessTokenExpiry };
+    Cookies.set(ACCESS_TOKEN_COOKIE, btoa(JSON.stringify(payload)), {
+      expires: accessTokenExpiry, // cookie expiry
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
 
-    // if (refreshToken) {
-    //   Cookies.set(REFRESH_TOKEN_COOKIE, refreshToken, {
-    //     expires: refreshTokenExpiry,
-    //     secure: process.env.NODE_ENV === "production",
-    //     sameSite: "strict",
-    //   });
-    // }
+    // const refreshPayload = { refreshToken, refreshTokenExpiry };
+    // Cookies.set(REFRESH_TOKEN_COOKIE, btoa(JSON.stringify(refreshPayload)), {
+    //   expires: refreshTokenExpiry,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: "strict",
+    // });
   },
 
   getAccessToken: () => {
-    return Cookies.get(ACCESS_TOKEN_COOKIE);
+    const cookie = Cookies.get(ACCESS_TOKEN_COOKIE);
+    if (!cookie) return null;
+
+    try {
+      const decoded = JSON.parse(atob(cookie)); // decode back into object
+      return decoded.accessToken;
+    } catch {
+      return null;
+    }
+  },
+
+  getAccessTokenExpiry: () => {
+    const cookie = Cookies.get(ACCESS_TOKEN_COOKIE);
+    if (!cookie) return null;
+
+    try {
+      const decoded = JSON.parse(atob(cookie));
+      return decoded.accessTokenExpiry;
+    } catch {
+      return null;
+    }
   },
 
   getRefreshToken: () => {
-    return Cookies.get(REFRESH_TOKEN_COOKIE);
+    const cookie = Cookies.get(REFRESH_TOKEN_COOKIE);
+    if (!cookie) return null;
+
+    try {
+      const decoded = JSON.parse(atob(cookie));
+      return decoded.refreshToken;
+    } catch {
+      return null;
+    }
   },
 
   isAccessTokenExpired: (token) => {

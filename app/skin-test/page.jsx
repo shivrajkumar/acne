@@ -1,17 +1,20 @@
 import Questions from "@/components/generic/Questions";
 import AnalyticsContextProvider from "@/context/AnalyticsContext";
+import { AuthProvider } from "@/context/AuthContext";
 import QuestionsContextProvider from "@/context/questions-store";
 import { Suspense } from "react";
 export default function page() {
   return (
     <>
-      <QuestionsContextProvider>
-        <AnalyticsContextProvider>
-          <Suspense>
-            <Questions />
-          </Suspense>
-        </AnalyticsContextProvider>
-      </QuestionsContextProvider>
+      <AuthProvider>
+        <QuestionsContextProvider>
+          <AnalyticsContextProvider>
+            <Suspense>
+              <Questions />
+            </Suspense>
+          </AnalyticsContextProvider>
+        </QuestionsContextProvider>
+      </AuthProvider>
     </>
   );
 }
