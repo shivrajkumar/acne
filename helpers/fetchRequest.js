@@ -1,6 +1,8 @@
 import { REFRESH_TOKEN_API } from "@/constants/urls";
 import { TokenManager } from "@/utils/tokenManager";
 import { env } from "next-runtime-env";
+import Cookies from "js-cookie";
+import { fetchThumbprint } from "./thumbmark";
 
 const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 
@@ -16,6 +18,8 @@ const DEFAULT_OPTIONS = {
     "Access-Control-Allow-Credentials": "true",
   },
 };
+
+const storedFingerPrint = Cookies.get("DEVICE_FP");
 
 export const fetchRequest = async (url, options = { method: "GET" }, token) => {
   let data = {};
@@ -67,12 +71,15 @@ export const fetchRequestWithoutAuth = async (url, options = {}) => {
   let status = 500;
 
   try {
+    const fingerprint = storedFingerPrint ?? (await fetchThumbprint());
+
     const _options = {
       ...DEFAULT_OPTIONS,
       ...options,
       headers: {
         ...DEFAULT_OPTIONS.headers,
         ...options.headers,
+        "x-fp-id": fingerprint,
       },
       credentials: "include",
     };

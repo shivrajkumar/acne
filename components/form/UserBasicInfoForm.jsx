@@ -24,6 +24,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import { env } from "next-runtime-env";
 import { useRouter } from "next/navigation";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
+import LoginPage from "../login/Login";
 
 export default function UserBasicInfoForm() {
   const {
@@ -39,6 +40,8 @@ export default function UserBasicInfoForm() {
 
   const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
   const router = useRouter()
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
 
 
   const [formData, setFormData] = useState({
@@ -447,13 +450,13 @@ export default function UserBasicInfoForm() {
 
     const userDetails = await _submitBasicInfo();
 
-    if (!isEmpty(userDetails.tid) && !isEmpty(utmData)) {
-      await submitUTMData(userDetails.tid);
+    if (!isEmpty(userDetails?.tid) && !isEmpty(utmData)) {
+      await submitUTMData(userDetails?.tid);
     }
 
     setIsLoading(false);
 
-    if (isEmpty(userDetails.tid)) {
+    if (isEmpty(userDetails?.tid)) {
       return; // Stop if submission failed
     }
 
@@ -479,7 +482,7 @@ export default function UserBasicInfoForm() {
       saveReply("user_basic_info", "completed");
 
       if (userDetails?.isOrderedCsx) {
-        router.push("/login?redirectFrom=questions")
+        setShowLoginModal(true);
       } else {
         // Move to next question - this is key to navigation
         nextQuestion("user_basic_info", "completed");
@@ -635,6 +638,9 @@ export default function UserBasicInfoForm() {
             </div>
           </form>
         </>
+        {showLoginModal && (
+          <LoginPage closeModal={() => setShowLoginModal(false)} phone={formData?.phoneNumber} />
+        )}
       </div>
     </div>
   );
