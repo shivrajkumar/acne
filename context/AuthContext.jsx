@@ -7,13 +7,20 @@ import React, {
     useEffect
 } from 'react';
 import { useRouter } from 'next/navigation';
-import { TokenManager, logoutRequest } from '@/utils/tokenManager';
+import { TokenManager } from '@/utils/tokenManager';
+import Cookies from 'js-cookie';
+import { fetchThumbprint } from '@/helpers/thumbmark';
+
 
 const AuthContext = createContext(null);
+
+
 
 export const AuthProvider = ({ children }) => {
     const router = useRouter();
     const [user, setUser] = useState(null);
+
+
 
     useEffect(() => {
         const accessToken = TokenManager.getAccessToken();
@@ -30,37 +37,26 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     // Login method
-    const login = useCallback((userData, accessToken, accessTokenExpiry) => {
+    const login = useCallback(async (userData, accessToken, accessTokenExpiry) => {
+
+        let thumbmark = await fetchThumbprint();
+        Cookies.set("DEVICE_FP", thumbmark, {
+            secure: true,
+            sameSite: "Strict",
+        });
         setUser(userData);
-
         TokenManager.setTokens(accessToken, accessTokenExpiry);
-
         localStorage.setItem('user', JSON.stringify(userData));
     }, []);
 
     // Logout method
     const logout = useCallback(async () => {
-        try {
-            const logoutResponse = await logoutRequest();
 
-            if (!logoutResponse.hasError) {
-                setUser(null);
-
-                TokenManager.clearTokens();
-                localStorage.removeItem('user');
-
-                router.push('/login');
-            } else {
-                console.error('Logout failed', logoutResponse);
-            }
-        } catch (error) {
-            console.error('Logout error', error);
-
-            setUser(null);
-            TokenManager.clearTokens();
-            localStorage.removeItem('user');
-            router.push('/login');
-        }
+        setUser(null);
+        TokenManager.clearTokens();
+        localStorage.removeItem('user');
+        Cookies.remove("DEVICE_FP");
+        router.push('/login');
     }, [router]);
 
     const authContextValue = {

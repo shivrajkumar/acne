@@ -12,7 +12,6 @@ import LoginButton from "./LoginButton";
 import { fetchRequestWithoutAuth } from "@/helpers/fetchRequest";
 import { GENERATE_OTP_API, RESEND_OTP_API, VALIDATE_OTP_API } from "@/constants/urls";
 import { Alert, message } from "antd";
-import { getFingerprint } from "@/helpers/fingerprint";
 
 const LoginPage = ({ closeModal, phone }) => {
   const { login } = useAuth();
@@ -191,7 +190,7 @@ const LoginPage = ({ closeModal, phone }) => {
     setApiError(null);
 
     try {
-      const fingerprint = await getFingerprint();
+
       const res = await fetchRequestWithoutAuth(VALIDATE_OTP_API(), {
         method: "POST",
         body: JSON.stringify({
@@ -207,7 +206,6 @@ const LoginPage = ({ closeModal, phone }) => {
         login(
           {
             userId: user.id,
-            fingerprint,
             ...user,
           },
           access_token,
