@@ -154,14 +154,14 @@ const IconInput = ({ block, context }) => {
 
       <div className="flex flex-col mt-8 sm:mt-8 w-full md:w-[620px] mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px]">
         <label
-          className="font-lato font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
           htmlFor={block.id}
         >
           {isHindi ? block.hindi_text : block.text}
         </label>
 
         {block.sub_text && (
-          <label className="text-Text/Label font-lato font-[400] text-[14px] text-center">
+          <label className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center">
             {block.sub_text}
           </label>
         )}
@@ -184,10 +184,10 @@ const IconInput = ({ block, context }) => {
               >
                 <div className="flex items-center md:flex-row md:items-start xs:flex-col gap-[4px] ">
                   <div className="flex flex-col flex-grow gap-[4px]">
-                    <h3 className="text-[16px] font-lato font-[500] leading-[150%] text-Text/Heading-Text -tracking-[1%] text-center md:text-left">
+                    <h3 className="text-[16px] font-sophiaPro font-[500] leading-[150%] text-Text/Heading-Text -tracking-[1%] text-center md:text-left">
                       {name}
                     </h3>
-                    <p className="text-[14px] font-lato font-[400] leading-[140%] text-Text/Label text-center md:text-left">
+                    <p className="text-[14px] font-sophiaPro font-[400] leading-[140%] text-Text/Label text-center md:text-left">
                       {description}
                     </p>
                   </div>
@@ -220,7 +220,7 @@ const IconInput = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-10 mb-16 md:hidden">
             <button
-              className="font-lato font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px] text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px] text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -238,7 +238,7 @@ const IconInput = ({ block, context }) => {
         )}
 
         {error && (
-          <span className="block mt-4 text-red-500 text-center font-lato text-[14px]">
+          <span className="block mt-4 text-red-500 text-center font-sophiaPro text-[14px]">
             {error}
           </span>
         )}
@@ -246,7 +246,7 @@ const IconInput = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 flex md:flex xs:hidden">
             <button
-              className="font-lato font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Tertiary/400 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}

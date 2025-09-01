@@ -27,6 +27,7 @@ const config: Config = {
       mukta: ["Mukta", "sans-serif"],
       jakara: ["var(--font-plus-jakarta)", "sans-serif"],
       lato: ["var(--font-lato)", "sans-serif"],
+      sophiaPro: ["sofia-pro"],
     },
     extend: {
       animation: {
@@ -92,7 +93,7 @@ const config: Config = {
         "Elements/Divider-Stroke": "#E3E3E2",
         "Neutral/900": "#171819",
         "Background/AirBlue": "#DCEBF2",
-        "Primary/500": "#2872A1",
+        "Primary/500": "#3B52F5",
         "Background/Beige": "#F9F7F2",
         "Primary/900": "#081720",
         "Neutral/100": "#E5E5E5",
@@ -141,6 +142,12 @@ const config: Config = {
         "Secondary/200": "#D8CEB4",
         "Grey/400": "#929798",
         "Grey/900": "#0F1B28",
+        "Grey/500": "#505354",
+        "Grey/300": "#C5CBCB",
+        "Warning/500": "#F4E06B",
+        "Grey/50": "#F8F9F9",
+        "Grey/100": "#F4F6F6",
+        "Grey/200": "#E9EDED",
       },
       fontSize: {
         xxs: "0.6rem",
@@ -170,6 +177,8 @@ const config: Config = {
       backgroundImage: {
         "aqua-gradient-border":
           "linear-gradient(90deg, #F9F7F2 0%, #BED9C7 21.31%, #BED9C7 81.11%, #F9F7F2 100%)",
+        "custom-blue-gradient":
+          "linear-gradient(90deg, #FFFFFF 0%, #DCEBF2 100%)",
       },
       boxShadow: {
         "custom-top": "0px -4px 32px 0px rgba(0, 0, 0, 0.25)",

@@ -131,13 +131,13 @@ const SkinProgressCarousel = () => {
   );
 };
 const FeatureGrid = () => {
-   const [caseId , setCaseId] = useState(null);
-  
-    useEffect(()=>{
-          const storedData = localStorage.getItem("acne_result_data");
-          const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-        setCaseId(idFromLocalStorage)
-    },[])
+  const [caseId, setCaseId] = useState(null);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+    setCaseId(idFromLocalStorage)
+  }, [])
   return (
     <div className="bg-white px-[16px] md:px-[40px] p-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-4 relative">
@@ -153,10 +153,10 @@ const FeatureGrid = () => {
               ${item.id === 1 && "md:mb-[153px]"}
  ${item.id === 2 ? "md:mt-[153px]" : "mt-0"}`}
             >
-              <h3 className="text-[34px] md:text-[40px] font-[400] md:mt-[32px] mt-[24px] tracking-[-0.02em] md:leading-[130%] leading-[1.2] text-Text/Heading-Text font-lato">
+              <h3 className="text-[34px] md:text-[40px] font-[400] md:mt-[32px] mt-[24px] tracking-[-0.02em] md:leading-[130%] leading-[1.2] text-Text/Heading-Text font-sophiaPro">
                 {firstLine} <br /> {secondLine}
               </h3>
-              <p className="text-[14px] md:text-[18px] md:leading-[135%] font-lato text-Text/Body-Text tracking-[-0.01em] leading-[1.4] font-[400]  md:mt-3 mt-2">
+              <p className="text-[14px] md:text-[18px] md:leading-[135%] font-sophiaPro text-Text/Body-Text tracking-[-0.01em] leading-[1.4] font-[400]  md:mt-3 mt-2">
                 {item.description}
               </p>
               {item?.buttonText && (
@@ -165,7 +165,7 @@ const FeatureGrid = () => {
                     variant="black"
                     text={item.buttonText}
                     tm=" "
-                    redirectTo={item.redirect==="book-a-call" ?`/book-a-call?caseId=${caseId}&redirect=home`:item.redirect}
+                    redirectTo={item.redirect === "book-a-call" ? `/book-a-call?caseId=${caseId}&redirect=home` : item.redirect}
                     deskSize="desktopBig"
                   />
                 </div>

@@ -26,7 +26,7 @@ const OrderSummary = () => {
   // Sync ref with modal state to avoid stale values in event listeners (closure issue)
   useEffect(() => {
     isModalOpenRef.current = isModalOpen; // Update ref whenever modal state changes
-  } , [isModalOpen]);
+  }, [isModalOpen]);
 
   // Handle mobile back button to close modal instead of navigating
   useEffect(() => {
@@ -144,12 +144,12 @@ const OrderSummary = () => {
     <div className="md:px-[40px] w-full flex flex-col md:flex-row justify-between gap-[24px] md:gap-[60px] bg-Secondary/50  rounded-[24px]">
       <div className="w-full md:w-[56%]">
         <h1
-          className="text-Text/Heading-Text font-lato font-[500] text-[28px] md:text-[32px]"
+          className="text-Text/Heading-Text font-sophiaPro font-[500] text-[28px] md:text-[32px]"
           id="order_summary"
         >
           Order Summary
         </h1>
-        <p className="font-lato font-[500] text-[18px] text-Text/Label">
+        <p className="font-sophiaPro font-[500] text-[18px] text-Text/Label">
           Your Cart
         </p>
         <div className="flex flex-col gap-[24px] md:gap-[32px] mt-[24px] md:mt-[40px]">
@@ -202,45 +202,8 @@ const OrderSummary = () => {
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      <Modal
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        title={null}
-        closable={false}
-        width={{
-          xs: '90%',
-          sm: '80%',
-          md: '70%',
-          lg: '60%',
-          xl: '70%',
-          xxl: '70%',
-        }}
-       centered={isDesktop}
-      styles={{ 
-            body: { 
-              position: "relative",
-              borderRadius: 0,
-            },
-            content: {
-              borderRadius: 0,
-            },
-            mask: {
-              borderRadius: 0,
-            }
-          }}
-      >
-        {/* Custom Close Button */}
-        <button
-          onClick={handleCancel}
-          className="absolute top-[-56px] right-[-24px] m h-[36px] w-[36px] bg-Neutral/800 text-white flex items-center justify-center "
-        >
-          <Image src={closeIcon} alt="close-icon" width={20} height={20} />
-        </button>
-
-        {/* Your modal content */}
-        <ProductPageModal variantId={selectedVariantId} handleCancel={handleCancel} />
-      </Modal>
+      {isModalOpen && <ProductPageModal
+        variantId={selectedVariantId} handleCancel={handleCancel} open={isModalOpen} />}
     </div>
   );
 };

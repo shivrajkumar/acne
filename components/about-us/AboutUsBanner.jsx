@@ -27,7 +27,7 @@ const AboutUsBanner = () => {
       <div className="absolute flex justify-center items-center top-0 bottom-0 bg-[radial-gradient(53.72%_142.34%_at_64.1%_50%,_rgba(140,101,78,0.7)_0%,_rgba(74,47,34,0.9)_100%)] z-10" />
       <div className="absolute inset-0 z-20 flex items-end md:items-center justify-start px-4 md:px-16">
         <div className="text-left space-y-6 max-w-lg mb-6">
-          <h1 className="text-[40px] md:text-[44px] font-[500] font-lato text-[#FFFFFF] leading-[120%] ">
+          <h1 className="text-[40px] md:text-[44px] font-[500] font-sophiaPro text-[#FFFFFF] leading-[120%] ">
             We Know Acne. <br /> We Know What Works.
           </h1>
           <p className="text-[#FFFFFF] text-[14px] font-[400] md:text-[16px] leading-[150%] ">

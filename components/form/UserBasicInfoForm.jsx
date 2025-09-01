@@ -24,6 +24,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import { env } from "next-runtime-env";
 import { useRouter } from "next/navigation";
 import { identifyUmamiUser, trackUmamiEvent } from "@components/generic/UmamiTracker";
+import LoginPage from "../login/Login";
 
 export default function UserBasicInfoForm() {
   const {
@@ -39,6 +40,8 @@ export default function UserBasicInfoForm() {
 
   const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
   const router = useRouter()
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
 
 
   const [formData, setFormData] = useState({
@@ -126,8 +129,8 @@ export default function UserBasicInfoForm() {
     if (isNaN(age)) {
       return "Age must be a number";
     }
-    if (age <= 0) {
-      return "Age must be greater than 0";
+    if (age < 18) {
+      return "Clear Ritual treatment is available to adults 18 and above";
     }
     if (age >= 100) {
       return "Age must be less than 100";
@@ -448,13 +451,13 @@ export default function UserBasicInfoForm() {
 
     const userDetails = await _submitBasicInfo();
 
-    if (!isEmpty(userDetails.tid) && !isEmpty(utmData)) {
-      await submitUTMData(userDetails.tid);
+    if (!isEmpty(userDetails?.tid) && !isEmpty(utmData)) {
+      await submitUTMData(userDetails?.tid);
     }
 
     setIsLoading(false);
 
-    if (isEmpty(userDetails.tid)) {
+    if (isEmpty(userDetails?.tid)) {
       return; // Stop if submission failed
     }
 
@@ -480,7 +483,7 @@ export default function UserBasicInfoForm() {
       saveReply("user_basic_info", "completed");
 
       if (userDetails?.isOrderedCsx) {
-        router.push("/login?redirectFrom=questions")
+        setShowLoginModal(true);
       } else {
         // Move to next question - this is key to navigation
         nextQuestion("user_basic_info", "completed");
@@ -507,10 +510,10 @@ export default function UserBasicInfoForm() {
       {isLoading && <Loader />}
       <div className="w-full ">
         <>
-          <h1 className="font-lato font-[400] xl:text-[44px] text-[28px] text-Text/Heading-Text italic -tracking-[2%] text-center">
+          <h1 className="font-sophiaPro font-[400] xl:text-[44px] text-[28px] text-Text/Heading-Text italic -tracking-[2%] text-center">
             Tell Us About Yourself
           </h1>
-          <p className="text-Text/Label font-lato font-[400] text-[14px] text-center my-[16px]  ">
+          <p className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center my-[16px]  ">
             We start by collecting your details to create a unique ID for your
             skin.
           </p>
@@ -588,8 +591,8 @@ export default function UserBasicInfoForm() {
                 onClick={() => handleGenderSelect("M")}
               >
                 <div className="flex items-center space-x-2 justify-center ">
-                  <Image src={maleIcon} width={24} height={24} alt="Icon" />
-                  <span className="text-[16px] font-[500]">Male</span>
+                  <Image src={femaleIcon} width={24} height={24} alt="Icon" />
+                  <span className="text-[16px] font-[400]">Male</span>
                 </div>
               </button>
 
@@ -602,8 +605,8 @@ export default function UserBasicInfoForm() {
                 onClick={() => handleGenderSelect("F")}
               >
                 <div className="flex items-center space-x-2 justify-center">
-                  <Image src={femaleIcon} width={24} height={24} alt="Icon" />
-                  <span className="text-[16px] font-[500]">Female</span>
+                  <Image src={maleIcon} width={24} height={24} alt="Icon" />
+                  <span className="text-[16px] font-[400]">Female</span>
                 </div>
               </button>
             </div>
@@ -627,7 +630,7 @@ export default function UserBasicInfoForm() {
             <div className="fixed bottom-0 left-0 right-0 z-10  flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
               <button
                 type="submit"
-                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-lato ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
                   }`}
                 disabled={!isFormValid}
               >
@@ -636,6 +639,9 @@ export default function UserBasicInfoForm() {
             </div>
           </form>
         </>
+        {showLoginModal && (
+          <LoginPage closeModal={() => setShowLoginModal(false)} phone={formData?.phoneNumber} />
+        )}
       </div>
     </div>
   );

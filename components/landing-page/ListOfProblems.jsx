@@ -6,17 +6,17 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 
 export default function ListOfProblems({ listOfProblems }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [caseId , setCaseId] = useState(null);
-  const [orderCount , setOrderCount] = useState(null);
-    
-    useEffect(()=>{
-       const orderCountFromStorage =
-        window.localStorage.getItem("order_count");
-            const storedData = localStorage.getItem("acne_result_data");
-            const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-          setOrderCount(orderCountFromStorage);
-          setCaseId(idFromLocalStorage)
-    },[])
+  const [caseId, setCaseId] = useState(null);
+  const [orderCount, setOrderCount] = useState(null);
+
+  useEffect(() => {
+    const orderCountFromStorage =
+      window.localStorage.getItem("order_count");
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+    setOrderCount(orderCountFromStorage);
+    setCaseId(idFromLocalStorage)
+  }, [])
 
   // Set isLoaded to true after component mounts
   useEffect(() => {
@@ -39,35 +39,35 @@ export default function ListOfProblems({ listOfProblems }) {
 
   return (
     <div className="bg-[#FAF9F6]  p-0 md:p-[40px] rounded-[24px] w-full mx-auto">
-    <div className="p-[28px] md:p-0">
-         <div className="bg-white border-[1px]  border-[#E3E3E2] rounded-[12px] py-2 px-4 font-lato font-normal text-[14px] w-fit">
-        We Solve
-      </div>
-      <div className="flex justify-between my-[40px] xs:my-[16px]">
-        <div className="flex flex-col justify-between items-start">
-          <h2 className=" md:text-[40px] text-[28px] font-[500] leading-[130%] text-Text/Heading-Text">
-            {"Acne Comes in All Forms —"} <br />
-            Clear Ritual Has the Right Solution for You
-          </h2>
+      <div className="p-[28px] md:p-0">
+        <div className="bg-white border-[1px]  border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[12px] md:text-[14px] w-fit">
+          We Solve
         </div>
-           <div className="hidden items-end md:flex">
-          {!orderCount ? <AcneTakeTheSkinTest
-            variant="black"
-            text="TAKE THE SKIN TEST"
-            tm=" "
-            redirectTo="/skin-test"
-            deskSize="desktopBig"
-          /> : <AcneTakeTheSkinTest
-            variant="black"
-            text={`Book Your Call Now`}
-            tm={" "}
-            redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
-            deskSize="desktopBig"
-          />}
+        <div className="flex justify-between my-[40px] xs:my-[16px]">
+          <div className="flex flex-col justify-between items-start">
+            <h2 className=" md:text-[40px] text-[28px] font-[400] leading-[130%] text-Text/Heading-Text">
+              {"Acne Comes in All Forms —"} <br />
+              Clear Ritual Has the Right Solution for You
+            </h2>
+          </div>
+          <div className="hidden items-end md:flex">
+            {!orderCount ? <AcneTakeTheSkinTest
+              variant="black"
+              text="TAKE THE SKIN TEST"
+              tm=" "
+              redirectTo="/skin-test"
+              deskSize="desktopBig"
+            /> : <AcneTakeTheSkinTest
+              variant="black"
+              text={`Book Your Call Now`}
+              tm={" "}
+              redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
+              deskSize="desktopBig"
+            />}
+          </div>
         </div>
-    </div>
-   
-     
+
+
       </div>
 
       {/* Desktop Grid */}
@@ -84,7 +84,7 @@ export default function ListOfProblems({ listOfProblems }) {
               height={211}
               className="rounded-[8px] object-cover w-full h-full"
             />
-            <h3 className="text-[18px] font-[500] font-lato text-Text/Heading-Text">
+            <h3 className="text-[18px] font-[400] font-sophiaPro text-Text/Heading-Text">
               {problem.title}
             </h3>
           </div>
@@ -112,7 +112,7 @@ export default function ListOfProblems({ listOfProblems }) {
                       priority={index < 2} // Prioritize loading the first two images
                     />
                   </div>
-                  <h3 className="text-[14px] font-[500] font-lato text-Text/Heading-Text">
+                  <h3 className="text-[14px] font-[400] font-sophiaPro text-Text/Heading-Text">
                     {problem.title}
                   </h3>
                 </div>

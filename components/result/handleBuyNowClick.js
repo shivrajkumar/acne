@@ -22,6 +22,7 @@ const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 async function handleBuyNowClick(
   products,
   caseId,
+  discountCode = "",
   tags = ["ORDER_SOURCE_WEB_V2", "SHOPFLO"]
 ) {
   try {
@@ -30,9 +31,9 @@ async function handleBuyNowClick(
       let productDescriptions = [];
       products.forEach((val) => {
         let objVal = {
-          product_id: val.variantId,
+          product_id: val.variantId ?? val?.id,
           price: val.price,
-          quantity: val.quantity,
+          quantity: val.quantity ?? val?.itemCount,
         };
         productDescriptions.push(objVal);
       });
@@ -62,7 +63,7 @@ async function handleBuyNowClick(
         headers: {
           "Content-Type": "application/json",
           "x-tenant-id": "acne",
-          "x-access-token": `${SECURITY_TOKEN}`,
+          "x-access-token": `e2623576-930b-48b6-81e2-a3cb5e37f47d`,
         },
         body: JSON.stringify({
           productDescriptions: productDescriptions,
@@ -71,6 +72,9 @@ async function handleBuyNowClick(
           sessionId: sessionId,
           note_attributes: utmParams,
           success_url: "API_URL",
+          discountData: {
+            discountCode: discountCode,
+          },
         }),
       });
 

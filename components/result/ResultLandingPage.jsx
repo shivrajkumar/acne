@@ -14,7 +14,7 @@ import CartSummarySticky from "./CartSummarySticky";
 import handleBuyNowClick from "./handleBuyNowClick";
 import { CartProvider } from "../../context/CartContext";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
-import AcneHeader from "../generic/AcneHeader";
+import AcneHeader from "../generic/Header/AcneHeader";
 import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
@@ -25,6 +25,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import useMediaLoader from "@/hooks/useMediaLoader";
 import ResultBannerV2 from "./ResultBannerV2";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
+import AcneReviews from "./AcneReviews";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -280,7 +281,8 @@ const ResultLandingPage = ({ searchParams }) => {
     optionalProductsDetails: resultData?.optionalProductsDetails,
     addProductToCart: addProductToCart,
     removeProductFromCart: removeProductFromCart,
-    acneStageDetails: resultData?.acneStageDetails
+    acneStageDetails: resultData?.acneStageDetails,
+    reviewDetails: resultData?.reviewsDetails
   };
 
   return (
@@ -294,6 +296,7 @@ const ResultLandingPage = ({ searchParams }) => {
           <ResultBannerV2 />
         </div>
         <OrderSummary />
+        <AcneReviews/>
         <VisibleResultsInThreeWeeks />
         <AcneWhatsInYourKit />
         <FeaturedReview />

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import CloseCircle from "@assets/svg/close-circle.svg";
@@ -11,9 +11,9 @@ import LoginFooter from "./LoginFooter";
 import LoginButton from "./LoginButton";
 import { fetchRequestWithoutAuth } from "@/helpers/fetchRequest";
 import { GENERATE_OTP_API, RESEND_OTP_API, VALIDATE_OTP_API } from "@/constants/urls";
-import { message } from "antd";
+import { Alert, message } from "antd";
 
-const LoginPage = ({ closeModal }) => {
+const LoginPage = ({ closeModal, phone }) => {
   const { login } = useAuth();
   const router = useRouter();
 
@@ -30,12 +30,22 @@ const LoginPage = ({ closeModal }) => {
   const [verifySuccess, setVerifySuccess] = useState(false)
   const [generatedOTP, setgeneratedOTP] = useState("");
   const [isCustomer, setIsCustomer] = useState(false)
-  const searchParams = useSearchParams()
-  const isRedirected = searchParams.get("redirectFrom")
-  
+  const pathname = usePathname();
+  const [pendingRedirect, setPendingRedirect] = useState(null);
+  const [signInLoader, setSignInLoader] = useState(false);
+
+
   useEffect(() => {
-    if (typeof window !== undefined && isRedirected) {
-      const phone = localStorage.getItem("user_phone")?.substring(3)
+    if (pendingRedirect && pathname === pendingRedirect) {
+      closeModal?.();
+      setPendingRedirect(null);
+    }
+  }, [pathname, pendingRedirect, closeModal]);
+
+
+
+  useEffect(() => {
+    if (typeof window !== undefined && phone) {
       setPhoneInput(phone);
       setApiError("Looks like you've already placed an order. Please login to know more details.")
       setIsCustomer(true);
@@ -43,13 +53,12 @@ const LoginPage = ({ closeModal }) => {
   }, [])
 
   useEffect(() => {
-    // Display success message at the top of the screen
     if (verifySuccess) {
       message.success({
         content: 'Login Successful',
-        duration: 3, // 3 seconds
+        duration: 3,
         style: {
-          marginTop: '20px', // Optional: adds some margin from the top of the screen
+          marginTop: '20px',
         }
       });
       setVerifySuccess(false)
@@ -64,17 +73,31 @@ const LoginPage = ({ closeModal }) => {
     return () => clearTimeout(timer);
   }, []);
 
+
   const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) return;
+    const value = e.target.value.replace(/\D/g, ""); // only digits
     if (value.length <= 10) {
       setPhoneInput(value);
-      setApiError(null);
+      setApiError(null); // clear error while typing
     }
   };
 
+  const isValidIndianPhone = (phone) => {
+    // Must be exactly 10 digits, starting with 6-9
+    const regex = /^[6-9]\d{9}$/;
+    // Reject repetitive digits (e.g., 0000000000, 1111111111)
+    const allSameDigits = /^(\d)\1{9}$/;
+    return regex.test(phone) && !allSameDigits.test(phone);
+  };
+
+
   const handleContinue = async () => {
-    if (phoneInput.length === 10) {
+    if (!isValidIndianPhone(phoneInput)
+      || phoneInput.length < 10) {
+      setApiError("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+    else {
       setIsLoading(true);
       setApiError(null);
       try {
@@ -162,9 +185,12 @@ const LoginPage = ({ closeModal }) => {
   const handleVerify = async () => {
     const enteredOtp = otp.join("");
     if (enteredOtp.length !== 6 || !transactionId) return;
-    setIsLoading(true);
+
+    setSignInLoader(true);
     setApiError(null);
+
     try {
+
       const res = await fetchRequestWithoutAuth(VALIDATE_OTP_API(), {
         method: "POST",
         body: JSON.stringify({
@@ -172,59 +198,64 @@ const LoginPage = ({ closeModal }) => {
           token: enteredOtp,
         }),
       });
+
       if (res.status === 201) {
         const { data } = res;
+        const { access_token, access_token_expires_in, user } = data;
 
-        const {
+        login(
+          {
+            userId: user.id,
+            ...user,
+          },
           access_token,
-          access_token_expires_in,
-          user
-        } = data;
+          access_token_expires_in
+        );
 
-        login({
-          userId: user.id,
-          ...user
-        }, access_token, access_token_expires_in);
+        const targetUrl = isCustomer
+          ? `/book-a-call?caseId=${transactionId}`
+          : "/";
 
-        if (closeModal) {
-          closeModal();
-        }
-        setVerifySuccess(true);
-        if (isCustomer) {
-          router.push(`book-a-call?caseId=${transactionId}`)
-        } else {
-          router.push('/');// Need to redirect to post login pages
-        }
+        setPendingRedirect(targetUrl);
+
+        setTimeout(() => {
+          router.push(targetUrl);
+          setSignInLoader(false);
+          setVerifySuccess(true);
+        }, 3000);
+
       } else {
         setOtpError(true);
-        setApiError("Invalid OTP. Please try again.");
+        setApiError("");
+        setSignInLoader(false);
       }
     } catch (error) {
-      setVerifySuccess(true);
       console.error("Error verifying OTP:", error);
       setOtpError(true);
       setApiError("Network error. Please verify OTP.");
-    } finally {
-      setIsLoading(false);
+      setSignInLoader(false);
     }
   };
+
+
+
 
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black flex items-center justify-center z-50 font-lato transition-all duration-500 ease-in-out ${animate ? "bg-opacity-50" : "bg-opacity-0"
+        className={`fixed inset-0 bg-black flex items-center justify-center z-50 font-sophiaPro transition-all duration-500 ease-in-out ${animate ? "bg-opacity-50" : "bg-opacity-0"
           }`}
       >
         <div
-          className={`flex md:flex-row flex-col items-center bg-[#141515] rounded-[24px] p-[16px] gap-[16px] ${showOtp
-            ? "md:w-auto w-[338px] md:h-[400px] h-auto"
-            : "md:w-auto w-[328px] md:h-[356px] h-auto"
+          className={`flex md:flex-row flex-col items-center bg-[#0F1B28] rounded-[5px] p-[16px] gap-[16px] ${showOtp
+            ? "md:w-auto w-[338px]  h-fit"
+            : "md:w-auto w-[328px] h-fit"
             }  transition-all duration-500 ease-in-out 
-          ${animate
+            ${animate
               ? "opacity-100 transform translate-y-0"
               : "opacity-0 transform translate-y-8"
             }
-          `}
+            `}
         >
           <div
             className={`md:mx-[100px] md:my-0 mt-[18px] mb-[42px] flex flex-col md:gap-[16px] gap-[10px] transition-all duration-700 delay-200 ${animate ? "opacity-100" : "opacity-0"
@@ -236,110 +267,126 @@ const LoginPage = ({ closeModal }) => {
                 alt="clearRitual"
                 width={324}
                 height={54}
-                className="w-full h-full object-cover"
+                className=" object-cover"
               />
             </div>
             <div>
-              <p className="font-[400] leading-[140%] text-white text-[14px] text-center">
+              <p className="font-[400] leading-[140%] text-white text-[14px] text-left">
                 Targeted Acne Care, Visible Results.
               </p>
             </div>
           </div>
           <div
-            className={`bg-white rounded-lg shadow-xl w-full max-w-[360px]  relative transition-all duration-700 delay-300 ${animate
+            className={`bg-white p-[24px] rounded-[8px] shadow-xl w-full max-w-[360px] min-h-[300px] h-full  relative transition-all duration-700 delay-300 ${animate
               ? "opacity-100 transform translate-y-0"
               : "opacity-0 transform translate-y-8"
               }`}
-          >
-            <button
-              onClick={closeModal}
-              className="absolute md:right-[-3rem] right-[0rem] md:top-[-2rem] top-[-9rem] transform transition-transform duration-300 hover:scale-110"
-            >
-              <Image
-                src={CloseCircle}
-                alt="close"
-                width={24}
-                height={24}
-                className="w-full h-full object-cover"
-              />
-            </button>
+          >{signInLoader ?
+            <div className="flex items-center justify-center gap-4 h-full w-full min-w-[250px] md:min-w-[300px] min-h-[300px]">
+              <div className="animate-spin rounded-full h-6 w-6 border-x-2 border-b-2 border-[#0F1B28]" />
+              <p className="text-[#0F1B28] text-[14px] md:text-[18px] font-[400]">
+                Signing you in!
+              </p>
+            </div>
 
-            {showOtp ? (
-              <OTPVerification
-                phoneNumber={phoneInput}
-                onBack={handleBackToPhone}
-                handleOtpChange={handleOtpChange}
-                handleKeyDown={handleKeyDown}
-                handleResend={handleResend}
-                animate={animate}
-                otp={otp}
-                timeLeft={timeLeft}
-                handleVerify={() => { handleVerify(); }}
-                otpError={otpError}
-                setTimeLeft={setTimeLeft}
-                inputRefs={inputRefs}
-                apiError={apiError}
-                isLoading={isLoading}
-                generatedOTP={generatedOTP}
-              />
-            ) : (
-              <div className="md:p-6 p-[16px]">
-                {apiError && (
-                  <div className="mb-4 text-red-500 text-sm text-center">
-                    {apiError}
-                  </div>
-                )}
-                <div
-                  className={`mb-4 relative transition-all duration-700 delay-400 ${animate
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                    }`}
-                >
-                  <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-                    <Image
-                      src={PhoneCall}
-                      alt="phoneIcon"
-                      width={48}
-                      height={48}
-                      className="w-[48px] h-[48px] text-gray-500"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    className="w-full pl-10 p-[16px] h-[64px] rounded-[12px]  border-[1px] border-[#E3E3E2] focus:outline-none  focus:ring-[#237AB1] focus:border-[#237AB1] focus:ring-2 transition-all duration-300"
-                    placeholder="Enter Phone Number"
-                    inputMode="numeric"
-                    value={phoneInput}
-                    onChange={handlePhoneChange}
-                  />
-                </div>
-
-                <div
-                  className={`mb-4 transition-all duration-700 delay-500 ${animate
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                    }`}
-                >
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="w-[18px] h-[18px] rounded-[100px] text-[#2872A1] border-gray-300  focus:ring-blue-500 cursor-pointer"
-                      defaultChecked
-                    />
-                    <span className="text-[14px] font-[400] text-[#505354]">
-                      Notify me with offers & updates
-                    </span>
-                  </label>
-                </div>
-                <LoginButton
-                  onClick={handleContinue}
-                  children={isLoading ? "SENDING..." : "CONTINUE"}
-                  disabled={phoneInput?.length < 10 || isLoading}
+            :
+            <>
+              <button
+                onClick={closeModal}
+                className="absolute md:right-[-3rem] right-[0rem] md:top-[-1rem] top-[-9rem] transform transition-transform duration-300 hover:scale-110"
+              >
+                <Image
+                  src={CloseCircle}
+                  alt="close"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-cover"
                 />
-                <LoginFooter textLink1={"/privacy-policy"} textLink2={"/terms-conditions"} />
-              </div>
-            )}
+              </button>
+
+              {showOtp ? (
+                <OTPVerification
+                  phoneNumber={phoneInput}
+                  onBack={handleBackToPhone}
+                  handleOtpChange={handleOtpChange}
+                  handleKeyDown={handleKeyDown}
+                  handleResend={handleResend}
+                  animate={animate}
+                  otp={otp}
+                  timeLeft={timeLeft}
+                  handleVerify={() => { handleVerify(); }}
+                  otpError={otpError}
+                  setTimeLeft={setTimeLeft}
+                  inputRefs={inputRefs}
+                  apiError={apiError}
+                  isLoading={isLoading}
+                  generatedOTP={generatedOTP}
+                />
+              ) : (
+                <div className="">
+
+                  <div
+                    className={`mb-4 relative transition-all duration-700 delay-400 ${animate
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-4"
+                      }`}
+                  >
+                    <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
+                      <Image
+                        src={PhoneCall}
+                        alt="phoneIcon"
+                        width={48}
+                        height={48}
+                        className="w-[48px] h-[48px] text-gray-500"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      className={`w-full pl-10 p-[16px] h-[64px] rounded-[12px]  border-[1px] border-[#E3E3E2] focus:outline-none 
+                     focus:ring-[#3B52F5] focus:border-[#3B52F5] focus:ring-[1px] transition-all duration-300
+                     ${apiError ? "border-[#EC5B4B]" : "border-[#E3E3E2]"}`}
+                      placeholder="Enter Phone Number"
+                      inputMode="numeric"
+                      value={phoneInput}
+                      onChange={handlePhoneChange}
+                    />
+
+                  </div>
+                  {apiError && (
+                    <div className="-mt-2 mb-4 text-[#EC5B4B] text-sm text-left">
+                      {apiError}
+                    </div>
+                  )}
+
+                  <div
+                    className={`mb-4 transition-all duration-700 delay-500 ${animate
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-4"
+                      }`}
+                  >
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="w-[18px] h-[18px] rounded-[100px] border-gray-300  focus:ring-[#3B52F5] cursor-pointer accent-[#3B52F5] "
+                        defaultChecked
+                      />
+                      <span className="text-[14px] font-[400] text-[#505354]">
+                        Notify me with offers & updates
+                      </span>
+                    </label>
+                  </div>
+                  <LoginButton
+                    onClick={handleContinue}
+                    children={isLoading ? "Sending..." : "Continue"}
+                    disabled={isLoading}
+                  />
+                  <LoginFooter textLink1={"/privacy-policy"} textLink2={"/terms-conditions"} />
+                </div>
+              )}
+            </>
+            }
           </div>
+
         </div>
         {verifySuccess && <Alert type="success" message="Login Successful" />}
       </div>

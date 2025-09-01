@@ -30,12 +30,12 @@ const GoogleReviewSection = ({
         />
       </div>
 
-      <div className="lg:text-[44px] text-[34px] font-[500] font-lato leading-[120%] tracking-[-0.02em] !mt-7">
+      <div className="lg:text-[44px] text-[34px] font-[500] font-sophiaPro leading-[120%] tracking-[-0.02em] !mt-7">
         {text ? text : defaultText}
       </div>
 
       {showAdditionalText && (
-        <div className="text-[16px] font-[400] font-lato leading-[150%] !mt-[6px]">
+        <div className="text-[16px] font-[400] font-sophiaPro leading-[150%] !mt-[6px]">
           Tried everything for acne? <br />
           See how Clear Ritual has helped people get clearer skin with real, visible
           results.

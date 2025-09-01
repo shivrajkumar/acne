@@ -10,7 +10,7 @@ import {
 } from "@/constants/urls";
 import Loader from "../generic/Loader";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
-import AcneHeader from "../generic/AcneHeader";
+import AcneHeader from "../generic/Header/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import OrderConfirmationView from "./OrderConfimationView";
 import { handleBookCall, transformSlotData } from "../../utils/bookacall";
@@ -56,7 +56,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
       if (typeof window !== "undefined") {
         try {
           const storedData = localStorage.getItem("acne_result_data");
-          idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+          idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId || localStorage.getItem("caseId");
         } catch (err) {
           console.error("Error accessing localStorage:", err);
         }
@@ -129,7 +129,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
           transactionId: `${window.localStorage.getItem("user_tid")}`,
         });
         trackUmamiEvent('order_placed', {
-          syntheticId:  `${window.localStorage.getItem("user_tid")}`,
+          syntheticId: `${window.localStorage.getItem("user_tid")}`,
           revenue: res.data?.orderDetails?.totalPrice,
           currency: 'INR'
         });
@@ -223,7 +223,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
         onError: (error) => {
           setBookingError(
             error.message ||
-              "Failed to book your appointment. Please try again."
+            "Failed to book your appointment. Please try again."
           );
         },
       });
@@ -337,7 +337,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
   return (
     <>
       <AcneMarqueeBanner />
-       <div className="sticky top-0 z-50">
+      <div className="sticky top-0 z-50">
         <AcneHeader />
       </div>
 

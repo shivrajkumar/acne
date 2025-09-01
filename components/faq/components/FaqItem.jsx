@@ -1,0 +1,43 @@
+"use client";
+import React from "react";
+import { Button, Typography } from "antd";
+import Image from "next/image";
+import PlusIcon from "@/assets/svg/Plus.svg";
+import MinusIcon from "@/assets/svg/Minus.svg";
+import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
+
+const { Text } = Typography;
+
+const FaqItem = ({ question, answer, isOpen, onToggle }) => {
+  return (
+    <div className="border-b border-gray-200 last:border-b-0 cursor-pointer">
+      <div
+        onClick={onToggle}
+        className="w-full h-auto py-4 px-0 flex justify-between items-center text-left border-none shadow-none hover:bg-transparent"
+      >
+        <Text
+          strong
+          className="text-sm font-sophiaPro w-3/4 md:w-full text-gray-900"
+        >
+          {question}
+        </Text>
+        <div className="w-6 h-6 rounded-full flex items-center justify-center">
+          {isOpen ? (
+            <AiFillMinusCircle size={20} className="" />
+          ) : (
+            <AiFillPlusCircle size={20} className="" />
+          )}
+        </div>
+      </div>
+
+      {isOpen && (
+        <div
+          className="text-sm font-sophiaPro text-gray-600 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: answer }}
+        />
+      )}
+    </div>
+  );
+};
+
+export default FaqItem;

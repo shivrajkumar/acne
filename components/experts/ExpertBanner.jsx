@@ -19,14 +19,14 @@ export default function ExpertBanner() {
 
         {/* Shifted Text to the Left */}
         <div className="px-[24px] md:mr-[30px] w-full md:w-[702px] text-left md:text-left ml-auto md:-ml-[9px]">
-          <div className="text-[44px] leading-[120%] md:w-[550px] text-wrap w-[313px] mt-[40px] font-[500] text-Text/Heading-Text font-lato">
+          <div className="text-[44px] leading-[120%] md:w-[550px] text-wrap w-[313px] mt-[40px] font-[500] text-Text/Heading-Text font-sophiaPro">
             Our Experts:
             <br />
             Dermatologists Behind Clear Ritual’s Personalised Acne
             Solutions
           </div>
 
-          <div className="text-Text/Body-Text mt-4 text-[16px] font-[400]  md:w-[400px] text-wrap w-[313px]  tracking-[-0.01em] leading-[150%] font-lato">
+          <div className="text-Text/Body-Text mt-4 text-[16px] font-[400]  md:w-[400px] text-wrap w-[313px]  tracking-[-0.01em] leading-[150%] font-sophiaPro">
             Developed with top dermatologists and doctors, our solutions blends
             science and Ayurveda for real results.
           </div>

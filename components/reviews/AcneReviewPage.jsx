@@ -8,7 +8,7 @@ import AcneRealPeoplRealStories from "../landing-page/AcneRealPeoplRealStories";
 import { Suspense } from "react";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
 import AcneFooter from "@/components/generic/AcneFooter";
-import AcneHeader from "@/components/generic/AcneHeader";
+import AcneHeader from "@/components/generic/Header/AcneHeader";
 import Loader from "../generic/Loader";
 import useMediaLoader from "@/hooks/useMediaLoader";
 import { CDN_BASE_URL } from "@/constants/constants";
@@ -94,13 +94,13 @@ const AcneReviewPage = () => {
                         )}
                       </div>
 
-                      <p className="text-[12px] font-[500] leading-[130%] font-lato text-[#171819] mt-4">
+                      <p className="text-[12px] font-[500] leading-[130%] font-sophiaPro text-[#171819] mt-4">
                         {review.date}
                       </p>
-                      <h3 className="text-[20px] font-lato font-[500] leading-[130%] tracking-[-0.02em]">
+                      <h3 className="text-[20px] font-sophiaPro font-[500] leading-[130%] tracking-[-0.02em]">
                         {review.name}, {review.location}
                       </h3>
-                      <p className="mt-3 font-lato font-[400] text-[14px] leading-[140%] text-[#313233]">
+                      <p className="mt-3 font-sophiaPro font-[400] text-[14px] leading-[140%] text-[#313233]">
                         {review.review}
                       </p>
 

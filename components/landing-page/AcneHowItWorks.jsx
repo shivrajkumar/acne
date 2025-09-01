@@ -6,28 +6,28 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import { useEffect, useState } from "react";
 
 export default function AcneHowItWorks({ howItWorks }) {
-  const [orderCount , setOrderCount] = useState(null);
-  const [caseId , setCaseId] = useState(null);
+  const [orderCount, setOrderCount] = useState(null);
+  const [caseId, setCaseId] = useState(null);
 
-  useEffect(()=>{
-      const orderCountFromStorage =
-        window.localStorage.getItem("order_count");
-        const storedData = localStorage.getItem("acne_result_data");
-        const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
-      setOrderCount(orderCountFromStorage);
-      setCaseId(idFromLocalStorage)
-  },[])
+  useEffect(() => {
+    const orderCountFromStorage =
+      window.localStorage.getItem("order_count");
+    const storedData = localStorage.getItem("acne_result_data");
+    const idFromLocalStorage = JSON.parse(storedData)?.customerDetails?.caseId;
+    setOrderCount(orderCountFromStorage);
+    setCaseId(idFromLocalStorage)
+  }, [])
 
   return (
     <>
       {/* Desktop View */}
       <div className="hidden bg-[#FFFFFF] p-[16px] md:p-[40px] lg:p-[40px] rounded-[24px] w-full mx-auto border-[1px] border-Elements/Divider-Stroke xs:hidden sm:hidden md:block lg:block xl:block">
-        <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-normal text-[14px] w-fit font-lato">
+        <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-normal text-[12px] md:text-[14px] w-fit font-sophiaPro">
           How It Works
         </div>
         <div className="flex justify-between mt-[16px] mb -[16px]">
           <div className="flex flex-col justify-between items-start">
-            <h2 className="text-[28px] md:text-[40px] xs:text-[28px] font-[500] leading-[130%] font-lato text-Text/Heading-Text">
+            <h2 className="text-[28px] md:text-[40px] xs:text-[28px] font-[400] leading-[130%] font-sophiaPro text-Text/Heading-Text">
               Clear Skin, Simplified: <br /> Your Personalised 3-Step Process
             </h2>
           </div>
@@ -53,7 +53,7 @@ export default function AcneHowItWorks({ howItWorks }) {
             return (
               <div key={index} className="p-3 w-full md:w-1/3 relative">
                 <div className="flex items-center justify-center my-[24px]">
-                  <div className="flex items-center justify-center w-fit px-[16px] py-[4px] text-black bg-Background/AirBlue rounded-full text-[12px] md:text-[18px] z-10 font-lato">
+                  <div className="flex items-center justify-center w-fit px-[16px] py-[4px] text-black bg-Background/AirBlue rounded-full text-[12px] md:text-[18px] z-10 font-sophiaPro">
                     Step {index + 1}
                   </div>
                   {index < howItWorks.length - 1 && (
@@ -75,12 +75,12 @@ export default function AcneHowItWorks({ howItWorks }) {
 
       {/* Mobile Steps */}
       <div className="bg-[#FFFFFF] p-[20px] rounded-[24px] w-full mx-auto border-[1px] border-Elements/Divider-Stroke xs:block sm:block md:hidden lg:hidden xl:hidden">
-        <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-lato font-normal text-[14px] w-fit ">
+        <div className="bg-white border-[1px] border-[#E3E3E2] rounded-[12px] py-2 px-4 font-sophiaPro font-normal text-[14px] w-fit ">
           How it Works
         </div>
 
         <div className="my-[20px]">
-          <h2 className="text-[28px] font-[500] text-Text/Heading-Text font-lato leading-[130%]">
+          <h2 className="text-[28px] font-[400] text-Text/Heading-Text font-sophiaPro leading-[130%]">
             The Easiest <br /> Process for the Best Results
           </h2>
         </div>
@@ -105,13 +105,13 @@ export default function AcneHowItWorks({ howItWorks }) {
                     </div>
 
                     <div className="flex-1">
-                      <div className="bg-Background/AirBlue px-[16px] py-[4px] text-black rounded-full inline-block mb-2 text-[12px] md:text-[18px] font-lato">
+                      <div className="bg-Background/AirBlue px-[16px] py-[4px] text-black rounded-full inline-block mb-2 text-[12px] md:text-[18px] font-sophiaPro">
                         STEP {index + 1}
                       </div>
-                      <h3 className="text-[16px] font-[500] text-Text/Heading-Text font-lato">
+                      <h3 className="text-[16px] font-[400] text-Text/Heading-Text font-sophiaPro">
                         {value.title}
                       </h3>
-                      <p className="text-[12px] text-Text/Heading-Text mb-1 font-lato">
+                      <p className="text-[12px] text-Text/Heading-Text mb-1 font-sophiaPro">
                         {value.description}
                       </p>
                     </div>
@@ -165,10 +165,10 @@ function CustomerCard({ value }) {
         />
       </div>
       <div className="flex flex-col justify-center px-3 rounded-lg items-center gap-[8px] mt-[24px] text-center">
-        <h2 className="text-[24px] pb-1 pt-2 text-Text/Heading-Text font-lato leading-[130%] font-[500] ">
+        <h2 className="text-[24px] pb-1 pt-2 text-Text/Heading-Text font-sophiaPro leading-[130%] font-[400] ">
           {value.title}
         </h2>
-        <p className="text-[16px] text-Text/Heading-Text pb-3 font-[400] text-center px-[40px] font-lato">
+        <p className="text-[16px] text-Text/Heading-Text pb-3 font-[400] text-center px-[40px] font-sophiaPro">
           {value.description}
         </p>
       </div>

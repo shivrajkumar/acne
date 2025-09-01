@@ -64,7 +64,7 @@ export const Modal = (props) => {
                   <div className="px-[24px] pb-[24px]">
                     <Dialog.Title
                       as="h3"
-                      className="text-[32px] xs:text-[24px] md:text-[32px] font-[500] pt-[24px] pb-[16px] font-lato text-left text-Text/Heading-Text -tracking-[2%] flex items-center justify-between gap-[24px]"
+                      className="text-[32px] xs:text-[24px] md:text-[32px] font-[400] pt-[24px] pb-[16px] font-sophiaPro text-left text-Text/Heading-Text -tracking-[2%] flex items-center justify-between gap-[24px]"
                     >
                       {props.content?.heading}
                       <div
@@ -76,7 +76,7 @@ export const Modal = (props) => {
                     </Dialog.Title>
 
                     <div className="border-t pt-[8px]">
-                      <p className="text-[14px] font-lato font-[400] text-left mb-6 text-Text/Heading-Text">
+                      <p className="text-[14px] font-sophiaPro font-[400] text-left mb-6 text-Text/Heading-Text">
                         {props.content?.text}
                       </p>
 
@@ -102,12 +102,12 @@ export const Modal = (props) => {
                                 <div>
                                   {props.enableListing ? (
                                     <ul className="list-disc pl-5">
-                                      <li className="font-[400] text-Text/Heading-Text font-lato text-[14px] leading-[1.4]">
+                                      <li className="font-[400] text-Text/Heading-Text font-sophiaPro text-[14px] leading-[1.4]">
                                         {item.title} - {item.description}
                                       </li>
                                     </ul>
                                   ) : (
-                                    <h4 className="font-[400] text-Text/Heading-Text font-lato text-[14px]">
+                                    <h4 className="font-[400] text-Text/Heading-Text font-sophiaPro text-[14px]">
                                       {item.title} - {item.description}
                                     </h4>
                                   )}

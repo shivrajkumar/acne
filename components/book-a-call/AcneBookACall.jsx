@@ -10,7 +10,7 @@ import Loader from "../generic/Loader";
 import { handleBookCall, transformSlotData } from "../../utils/bookacall";
 import BookFreeCall from "../slot-booking/AcneSlotBooking";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
-import AcneHeader from "../generic/AcneHeader";
+import AcneHeader from "../generic/Header/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import moment from "moment";
 import { logGtmEvent } from "../generic/Gtm";
@@ -265,12 +265,12 @@ const AcneBookACallPage = ({ searchParams }) => {
             setBookingError={setBookingError}
             setError={setError}
           />
-      
+
 
           {!bookedSuccess && selectedTime !== null && (
             <div className="fixed bottom-0 left-0 right-0 md:h-[104px] h-[88px] bg-white flex justify-center items-center z-[48] shadow-lg border-t border-gray-200">
               <button
-                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
+                className="md:w-[400px] w-[360px] justify-center items-center h-[56px] bg-Primary/500 px-[56px] py-[16px] rounded-full my-[24px] text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%] active:opacity-90 cursor-pointer flex"
                 onClick={bookACall}
                 disabled={loadingBookCall}
               >
@@ -286,10 +286,10 @@ const AcneBookACallPage = ({ searchParams }) => {
   return (
     <>
       <AcneMarqueeBanner />
-      <div className="sticky top-0 z-50">  
+      <div className="sticky top-0 z-50">
         <AcneHeader />
       </div>
-  
+
 
       {renderContent()}
 

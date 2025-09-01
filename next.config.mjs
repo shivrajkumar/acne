@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   output: "standalone",
   eslint: {
@@ -41,12 +42,13 @@ const nextConfig = {
       "traya.health",
     ],
   },
-  // async redirects() {
+  // async rewrites() {
   //   return [
   //     {
-  //       source: "/",
-  //       destination: "/home",
-  //       permanent: true,
+  //       source: "/api/:path*",
+  //       destination:
+  //         "https://consumer-api-gateway-tnutsdr7.dev.hav-g.in/:path*",
+  //       // Proxy to Backend
   //     },
   //   ];
   // },

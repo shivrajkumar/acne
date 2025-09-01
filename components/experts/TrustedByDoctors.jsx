@@ -18,7 +18,7 @@ const TrustedByDoctors = () => {
 
   return (
     <div className="bg-white px-[16px] ">
-      <div className="text-left text-[28px] md:text-[40px] leading-[130%] tracking-[-0.02em] font-[400] mb-10 text-Text/Heading-Text font-lato md:pl-[10.25rem]">
+      <div className="text-left text-[28px] md:text-[40px] leading-[130%] tracking-[-0.02em] font-[400] mb-10 text-Text/Heading-Text font-sophiaPro md:pl-[10.25rem]">
         Trusted by Doctors
       </div>
 
@@ -78,7 +78,7 @@ const TrustedByDoctors = () => {
             />
             <div className="mt-4">
               <div className="flex flex-col gap-y-[4px] items-start">
-                <div className="text-[16px] font-[400] leading-[150%] tracking-[-0.001em] text-Text/Heading-Text font-lato">
+                <div className="text-[16px] font-[400] leading-[150%] tracking-[-0.001em] text-Text/Heading-Text font-sophiaPro">
                   {doctor?.name}
                 </div>
                 <div className="text-[12px] font-[400] tracking-[-0.01em] text-left leading-[140%] text-Text/Body-Text ">
@@ -89,7 +89,7 @@ const TrustedByDoctors = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-y-[36px] md:mt-[32px] md:mb-6 ">
-                <div className="text-[15px] leading-[135%] tracking-[-0.001em] font-[500] text-left text-Text/Heading-Text font-lato">
+                <div className="text-[15px] leading-[135%] tracking-[-0.001em] font-[500] text-left text-Text/Heading-Text font-sophiaPro">
                   {doctor?.description}
                 </div>
               </div>

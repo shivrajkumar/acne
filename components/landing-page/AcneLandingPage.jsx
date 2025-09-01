@@ -14,7 +14,7 @@ import FAQSection from "./FaqSection";
 import AcneThreeFoldApproach from "./AcneThreefoldApproach";
 import GetCustomRoutineBanner from "./GetCutomRoutinebanner";
 import AcneMarqueeBanner from "../generic/AcneMarqueeBanner";
-import AcneHeader from "../generic/AcneHeader";
+import AcneHeader from "../generic/Header/AcneHeader";
 import WhatIsCleaRitual from "./WhatIsCleaRitual";
 import AcneRealPeoplRealStories from "./AcneRealPeoplRealStories";
 import AcneHowItWorks from "./AcneHowItWorks";
@@ -36,14 +36,14 @@ const AcneLandingPage = () => {
   }
 
   return (
-    <div className="!font-lato">
-        <AcneMarqueeBanner />
+    <div className="!font-sophiaPro">
+      <AcneMarqueeBanner />
       <div className=" sticky top-0 z-50">
         <AcneHeader />
       </div>
       <BannerSection />
       {/* <Brandmarquee /> */}
-      <div className="mx-[16px] mt-[28px] mb-[40px]  md:mx-[40px] md:mt-[40px] gap-[40px] md:gap-[80px] flex flex-col !font-lato">
+      <div className="mx-[16px] mt-[28px] mb-[40px]  md:mx-[40px] md:mt-[40px] gap-[40px] md:gap-[80px] flex flex-col !font-sophiaPro">
 
         <WhatIsCleaRitual />
         <AcneRealPeoplRealStories

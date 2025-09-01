@@ -1,0 +1,47 @@
+export const blogLandingData = [
+  {
+    slug: 'what-causes-acne',
+    title: "What Causes Acne? Breaking Down the Science",
+    description: "Acne is one of the most common skin conditions in the world, affecting people of all ages and skin types. Yet, despite how widespread it is, most people don’t fully understand what causes it or why it tends to show up in certain areas like the back, jawline, or cheeks.",
+    image: "acne/blogs/blogs-images/blog-1.webp",
+    date: "August 12, 2025",
+    readTime: "5 MIN READ",
+    filter: "Skin Education",
+  },
+  {
+    slug: "hormonal-acne-vs-bacterial-acne",
+    title: "Hormonal Acne vs Bacterial Acne – What’s the Difference?",
+    description: "Acne is often seen as one single skin condition, but in reality, not all breakouts are the same. Treating every pimple the same way can lead to confusion, frustration, and results that don’t last.",
+    image: "acne/blogs/blogs-images/blog-2.webp",
+    date: "August 12, 2025",
+    readTime: "4 MIN READ",
+    filter: "Acne Education",
+  },
+  {
+    slug: "how-to-identify-if-your-acne-is-hormonal",
+    title: "How to Identify If Your Acne Is Hormonal",
+    description: "Not all acne is the same — and if your breakouts keep recurring in the same spots, especially around your jawline or chin, there’s a good chance your acne is hormonal.",
+    image: "acne/blogs/blogs-images/blog-3.webp",
+    date: "August 12, 2025",
+    readTime: "3 MIN READ",
+    filter: "Skin Education",
+  },
+  {
+    slug: "why-adult-acne-is-more-common-than-you-think",
+    title: "Why Adult Acne Is More Common Than You Think",
+    description: "Acne isn’t just something people grow out of. For many adults — particularly women — breakouts persist well into their 20s, 30s, and 40s. In fact, adult acne is increasingly common, and its causes are often more complex than those in adolescence.",
+    image: "acne/blogs/blogs-images/blog-4.webp",
+    date: "August 12, 2025",
+    readTime: "3 MIN READ",
+    filter: "Acne Education",
+  },
+  {
+    slug: "is-your-acne-linked-to-pcos",
+    title: "Is Your Acne Linked to PCOS? Here’s What You Need to Know",
+    description: "Polycystic Ovary Syndrome (PCOS) is a hormonal condition that affects nearly 1 in 5 women of reproductive age — and one of its most visible signs is persistent acne. Unlike typical breakouts, PCOS acne often follows a specific pattern, shows resistance to conventional treatments, and may be a sign of deeper hormonal imbalances.",
+    image: "acne/blogs/blogs-images/blog-5.webp",
+    date: "August 12, 2025",
+    readTime: "3 MIN READ",
+    filter: "Skin Education",
+  }
+];
