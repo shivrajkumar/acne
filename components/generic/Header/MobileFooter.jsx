@@ -208,10 +208,12 @@ const MobileFooter = ({
                                 </Link>
                             </li>
                             <li className="flex gap-[4px] items-center">
+                                <Link href='/contact-us'>
                                 <div className="text-Grey/50 text-[14px] font-[400]">Get in Touch</div>
-                                <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                                {/* <div className="py-[2px] px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
                                     Coming Soon
-                                </div>
+                                </div> */}
+                                </Link>
                             </li>
                         </ul>
                     )}
