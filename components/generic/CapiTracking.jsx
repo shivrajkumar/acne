@@ -2,8 +2,11 @@
 import { getCookieValue } from '@/helpers/cookieHelper';
 import { metaCapi } from '@/helpers/metaCapiHelper';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 function CapiPageTracking({ payload, eventName }) {
+    const pathname = usePathname();
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const cachedEmail = localStorage.getItem('user_email');
@@ -26,10 +29,9 @@ function CapiPageTracking({ payload, eventName }) {
             //Needed for debugging purpose. Will remove in Productions
             console.log("Capi Tracking Rendered with event:", window.location.pathname);
 
-
             metaCapi({ ...capiPayload, email, phone, gender, name }, 'PageView');
         }
-    }, [payload, eventName]);
+    }, [pathname, payload, eventName]);
 
     return null;
 }
