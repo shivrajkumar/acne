@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 export default function ProductCard({ product }) {
   const pathname = usePathname();
 
+  const isProductDetails = pathname.includes(`/view-all-products/`);
+
   return (
     <div className={`flex-none h-auto bg-white overflow-hidden ${
         pathname === "/skin-food" ? "w-auto" : "w-[430px]"
@@ -44,9 +46,11 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Quick View Button */}
+      {!isProductDetails && 
       <button className="mt-4 w-full border border-Primary/500 text-Primary/500 rounded-full py-1 text-sm hover:bg-Primary/500 hover:text-white transition">
         Quick View
       </button>
+      }
     </div>
   );
 }

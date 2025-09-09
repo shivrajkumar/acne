@@ -38,7 +38,6 @@ const IngredientsFaqSection = ({}) => {
   const [openItems, setOpenItems] = useState({});
 
   const handleToggle = (index) => {
-        console.log("Toggling item at index:", index);
     setOpenItems((prev) => ({
       ...prev,
       [index]: !prev[index],

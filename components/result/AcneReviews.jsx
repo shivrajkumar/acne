@@ -1,26 +1,28 @@
-
 import { CDN_BASE_URL } from "@/constants/constants";
 import { useCartContext } from "@/context/CartContext";
 import { Carousel } from "antd";
 import Image from "next/image";
 import React, { memo, useMemo } from "react";
 
+const mapReviewData = (item) => {
+  return {
+    name: item.name || item.title || "Anonymous",
+    description: item.description || item.review || "",
+    stage: item.stage || item.level || "",
+    images: [
+      { src: item.beforeImage || item.images?.before, label: item.beforeLabel || "Before" },
+      { src: item.afterImage || item.images?.after, label: item.afterLabel || "After" },
+    ].filter((img) => img.src),
+  };
+};
+
 const TestimonialCard = memo(({ testimonial }) => (
   <div className="bg-Secondary/100 rounded-lg shadow-sm overflow-hidden mx-2 h-[440px] md:h-[534px] flex flex-col">
     <div className="flex h-[240px] md:h-84 flex-shrink-0">
-      {[
-        {
-          img: testimonial.beforeImage,
-          label: testimonial.beforeLabel || "Before",
-        },
-        {
-          img: testimonial.afterImage,
-          label: testimonial.afterLabel || "After",
-        },
-      ].map(({ img, label }, idx) => (
+      {testimonial.images.map(({ src, label }, idx) => (
         <div key={idx} className="flex-1 relative">
           <Image
-            src={`${CDN_BASE_URL}${img}`}
+            src={`${CDN_BASE_URL}${src}`}
             alt={`${label} treatment`}
             fill
             className="object-cover py-2 px-2 rounded-2xl"
@@ -51,8 +53,20 @@ const TestimonialCard = memo(({ testimonial }) => (
   </div>
 ));
 
-const AcneReviews = () => {
-  const {reviewDetails} = useCartContext()
+const AcneReviews = ({ data }) => {
+  let reviewDetails = [];
+
+  try {
+    const context = useCartContext?.();
+    if (context && context.reviewDetails) {
+      reviewDetails = context.reviewDetails;
+    }
+  } catch (err) {
+    // not inside context provider → ignore
+  }
+
+  // Decide data source: props > context
+  const reviews = (data && data.length > 0 ? data : reviewDetails) || [];
 
   const carouselSettings = useMemo(
     () => ({
@@ -67,37 +81,29 @@ const AcneReviews = () => {
       responsive: [
         {
           breakpoint: 1024,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            arrows: true,
-          },
+          settings: { slidesToShow: 2, slidesToScroll: 1, arrows: true },
         },
         {
           breakpoint: 640,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: true,
-          },
+          settings: { slidesToShow: 1, slidesToScroll: 1, arrows: true },
         },
       ],
     }),
     []
   );
 
-
   return (
     <div className="py-8">
-      <div className="">
-        <Carousel {...carouselSettings}>
-          {reviewDetails?.map((testimonial, index) => (
+      <Carousel {...carouselSettings}>
+        {reviews.map((item, index) => {
+          const testimonial = mapReviewData(item);
+          return (
             <div key={`${testimonial.name}-${index}`}>
               <TestimonialCard testimonial={testimonial} />
             </div>
-          ))}
-        </Carousel>
-      </div>
+          );
+        })}
+      </Carousel>
     </div>
   );
 };
