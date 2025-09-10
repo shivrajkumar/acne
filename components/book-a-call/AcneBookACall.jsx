@@ -14,6 +14,7 @@ import AcneHeader from "../generic/Header/AcneHeader";
 import SlotConfirmPop from "../slot-booking/SlotConfirmPop";
 import moment from "moment";
 import { logGtmEvent } from "../generic/Gtm";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const AcneBookACallPage = ({ searchParams }) => {
   const [availableSlots, setAvailableSlots] = useState({});
@@ -42,6 +43,7 @@ const AcneBookACallPage = ({ searchParams }) => {
   useEffect(() => {
     logGtmEvent("book-call-confirmed-without-order", {
       gender: window.localStorage.getItem("user_gender"),
+      fb_external_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
     })
   }, [])
 
@@ -182,6 +184,7 @@ const AcneBookACallPage = ({ searchParams }) => {
       setBookingError(null); // Clear any previous errors
       logGtmEvent("book-call-confirmed-without-order", {
         gender: window.localStorage.getItem("user_gender"),
+        fb_external_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
       })
     }
   };

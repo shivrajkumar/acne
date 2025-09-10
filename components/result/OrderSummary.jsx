@@ -11,6 +11,7 @@ import Image from "next/image";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { logGtmEvent } from "../generic/Gtm";
 import useMediaQuery from "@/hooks/useMediaQuerry";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const OrderSummary = () => {
   const { productsDetails, optionalProductsDetails, addProductToCart } = useCartContext();
@@ -58,6 +59,7 @@ const OrderSummary = () => {
               });
               logGtmEvent("addon_scar_seen", {
                 product: optionalProductsDetails,
+                fb_external_id: generateEventId({ eventName: 'repurchase_page_activity' })
               });
 
               // Mark as tracked and disconnect observer

@@ -9,6 +9,7 @@ import Loader from "../generic/Loader";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -72,7 +73,13 @@ const SingleSelect = ({ block, context }) => {
         }
 
         if (block.id == "stress_level") {
-          logGtmEvent("stress_level", { question_text: block.text, question_id: block.id, response: [reply], })
+          const phone = window.localStorage.getItem("user_phone");
+          logGtmEvent("stress_level", {
+            question_text: block.text, question_id: block.id, response: [reply],
+            fb_external_id: generateEventId({
+              eventName: 'stress_level', phone: phone,
+            })
+          })
         }
       } else {
         setError(_res?.data?.message || "An error occurred");

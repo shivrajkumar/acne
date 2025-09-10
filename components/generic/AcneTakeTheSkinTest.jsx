@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import _ from 'lodash';
 import { logGtmEvent } from "./Gtm";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const AcneTakeTheSkinTest = ({
   variant,
@@ -41,7 +42,8 @@ const AcneTakeTheSkinTest = ({
       page_name: window.location.pathname,
       timestamp: new Date().toISOString()
     });
-    logGtmEvent(`${_.kebabCase(text)}-CTA`, { location: window.location.pathname });
+    const phone = window.localStorage.getItem("user_phone");
+    logGtmEvent(`${_.kebabCase(text)}-CTA`, { location: window.location.pathname, fb_external_id: generateEventId({ eventName: `${_.kebabCase(text)}-CTA`, phone: phone}) });
   };
 
   return (

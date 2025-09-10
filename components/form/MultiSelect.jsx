@@ -10,6 +10,7 @@ import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { trackMoEngageEvent } from "@/utils/moegage";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const MultiSelect = ({ block, context }) => {
   const {
@@ -79,8 +80,9 @@ const MultiSelect = ({ block, context }) => {
     if (_res.status === 200) {
       await handleSubmit(selectedOptions);
       setSelectedOptions([]);
+      const phone = window.localStorage.getItem("user_phone");
       if (block.id == "acne_scars") {
-        logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender") })
+        logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender"), fb_external_id: generateEventId({ eventName: 'Acne_Scars', phone: phone }) })
       }
 
       if (block.id == 'photo_q') {
@@ -99,6 +101,7 @@ const MultiSelect = ({ block, context }) => {
           question_text: block.text,
           question_id: block.id,
           response: selectedOptions,
+          fb_external_id: generateEventId({ eventName: 'gut_root_cause', phone: phone })
         });
       }
     } else {

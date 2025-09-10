@@ -19,7 +19,7 @@ import AcneWhatsInYourKit from "./WhatIsInYourKit";
 import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { getCookieValue } from "@/helpers/cookieHelper";
-import { metaCapi } from "@/helpers/metaCapiHelper";
+import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import useMediaLoader from "@/hooks/useMediaLoader";
@@ -75,6 +75,7 @@ const ResultLandingPage = ({ searchParams }) => {
       fetchResult();
       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
+        fb_external_id: generateEventId({ eventName: 'ReportGenerated' })
       });
     }
   }, [tId]);
@@ -168,7 +169,7 @@ const ResultLandingPage = ({ searchParams }) => {
 
     // Track events
     trackMoEngageEvent("BeginCheckout", eventAttributes);
-    logGtmEvent("Add to Cart", eventAttributes);
+    logGtmEvent("Add to Cart", { ...eventAttributes, fb_external_id: generateEventId({ eventName: 'Add to Cart' }) });
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
     trackUmamiEvent('checkout_initiated', {
@@ -213,7 +214,7 @@ const ResultLandingPage = ({ searchParams }) => {
 
       setResultData(newResultData);
       localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
-      logGtmEvent("addon_scar_added", { product: product });
+      logGtmEvent("addon_scar_added", { product: product, fb_external_id: generateEventId({ eventName: 'addon_scar_added' })});
       trackMoEngageEvent("addon_scar_added", {
         timestamp: new Date().toISOString(),
         syntheticId: tId ?? localStorage.getItem("syntheticId"),
@@ -256,7 +257,7 @@ const ResultLandingPage = ({ searchParams }) => {
 
       setResultData(newResultData);
       localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
-      logGtmEvent("addon_scar_removed", { product: product });
+      logGtmEvent("addon_scar_removed", { product: product, fb_external_id: generateEventId({ eventName: 'addon_scar_removed' })});
       trackMoEngageEvent("addon_scar_removed", {
         timestamp: new Date().toISOString(),
         syntheticId: tId ?? localStorage.getItem("syntheticId"),

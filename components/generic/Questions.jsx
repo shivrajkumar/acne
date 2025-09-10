@@ -18,6 +18,7 @@ import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/url
 import LogMoengage from "./LogMoengage";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { pixelCustomeEvent } from "./Pixel";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
@@ -151,7 +152,7 @@ const Questions = () => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
         pixelCustomeEvent('Form Start');
-        logGtmEvent("Form_Start");
+        logGtmEvent("Form_Start", {fb_external_id: generateEventId({ eventName: 'Form_Start' })});
       }
     }
   }, [currentQuestion]);
