@@ -10,7 +10,7 @@ import {
   trackMoEngageEvent,
 } from "@/utils/moegage";
 import { pixelCustomeEvent } from "../generic/Pixel";
-import { metaCapi } from "@/helpers/metaCapiHelper";
+import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
