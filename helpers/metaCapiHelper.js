@@ -19,7 +19,7 @@ export const metaCapi = async (
         domain: window.location.hostname,
         gender: gender,
         full_name: name,
-        event_id: generateEventId({eventName, phone, order_id, path}),
+        event_id: generateEventId({eventName, phone, orderId: order_id, path}),
     };
 
     /*  const res = await fetchRequest(CAPI_TRACKING_API, {
