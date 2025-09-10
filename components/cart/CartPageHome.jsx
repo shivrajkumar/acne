@@ -8,7 +8,7 @@ import AcneTakeTheSkinTest from "../generic/AcneTakeTheSkinTest";
 import handleBuyNowClick from "../result/handleBuyNowClick";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { getCookieValue } from "@/helpers/cookieHelper";
-import { metaCapi } from "@/helpers/metaCapiHelper";
+import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { logGtmEvent } from "../generic/Gtm";
 import { pixelCustomeEvent } from "../generic/Pixel";
 

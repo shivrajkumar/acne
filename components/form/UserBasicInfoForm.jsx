@@ -398,7 +398,7 @@ export default function UserBasicInfoForm() {
         gender: formData.gender,
         age: formData?.age,
         fb_external_id: generateEventId({
-          eventName: 'stress_level', phone: `+91${formData.phone}`,
+          eventName: 'Contact', phone: `+91${formData.phoneNumber}`,
         })
       });
       pixelCustomeEvent("Contact", { gender: formData.gender });

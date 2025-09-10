@@ -73,9 +73,10 @@ const ResultLandingPage = ({ searchParams }) => {
   useEffect(() => {
     if (typeof window !== "undefined" && tId) {
       fetchResult();
+      const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
-        fb_external_id: generateEventId({ eventName: 'ReportGenerated' })
+        fb_external_id: generateEventId({ eventName: 'ReportGenerated', phone: phone })
       });
     }
   }, [tId]);
