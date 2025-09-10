@@ -37,7 +37,7 @@ export const metaCapi = async (
 };
 
 export const generateEventId = ({eventName, phone, orderId, path}) => {
-  const eventTime = getCurrentTimeInReadableForm();
+  const eventTime = Date.now();
   if (!path && typeof window != undefined) path = window.location.pathname; 
   if (phone) {
       const eventId = `${eventName}_${hash(phone)}`
