@@ -42,11 +42,13 @@ const FormSubmission = () => {
       metaCapi(capiPayloadRes, "Lead");
     }
     // Send GTM event for form completion
+    const phone = window.localStorage.getItem("user_phone");
     logGtmEvent("Lead", {
       name: window.localStorage.getItem("user_first_name"),
-      phone_number: window.localStorage.getItem("user_phone"),
+      phone_number: phone,
       gender: window.localStorage.getItem("user_gender"),
       age: window.localStorage.getItem("user_age"),
+      fb_external_id: generateEventId({ eventName: 'Lead', phone: phone })
     });
     pixelCustomeEvent("Lead", {
       name: window.localStorage.getItem("user_first_name"),
@@ -76,7 +78,8 @@ const FormSubmission = () => {
   useEffect(() => {
     setAllQuestionsFilled(true);
     window.localStorage.setItem("form_status", "filled");
-    logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender })
+    const phone = window.localStorage.getItem("user_phone");
+    logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender, fb_external_id: generateEventId({ eventName: 'Form_End', phone: phone }) })
     if (syntheticId) window.localStorage.setItem("syntheticId", syntheticId);
   }, [syntheticId]);
 

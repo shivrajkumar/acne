@@ -13,6 +13,7 @@ import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
 const whiteheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
@@ -101,7 +102,9 @@ const ImageCheckbox = ({ block, context }) => {
       await handleSubmit(selectedOptions);
 
       if (block.id === "pimples_appearance") {
-        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, })
+        const phone = window.localStorage.getItem("user_phone");
+        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, fb_external_id: generateEventId({ eventName: 'pimples_appearance', phone: phone })
+      })
       }
 
       if (block.id == "stress_level") {

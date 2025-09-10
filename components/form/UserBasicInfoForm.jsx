@@ -17,7 +17,7 @@ import {
   callAfterMoegageIsLoaded,
   trackMoEngageEvent,
 } from "../../utils/moegage";
-import { metaCapi } from "@/helpers/metaCapiHelper";
+import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
@@ -397,6 +397,9 @@ export default function UserBasicInfoForm() {
         phone_number: `+91${formData.phone}`,
         gender: formData.gender,
         age: formData?.age,
+        fb_external_id: generateEventId({
+          eventName: 'stress_level', phone: `+91${formData.phone}`,
+        })
       });
       pixelCustomeEvent("Contact", { gender: formData.gender });
       const cookies = document.cookie.split(";");

@@ -7,6 +7,7 @@ import LPBannerDesk from "@assets/images/LandingPageHeroDesktopV2.webp"
 import LPBannerMob from "@assets/images/LandingPageHeroMobileV2.webp"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 
 const mobile_video = LPBannerMob;
@@ -34,7 +35,7 @@ const BannerSection = () => {
   }, [])
 
   const logGTM = () => {
-    logGtmEvent("HB_Form_Start")
+    logGtmEvent("HB_Form_Start", { fb_external_id: generateEventId({ eventName: 'HB_Form_Start' }) })
   }
 
 

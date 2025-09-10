@@ -19,6 +19,7 @@ import moment from "moment";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const ThankYouLandingPage = ({ searchParams }) => {
   // Core data states
@@ -118,6 +119,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
           order_items: res.data?.orderDetails?.orderLineItems,
           caseId: `${caseId}`,
           transactionId: `${window.localStorage.getItem("user_tid")}`,
+          fb_external_id: generateEventId({ eventName: 'Purchase', orderId: `${res.data?.orderDetails?.orderId}` })
         });
         pixelCustomeEvent("Purchase", {
           gender: window.localStorage.getItem("user_gender"),
@@ -138,6 +140,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
           logGtmEvent("addon_scar_checkout_success", {
             product: optionalProductAdded, caseId: `${caseId}`,
             transactionId: `${window.localStorage.getItem("user_tid")}`,
+            fb_external_id: generateEventId({ eventName: 'addon_scar_checkout_success' })
           });
           trackMoEngageEvent("addon_scar_checkout_success", {
             product: optionalProductAdded,
@@ -229,6 +232,7 @@ const ThankYouLandingPage = ({ searchParams }) => {
       });
       logGtmEvent("book-call-confirmed-with-order", {
         gender: window.localStorage.getItem("user_gender"),
+        fb_external_id: generateEventId({ eventName: 'book-call-confirmed-with-order' })
       });
     } catch (error) {
       console.error("Error in bookACall:");

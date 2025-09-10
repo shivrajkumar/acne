@@ -22,6 +22,7 @@ import { CDN_BASE_URL } from "@/constants/constants";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { FaCameraRetro } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const front_view = `${CDN_BASE_URL}website_images/clear_rituals/skin_test/acne_upload.webp`;
 
@@ -88,6 +89,7 @@ const InputImage = ({ block }) => {
     let _image;
     let dataUri;
     try {
+      const phone = window.localStorage.getItem("user_phone");
       if (!captured) {
         _image = target.files[0];
         if (!_image) {
@@ -97,6 +99,7 @@ const InputImage = ({ block }) => {
         logGtmEvent("image_upload_success", {
           location: window?.location?.pathname,
           question: block.id,
+          fb_external_id: generateEventId({ eventName: 'image_upload_success', phone: phone })
         });
 
         dataUri = await fileToDataUri(_image);
@@ -104,12 +107,14 @@ const InputImage = ({ block }) => {
         logGtmEvent("image_takepicture_opened", {
           location: window?.location?.pathname,
           question: block.id,
+          fb_external_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
         });
         _image = await convertBase64URItoBlob(imageUri);
         dataUri = imageUri;
         logGtmEvent("image_takepicture_success", {
           location: window?.location?.pathname,
           question: block.id,
+          fb_external_id: generateEventId({ eventName: 'image_takepicture_success', phone: phone })
         });
       }
 
@@ -239,9 +244,11 @@ const InputImage = ({ block }) => {
     setShowBox(false);
 
     try {
+      const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("image_takepicture_opened", {
         location: window?.location?.pathname,
         question: block?.id,
+        fb_external_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
       });
       // Create a reusable notification component
       const createCameraNotification = () => (
@@ -356,9 +363,11 @@ const InputImage = ({ block }) => {
 
   const handleCamera = async () => {
     try {
+      const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("image_takepicture_opened", {
         location: window?.location?.pathname,
         question: block?.id,
+        fb_external_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
       });
 
       // Explicitly request camera access
@@ -399,9 +408,11 @@ const InputImage = ({ block }) => {
   };
 
   const openGallery = () => {
+    const phone = window.localStorage.getItem("user_phone");
     logGtmEvent("image_upload_opened", {
       location: window?.location?.pathname,
       question: block?.id,
+      fb_external_id: generateEventId({ eventName: 'image_upload_opened', phone: phone })
     });
     if (inputRef.current) {
       inputRef.current.click();

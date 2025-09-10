@@ -18,6 +18,7 @@ import PlayStore from "@assets/images/google_play.webp";
 import MobileFooter from "./Header/MobileFooter";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo_Whte.png";
 import { usePathname } from "next/navigation";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 
 
@@ -36,16 +37,24 @@ const AcneFooter = () => {
       to_page: url,
       time: new Date().toISOString()
     });
-    logGtmEvent(`footer-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    const eventName = `footer-link-${_.kebabCase(name)}-clicked`;
+    const phone = window.localStorage.getItem("user_phone");
+    logGtmEvent(eventName, { location: currentPath, fb_external_id: generateEventId({
+      eventName: eventName, phone: phone,
+    }) 
+  });
   };
 
   const socialIconsClickEvent = (name, link) => {
-    logGtmEvent(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
-    logGtmEvent(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link });
+    const phone = window.localStorage.getItem("user_phone");
+    logGtmEvent(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath, fb_external_id: generateEventId({ eventName: `footer-social-link-${_.kebabCase(name)}-clicked`, phone: phone})});
+    logGtmEvent(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link, fb_external_id: generateEventId({ eventName: `outbound-link-${_.kebabCase(name)}-clicked`, phone: phone}) });
   };
 
   const contactIconsClickEvent = (name) => {
-    logGtmEvent(`footer-contact-link-${_.kebabCase(name)}-clicked`, { location: currentPath });
+    const eventName = `footer-contact-link-${_.kebabCase(name)}-clicked`;
+    const phone = window.localStorage.getItem("user_phone");
+    logGtmEvent(eventName, { location: currentPath, fb_external_id: generateEventId({ eventName: eventName, phone: phone}) });
   };
 
   return (

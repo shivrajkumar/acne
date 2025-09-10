@@ -5,6 +5,7 @@ import { Carousel } from "antd";
 import { CustomRightArrow, CustomLeftArrow } from "@constants/CustomArrow";
 import { useEffect, useRef, useState } from "react";
 import { logGtmEvent } from "../generic/Gtm";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 export default function AcneRealPeoplRealStories({
   testimonials = [],
@@ -42,7 +43,7 @@ export default function AcneRealPeoplRealStories({
     if (sliderRef.current) {
       sliderRef.current.next();
     }
-    logGtmEvent("testimonials-clicked", { location: window.location.pathname });
+    logGtmEvent("testimonials-clicked", { location: window.location.pathname, fb_external_id: generateEventId({ eventName: 'testimonials-clicked' }) });
   };
 
   useEffect(() => {

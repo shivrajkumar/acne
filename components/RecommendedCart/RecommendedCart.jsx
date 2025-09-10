@@ -21,6 +21,7 @@ import {
 } from "@/utils/moegage";
 import { logGtmEvent } from "../generic/Gtm";
 import moengage from "@moengage/web-sdk";
+import { generateEventId } from "@/helpers/metaCapiHelper";
 
 
 
@@ -543,7 +544,8 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                     (deleted) => !cartData.some((item) => item.id === deleted.id)
                 ),
                 cart_value: isMonth == 1 ? totalPrice : newTotalPrice,
-                checkout_status: "Initiated"
+                checkout_status: "Initiated",
+                fb_external_id: generateEventId({ eventName: 'repurchase_page_activity' })
             }
 
         )

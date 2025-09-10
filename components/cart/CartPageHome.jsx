@@ -34,14 +34,15 @@ const CartPageHome = () => {
 
   const placeOrder = () => {
     handleBuyNowClick(data?.productsDetails, data?.customerDetails?.caseId);
+    const phone = window.localStorage.getItem("user_phone");
     const eventAttributes = {
       cart_value: `${data?.cartDetails?.totalCartValue}`,
       item_count: `${data?.productsDetails.length}`,
       timestamp: new Date().toISOString(),
       syntheticId: `${window.localStorage.getItem("syntheticId")}`,
       caseId: `${data?.customerDetails?.caseId}`,
-      transactionId: `${window.localStorage.getItem("user_tid")}`
-
+      transactionId: `${window.localStorage.getItem("user_tid")}`,
+      fb_external_id: generateEventId({ eventName: 'book-call-confirmed-without-order', phone: phone })
     }
     trackMoEngageEvent("BeginCheckout", eventAttributes)
     logGtmEvent("Add to Cart", eventAttributes)
@@ -50,7 +51,6 @@ const CartPageHome = () => {
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
     const fbc = getCookieValue('_fbc', document.cookie.split(';'));
     const email = window.localStorage.getItem("user_email");
-    const phone = window.localStorage.getItem("user_phone");
     const gender = window.localStorage.getItem("gender");
 
     const capiPayload = {
