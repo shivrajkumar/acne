@@ -1,10 +1,14 @@
 import React from 'react';
+import AutomaticShipping from '../../../assets/icons/automatic-shipping.png'
+import FreeGift from '../../../assets/icons/free-gift-on-subscription.png'
+import EditAnytime from '../../../assets/icons/edit-cancel-anytime.png'
+import Image from 'next/image';
 
 const BestValueSection = () => {
   return (
     <div className="border border-[#C5CBCB] rounded overflow-hidden">
       {/* Header */}
-      <div className="bg-[#E1E6FE] p-4 flex items-center justify-center">
+      <div className="bg-[#E1E6FE] p-4 flex items-center justify-start">
         <h3 className="text-[18px] md:text-[24px] text-[#0F1B28] tracking-[0.5px]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
           Best Value
         </h3>
@@ -15,17 +19,17 @@ const BestValueSection = () => {
         {/* Features Grid */}
         <div className="flex items-center justify-between">
           <FeatureItem
-            icon={<ShippingIcon />}
+            icon={AutomaticShipping}
             title="Automatic Shipping"
           />
           <div className="w-px h-full bg-[#E9EDED] self-stretch" />
           <FeatureItem
-            icon={<GiftIcon />}
+            icon={FreeGift}
             title="Free Gift on Subscription"
           />
           <div className="w-px h-full bg-[#E9EDED] self-stretch" />
           <FeatureItem
-            icon={<EditIcon />}
+            icon={EditAnytime}
             title="Edit or Cancel Anytime"
           />
         </div>
@@ -44,7 +48,7 @@ const FeatureItem = ({ icon, title }) => {
   return (
     <div className="flex flex-col gap-[3px] items-center justify-start w-40">
       <div className="h-[60px] w-[61px] flex items-center justify-center">
-        {icon}
+        <Image src={icon} alt={title} width={61} height={60} />
       </div>
       <p className="text-sm md:text-[18px] text-[#0F1B28] text-center tracking-[0.5px] leading-[1.4]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
         {title}

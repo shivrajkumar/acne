@@ -21,7 +21,7 @@ export default function ConcernSection({ concern }) {
   const isSkinFood = pathName === "/skin-food";
 
   return (
-    <section className="w-full px-4 md:px-12 py-10 relative">
+    <section className="w-full px-4 md:px-12 mt-10 relative">
       {/* Title + Arrows */}
       <div className="flex items-center justify-between mb-4">
         <SectionTitle title={concern.title} />

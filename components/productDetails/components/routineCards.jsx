@@ -27,7 +27,7 @@ const routines = [
 
 export default function RoutineCards() {
   return (
-    <div className="mt-20">
+    <div className="mt-10 md:mt-20">
       <h2 className="text-center text-2xl md:text-3xl font-semibold mb-8">
         Lorem ipsum dummy
       </h2>

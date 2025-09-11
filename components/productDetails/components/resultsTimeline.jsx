@@ -22,7 +22,7 @@ const timelineData = [
 
 const ResultsTimeline = () => {
   return (
-    <section className="bg-[#E6E9FF] mt-20 py-16 px-6 text-center rounded-lg">
+    <section className="bg-[#E6E9FF] mt-16 md:mt-20 py-16 px-6 text-center rounded-lg">
       {/* Heading */}
       <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-12">
         Real results you can see in just 4–12 weeks.
@@ -60,12 +60,12 @@ const ResultsTimeline = () => {
       </div>
 
       {/* Subtext */}
-      <p className="mt-10 text-gray-600 text-sm">
+      <p className="text-gray-600 text-sm">
         Formulated for non-cystic acne.
       </p>
 
       {/* CTA Button */}
-      <button className="mt-20 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
+      <button className="mt-10 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
         Take The Skin Test Now!
       </button>
     </section>

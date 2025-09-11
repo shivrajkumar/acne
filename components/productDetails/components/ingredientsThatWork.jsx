@@ -49,7 +49,7 @@ const IngredientsThatWork = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white mt-20 mx-auto p-4 md:p-8">
+    <div className="min-h-screen bg-white mt-10 md:mt-20 mx-auto p-4 md:p-8">
       <div className="grid lg:grid-cols-2 gap-6 items-start w-full">
         {/* Left Content */}
         <div className="space-y-6">

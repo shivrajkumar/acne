@@ -9,8 +9,9 @@ const ProductInfo = ({
   smells = "Fragrance-Free",
   btw = "Cruelty-Free • Vegan • Gluten-Free Dermatologist-Tested • Ophthalmologist-Tested",
   price = "xxxx",
+  size = '80ml/ 2.7oz.'
 }) => {
-  const defaultDescription = `Instant glazed skin wherever you go. Glazing Mist is a superfine mist that hydrates and refreshes for a next-level glowy finish. Take it everywhere for clinically proven hydration and nourished, supple skin on the go. Our formula also has added purifying benefits, helping skin feel more balanced and clarified over time. Size: 80ml/ 2.7oz.`;
+  const defaultDescription = `Instant glazed skin wherever you go. Glazing Mist is a superfine mist that hydrates and refreshes for a next-level glowy finish. Take it everywhere for clinically proven hydration and nourished, supple skin on the go. Our formula also has added purifying benefits, helping skin feel more balanced and clarified over time.`;
 
   return (
     <div className="flex flex-col gap-6">
@@ -36,6 +37,10 @@ const ProductInfo = ({
           {/* Description */}
           <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro">
             {description || defaultDescription}
+          </p>
+
+          <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro">
+            Size: {size}
           </p>
         </div>
       </div>
