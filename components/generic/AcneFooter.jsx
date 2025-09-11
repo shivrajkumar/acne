@@ -39,7 +39,7 @@ const AcneFooter = () => {
     });
     const eventName = `footer-link-${_.kebabCase(name)}-clicked`;
     const phone = window.localStorage.getItem("user_phone");
-    logGtmEvent(eventName, { location: currentPath, fb_external_id: generateEventId({
+    logGtmEvent(eventName, { location: currentPath, event_id: generateEventId({
       eventName: eventName, phone: phone,
     }) 
   });
@@ -47,14 +47,14 @@ const AcneFooter = () => {
 
   const socialIconsClickEvent = (name, link) => {
     const phone = window.localStorage.getItem("user_phone");
-    logGtmEvent(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath, fb_external_id: generateEventId({ eventName: `footer-social-link-${_.kebabCase(name)}-clicked`, phone: phone})});
-    logGtmEvent(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link, fb_external_id: generateEventId({ eventName: `outbound-link-${_.kebabCase(name)}-clicked`, phone: phone}) });
+    logGtmEvent(`footer-social-link-${_.kebabCase(name)}-clicked`, { location: currentPath, event_id: generateEventId({ eventName: `footer-social-link-${_.kebabCase(name)}-clicked`, phone: phone})});
+    logGtmEvent(`outbound-link-${_.kebabCase(name)}-clicked`, { location: currentPath, link, event_id: generateEventId({ eventName: `outbound-link-${_.kebabCase(name)}-clicked`, phone: phone}) });
   };
 
   const contactIconsClickEvent = (name) => {
     const eventName = `footer-contact-link-${_.kebabCase(name)}-clicked`;
     const phone = window.localStorage.getItem("user_phone");
-    logGtmEvent(eventName, { location: currentPath, fb_external_id: generateEventId({ eventName: eventName, phone: phone}) });
+    logGtmEvent(eventName, { location: currentPath, event_id: generateEventId({ eventName: eventName, phone: phone}) });
   };
 
   return (

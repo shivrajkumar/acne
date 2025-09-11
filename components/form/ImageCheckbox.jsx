@@ -103,7 +103,7 @@ const ImageCheckbox = ({ block, context }) => {
 
       if (block.id === "pimples_appearance") {
         const phone = window.localStorage.getItem("user_phone");
-        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, fb_external_id: generateEventId({ eventName: 'pimples_appearance', phone: phone })
+        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, event_id: generateEventId({ eventName: 'pimples_appearance', phone: phone })
       })
       }
 

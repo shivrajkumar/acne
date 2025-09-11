@@ -35,7 +35,7 @@ const BannerSection = () => {
   }, [])
 
   const logGTM = () => {
-    logGtmEvent("HB_Form_Start", { fb_external_id: generateEventId({ eventName: 'HB_Form_Start' }) })
+    logGtmEvent("HB_Form_Start", { event_id: generateEventId({ eventName: 'HB_Form_Start' }) })
   }
 
 

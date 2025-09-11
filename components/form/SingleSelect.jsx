@@ -76,7 +76,7 @@ const SingleSelect = ({ block, context }) => {
           const phone = window.localStorage.getItem("user_phone");
           logGtmEvent("stress_level", {
             question_text: block.text, question_id: block.id, response: [reply],
-            fb_external_id: generateEventId({
+            event_id: generateEventId({
               eventName: 'stress_level', phone: phone,
             })
           })

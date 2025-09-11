@@ -12,7 +12,7 @@ export default function PageViewTracker() {
     if (typeof window !== "undefined") {
       const page = pathname === "/" ? "home" : pathname.replace("/", "");
       const eventName = `Pageview+${page}`;
-      logGtmEvent(eventName, { fb_external_id: generateEventId({ eventName: eventName } as any)});
+      logGtmEvent(eventName, { event_id: generateEventId({ eventName: eventName } as any)});
     }
   }, [pathname]); // Fires on route change
 

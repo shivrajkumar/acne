@@ -82,7 +82,7 @@ const MultiSelect = ({ block, context }) => {
       setSelectedOptions([]);
       const phone = window.localStorage.getItem("user_phone");
       if (block.id == "acne_scars") {
-        logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender"), fb_external_id: generateEventId({ eventName: 'Acne_Scars', phone: phone }) })
+        logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender"), event_id: generateEventId({ eventName: 'Acne_Scars', phone: phone }) })
       }
 
       if (block.id == 'photo_q') {
@@ -101,7 +101,7 @@ const MultiSelect = ({ block, context }) => {
           question_text: block.text,
           question_id: block.id,
           response: selectedOptions,
-          fb_external_id: generateEventId({ eventName: 'gut_root_cause', phone: phone })
+          event_id: generateEventId({ eventName: 'gut_root_cause', phone: phone })
         });
       }
     } else {

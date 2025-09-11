@@ -152,7 +152,7 @@ const Questions = () => {
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
         pixelCustomeEvent('Form Start');
-        logGtmEvent("Form_Start", {fb_external_id: generateEventId({ eventName: 'Form_Start' })});
+        logGtmEvent("Form_Start", {event_id: generateEventId({ eventName: 'Form_Start' })});
       }
     }
   }, [currentQuestion]);
