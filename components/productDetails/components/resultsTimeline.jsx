@@ -60,12 +60,12 @@ const ResultsTimeline = () => {
       </div>
 
       {/* Subtext */}
-      <p className="mt-10 text-gray-600 text-sm">
+      <p className="text-gray-600 text-sm">
         Formulated for non-cystic acne.
       </p>
 
       {/* CTA Button */}
-      <button className="mt-20 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
+      <button className="mt-10 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
         Take The Skin Test Now!
       </button>
     </section>

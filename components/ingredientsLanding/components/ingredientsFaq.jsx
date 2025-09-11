@@ -2,7 +2,7 @@
 import FaqItem from "@/components/faq/components/FaqItem";
 import React, { useState } from "react";
 
-const QUESTIONS = [
+const DEFAULT_QUESTIONS = [
   {
     question: "I want to give the gift of Prose, what are my options?",
     answer: "I want to give the gift of Prose, what are my options?",
@@ -34,7 +34,7 @@ const QUESTIONS = [
   },
 ];
 
-const IngredientsFaqSection = ({}) => {
+const IngredientsFaqSection = ({ questions = DEFAULT_QUESTIONS, showTitle = true }) => {
   const [openItems, setOpenItems] = useState({});
 
   const handleToggle = (index) => {
@@ -45,17 +45,25 @@ const IngredientsFaqSection = ({}) => {
   };
 
   return (
-    <div className="px-4 md:px-12 py-10 text-[#262626] md:container mx-auto flex md:flex-row flex-col justify-between">
-      <div className="text-[28px] md:text-[40px] font-normal font-sophiaPro mb-4 w-full md:w-2/6">
-        Got questions? Ask us anything.
-      </div>
-      <div className="flex flex-col gap-3 w-full md:w-1/2">
-        {QUESTIONS.map((question, index) => (
+    <div
+      className={`px-4 ${showTitle ? 'md:px-12' : 'md:px-0'} ${showTitle ? 'py-10' : 'py-0'} text-[#262626] md:container mx-auto flex flex-col ${
+        showTitle ? "md:flex-row justify-between" : "md:flex-col"
+      }`}
+    >
+      {showTitle && (
+        <div className="text-[28px] md:text-[40px] font-normal font-sophiaPro mb-4 w-full md:w-2/6">
+          Got questions? Ask us anything.
+        </div>
+      )}
+
+      <div className={`flex flex-col gap-3 w-full ${showTitle ? "md:w-1/2" : "md:w-full"}`}>
+        {questions?.map((question, index) => (
           <FaqItem
+            key={index}
             question={question.question}
             answer={question.answer}
             isOpen={openItems[index]}
-            onToggle={() => {handleToggle(index)}}
+            onToggle={() => handleToggle(index)}
           />
         ))}
       </div>

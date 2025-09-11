@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 const KeyIngredients = ({ ingredients = [] }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const defaultIngredients = [
     {
@@ -31,34 +30,23 @@ const KeyIngredients = ({ ingredients = [] }) => {
     <div className="flex flex-col gap-4 pt-4 border-t border-[#E9EDED] relative">
       {/* Header */}
       <div className="flex items-end justify-between">
-        <h3 className="text-[18px] text-[#0F1B28] tracking-[0.5px] uppercase" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+        <h3 className="text-[18px] text-[#0F1B28] tracking-[0.5px] uppercase font-sophiaPro">
           KEY INGREDIENTS
         </h3>
-        <button 
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-5 h-5 bg-[#505354] rounded-full flex items-center justify-center"
-        >
-          <span className="text-white text-xs">{isExpanded ? '−' : '+'}</span>
-        </button>
       </div>
 
       {/* Ingredients Grid */}
-      {isExpanded && (
         <div className="flex gap-3 overflow-x-auto hide-scrollbar">
           {ingredientsToShow.map((ingredient, index) => (
             <IngredientCard key={index} ingredient={ingredient} />
           ))}
         </div>
-      )}
 
-      {/* Navigation Arrow */}
-      {isExpanded && (
-        <button className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-14 h-14 bg-[#3B52F5] rounded-full shadow-[0px_4px_14px_0px_rgba(0,0,0,0.45)] flex items-center justify-center hidden md:block">
+        {/* <button className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-14 h-14 bg-[#3B52F5] rounded-full shadow-[0px_4px_14px_0px_rgba(0,0,0,0.45)] flex items-center justify-center hidden md:block">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
-      )}
+        </button> */}
     </div>
   );
 };

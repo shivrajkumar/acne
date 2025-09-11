@@ -4,7 +4,7 @@ import ProductGallery from "./components/ProductGallery";
 import ProductInfo from "./components/ProductInfo";
 import KeyIngredients from "./components/KeyIngredients";
 import CompleteRoutine from "./components/CompleteRoutine";
-import FAQSection from "./components/FAQSection";
+// import FAQSection from "./components/FAQSection";
 import BestValueSection from "./components/BestValueSection";
 import ProductImage from "../../assets/images/products-1.webp";
 import IngredientsThatWork from "./components/ingredientsThatWork";
@@ -108,7 +108,7 @@ const ProductDetailsIndex = () => {
     title: "Glazing mist",
     subtitle: "The hydrating face spray",
     description:
-      "Instant glazed skin wherever you go. Glazing Mist is a superfine mist that hydrates and refreshes for a next-level glowy finish. Take it everywhere for clinically proven hydration and nourished, supple skin on the go. Our formula also has added purifying benefits, helping skin feel more balanced and clarified over time. Size: 80ml/ 2.7oz.",
+      "Instant glazed skin wherever you go. Glazing Mist is a superfine mist that hydrates and refreshes for a next-level glowy finish. Take it everywhere for clinically proven hydration and nourished, supple skin on the go. Our formula also has added purifying benefits, helping skin feel more balanced and clarified over time",
     benefits: "All skin types, including sensitive and acne-prone skin",
     feels: "A superfine, refreshing mist",
     smells: "Fragrance-Free",
@@ -155,16 +155,18 @@ const ProductDetailsIndex = () => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row lg:gap-[123px] gap-6 items-start justify-start p-4 lg:p-8 bg-white min-h-screen">
-        <div className="w-full lg:shrink-0 lg:w-auto">
+      <div className="flex flex-col lg:flex-row gap-6 items-start justify-between p-4 lg:p-8 bg-white">
+        {/* Left: Product gallery */}
+        <div className="w-full lg:w-1/3">
           <ProductGallery images={productImages} mainImage={productImages[0]} />
         </div>
 
-        <div className="flex flex-col gap-6 w-full">
+        {/* Right: Info + sections */}
+        <div className="flex flex-col gap-6 w-full lg:w-1/2">
           <ProductInfo {...productData} />
           <KeyIngredients ingredients={ingredients} />
           <CompleteRoutine product={routineProduct} />
-          <FAQSection faqs={faqs} />
+          <IngredientsFaqSection questions={faqs} showTitle={false} />
           <BestValueSection />
         </div>
       </div>
@@ -172,13 +174,17 @@ const ProductDetailsIndex = () => {
       <div className="">
         <IngredientsThatWork />
         <OddsSection />
-        <div className="mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">Lorem Ipsum Dummy</div>
+        <div className="mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
+          Lorem Ipsum Dummy
+        </div>
         <div className="mx-auto p-4 md:p-8">
           <AcneReviews data={customerReviews} />
-        </div>
         <RoutineCards />
+        </div>
         <HighlightSection />
-        <ResultsTimeline />
+        <div className="mx-auto p-4 md:p-8">
+          <ResultsTimeline />
+        </div>
         <NoteCard />
         <VideoTestimonialsGrid />
         {mostLoved?.map((concern) => (
@@ -192,7 +198,7 @@ const ProductDetailsIndex = () => {
 
         <div className="border-2 border-b-black"></div>
         <div className="mt-20">
-          <IngredientsFaqSection />
+          <IngredientsFaqSection showTitle={true} />
         </div>
       </div>
     </>
