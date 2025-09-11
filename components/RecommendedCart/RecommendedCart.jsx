@@ -545,7 +545,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
                 ),
                 cart_value: isMonth == 1 ? totalPrice : newTotalPrice,
                 checkout_status: "Initiated",
-                fb_external_id: generateEventId({ eventName: 'repurchase_page_activity' })
+                event_id: generateEventId({ eventName: 'repurchase_page_activity' })
             }
 
         )

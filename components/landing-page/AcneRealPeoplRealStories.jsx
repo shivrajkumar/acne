@@ -43,7 +43,7 @@ export default function AcneRealPeoplRealStories({
     if (sliderRef.current) {
       sliderRef.current.next();
     }
-    logGtmEvent("testimonials-clicked", { location: window.location.pathname, fb_external_id: generateEventId({ eventName: 'testimonials-clicked' }) });
+    logGtmEvent("testimonials-clicked", { location: window.location.pathname, event_id: generateEventId({ eventName: 'testimonials-clicked' }) });
   };
 
   useEffect(() => {

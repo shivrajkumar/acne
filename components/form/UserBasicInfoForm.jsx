@@ -397,7 +397,7 @@ export default function UserBasicInfoForm() {
         phone_number: `+91${formData.phone}`,
         gender: formData.gender,
         age: formData?.age,
-        fb_external_id: generateEventId({
+        event_id: generateEventId({
           eventName: 'Contact', phone: `+91${formData.phoneNumber}`,
         })
       });

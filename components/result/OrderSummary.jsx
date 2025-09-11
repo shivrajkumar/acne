@@ -59,7 +59,7 @@ const OrderSummary = () => {
               });
               logGtmEvent("addon_scar_seen", {
                 product: optionalProductsDetails,
-                fb_external_id: generateEventId({ eventName: 'repurchase_page_activity' })
+                event_id: generateEventId({ eventName: 'repurchase_page_activity' })
               });
 
               // Mark as tracked and disconnect observer

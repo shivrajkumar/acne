@@ -42,7 +42,7 @@ const CartPageHome = () => {
       syntheticId: `${window.localStorage.getItem("syntheticId")}`,
       caseId: `${data?.customerDetails?.caseId}`,
       transactionId: `${window.localStorage.getItem("user_tid")}`,
-      fb_external_id: generateEventId({ eventName: 'book-call-confirmed-without-order', phone: phone })
+      event_id: generateEventId({ eventName: 'book-call-confirmed-without-order', phone: phone })
     }
     trackMoEngageEvent("BeginCheckout", eventAttributes)
     logGtmEvent("Add to Cart", eventAttributes)

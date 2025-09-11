@@ -43,7 +43,7 @@ const AcneBookACallPage = ({ searchParams }) => {
   useEffect(() => {
     logGtmEvent("book-call-confirmed-without-order", {
       gender: window.localStorage.getItem("user_gender"),
-      fb_external_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
+      event_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
     })
   }, [])
 
@@ -184,7 +184,7 @@ const AcneBookACallPage = ({ searchParams }) => {
       setBookingError(null); // Clear any previous errors
       logGtmEvent("book-call-confirmed-without-order", {
         gender: window.localStorage.getItem("user_gender"),
-        fb_external_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
+        event_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
       })
     }
   };

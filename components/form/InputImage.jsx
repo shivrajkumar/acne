@@ -99,7 +99,7 @@ const InputImage = ({ block }) => {
         logGtmEvent("image_upload_success", {
           location: window?.location?.pathname,
           question: block.id,
-          fb_external_id: generateEventId({ eventName: 'image_upload_success', phone: phone })
+          event_id: generateEventId({ eventName: 'image_upload_success', phone: phone })
         });
 
         dataUri = await fileToDataUri(_image);
@@ -107,14 +107,14 @@ const InputImage = ({ block }) => {
         logGtmEvent("image_takepicture_opened", {
           location: window?.location?.pathname,
           question: block.id,
-          fb_external_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
+          event_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
         });
         _image = await convertBase64URItoBlob(imageUri);
         dataUri = imageUri;
         logGtmEvent("image_takepicture_success", {
           location: window?.location?.pathname,
           question: block.id,
-          fb_external_id: generateEventId({ eventName: 'image_takepicture_success', phone: phone })
+          event_id: generateEventId({ eventName: 'image_takepicture_success', phone: phone })
         });
       }
 
@@ -248,7 +248,7 @@ const InputImage = ({ block }) => {
       logGtmEvent("image_takepicture_opened", {
         location: window?.location?.pathname,
         question: block?.id,
-        fb_external_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
+        event_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
       });
       // Create a reusable notification component
       const createCameraNotification = () => (
@@ -367,7 +367,7 @@ const InputImage = ({ block }) => {
       logGtmEvent("image_takepicture_opened", {
         location: window?.location?.pathname,
         question: block?.id,
-        fb_external_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
+        event_id: generateEventId({ eventName: 'image_takepicture_opened', phone: phone })
       });
 
       // Explicitly request camera access
@@ -412,7 +412,7 @@ const InputImage = ({ block }) => {
     logGtmEvent("image_upload_opened", {
       location: window?.location?.pathname,
       question: block?.id,
-      fb_external_id: generateEventId({ eventName: 'image_upload_opened', phone: phone })
+      event_id: generateEventId({ eventName: 'image_upload_opened', phone: phone })
     });
     if (inputRef.current) {
       inputRef.current.click();

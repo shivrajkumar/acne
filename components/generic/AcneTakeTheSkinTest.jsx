@@ -43,7 +43,7 @@ const AcneTakeTheSkinTest = ({
       timestamp: new Date().toISOString()
     });
     const phone = window.localStorage.getItem("user_phone");
-    logGtmEvent(`${_.kebabCase(text)}-CTA`, { location: window.location.pathname, fb_external_id: generateEventId({ eventName: `${_.kebabCase(text)}-CTA`, phone: phone}) });
+    logGtmEvent(`${_.kebabCase(text)}-CTA`, { location: window.location.pathname, event_id: generateEventId({ eventName: `${_.kebabCase(text)}-CTA`, phone: phone}) });
   };
 
   return (
