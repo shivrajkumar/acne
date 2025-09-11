@@ -22,7 +22,7 @@ const timelineData = [
 
 const ResultsTimeline = () => {
   return (
-    <section className="bg-[#E6E9FF] mt-20 py-16 px-6 text-center rounded-lg">
+    <section className="bg-[#E6E9FF] mt-16 md:mt-20 py-16 px-6 text-center rounded-lg">
       {/* Heading */}
       <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-12">
         Real results you can see in just 4–12 weeks.

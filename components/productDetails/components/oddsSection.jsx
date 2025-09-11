@@ -5,7 +5,7 @@ import OddsImage from '../../../assets/images/oddsimage.png'
 
 const OddsSection = () => {
   return (
-    <section className="bg-white mt-20 mx-auto p-4 md:p-8">
+    <section className="bg-white mt-10 md:mt-20 mx-auto p-4 md:p-8">
       <div className="grid md:grid-cols-2">
         <div className="bg-yellow-300 p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-8">

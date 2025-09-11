@@ -174,15 +174,15 @@ const ProductDetailsIndex = () => {
       <div className="">
         <IngredientsThatWork />
         <OddsSection />
-        <div className="mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
+        <div className="mt-10 md:mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
           Lorem Ipsum Dummy
         </div>
-        <div className="mx-auto p-4 md:p-8">
+        <div className="mx-auto px-4 md:px-8">
           <AcneReviews data={customerReviews} />
         <RoutineCards />
         </div>
         <HighlightSection />
-        <div className="mx-auto p-4 md:p-8">
+        <div className="mx-auto px-4 md:px-8">
           <ResultsTimeline />
         </div>
         <NoteCard />
@@ -191,13 +191,13 @@ const ProductDetailsIndex = () => {
           <ConcernSection key={concern.title} concern={concern} />
         ))}
 
-        <div className="mt-20 text-[34px] md:text-[64px] mx-auto p-4 md:p-8">
+        <div className="mt-10 md:mt-20 text-[34px] md:text-[64px] mx-auto p-4 md:p-8">
           We’re flipping the script on acne with a whole-body approach that
           targets BIO-SPECIFIC ROOT CAUSES of mild to moderate acne from within.
         </div>
 
         <div className="border-2 border-b-black"></div>
-        <div className="mt-20">
+        <div className="mt-10 md:mt-20">
           <IngredientsFaqSection showTitle={true} />
         </div>
       </div>
