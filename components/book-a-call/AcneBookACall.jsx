@@ -41,9 +41,10 @@ const AcneBookACallPage = ({ searchParams }) => {
   );
 
   useEffect(() => {
+    const phone = typeof window != undefined && window.localStorage.getItem("user_phone");
     logGtmEvent("book-call-confirmed-without-order", {
       gender: window.localStorage.getItem("user_gender"),
-      event_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
+      event_id: generateEventId({ eventName: 'book-call-confirmed-without-order', phone: phone })
     })
   }, [])
 
@@ -180,11 +181,12 @@ const AcneBookACallPage = ({ searchParams }) => {
     setCloseConfirm(false);
 
     if (confirmed) {
+      const phone = window.localStorage.getItem("user_phone");
       setBookedSuccess(true);
       setBookingError(null); // Clear any previous errors
       logGtmEvent("book-call-confirmed-without-order", {
         gender: window.localStorage.getItem("user_gender"),
-        event_id: generateEventId({ eventName: 'book-call-confirmed-without-order' })
+        event_id: generateEventId({ eventName: 'book-call-confirmed-without-order', phone: phone })
       })
     }
   };
