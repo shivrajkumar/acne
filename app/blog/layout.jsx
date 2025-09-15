@@ -2,7 +2,6 @@ import AcneFooter from "@/components/generic/AcneFooter";
 import AcneHeader from "@/components/generic/Header/AcneHeader";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
 import React from "react";
-import BreadcrumbNavigator from "@/components/generic/BreadcrumbNavigator";
 
 const Layout = ({ children }) => {
   return (
