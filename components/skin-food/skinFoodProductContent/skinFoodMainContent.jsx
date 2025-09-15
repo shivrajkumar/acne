@@ -1,0 +1,204 @@
+'use client'
+import React from "react";
+import ProductImage from '../../../assets/images/products-1.webp'
+import product1 from "@assets/images/products-1.webp";
+import product2 from "@assets/images/products-2.webp";
+import ProductGallery from "@/components/productDetails/components/ProductGallery";
+import ProductInfo from "@/components/productDetails/components/ProductInfo";
+import KeyIngredients from "@/components/productDetails/components/KeyIngredients";
+import CompleteRoutine from "@/components/productDetails/components/CompleteRoutine";
+import IngredientsFaqSection from "@/components/ingredientsLanding/components/ingredientsFaq";
+import BestValueSection from "@/components/productDetails/components/BestValueSection";
+import IngredientsThatWork from "@/components/productDetails/components/ingredientsThatWork";
+import OddsSection from "@/components/productDetails/components/oddsSection";
+import AcneReviews from "@/components/result/AcneReviews";
+import RoutineCards from "@/components/productDetails/components/routineCards";
+import HighlightSection from "@/components/productDetails/components/highlightSection";
+import ResultsTimeline from "@/components/productDetails/components/resultsTimeline";
+import NoteCard from "@/components/productDetails/components/noteCard";
+import VideoTestimonialsGrid from "@/components/productDetails/components/videoTestimonialsGrid";
+import ConcernSection from "@/components/products-landing/components/concern-section";
+import AcneApproach from "./acneApproach";
+
+const SkinFoodMainContent = () => {
+  const productImages = [
+    ProductImage,
+    ProductImage,
+    ProductImage,
+    ProductImage,
+    ProductImage,
+  ];
+
+  const mostLoved = [
+    {
+      title: "Most Loved",
+      products: [
+        {
+          id: "1",
+          name: "Protini™ Polypeptide Cream",
+          image: product1,
+          rating: 4.5,
+          price: "₹ X",
+          tag: "Radiance",
+        },
+        {
+          id: "2",
+          name: "Protini™ Polypeptide Cream",
+          image: product2,
+          rating: 4.5,
+          price: "₹ XXXX",
+          tag: "Radiance",
+        },
+      ],
+    },
+  ];
+
+  const customerReviews = [
+    {
+      name: "Lindsey",
+      description:
+        "I have noticed a lot better skin texture. I don’t have to wear makeup to the gym anymore.",
+      stage: "Mild Acne",
+      images: [
+        {
+          src: "/images/lindsey-before.jpg",
+          label: "Before",
+        },
+        {
+          src: "/images/lindsey-after.jpg",
+          label: "After 12 Weeks",
+        },
+      ],
+    },
+    {
+      name: "Emily",
+      description:
+        "My breakouts became less frequent, and the overall appearance of my skin looks really great.",
+      stage: "Mild Acne",
+      images: [
+        {
+          src: "/images/emily-before.jpg",
+          label: "Before",
+        },
+        {
+          src: "/images/emily-after.jpg",
+          label: "After 12 Weeks",
+        },
+      ],
+    },
+    {
+      name: "Kayla",
+      description:
+        "It has nourished my skin. I'm able to walk around with no makeup.",
+      stage: "Mild Acne",
+      images: [
+        {
+          src: "/images/kayla-before.jpg",
+          label: "Before",
+        },
+        {
+          src: "/images/kayla-after.jpg",
+          label: "After 4 Weeks",
+        },
+      ],
+    },
+  ];
+
+  const productData = {
+    title: "Glazing mist",
+    subtitle: "The hydrating face spray",
+    description:
+      "Instant glazed skin wherever you go. Glazing Mist is a superfine mist that hydrates and refreshes for a next-level glowy finish. Take it everywhere for clinically proven hydration and nourished, supple skin on the go. Our formula also has added purifying benefits, helping skin feel more balanced and clarified over time",
+    benefits: "All skin types, including sensitive and acne-prone skin",
+    feels: "A superfine, refreshing mist",
+    smells: "Fragrance-Free",
+    btw: "Cruelty-Free • Vegan • Gluten-Free Dermatologist-Tested • Ophthalmologist-Tested",
+  };
+
+  const ingredients = [
+    {
+      name: "Rhodiola",
+      image: ProductImage,
+      partUsed: "Lorem ipsum",
+      from: "Lorem ipsum",
+    },
+    {
+      name: "Rhodiola",
+      image: ProductImage,
+      partUsed: "Lorem ipsum",
+      from: "Lorem ipsum",
+    },
+    {
+      name: "Rhodiola",
+      image: ProductImage,
+      partUsed: "Lorem ipsum",
+      from: "Lorem ipsum",
+    },
+  ];
+
+  const routineProduct = {
+    name: "CLEAR RITUAL kit",
+    image: ProductImage,
+  };
+
+  const faqs = [
+    {
+      question: "What Are The Benefits",
+      answer: "Lorem ipsum dolor sit amet...",
+    },
+    { question: "How To Use?", answer: "Lorem ipsum dolor sit amet..." },
+    {
+      question: "Full Ingredient List",
+      answer: "Lorem ipsum dolor sit amet...",
+    },
+  ];
+
+  return (
+    <>
+      <div className="flex flex-col lg:flex-row gap-6 items-start justify-between p-4 lg:p-8 bg-white">
+        {/* Left: Product gallery */}
+        <div className="w-full lg:w-1/3">
+          <ProductGallery images={productImages} mainImage={productImages[0]} />
+        </div>
+
+        {/* Right: Info + sections */}
+        <div className="flex flex-col gap-6 w-full lg:w-1/2">
+          <ProductInfo {...productData} />
+          <KeyIngredients ingredients={ingredients} />
+          <CompleteRoutine product={routineProduct} />
+          <IngredientsFaqSection questions={faqs} showTitle={false} />
+          <BestValueSection />
+        </div>
+      </div>
+
+      <div className="">
+        <AcneApproach />
+        <IngredientsThatWork />
+        <OddsSection />
+        <div className="mt-10 md:mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
+          Lorem Ipsum Dummy
+        </div>
+        <div className="mx-auto px-4 md:px-8">
+          <AcneReviews data={customerReviews} />
+          <RoutineCards />
+        </div>
+        <HighlightSection />
+        <div className="mx-auto px-4 md:px-8">
+          <ResultsTimeline />
+        </div>
+        <NoteCard />
+        <VideoTestimonialsGrid />
+        {mostLoved?.map((concern) => (
+          <ConcernSection key={concern.title} concern={concern} />
+        ))}
+
+        <div className="border-2 border-b-black"></div>
+        <div className="mt-10 md:mt-20">
+          <IngredientsFaqSection showTitle={true} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default SkinFoodMainContent;
