@@ -26,6 +26,7 @@ import useMediaLoader from "@/hooks/useMediaLoader";
 import ResultBannerV2 from "./ResultBannerV2";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import AcneReviews from "./AcneReviews";
+import SkinDiagnosis from "./SkinDiagnosis";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -297,6 +298,7 @@ const ResultLandingPage = ({ searchParams }) => {
         <div ref={resultBannerRef}>
           <ResultBannerV2 />
         </div>
+        <SkinDiagnosis/>
         <OrderSummary />
         <AcneReviews/>
         <VisibleResultsInThreeWeeks />
