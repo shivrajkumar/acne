@@ -177,6 +177,13 @@ export default function RootLayout({
             }),
           }}
         />
+
+        {/* Haut.AI script intiation */}
+        <Script
+          type="module"
+          src="https://liqa.haut.ai/liqa.js"
+          strategy="beforeInteractive"
+        />
       </head>
       <body style={{ fontSize: "16px" }} className="font-sophiaPro">
         <PixelInit />
