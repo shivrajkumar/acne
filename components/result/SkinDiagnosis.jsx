@@ -8,7 +8,6 @@ const Tag = ({ severity, score }) => {
   const getSeverityLevel = (score, metricType) => {
     if (severity) return severity;
 
-    // For acne-related conditions, lower scores are better
     if (typeof score === "number") {
       if (score === 0) return "None";
       if (score <= 10) return "Mild";
