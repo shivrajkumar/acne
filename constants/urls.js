@@ -231,5 +231,5 @@ export const REFRESH_TOKEN_API = (token) =>
 
 export const REPEAT_ORDER_DETAILS = (caseId) => getUrl(`consumer-api/service/recommendations/acne-reorder/${caseId}`);
 
-export const SUBMIT_CONTACT_US_FORM = () => `${PROXY_PREFIX}/contact-us/submit`;
+export const SUBMIT_CONTACT_US_FORM = () => getUrl(`consumer-api/service/consumers/contact-us/submit`);
 

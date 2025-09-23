@@ -115,7 +115,7 @@ const ContactUsIndex = ({ allowMultiple = true }) => {
       formPayload.append("details", formData.message);
 
       files.forEach((file) => {
-        formPayload.append("attachments", file);
+        formPayload.append("files", file);
       });
 
       const options = {
@@ -125,12 +125,11 @@ const ContactUsIndex = ({ allowMultiple = true }) => {
 
       const res = await fetchRequest(SUBMIT_CONTACT_US_FORM(), options);
 
-      if (!res.ok) throw new Error("Failed to send");
-
       message.success("Your message has been sent successfully!");
       setFormData({ name: "", email: "", reason: "", topic: "", message: "" });
       setFiles([]);
     } catch (err) {
+      console.log(err)
       message.error("Something went wrong, please try again.");
     } finally {
       setLoading(false);
