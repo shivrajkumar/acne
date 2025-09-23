@@ -6,10 +6,6 @@ import getQueryStrings from "./getQueryStrings";
 const questionsReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.INITIALIZE_STATE: {
-      const _state = localStorage.getItem("state" + window.location.pathname);
-      if (_state) {
-        return JSON.parse(_state);
-      }
       const { data, previewURL } = action.payload;
 
       // Initialize directly using the questions array
@@ -25,7 +21,6 @@ const questionsReducer = (state, action) => {
       const question = new schema.Entity("questions");
       const mySchema = { questions: [question] };
       const { entities } = normalize({ questions: data }, mySchema);
-
       const byId = entities.questions || {};
       const currentQuestion = data[0];
       const firstQuestion = currentQuestion.id;
@@ -354,6 +349,13 @@ const questionsReducer = (state, action) => {
       }
 
       return resetState;
+    }
+
+    case ACTIONS.SET_HAUT_AI_RESPONSE: {
+      return {
+        ...state,
+        hautAiResponse: action.payload,
+      }
     }
 
     default:
