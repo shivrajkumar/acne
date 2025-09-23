@@ -199,10 +199,7 @@ const InputImage = ({ block }) => {
             field_key: block.id,
             question_text: block.text,
             response: reply,
-            status:
-              block.id == "photo_q"
-                ? formFillStatus.FILLED
-                : formFillStatus.SEMI_FILLED,
+            status: formFillStatus.SEMI_FILLED,
             location_path: window.location.pathname + window.location.search,
             source: "website",
             response_type: block.type,
@@ -226,7 +223,7 @@ const InputImage = ({ block }) => {
 
             setAllQuestionsFilled(true);
           }
-          window.localStorage.setItem("form_status", "filled");
+          window.localStorage.setItem("form_status", "semi-filled");
         } else {
           setErr(_res?.message || "Image upload failed. Please try again.");
         }
@@ -426,10 +423,7 @@ const InputImage = ({ block }) => {
         field_key: block.id,
         question_text: block.text,
         response: reply ?? [],
-        status:
-          block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.SEMI_FILLED,
+        status:formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -448,7 +442,7 @@ const InputImage = ({ block }) => {
 
         setAllQuestionsFilled(true);
       }
-      window.localStorage.setItem("form_status", "filled");
+      window.localStorage.setItem("form_status", "semi-filled");
     } catch (error) {
       console.error(error);
       setErr("Something went wrong. Please try again.");

@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect, useRef, useState } from "react";
 // import your helpers
-import {IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
+import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import {formFillStatus} from '@/enums/QuestionEnums';
 import useFormSubmit from "@/hooks/useFormSubmit";
@@ -79,7 +79,7 @@ export default function ImageUploadWithHaut({ block }) {
           question_id: block.id,
           field_key: block.id,
           question_text: block.text,
-          response: blob, // or fileObject
+          response: blob,
           status:
             block.id === "photo_q"
               ? formFillStatus.FILLED
@@ -97,7 +97,7 @@ export default function ImageUploadWithHaut({ block }) {
 
         if (txRes.status === 200) {
           handleSubmit(blob);
-          window.localStorage.setItem("form_status", "filled");
+          window.localStorage.setItem("form_status", "semi-filled");
         } else {
           setErr("Transaction API failed");
         }

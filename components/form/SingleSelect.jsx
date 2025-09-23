@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import useFormSubmit from "../../hooks/useFormSubmit";
-import { TRANSACTION_API } from "@/constants/urls";
+import { HAUT_AI_IMAGE_CAPTURE_CHECK, TRANSACTION_API } from "@/constants/urls";
 import { fetchRequest } from "../../helpers/fetchRequest";
 import Image from "next/image";
 import { Modal } from "./modal";
@@ -15,7 +15,7 @@ const SingleSelect = ({ block, context }) => {
   const {
     apiResponse: { transactionId },
     isHindi,
-    setAllQuestionsFilled
+    setHautAiResponse,
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
@@ -25,8 +25,17 @@ const SingleSelect = ({ block, context }) => {
   const [reply, setReply] = useState(null);
   const [openModal, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const gender = localStorage.getItem("user_gender")
+  const [caseId, setCaseId] = useState(null);
+  const gender = localStorage.getItem("user_gender");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCaseId = window.localStorage.getItem("caseId");
+      if (storedCaseId) {
+        setCaseId(storedCaseId);
+      }
+    }
+  }, [caseId]);
 
   useEffect(() => {
     if (block) {
@@ -46,10 +55,10 @@ const SingleSelect = ({ block, context }) => {
         response: [reply],
         status:
           block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.DRAFT,
+            ? formFillStatus.SEMI_FILLED
+            : block.id == "photo_q"
+            ? formFillStatus.FILLED
+            : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -68,29 +77,39 @@ const SingleSelect = ({ block, context }) => {
         await handleSubmit(reply);
         setReply("");
 
-        if (block.id == 'photo_q') {
-          setAllQuestionsFilled(true);
-        }
-
         if (block.id == "stress_level") {
           const phone = window.localStorage.getItem("user_phone");
           logGtmEvent("stress_level", {
-            question_text: block.text, question_id: block.id, response: [reply],
+            question_text: block.text,
+            question_id: block.id,
+            response: [reply],
             event_id: generateEventId({
-              eventName: 'stress_level', phone: phone,
-            })
-          })
+              eventName: "stress_level",
+              phone: phone,
+            }),
+          });
         }
+
+        if (block.id == "stress_level") {
+          try {
+            const completionRes = await fetchRequest(
+              HAUT_AI_IMAGE_CAPTURE_CHECK(caseId)
+            );
+            setHautAiResponse(completionRes.data.isSkinAnalysisResponseCapturedProperly);
+          } catch (err) {
+            console.error(
+              "Error calling QUESTIONS_FLOW_COMPLETION_CHECK:",
+              err
+            );
+          }
+        }
+        setIsLoading(false);
       } else {
         setError(_res?.data?.message || "An error occurred");
-
-        // eslint-disable-next-line no-unsafe-finally
         setIsLoading(false);
       }
-
     }
   };
-
 
   const handleOptionClick = (selectedValue) => {
     setReply(selectedValue);
@@ -135,14 +154,16 @@ const SingleSelect = ({ block, context }) => {
               <div
                 key={option.value}
                 className={`
-                  cursor-pointer rounded-[16px] w-[302px]   flex justify-center items-center ${block.optionMap?.length > 3
-                    ? "md:w-[302px]"
-                    : "md:w-[412px]"
+                  cursor-pointer rounded-[16px] w-[302px]   flex justify-center items-center ${
+                    block.optionMap?.length > 3
+                      ? "md:w-[302px]"
+                      : "md:w-[412px]"
                   } xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px]  hover:border-Primary/500
                   border-[1px] h-auto md:h-[96px]
-                  ${reply === option.value
-                    ? "border-Primary/500 bg-Primary/50"
-                    : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
+                  ${
+                    reply === option.value
+                      ? "border-Primary/500 bg-Primary/50"
+                      : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}
                 onClick={() => handleOptionClick(option.value)}
@@ -157,9 +178,13 @@ const SingleSelect = ({ block, context }) => {
                         {option.sub_text}
                       </p>
                     )}
-                    {block.id === "pimples_frequency" && option.name === "Once a month" && gender === "F" && <p className="text-[14px] font-sophiaPro font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
-                      Aligned with my menstrual cycle
-                    </p>}
+                    {block.id === "pimples_frequency" &&
+                      option.name === "Once a month" &&
+                      gender === "F" && (
+                        <p className="text-[14px] font-sophiaPro font-[400] leading-[140%] text-Text/Label text-center md:text-center ">
+                          Aligned with my menstrual cycle
+                        </p>
+                      )}
                   </div>
                 </div>
                 <input
@@ -168,8 +193,8 @@ const SingleSelect = ({ block, context }) => {
                   name={block.id}
                   value={option.value}
                   checked={reply === option.value}
-                  onChange={() => { }}
-                  className="sr-only" // Visually hidden but accessible
+                  onChange={() => {}}
+                  className="sr-only"
                 />
               </div>
             );
@@ -184,7 +209,12 @@ const SingleSelect = ({ block, context }) => {
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image
+                src={isHovered ? infoCircleBlack : infoCircle}
+                width={20}
+                height={20}
+                alt="Info"
+              />
               Learn More
             </button>
             <Modal
@@ -211,7 +241,12 @@ const SingleSelect = ({ block, context }) => {
               type="button"
             >
               {/* Replace with your actual image import */}
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
+              <Image
+                src={isHovered ? infoCircleBlack : infoCircle}
+                width={20}
+                height={20}
+                alt="Info"
+              />
               Learn More
             </button>
             <Modal

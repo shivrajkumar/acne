@@ -5,10 +5,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import LoaderwithText from "@/components/generic/LoaderWithText";
 import { useRouter } from "next/navigation";
 import { QuestionsContext } from "@context/questions-store";
-import {
-  addUserAttributeAfterMoenageLoads,
-  trackMoEngageEvent,
-} from "@/utils/moegage";
+import { addUserAttributeAfterMoenageLoads, trackMoEngageEvent } from "@/utils/moegage";
 import { pixelCustomeEvent } from "../generic/Pixel";
 import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";

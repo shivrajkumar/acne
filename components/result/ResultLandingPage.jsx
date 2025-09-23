@@ -285,7 +285,8 @@ const ResultLandingPage = ({ searchParams }) => {
     addProductToCart: addProductToCart,
     removeProductFromCart: removeProductFromCart,
     acneStageDetails: resultData?.acneStageDetails,
-    reviewDetails: resultData?.reviewsDetails
+    reviewDetails: resultData?.reviewsDetails,
+    skinAnalysisResponse: resultData?.skinAnalysisResponse
   };
 
   return (

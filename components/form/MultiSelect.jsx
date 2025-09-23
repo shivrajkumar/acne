@@ -56,8 +56,8 @@ const MultiSelect = ({ block, context }) => {
         status:
           block.id == "stress_level"
             ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
+            block.id == "pimple_sensation"
+              ? 'FILLED'
               : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
@@ -85,7 +85,7 @@ const MultiSelect = ({ block, context }) => {
         logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender"), event_id: generateEventId({ eventName: 'Acne_Scars', phone: phone }) })
       }
 
-      if (block.id == 'photo_q') {
+      if (block.id == 'pimple_sensation') {
         setAllQuestionsFilled(true);
       }
       if (block.id == "digestive_issues") {

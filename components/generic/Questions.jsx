@@ -29,6 +29,7 @@ const Questions = () => {
     init,
     removeFromPreviousQuestion,
     allQuestionsFilled,
+    hautAiResponse
   } = useContext(QuestionsContext);
 
   const [loading, setLoading] = useState(true);
@@ -47,7 +48,7 @@ const Questions = () => {
   const fetchQuestionsData = async () => {
     setLoading(true);
     try {
-      const response = await fetchRequest(GET_SKIN_TEST_CONFIG);
+      const response = await fetchRequest(GET_SKIN_TEST_CONFIG(hautAiResponse ?? true));
       if (response.hasError) {
         throw new Error('Failed to fetch questions data');
       }
@@ -58,17 +59,14 @@ const Questions = () => {
         response.data.data.content.questions) {
 
         init(response.data.data.content.questions, "vayu");
-
         setLoading(false);
       } else {
-        console.error('Unexpected API response structure:', response);
         throw new Error('Invalid API response structure');
       }
     } catch (err) {
-      console.error('Error fetching questions data:', err);
       setError('Failed to load form configuration. Please try again later.');
       setLoading(false);
-    }
+    } 
   };
 
   useEffect(() => {
@@ -79,12 +77,15 @@ const Questions = () => {
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
-    fetchQuestionsData();
+    
+    if (hautAiResponse === undefined || hautAiResponse === false) {
+      fetchQuestionsData();
+    }
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, []);
+  }, [hautAiResponse]);
 
   const pageExitevent = () => {
     const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
@@ -184,7 +185,7 @@ const Questions = () => {
       <OnloadFormPage />
     </>
   ) : (
-    <div >
+    <div>
 
       <Header
         currentQuestion={currentQuestion}

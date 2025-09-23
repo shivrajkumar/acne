@@ -23,6 +23,7 @@ const initialState = {
   allQuestionsFilled: false,
   isHindi: false,
   isMale: null,
+  hautAiResponse: undefined,
 };
 
 export const QuestionsContext = createContext();
@@ -126,6 +127,10 @@ const VayuQuestionsContextProvider = ({ children }) => {
     dispatch({ type: ACTIONS.RESET_STATE });
   };
 
+  const setHautAiResponse = (bool) => {
+    dispatch({ type: ACTIONS.SET_HAUT_AI_RESPONSE, payload: bool });
+  }
+
   return (
     <QuestionsContext.Provider
       value={{
@@ -142,6 +147,7 @@ const VayuQuestionsContextProvider = ({ children }) => {
         allQuestionsFilled: state.allQuestionsFilled,
         isHindi: state.isHindi,
         isMale: state.isMale,
+        hautAiResponse: state.hautAiResponse,
         addToPreviousQuestion,
         init,
         makeQuestionsList,
@@ -158,6 +164,7 @@ const VayuQuestionsContextProvider = ({ children }) => {
         changeLanguage,
         setIsMale,
         resetState,
+        setHautAiResponse
       }}
     >
       {children}
