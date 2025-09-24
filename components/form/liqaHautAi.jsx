@@ -80,10 +80,7 @@ export default function ImageUploadWithHaut({ block }) {
           field_key: block.id,
           question_text: block.text,
           response: blob,
-          status:
-            block.id === "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.SEMI_FILLED,
+          status: formFillStatus.DRAFT,
           location_path: window.location.pathname + window.location.search,
           source: "website",
           response_type: block.type,
