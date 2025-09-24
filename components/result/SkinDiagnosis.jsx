@@ -2,8 +2,6 @@
 import { useState } from "react";
 import placeholder from "@assets/images/skin-diagnosis-placeholder.png";
 import { useCartContext } from "@/context/CartContext";
-import DiagnosisImage from "./DiagnosisImage";
-import Image from "next/image";
 
 const Tag = ({ severity, score }) => {
   const getSeverityLevel = (score) => {
