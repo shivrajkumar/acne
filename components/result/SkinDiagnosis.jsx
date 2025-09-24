@@ -1,11 +1,11 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import placeholder from "@assets/images/skin-diagnosis-placeholder.png";
 import { useCartContext } from "@/context/CartContext";
 
 const Tag = ({ severity, score }) => {
-  const getSeverityLevel = (score, metricType) => {
+  const getSeverityLevel = (score) => {
     if (severity) return severity;
 
     if (typeof score === "number") {
@@ -77,13 +77,14 @@ const DiagnosisCard = ({ data, position, isActive, onClick }) => {
   return (
     <>
       {/* Desktop version */}
+      {console.log(data, 'logging data')}
       <div className={getCardStyles()} onClick={onClick}>
         <div
           className="bg-center bg-cover bg-no-repeat h-[367px] rounded-[12px] shrink-0 w-full"
           // style={{
           //   backgroundImage: `url(${
           //     data.image ? data.image : placeholder.src
-          //   })`,
+          //   })`
           // }}
         />
         <div className="box-border flex flex-col gap-6 items-start justify-start p-4 w-full shrink-0">
@@ -131,11 +132,11 @@ const DiagnosisCard = ({ data, position, isActive, onClick }) => {
       <div className={getMobileCardStyles()} onClick={onClick}>
         <div
           className="aspect-[822/736] bg-center bg-cover bg-no-repeat rounded-[12px] shrink-0 w-full"
-          // style={{
-          //   backgroundImage: `url(${
-          //     data.image ? data.image : placeholder.src
-          //   })`,
-          // }}
+          style={{
+            backgroundImage: `url(${
+              data.image ? data.image : placeholder.src
+            })`,
+          }}
         />
         <div className="box-border flex flex-col gap-2 items-start justify-start p-4 w-full shrink-0">
           <div className="flex flex-col font-['Sofia_Pro',sans-serif] justify-center leading-[1.3] min-w-full not-italic shrink-0 text-[#0f1b28] text-[20px] tracking-[0.5px]">
@@ -184,16 +185,19 @@ const SkinDiagnosis = ({ data }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [direction, setDirection] = useState("");
   const response = useCartContext?.()?.skinAnalysisResponse;
+  console.log("response", response);
 
-  function convertSkinAnalysisToArray(skinData) {
-    return Object.entries(skinData).map(([key, value]) => ({
-      id: key,
-      tag: value?.tag || null,
-      name: value?.name || key.charAt(0).toUpperCase() + key.slice(1),
-      image: value?.image || null,
-      score: value?.score || null,
-    }));
-  }
+ function convertSkinAnalysisToArray(skinData) {
+  if (!skinData) return []; 
+
+  return Object.entries(skinData).map(([key, value]) => ({
+    id: key,
+    tag: value?.tag || null,
+    name: value?.name || key.charAt(0).toUpperCase() + key.slice(1),
+    image: value?.image || null,
+    score: value?.score || null,
+  }));
+}
 
   const alteredData = convertSkinAnalysisToArray(response);
   console.log('alteredData', alteredData)
@@ -302,15 +306,15 @@ const SkinDiagnosis = ({ data }) => {
           )}
 
           {/* Desktop Cards */}
-          {getVisibleCards().map((card, index) => (
+          {/* {getVisibleCards().map((card, index) => (
             <DiagnosisCard
-              key={`desktop-${card.position}-${card.data.id}`}
+              key={index}
               data={card.data}
               position={card.position}
               isActive={card.position === "center"}
               onClick={() => handleCardClick(card.index)}
             />
-          ))}
+          ))} */}
 
           {/* Next button - hide if only one item */}
           {alteredData.length > 1 && (
@@ -346,7 +350,7 @@ const SkinDiagnosis = ({ data }) => {
           <div className="flex gap-2 items-start justify-start shrink-0">
             {alteredData.map((item, index) => (
               <button
-                key={item.id}
+                key={index}
                 onClick={() => handleThumbnailClick(index)}
                 disabled={isAnimating}
                 className={`h-[72px] rounded w-20 shrink-0 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ${
@@ -385,8 +389,8 @@ const SkinDiagnosis = ({ data }) => {
               }px))`,
             }}
           >
-            {alteredData.map((item, index) => (
-              <div key={`mobile-card-${item.id}`} className="flex-shrink-0">
+            {/* {alteredData.map((item, index) => (
+              <div key={index} className="flex-shrink-0">
                 <DiagnosisCard
                   data={item}
                   position="left"
@@ -394,7 +398,7 @@ const SkinDiagnosis = ({ data }) => {
                   onClick={() => handleCardClick(index)}
                 />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
 
@@ -403,7 +407,7 @@ const SkinDiagnosis = ({ data }) => {
           <div className="flex gap-2 items-start justify-start shrink-0">
             {alteredData.map((item, index) => (
               <button
-                key={`mobile-thumb-${item.id}`}
+                key={index}
                 onClick={() => handleThumbnailClick(index)}
                 disabled={isAnimating}
                 className={`h-[54px] rounded w-[60px] shrink-0 cursor-pointer transition-all duration-300 bg-center bg-cover bg-no-repeat hover:scale-105 active:scale-95 ${
@@ -413,7 +417,7 @@ const SkinDiagnosis = ({ data }) => {
                         isAnimating ? "cursor-not-allowed" : ""
                       }`
                 }`}
-                // style={{ backgroundImage: `url(${item.image.src})` }}
+                style={{ backgroundImage: `url(${item.image})` }}
               >
                 <div
                   aria-hidden="true"
