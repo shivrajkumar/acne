@@ -2,6 +2,8 @@
 import { useState } from "react";
 import placeholder from "@assets/images/skin-diagnosis-placeholder.png";
 import { useCartContext } from "@/context/CartContext";
+import DiagnosisImage from "./DiagnosisImage";
+import Image from "next/image";
 
 const Tag = ({ severity, score }) => {
   const getSeverityLevel = (score) => {
@@ -71,18 +73,18 @@ const DiagnosisCard = ({ data, position, isActive, onClick }) => {
       : `${baseClasses} opacity-60 transform scale-95 hover:opacity-80`;
   };
 
-  if (!data.image) return null; // Don't render card if image is missing
+  if (!data.image) return null;
 
   return (
     <>
       {/* Desktop version */}
       <div className={getCardStyles()} onClick={onClick}>
-        <img
+        <iframe
           src={data.image}
           alt={data.name || "Diagnosis"}
           width={458}
           height={367}
-          className="h-[367px] w-full object-cover rounded-[12px] shrink-0"
+          className="h-[367px] w-full object-cover rounded-[12px]"
         />
         <div className="box-border flex flex-col gap-6 items-start justify-start p-4 w-full shrink-0">
           <div className="flex flex-col gap-2 items-start justify-center w-full shrink-0">
@@ -123,9 +125,12 @@ const DiagnosisCard = ({ data, position, isActive, onClick }) => {
 
       {/* Mobile version */}
       <div className={getMobileCardStyles()} onClick={onClick}>
-        <div
-          className="aspect-[822/736] bg-center bg-cover bg-no-repeat rounded-[12px] shrink-0 w-full"
-          style={{ backgroundImage: `url(${data.image})` }}
+        <iframe
+          src={data.image}
+          alt={data.name || "Diagnosis"}
+          width={458}
+          height={367}
+          className="h-[250px] w-full object-cover rounded-[12px]"
         />
         <div className="box-border flex flex-col gap-2 items-start justify-start p-4 w-full shrink-0">
           <div className="flex flex-col font-['Sofia_Pro',sans-serif] justify-center leading-[1.3] min-w-full not-italic shrink-0 text-[#0f1b28] text-[20px] tracking-[0.5px]">
@@ -188,18 +193,14 @@ const SkinDiagnosis = ({ data }) => {
   const handlePrevious = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex(
-      (prev) => (prev === 0 ? alteredData.length - 1 : prev - 1)
-    );
+    setCurrentIndex((prev) => (prev === 0 ? alteredData.length - 1 : prev - 1));
     setTimeout(() => setIsAnimating(false), 300);
   };
 
   const handleNext = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex(
-      (prev) => (prev === alteredData.length - 1 ? 0 : prev + 1)
-    );
+    setCurrentIndex((prev) => (prev === alteredData.length - 1 ? 0 : prev + 1));
     setTimeout(() => setIsAnimating(false), 300);
   };
 
@@ -225,7 +226,11 @@ const SkinDiagnosis = ({ data }) => {
       currentIndex === alteredData.length - 1 ? 0 : currentIndex + 1;
     return [
       { data: alteredData[prevIndex], position: "left", index: prevIndex },
-      { data: alteredData[currentIndex], position: "center", index: currentIndex },
+      {
+        data: alteredData[currentIndex],
+        position: "center",
+        index: currentIndex,
+      },
       { data: alteredData[nextIndex], position: "right", index: nextIndex },
     ];
   };
@@ -239,6 +244,7 @@ const SkinDiagnosis = ({ data }) => {
       {/* Desktop */}
       <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full">
         <div className="relative w-[1375.33px] h-[582px]">
+          {/* Previous Button */}
           {alteredData.length > 1 && (
             <button
               onClick={handlePrevious}
@@ -265,6 +271,7 @@ const SkinDiagnosis = ({ data }) => {
             </button>
           )}
 
+          {/* Main Cards Display */}
           {getVisibleCards().map((card, index) => (
             <DiagnosisCard
               key={card.data.id}
@@ -275,6 +282,7 @@ const SkinDiagnosis = ({ data }) => {
             />
           ))}
 
+          {/* Next Button */}
           {alteredData.length > 1 && (
             <button
               onClick={handleNext}
@@ -302,6 +310,7 @@ const SkinDiagnosis = ({ data }) => {
           )}
         </div>
 
+        {/* Thumbnails */}
         {alteredData.length > 1 && (
           <div className="flex gap-2 items-start justify-start shrink-0 mt-16">
             {alteredData.map((item, index) => (
@@ -309,21 +318,25 @@ const SkinDiagnosis = ({ data }) => {
                 key={item.id}
                 onClick={() => handleThumbnailClick(index)}
                 disabled={isAnimating}
-                className={`h-[72px] rounded w-20 shrink-0 cursor-pointer transition-all duration-300 hover:scale-105 ${
-                  index === currentIndex
-                    ? "border-2 border-[#3b52f5] opacity-100 shadow-lg transform scale-110"
-                    : `border opacity-60 hover:opacity-80 ${
-                        isAnimating ? "cursor-not-allowed" : ""
-                      }`
-                }`}
+                className={`
+            relative h-[72px] w-20 shrink-0 rounded overflow-hidden
+            cursor-pointer transition-all duration-300 hover:scale-105
+            ${
+              index === currentIndex
+                ? "border-2 border-[#3b52f5] opacity-100 shadow-lg transform scale-110"
+                : `border border-gray-300 opacity-60 hover:opacity-80 ${
+                    isAnimating ? "cursor-not-allowed" : ""
+                  }`
+            }
+          `}
+                aria-label={`View ${item.name} diagnosis`}
               >
-                <img
-                  className="block max-w-none w-full h-full object-cover rounded"
-                  width={80}
-                  height={72}
-                  sizes="100vw"
-                  alt={`${item.name} diagnosis`}
+                <iframe
+                  className="w-full h-full border-none pointer-events-none rounded"
                   src={item.image}
+                  title={`${item.name} diagnosis thumbnail`}
+                  loading="lazy"
+                  sandbox="allow-same-origin"
                 />
               </button>
             ))}
@@ -333,13 +346,16 @@ const SkinDiagnosis = ({ data }) => {
 
       {/* Mobile */}
       <div className="bg-white box-border flex flex-col gap-6 items-center justify-start w-full md:hidden">
+        {/* Main Carousel Display */}
         <div className="relative overflow-hidden w-full">
           <div
             className={`flex gap-4 items-center transition-transform ${
               isAnimating ? "duration-300" : "duration-200"
             } ease-out`}
             style={{
-              transform: `translateX(calc(40vw - 128px - ${currentIndex * 256}px))`,
+              transform: `translateX(calc(40vw - 128px - ${
+                currentIndex * 256
+              }px))`,
             }}
           >
             {alteredData.map((item, index) => (
@@ -355,28 +371,62 @@ const SkinDiagnosis = ({ data }) => {
           </div>
         </div>
 
+        {/* Horizontal Scrollable Thumbnails */}
         {alteredData.length > 1 && (
-          <div className="flex gap-2 items-start justify-start shrink-0">
-            {alteredData.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => handleThumbnailClick(index)}
-                disabled={isAnimating}
-                className={`h-[54px] rounded w-[60px] shrink-0 cursor-pointer transition-all duration-300 bg-center bg-cover bg-no-repeat hover:scale-105 active:scale-95 ${
-                  index === currentIndex
-                    ? "border border-[rgba(0,0,0,0.38)] opacity-100 shadow-lg transform scale-110"
-                    : `bg-[#00000033] opacity-60 hover:opacity-80 ${
-                        isAnimating ? "cursor-not-allowed" : ""
-                      }`
-                }`}
-                style={{ backgroundImage: `url(${item.image})` }}
-              >
+          <div className="w-full">
+            <div
+              className="flex gap-2 items-start justify-start overflow-x-auto px-4 pb-2 scrollbar-none"
+              style={{
+                scrollBehavior: "smooth",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
+              {alteredData.map((item, index) => (
                 <div
-                  aria-hidden="true"
-                  className="absolute border border-[rgba(0,0,0,0.38)] border-solid inset-0 pointer-events-none rounded-[4px]"
-                />
-              </button>
-            ))}
+                  key={item.id}
+                  onClick={() => handleThumbnailClick(index)}
+                  className={`
+              relative mt-10 h-[80px] w-[60px] flex-shrink-0 rounded overflow-hidden
+              cursor-pointer transition-all duration-300 
+              hover:scale-105 active:scale-95
+              ${
+                index === currentIndex
+                  ? "border-2 border-blue-500 opacity-100 shadow-lg scale-110"
+                  : `bg-gray-200 opacity-70 hover:opacity-90 border border-gray-300 ${
+                      isAnimating ? "cursor-not-allowed" : ""
+                    }`
+              }
+            `}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View item ${index + 1}`}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      if (!isAnimating) {
+                        handleThumbnailClick(index);
+                      }
+                    }
+                  }}
+                >
+                  <iframe
+                    src={item.image}
+                    className="w-full h-full border-none pointer-events-none"
+                    loading="lazy"
+                    title={`Thumbnail ${index + 1}`}
+                    sandbox="allow-same-origin"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 pointer-events-none rounded-[4px]"
+                  />
+                </div>
+              ))}
+
+              {/* End spacing for comfortable scrolling */}
+              <div className="w-4 flex-shrink-0" />
+            </div>
           </div>
         )}
       </div>
