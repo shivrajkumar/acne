@@ -168,7 +168,7 @@ const DiagnosisCard = ({ data, position, isActive, onClick }) => {
   );
 };
 
-const SkinDiagnosis = ({ data }) => {
+const SkinDiagnosis = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const response = useCartContext?.()?.skinAnalysisResponse;
@@ -272,7 +272,7 @@ const SkinDiagnosis = ({ data }) => {
           {/* Main Cards Display */}
           {getVisibleCards().map((card, index) => (
             <DiagnosisCard
-              key={card.data.id}
+              key={index}
               data={card.data}
               position={card.position}
               isActive={card.position === "center"}

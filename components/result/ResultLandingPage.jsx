@@ -299,9 +299,7 @@ const ResultLandingPage = ({ searchParams }) => {
         <div ref={resultBannerRef}>
           <ResultBannerV2 />
         </div>
-        {resultData?.skinAnalysisResponse !== null || resultData?.skinAnalysisResponse !== undefined ? 
-          <SkinDiagnosis/> : null
-        }
+        {resultData?.skinAnalysisResponse == null || resultData?.skinAnalysisResponse == undefined ? null : <SkinDiagnosis/> }
         <OrderSummary />
         <AcneReviews/>
         <VisibleResultsInThreeWeeks />
