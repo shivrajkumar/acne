@@ -27,6 +27,7 @@ import ResultBannerV2 from "./ResultBannerV2";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import AcneReviews from "./AcneReviews";
 import SkinDiagnosis from "./SkinDiagnosis";
+import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -38,8 +39,49 @@ const ResultLandingPage = ({ searchParams }) => {
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
   const [cacheData, setCacheData] = useState(null);
-
   const isLoading = useMediaLoader();
+  const [thumbmarkValue, setThumbmarkValue] = useState(null);
+  const [ipApiValue, setIpApiValue] = useState(null);
+
+  console.log(thumbmarkValue, ipApiValue, "values");
+
+  useEffect(() => {
+    const fetchThumbmark = async () => {
+      try {
+        const tm = await getThumbmark();
+        console.log("thumbmark", tm);
+        setThumbmarkValue(tm);
+        setCapiPayload((prev) => ({ ...prev, thumbmark: tm?.thumbmark || tm }));
+      } catch (err) {
+        console.error("Error getting thumbmark:", err);
+      }
+    };
+    fetchThumbmark();
+  }, []);
+
+  useEffect(() => {
+    const fetchIpAddress = async () => {
+      try {
+        const response = await fetch("/api/ip");
+        const result = await response.json();
+        if (result.success) {
+          console.log("IP data fetched:", result.data);
+          setIpApiValue(result.data);
+        } else {
+          console.error("Failed to fetch IP data:", result.error);
+        }
+      } catch (error) {
+        console.error("Error fetching IP data:", error);
+      }
+    };
+    fetchIpAddress();
+  }, []);
+
+  useEffect(() => {
+    if (ipApiValue?.ip && thumbmarkValue) {
+      fetchResult();
+    }
+  }, [ipApiValue, thumbmarkValue]);
 
   // Initialize tracking data
   useEffect(() => {
@@ -77,7 +119,10 @@ const ResultLandingPage = ({ searchParams }) => {
       const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
-        event_id: generateEventId({ eventName: 'ReportGenerated', phone: phone })
+        event_id: generateEventId({
+          eventName: "ReportGenerated",
+          phone: phone,
+        }),
       });
     }
   }, [tId]);
@@ -86,21 +131,32 @@ const ResultLandingPage = ({ searchParams }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (resultBannerRef.current) {
-        const bannerBottom = resultBannerRef.current.getBoundingClientRect().bottom;
+        const bannerBottom =
+          resultBannerRef.current.getBoundingClientRect().bottom;
         setShowSticky(bannerBottom < 0);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
+    handleScroll(); 
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const fetchResult = async () => {
     setLoading(true);
+
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-ip-address": ipApiValue?.ip || "",
+        "x-fp-id": thumbmarkValue ? thumbmarkValue?.thumbmark : "",
+      },
+    };
+
     try {
-      const res = await fetchRequest(RESULT_V2(tId));
+      const res = await fetchRequest(RESULT_V2(tId), options);
       if (res.status === 200) {
         const caseId = res?.data?.customerDetails?.caseId;
         if (caseId) {
@@ -118,9 +174,13 @@ const ResultLandingPage = ({ searchParams }) => {
             if (parsedCachedData?.customerDetails?.caseId === caseId) {
               finalData = {
                 ...res.data,
-                productsDetails: parsedCachedData.productsDetails || res.data.productsDetails,
-                optionalProductsDetails: parsedCachedData.optionalProductsDetails || res.data.optionalProductsDetails,
-                cartDetails: parsedCachedData.cartDetails || res.data.cartDetails
+                productsDetails:
+                  parsedCachedData.productsDetails || res.data.productsDetails,
+                optionalProductsDetails:
+                  parsedCachedData.optionalProductsDetails ||
+                  res.data.optionalProductsDetails,
+                cartDetails:
+                  parsedCachedData.cartDetails || res.data.cartDetails,
               };
             }
           } catch (e) {
@@ -157,7 +217,9 @@ const ResultLandingPage = ({ searchParams }) => {
       resultData?.customerDetails?.caseId
     );
     const updatedCart = cacheData || localStorage.getItem(`acne_result_data`);
-    const optionalProductAdded = JSON.parse(updatedCart)?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
+    const optionalProductAdded = JSON.parse(
+      updatedCart
+    )?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
     const eventAttributes = {
       cart_value: `${resultData?.cartDetails?.totalCartValue}`,
       item_count: `${resultData?.productsDetails?.length}`,
@@ -166,16 +228,20 @@ const ResultLandingPage = ({ searchParams }) => {
       caseId: `${resultData?.customerDetails?.caseId}`,
       currency: "INR",
       transactionId: `${tId}`,
-      optionalProductAdded: optionalProductAdded?.length > 0 ? optionalProductAdded : null,
+      optionalProductAdded:
+        optionalProductAdded?.length > 0 ? optionalProductAdded : null,
     };
 
     // Track events
     trackMoEngageEvent("BeginCheckout", eventAttributes);
-    logGtmEvent("Add to Cart", { ...eventAttributes, event_id: generateEventId({ eventName: 'Add to Cart' }) });
+    logGtmEvent("Add to Cart", {
+      ...eventAttributes,
+      event_id: generateEventId({ eventName: "Add to Cart" }),
+    });
     pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
-    trackUmamiEvent('checkout_initiated', {
-      syntheticId: tId ?? window.localStorage.getItem("syntheticId")
+    trackUmamiEvent("checkout_initiated", {
+      syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
     });
   };
 
@@ -191,12 +257,14 @@ const ResultLandingPage = ({ searchParams }) => {
 
   const addProductToCart = (product) => {
     let updatedProductsDetails = [...(resultData?.productsDetails || [])];
-    let updatedOptionalProductsDetails = [...(resultData?.optionalProductsDetails || [])];
+    let updatedOptionalProductsDetails = [
+      ...(resultData?.optionalProductsDetails || []),
+    ];
 
     if (product) {
       updatedProductsDetails.push({ ...product, isOptionalProduct: true });
       updatedOptionalProductsDetails = updatedOptionalProductsDetails.filter(
-        optProduct => optProduct.variantId !== product.variantId
+        (optProduct) => optProduct.variantId !== product.variantId
       );
 
       const newCartTotal = updatedProductsDetails.reduce(
@@ -210,30 +278,36 @@ const ResultLandingPage = ({ searchParams }) => {
         optionalProductsDetails: updatedOptionalProductsDetails,
         cartDetails: {
           ...resultData.cartDetails,
-          totalCartValue: newCartTotal
-        }
+          totalCartValue: newCartTotal,
+        },
       };
 
       setResultData(newResultData);
       localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
-      logGtmEvent("addon_scar_added", { product: product, event_id: generateEventId({ eventName: 'addon_scar_added' })});
+      logGtmEvent("addon_scar_added", {
+        product: product,
+        event_id: generateEventId({ eventName: "addon_scar_added" }),
+      });
       trackMoEngageEvent("addon_scar_added", {
         timestamp: new Date().toISOString(),
         syntheticId: tId ?? localStorage.getItem("syntheticId"),
         caseId: resultData?.customerDetails?.caseId,
         optionalProductAdded: product,
       });
-    };
+    }
   };
 
   const removeProductFromCart = (product) => {
     let updatedProductsDetails = [...(resultData?.productsDetails || [])];
-    let updatedOptionalProductsDetails = [...(resultData?.optionalProductsDetails || [])];
+    let updatedOptionalProductsDetails = [
+      ...(resultData?.optionalProductsDetails || []),
+    ];
 
     if (product) {
       // Remove from main products (only if it was originally optional)
       updatedProductsDetails = updatedProductsDetails.filter(
-        prod => !(prod.variantId === product.variantId && prod.isOptionalProduct)
+        (prod) =>
+          !(prod.variantId === product.variantId && prod.isOptionalProduct)
       );
 
       // Add back to optional products if it was originally optional
@@ -253,13 +327,16 @@ const ResultLandingPage = ({ searchParams }) => {
         optionalProductsDetails: updatedOptionalProductsDetails,
         cartDetails: {
           ...resultData.cartDetails,
-          totalCartValue: newCartTotal
-        }
+          totalCartValue: newCartTotal,
+        },
       };
 
       setResultData(newResultData);
       localStorage.setItem(`acne_result_data`, JSON.stringify(newResultData));
-      logGtmEvent("addon_scar_removed", { product: product, event_id: generateEventId({ eventName: 'addon_scar_removed' })});
+      logGtmEvent("addon_scar_removed", {
+        product: product,
+        event_id: generateEventId({ eventName: "addon_scar_removed" }),
+      });
       trackMoEngageEvent("addon_scar_removed", {
         timestamp: new Date().toISOString(),
         syntheticId: tId ?? localStorage.getItem("syntheticId"),
@@ -286,7 +363,7 @@ const ResultLandingPage = ({ searchParams }) => {
     removeProductFromCart: removeProductFromCart,
     acneStageDetails: resultData?.acneStageDetails,
     reviewDetails: resultData?.reviewsDetails,
-    skinAnalysisResponse: resultData?.skinAnalysisResponse
+    skinAnalysisResponse: resultData?.skinAnalysisResponse,
   };
 
   return (
@@ -299,9 +376,12 @@ const ResultLandingPage = ({ searchParams }) => {
         <div ref={resultBannerRef}>
           <ResultBannerV2 />
         </div>
-        {resultData?.skinAnalysisResponse == null || resultData?.skinAnalysisResponse == undefined ? null : <SkinDiagnosis/> }
+        {resultData?.skinAnalysisResponse == null ||
+        resultData?.skinAnalysisResponse == undefined ? null : (
+          <SkinDiagnosis />
+        )}
         <OrderSummary />
-        <AcneReviews/>
+        <AcneReviews />
         <VisibleResultsInThreeWeeks />
         <AcneWhatsInYourKit />
         <FeaturedReview />
@@ -314,3 +394,4 @@ const ResultLandingPage = ({ searchParams }) => {
 };
 
 export default ResultLandingPage;
+

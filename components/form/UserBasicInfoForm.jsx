@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 import { identifyUmamiUser, trackUmamiEvent } from "@components/generic/UmamiTracker";
 import LoginPage from "../login/Login";
 
-export default function UserBasicInfoForm() {
+export default function UserBasicInfoForm({ onComplete }) {
   const {
     saveReply,
     nextQuestion,
@@ -488,8 +488,13 @@ export default function UserBasicInfoForm() {
       if (userDetails?.isOrderedCsx) {
         setShowLoginModal(true);
       } else {
-        // Move to next question - this is key to navigation
-        nextQuestion("user_basic_info", "completed");
+        // If onComplete prop is provided, call it (for permissions screen flow)
+        if (onComplete) {
+          onComplete();
+        } else {
+          // Original flow - move to next question directly
+          nextQuestion("user_basic_info", "completed");
+        }
         const url = new URL(window.location.href);
         url.searchParams.set("tid", userDetails?.tid);
         window.history.replaceState({}, "", url.toString());

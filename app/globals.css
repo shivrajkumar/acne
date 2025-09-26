@@ -478,3 +478,15 @@ body.modal-open {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
 }
+
+hautai-liqa {
+  width: 100%;
+  height: 550px;
+  display: block;
+}
+
+/* Ensure preview canvas is visible */
+hautai-liqa canvas {
+  display: block !important;
+  visibility: visible !important;
+}

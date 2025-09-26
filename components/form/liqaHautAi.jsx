@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 // import your helpers
 import { IMAGE_UPLOAD_API, TRANSACTION_API } from "@/constants/urls";
 import { fetchRequest } from "@/helpers/fetchRequest";
-import {formFillStatus} from '@/enums/QuestionEnums';
+import { formFillStatus } from "@/enums/QuestionEnums";
 import useFormSubmit from "@/hooks/useFormSubmit";
 import { QuestionsContext } from "@/context/questions-store";
 
@@ -112,17 +112,15 @@ export default function ImageUploadWithHaut({ block }) {
       <div>Skin Analysis Upload</div>
       <div className="w-full">
         <hautai-liqa
+          className="preview"
           ref={liqaRef}
           license="ll_cfa291c08ce340a6"
           preset="face"
+          show-preview="true"
+          enable-preview="true"
+          preview-duration="5000"
         ></hautai-liqa>
       </div>
-
-      {err && (
-        <div className="text-red-500 mt-2">
-          {err}
-        </div>
-      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { TokenManager } from "@/utils/tokenManager";
 import { env } from "next-runtime-env";
 import Cookies from "js-cookie";
 import { fetchThumbprint } from "./thumbmark";
+import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 
 const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 
@@ -21,6 +22,32 @@ const DEFAULT_OPTIONS = {
 
 const storedFingerPrint = Cookies.get("DEVICE_FP");
 
+// Helper function to fetch IP address
+const fetchIpAddress = async () => {
+  try {
+    const response = await fetch("/api/ip");
+    const result = await response.json();
+    if (result.success) {
+      return result.data?.ip || "";
+    }
+    return "";
+  } catch (error) {
+    console.warn("Error fetching IP address:", error);
+    return "";
+  }
+};
+
+// Helper function to get thumbmark
+const getThumbmarkValue = async () => {
+  try {
+    const tm = await getThumbmark();
+    return tm?.thumbmark || tm || "";
+  } catch (error) {
+    console.warn("Error getting thumbmark:", error);
+    return "";
+  }
+};
+
 export const fetchRequest = async (url, options = { method: "GET" }, token) => {
   let data = {};
   let status = "";
@@ -36,6 +63,12 @@ export const fetchRequest = async (url, options = { method: "GET" }, token) => {
       };
     }
 
+    // Fetch IP and thumbmark values
+    const [ipAddress, thumbmark] = await Promise.all([
+      fetchIpAddress(),
+      getThumbmarkValue()
+    ]);
+
     const _options = {
       ...options,
       headers: {
@@ -44,6 +77,8 @@ export const fetchRequest = async (url, options = { method: "GET" }, token) => {
         "x-tenant-id": "acne",
         "x-access-token": `e2623576-930b-48b6-81e2-a3cb5e37f47d`,
         "Accept-Encoding": " br, gzip, deflate",
+        "x-ip-address": ipAddress,
+        "x-fp-id": thumbmark,
         ...options.headers,
       },
     };
@@ -124,6 +159,12 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
   let data = null;
   let status = 500;
 
+  // Fetch IP and thumbmark values
+  const [ipAddress, thumbmark] = await Promise.all([
+    fetchIpAddress(),
+    getThumbmarkValue()
+  ]);
+
   // Handle token refresh if needed
   if (TokenManager.isAccessTokenExpired(accessToken)) {
     try {
@@ -189,6 +230,8 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
       "Access-Control-Allow-Headers":
         "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
       "Access-Control-Allow-Credentials": "true",
+      "x-ip-address": ipAddress,
+      "x-fp-id": thumbmark,
     },
     // Ensure credentials are included for CORS
     credentials: "include",

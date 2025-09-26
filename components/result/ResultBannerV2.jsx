@@ -1,59 +1,59 @@
-import React, { useMemo } from 'react';
-import { Progress } from 'antd';
-import { startCase } from 'lodash';
-import RootCausesV2 from './RootCausesV2';
+import React, { useMemo } from "react";
+import { Progress } from "antd";
+import { startCase } from "lodash";
+import RootCausesV2 from "./RootCausesV2";
 import { useCartContext } from "../../context/CartContext";
-import ResultInfoPopover from './ResultInfoModal';
+import ResultInfoPopover from "./ResultInfoModal";
+import Image from "next/image";
 
 const progressMapping = {
-    // Acne Levels
-    mild: 25,
-    moderate: 50,
-    severe: 90,
+  // Acne Levels
+  mild: 25,
+  moderate: 50,
+  severe: 90,
 
-    // Skin Types
-    dry: 22,
-    normal: 50,
-    oily: 90,
-    combination: 80
+  // Skin Types
+  dry: 22,
+  normal: 50,
+  oily: 90,
+  combination: 80,
 };
 
 const ResultBannerV2 = () => {
-    const { customerDetails, skinType, acneGrading } = useCartContext();
+  const { customerDetails, skinType, acneGrading, doctorDetails } =
+    useCartContext();
 
-    const acneProgress = useMemo(() => {
-        const condition = acneGrading?.split(" ")[2]?.toLowerCase().trim();
-        return progressMapping[condition] || 0;
-    }, [acneGrading]);
+  const acneProgress = useMemo(() => {
+    const condition = acneGrading?.split(" ")[2]?.toLowerCase().trim();
+    return progressMapping[condition] || 0;
+  }, [acneGrading]);
 
-    const skinTypeProgress = useMemo(() => {
-        const condition = skinType?.split("+")[0]?.toLowerCase().trim();
-        return progressMapping[condition] || 0;
-    }, [skinType]);
+  const skinTypeProgress = useMemo(() => {
+    const condition = skinType?.split("+")[0]?.toLowerCase().trim();
+    return progressMapping[condition] || 0;
+  }, [skinType]);
 
-    const customerName = useMemo(() =>
-        customerDetails?.firstName ? startCase(customerDetails.firstName) : "",
-        [customerDetails]
-    );
-    const formattedSkinType = skinType?.split("+");
-    const formattedAcneGrading = acneGrading?.split(" ");
+  const customerName = useMemo(
+    () =>
+      customerDetails?.firstName ? startCase(customerDetails.firstName) : "",
+    [customerDetails]
+  );
+  const formattedSkinType = skinType?.split("+");
+  const formattedAcneGrading = acneGrading?.split(" ");
 
-    return (
-        <div className="w-full overflow-hidden bg-Secondary/50 border-[1px] border-Grey/300 p-[40px] xs:p-[24px] sm:p-[24px] md:p-[40px] rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
-            <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
-                <div>
-                    <h1 className="text-[28px] md:text-[44px] font-sophiaPro font-[400] text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
-                        {customerName}
-                        <span>, Your Personalised Skin Analysis is Ready.</span>
-                    </h1>
+  return (
+    <div className="w-full overflow-hidden bg-Secondary/50 p-[40px] xs:p-[4px] sm:p-[24px] md:p-[30px] rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
+      <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
+        <div>
+          <h1 className="text-[24px] md:text-[44px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
+            Hi, {customerName}
+          </h1>
+          <h1 className="text-[24px] md:text-[44px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
+            You have <span className="font-semibold">{acneGrading}</span>
+          </h1>
+        </div>
 
-                    <p className="text-[16px] md:text-[16px] font-sophiaPro font-[400] leading-[1.5] text-Grey/500 mt-[12px]">
-                        We have 21 skin profiles, coded from A1 to C8. Based on your skin, acne, and internal health,
-                        we give you a personalised skincare ritual.
-                    </p>
-                </div>
-
-                <div className="flex flex-col gap-[40px] md:gap-[57px] mt-[24px] md:mt-[60px]">
+        {/* <div className="flex flex-col gap-[40px] md:gap-[57px] mt-[24px] md:mt-[60px]">
                     <div className="flex flex-col">
                         <p className="text-Text/Body-Text text-[14px] md:text-[16px] sm:text-[14px] font-[400] leading-[1.5]">
                             Acne Level
@@ -143,14 +143,46 @@ const ResultBannerV2 = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+        <div className="flex-1">
+          <div className="w-full rounded-xl bg-[#F7FBF2] shadow-sm">
+            {/* Header */}
+            <div className="inline-block rounded-r-lg bg-[#2D4D2D] px-4 py-2 text-[14px] font-semibold uppercase tracking-wide text-white md:text-sm">
+              Your Assigned Doctor
             </div>
 
-            <div className="md:mt-0">
-                <RootCausesV2 />
+            {/* Content */}
+            <div className="flex items-start gap-4 flex-row md:items-center p-4 md:p-6">
+              {/* Doctor Image */}
+              <div className="flex-shrink-0">
+                <Image
+                  src={doctorDetails?.image}
+                  alt={doctorDetails?.name}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Doctor Details */}
+              <div>
+                <p className="text-base font-semibold text-gray-900">
+                  {doctorDetails?.name}
+                </p>
+                <p className="text-sm text-gray-700">
+                  {doctorDetails?.education} | {doctorDetails?.experience}
+                </p>
+              </div>
             </div>
+          </div>
         </div>
-    );
+
+        <div className="w-full">
+          <RootCausesV2 />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ResultBannerV2;
