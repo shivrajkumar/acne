@@ -119,6 +119,7 @@ export default function ImageUploadWithHaut({ block }) {
           show-preview="true"
           enable-preview="true"
           preview-duration="5000"
+          sources="front_camera,upload,companion"
         ></hautai-liqa>
       </div>
     </div>
