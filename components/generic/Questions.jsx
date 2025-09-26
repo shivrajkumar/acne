@@ -13,6 +13,7 @@ import { QuestionsContext } from "@/context/questions-store";
 import { clearGtmFlags, logGtmEvent } from "./Gtm";
 import Header from "@/components/generic/Headers";
 import UserBasicInfoForm from "@/components/form/UserBasicInfoForm";
+import HautAiReqPermissions from "@/components/form/hautAiReqPermissions";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
 import LogMoengage from "./LogMoengage";
@@ -29,7 +30,8 @@ const Questions = () => {
     init,
     removeFromPreviousQuestion,
     allQuestionsFilled,
-    hautAiResponse
+    hautAiResponse,
+    nextQuestion
   } = useContext(QuestionsContext);
 
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,7 @@ const Questions = () => {
   const [formStatus, setFormStatus] = useState("");
   const [tabClosed, setTabClosed] = useState("");
   const [isReload, setIsReload] = useState(false);
+  const [userBasicInfoCompleted, setUserBasicInfoCompleted] = useState(false);
 
 
   // const pathname = usePathname();
@@ -199,8 +202,13 @@ const Questions = () => {
         <>
           <Suspense fallback={<Loader />}>
             <div className="flex flex-col items-center justify-start font-sophiaPro  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] bg-Secondary/50 min-h-screen">
-              {currentQuestion && currentQuestion.id === "user_basic_info" ? (
-                <UserBasicInfoForm />
+              {currentQuestion && currentQuestion.id === "user_basic_info" && !userBasicInfoCompleted ? (
+                <UserBasicInfoForm onComplete={() => setUserBasicInfoCompleted(true)} />
+              ) : currentQuestion && currentQuestion.id === "user_basic_info" && userBasicInfoCompleted ? (
+                <HautAiReqPermissions onContinue={() => {
+                  nextQuestion("user_basic_info", "completed");
+                  setUserBasicInfoCompleted(false);
+                }} />
               ) : (
                 components(currentQuestion, QuestionsContext)
               )}

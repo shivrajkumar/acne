@@ -2,6 +2,7 @@
 import { useState } from "react";
 import placeholder from "@assets/images/skin-diagnosis-placeholder.png";
 import { useCartContext } from "@/context/CartContext";
+import { Divider } from "antd";
 
 const Tag = ({ severity, score }) => {
   const getSeverityLevel = (score) => {
@@ -47,120 +48,149 @@ const Tag = ({ severity, score }) => {
   );
 };
 
-const DiagnosisCard = ({ data, position, isActive, onClick }) => {
-  const getCardStyles = () => {
-    const baseTransition =
-      "transition-all duration-300 ease-out cursor-pointer";
-    switch (position) {
-      case "left":
-        return `absolute bg-[#f7f5ee] flex flex-col items-center justify-start left-[-0.33px] rounded-[16px] top-[25px] w-[442.667px] md:block hidden ${baseTransition} hover:shadow-lg hover:-translate-y-1`;
-      case "center":
-        return `absolute bg-[#f7f5ee] flex flex-col h-[582px] items-center justify-start left-[458.67px] rounded-[16px] top-0 w-[458px] md:flex hidden md:h-[582px] md:left-[458.67px] md:w-[458px] md:top-0 ${baseTransition} shadow-xl scale-105`;
-      case "right":
-        return `absolute bg-[#f7f5ee] flex flex-col items-center justify-start left-[932.67px] rounded-[16px] top-[25px] w-[442.667px] md:block hidden ${baseTransition} hover:shadow-lg hover:-translate-y-1`;
-      default:
-        return "hidden";
-    }
-  };
+const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const offset = circumference - (score / 100) * circumference;
 
-  const getMobileCardStyles = () => {
-    const baseClasses =
-      "bg-[#f7f5ee] flex flex-col items-center justify-start rounded-[16px] w-60 md:hidden transition-all duration-300 ease-out cursor-pointer";
-    return isActive
-      ? `${baseClasses} shadow-lg transform scale-100 opacity-100`
-      : `${baseClasses} opacity-60 transform scale-95 hover:opacity-80`;
-  };
+  return (
+    <div className="relative flex items-center justify-center">
+      <svg className="transform -rotate-90" width={size} height={size}>
+        {/* Background circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#FFFFFF"
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        {/* Progress circle */}
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#2C72FE"
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          className="transition-all duration-500 ease-out"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-xs md:text-[16px] font-semibold text-gray-900">
+          {score}
+        </span>
+        <Divider className="bg-black my-1" />
+        <span className="text-xs md:text-[16px] text-gray-500">100</span>
+      </div>
+    </div>
+  );
+};
 
+const DiagnosisCard = ({ data, onClick }) => {
   if (!data.image) return null;
+
+  const baseClasses = "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
+
+  const desktopClasses = "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
+
+  const mobileClasses = "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100"
 
   return (
     <>
-      {/* Desktop version */}
-      <div className={getCardStyles()} onClick={onClick}>
-        <iframe
-          src={data.image}
-          alt={data.name || "Diagnosis"}
-          width={458}
-          height={367}
-          className="h-[367px] w-full object-cover rounded-[12px]"
-        />
-        <div className="box-border flex flex-col gap-6 items-start justify-start p-4 w-full shrink-0">
-          <div className="flex flex-col gap-2 items-start justify-center w-full shrink-0">
-            <div className="flex flex-col font-['Sofia_Pro',sans-serif] justify-center leading-[1.3] min-w-full not-italic shrink-0 text-[#0f1b28] text-[28px] tracking-[0.5px]">
-              {data.name}
+      {/* Desktop Version */}
+      <div className={`${baseClasses} ${desktopClasses}`} onClick={onClick}>
+        {/* Top Image */}
+        <div className="w-full h-[300px] rounded-t-[20px] overflow-hidden">
+          <iframe
+            className="w-full h-full border-none pointer-events-none rounded"
+            src={data.image}
+            title={`${data.name} diagnosis`}
+            loading="lazy"
+            sandbox="allow-same-origin"
+          />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col justify-between w-full p-6 flex-grow">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex-1 mr-4">
+              <p className="text-[16px] font-semibold text-gray-900 mb-2">
+                {data.name}
+              </p>
+              {data.tag && (
+                <span className="inline-block rounded-md bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
+                  {data.tag}
+                </span>
+              )}
             </div>
-            <Tag severity={data.severity} score={data.score} />
+
+            {/* Score Circle */}
+            <div className="flex flex-col items-center justify-center flex-shrink-0">
+              <CircularProgress
+                score={data.score || 75}
+                size={55}
+                strokeWidth={3}
+              />
+            </div>
           </div>
+        </div>
+
+        {/* Bottom Button */}
+        <div className="w-full px-6 pb-4">
           <button
-            className="bg-black box-border flex gap-2 h-12 items-center justify-center px-8 py-0 rounded-[40px] shrink-0 w-full cursor-pointer hover:bg-gray-800 transition-colors"
+            className="bg-blue-600 text-white px-8 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex h-12 items-center justify-start shrink-0">
-              <div className="flex flex-col font-['Figtree',sans-serif] font-medium justify-center shrink-0 text-[14px] text-white whitespace-pre leading-normal">
-                Detailed Insights
-              </div>
-            </div>
-            <div className="overflow-hidden relative shrink-0 w-5 h-5">
-              <svg
-                width="15"
-                height="13.3"
-                viewBox="0 0 15 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.5 1L14 7L8.5 13M13 7H1"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            Show more
           </button>
         </div>
       </div>
 
-      {/* Mobile version */}
-      <div className={getMobileCardStyles()} onClick={onClick}>
-        <iframe
-          src={data.image}
-          alt={data.name || "Diagnosis"}
-          width={458}
-          height={367}
-          className="h-[250px] w-full object-cover rounded-[12px]"
-        />
-        <div className="box-border flex flex-col gap-2 items-start justify-start p-4 w-full shrink-0">
-          <div className="flex flex-col font-['Sofia_Pro',sans-serif] justify-center leading-[1.3] min-w-full not-italic shrink-0 text-[#0f1b28] text-[20px] tracking-[0.5px]">
-            {data.name}
+      {/* Mobile Version */}
+      <div className={`${baseClasses} ${mobileClasses}`} onClick={onClick}>
+        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden">
+          <iframe
+            className="w-full h-full border-none pointer-events-none rounded object-cover"
+            src={data.image}
+            title={`${data.name} diagnosis thumbnail`}
+            loading="lazy"
+            sandbox="allow-same-origin"
+          />
+        </div>
+
+        <div className="flex flex-col justify-between w-full p-4 flex-grow">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex-1 mr-3">
+              <p className="text-base font-semibold text-gray-900 mb-2">
+                {data.name}
+              </p>
+              {data.severity && (
+                <span className="inline-block rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-600">
+                  {data.severity}
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center justify-center flex-shrink-0">
+              <CircularProgress
+                score={data.score || 75}
+                size={54}
+                strokeWidth={4}
+              />
+            </div>
           </div>
-          <Tag severity={data.severity} score={data.score} />
+        </div>
+
+        <div className="w-full px-4 pb-4">
           <button
-            className="bg-black box-border flex gap-2 h-10 items-center justify-center px-6 py-0 rounded-[40px] shrink-0 w-full cursor-pointer hover:bg-gray-800 transition-colors"
+            className="bg-blue-600 text-white w-full py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex h-10 items-center justify-start shrink-0">
-              <div className="flex flex-col font-['Figtree',sans-serif] font-medium justify-center shrink-0 text-[12px] text-white whitespace-pre leading-normal">
-                Detailed Insights
-              </div>
-            </div>
-            <div className="overflow-hidden relative shrink-0 w-5 h-5">
-              <svg
-                width="15"
-                height="13.3"
-                viewBox="0 0 15 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.5 1L14 7L8.5 13M13 7H1"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            Show more
           </button>
         </div>
       </div>
@@ -168,7 +198,7 @@ const DiagnosisCard = ({ data, position, isActive, onClick }) => {
   );
 };
 
-const SkinDiagnosis = ({ data }) => {
+const SkinDiagnosis = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const response = useCartContext?.()?.skinAnalysisResponse;
@@ -216,101 +246,35 @@ const SkinDiagnosis = ({ data }) => {
   };
 
   const getVisibleCards = () => {
-    if (alteredData.length === 1)
-      return [{ data: alteredData[0], position: "center", index: 0 }];
-    const prevIndex =
-      currentIndex === 0 ? alteredData.length - 1 : currentIndex - 1;
-    const nextIndex =
-      currentIndex === alteredData.length - 1 ? 0 : currentIndex + 1;
-    return [
-      { data: alteredData[prevIndex], position: "left", index: prevIndex },
-      {
-        data: alteredData[currentIndex],
-        position: "center",
-        index: currentIndex,
-      },
-      { data: alteredData[nextIndex], position: "right", index: nextIndex },
-    ];
+    return alteredData.map((item, index) => ({
+      data: item,
+      index,
+    }));
   };
 
   return (
     <>
-      <div className="font-sophiaPro text-[24px] md:text-[40px] tracking-[0.5px] leading-[1.3]">
-        Skin Diagnosis
+      <div className="font-sophiaPro text-[24px] md:text-[40px] tracking-[0.5px] leading-[1.3] px-2 md:px-6">
+        Skin Diagnosis Results
       </div>
 
       {/* Desktop */}
-      <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full">
-        <div className="relative w-[1375.33px] h-[582px]">
-          {/* Previous Button */}
-          {alteredData.length > 1 && (
-            <button
-              onClick={handlePrevious}
-              disabled={isAnimating}
-              className={`absolute left-0 top-1/2 -translate-y-1/2 bg-[#3b52f5] flex items-center justify-center rounded-[40px] w-14 h-14 cursor-pointer hover:bg-[#2a3eb5] shadow-lg transition-all duration-200 z-10 ${
-                isAnimating ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              <svg
-                width="18"
-                height="16"
-                viewBox="0 0 15 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M6.5 1L1 7L6.5 13M2 7H14"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          )}
-
-          {/* Main Cards Display */}
-          {getVisibleCards().map((card, index) => (
+      <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full px-2 md:px-6">
+        {/* Main Cards Display */}
+        <div className="flex flex-row gap-6 overflow-x-auto w-full px-4 hide-scrollbar py-5">
+          {alteredData.map((card, index) => (
             <DiagnosisCard
-              key={card.data.id}
-              data={card.data}
-              position={card.position}
-              isActive={card.position === "center"}
-              onClick={() => handleCardClick(card.index)}
+              key={index}
+              data={card}
+              isActive={index === currentIndex}
+              onClick={() => handleCardClick(index)}
             />
           ))}
-
-          {/* Next Button */}
-          {alteredData.length > 1 && (
-            <button
-              onClick={handleNext}
-              disabled={isAnimating}
-              className={`absolute right-0 top-1/2 -translate-y-1/2 bg-[#3b52f5] flex items-center justify-center rounded-[40px] w-14 h-14 cursor-pointer hover:bg-[#2a3eb5] shadow-lg transition-all duration-200 z-10 ${
-                isAnimating ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              <svg
-                width="18"
-                height="16"
-                viewBox="0 0 15 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.5 1L14 7L8.5 13M13 7H1"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          )}
         </div>
 
         {/* Thumbnails */}
-        {alteredData.length > 1 && (
-          <div className="flex gap-2 items-start justify-start shrink-0 mt-16">
+        {/* {alteredData.length > 1 && (
+          <div className="flex gap-2 items-start justify-start shrink-0 mt-10">
             {alteredData.map((item, index) => (
               <button
                 key={item.id}
@@ -339,38 +303,31 @@ const SkinDiagnosis = ({ data }) => {
               </button>
             ))}
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Mobile */}
       <div className="bg-white box-border flex flex-col gap-6 items-center justify-start w-full md:hidden">
         {/* Main Carousel Display */}
         <div className="relative overflow-hidden w-full">
-          <div
-            className={`flex gap-4 items-center transition-transform ${
-              isAnimating ? "duration-300" : "duration-200"
-            } ease-out`}
-            style={{
-              transform: `translateX(calc(40vw - 128px - ${
-                currentIndex * 256
-              }px))`,
-            }}
-          >
-            {alteredData.map((item, index) => (
-              <div key={item.id} className="flex-shrink-0">
-                <DiagnosisCard
-                  data={item}
-                  position="left"
-                  isActive={index === currentIndex}
-                  onClick={() => handleCardClick(index)}
-                />
-              </div>
-            ))}
+          <div className="overflow-x-auto hide-scrollbar">
+            <div className="flex gap-4 items-center py-4">
+              {alteredData.map((item, index) => (
+                <div key={item.id} className="flex-shrink-0">
+                  <DiagnosisCard
+                    data={item}
+                    position="left"
+                    isActive={index === currentIndex}
+                    onClick={() => handleCardClick(index)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Horizontal Scrollable Thumbnails */}
-        {alteredData.length > 1 && (
+        {/* {alteredData.length > 1 && (
           <div className="w-full">
             <div
               className="flex gap-2 items-start justify-start overflow-x-auto px-4 pb-2 scrollbar-none"
@@ -422,11 +379,10 @@ const SkinDiagnosis = ({ data }) => {
                 </div>
               ))}
 
-              {/* End spacing for comfortable scrolling */}
               <div className="w-4 flex-shrink-0" />
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
