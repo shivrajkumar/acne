@@ -161,11 +161,13 @@ const DiagnosisCard = ({ data, onClick }) => {
       <div className={`${baseClasses} ${mobileClasses}`} onClick={onClick}>
         <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden">
           <ReactSVG
-            className="w-full h-full border-none pointer-events-none rounded object-cover"
             src={data.image}
-            alt={`${data.name} diagnosis thumbnail`}
-            width={400}
-            height={300}
+            beforeInjection={(svg) => {
+              svg.setAttribute('style', 'width: 100%; height: 100%; max-width: 100%; max-height: 100%;');
+              svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            }}
+            wrapper="div"
+            className="w-full h-full flex items-center justify-center"
           />
         </div>
 

@@ -42,6 +42,10 @@ const ResultLandingPage = ({ searchParams }) => {
   const isLoading = useMediaLoader();
   const [thumbmarkValue, setThumbmarkValue] = useState(null);
   const [ipApiValue, setIpApiValue] = useState(null);
+  
+  // Add flags to prevent multiple calls
+  const hasFetchedResult = useRef(false);
+  const isFetchingResult = useRef(false);
 
   console.log(thumbmarkValue, ipApiValue, "values");
 
@@ -77,12 +81,6 @@ const ResultLandingPage = ({ searchParams }) => {
     fetchIpAddress();
   }, []);
 
-  useEffect(() => {
-    if (ipApiValue?.ip && thumbmarkValue) {
-      fetchResult();
-    }
-  }, [ipApiValue, thumbmarkValue]);
-
   // Initialize tracking data
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -112,10 +110,17 @@ const ResultLandingPage = ({ searchParams }) => {
     }
   }, []);
 
-  // Fetch result data when tId changes
+  // Single useEffect to handle result fetching
   useEffect(() => {
-    if (typeof window !== "undefined" && tId) {
-      fetchResult();
+    // Only fetch if we have all required data and haven't fetched yet
+    if (
+      typeof window !== "undefined" &&
+      tId &&
+      ipApiValue?.ip &&
+      thumbmarkValue &&
+      !hasFetchedResult.current &&
+      !isFetchingResult.current
+    ) {
       const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
@@ -124,8 +129,10 @@ const ResultLandingPage = ({ searchParams }) => {
           phone: phone,
         }),
       });
+      
+      fetchResult();
     }
-  }, [tId]);
+  }, [tId, ipApiValue, thumbmarkValue]);
 
   // Handle sticky cart visibility on scroll
   useEffect(() => {
@@ -144,6 +151,13 @@ const ResultLandingPage = ({ searchParams }) => {
   }, []);
 
   const fetchResult = async () => {
+    // Prevent multiple simultaneous calls
+    if (isFetchingResult.current) {
+      console.log("Already fetching result, skipping...");
+      return;
+    }
+
+    isFetchingResult.current = true;
     setLoading(true);
 
     const options = {
@@ -190,11 +204,13 @@ const ResultLandingPage = ({ searchParams }) => {
         setResultData(finalData);
         localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
         metaCapi(capiPayload, "ReportGenerated");
+        hasFetchedResult.current = true;
       }
     } catch (e) {
       console.error("Error fetching results:", e);
     } finally {
       setLoading(false);
+      isFetchingResult.current = false;
     }
   };
 
@@ -393,5 +409,4 @@ const ResultLandingPage = ({ searchParams }) => {
   );
 };
 
-export default ResultLandingPage;
-
+export default ResultLandingPage
