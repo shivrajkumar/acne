@@ -109,7 +109,6 @@ export default function ImageUploadWithHaut({ block }) {
 
   return (
     <div className="w-full min-h-full flex flex-col justify-center items-center">
-      <div>Skin Analysis Upload</div>
       <div className="w-full">
         <hautai-liqa
           className="preview"

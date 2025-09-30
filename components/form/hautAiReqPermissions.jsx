@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+import ScannerBox from "../result/ScannerMockup";
 
 const HautAiReqPermissions = ({ onContinue }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onContinue();
-    }, 5000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [onContinue]);

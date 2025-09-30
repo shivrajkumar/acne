@@ -40,7 +40,14 @@ const nextConfig = {
       "d3twoz8hvcdm9h.cloudfront.net",
       "dvv8w2q8s3qot.cloudfront.net",
       "traya.health",
-      "storage.googleapis.com"
+      "storage.googleapis.com",
+    ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "d3twoz8hvcdm9h.cloudfront.net",
+        pathname: "/**",
+      },
     ],
   },
   // async rewrites() {

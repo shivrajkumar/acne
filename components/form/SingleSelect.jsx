@@ -10,6 +10,7 @@ import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { generateEventId } from "@/helpers/metaCapiHelper";
+import { QuestionsContext } from "@/context/questions-store";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -17,6 +18,8 @@ const SingleSelect = ({ block, context }) => {
     isHindi,
     setHautAiResponse,
   } = useContext(context);
+
+  const {hautAiResponse} = useContext(QuestionsContext)
 
   const handleSubmit = useFormSubmit(context);
 
@@ -54,11 +57,8 @@ const SingleSelect = ({ block, context }) => {
         question_text: block.text,
         response: [reply],
         status:
-          block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED
-            : block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.DRAFT,
+          block.id == "stress_level" && hautAiResponse == true 
+            ? formFillStatus.FILLED : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
