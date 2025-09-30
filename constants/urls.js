@@ -176,7 +176,7 @@ export const GET_USER_FORM_RESPONSES = (tranasctionId) =>
 export const RESULT_V2 = (tranasctionId) =>
   getUrl(`consumer-api/service/recommendations/acne-result/${tranasctionId}`);
 
-export const HAUT_AI_IMAGE_CAPTURE_CHECK = (caseId) => getUrl(`consumer-api/service/recommendations/acne/haut-ai/skinAnalysis/${caseId}`);
+export const HAUT_AI_IMAGE_CAPTURE_CHECK = (tranasctionId) => getUrl(`consumer-api/service/recommendations/acne/haut-ai/skinAnalysis/${tranasctionId}`);
 
 export const RETRIEVE_CART_SHOPFLO = (caseId) =>
   getUrl(`consumer-api/service/shopflo/v3/retrieve-cart/${caseId}`);

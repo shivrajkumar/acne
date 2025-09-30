@@ -8,7 +8,7 @@ export default function ScannerBox() {
   useEffect(() => {
     const interval = setInterval(() => {
       setDirection((prev) => (prev === "down" ? "up" : "down"));
-    }, 1000); // reverse every 3s
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
@@ -27,7 +27,7 @@ export default function ScannerBox() {
           backdropFilter: "blur(2px)",
         }}
       >
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-400 via-blue-600 to-blue-400 shadow-lg" />
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-grey/200 shadow-lg" />
       </div>
     </div>
   );

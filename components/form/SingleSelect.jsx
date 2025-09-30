@@ -17,9 +17,11 @@ const SingleSelect = ({ block, context }) => {
     apiResponse: { transactionId },
     isHindi,
     setHautAiResponse,
+    setAllQuestionsFilled,
   } = useContext(context);
 
-  const {hautAiResponse} = useContext(QuestionsContext)
+  const { hautAiResponse } = useContext(QuestionsContext);
+  console.log(block, hautAiResponse, '--- SingleSelect block and hautAiResponse ---');
 
   const handleSubmit = useFormSubmit(context);
 
@@ -51,14 +53,26 @@ const SingleSelect = ({ block, context }) => {
     let _res = "";
 
     try {
+      // Check hautAiResponse if this is stress_level
+      if (block.id == "stress_level") {
+        try {
+          const completionRes = await fetchRequest(
+            HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
+          );
+          setHautAiResponse(
+            completionRes.data.isSkinAnalysisResponseCapturedProperly
+          );
+        } catch (err) {
+          console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
+        }
+      }
+
       const _formData = {
         question_id: block.id,
         field_key: block.id,
         question_text: block.text,
         response: [reply],
-        status:
-          block.id == "stress_level" && hautAiResponse == true 
-            ? formFillStatus.FILLED : formFillStatus.SEMI_FILLED,
+        status: block.id == 'stress_level' ? formFillStatus.FILLED : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -90,19 +104,6 @@ const SingleSelect = ({ block, context }) => {
           });
         }
 
-        if (block.id == "stress_level") {
-          try {
-            const completionRes = await fetchRequest(
-              HAUT_AI_IMAGE_CAPTURE_CHECK(caseId)
-            );
-            setHautAiResponse(completionRes.data.isSkinAnalysisResponseCapturedProperly);
-          } catch (err) {
-            console.error(
-              "Error calling QUESTIONS_FLOW_COMPLETION_CHECK:",
-              err
-            );
-          }
-        }
         setIsLoading(false);
       } else {
         setError(_res?.data?.message || "An error occurred");

@@ -14,12 +14,15 @@ import { clearGtmFlags, logGtmEvent } from "./Gtm";
 import Header from "@/components/generic/Headers";
 import UserBasicInfoForm from "@/components/form/UserBasicInfoForm";
 import HautAiReqPermissions from "@/components/form/hautAiReqPermissions";
+import PhotoAnalysisFailed from "@/components/form/PhotoAnalysisFailed";
+import LoaderWithText from "@/components/generic/LoaderWithText";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
 import LogMoengage from "./LogMoengage";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { pixelCustomeEvent } from "./Pixel";
 import { generateEventId } from "@/helpers/metaCapiHelper";
+import { useRouter } from "next/navigation";
 
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
@@ -33,6 +36,10 @@ const Questions = () => {
     hautAiResponse,
     nextQuestion
   } = useContext(QuestionsContext);
+  const tid = window.localStorage.getItem("user_tid");
+  const router = useRouter();
+
+  
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,6 +47,10 @@ const Questions = () => {
   const [tabClosed, setTabClosed] = useState("");
   const [isReload, setIsReload] = useState(false);
   const [userBasicInfoCompleted, setUserBasicInfoCompleted] = useState(false);
+  const [photoQCompleted, setPhotoQCompleted] = useState(false);
+  const [showPhotoAnalysisFailed, setShowPhotoAnalysisFailed] = useState(false);
+  const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
+  const [showLoaderAfterAddon, setShowLoaderAfterAddon] = useState(false);
 
   console.log('allQuestionsFilled', allQuestionsFilled)
 
@@ -97,6 +108,7 @@ const Questions = () => {
   }
 
   useEffect(() => {
+
     if (typeof window !== 'undefined') {
       let isReloadDetected = false;
 
@@ -160,7 +172,63 @@ const Questions = () => {
         logGtmEvent("Form_Start", {event_id: generateEventId({ eventName: 'Form_Start' })});
       }
     }
-  }, [currentQuestion]);
+    
+    // Check if we just completed photo_q
+    if (currentQuestion && currentQuestion.id === "photo_q") {
+      // Mark that we're on photo_q so we can show the screen after
+      setPhotoQCompleted(false);
+    } else if (currentQuestion && currentQuestion.id !== "photo_q" && currentQuestion.id !== "user_basic_info") {
+      // We've moved past photo_q to a different question
+      const prevQuestion = window.localStorage.getItem('prev_question');
+      if (prevQuestion === "photo_q" && !photoQCompleted) {
+        console.log('Photo capture completed, showing HautAiReqPermissions');
+        setPhotoQCompleted(true);
+      }
+      
+      // Check if we just completed stress_level - show loader first
+      if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
+        console.log('Completed stress_level, showing LoaderWithText');
+        setShowLoaderAfterStress(true);
+      }
+      
+      // Check if allQuestionsFilled and we're coming from addon questions
+      if (allQuestionsFilled && !showLoaderAfterAddon) {
+        console.log('All questions filled from addon, showing LoaderWithText before result');
+        setShowLoaderAfterAddon(true);
+      }
+    }
+    
+    // Store current question for tracking
+    if (currentQuestion && currentQuestion.id) {
+      window.localStorage.setItem('prev_question', currentQuestion.id);
+    }
+  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, showLoaderAfterAddon, allQuestionsFilled]);
+
+  // Handle hautAiResponse from LoaderWithText
+  const handleHautAiResponse = (hautAiResponseValue) => {
+    if (hautAiResponseValue === true) {
+      // Navigate to result page
+      console.log('hautAiResponse is true, navigating to result');
+      router.push(`/result?tid=${tid}`);
+    } else if (hautAiResponseValue === false) {
+      // Show PhotoAnalysisFailed screen
+      console.log('hautAiResponse is false, showing PhotoAnalysisFailed');
+      setShowLoaderAfterStress(false);
+      setShowPhotoAnalysisFailed(true);
+    }
+  };
+
+  // Handle loader after addon questions
+  useEffect(() => {
+    if (showLoaderAfterAddon) {
+      const timer = setTimeout(() => {
+        console.log('Navigating to result after addon questions');
+        router.push(`/result?tid=${tid}`);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showLoaderAfterAddon]);
 
 
   // If loading, show loader
@@ -206,10 +274,34 @@ const Questions = () => {
               {currentQuestion && currentQuestion.id === "user_basic_info" && !userBasicInfoCompleted ? (
                 <UserBasicInfoForm onComplete={() => setUserBasicInfoCompleted(true)} />
               ) : currentQuestion && currentQuestion.id === "user_basic_info" && userBasicInfoCompleted ? (
-                <HautAiReqPermissions onContinue={() => {
-                  nextQuestion("user_basic_info", "completed");
-                  setUserBasicInfoCompleted(false);
-                }} />
+                <HautAiReqPermissions 
+                  step="1/2"
+                  onContinue={() => {
+                    nextQuestion("user_basic_info", "completed");
+                    setUserBasicInfoCompleted(false);
+                  }} 
+                />
+              ) : photoQCompleted ? (
+                <HautAiReqPermissions 
+                  step="2/2"
+                  onContinue={() => {
+                    console.log('Continuing after photo_q HautAiReqPermissions');
+                    setPhotoQCompleted(false);
+                    // Continue with normal question flow
+                  }} 
+                />
+              ) : showLoaderAfterStress ? (
+                <LoaderWithText onHautAiResponse={handleHautAiResponse} />
+              ) : showLoaderAfterAddon ? (
+                <LoaderWithText />
+              ) : showPhotoAnalysisFailed ? (
+                <PhotoAnalysisFailed 
+                  onContinue={() => {
+                    console.log('Continuing after PhotoAnalysisFailed');
+                    setShowPhotoAnalysisFailed(false);
+                    // Continue with normal question flow
+                  }}
+                />
               ) : (
                 components(currentQuestion, QuestionsContext)
               )}
