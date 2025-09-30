@@ -4,6 +4,7 @@ import { useCartContext } from "@/context/CartContext";
 import { Divider } from "antd";
 import Image from "next/image";
 import { ReactSVG } from "react-svg";
+import DiagnosisBottomSheet from "./DiagnosisBottomSheet";
 
 const Tag = ({ severity, score }) => {
   const getSeverityLevel = (score) => {
@@ -109,15 +110,25 @@ const DiagnosisCard = ({ data, onClick }) => {
       {/* Desktop Version */}
       <div className={`${baseClasses} ${desktopClasses}`} onClick={onClick}>
         {/* Top Image */}
-        <div className="w-full h-[300px] rounded-t-[20px] overflow-hidden relative bg-gray-50 flex items-center justify-center">
+        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden bg-gray-50 relative">
           <ReactSVG
             src={data.image}
             beforeInjection={(svg) => {
-              svg.setAttribute('style', 'width: 100%; height: 100%; max-width: 100%; max-height: 100%;');
-              svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+              svg.setAttribute(
+                "style",
+                "width: 100%; height: 100%; display: block;"
+              );
+              svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
             }}
             wrapper="div"
-            className="w-full h-full flex items-center justify-center"
+            className="w-full h-full"
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+              padding: 0,
+              margin: 0,
+            }}
           />
         </div>
 
@@ -150,7 +161,7 @@ const DiagnosisCard = ({ data, onClick }) => {
         <div className="w-full px-6 pb-4">
           <button
             className="bg-blue-600 text-white px-8 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors w-full"
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => handleShowMore(data, e)}
           >
             Show more
           </button>
@@ -159,12 +170,15 @@ const DiagnosisCard = ({ data, onClick }) => {
 
       {/* Mobile Version */}
       <div className={`${baseClasses} ${mobileClasses}`} onClick={onClick}>
-        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden">
+        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden relative bg-gray-50 flex items-center justify-center">
           <ReactSVG
             src={data.image}
             beforeInjection={(svg) => {
-              svg.setAttribute('style', 'width: 100%; height: 100%; max-width: 100%; max-height: 100%;');
-              svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+              svg.setAttribute(
+                "style",
+                "width: 100%; height: 100%; max-width: 100%; max-height: 100%;"
+              );
+              svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
             }}
             wrapper="div"
             className="w-full h-full flex items-center justify-center"
@@ -197,7 +211,7 @@ const DiagnosisCard = ({ data, onClick }) => {
         <div className="w-full px-4 pb-4">
           <button
             className="bg-blue-600 text-white w-full py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => handleShowMore(data, e)}
           >
             Show more
           </button>
@@ -210,6 +224,8 @@ const DiagnosisCard = ({ data, onClick }) => {
 const SkinDiagnosis = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const response = useCartContext?.()?.skinAnalysisResponse;
 
   function convertSkinAnalysisToArray(skinData) {
@@ -252,6 +268,18 @@ const SkinDiagnosis = () => {
     if (index !== currentIndex) {
       handleThumbnailClick(index);
     }
+    handleShowMore(alteredData[index]);
+  };
+
+  const handleShowMore = (cardData, e) => {
+    e?.stopPropagation();
+    setSelectedCard(cardData);
+    setIsBottomSheetOpen(true);
+  };
+
+  const handleCloseBottomSheet = () => {
+    setIsBottomSheetOpen(false);
+    setTimeout(() => setSelectedCard(null), 300);
   };
 
   const getVisibleCards = () => {
@@ -263,7 +291,9 @@ const SkinDiagnosis = () => {
 
   return (
     <>
-    <div className="px-2 md:px-6 text-[24px] md:text-3xl font-semibold">Skin Diagnosis Result</div>
+      <div className="px-2 md:px-6 text-[24px] md:text-3xl font-semibold">
+        Skin Diagnosis Result
+      </div>
       {/* Desktop */}
       <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full px-2 md:px-6">
         {/* Main Cards Display */}
@@ -388,6 +418,13 @@ const SkinDiagnosis = () => {
           </div>
         )} */}
       </div>
+
+      {/* Bottom Sheet */}
+      <DiagnosisBottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={handleCloseBottomSheet}
+        data={selectedCard}
+      />
     </>
   );
 };
