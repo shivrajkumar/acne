@@ -41,6 +41,7 @@ const Questions = () => {
   const [isReload, setIsReload] = useState(false);
   const [userBasicInfoCompleted, setUserBasicInfoCompleted] = useState(false);
 
+  console.log('allQuestionsFilled', allQuestionsFilled)
 
   // const pathname = usePathname();
   // const searchParams = useSearchParams();

@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import placeholder from "@assets/images/skin-diagnosis-placeholder.png";
 import { useCartContext } from "@/context/CartContext";
 import { Divider } from "antd";
+import Image from "next/image";
+import { ReactSVG } from "react-svg";
 
 const Tag = ({ severity, score }) => {
   const getSeverityLevel = (score) => {
@@ -92,25 +93,31 @@ const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
 
 const DiagnosisCard = ({ data, onClick }) => {
   if (!data.image) return null;
+  console.log("Rendering DiagnosisCard with data:", data);
 
-  const baseClasses = "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
+  const baseClasses =
+    "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
 
-  const desktopClasses = "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
+  const desktopClasses =
+    "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
 
-  const mobileClasses = "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100"
+  const mobileClasses =
+    "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100";
 
   return (
     <>
       {/* Desktop Version */}
       <div className={`${baseClasses} ${desktopClasses}`} onClick={onClick}>
         {/* Top Image */}
-        <div className="w-full h-[300px] rounded-t-[20px] overflow-hidden">
-          <iframe
-            className="w-full h-full border-none pointer-events-none rounded"
+        <div className="w-full h-[300px] rounded-t-[20px] overflow-hidden relative bg-gray-50 flex items-center justify-center">
+          <ReactSVG
             src={data.image}
-            title={`${data.name} diagnosis`}
-            loading="lazy"
-            sandbox="allow-same-origin"
+            beforeInjection={(svg) => {
+              svg.setAttribute('style', 'width: 100%; height: 100%; max-width: 100%; max-height: 100%;');
+              svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            }}
+            wrapper="div"
+            className="w-full h-full flex items-center justify-center"
           />
         </div>
 
@@ -153,12 +160,12 @@ const DiagnosisCard = ({ data, onClick }) => {
       {/* Mobile Version */}
       <div className={`${baseClasses} ${mobileClasses}`} onClick={onClick}>
         <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden">
-          <iframe
+          <ReactSVG
             className="w-full h-full border-none pointer-events-none rounded object-cover"
             src={data.image}
-            title={`${data.name} diagnosis thumbnail`}
-            loading="lazy"
-            sandbox="allow-same-origin"
+            alt={`${data.name} diagnosis thumbnail`}
+            width={400}
+            height={300}
           />
         </div>
 
@@ -254,10 +261,7 @@ const SkinDiagnosis = () => {
 
   return (
     <>
-      <div className="font-sophiaPro text-[24px] md:text-[40px] tracking-[0.5px] leading-[1.3] px-2 md:px-6">
-        Skin Diagnosis Results
-      </div>
-
+    <div className="px-2 md:px-6 text-[24px] md:text-3xl font-semibold">Skin Diagnosis Result</div>
       {/* Desktop */}
       <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full px-2 md:px-6">
         {/* Main Cards Display */}
@@ -293,12 +297,11 @@ const SkinDiagnosis = () => {
           `}
                 aria-label={`View ${item.name} diagnosis`}
               >
-                <iframe
-                  className="w-full h-full border-none pointer-events-none rounded"
+                <img
+                  className="w-full h-full border-none pointer-events-none rounded object-cover"
                   src={item.image}
-                  title={`${item.name} diagnosis thumbnail`}
+                  alt={`${item.name} diagnosis thumbnail`}
                   loading="lazy"
-                  sandbox="allow-same-origin"
                 />
               </button>
             ))}
@@ -365,12 +368,11 @@ const SkinDiagnosis = () => {
                     }
                   }}
                 >
-                  <iframe
+                  <img
                     src={item.image}
-                    className="w-full h-full border-none pointer-events-none"
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-full border-none pointer-events-none object-cover"
                     loading="lazy"
-                    title={`Thumbnail ${index + 1}`}
-                    sandbox="allow-same-origin"
                   />
                   <div
                     aria-hidden="true"

@@ -20,6 +20,7 @@ const MultiSelect = ({ block, context }) => {
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
+  console.log("block in multiselect", block);
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -53,12 +54,7 @@ const MultiSelect = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: selectedOptions,
-        status:
-          block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "pimple_sensation"
-              ? 'FILLED'
-              : formFillStatus.DRAFT,
+        status: block.id == 'pimples_location' &&  block.next == 'end' ? formFillStatus.FILLED : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -85,7 +81,7 @@ const MultiSelect = ({ block, context }) => {
         logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender"), event_id: generateEventId({ eventName: 'Acne_Scars', phone: phone }) })
       }
 
-      if (block.id == 'pimple_sensation') {
+      if (block.id == 'pimples_location') {
         setAllQuestionsFilled(true);
       }
       if (block.id == "digestive_issues") {
