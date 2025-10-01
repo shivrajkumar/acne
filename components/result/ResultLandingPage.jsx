@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-
-import ResultBanner from "./ResultBanner";
 import FeaturedReview from "./FeaturedReview";
 import FAQSection from "../landing-page/FaqSection";
 import { FAQResultPage } from "../../constants/allVayuData";
 import VisibleResultsInThreeWeeks from "./VisibleResultsInThreeWeeks";
 import { fetchRequest } from "../../helpers/fetchRequest";
-import { GET_ACTIVE_SLOTS_API, RESULT_V2, UPDATE_FINGERPRINT_API } from "@constants/urls";
+import {GET_ACTIVE_SLOTS_API, RESULT_V2, UPDATE_FINGERPRINT_API} from "@constants/urls";
 import Loader from "@/components/generic/Loader";
 import OrderSummary from "./OrderSummary";
 import CartSummarySticky from "./CartSummarySticky";
@@ -29,9 +27,9 @@ import AcneReviews from "./AcneReviews";
 import SkinDiagnosis from "./SkinDiagnosis";
 import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 import Login from "@/components/login/Login";
-import { useSearchParams } from "next/navigation";
+import RootCausesV2 from "./RootCausesV2";
 
-const ResultLandingPage = ({ searchParams }) => {
+const ResultLandingPage = ({ }) => {
   const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
@@ -39,36 +37,49 @@ const ResultLandingPage = ({ searchParams }) => {
   const [bookingStatus, setBookingStatus] = useState(false);
   const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [userPhone, setUserPhone] = useState("");
   const resultBannerRef = useRef(null);
-  // Get tid from address bar URL
   const [tId, setTId] = useState(null);
   const [cacheData, setCacheData] = useState(null);
   const isLoading = useMediaLoader();
   const [thumbmarkValue, setThumbmarkValue] = useState(null);
   const [ipApiValue, setIpApiValue] = useState(null);
-  
+  const [userId, setUserId] = useState(null);
+
   // Add flags to prevent multiple calls
   const hasFetchedResult = useRef(false);
   const isFetchingResult = useRef(false);
 
-  // Get tid from address bar on mount
- useEffect(() => {
-  if (typeof window !== "undefined") {
-    // Use window.location.href for better Safari compatibility
-    const url = new URL(window.location.href);
-    const tidFromUrl = url.searchParams.get("tid");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      const tidFromUrl = url.searchParams.get("tid");
 
-    
-    if (tidFromUrl) {
-      setTId(tidFromUrl);
-    } else {
-      // Fallback to localStorage if not in URL
-      const tidFromStorage = window.localStorage.getItem("user_tid");
-      setTId(tidFromStorage);
+      const userDataFromStorage = localStorage.getItem("user");
+      if (userDataFromStorage) {
+        try {
+          const parsedUserData = JSON.parse(userDataFromStorage);
+          const extractedUserId = parsedUserData.userId || parsedUserData.id || parsedUserData.caseId;
+
+          if (extractedUserId) {
+            setUserId(extractedUserId);
+          } else {
+            console.error("No userId found in any field");
+          }
+        } catch (e) {
+          console.error("Error parsing userData:", e);
+          console.error("Failed to parse:", userDataFromStorage);
+        }
+      } 
+
+      if (tidFromUrl) {
+        setTId(tidFromUrl);
+      } else {
+        // Fallback to localStorage if not in URL
+        const tidFromStorage = window.localStorage.getItem("user_tid");
+        setTId(tidFromStorage);
+      }
     }
-  }
-}, []);
+  }, []);
 
   useEffect(() => {
     const fetchThumbmark = async () => {
@@ -81,9 +92,7 @@ const ResultLandingPage = ({ searchParams }) => {
       }
     };
     fetchThumbmark();
-  }, []);
 
-  useEffect(() => {
     const fetchIpAddress = async () => {
       try {
         const response = await fetch("/api/ip");
@@ -128,17 +137,8 @@ const ResultLandingPage = ({ searchParams }) => {
     }
   }, []);
 
-  // Single useEffect to handle result fetching
   useEffect(() => {
-    // Only fetch if we have all required data and haven't fetched yet
-    if (
-      typeof window !== "undefined" &&
-      tId &&
-      ipApiValue?.ip &&
-      thumbmarkValue &&
-      !hasFetchedResult.current &&
-      !isFetchingResult.current
-    ) {
+    if (typeof window !== "undefined" && tId && ipApiValue && thumbmarkValue) {
       const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
@@ -147,7 +147,6 @@ const ResultLandingPage = ({ searchParams }) => {
           phone: phone,
         }),
       });
-      
       fetchResult();
     }
   }, [tId, ipApiValue, thumbmarkValue]);
@@ -163,60 +162,46 @@ const ResultLandingPage = ({ searchParams }) => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); 
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Function to update fingerprint
   const updateFingerprint = async () => {
     try {
-      // Get tid from address bar for fingerprint API
       const urlParams = new URLSearchParams(window.location.search);
       const tidForFingerprint = urlParams.get("tid") || tId;
 
-      
-      // Check if tid exists
       if (!tidForFingerprint) {
         return false;
       }
 
       const fingerprintData = {
         fingerprint: thumbmarkValue?.thumbmark || thumbmarkValue || "",
-        ip: ipApiValue?.ip || ""
+        ip: ipApiValue?.ip || "",
       };
-      
+
       const options = {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "x-tenant-id": "acne"
+          "x-tenant-id": "acne",
         },
-        body: JSON.stringify(fingerprintData)
+        body: JSON.stringify(fingerprintData),
       };
 
-      const response = await fetchRequest(UPDATE_FINGERPRINT_API(tidForFingerprint), options);
+      const response = await fetchRequest(
+        UPDATE_FINGERPRINT_API(tidForFingerprint),
+        options
+      );
       return response.status === 200;
     } catch (error) {
       return false;
     }
   };
 
-  const fetchResult = async (isInitialLoad = true) => {
-    // Check if tId exists
-    if (!tId) {
-      setLoading(false);
-      return;
-    }
-
-    // Prevent multiple simultaneous calls
-    if (isFetchingResult.current) {
-      return;
-    }
-
-    isFetchingResult.current = true;
+  const fetchResult = async () => {
     setLoading(true);
-
     const options = {
       method: "GET",
       headers: {
@@ -233,15 +218,15 @@ const ResultLandingPage = ({ searchParams }) => {
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
-        
+
         // Check if enableLogin is true in the response (only on initial load)
-        if (res.data?.enableLogin === true && isInitialLoad) {
+        if (res.data?.enableLogin === true) {
           setShowLoginModal(true);
           setLoading(false);
           isFetchingResult.current = false;
-          return; // Exit here, will continue after login modal closes
+          return;
         }
-        
+
         // Check if we have cached data and merge it with fresh data
         const _cachedData = localStorage.getItem(`acne_result_data`);
         setCacheData(_cachedData);
@@ -269,7 +254,7 @@ const ResultLandingPage = ({ searchParams }) => {
         }
         setResultData(finalData);
         localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
-        
+
         metaCapi(capiPayload, "ReportGenerated");
         hasFetchedResult.current = true;
       }
@@ -286,10 +271,9 @@ const ResultLandingPage = ({ searchParams }) => {
     // First update fingerprint
     if (thumbmarkValue && ipApiValue && tId) {
       await updateFingerprint();
-    } 
-    
+    }
     // Then fetch results again (not initial load)
-    await fetchResult(false);
+    await fetchResult();
   };
 
   const getActiveSlotDetails = async (caseId) => {
@@ -311,9 +295,7 @@ const ResultLandingPage = ({ searchParams }) => {
       resultData?.customerDetails?.caseId
     );
     const updatedCart = cacheData || localStorage.getItem(`acne_result_data`);
-    const optionalProductAdded = JSON.parse(
-      updatedCart
-    )?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
+    const optionalProductAdded = JSON.parse(updatedCart)?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
     const eventAttributes = {
       cart_value: `${resultData?.cartDetails?.totalCartValue}`,
       item_count: `${resultData?.productsDetails?.length}`,
@@ -460,6 +442,8 @@ const ResultLandingPage = ({ searchParams }) => {
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
   };
 
+  console.log('caseid and userid', resultData?.customerDetails?.caseId, userId);
+
   return (
     <CartProvider value={contextValue}>
       <AcneMarqueeBanner />
@@ -467,13 +451,18 @@ const ResultLandingPage = ({ searchParams }) => {
         <AcneHeader />
       </div>
       <div className="mx-[40px] xs:mx-[16px] gap-[40px] flex flex-col">
-        <div ref={resultBannerRef}>
+        <div
+          ref={resultBannerRef}
+          className="p-[40px] xs:p-[4px] sm:p-[24px] md:p-[30px]"
+        >
           <ResultBannerV2 />
+          <RootCausesV2 />
         </div>
-        {resultData?.skinAnalysisResponse == null ||
-        resultData?.skinAnalysisResponse == undefined ? null : (
-          <SkinDiagnosis />
-        )}
+        {resultData?.skinAnalysisResponse &&
+          (!userId ||
+            String(userId) === String(resultData?.customerDetails?.caseId)) ? 
+            <SkinDiagnosis />
+          : 'You are not authorized to view skin diagnosis'}
         <OrderSummary />
         <AcneReviews />
         <VisibleResultsInThreeWeeks />
@@ -483,18 +472,18 @@ const ResultLandingPage = ({ searchParams }) => {
       </div>
       <AcneFooter />
       {showSticky && <CartSummarySticky />}
-      
+
       {/* Login Modal */}
       {showLoginModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative">
-            <Login 
+            <Login
               closeModal={() => {
                 setShowLoginModal(false);
                 handlePostLogin();
               }}
               phone={""}
-              tid={tId} 
+              tid={tId}
             />
           </div>
         </div>
@@ -503,4 +492,4 @@ const ResultLandingPage = ({ searchParams }) => {
   );
 };
 
-export default ResultLandingPage
+export default ResultLandingPage;

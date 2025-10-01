@@ -42,7 +42,7 @@ const ResultBannerV2 = () => {
   const formattedAcneGrading = acneGrading?.split(" ");
 
   return (
-    <div className="w-full overflow-hidden bg-Secondary/50 p-[40px] xs:p-[4px] sm:p-[24px] md:p-[30px] rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
+    <div className="w-full overflow-hidden bg-Secondary/50  rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
       <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
         <div>
           <h1 className="text-[24px] md:text-[44px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
@@ -177,9 +177,7 @@ const ResultBannerV2 = () => {
           </div>
         </div>
 
-        <div className="w-full">
-          <RootCausesV2 />
-        </div>
+        
       </div>
     </div>
   );

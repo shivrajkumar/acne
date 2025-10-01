@@ -94,7 +94,6 @@ const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
 
 const DiagnosisCard = ({ data, onClick }) => {
   if (!data.image) return null;
-  console.log("Rendering DiagnosisCard with data:", data);
 
   const baseClasses =
     "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
