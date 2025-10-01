@@ -13,7 +13,7 @@ import { fetchRequestWithoutAuth } from "@/helpers/fetchRequest";
 import { GENERATE_OTP_API, RESEND_OTP_API, VALIDATE_OTP_API } from "@/constants/urls";
 import { Alert, message } from "antd";
 
-const LoginPage = ({ closeModal, phone }) => {
+const LoginPage = ({ closeModal, phone, tid }) => {
   const { login } = useAuth();
   const router = useRouter();
 
@@ -33,7 +33,7 @@ const LoginPage = ({ closeModal, phone }) => {
   const pathname = usePathname();
   const [pendingRedirect, setPendingRedirect] = useState(null);
   const [signInLoader, setSignInLoader] = useState(false);
-
+  const [iscomingFromResultPage, setIsComingFromResultPage] = useState(false);
 
   useEffect(() => {
     if (pendingRedirect && pathname === pendingRedirect) {
@@ -50,6 +50,8 @@ const LoginPage = ({ closeModal, phone }) => {
       setApiError("Looks like you've already placed an order. Please login to know more details.")
       setIsCustomer(true);
     }
+
+    if(pathname.includes('/result')) setIsComingFromResultPage(true);
   }, [])
 
   useEffect(() => {
@@ -214,7 +216,7 @@ const LoginPage = ({ closeModal, phone }) => {
 
         const targetUrl = isCustomer
           ? `/book-a-call?caseId=${transactionId}`
-          : "/";
+          : iscomingFromResultPage ? `/result?$tid=${tid}` : "/";
 
         setPendingRedirect(targetUrl);
 

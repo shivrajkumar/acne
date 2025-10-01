@@ -13,6 +13,7 @@ import PixelInit from "@/components/generic/Pixel";
 import { PublicEnvScript } from 'next-runtime-env';
 import UmamiTracker from "@components/generic/UmamiTracker";
 import CapiPageTracking from "@/components/generic/CapiTracking";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata = {
   title: "Clear Ritual: Personalised Acne Solutions Backed by Experts",
@@ -189,9 +190,11 @@ export default function RootLayout({
         <PixelInit />
         <ScrollTracker />
         <ErrorBoundary>
-          <CapiPageTracking payload={{}} eventName="PageView" />
-          <UserDataCapture />
-          <main>{children}</main>
+          <AuthProvider>
+            <CapiPageTracking payload={{}} eventName="PageView" />
+            <UserDataCapture />
+            <main>{children}</main>
+          </AuthProvider>
         </ErrorBoundary>
         <Suspense>
           <UTMManager />

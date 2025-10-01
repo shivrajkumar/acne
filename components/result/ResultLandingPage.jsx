@@ -7,7 +7,7 @@ import FAQSection from "../landing-page/FaqSection";
 import { FAQResultPage } from "../../constants/allVayuData";
 import VisibleResultsInThreeWeeks from "./VisibleResultsInThreeWeeks";
 import { fetchRequest } from "../../helpers/fetchRequest";
-import { GET_ACTIVE_SLOTS_API, RESULT_V2 } from "@constants/urls";
+import { GET_ACTIVE_SLOTS_API, RESULT_V2, UPDATE_FINGERPRINT_API } from "@constants/urls";
 import Loader from "@/components/generic/Loader";
 import OrderSummary from "./OrderSummary";
 import CartSummarySticky from "./CartSummarySticky";
@@ -28,6 +28,7 @@ import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import AcneReviews from "./AcneReviews";
 import SkinDiagnosis from "./SkinDiagnosis";
 import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
+import Login from "@/components/login/Login";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -36,6 +37,8 @@ const ResultLandingPage = ({ searchParams }) => {
   const [capiPayload, setCapiPayload] = useState({});
   const [bookingStatus, setBookingStatus] = useState(false);
   const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userPhone, setUserPhone] = useState("");
   const resultBannerRef = useRef(null);
   const tId = searchParams?.tid;
   const [cacheData, setCacheData] = useState(null);
@@ -46,8 +49,6 @@ const ResultLandingPage = ({ searchParams }) => {
   // Add flags to prevent multiple calls
   const hasFetchedResult = useRef(false);
   const isFetchingResult = useRef(false);
-
-  console.log(thumbmarkValue, ipApiValue, "values");
 
   useEffect(() => {
     const fetchThumbmark = async () => {
@@ -150,6 +151,35 @@ const ResultLandingPage = ({ searchParams }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Function to update fingerprint
+  const updateFingerprint = async () => {
+    try {
+      const fingerprintData = {
+        fingerprint: thumbmarkValue?.thumbmark || thumbmarkValue || "",
+        ip: ipApiValue?.ip || ""
+      };
+
+      console.log("Updating fingerprint:", fingerprintData);
+      
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-tenant-id": "acne"
+        },
+        body: JSON.stringify(fingerprintData)
+      };
+
+      const response = await fetchRequest(UPDATE_FINGERPRINT_API(tId), options);
+      console.log("Fingerprint update response:", response);
+      
+      return response.status === 200;
+    } catch (error) {
+      console.error("Error updating fingerprint:", error);
+      return false;
+    }
+  };
+
   const fetchResult = async () => {
     // Prevent multiple simultaneous calls
     if (isFetchingResult.current) {
@@ -159,6 +189,12 @@ const ResultLandingPage = ({ searchParams }) => {
 
     isFetchingResult.current = true;
     setLoading(true);
+
+    // First update fingerprint if we have the required data
+    if (thumbmarkValue && ipApiValue) {
+      console.log("Updating fingerprint before fetching results...");
+      await updateFingerprint();
+    }
 
     const options = {
       method: "GET",
@@ -171,6 +207,7 @@ const ResultLandingPage = ({ searchParams }) => {
 
     try {
       const res = await fetchRequest(RESULT_V2(tId), options);
+      console.log("Result fetch response:", res);
       if (res.status === 200) {
         const caseId = res?.data?.customerDetails?.caseId;
         if (caseId) {
@@ -203,6 +240,13 @@ const ResultLandingPage = ({ searchParams }) => {
         }
         setResultData(finalData);
         localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
+        
+        // Check if enableLogin is true in the response
+        if (res.data?.enableLogin === true) {
+          console.log("enableLogin is true, showing login modal");
+          setShowLoginModal(true);
+        }
+        
         metaCapi(capiPayload, "ReportGenerated");
         hasFetchedResult.current = true;
       }
@@ -405,6 +449,19 @@ const ResultLandingPage = ({ searchParams }) => {
       </div>
       <AcneFooter />
       {showSticky && <CartSummarySticky />}
+      
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative">
+            <Login 
+              closeModal={() => setShowLoginModal(false)}
+              phone={""} // Let user enter phone in the modal
+              tid={tId}
+            />
+          </div>
+        </div>
+      )}
     </CartProvider>
   );
 };

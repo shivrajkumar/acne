@@ -231,7 +231,11 @@ export const LOGOUT_API = () => `${PROXY_PREFIX}/auth/otp/logout`;
 export const REFRESH_TOKEN_API = (token) =>
   `${PROXY_PREFIX}/auth/refresh-token/${token}`;
 
-export const REPEAT_ORDER_DETAILS = (caseId) => getUrl(`consumer-api/service/recommendations/acne-reorder/${caseId}`);
+export const REPEAT_ORDER_DETAILS = (caseId) =>
+  getUrl(`consumer-api/service/recommendations/acne-reorder/${caseId}`);
+
+export const UPDATE_FINGERPRINT_API = (transactionId) =>
+  getUrl(`consumer-api/service/recommendations/fingerprint/${transactionId}`);
 
 export const SUBMIT_CONTACT_US_FORM = () => getUrl(`consumer-api/service/consumers/contact-us/submit`);
 
