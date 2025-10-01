@@ -28,9 +28,10 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Check hautAiResponse when component mounts
   useEffect(() => {
     if (onHautAiResponse) {
+      let hasCalledBack = false;
+
       const checkHautAiResponse = async () => {
         try {
           const transactionId = window.localStorage.getItem("user_tid");
@@ -46,33 +47,57 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
           
           setHautAiResponse(hautAiResponseValue);
           
-          // If hautAiResponse is true, mark all questions as filled to show FormSubmission
-          if (hautAiResponseValue === true) {
+          // If hautAiResponse is true, navigate to result screen
+          if (hautAiResponseValue === true && !hasCalledBack) {
+            hasCalledBack = true;
             setAllQuestionsFilled(true);
             window.localStorage.setItem("form_status", "filled");
+            onHautAiResponse(true);
           }
           
-          onHautAiResponse(hautAiResponseValue);
+          return hautAiResponseValue;
           
         } catch (err) {
           console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
-          // If API fails, assume false and continue with addon questions
           setHautAiResponse(false);
-          onHautAiResponse(false);
+          return false;
         }
       };
 
-      // Start checking after 1 second
-      const timer = setTimeout(checkHautAiResponse, 1000);
-      return () => clearTimeout(timer);
+      // First check after 1 second
+      const initialCheck = setTimeout(async () => {
+        const firstResult = await checkHautAiResponse();
+        
+        if (firstResult !== true) {
+          // If first check is false, wait 15 seconds and check again
+          console.log('First check false, will retry in 15 seconds...');
+          
+          const retryTimeout = setTimeout(async () => {
+            const secondResult = await checkHautAiResponse();
+            
+            if (secondResult !== true && !hasCalledBack) {
+              // After second check, if still false, show PhotoAnalysisFailed
+              console.log('Second check also false, showing PhotoAnalysisFailed');
+              hasCalledBack = true;
+              onHautAiResponse(false);
+            }
+          }, 15000);
+
+          return () => clearTimeout(retryTimeout);
+        }
+      }, 1000);
+
+      return () => {
+        clearTimeout(initialCheck);
+      };
     }
-  }, [onHautAiResponse, setHautAiResponse]);
+  }, [onHautAiResponse, setHautAiResponse, setAllQuestionsFilled]);
 
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen -mt-20"
     >
-      <div className="relative md:w-[250px] w-[250px] md:h-[250px] h-[250px]">
+      <div className="relative md:w-[250px] w-[270px] md:h-[250px] h-[350px]">
         {capturedImage ? (
           // Show the captured image with scanner effect
           <div className="relative w-full h-full rounded-xl border border-gray-300 overflow-hidden shadow-sm bg-white">
@@ -122,17 +147,12 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
         )}
       </div>
 
-      <p className="mt-4 text-custom-text-loader-small text-[16px] font-[400] pt-[8px]">
-        Analysing Skin...
-      </p>
-
       <div className="md:w-[381px] w-[361px] text-wrap pt-[18px]">
-        <h2 className="font-[500] md:text-[28px] text-[24px] text-custom-text-loader-header text-center">
+        <h2 className="font-[400] md:text-[28px] text-[28px] text-center">
           Creating Your Personalised Acne Plan
         </h2>
         <p className="text-[16px] text-custom-text-loader-subText text-center">
-          We use AI skin analysis and dermatologist-backed science to create a
-          custom acne plan—tailored to your needs.
+          We combine AI skin analysis, dermatologist-backed science, and your unique acne triggers to build a personalised treatment plan.
         </p>
       </div>
     </div>
