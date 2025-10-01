@@ -29,6 +29,7 @@ import AcneReviews from "./AcneReviews";
 import SkinDiagnosis from "./SkinDiagnosis";
 import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 import Login from "@/components/login/Login";
+import { useSearchParams } from "next/navigation";
 
 const ResultLandingPage = ({ searchParams }) => {
   const [resultData, setResultData] = useState({});
@@ -40,7 +41,8 @@ const ResultLandingPage = ({ searchParams }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userPhone, setUserPhone] = useState("");
   const resultBannerRef = useRef(null);
-  const tId = searchParams?.tid;
+  // Get tid from address bar URL
+  const [tId, setTId] = useState(null);
   const [cacheData, setCacheData] = useState(null);
   const isLoading = useMediaLoader();
   const [thumbmarkValue, setThumbmarkValue] = useState(null);
@@ -50,11 +52,28 @@ const ResultLandingPage = ({ searchParams }) => {
   const hasFetchedResult = useRef(false);
   const isFetchingResult = useRef(false);
 
+  // Get tid from address bar on mount
+ useEffect(() => {
+  if (typeof window !== "undefined") {
+    // Use window.location.href for better Safari compatibility
+    const url = new URL(window.location.href);
+    const tidFromUrl = url.searchParams.get("tid");
+
+    
+    if (tidFromUrl) {
+      setTId(tidFromUrl);
+    } else {
+      // Fallback to localStorage if not in URL
+      const tidFromStorage = window.localStorage.getItem("user_tid");
+      setTId(tidFromStorage);
+    }
+  }
+}, []);
+
   useEffect(() => {
     const fetchThumbmark = async () => {
       try {
         const tm = await getThumbmark();
-        console.log("thumbmark", tm);
         setThumbmarkValue(tm);
         setCapiPayload((prev) => ({ ...prev, thumbmark: tm?.thumbmark || tm }));
       } catch (err) {
@@ -70,10 +89,8 @@ const ResultLandingPage = ({ searchParams }) => {
         const response = await fetch("/api/ip");
         const result = await response.json();
         if (result.success) {
-          console.log("IP data fetched:", result.data);
           setIpApiValue(result.data);
         } else {
-          console.error("Failed to fetch IP data:", result.error);
         }
       } catch (error) {
         console.error("Error fetching IP data:", error);
@@ -154,12 +171,20 @@ const ResultLandingPage = ({ searchParams }) => {
   // Function to update fingerprint
   const updateFingerprint = async () => {
     try {
+      // Get tid from address bar for fingerprint API
+      const urlParams = new URLSearchParams(window.location.search);
+      const tidForFingerprint = urlParams.get("tid") || tId;
+
+      
+      // Check if tid exists
+      if (!tidForFingerprint) {
+        return false;
+      }
+
       const fingerprintData = {
         fingerprint: thumbmarkValue?.thumbmark || thumbmarkValue || "",
         ip: ipApiValue?.ip || ""
       };
-
-      console.log("Updating fingerprint:", fingerprintData);
       
       const options = {
         method: "PUT",
@@ -170,31 +195,27 @@ const ResultLandingPage = ({ searchParams }) => {
         body: JSON.stringify(fingerprintData)
       };
 
-      const response = await fetchRequest(UPDATE_FINGERPRINT_API(tId), options);
-      console.log("Fingerprint update response:", response);
-      
+      const response = await fetchRequest(UPDATE_FINGERPRINT_API(tidForFingerprint), options);
       return response.status === 200;
     } catch (error) {
-      console.error("Error updating fingerprint:", error);
       return false;
     }
   };
 
-  const fetchResult = async () => {
+  const fetchResult = async (isInitialLoad = true) => {
+    // Check if tId exists
+    if (!tId) {
+      setLoading(false);
+      return;
+    }
+
     // Prevent multiple simultaneous calls
     if (isFetchingResult.current) {
-      console.log("Already fetching result, skipping...");
       return;
     }
 
     isFetchingResult.current = true;
     setLoading(true);
-
-    // First update fingerprint if we have the required data
-    if (thumbmarkValue && ipApiValue) {
-      console.log("Updating fingerprint before fetching results...");
-      await updateFingerprint();
-    }
 
     const options = {
       method: "GET",
@@ -207,12 +228,20 @@ const ResultLandingPage = ({ searchParams }) => {
 
     try {
       const res = await fetchRequest(RESULT_V2(tId), options);
-      console.log("Result fetch response:", res);
       if (res.status === 200) {
         const caseId = res?.data?.customerDetails?.caseId;
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
+        
+        // Check if enableLogin is true in the response (only on initial load)
+        if (res.data?.enableLogin === true && isInitialLoad) {
+          setShowLoginModal(true);
+          setLoading(false);
+          isFetchingResult.current = false;
+          return; // Exit here, will continue after login modal closes
+        }
+        
         // Check if we have cached data and merge it with fresh data
         const _cachedData = localStorage.getItem(`acne_result_data`);
         setCacheData(_cachedData);
@@ -241,12 +270,6 @@ const ResultLandingPage = ({ searchParams }) => {
         setResultData(finalData);
         localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
         
-        // Check if enableLogin is true in the response
-        if (res.data?.enableLogin === true) {
-          console.log("enableLogin is true, showing login modal");
-          setShowLoginModal(true);
-        }
-        
         metaCapi(capiPayload, "ReportGenerated");
         hasFetchedResult.current = true;
       }
@@ -256,6 +279,17 @@ const ResultLandingPage = ({ searchParams }) => {
       setLoading(false);
       isFetchingResult.current = false;
     }
+  };
+
+  // Function to handle post-login flow
+  const handlePostLogin = async () => {
+    // First update fingerprint
+    if (thumbmarkValue && ipApiValue && tId) {
+      await updateFingerprint();
+    } 
+    
+    // Then fetch results again (not initial load)
+    await fetchResult(false);
   };
 
   const getActiveSlotDetails = async (caseId) => {
@@ -455,9 +489,12 @@ const ResultLandingPage = ({ searchParams }) => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative">
             <Login 
-              closeModal={() => setShowLoginModal(false)}
-              phone={""} // Let user enter phone in the modal
-              tid={tId}
+              closeModal={() => {
+                setShowLoginModal(false);
+                handlePostLogin();
+              }}
+              phone={""}
+              tid={tId} 
             />
           </div>
         </div>
