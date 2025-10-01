@@ -236,3 +236,6 @@ export const REPEAT_ORDER_DETAILS = (caseId) =>
 
 export const UPDATE_FINGERPRINT_API = (transactionId) =>
   getUrl(`consumer-api/service/recommendations/fingerprint/${transactionId}`);
+
+export const SUBMIT_CONTACT_US_FORM = () => getUrl(`consumer-api/service/consumers/contact-us/submit`);
+
