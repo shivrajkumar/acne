@@ -204,7 +204,7 @@ const LoginPage = ({ searchParams, closeModal, phone, tid }) => {
       if (res.status === 201) {
         const { data } = res;
         const { access_token, access_token_expires_in, user } = data;
-
+        localStorage.setItem('user_details', JSON.stringify(user));
         login(
           {
             userId: user.id,
