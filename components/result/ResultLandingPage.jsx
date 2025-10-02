@@ -5,7 +5,11 @@ import FAQSection from "../landing-page/FaqSection";
 import { FAQResultPage } from "../../constants/allVayuData";
 import VisibleResultsInThreeWeeks from "./VisibleResultsInThreeWeeks";
 import { fetchRequest } from "../../helpers/fetchRequest";
-import {GET_ACTIVE_SLOTS_API, RESULT_V2, UPDATE_FINGERPRINT_API} from "@constants/urls";
+import {
+  GET_ACTIVE_SLOTS_API,
+  RESULT_V2,
+  UPDATE_FINGERPRINT_API,
+} from "@constants/urls";
 import Loader from "@/components/generic/Loader";
 import OrderSummary from "./OrderSummary";
 import CartSummarySticky from "./CartSummarySticky";
@@ -29,7 +33,7 @@ import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 import Login from "@/components/login/Login";
 import RootCausesV2 from "./RootCausesV2";
 
-const ResultLandingPage = ({ }) => {
+const ResultLandingPage = ({}) => {
   const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
@@ -54,11 +58,11 @@ const ResultLandingPage = ({ }) => {
       const url = new URL(window.location.href);
       const tidFromUrl = url.searchParams.get("tid");
 
-      const userDataFromStorage = localStorage.getItem("user");
+      const userDataFromStorage = localStorage.getItem("user_details");
       if (userDataFromStorage) {
         try {
           const parsedUserData = JSON.parse(userDataFromStorage);
-          const extractedUserId = parsedUserData.userId || parsedUserData.id || parsedUserData.caseId;
+          const extractedUserId = parsedUserData.caseId || parsedUserData.id;
 
           if (extractedUserId) {
             setUserId(extractedUserId);
@@ -69,7 +73,7 @@ const ResultLandingPage = ({ }) => {
           console.error("Error parsing userData:", e);
           console.error("Failed to parse:", userDataFromStorage);
         }
-      } 
+      }
 
       if (tidFromUrl) {
         setTId(tidFromUrl);
@@ -295,7 +299,9 @@ const ResultLandingPage = ({ }) => {
       resultData?.customerDetails?.caseId
     );
     const updatedCart = cacheData || localStorage.getItem(`acne_result_data`);
-    const optionalProductAdded = JSON.parse(updatedCart)?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
+    const optionalProductAdded = JSON.parse(
+      updatedCart
+    )?.productsDetails?.filter((prod) => prod?.isOptionalProduct);
     const eventAttributes = {
       cart_value: `${resultData?.cartDetails?.totalCartValue}`,
       item_count: `${resultData?.productsDetails?.length}`,
@@ -442,7 +448,7 @@ const ResultLandingPage = ({ }) => {
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
   };
 
-  console.log('caseid and userid', resultData?.customerDetails?.caseId, userId);
+  console.log("caseid and userid", resultData?.customerDetails?.caseId, userId);
 
   return (
     <CartProvider value={contextValue}>
@@ -456,13 +462,97 @@ const ResultLandingPage = ({ }) => {
           className="p-[40px] xs:p-[4px] sm:p-[24px] md:p-[30px]"
         >
           <ResultBannerV2 />
-          <RootCausesV2 />
+          
+          {/* Desktop: RootCausesV2 then SkinDiagnosis */}
+          <div className="hidden md:block">
+            <RootCausesV2 />
+          </div>
         </div>
-        {resultData?.skinAnalysisResponse &&
+        
+        {/* Mobile: SkinDiagnosis then RootCausesV2 */}
+        <div className="md:hidden">
+          {resultData?.skinAnalysisResponse &&
           (!userId ||
-            String(userId) === String(resultData?.customerDetails?.caseId)) ? 
+            String(userId) === String(resultData?.customerDetails?.caseId)) ? (
             <SkinDiagnosis />
-          : 'You are not authorized to view skin diagnosis'}
+          ) : (
+            resultData?.skinAnalysisResponse && (
+              <div className="flex flex-col items-center justify-center p-8 mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
+                <div className="w-16 h-16 mb-4 bg-orange-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-orange-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+                  Skin Diagnosis Not Available
+                </h3>
+                <p className="text-gray-600 text-center max-w-md mb-4">
+                  This skin analysis report is associated with a different
+                  account. Please log in with the correct account to view your
+                  personalized skin diagnosis.
+                </p>
+                <p className="text-sm text-gray-500 text-center">
+                  If you believe this is an error, please contact our support
+                  team.
+                </p>
+              </div>
+            )
+          )}
+          <div className="p-[40px] xs:p-[4px] sm:p-[24px]">
+            <RootCausesV2 />
+          </div>
+        </div>
+        
+        {/* Desktop: SkinDiagnosis after RootCausesV2 */}
+        <div className="hidden md:block">
+          {resultData?.skinAnalysisResponse &&
+          (!userId ||
+            String(userId) === String(resultData?.customerDetails?.caseId)) ? (
+            <SkinDiagnosis />
+          ) : (
+            resultData?.skinAnalysisResponse && (
+              <div className="flex flex-col items-center justify-center p-8 mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
+                <div className="w-16 h-16 mb-4 bg-orange-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-orange-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+                  Skin Diagnosis Not Available
+                </h3>
+                <p className="text-gray-600 text-center max-w-md mb-4">
+                  This skin analysis report is associated with a different
+                  account. Please log in with the correct account to view your
+                  personalized skin diagnosis.
+                </p>
+                <p className="text-sm text-gray-500 text-center">
+                  If you believe this is an error, please contact our support
+                  team.
+                </p>
+              </div>
+            )
+          )}
+        </div>
         <OrderSummary />
         <AcneReviews />
         <VisibleResultsInThreeWeeks />

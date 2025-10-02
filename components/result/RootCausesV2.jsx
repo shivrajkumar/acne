@@ -1,229 +1,231 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { startCase } from "lodash";
 import Information from "@assets/icons/information.png";
-import { useCartContext } from '../../context/CartContext';
+import { useCartContext } from "../../context/CartContext";
 import StressIcon from "@assets/svg/stress_active.svg";
 import ToxinsIcon from "@assets/svg/toxin_active.svg";
 import LiverIcon from "@assets/svg/liver_active.svg";
 import HormoneIcon from "@assets/svg/hormone_active.svg";
 import GutIcon from "@assets/svg/gut_active.svg";
-import { Divider } from 'antd';
-import ResultInfoPopover from './ResultInfoModal';
-
-
+import { Divider } from "antd";
+import ResultInfoPopover from "./ResultInfoModal";
 
 const rootCausesIcons = (rootcauses) => {
-    let rootcauseName = rootcauses.toLowerCase();
-    switch (rootcauseName) {
-        case "stress":
-            return StressIcon;
-        case "liver":
-            return LiverIcon;
-        case "toxins":
-            return ToxinsIcon;
-        case "hormone":
-            return HormoneIcon;
-        case "gut":
-            return GutIcon;
-        default:
-            return GutIcon;
-    }
-}
-
-const RootCausesV2 = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [isMobile, setIsMobile] = useState(false);
-    const { rootCausesDetails: rootCauses, acneStageDetails } = useCartContext();
-
-    // Check if it's mobile view
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        // Set initial value
-        handleResize();
-
-        // Add event listener
-        window.addEventListener('resize', handleResize);
-
-        // Clean up
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    return rootCauses && (
-        <div className="w-full">
-            {/* <div className="rounded-[5px] bg-Secondary/100 p-[16px] md:p-[24px] flex flex-col gap-[24px] md:gap-[32px]">
-                <div className='flex flex-col gap-[8px] md:gap-[16px]'>
-                    <div className='relative '>
-                        <div className='text-center justify-center flex flex-col   '>
-                            <h2 className="text-[40px] md:text-[40px] text-Secondary/500 -tracking-[1%] font-sophiaPro font-[400] mb-[5px] md:mb-[8px]">{acneStageDetails?.code ?? "Acne Stage"}</h2>
-                            <p className="text-[12px] md:text-[18px] font-sophiaPro font-[400] text-Secondary/500">{"Open Pores"}<span className='text-[14px] md:text-[28px] uppercase ms-[4px] md:ms-[16px]'>{acneStageDetails?.isOpenPores ?? "TRUE"}</span></p>
-                            <p className="text-[12px] md:text-[18px] font-sophiaPro font-[400]  text-Secondary/500">{"Pigmentation"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.pigmentation ?? "PRESENT"}</span></p>
-                            <p className="text-[12px] md:text-[18px] font-sophiaPro font-[400]  text-Secondary/500">{"Sebum production"}<span className='text-[14px] md:text-[28px] uppercase  ms-[4px] md:ms-[16px]'>{acneStageDetails?.sebumProduction ?? "HYPERPRODUCTION"}</span></p>
-
-                        </div>
-                        <div className='absolute top-0 right-0' >
-                            <ResultInfoPopover
-                                content="Skin Profile"
-                                styles='hidden md:block text-Secondary/500 fill-[#929798] custom-icon-fill-light-grey'
-                                size={24}
-                                id="modal-info"
-                            />
-                            <ResultInfoPopover
-                                content="Skin Profile"
-                                styles='block md:hidden text-Secondary/500 fill-[#929798] custom-icon-fill-light-grey'
-                                size={18}
-                                id="modal-info"
-
-                            />
-                        </div>
-                    </div>
-                </div>
-
-            </div> */}
-            <div className='w-full'>
-                <h2 className="mb-5 text-[20px] md:text-[28px] text-primary/700 -tracking-[1%] font-sophiaPro font-[700]">{"Your Root Causes"}</h2>
-            <RootCauseIconComponent
-                rootCauseInfo={rootCauses}
-                setActiveIndex={setActiveIndex}
-                activeIndex={activeIndex}
-                isMobile={isMobile}
-                />
-            </div>
-
-        </div>
-    );
+  let rootcauseName = rootcauses.toLowerCase();
+  switch (rootcauseName) {
+    case "stress":
+      return StressIcon;
+    case "liver":
+      return LiverIcon;
+    case "toxins":
+      return ToxinsIcon;
+    case "hormone":
+      return HormoneIcon;
+    case "gut":
+      return GutIcon;
+    default:
+      return GutIcon;
+  }
 };
 
-const RootCauseIconComponent = ({ rootCauseInfo, setActiveIndex, activeIndex, isMobile }) => {
-    const scrollContainerRef = useRef(null);
-    const isUserScrolling = useRef(false);
-    const isProgrammaticScroll = useRef(false);
+const RootCausesV2 = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const { rootCausesDetails: rootCauses, acneStageDetails } = useCartContext();
 
-    // Handle scroll to keep the active item in view (for mobile)
-    useEffect(() => {
-        if (isMobile && scrollContainerRef.current) {
-            isProgrammaticScroll.current = true; // Flag that this is a programmatic scroll
-
-            const scrollContainer = scrollContainerRef.current;
-            const activeItem = scrollContainer.children[activeIndex];
-
-            if (activeItem) {
-                const containerWidth = scrollContainer.offsetWidth;
-                const itemWidth = activeItem.offsetWidth;
-                const scrollLeft = activeItem.offsetLeft - (containerWidth / 2) + (itemWidth / 2);
-
-                scrollContainer.scrollTo({
-                    left: scrollLeft,
-                    behavior: 'smooth'
-                });
-
-                // Reset the flag after the scroll animation is likely complete
-                setTimeout(() => {
-                    isProgrammaticScroll.current = false;
-                }, 500);
-            }
-        }
-    }, [activeIndex, isMobile]);
-
-    // Handle scroll navigation
-    const handleScroll = () => {
-        // Only process scroll events that are initiated by the user, not our programmatic scrolls
-        if (isMobile && scrollContainerRef.current && !isProgrammaticScroll.current && isUserScrolling.current) {
-            const scrollContainer = scrollContainerRef.current;
-            const containerWidth = scrollContainer.offsetWidth;
-            const scrollPosition = scrollContainer.scrollLeft;
-            const itemWidth = containerWidth / 3; // Approximate width of each item
-
-            // Calculate which item should be active based on scroll position
-            const newIndex = Math.min(
-                Math.floor((scrollPosition + (itemWidth / 2)) / itemWidth),
-                rootCauseInfo.length - 1
-            );
-
-            if (newIndex !== activeIndex) {
-                setActiveIndex(newIndex);
-            }
-        }
+  // Check if it's mobile view
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
     };
 
-    return (
-        <div className='flex flex-col gap-[8px] md:gap-[16px]'>
-            {/* Desktop View */}
-            <div className="hidden md:flex w-full bg-[#FEF0E4] p-[16px] rounded-[16px] justify-between">
-                {rootCauseInfo?.map((cause, index) => (
-                    <div
-                        key={cause?.name}
-                        className={` h-[60px] pb-[4px] px-[2px] flex flex-col gap-[4px] items-center justify-center cursor-pointer`}
-                        onClick={() => setActiveIndex(index)}
-                    >
-                        <div className={`w-[96px] h-[40px] py-6 px-[32px] mt-2 flex items-center justify-center  ${index === activeIndex ? "bg-[#FDCFB8]  rounded-full" : ""
-                            }`}>
-                            <Image
-                                src={rootCausesIcons(cause?.name)}
-                                alt={cause?.name}
-                                width={32}
-                                height={32}
-                                className={`w-[32px] h-[32px] object-center  fill-[#CA3936] ${index === activeIndex ? "text-[#CA3936]" : "custom-icon-fill-light-grey"}`}
-                                style={{ objectFit: 'contain' }}
-                            />
-                        </div>
-                        <div className={`text-[14px] font-sophiaPro font-[500]  ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
-                            }`}>
-                            {startCase(cause?.name)}
-                        </div>
-                    </div>
-                ))}
-            </div>
+    // Set initial value
+    handleResize();
 
-            {/* Mobile View - Scrollable */}
-            <div className="md:hidden w-full">
-                <div
-                    ref={scrollContainerRef}
-                    className="flex overflow-x-scroll hide-scrollbar bg-[#FEF0E4] rounded-[8px]"
-                    onScroll={handleScroll}
-                    onTouchStart={() => { isUserScrolling.current = true; }}
-                    onTouchEnd={() => { isUserScrolling.current = false; }}
-                >
-                    {rootCauseInfo?.map((cause, index) => (
-                        <div
-                            key={cause?.name}
-                            className={` px-[8px] py-[4px] flex flex-col items-center justify-center flex-shrink-0 `}
-                            onClick={() => setActiveIndex(index)}
-                        >
-                            <div className={` h-auto py-[6px] px-[14px]  flex gap-[20px] items-center justify-center ${index === activeIndex ? "bg-[#FDCFB8] rounded-[100px]" : ""
-                                }`}>
-                                <Image
-                                    src={rootCausesIcons(cause?.name)}
-                                    alt={cause?.name}
-                                    width={24}
-                                    height={24}
-                                    className={`h-[24px] w-[24px] object-center fill-[#CA3936] ${index === activeIndex ? "text-[#CA3936]" : "custom-icon-fill-light-grey"}`}
-                                    style={{ objectFit: 'contain' }}
-                                />
-                            </div>
+    // Add event listener
+    window.addEventListener("resize", handleResize);
 
-                            <span className={`text-[14px] font-sophiaPro font-[500] ${index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
-                                }`}>
-                                {startCase(cause?.name)}
-                            </span>
-                        </div>
-                    ))}
-                </div>
+    // Clean up
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-            </div>
-
-            {/* Description */}
-            <div className="text-[12px] md:text-[16px] min-h-[50px]">
-                <p className='font-sophiaPro font-[400] text-Grey/900 text-[12px]'>
-                    {rootCauseInfo[activeIndex]?.description}
-                </p>
-            </div>
+  return (
+    rootCauses && (
+      <div className="w-full">
+        <div className="w-full mt-10">
+          <h2 className="mb-5 text-[20px] md:text-[28px] text-primary/700 -tracking-[1%] font-sophiaPro font-[700]">
+            {"Your Root Causes"}
+          </h2>
+          <RootCauseIconComponent
+            rootCauseInfo={rootCauses}
+            setActiveIndex={setActiveIndex}
+            activeIndex={activeIndex}
+            isMobile={isMobile}
+          />
         </div>
-    );
-}
+      </div>
+    )
+  );
+};
 
+const RootCauseIconComponent = ({
+  rootCauseInfo,
+  setActiveIndex,
+  activeIndex,
+  isMobile,
+}) => {
+  const scrollContainerRef = useRef(null);
+  const isUserScrolling = useRef(false);
+  const isProgrammaticScroll = useRef(false);
+
+  // Handle scroll to keep the active item in view (for mobile)
+  useEffect(() => {
+    if (isMobile && scrollContainerRef.current) {
+      isProgrammaticScroll.current = true; // Flag that this is a programmatic scroll
+
+      const scrollContainer = scrollContainerRef.current;
+      const activeItem = scrollContainer.children[activeIndex];
+
+      if (activeItem) {
+        const containerWidth = scrollContainer.offsetWidth;
+        const itemWidth = activeItem.offsetWidth;
+        const scrollLeft =
+          activeItem.offsetLeft - containerWidth / 2 + itemWidth / 2;
+
+        scrollContainer.scrollTo({
+          left: scrollLeft,
+          behavior: "smooth",
+        });
+
+        // Reset the flag after the scroll animation is likely complete
+        setTimeout(() => {
+          isProgrammaticScroll.current = false;
+        }, 500);
+      }
+    }
+  }, [activeIndex, isMobile]);
+
+  // Handle scroll navigation
+  const handleScroll = () => {
+    // Only process scroll events that are initiated by the user, not our programmatic scrolls
+    if (
+      isMobile &&
+      scrollContainerRef.current &&
+      !isProgrammaticScroll.current &&
+      isUserScrolling.current
+    ) {
+      const scrollContainer = scrollContainerRef.current;
+      const containerWidth = scrollContainer.offsetWidth;
+      const scrollPosition = scrollContainer.scrollLeft;
+      const itemWidth = containerWidth / 3; // Approximate width of each item
+
+      // Calculate which item should be active based on scroll position
+      const newIndex = Math.min(
+        Math.floor((scrollPosition + itemWidth / 2) / itemWidth),
+        rootCauseInfo.length - 1
+      );
+
+      if (newIndex !== activeIndex) {
+        setActiveIndex(newIndex);
+      }
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-[8px] md:gap-[16px]">
+      {/* Desktop View */}
+      <div className="hidden md:flex w-full bg-[#FEF0E4] p-[16px] rounded-[16px] justify-between">
+        {rootCauseInfo?.map((cause, index) => (
+          <div
+            key={cause?.name}
+            className={` h-[60px] pb-[4px] px-[2px] flex flex-col gap-[4px] items-center justify-center cursor-pointer`}
+            onClick={() => setActiveIndex(index)}
+          >
+            <div
+              className={`w-[96px] h-[40px] py-6 px-[32px] mt-2 flex items-center justify-center  ${
+                index === activeIndex ? "bg-[#FDCFB8]  rounded-full" : ""
+              }`}
+            >
+              <Image
+                src={rootCausesIcons(cause?.name)}
+                alt={cause?.name}
+                width={32}
+                height={32}
+                className={`w-[32px] h-[32px] object-center  fill-[#CA3936] ${
+                  index === activeIndex
+                    ? "text-[#CA3936]"
+                    : "custom-icon-fill-light-grey"
+                }`}
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+            <div
+              className={`text-[14px] font-sophiaPro font-[500]  ${
+                index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
+              }`}
+            >
+              {startCase(cause?.name)}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile View - Scrollable */}
+      <div className="md:hidden w-full">
+        <div
+          ref={scrollContainerRef}
+          className="flex justify-between overflow-x-scroll hide-scrollbar bg-[#FEF0E4] rounded-[8px] gap-[8px] px-[8px] py-[8px]"
+          onScroll={handleScroll}
+          onTouchStart={() => {
+            isUserScrolling.current = true;
+          }}
+          onTouchEnd={() => {
+            isUserScrolling.current = false;
+          }}
+        >
+          {rootCauseInfo?.map((cause, index) => (
+            <div
+              key={cause?.name}
+              className="flex flex-col items-center justify-center flex-shrink-0 cursor-pointer"
+              onClick={() => setActiveIndex(index)}
+            >
+              <div
+                className={`h-auto py-[6px] px-[14px] flex items-center justify-center rounded-[100px] ${
+                  index === activeIndex ? "bg-[#FDCFB8]" : ""
+                }`}
+              >
+                <Image
+                  src={rootCausesIcons(cause?.name)}
+                  alt={cause?.name}
+                  width={24}
+                  height={24}
+                  className={`h-[24px] w-[24px] object-contain ${
+                    index === activeIndex ? "text-[#CA3936]" : "opacity-60"
+                  }`}
+                />
+              </div>
+
+              <span
+                className={`text-[14px] font-sophiaPro font-[500] mt-[4px] whitespace-nowrap ${
+                  index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
+                }`}
+              >
+                {startCase(cause?.name)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Description */}
+      <div className="text-[12px] md:text-[16px] min-h-[50px]">
+        <p className="font-sophiaPro font-[400] text-Grey/900 text-[12px]">
+          {rootCauseInfo[activeIndex]?.description}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 export default RootCausesV2;
