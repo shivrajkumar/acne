@@ -48,42 +48,62 @@ const ResultLandingPage = ({}) => {
   const [thumbmarkValue, setThumbmarkValue] = useState(null);
   const [ipApiValue, setIpApiValue] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Add flags to prevent multiple calls
   const hasFetchedResult = useRef(false);
   const isFetchingResult = useRef(false);
 
   useEffect(() => {
+    
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
       const tidFromUrl = url.searchParams.get("tid");
-
+      const userIdFromUrl = url.searchParams.get("userId");
+      
+      console.log("🔍 [INIT] URL params:", { tidFromUrl, userIdFromUrl });
+      
       const userDataFromStorage = localStorage.getItem("user_details");
+      console.log("📦 [INIT] localStorage user_details:", userDataFromStorage);
+      
       if (userDataFromStorage) {
         try {
           const parsedUserData = JSON.parse(userDataFromStorage);
+          console.log("✅ [INIT] Parsed user data:", parsedUserData);
+          
           const extractedUserId = parsedUserData.caseId || parsedUserData.id;
+          console.log("🔑 [INIT] Extracted userId from storage:", extractedUserId);
 
           if (extractedUserId) {
             setUserId(extractedUserId);
-          } else {
-            console.error("No userId found in any field");
-          }
+            console.log("✅ [INIT] Setting userId from storage:", extractedUserId);
+          } 
         } catch (e) {
-          console.error("Error parsing userData:", e);
-          console.error("Failed to parse:", userDataFromStorage);
+          console.error("❌ [INIT] Error parsing userData:", e);
         }
       }
 
+      if (userIdFromUrl) {
+        console.log("✅ [INIT] Setting userId from URL:", userIdFromUrl);
+        setUserId(userIdFromUrl);
+      } else {
+        console.log("⚠️ [INIT] No userId in URL params");
+      }
+
       if (tidFromUrl) {
+        console.log("✅ [INIT] Setting tId from URL:", tidFromUrl);
         setTId(tidFromUrl);
       } else {
-        // Fallback to localStorage if not in URL
         const tidFromStorage = window.localStorage.getItem("user_tid");
+        console.log("🔍 [INIT] tId from storage:", tidFromStorage);
         setTId(tidFromStorage);
       }
+      
+      console.log("✅ [INIT] Marking initialization as complete");
+      setIsInitialized(true);
     }
   }, []);
+
 
   useEffect(() => {
     const fetchThumbmark = async () => {
@@ -92,7 +112,7 @@ const ResultLandingPage = ({}) => {
         setThumbmarkValue(tm);
         setCapiPayload((prev) => ({ ...prev, thumbmark: tm?.thumbmark || tm }));
       } catch (err) {
-        console.error("Error getting thumbmark:", err);
+        console.error("Error:", err);
       }
     };
     fetchThumbmark();
@@ -103,10 +123,9 @@ const ResultLandingPage = ({}) => {
         const result = await response.json();
         if (result.success) {
           setIpApiValue(result.data);
-        } else {
         }
       } catch (error) {
-        console.error("Error fetching IP data:", error);
+        console.error("Error:", error);
       }
     };
     fetchIpAddress();
@@ -152,7 +171,7 @@ const ResultLandingPage = ({}) => {
         }),
       });
       fetchResult();
-    }
+    } 
   }, [tId, ipApiValue, thumbmarkValue]);
 
   // Handle sticky cart visibility on scroll
@@ -176,14 +195,11 @@ const ResultLandingPage = ({}) => {
       const urlParams = new URLSearchParams(window.location.search);
       const tidForFingerprint = urlParams.get("tid") || tId;
 
-      if (!tidForFingerprint) {
-        return false;
-      }
-
       const fingerprintData = {
         fingerprint: thumbmarkValue?.thumbmark || thumbmarkValue || "",
         ip: ipApiValue?.ip || "",
       };
+
 
       const options = {
         method: "PUT",
@@ -200,6 +216,7 @@ const ResultLandingPage = ({}) => {
       );
       return response.status === 200;
     } catch (error) {
+      console.error("Error:", error);
       return false;
     }
   };
@@ -217,8 +234,10 @@ const ResultLandingPage = ({}) => {
 
     try {
       const res = await fetchRequest(RESULT_V2(tId), options);
+      
       if (res.status === 200) {
         const caseId = res?.data?.customerDetails?.caseId;
+        
         if (caseId) {
           await getActiveSlotDetails(caseId);
         }
@@ -239,7 +258,7 @@ const ResultLandingPage = ({}) => {
         if (_cachedData) {
           try {
             const parsedCachedData = JSON.parse(_cachedData);
-            // If cached data exists and is for the same case, preserve cart modifications
+            
             if (parsedCachedData?.customerDetails?.caseId === caseId) {
               finalData = {
                 ...res.data,
@@ -253,9 +272,9 @@ const ResultLandingPage = ({}) => {
               };
             }
           } catch (e) {
-            console.error("Error parsing cached data during merge:", e);
           }
         }
+        
         setResultData(finalData);
         localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
 
@@ -263,7 +282,6 @@ const ResultLandingPage = ({}) => {
         hasFetchedResult.current = true;
       }
     } catch (e) {
-      console.error("Error fetching results:", e);
     } finally {
       setLoading(false);
       isFetchingResult.current = false;
@@ -272,11 +290,9 @@ const ResultLandingPage = ({}) => {
 
   // Function to handle post-login flow
   const handlePostLogin = async () => {
-    // First update fingerprint
     if (thumbmarkValue && ipApiValue && tId) {
       await updateFingerprint();
     }
-    // Then fetch results again (not initial load)
     await fetchResult();
   };
 
@@ -289,7 +305,7 @@ const ResultLandingPage = ({}) => {
         setBookingStatus(true);
       }
     } catch (error) {
-      console.error("Error fetching active slot details:", error);
+      console.error("Error:", error);
     }
   };
 
@@ -326,16 +342,6 @@ const ResultLandingPage = ({}) => {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
     });
   };
-
-  // Show loader while media is loading
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  // Show loader while fetching results
-  if (loading) {
-    return <Loader />;
-  }
 
   const addProductToCart = (product) => {
     let updatedProductsDetails = [...(resultData?.productsDetails || [])];
@@ -386,13 +392,11 @@ const ResultLandingPage = ({}) => {
     ];
 
     if (product) {
-      // Remove from main products (only if it was originally optional)
       updatedProductsDetails = updatedProductsDetails.filter(
         (prod) =>
           !(prod.variantId === product.variantId && prod.isOptionalProduct)
       );
 
-      // Add back to optional products if it was originally optional
       if (product.isOptionalProduct) {
         const { isOptionalProduct, ...productWithoutFlag } = product;
         updatedOptionalProductsDetails.push(productWithoutFlag);
@@ -448,7 +452,21 @@ const ResultLandingPage = ({}) => {
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
   };
 
-  console.log("caseid and userid", resultData?.customerDetails?.caseId, userId);
+  console.log("🎯 [RENDER] Current state:", {
+    userId,
+    caseId: resultData?.customerDetails?.caseId,
+    isInitialized,
+    isLoading,
+    loading,
+    shouldShowDiagnosis: !userId || String(userId) === String(resultData?.customerDetails?.caseId)
+  });
+
+  // Show loader while media is loading
+  if (!isInitialized || isLoading || loading) {
+    return <Loader />;
+  }
+
+  console.log("✅ [RENDER] Rendering main content");
 
   return (
     <CartProvider value={contextValue}>
@@ -477,7 +495,7 @@ const ResultLandingPage = ({}) => {
             <SkinDiagnosis />
           ) : (
             resultData?.skinAnalysisResponse && (
-              <div className="flex flex-col items-center justify-center p-8 mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
+              <div className="flex flex-col items-center justify-center p-8 mx-0 md:mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
                 <div className="w-16 h-16 mb-4 bg-orange-100 rounded-full flex items-center justify-center">
                   <svg
                     className="w-8 h-8 text-orange-500"
@@ -496,7 +514,7 @@ const ResultLandingPage = ({}) => {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
                   Skin Diagnosis Not Available
                 </h3>
-                <p className="text-gray-600 text-center max-w-md mb-4">
+                <p className="text-gray-600 text-center text-sm md:text-xl max-w-md mb-4">
                   This skin analysis report is associated with a different
                   account. Please log in with the correct account to view your
                   personalized skin diagnosis.

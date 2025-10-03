@@ -216,7 +216,7 @@ const LoginPage = ({ searchParams, closeModal, phone, tid }) => {
 
         const targetUrl = isCustomer
           ? `/book-a-call?caseId=${transactionId}`
-          : iscomingFromResultPage ? `/result?tid=${tid}` : "/";
+          : iscomingFromResultPage ? `/result?tid=${tid}&userId=${user.id}` : "/";
 
         setPendingRedirect(targetUrl);
 
