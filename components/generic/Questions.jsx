@@ -36,6 +36,7 @@ const Questions = () => {
     hautAiResponse,
     nextQuestion
   } = useContext(QuestionsContext);
+  console.log('loggin haut response -----',{hautAiResponse})
   
   const router = useRouter();
   const tid = window.localStorage.getItem("user_tid");

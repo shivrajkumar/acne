@@ -10,7 +10,6 @@ import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { generateEventId } from "@/helpers/metaCapiHelper";
-import { QuestionsContext } from "@/context/questions-store";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -18,6 +17,7 @@ const SingleSelect = ({ block, context }) => {
     isHindi,
     setHautAiResponse,
     setAllQuestionsFilled,
+    hautAiResponse
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
@@ -45,68 +45,70 @@ const SingleSelect = ({ block, context }) => {
   }, [block]);
 
   const _submitReply = async (reply) => {
-    setIsLoading(true);
-    let _res = "";
+  setIsLoading(true);
+  let _res = "";
 
-    try {
-      // Check hautAiResponse if this is stress_level
-      if (block.id == "stress_level") {
-        try {
-          const completionRes = await fetchRequest(
-            HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
-          );
-          setHautAiResponse(
-            completionRes.data.isSkinAnalysisResponseCapturedProperly
-          );
-        } catch (err) {
-          console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
-        }
-      }
-
-      const _formData = {
-        question_id: block.id,
-        field_key: block.id,
-        question_text: block.text,
-        response: [reply],
-        status: block.id == 'stress_level' ? formFillStatus.FILLED : formFillStatus.SEMI_FILLED,
-        location_path: window.location.pathname + window.location.search,
-        source: "website",
-        response_type: block.type,
-      };
-
-      const _options = {
-        method: "POST",
-        body: JSON.stringify(_formData),
-      };
-
-      _res = await fetchRequest(TRANSACTION_API(transactionId), _options);
-    } catch (error) {
-      console.warn(error);
-    } finally {
-      if (_res.status === 200) {
-        await handleSubmit(reply);
-        setReply("");
-
-        if (block.id == "stress_level") {
-          const phone = window.localStorage.getItem("user_phone");
-          logGtmEvent("stress_level", {
-            question_text: block.text,
-            question_id: block.id,
-            response: [reply],
-            event_id: generateEventId({
-              eventName: "stress_level",
-              phone: phone,
-            }),
-          });
-        }
-
-        setIsLoading(false);
-      } else {
-        setError(_res?.data?.message || "An error occurred");
-        setIsLoading(false);
+  try {
+    // 🔹 Call HAUT_AI_IMAGE_CAPTURE_CHECK only for stress_level
+    if (block.id === "stress_level") {
+      try {
+        const completionRes = await fetchRequest(
+          HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
+        );
+        setHautAiResponse(
+          completionRes.data.isSkinAnalysisResponseCapturedProperly
+        );
+      } catch (err) {
+        console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
       }
     }
-  };
+
+    const _formData = {
+      question_id: block.id,
+      field_key: block.id,
+      question_text: block.text,
+      response: [reply],
+      status:
+        block.id === "stress_level"
+          ? formFillStatus.FILLED
+          : formFillStatus.SEMI_FILLED,
+      location_path: window.location.pathname + window.location.search,
+      source: "website",
+      response_type: block.type,
+    };
+
+    const _options = {
+      method: "POST",
+      body: JSON.stringify(_formData),
+    };
+
+    _res = await fetchRequest(TRANSACTION_API(transactionId), _options);
+  } catch (error) {
+    console.warn(error);
+  } finally {
+    if (_res.status === 200) {
+      await handleSubmit(reply);
+      setReply("");
+
+      if (block.id === "stress_level") {
+        const phone = window.localStorage.getItem("user_phone");
+        logGtmEvent("stress_level", {
+          question_text: block.text,
+          question_id: block.id,
+          response: [reply],
+          event_id: generateEventId({
+            eventName: "stress_level",
+            phone: phone,
+          }),
+        });
+      }
+    } else {
+      setError(_res?.data?.message || "An error occurred");
+    }
+    setIsLoading(false);
+  }
+};
+
 
   const handleOptionClick = (selectedValue) => {
     setReply(selectedValue);
