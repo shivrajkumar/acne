@@ -20,8 +20,6 @@ const MultiSelect = ({ block, context }) => {
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
-  console.log("block in multiselect", block);
-
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);

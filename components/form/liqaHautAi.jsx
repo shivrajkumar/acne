@@ -115,7 +115,7 @@ export default function ImageUploadWithHaut({ block }) {
   }
 
   return (
-    <div className="w-full min-h-full flex flex-col justify-center items-center">
+    <div className="w-full min-h-full flex flex-col justify-center items-center py-5">
       <div className="w-full">
         <hautai-liqa
           className="preview"

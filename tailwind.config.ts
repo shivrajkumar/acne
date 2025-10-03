@@ -33,6 +33,8 @@ const config: Config = {
       animation: {
         "bounce-200": "bounce 1s infinite 200ms",
         "bounce-400": "bounce 1s infinite 400ms",
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       colors: {
         brand: {

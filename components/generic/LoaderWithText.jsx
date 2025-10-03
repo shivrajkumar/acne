@@ -97,10 +97,8 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
     <div
       className="flex flex-col items-center justify-center min-h-screen -mt-20"
     >
-      <div className="relative md:w-[250px] w-[270px] md:h-[250px] h-[350px]">
-        {capturedImage ? (
-          // Show the captured image with scanner effect
-          <div className="relative w-full h-full rounded-xl border border-gray-300 overflow-hidden shadow-sm bg-white">
+      <div className="relative md:w-[250px] w-[270px] md:h-[250px] h-[300px]">
+          <div className="relative w-full h-full rounded-lg overflow-hidden">
             <img 
               src={capturedImage} 
               alt="Skin analysis" 
@@ -116,42 +114,20 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
                   radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px),
                   linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0))
                 `,
-                backgroundSize: "12px 12px, 100% 100%",
+                backgroundSize: "12px 15px, 100% 100%",
                 backdropFilter: "blur(2px)",
               }}
             >
               <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-400 via-blue-600 to-blue-400 shadow-lg" />
             </div>
           </div>
-        ) : (
-          // Fallback to loader if no image
-          <>
-            {/* Static gray ring */}
-            <div
-              className="absolute inset-0 rounded-full border-[1.04px]"
-              style={{ borderColor: "#8CC5FA" }}
-            ></div>
-
-            {/* Animated black ring */}
-            <div
-              className="absolute inset-0 rounded-full border-[1.04px] animate-spin"
-              style={{
-                borderColor: "#000000",
-                borderTopColor: "#000000",
-                borderRightColor: "transparent",
-                borderBottomColor: "transparent",
-                borderLeftColor: "transparent",
-              }}
-            ></div>
-          </>
-        )}
       </div>
 
       <div className="md:w-[381px] w-[361px] text-wrap pt-[18px]">
-        <h2 className="font-[400] md:text-[28px] text-[28px] text-center">
-          Creating Your Personalised Acne Plan
+        <h2 className="font-[400] md:text-[28px] text-[24px] text-center">
+          Creating Your Personalised <br/> Acne Plan
         </h2>
-        <p className="text-[16px] text-custom-text-loader-subText text-center">
+        <p className="text-[16px] text-custom-text-loader-subText text-center mt-4">
           We combine AI skin analysis, dermatologist-backed science, and your unique acne triggers to build a personalised treatment plan.
         </p>
       </div>

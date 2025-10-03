@@ -20,11 +20,7 @@ const SingleSelect = ({ block, context }) => {
     setAllQuestionsFilled,
   } = useContext(context);
 
-  const { hautAiResponse } = useContext(QuestionsContext);
-  console.log(block, hautAiResponse, '--- SingleSelect block and hautAiResponse ---');
-
   const handleSubmit = useFormSubmit(context);
-
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [reply, setReply] = useState(null);

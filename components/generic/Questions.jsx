@@ -36,11 +36,10 @@ const Questions = () => {
     hautAiResponse,
     nextQuestion
   } = useContext(QuestionsContext);
-  const tid = window.localStorage.getItem("user_tid");
-  const router = useRouter();
-
   
-
+  const router = useRouter();
+  const tid = window.localStorage.getItem("user_tid");
+  const mobileScreen = useMediaQuery("(max-width: 600px)");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formStatus, setFormStatus] = useState("");
@@ -51,14 +50,6 @@ const Questions = () => {
   const [showPhotoAnalysisFailed, setShowPhotoAnalysisFailed] = useState(false);
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
   const [showLoaderAfterAddon, setShowLoaderAfterAddon] = useState(false);
-
-  console.log('allQuestionsFilled', allQuestionsFilled)
-
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
-  // const _page = searchParams.get("page");
-
-  const mobileScreen = useMediaQuery("(max-width: 600px)");
 
   const fetchQuestionsData = async () => {
     setLoading(true);
