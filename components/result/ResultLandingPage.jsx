@@ -54,8 +54,8 @@ const ResultLandingPage = ({}) => {
   const hasFetchedResult = useRef(false);
   const isFetchingResult = useRef(false);
 
-  useEffect(() => {
-    
+  // Function to initialize/re-initialize user data
+  const initializeUserData = () => {
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
       const tidFromUrl = url.searchParams.get("tid");
@@ -63,31 +63,33 @@ const ResultLandingPage = ({}) => {
       
       console.log("🔍 [INIT] URL params:", { tidFromUrl, userIdFromUrl });
       
-      const userDataFromStorage = localStorage.getItem("user_details");
-      console.log("📦 [INIT] localStorage user_details:", userDataFromStorage);
-      
-      if (userDataFromStorage) {
-        try {
-          const parsedUserData = JSON.parse(userDataFromStorage);
-          console.log("✅ [INIT] Parsed user data:", parsedUserData);
-          
-          const extractedUserId = parsedUserData.caseId || parsedUserData.id;
-          console.log("🔑 [INIT] Extracted userId from storage:", extractedUserId);
-
-          if (extractedUserId) {
-            setUserId(extractedUserId);
-            console.log("✅ [INIT] Setting userId from storage:", extractedUserId);
-          } 
-        } catch (e) {
-          console.error("❌ [INIT] Error parsing userData:", e);
-        }
-      }
-
+      // Priority 1: Check URL params first
       if (userIdFromUrl) {
         console.log("✅ [INIT] Setting userId from URL:", userIdFromUrl);
         setUserId(userIdFromUrl);
       } else {
-        console.log("⚠️ [INIT] No userId in URL params");
+        // Priority 2: Check localStorage only if no URL param
+        const userDataFromStorage = localStorage.getItem("user_details");
+        console.log("📦 [INIT] localStorage user_details:", userDataFromStorage);
+        
+        if (userDataFromStorage) {
+          try {
+            const parsedUserData = JSON.parse(userDataFromStorage);
+            console.log("✅ [INIT] Parsed user data:", parsedUserData);
+            
+            const extractedUserId = parsedUserData.caseId || parsedUserData.id;
+            console.log("🔑 [INIT] Extracted userId from storage:", extractedUserId);
+
+            if (extractedUserId) {
+              setUserId(extractedUserId);
+              console.log("✅ [INIT] Setting userId from storage:", extractedUserId);
+            } 
+          } catch (e) {
+            console.error("❌ [INIT] Error parsing userData:", e);
+          }
+        } else {
+          console.log("⚠️ [INIT] No userId in URL params or localStorage");
+        }
       }
 
       if (tidFromUrl) {
@@ -99,9 +101,29 @@ const ResultLandingPage = ({}) => {
         setTId(tidFromStorage);
       }
       
-      console.log("✅ [INIT] Marking initialization as complete");
-      setIsInitialized(true);
+      // Small delay to ensure state updates are processed
+      setTimeout(() => {
+        console.log("✅ [INIT] Marking initialization as complete");
+        setIsInitialized(true);
+      }, 100);
     }
+  };
+
+  // Initial load
+  useEffect(() => {
+    initializeUserData();
+    
+    // Listen for popstate events (browser back/forward)
+    const handlePopState = () => {
+      console.log("🔄 [POPSTATE] URL changed, re-initializing");
+      initializeUserData();
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
 
@@ -161,7 +183,7 @@ const ResultLandingPage = ({}) => {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && tId && ipApiValue && thumbmarkValue) {
+    if (typeof window !== "undefined" && tId && ipApiValue && thumbmarkValue && isInitialized) {
       const phone = window.localStorage.getItem("user_phone");
       logGtmEvent("ReportGenerated", {
         gender: window.localStorage.getItem("user_gender"),
@@ -172,7 +194,7 @@ const ResultLandingPage = ({}) => {
       });
       fetchResult();
     } 
-  }, [tId, ipApiValue, thumbmarkValue]);
+  }, [tId, ipApiValue, thumbmarkValue, isInitialized]);
 
   // Handle sticky cart visibility on scroll
   useEffect(() => {
@@ -290,6 +312,14 @@ const ResultLandingPage = ({}) => {
 
   // Function to handle post-login flow
   const handlePostLogin = async () => {
+    console.log("🔐 [POST-LOGIN] Starting post-login flow");
+    
+    // Re-initialize user data to pick up any changes from login
+    initializeUserData();
+    
+    // Wait a bit for state to update
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
     if (thumbmarkValue && ipApiValue && tId) {
       await updateFingerprint();
     }
@@ -519,6 +549,12 @@ const ResultLandingPage = ({}) => {
                   account. Please log in with the correct account to view your
                   personalized skin diagnosis.
                 </p>
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 mb-3"
+                >
+                  Login to View
+                </button>
                 <p className="text-sm text-gray-500 text-center">
                   If you believe this is an error, please contact our support
                   team.
@@ -563,6 +599,12 @@ const ResultLandingPage = ({}) => {
                   account. Please log in with the correct account to view your
                   personalized skin diagnosis.
                 </p>
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 mb-3"
+                >
+                  Login to View
+                </button>
                 <p className="text-sm text-gray-500 text-center">
                   If you believe this is an error, please contact our support
                   team.
