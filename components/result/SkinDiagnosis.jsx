@@ -235,26 +235,13 @@ const SkinDiagnosis = () => {
       name: value?.name || key.charAt(0).toUpperCase() + key.slice(1),
       image: value?.image || null,
       score: value?.score || null,
+      description: value?.description || null
     }));
   }
 
   const alteredData = convertSkinAnalysisToArray(response).filter(
     (item) => item.image
-  ); // ✅ Filter out items without images globally
-
-  const handlePrevious = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev === 0 ? alteredData.length - 1 : prev - 1));
-    setTimeout(() => setIsAnimating(false), 300);
-  };
-
-  const handleNext = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => (prev === alteredData.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsAnimating(false), 300);
-  };
+  ); 
 
   const handleThumbnailClick = (index) => {
     if (isAnimating || index === currentIndex) return;

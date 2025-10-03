@@ -140,27 +140,13 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
           </div>
 
           {/* Description Text */}
-          <div className="text-base text-gray-600 leading-relaxed">
-            {getDescriptionForCondition(data?.name)}
+          <div className="text-[16px] text-gray-600 leading-relaxed">
+            {data?.description}
           </div>
         </div>
       </div>
     </>
   );
-};
-
-// Helper function to get descriptions for different skin conditions
-const getDescriptionForCondition = (conditionName) => {
-  const descriptions = {
-    Pores: "Skin usually has pores in different conditions. They contain tiny ostia from either pilosebaceous follicles (with sebaceous glands) or sweat glands that affect their condition. Enlarged, filamented, or black-headed pores require care. The algorithm calculates the size of each pore and the number of pores. The pores are classified into small and large pores. The ratio of skin area covered by large pores is non-linearly transformed to a score that is calculated for different facial areas and the whole face. The higher the value of this parameter, the less large pores you have.",
-    Acne: "Acne is a common skin condition that occurs when hair follicles become clogged with oil and dead skin cells. It can cause whiteheads, blackheads, or pimples. Acne is most common among teenagers, though it affects people of all ages. The algorithm identifies and counts different types of acne lesions to provide a comprehensive assessment of acne severity.",
-    Wrinkles: "Wrinkles are lines and creases that form in your skin. Some wrinkles can become deep crevices or furrows and may be especially noticeable around your eyes, mouth, and neck. The algorithm analyzes the depth, length, and number of wrinkles to provide an aging assessment score.",
-    "Dark Circles": "Dark circles under the eyes are a common concern. They can be caused by various factors including genetics, aging, lack of sleep, and lifestyle factors. The algorithm measures the pigmentation difference between the under-eye area and surrounding skin to quantify dark circle severity.",
-    Pigmentation: "Pigmentation refers to the coloring of the skin. Skin pigmentation disorders cause changes to the color of your skin. The algorithm identifies areas of hyperpigmentation or hypopigmentation and calculates their extent and intensity.",
-    default: "Our advanced AI algorithm has analyzed your skin to provide detailed insights about this specific condition. The score reflects the current state of your skin, with higher scores indicating better skin health for this parameter.",
-  };
-
-  return descriptions[conditionName] || descriptions.default;
 };
 
 export default DiagnosisBottomSheet;
