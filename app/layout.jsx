@@ -189,13 +189,13 @@ export default function RootLayout({
       <body style={{ fontSize: "16px" }} className="font-sophiaPro">
         <PixelInit />
         <ScrollTracker />
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
           <AuthProvider>
             <CapiPageTracking payload={{}} eventName="PageView" />
             <UserDataCapture />
             <main>{children}</main>
           </AuthProvider>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
         <Suspense>
           <UTMManager />
         </Suspense>

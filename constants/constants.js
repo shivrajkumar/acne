@@ -59,3 +59,6 @@ export const PLATFORM = "web_native";
 // export const GooglePlayIcon = `${CDN_BASE_URL}website_images/localImages/play_store.webp`;
 // export const AppStoreIcon = `${CDN_BASE_URL}website_images/localImages/app_store.webp`;
 // export const trayalogo = `${CDN_BASE_URL}website_images/localImages/traya.webp`;
+
+export const STRAPI_DEV_URL = 'https://webcms.dev.hav-g.in'
+export const STRAPI_PROD_URL = ''

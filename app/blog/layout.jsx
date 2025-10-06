@@ -1,19 +1,25 @@
 import AcneFooter from "@/components/generic/AcneFooter";
-import AcneHeader from "@/components/generic/Header/AcneHeader";
 import AcneMarqueeBanner from "@/components/generic/AcneMarqueeBanner";
+import AcneHeader from "@/components/generic/Header/AcneHeader";
 import React from "react";
 
-const Layout = ({ children }) => {
+function Layout({ children }) {
   return (
     <div>
-      <AcneMarqueeBanner />
-      <div className="sticky top-0 z-50 bg-white">
+      {/* Sticky wrapper for header + banner only */}
+      <div className="sticky top-0 z-50">
+        <AcneMarqueeBanner />
         <AcneHeader />
       </div>
-      {children}
+
+      {/* Main content */}
+      <div className="container px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-16 mx-auto">
+        {children}
+      </div>
+
       <AcneFooter />
     </div>
   );
-};
+}
 
 export default Layout;
