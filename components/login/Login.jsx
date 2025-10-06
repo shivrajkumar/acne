@@ -214,17 +214,26 @@ const LoginPage = ({ searchParams, closeModal, phone, tid }) => {
           access_token_expires_in
         );
 
-        const targetUrl = isCustomer
-          ? `/book-a-call?caseId=${transactionId}`
-          : iscomingFromResultPage ? `/result?tid=${tid}&userId=${user.id}` : "/";
-
-        setPendingRedirect(targetUrl);
-
-        setTimeout(() => {
-          router.push(targetUrl);
+        // If coming from result page with modal, just close the modal
+        if (iscomingFromResultPage && closeModal) {
           setSignInLoader(false);
           setVerifySuccess(true);
-        }, 3000);
+          setTimeout(() => {
+            closeModal();
+          }, 1000);
+        } else {
+          const targetUrl = isCustomer
+            ? `/book-a-call?caseId=${transactionId}`
+            : "/";
+
+          setPendingRedirect(targetUrl);
+
+          setTimeout(() => {
+            router.push(targetUrl);
+            setSignInLoader(false);
+            setVerifySuccess(true);
+          }, 3000);
+        }
 
       } else {
         setOtpError(true);
@@ -293,18 +302,20 @@ const LoginPage = ({ searchParams, closeModal, phone, tid }) => {
 
             :
             <>
-              <button
-                onClick={closeModal}
-                className="absolute md:right-[-3rem] right-[0rem] md:top-[-1rem] top-[-9rem] transform transition-transform duration-300 hover:scale-110"
-              >
-                <Image
-                  src={CloseCircle}
-                  alt="close"
-                  width={24}
-                  height={24}
-                  className="w-full h-full object-cover"
-                />
-              </button>
+              {!iscomingFromResultPage && (
+                <button
+                  onClick={closeModal}
+                  className="absolute md:right-[-3rem] right-[0rem] md:top-[-1rem] top-[-9rem] transform transition-transform duration-300 hover:scale-110"
+                >
+                  <Image
+                    src={CloseCircle}
+                    alt="close"
+                    width={24}
+                    height={24}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              )}
 
               {showOtp ? (
                 <OTPVerification

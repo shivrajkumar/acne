@@ -168,7 +168,12 @@ export const PRODUCT_CONTENT_API = (id, language) => {
 };
 export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}/doctors/`;
 
-export const GET_SKIN_TEST_CONFIG = (uploadStatus) => `${PROXY_PREFIX}/consumer-api/service/static-content/data/${uploadStatus == false ? 'ACNE_ADD_ON_FORM_CONFIG' : 'ACNE_FORM_CONFIG'}`;
+export const GET_SKIN_TEST_CONFIG = (hautAiResponse) => {
+  console.log('GET_SKIN_TEST_CONFIG called with hautAiResponse:', hautAiResponse);
+  const config = hautAiResponse === false ? 'ACNE_ADD_ON_FORM_CONFIG' : 'ACNE_FORM_CONFIG';
+  console.log('Returning config:', config);
+  return `${PROXY_PREFIX}/consumer-api/service/static-content/data/${config}`;
+};
 
 export const GET_USER_FORM_RESPONSES = (tranasctionId) =>
   getUrl(`consumer-api/service/acne-forms/responses/${tranasctionId}`);

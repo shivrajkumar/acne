@@ -10,6 +10,7 @@ import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { generateEventId } from "@/helpers/metaCapiHelper";
+import { CiCircleInfo } from "react-icons/ci";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -17,7 +18,7 @@ const SingleSelect = ({ block, context }) => {
     isHindi,
     setHautAiResponse,
     setAllQuestionsFilled,
-    hautAiResponse
+    hautAiResponse,
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
@@ -45,70 +46,69 @@ const SingleSelect = ({ block, context }) => {
   }, [block]);
 
   const _submitReply = async (reply) => {
-  setIsLoading(true);
-  let _res = "";
+    setIsLoading(true);
+    let _res = "";
 
-  try {
-    // 🔹 Call HAUT_AI_IMAGE_CAPTURE_CHECK only for stress_level
-    if (block.id === "stress_level") {
-      try {
-        const completionRes = await fetchRequest(
-          HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
-        );
-        setHautAiResponse(
-          completionRes.data.isSkinAnalysisResponseCapturedProperly
-        );
-      } catch (err) {
-        console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
-      }
-    }
-
-    const _formData = {
-      question_id: block.id,
-      field_key: block.id,
-      question_text: block.text,
-      response: [reply],
-      status:
-        block.id === "stress_level"
-          ? formFillStatus.FILLED
-          : formFillStatus.SEMI_FILLED,
-      location_path: window.location.pathname + window.location.search,
-      source: "website",
-      response_type: block.type,
-    };
-
-    const _options = {
-      method: "POST",
-      body: JSON.stringify(_formData),
-    };
-
-    _res = await fetchRequest(TRANSACTION_API(transactionId), _options);
-  } catch (error) {
-    console.warn(error);
-  } finally {
-    if (_res.status === 200) {
-      await handleSubmit(reply);
-      setReply("");
-
+    try {
+      // 🔹 Call HAUT_AI_IMAGE_CAPTURE_CHECK only for stress_level
       if (block.id === "stress_level") {
-        const phone = window.localStorage.getItem("user_phone");
-        logGtmEvent("stress_level", {
-          question_text: block.text,
-          question_id: block.id,
-          response: [reply],
-          event_id: generateEventId({
-            eventName: "stress_level",
-            phone: phone,
-          }),
-        });
+        try {
+          const completionRes = await fetchRequest(
+            HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
+          );
+          setHautAiResponse(
+            completionRes.data.isSkinAnalysisResponseCapturedProperly
+          );
+        } catch (err) {
+          console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
+        }
       }
-    } else {
-      setError(_res?.data?.message || "An error occurred");
-    }
-    setIsLoading(false);
-  }
-};
 
+      const _formData = {
+        question_id: block.id,
+        field_key: block.id,
+        question_text: block.text,
+        response: [reply],
+        status:
+          block.id === "stress_level"
+            ? formFillStatus.FILLED
+            : formFillStatus.SEMI_FILLED,
+        location_path: window.location.pathname + window.location.search,
+        source: "website",
+        response_type: block.type,
+      };
+
+      const _options = {
+        method: "POST",
+        body: JSON.stringify(_formData),
+      };
+
+      _res = await fetchRequest(TRANSACTION_API(transactionId), _options);
+    } catch (error) {
+      console.warn(error);
+    } finally {
+      if (_res.status === 200) {
+        await handleSubmit(reply);
+        setReply("");
+
+        if (block.id === "stress_level") {
+          const phone = window.localStorage.getItem("user_phone");
+          logGtmEvent("stress_level", {
+            question_text: block.text,
+            question_id: block.id,
+            response: [reply],
+            event_id: generateEventId({
+              eventName: "stress_level",
+              phone: phone,
+            }),
+          });
+        }
+      } else {
+        setError(_res?.data?.message || "An error occurred");
+      }
+      setIsLoading(false);
+    }
+  };
 
   const handleOptionClick = (selectedValue) => {
     setReply(selectedValue);
@@ -199,30 +199,6 @@ const SingleSelect = ({ block, context }) => {
             );
           })}
         </div>
-        {block?.whyWeAsk?.show && (
-          <div className="flex justify-center mt-2 mb-24 md:hidden">
-            <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
-              onClick={() => setModalOpen(true)}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              type="button"
-            >
-              <Image
-                src={isHovered ? infoCircleBlack : infoCircle}
-                width={20}
-                height={20}
-                alt="Info"
-              />
-              Learn More
-            </button>
-            <Modal
-              open={openModal}
-              setOpen={setModalOpen}
-              content={block?.whyWeAsk}
-            />
-          </div>
-        )}
 
         {error && (
           <span className="block mt-4 text-red-500 text-center font-sophiaPro text-[14px]">
@@ -231,23 +207,22 @@ const SingleSelect = ({ block, context }) => {
         )}
 
         {block?.whyWeAsk?.show && (
-          <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 flex md:flex xs:hidden">
+          <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke  rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              {/* Replace with your actual image import */}
-              <Image
-                src={isHovered ? infoCircleBlack : infoCircle}
-                width={20}
-                height={20}
-                alt="Info"
+              {/* Icon with background */}
+              <CiCircleInfo
+                className="bg-blue-500 text-white rounded-full inline-block"
+                size={20}
               />
-              Learn More
+              Get a Hint?
             </button>
+
             <Modal
               open={openModal}
               setOpen={setModalOpen}

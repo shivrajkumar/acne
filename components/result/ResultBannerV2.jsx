@@ -45,10 +45,10 @@ const ResultBannerV2 = () => {
     <div className="w-full overflow-hidden bg-Secondary/50  rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
       <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
         <div>
-          <h1 className="text-[24px] md:text-[44px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
+          <h1 className="text-[24px] md:text-[40px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
             Hi, {customerName}
           </h1>
-          <h1 className="text-[24px] md:text-[44px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
+          <h1 className="text-[24px] md:text-[40px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
             You have <span className="font-semibold">{acneGrading}</span>
           </h1>
         </div>
@@ -147,7 +147,7 @@ const ResultBannerV2 = () => {
         <div className="flex-1">
           <div className="w-full rounded-xl bg-[#F7FBF2] shadow-sm">
             {/* Header */}
-            <div className="inline-block rounded-r-lg bg-[#2D4D2D] px-4 py-2 text-[14px] font-semibold uppercase tracking-wide text-white md:text-sm">
+            <div className="inline-block rounded-r-lg bg-[#608C59] px-4 py-2 text-[14px] font-semibold uppercase tracking-wide text-white md:text-sm">
               Your Assigned Doctor
             </div>
 

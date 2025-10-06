@@ -23,8 +23,12 @@ import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import { env } from "next-runtime-env";
 import { useRouter } from "next/navigation";
-import { identifyUmamiUser, trackUmamiEvent } from "@components/generic/UmamiTracker";
+import {
+  identifyUmamiUser,
+  trackUmamiEvent,
+} from "@components/generic/UmamiTracker";
 import LoginPage from "../login/Login";
+import Link from "next/link";
 
 export default function UserBasicInfoForm({ onComplete }) {
   const {
@@ -39,10 +43,8 @@ export default function UserBasicInfoForm({ onComplete }) {
   } = useContext(QuestionsContext);
 
   const COOKIES_DOMAIN = env("NEXT_PUBLIC_COOKIES_DOMAIN");
-  const router = useRouter()
+  const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
-
-
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -157,9 +159,8 @@ export default function UserBasicInfoForm({ onComplete }) {
   };
 
   const clearPreviousResponses = () => {
-
     // Reset context state completely
-    if (resetState && typeof resetState === 'function') {
+    if (resetState && typeof resetState === "function") {
       resetState();
     }
 
@@ -172,14 +173,13 @@ export default function UserBasicInfoForm({ onComplete }) {
     });
   };
 
-
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'phoneNumber') {
-      const currentStoredPhone = window.localStorage.getItem('user_phone')?.substring(3);
+    if (name === "phoneNumber") {
+      const currentStoredPhone = window.localStorage
+        .getItem("user_phone")
+        ?.substring(3);
       if (currentStoredPhone && currentStoredPhone !== value) {
         clearPreviousResponses();
       }
@@ -309,31 +309,34 @@ export default function UserBasicInfoForm({ onComplete }) {
         );
         window.localStorage.setItem("caseId", _res.data.caseId);
 
-        if (window.clarity && typeof window.clarity === 'function') {
+        if (window.clarity && typeof window.clarity === "function") {
           try {
-            const caseId = _res.data.caseId || 'unknown';
+            const caseId = _res.data.caseId || "unknown";
             const phoneNumber = _user.phone_number
-              ? _user.phone_number.toString().replace(/[^\d]/g, '')
-              : 'unknown';
+              ? _user.phone_number.toString().replace(/[^\d]/g, "")
+              : "unknown";
 
-            window.clarity('identify', caseId, {
+            window.clarity("identify", caseId, {
               custom: {
-                phone: phoneNumber
-              }
+                phone: phoneNumber,
+              },
             });
-
           } catch (error) {
-            console.error('Clarity identification error:', {
+            console.error("Clarity identification error:", {
               message: error.message,
               stack: error.stack,
               phoneNumber: _user.phone_number,
-              caseId: _res.data.caseId
+              caseId: _res.data.caseId,
             });
           }
         }
 
-        identifyUmamiUser({ email: _user.email, phone_number: _user.phone_number, case_id: _res.data.caseId });
-        trackUmamiEvent('form_started', { syntheticId: _res.data.syntheticId });
+        identifyUmamiUser({
+          email: _user.email,
+          phone_number: _user.phone_number,
+          case_id: _res.data.caseId,
+        });
+        trackUmamiEvent("form_started", { syntheticId: _res.data.syntheticId });
 
         // Set cookies
         Cookies.set("Transaction_ID", _res.data.transactionId, {
@@ -354,7 +357,10 @@ export default function UserBasicInfoForm({ onComplete }) {
         });
         window.localStorage.setItem("form_status", "draft");
 
-        return { tid: _res.data.transactionId, isOrderedCsx: _res.data.latest_order_id ? true : false };
+        return {
+          tid: _res.data.transactionId,
+          isOrderedCsx: _res.data.latest_order_id ? true : false,
+        };
       }
 
       if (_res && _res.status === 500) {
@@ -398,8 +404,9 @@ export default function UserBasicInfoForm({ onComplete }) {
         gender: formData.gender,
         age: formData?.age,
         event_id: generateEventId({
-          eventName: 'Contact', phone: `+91${formData.phoneNumber}`,
-        })
+          eventName: "Contact",
+          phone: `+91${formData.phoneNumber}`,
+        }),
       });
       pixelCustomeEvent("Contact", { gender: formData.gender });
       const cookies = document.cookie.split(";");
@@ -552,10 +559,11 @@ export default function UserBasicInfoForm({ onComplete }) {
                 value={formData.phoneNumber || ""}
                 onChange={handleChange}
                 placeholder="Phone Number"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.phoneNumber
-                  ? "border-red-500"
-                  : "border-Elements/Divider-Stroke"
-                  } rounded-[16px] outline-none focus:outline-none`}
+                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
+                  errors.phoneNumber
+                    ? "border-red-500"
+                    : "border-Elements/Divider-Stroke"
+                } rounded-[16px] outline-none focus:outline-none`}
                 maxLength={10}
                 pattern="[0-9]{10}"
                 required
@@ -575,10 +583,11 @@ export default function UserBasicInfoForm({ onComplete }) {
                 value={formData.age || ""}
                 onChange={handleChange}
                 placeholder="Age"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${errors.age
-                  ? "border-red-500"
-                  : "border-Elements/Divider-Stroke"
-                  } rounded-[16px] outline-none focus:outline-none`}
+                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
+                  errors.age
+                    ? "border-red-500"
+                    : "border-Elements/Divider-Stroke"
+                } rounded-[16px] outline-none focus:outline-none`}
                 min="1"
                 max="99"
                 required
@@ -592,10 +601,11 @@ export default function UserBasicInfoForm({ onComplete }) {
             <div className="flex space-x-4 items-center">
               <button
                 type="button"
-                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${formData.gender === "M"
-                  ? "bg-Primary/50 border-[#237AB1]"
-                  : "bg-[#FFFFFF]"
-                  }`}
+                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${
+                  formData.gender === "M"
+                    ? "bg-Primary/50 border-[#237AB1]"
+                    : "bg-[#FFFFFF]"
+                }`}
                 onClick={() => handleGenderSelect("M")}
               >
                 <div className="flex items-center space-x-2 justify-center ">
@@ -606,10 +616,11 @@ export default function UserBasicInfoForm({ onComplete }) {
 
               <button
                 type="button"
-                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${formData.gender === "F"
-                  ? "bg-Primary/50 border-[#237AB1]"
-                  : "bg-[#FFFFFF]"
-                  }`}
+                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${
+                  formData.gender === "F"
+                    ? "bg-Primary/50 border-[#237AB1]"
+                    : "bg-[#FFFFFF]"
+                }`}
                 onClick={() => handleGenderSelect("F")}
               >
                 <div className="flex items-center space-x-2 justify-center">
@@ -618,10 +629,27 @@ export default function UserBasicInfoForm({ onComplete }) {
                 </div>
               </button>
             </div>
-            <div className="md:mt-1 xl:mt-[-0.75rem] lg:mt-4">
-              <h2 class="text-gray-400 xs:text-xs lg:text-sm font-modernity py-2 px-1   md:mb-0 mb-2 text-center">
-                *Your contact details will be used by Clear Ritual's Skin Expert
-                to reach out to you via call/sms/whatsapp
+            <div className="md:mt-1 xl:mt-[-0.75rem] lg:mt-4 text-gray-400 xs:text-xs lg:text-sm font-modernity py-2 px-1 md:mb-0 mb-2 text-center">
+              <h2>
+                *By continuing, you agree to the{" "}
+                <Link
+                  href="/privacy-policy"
+                  className="underline hover:text-gray-600"
+                >
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/terms-conditions"
+                  className="underline hover:text-gray-600"
+                >
+                  Terms & Conditions
+                </Link>
+                .
+              </h2>
+              <h2 className="mt-2">
+                *Your contact details will be used by Clear Ritual&apos;s Skin
+                Expert to reach out to you via call/sms/whatsapp.
               </h2>
             </div>
             {errors.gender && (
@@ -638,8 +666,9 @@ export default function UserBasicInfoForm({ onComplete }) {
             <div className="fixed bottom-0 left-0 right-0 z-10  flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
               <button
                 type="submit"
-                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
-                  }`}
+                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${
+                  isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+                }`}
                 disabled={!isFormValid}
               >
                 NEXT
@@ -648,7 +677,10 @@ export default function UserBasicInfoForm({ onComplete }) {
           </form>
         </>
         {showLoginModal && (
-          <LoginPage closeModal={() => setShowLoginModal(false)} phone={formData?.phoneNumber} />
+          <LoginPage
+            closeModal={() => setShowLoginModal(false)}
+            phone={formData?.phoneNumber}
+          />
         )}
       </div>
     </div>
