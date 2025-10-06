@@ -194,6 +194,10 @@ const config: Config = {
     textColor: ({ after }: any) => after(["disabled"]),
     cursor: ({ after }: any) => after(["disabled"]),
   },
+    plugins: [
+    require('@tailwindcss/typography'),
+  ],
+
 };
 
 export default config;
