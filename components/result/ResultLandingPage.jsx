@@ -314,6 +314,9 @@ const ResultLandingPage = ({}) => {
   const handlePostLogin = async () => {
     console.log("🔐 [POST-LOGIN] Starting post-login flow");
     
+    // Show loader while fetching
+    setLoading(true);
+    
     // Re-initialize user data to pick up any changes from login
     initializeUserData();
     
@@ -491,9 +494,29 @@ const ResultLandingPage = ({}) => {
     shouldShowDiagnosis: !userId || String(userId) === String(resultData?.customerDetails?.caseId)
   });
 
-  // Show loader while media is loading
-  if (!isInitialized || isLoading || loading) {
-    return <Loader />;
+  // Show loader while media is loading or when login modal is shown
+  if (!isInitialized || isLoading || loading || showLoginModal) {
+    return (
+      <>
+        {showLoginModal ? (
+          // Show black screen with login modal
+          <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center">
+            <Login
+              closeModal={() => {
+                console.log("Login modal closed/completed");
+                setShowLoginModal(false);
+                handlePostLogin();
+              }}
+              phone={""}
+              tid={tId}
+              iscomingFromResultPage={true}
+            />
+          </div>
+        ) : (
+          <Loader />
+        )}
+      </>
+    );
   }
 
   console.log("✅ [RENDER] Rendering main content");
@@ -622,22 +645,6 @@ const ResultLandingPage = ({}) => {
       </div>
       <AcneFooter />
       {showSticky && <CartSummarySticky />}
-
-      {/* Login Modal */}
-      {showLoginModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative">
-            <Login
-              closeModal={() => {
-                setShowLoginModal(false);
-                handlePostLogin();
-              }}
-              phone={""}
-              tid={tId}
-            />
-          </div>
-        </div>
-      )}
     </CartProvider>
   );
 };
