@@ -92,7 +92,7 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
         {/* Image Section */}
         {data?.image && (
           <div className="px-4 pt-4">
-            <div className="h-[354px] overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center">
+            <div className="h-[354px] md:h-auto overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center">
               <ReactSVG
                 src={data.image}
                 beforeInjection={(svg) => {

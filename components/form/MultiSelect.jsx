@@ -11,6 +11,7 @@ import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { generateEventId } from "@/helpers/metaCapiHelper";
+import { CiCircleInfo } from "react-icons/ci";
 
 const MultiSelect = ({ block, context }) => {
   const {
@@ -52,7 +53,10 @@ const MultiSelect = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: selectedOptions,
-        status: block.id == 'pimples_location' &&  block.next == 'end' ? formFillStatus.FILLED : formFillStatus.DRAFT,
+        status:
+          block.id == "pimples_location" && block.next == "end"
+            ? formFillStatus.FILLED
+            : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -76,10 +80,13 @@ const MultiSelect = ({ block, context }) => {
       setSelectedOptions([]);
       const phone = window.localStorage.getItem("user_phone");
       if (block.id == "acne_scars") {
-        logGtmEvent("Acne_Scars", { gender: window?.localStorage?.getItem("user_gender"), event_id: generateEventId({ eventName: 'Acne_Scars', phone: phone }) })
+        logGtmEvent("Acne_Scars", {
+          gender: window?.localStorage?.getItem("user_gender"),
+          event_id: generateEventId({ eventName: "Acne_Scars", phone: phone }),
+        });
       }
 
-      if (block.id == 'pimples_location') {
+      if (block.id == "pimples_location") {
         setAllQuestionsFilled(true);
       }
       if (block.id == "digestive_issues") {
@@ -95,7 +102,10 @@ const MultiSelect = ({ block, context }) => {
           question_text: block.text,
           question_id: block.id,
           response: selectedOptions,
-          event_id: generateEventId({ eventName: 'gut_root_cause', phone: phone })
+          event_id: generateEventId({
+            eventName: "gut_root_cause",
+            phone: phone,
+          }),
         });
       }
     } else {
@@ -157,8 +167,8 @@ const MultiSelect = ({ block, context }) => {
     const originalReply = Array.isArray(block.reply)
       ? block.reply
       : block.reply
-        ? [block.reply]
-        : [];
+      ? [block.reply]
+      : [];
     const hasChanged =
       JSON.stringify(selectedOptions.sort()) !==
       JSON.stringify(originalReply.sort());
@@ -198,17 +208,19 @@ const MultiSelect = ({ block, context }) => {
                 key={option.value}
                 className={`
                 flex justify-center items-center
-                  cursor-pointer rounded-[16px] w-[302px] ${block.id === "acne_scars"
-                    ? "md:w-[412px]"
-                    : block.optionMap?.length > 3
+                  cursor-pointer rounded-[16px] w-[302px] ${
+                    block.id === "acne_scars"
+                      ? "md:w-[412px]"
+                      : block.optionMap?.length > 3
                       ? "md:w-[302px]"
                       : "md:w-[412px]"
                   }
 xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px] hover:border-Primary/500
                   border-[1px]  h-[96px]
-                  ${isSelected
-                    ? "border-Primary/500 bg-Primary/50"
-                    : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
+                  ${
+                    isSelected
+                      ? "border-Primary/500 bg-Primary/50"
+                      : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}
                 onClick={() => handleOptionToggle(option.value)}
@@ -238,40 +250,38 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-2 mb-16 md:hidden">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
-              type="button"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
+              type="button"
             >
-              <Image
-                src={isHovered ? infoCircleBlack : infoCircle}
-                width={20}
-                height={20}
-                alt="Info"
+              {/* Icon with background */}
+              <CiCircleInfo
+                className="bg-blue-500 text-white rounded-full inline-block"
+                size={20}
               />
-              Learn More
+              Get a Hint?
             </button>
           </div>
         )}
 
         {/* Desktop Learn More button */}
         {block?.whyWeAsk?.show && (
-          <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 hidden md:flex">
+          <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 z-20 flex hidden md:block">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke  rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
-              type="button"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
+              type="button"
             >
-              <Image
-                src={isHovered ? infoCircleBlack : infoCircle}
-                width={20}
-                height={20}
-                alt="Info"
+              {/* Icon with background */}
+              <CiCircleInfo
+                className="bg-blue-500 text-white rounded-full inline-block"
+                size={20}
               />
-              Learn More
+              Get a Hint? 
             </button>
           </div>
         )}
@@ -288,8 +298,9 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
         <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
           <button
             type="submit"
-            className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
-              } transition-all duration-200 shadow-sm`}
+            className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${
+              selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
+            } transition-all duration-200 shadow-sm`}
             onClick={handleNextClick}
             disabled={selectedOptions.length === 0}
           >

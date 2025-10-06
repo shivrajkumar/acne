@@ -55,7 +55,10 @@ const Questions = () => {
   const fetchQuestionsData = async () => {
     setLoading(true);
     try {
-      const response = await fetchRequest(GET_SKIN_TEST_CONFIG(hautAiResponse ?? true));
+      console.log('fetchQuestionsData called with hautAiResponse:', hautAiResponse);
+      const configValue = hautAiResponse ?? true;
+      console.log('Passing to GET_SKIN_TEST_CONFIG:', configValue);
+      const response = await fetchRequest(GET_SKIN_TEST_CONFIG(configValue));
       if (response.hasError) {
         throw new Error('Failed to fetch questions data');
       }

@@ -18,6 +18,18 @@ export default function ImageUploadWithHaut({ block }) {
   } = useContext(QuestionsContext);
 
   useEffect(() => {
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://liqa.haut.ai/liqa.js";
     script.type = "module";
@@ -115,10 +127,10 @@ export default function ImageUploadWithHaut({ block }) {
   }
 
   return (
-    <div className="w-full min-h-full flex flex-col justify-center items-center py-5">
-      <div className="w-full">
+    <div className="fixed inset-0 flex justify-center items-center bg-white overflow-hidden">
+      <div className="w-full h-full">
         <hautai-liqa
-          className="preview"
+          class="preview w-full h-full"
           ref={liqaRef}
           license="ll_cfa291c08ce340a6"
           preset="face"
@@ -127,6 +139,12 @@ export default function ImageUploadWithHaut({ block }) {
           preview-duration="5000"
           sources="front_camera,upload,companion"
         ></hautai-liqa>
+
+        {err && (
+          <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-red-500 text-sm text-center">
+            {err}
+          </p>
+        )}
       </div>
     </div>
   );
