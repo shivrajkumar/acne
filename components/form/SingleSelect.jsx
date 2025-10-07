@@ -58,7 +58,7 @@ const SingleSelect = ({ block, context }) => {
             HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
           );
           currentHautAiResponse = completionRes.data.isSkinAnalysisResponseCapturedProperly;
-          setHautAiResponse(false);
+          setHautAiResponse(currentHautAiResponse);
         } catch (err) {
           console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
         }

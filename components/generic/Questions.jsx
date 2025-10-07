@@ -50,7 +50,6 @@ const Questions = () => {
   const [photoQCompleted, setPhotoQCompleted] = useState(false);
   const [showPhotoAnalysisFailed, setShowPhotoAnalysisFailed] = useState(false);
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
-  const [showLoaderAfterAddon, setShowLoaderAfterAddon] = useState(false);
 
   const fetchQuestionsData = async () => {
     setLoading(true);
@@ -185,12 +184,6 @@ const Questions = () => {
         console.log('Completed stress_level, showing LoaderWithText');
         setShowLoaderAfterStress(true);
       }
-      
-      // Check if allQuestionsFilled and we're coming from addon questions
-      if (allQuestionsFilled && !showLoaderAfterAddon) {
-        console.log('All questions filled from addon, showing LoaderWithText before result');
-        setShowLoaderAfterAddon(true);
-      }
     }
     
     // Also check if we're currently on stress_level and hautAiResponse became false
@@ -203,7 +196,7 @@ const Questions = () => {
     if (currentQuestion && currentQuestion.id) {
       window.localStorage.setItem('prev_question', currentQuestion.id);
     }
-  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, showLoaderAfterAddon, allQuestionsFilled]);
+  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled]);
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
@@ -222,14 +215,15 @@ const Questions = () => {
     }
   };
 
-  // Handle loader after addon questions - directly navigate to results
+  // Handle when all questions are filled (including addon questions)
   useEffect(() => {
-    if (showLoaderAfterAddon) {
-      console.log('All addon questions filled, navigating to result');
-      router.push(`/result?tid=${tid}`);
-      setShowLoaderAfterAddon(false);
+    if (allQuestionsFilled && hautAiResponse === false && !showPhotoAnalysisFailed && !showLoaderAfterStress) {
+      console.log('All addon questions completed, should show FormSubmission');
+      // Reset any lingering state that might prevent FormSubmission from showing
+      setShowPhotoAnalysisFailed(false);
+      setShowLoaderAfterStress(false);
     }
-  }, [showLoaderAfterAddon, router, tid]);
+  }, [allQuestionsFilled, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress]);
 
 
   // If loading, show loader
@@ -252,6 +246,8 @@ const Questions = () => {
       </div>
     );
   }
+
+  console.log('allQuestionsFilled', allQuestionsFilled)
 
   return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
     <>
@@ -313,7 +309,7 @@ const Questions = () => {
           </Suspense>
         </>
       ) : (
-        <FormSubmission setShowPhotoAnalysisFailed={setShowPhotoAnalysisFailed}/>
+        <FormSubmission />
       )}
     </div>
   );

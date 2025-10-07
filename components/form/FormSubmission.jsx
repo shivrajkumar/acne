@@ -11,12 +11,11 @@ import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
-const FormSubmission = ({setShowPhotoAnalysisFailed}) => {
+const FormSubmission = () => {
   const tid = window.localStorage.getItem("user_tid");
   const router = useRouter();
   const {
-    apiResponse: { syntheticId, caseId },
-    setAllQuestionsFilled, hautAiResponse
+    apiResponse: { syntheticId, caseId }
   } = useContext(QuestionsContext);
 
   useEffect(() => {
@@ -73,12 +72,8 @@ const FormSubmission = ({setShowPhotoAnalysisFailed}) => {
   }, [tid, router]);
 
   useEffect(() => {
-    if(hautAiResponse == true){
-      setAllQuestionsFilled(true);
-    } else{ 
-      setAllQuestionsFilled(false)
-      setShowPhotoAnalysisFailed(true)
-    }
+    // FormSubmission should only be reached when allQuestionsFilled is true
+    // So we don't need to handle hautAiResponse logic here anymore
     window.localStorage.setItem("form_status", "filled");
     const phone = window.localStorage.getItem("user_phone");
     logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender, event_id: generateEventId({ eventName: 'Form_End', phone: phone }) })
