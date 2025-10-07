@@ -48,6 +48,7 @@ const SingleSelect = ({ block, context }) => {
   const _submitReply = async (reply) => {
     setIsLoading(true);
     let _res = "";
+    let currentHautAiResponse = hautAiResponse;
 
     try {
       // 🔹 Call HAUT_AI_IMAGE_CAPTURE_CHECK only for stress_level
@@ -56,9 +57,8 @@ const SingleSelect = ({ block, context }) => {
           const completionRes = await fetchRequest(
             HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
           );
-          setHautAiResponse(
-            completionRes.data.isSkinAnalysisResponseCapturedProperly
-          );
+          currentHautAiResponse = completionRes.data.isSkinAnalysisResponseCapturedProperly;
+          setHautAiResponse(false);
         } catch (err) {
           console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
         }
@@ -69,8 +69,7 @@ const SingleSelect = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: [reply],
-        status:
-          block.id === "stress_level"
+        status: block.id === "stress_level" && currentHautAiResponse === true
             ? formFillStatus.FILLED
             : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,

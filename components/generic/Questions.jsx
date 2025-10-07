@@ -193,6 +193,12 @@ const Questions = () => {
       }
     }
     
+    // Also check if we're currently on stress_level and hautAiResponse became false
+    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
+      console.log('On stress_level with hautAiResponse=false, showing LoaderWithText');
+      setShowLoaderAfterStress(true);
+    }
+    
     // Store current question for tracking
     if (currentQuestion && currentQuestion.id) {
       window.localStorage.setItem('prev_question', currentQuestion.id);
@@ -201,6 +207,7 @@ const Questions = () => {
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
+    console.log('handleHautAiResponse called with:', hautAiResponseValue);
     if (hautAiResponseValue === true) {
       // Navigate to result page
       console.log('hautAiResponse is true, navigating to result');
@@ -210,20 +217,19 @@ const Questions = () => {
       console.log('hautAiResponse is false, showing PhotoAnalysisFailed');
       setShowLoaderAfterStress(false);
       setShowPhotoAnalysisFailed(true);
+    } else {
+      console.log('Unexpected hautAiResponseValue:', hautAiResponseValue);
     }
   };
 
-  // Handle loader after addon questions
+  // Handle loader after addon questions - directly navigate to results
   useEffect(() => {
     if (showLoaderAfterAddon) {
-      const timer = setTimeout(() => {
-        console.log('Navigating to result after addon questions');
-        router.push(`/result?tid=${tid}`);
-      }, 1000);
-
-      return () => clearTimeout(timer);
+      console.log('All addon questions filled, navigating to result');
+      router.push(`/result?tid=${tid}`);
+      setShowLoaderAfterAddon(false);
     }
-  }, [showLoaderAfterAddon]);
+  }, [showLoaderAfterAddon, router, tid]);
 
 
   // If loading, show loader
@@ -287,14 +293,13 @@ const Questions = () => {
                 />
               ) : showLoaderAfterStress ? (
                 <LoaderWithText onHautAiResponse={handleHautAiResponse} />
-              ) : showLoaderAfterAddon ? (
-                <LoaderWithText />
               ) : showPhotoAnalysisFailed ? (
                 <PhotoAnalysisFailed 
                   onContinue={() => {
                     console.log('Continuing after PhotoAnalysisFailed');
                     setShowPhotoAnalysisFailed(false);
-                    // Continue with normal question flow
+                    // Re-fetch questions data with hautAiResponse=false to get addon questions
+                    fetchQuestionsData();
                   }}
                 />
               ) : (
@@ -308,7 +313,7 @@ const Questions = () => {
           </Suspense>
         </>
       ) : (
-        <FormSubmission />
+        <FormSubmission setShowPhotoAnalysisFailed={setShowPhotoAnalysisFailed}/>
       )}
     </div>
   );

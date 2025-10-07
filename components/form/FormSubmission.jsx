@@ -11,12 +11,12 @@ import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 
-const FormSubmission = () => {
+const FormSubmission = ({setShowPhotoAnalysisFailed}) => {
   const tid = window.localStorage.getItem("user_tid");
   const router = useRouter();
   const {
     apiResponse: { syntheticId, caseId },
-    setAllQuestionsFilled,
+    setAllQuestionsFilled, hautAiResponse
   } = useContext(QuestionsContext);
 
   useEffect(() => {
@@ -73,7 +73,12 @@ const FormSubmission = () => {
   }, [tid, router]);
 
   useEffect(() => {
-    setAllQuestionsFilled(true);
+    if(hautAiResponse == true){
+      setAllQuestionsFilled(true);
+    } else{ 
+      setAllQuestionsFilled(false)
+      setShowPhotoAnalysisFailed(true)
+    }
     window.localStorage.setItem("form_status", "filled");
     const phone = window.localStorage.getItem("user_phone");
     logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender, event_id: generateEventId({ eventName: 'Form_End', phone: phone }) })
