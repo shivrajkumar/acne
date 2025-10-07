@@ -50,7 +50,6 @@ const Questions = () => {
   const [photoQCompleted, setPhotoQCompleted] = useState(false);
   const [showPhotoAnalysisFailed, setShowPhotoAnalysisFailed] = useState(false);
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
-  const [showLoaderAfterAddon, setShowLoaderAfterAddon] = useState(false);
 
   const fetchQuestionsData = async () => {
     setLoading(true);
@@ -185,22 +184,23 @@ const Questions = () => {
         console.log('Completed stress_level, showing LoaderWithText');
         setShowLoaderAfterStress(true);
       }
-      
-      // Check if allQuestionsFilled and we're coming from addon questions
-      if (allQuestionsFilled && !showLoaderAfterAddon) {
-        console.log('All questions filled from addon, showing LoaderWithText before result');
-        setShowLoaderAfterAddon(true);
-      }
+    }
+    
+    // Also check if we're currently on stress_level and hautAiResponse became false
+    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
+      console.log('On stress_level with hautAiResponse=false, showing LoaderWithText');
+      setShowLoaderAfterStress(true);
     }
     
     // Store current question for tracking
     if (currentQuestion && currentQuestion.id) {
       window.localStorage.setItem('prev_question', currentQuestion.id);
     }
-  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, showLoaderAfterAddon, allQuestionsFilled]);
+  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled]);
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
+    console.log('handleHautAiResponse called with:', hautAiResponseValue);
     if (hautAiResponseValue === true) {
       // Navigate to result page
       console.log('hautAiResponse is true, navigating to result');
@@ -210,20 +210,20 @@ const Questions = () => {
       console.log('hautAiResponse is false, showing PhotoAnalysisFailed');
       setShowLoaderAfterStress(false);
       setShowPhotoAnalysisFailed(true);
+    } else {
+      console.log('Unexpected hautAiResponseValue:', hautAiResponseValue);
     }
   };
 
-  // Handle loader after addon questions
+  // Handle when all questions are filled (including addon questions)
   useEffect(() => {
-    if (showLoaderAfterAddon) {
-      const timer = setTimeout(() => {
-        console.log('Navigating to result after addon questions');
-        router.push(`/result?tid=${tid}`);
-      }, 1000);
-
-      return () => clearTimeout(timer);
+    if (allQuestionsFilled && hautAiResponse === false && !showPhotoAnalysisFailed && !showLoaderAfterStress) {
+      console.log('All addon questions completed, should show FormSubmission');
+      // Reset any lingering state that might prevent FormSubmission from showing
+      setShowPhotoAnalysisFailed(false);
+      setShowLoaderAfterStress(false);
     }
-  }, [showLoaderAfterAddon]);
+  }, [allQuestionsFilled, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress]);
 
 
   // If loading, show loader
@@ -246,6 +246,8 @@ const Questions = () => {
       </div>
     );
   }
+
+  console.log('allQuestionsFilled', allQuestionsFilled)
 
   return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
     <>
@@ -287,14 +289,13 @@ const Questions = () => {
                 />
               ) : showLoaderAfterStress ? (
                 <LoaderWithText onHautAiResponse={handleHautAiResponse} />
-              ) : showLoaderAfterAddon ? (
-                <LoaderWithText />
               ) : showPhotoAnalysisFailed ? (
                 <PhotoAnalysisFailed 
                   onContinue={() => {
                     console.log('Continuing after PhotoAnalysisFailed');
                     setShowPhotoAnalysisFailed(false);
-                    // Continue with normal question flow
+                    // Re-fetch questions data with hautAiResponse=false to get addon questions
+                    fetchQuestionsData();
                   }}
                 />
               ) : (

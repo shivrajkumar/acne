@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from "react";
-import { fetchRequest } from "@/helpers/fetchRequest";
-import { HAUT_AI_IMAGE_CAPTURE_CHECK } from "@/constants/urls";
 import { QuestionsContext } from "@/context/questions-store";
+import { useRouter } from "next/navigation";
 
 const LoaderWithText = ({ image, onHautAiResponse }) => {
+
+  const router = useRouter();
   const [capturedImage, setCapturedImage] = useState(null);
   const [direction, setDirection] = useState("down");
-  const { setHautAiResponse, setAllQuestionsFilled } = useContext(QuestionsContext);
+  const { setAllQuestionsFilled, hautAiResponse } = useContext(QuestionsContext);
 
   useEffect(() => {
     // Use prop if provided, otherwise try localStorage
@@ -28,70 +29,43 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
     return () => clearInterval(interval);
   }, []);
 
+
   useEffect(() => {
-    if (onHautAiResponse) {
-      let hasCalledBack = false;
-
-      const checkHautAiResponse = async () => {
-        try {
-          const transactionId = window.localStorage.getItem("user_tid");
-          if (!transactionId) return;
-
-          console.log('Checking hautAiResponse...');
-          const completionRes = await fetchRequest(
-            HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
-          );
-          
-          const hautAiResponseValue = completionRes.data.isSkinAnalysisResponseCapturedProperly;
-          console.log('HautAiResponse:', hautAiResponseValue);
-          
-          setHautAiResponse(hautAiResponseValue);
-          
-          // If hautAiResponse is true, navigate to result screen
-          if (hautAiResponseValue === true && !hasCalledBack) {
-            hasCalledBack = true;
-            setAllQuestionsFilled(true);
-            window.localStorage.setItem("form_status", "filled");
-            onHautAiResponse(true);
-          }
-          
-          return hautAiResponseValue;
-          
-        } catch (err) {
-          console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
-          setHautAiResponse(false);
-          return false;
-        }
-      };
-
-      // First check after 1 second
-      const initialCheck = setTimeout(async () => {
-        const firstResult = await checkHautAiResponse();
-        
-        if (firstResult !== true) {
-          // If first check is false, wait 15 seconds and check again
-          console.log('First check false, will retry in 15 seconds...');
-          
-          const retryTimeout = setTimeout(async () => {
-            const secondResult = await checkHautAiResponse();
-            
-            if (secondResult !== true && !hasCalledBack) {
-              // After second check, if still false, show PhotoAnalysisFailed
-              console.log('Second check also false, showing PhotoAnalysisFailed');
-              hasCalledBack = true;
-              onHautAiResponse(false);
-            }
-          }, 15000);
-
-          return () => clearTimeout(retryTimeout);
-        }
-      }, 1000);
-
-      return () => {
-        clearTimeout(initialCheck);
-      };
+    console.log('LoaderWithText hautAiResponse:', hautAiResponse, 'onHautAiResponse:', !!onHautAiResponse);
+    
+    if(hautAiResponse === true){
+      router.push('/result?tid=' + window.localStorage.getItem("user_tid"));
+      return;
     }
-  }, [onHautAiResponse, setHautAiResponse, setAllQuestionsFilled]);
+    
+    if (!onHautAiResponse) {
+      return;
+    }
+    
+    let timer;
+    
+    if (hautAiResponse === false) {
+      setAllQuestionsFilled(false);
+      console.log('Setting timeout to call onHautAiResponse(false) in 2 seconds');
+      timer = setTimeout(() => {
+        console.log('Calling onHautAiResponse(false)');
+        onHautAiResponse(false);
+      }, 2000);
+    } else if (hautAiResponse === undefined) {
+      console.log('hautAiResponse is undefined, will assume failure after 3 seconds');
+      timer = setTimeout(() => {
+        console.log('Timeout reached, calling onHautAiResponse(false)');
+        onHautAiResponse(false);
+      }, 3000);
+    }
+    
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [hautAiResponse])
+  
 
   return (
     <div

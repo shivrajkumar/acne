@@ -15,8 +15,7 @@ const FormSubmission = () => {
   const tid = window.localStorage.getItem("user_tid");
   const router = useRouter();
   const {
-    apiResponse: { syntheticId, caseId },
-    setAllQuestionsFilled,
+    apiResponse: { syntheticId, caseId }
   } = useContext(QuestionsContext);
 
   useEffect(() => {
@@ -73,7 +72,8 @@ const FormSubmission = () => {
   }, [tid, router]);
 
   useEffect(() => {
-    setAllQuestionsFilled(true);
+    // FormSubmission should only be reached when allQuestionsFilled is true
+    // So we don't need to handle hautAiResponse logic here anymore
     window.localStorage.setItem("form_status", "filled");
     const phone = window.localStorage.getItem("user_phone");
     logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender, event_id: generateEventId({ eventName: 'Form_End', phone: phone }) })
