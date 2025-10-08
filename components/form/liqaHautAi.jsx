@@ -160,23 +160,26 @@ export default function ImageUploadWithHaut({ block }) {
 
       // Take first capture (you can handle multiple if needed)
       const blob = await captures[0].blob();
+      console.log("Captured image blob:", blob);
 
       // Convert blob to base64 and store in localStorage
       const reader = new FileReader();
+      console.log("reader result", reader);
       reader.onloadend = () => {
         localStorage.setItem("capturedImage", reader.result);
       };
       reader.readAsDataURL(blob);
 
       // Construct File object
-      const fileName = blob.name || "upload.png";
-      const fileType = blob.type || "image/png";
+      const fileName = blob.name || "upload.jpeg";
+      const fileType = blob.type || "image/jpeg";
 
       const fileObject = new File([blob], fileName, {
         type: fileType,
         lastModified: Date.now(),
       });
 
+      console.log("Constructed file object:", fileObject);
       const formData = new FormData();
       formData.append("file", fileObject, fileName);
 
