@@ -131,6 +131,20 @@ const VayuQuestionsContextProvider = ({ children }) => {
     dispatch({ type: ACTIONS.SET_HAUT_AI_RESPONSE, payload: bool });
   }
 
+  const restoreState = () => {
+    try {
+      const savedState = localStorage.getItem("state" + window.location.pathname);
+      if (savedState) {
+        const restoredState = JSON.parse(savedState);
+        dispatch({ type: ACTIONS.RESTORE_STATE, payload: { restoredState } });
+        return true;
+      }
+    } catch (error) {
+      console.error('Error restoring state:', error);
+    }
+    return false;
+  }
+
   return (
     <QuestionsContext.Provider
       value={{
@@ -164,7 +178,8 @@ const VayuQuestionsContextProvider = ({ children }) => {
         changeLanguage,
         setIsMale,
         resetState,
-        setHautAiResponse
+        setHautAiResponse,
+        restoreState
       }}
     >
       {children}

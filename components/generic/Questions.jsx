@@ -2,7 +2,7 @@
 
 import { Suspense, lazy, useContext, useEffect, useState } from "react";
 // import isEmpty from "lodash/isEmpty";
-// import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 // import {pixelCustomeEvent} from '../../../generic/Pixel'
 import components from "./components";
 import Loader from "./Loader";
@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 const OnloadFormPage = lazy(() => import("@/components/form/OnloadFormPage"));
 
 const Questions = () => {
+  const searchParams = useSearchParams();
   const {
     currentQuestion,
     firstQuestion,
@@ -34,9 +35,10 @@ const Questions = () => {
     removeFromPreviousQuestion,
     allQuestionsFilled,
     hautAiResponse,
-    nextQuestion
+    nextQuestion,
+    restoreState,
+    previousQuestions
   } = useContext(QuestionsContext);
-  console.log('loggin haut response -----',{hautAiResponse})
   
   const router = useRouter();
   const tid = window.localStorage.getItem("user_tid");
@@ -47,16 +49,16 @@ const Questions = () => {
   const [tabClosed, setTabClosed] = useState("");
   const [isReload, setIsReload] = useState(false);
   const [userBasicInfoCompleted, setUserBasicInfoCompleted] = useState(false);
+  const [skipUserBasicInfo, setSkipUserBasicInfo] = useState(false);
   const [photoQCompleted, setPhotoQCompleted] = useState(false);
   const [showPhotoAnalysisFailed, setShowPhotoAnalysisFailed] = useState(false);
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
+  const [wasRestored, setWasRestored] = useState(false);
 
   const fetchQuestionsData = async () => {
     setLoading(true);
     try {
-      console.log('fetchQuestionsData called with hautAiResponse:', hautAiResponse);
       const configValue = hautAiResponse ?? true;
-      console.log('Passing to GET_SKIN_TEST_CONFIG:', configValue);
       const response = await fetchRequest(GET_SKIN_TEST_CONFIG(configValue));
       if (response.hasError) {
         throw new Error('Failed to fetch questions data');
@@ -78,6 +80,56 @@ const Questions = () => {
     } 
   };
 
+  // Separate effect for handling restoration based on URL changes
+  useEffect(() => {
+    // Check if we should restore state (when coming from "Continue where I left")
+    // Check both localStorage and URL parameter
+    const shouldRestoreFromStorage = localStorage.getItem("should_restore_state");
+    const shouldRestoreFromURL = searchParams?.get('restore') === 'true';
+    const shouldRestore = shouldRestoreFromStorage || shouldRestoreFromURL ? "true" : null;
+    
+    
+    // If we're restoring, clear tabClosed to show the questions
+    if (shouldRestore === "true") {
+      setTabClosed("");
+      setFormStatus("");
+      
+      // If we haven't restored yet, do it now
+      if (!wasRestored) {
+        const savedStateStr = localStorage.getItem("state" + window.location.pathname);
+        
+        if (savedStateStr) {
+          try {
+            // Restore the state
+            const restored = restoreState();
+            localStorage.removeItem("should_restore_state");
+            
+            if (restored) {
+              setWasRestored(true);
+              setLoading(false); // Stop showing loader
+              
+              // Clean up URL parameter if present
+              if (shouldRestoreFromURL && typeof window !== 'undefined') {
+                const url = new URL(window.location.href);
+                url.searchParams.delete('restore');
+                window.history.replaceState({}, '', url.pathname);
+              }
+            } else {
+              setLoading(false);
+            }
+          } catch (e) {
+            console.error('Error during restoration:', e);
+            localStorage.removeItem("should_restore_state");
+            setLoading(false);
+          }
+        } else {
+          localStorage.removeItem("should_restore_state");
+          setLoading(false);
+        }
+      }
+    }
+  }, [searchParams, wasRestored]); // Remove loading from dependencies to avoid issues
+
   useEffect(() => {
     const handleBeforeUnload = () => {
       clearGtmFlags([
@@ -87,14 +139,42 @@ const Questions = () => {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     
-    if (hautAiResponse === undefined || hautAiResponse === false) {
+    // Check if we should skip initialization for restoration
+    const shouldRestoreFromStorage = localStorage.getItem("should_restore_state");
+    const shouldRestoreFromURL = searchParams?.get('restore') === 'true';
+    const shouldRestore = shouldRestoreFromStorage || shouldRestoreFromURL;
+    
+    // Skip initialization if we're going to restore or have already restored
+    if (shouldRestore || wasRestored) {
+      return;
+    }
+    
+    // Normal initialization flow
+    if (!currentQuestion?.id && (hautAiResponse === undefined || hautAiResponse === false)) {
       fetchQuestionsData();
+    } else if (currentQuestion?.id) {
+      setLoading(false);
     }
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [hautAiResponse]);
+  }, [wasRestored, hautAiResponse, searchParams]);
+
+  // Handle restoration and check if we need to skip completed questions
+  useEffect(() => {
+    if (wasRestored && currentQuestion && currentQuestion.id && !skipUserBasicInfo) {
+      // If currentQuestion is user_basic_info but we have previous questions,
+      // it means user had progressed beyond it
+      if (currentQuestion.id === 'user_basic_info' && previousQuestions && previousQuestions.length > 0) {
+        setSkipUserBasicInfo(true); // Prevent re-running
+        // Automatically complete and move to next
+        setTimeout(() => {
+          nextQuestion('user_basic_info', 'completed');
+        }, 100); // Small delay to ensure state is settled
+      }
+    }
+  }, [wasRestored, currentQuestion?.id, skipUserBasicInfo]);
 
   const pageExitevent = () => {
     const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
@@ -175,20 +255,17 @@ const Questions = () => {
       // We've moved past photo_q to a different question
       const prevQuestion = window.localStorage.getItem('prev_question');
       if (prevQuestion === "photo_q" && !photoQCompleted) {
-        console.log('Photo capture completed, showing HautAiReqPermissions');
         setPhotoQCompleted(true);
       }
       
       // Check if we just completed stress_level - show loader first
       if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
-        console.log('Completed stress_level, showing LoaderWithText');
         setShowLoaderAfterStress(true);
       }
     }
     
     // Also check if we're currently on stress_level and hautAiResponse became false
     if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
-      console.log('On stress_level with hautAiResponse=false, showing LoaderWithText');
       setShowLoaderAfterStress(true);
     }
     
@@ -200,25 +277,19 @@ const Questions = () => {
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
-    console.log('handleHautAiResponse called with:', hautAiResponseValue);
     if (hautAiResponseValue === true) {
       // Navigate to result page
-      console.log('hautAiResponse is true, navigating to result');
       router.push(`/result?tid=${tid}`);
     } else if (hautAiResponseValue === false) {
       // Show PhotoAnalysisFailed screen
-      console.log('hautAiResponse is false, showing PhotoAnalysisFailed');
       setShowLoaderAfterStress(false);
       setShowPhotoAnalysisFailed(true);
-    } else {
-      console.log('Unexpected hautAiResponseValue:', hautAiResponseValue);
     }
   };
 
   // Handle when all questions are filled (including addon questions)
   useEffect(() => {
     if (allQuestionsFilled && hautAiResponse === false && !showPhotoAnalysisFailed && !showLoaderAfterStress) {
-      console.log('All addon questions completed, should show FormSubmission');
       // Reset any lingering state that might prevent FormSubmission from showing
       setShowPhotoAnalysisFailed(false);
       setShowLoaderAfterStress(false);
@@ -247,7 +318,6 @@ const Questions = () => {
     );
   }
 
-  console.log('allQuestionsFilled', allQuestionsFilled)
 
   return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
     <>
@@ -268,7 +338,7 @@ const Questions = () => {
         <>
           <Suspense fallback={<Loader />}>
             <div className="flex flex-col items-center justify-start font-sophiaPro  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] bg-Secondary/50 min-h-screen">
-              {currentQuestion && currentQuestion.id === "user_basic_info" && !userBasicInfoCompleted ? (
+              {currentQuestion && currentQuestion.id === "user_basic_info" && !userBasicInfoCompleted && !skipUserBasicInfo ? (
                 <UserBasicInfoForm onComplete={() => setUserBasicInfoCompleted(true)} />
               ) : currentQuestion && currentQuestion.id === "user_basic_info" && userBasicInfoCompleted ? (
                 <HautAiReqPermissions 
@@ -282,9 +352,7 @@ const Questions = () => {
                 <HautAiReqPermissions 
                   step="2/2"
                   onContinue={() => {
-                    console.log('Continuing after photo_q HautAiReqPermissions');
                     setPhotoQCompleted(false);
-                    // Continue with normal question flow
                   }} 
                 />
               ) : showLoaderAfterStress ? (
@@ -292,7 +360,6 @@ const Questions = () => {
               ) : showPhotoAnalysisFailed ? (
                 <PhotoAnalysisFailed 
                   onContinue={() => {
-                    console.log('Continuing after PhotoAnalysisFailed');
                     setShowPhotoAnalysisFailed(false);
                     // Re-fetch questions data with hautAiResponse=false to get addon questions
                     fetchQuestionsData();
