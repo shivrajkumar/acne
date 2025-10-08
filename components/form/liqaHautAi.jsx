@@ -150,6 +150,73 @@ export default function ImageUploadWithHaut({ block }) {
     }
   };
 
+  // Helper function to compress image
+  async function compressImage(blob, maxSizeMB = 2) {
+    const maxSizeBytes = maxSizeMB * 1024 * 1024; // Convert MB to bytes
+    
+    console.log('Original blob size:', (blob.size / 1024 / 1024).toFixed(2), 'MB');
+    
+    // If already under size limit, return original
+    if (blob.size <= maxSizeBytes) {
+      console.log('Image already under size limit, no compression needed');
+      return blob;
+    }
+    
+    return new Promise((resolve) => {
+      const img = new Image();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      img.onload = () => {
+        let quality = 0.9;
+        let width = img.width;
+        let height = img.height;
+        
+        // Calculate initial scale if image is very large
+        const MAX_WIDTH = 1920;
+        const MAX_HEIGHT = 1920;
+        
+        if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+          const scale = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Function to convert canvas to blob with specific quality
+        const tryCompress = (q) => {
+          canvas.toBlob(
+            (compressedBlob) => {
+              console.log(`Compressed at quality ${q}: ${(compressedBlob.size / 1024 / 1024).toFixed(2)} MB`);
+              
+              if (compressedBlob.size > maxSizeBytes && q > 0.1) {
+                // Still too large, reduce quality
+                tryCompress(q - 0.1);
+              } else {
+                console.log('Final compressed size:', (compressedBlob.size / 1024 / 1024).toFixed(2), 'MB');
+                resolve(compressedBlob);
+              }
+            },
+            'image/jpeg',
+            q
+          );
+        };
+        
+        tryCompress(quality);
+      };
+      
+      // Convert blob to data URL and load into image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
   async function handleImageCaptures(event) {
     try {
       const captures = event.detail;
@@ -159,13 +226,20 @@ export default function ImageUploadWithHaut({ block }) {
       }
 
       // Take first capture (you can handle multiple if needed)
-      const blob = await captures[0].blob();
-      console.log("Captured image blob:", blob);
+      let blob = await captures[0].blob();
+      console.log("Original captured image blob:", blob);
+      console.log("Original size:", (blob.size / 1024 / 1024).toFixed(2), "MB");
+      console.log("Original type:", blob.type);
+      
+      // Compress image if needed (max 2MB)
+      blob = await compressImage(blob, 2);
+      console.log("Final blob for upload:", blob);
+      console.log("Final size:", (blob.size / 1024 / 1024).toFixed(2), "MB");
 
       // Convert blob to base64 and store in localStorage
       const reader = new FileReader();
-      console.log("reader result", reader);
       reader.onloadend = () => {
+        console.log("Image converted to base64, length:", reader.result.length);
         localStorage.setItem("capturedImage", reader.result);
       };
       reader.readAsDataURL(blob);
@@ -180,14 +254,25 @@ export default function ImageUploadWithHaut({ block }) {
       });
 
       console.log("Constructed file object:", fileObject);
+      console.log("File size:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
+      
+      // Final check to ensure file is under 2MB
+      if (fileObject.size > 2 * 1024 * 1024) {
+        console.error("File still too large after compression:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
+        setErr("Image is too large. Please try again with a smaller image.");
+        return;
+      }
+      
       const formData = new FormData();
       formData.append("file", fileObject, fileName);
 
       // Upload image
+      console.log("Uploading image, size:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
       const uploadRes = await fetchRequest(IMAGE_UPLOAD_API(caseId), {
         method: "POST",
         body: formData,
       });
+      console.log("Upload response:", uploadRes);
 
       if (uploadRes?.success || uploadRes?.status === 200) {
         // Build form data payload
