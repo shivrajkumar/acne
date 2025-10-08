@@ -12,6 +12,7 @@ import oily from "@assets/images/Oily_skintype.png";
 import infoCircle from "@assets/icons/info-circle.png";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { formFillStatus } from "@/enums/QuestionEnums";
+import { MdInfo } from "react-icons/md";
 
 const getIconImage = (iconType) => {
   switch (iconType) {
@@ -32,7 +33,7 @@ const IconInput = ({ block, context }) => {
   const {
     apiResponse: { transactionId },
     isHindi,
-    setAllQuestionsFilled
+    setAllQuestionsFilled,
   } = useContext(context);
 
   const handleSubmit = useFormSubmit(context);
@@ -61,10 +62,10 @@ const IconInput = ({ block, context }) => {
         response: [reply],
         status:
           block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.DRAFT,
+            ? formFillStatus.SEMI_FILLED
+            : block.id == "photo_q"
+            ? formFillStatus.FILLED
+            : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -74,7 +75,6 @@ const IconInput = ({ block, context }) => {
         method: "POST",
         body: JSON.stringify(_formData, block),
       };
-
 
       _res = await fetchRequest(TRANSACTION_API(transactionId), _options);
     } catch (error) {
@@ -96,7 +96,6 @@ const IconInput = ({ block, context }) => {
       }
     }
   };
-
 
   const handleOptionClick = (selectedValue) => {
     setReply(selectedValue);
@@ -175,9 +174,10 @@ const IconInput = ({ block, context }) => {
                 className={`
                   cursor-pointer rounded-[16px] w-[302px] h-auto md:h-[96px] md:w-[302px] xs:w-[156px] transition-all duration-200 py-[16px] md:py-[14px] px-[24px] md:px-[24px] xs:px-[16px]  hover:border-Primary/500
                   border-[1px] 
-                  ${reply === option.value
-                    ? "border-Primary/500 bg-Primary/50"
-                    : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
+                  ${
+                    reply === option.value
+                      ? "border-Primary/500 bg-Primary/50"
+                      : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}
                 onClick={() => handleOptionClick(option.value)}
@@ -210,7 +210,7 @@ const IconInput = ({ block, context }) => {
                   name={block.id}
                   value={option.value}
                   checked={reply === option.value}
-                  onChange={() => { }}
+                  onChange={() => {}}
                   className="sr-only" // Visually hidden but accessible
                 />
               </div>
@@ -220,14 +220,21 @@ const IconInput = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-10 mb-16 md:hidden">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px] text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black  "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
-              Learn More
+              <MdInfo
+                className="text-white rounded-full"
+                size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
+              />
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
             <Modal
               open={openModal}
@@ -246,15 +253,21 @@ const IconInput = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 flex md:flex xs:hidden">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              {/* Replace with your actual image import */}
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
-              Learn More
+              <MdInfo
+                className="text-white rounded-full"
+                size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
+              />
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
             <Modal
               open={openModal}
@@ -267,8 +280,9 @@ const IconInput = ({ block, context }) => {
           <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 md:mx-0 xs:mx-4">
             <button
               type="submit"
-              className={`py-4 w-full max-w-md font-semibold text-white rounded-full ${reply ? "bg-Neutral/900" : "bg-Neutral/400"
-                } transition-all duration-200 shadow-sm`}
+              className={`py-4 w-full max-w-md font-semibold text-white rounded-full ${
+                reply ? "bg-Neutral/900" : "bg-Neutral/400"
+              } transition-all duration-200 shadow-sm`}
               onClick={handleNextClick}
               disabled={!reply}
             >

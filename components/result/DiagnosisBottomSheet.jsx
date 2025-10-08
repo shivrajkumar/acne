@@ -4,7 +4,7 @@ import { ReactSVG } from "react-svg";
 
 const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
   const [isVisible, setIsVisible] = useState(false);
-
+  console.log('data', data)
   useEffect(() => {
     if (isOpen) {
       // Small delay to trigger animation
@@ -22,25 +22,25 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
   if (!isOpen && !isVisible) return null;
 
   // Calculate severity level
-  const getSeverityLevel = (score) => {
-    if (typeof score === "number") {
-      if (score === 0) return "None";
-      if (score <= 10) return "Mild";
-      if (score <= 30) return "Moderate";
-      if (score <= 60) return "Concerning";
-      return "Severe";
-    }
-    return "Unknown";
-  };
+  // const getSeverityLevel = (score) => {
+  //   if (typeof score === "number") {
+  //     if (score === 0) return "None";
+  //     if (score <= 10) return "Mild";
+  //     if (score <= 30) return "Moderate";
+  //     if (score <= 60) return "Concerning";
+  //     return "Severe";
+  //   }
+  //   return "Unknown";
+  // };
 
-  const getSeverityColor = (score) => {
-    if (score <= 10) return "#22c55e"; // Green
-    if (score <= 30) return "#f59e0b"; // Yellow
-    if (score <= 60) return "#ef4444"; // Red
-    return "#dc2626"; // Dark Red
-  };
+  // const getSeverityColor = (score) => {
+  //   if (score <= 10) return "#22c55e"; // Green
+  //   if (score <= 30) return "#f59e0b"; // Yellow
+  //   if (score <= 60) return "#ef4444"; // Red
+  //   return "#dc2626"; // Dark Red
+  // };
 
-  const severity = data?.tag || getSeverityLevel(data?.score);
+  // const severity = data?.tag || getSeverityLevel(data?.score);
   const progressWidth = Math.min(100, Math.max(0, data?.score || 0));
 
   return (
@@ -113,9 +113,9 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
         <div className="p-4 pb-8">
           {/* Metric Section */}
           <div className="bg-white mb-6">
-            <p className="text-base font-medium text-[#1b1f26] mb-2">
+            {/* <p className="text-base font-medium text-[#1b1f26] mb-2">
               {severity}
-            </p>
+            </p> */}
             
             {/* Score with progress bar */}
             <div className="flex flex-col gap-2">
@@ -132,7 +132,7 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
                   className="h-full rounded-full transition-all duration-500"
                   style={{
                     width: `${progressWidth}%`,
-                    backgroundColor: getSeverityColor(data?.score),
+                    // backgroundColor: getSeverityColor(data?.score),
                   }}
                 />
               </div>

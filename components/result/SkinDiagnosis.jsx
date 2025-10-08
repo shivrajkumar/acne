@@ -220,7 +220,7 @@ const DiagnosisCard = ({ data, onClick }) => {
   );
 };
 
-const SkinDiagnosis = () => {
+const SkinDiagnosis = ({skinType}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -277,8 +277,11 @@ const SkinDiagnosis = () => {
 
   return (
     <>
-      <div className="px-2 md:px-6 text-[24px] md:text-3xl font-semibold">
+      <div className="px-2 md:px-6 text-[24px] md:text-3xl font-normal">
         Skin Diagnosis Result
+      </div>
+      <div className="px-2 md:px-6 text-[16px] md:text-[14px] mt-5">
+        Skin Type: <span className="font-bold">{skinType}</span>
       </div>
       {/* Desktop */}
       <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full px-2 md:px-6">

@@ -519,7 +519,7 @@ const ResultLandingPage = ({}) => {
     );
   }
 
-  console.log("✅ [RENDER] Rendering main content");
+  console.log("response in result page", resultData);
 
   return (
     <CartProvider value={contextValue}>
@@ -545,7 +545,7 @@ const ResultLandingPage = ({}) => {
           {resultData?.skinAnalysisResponse &&
           (!userId ||
             String(userId) === String(resultData?.customerDetails?.caseId)) ? (
-            <SkinDiagnosis />
+            <SkinDiagnosis skinType={resultData?.skinType}/>
           ) : (
             resultData?.skinAnalysisResponse && (
               <div className="flex flex-col items-center justify-center p-8 mx-0 md:mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
@@ -595,7 +595,7 @@ const ResultLandingPage = ({}) => {
           {resultData?.skinAnalysisResponse &&
           (!userId ||
             String(userId) === String(resultData?.customerDetails?.caseId)) ? (
-            <SkinDiagnosis />
+            <SkinDiagnosis skinType={resultData?.skinType}/>
           ) : (
             resultData?.skinAnalysisResponse && (
               <div className="flex flex-col items-center justify-center p-8 mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">

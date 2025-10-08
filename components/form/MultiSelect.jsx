@@ -12,6 +12,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { generateEventId } from "@/helpers/metaCapiHelper";
 import { CiCircleInfo } from "react-icons/ci";
+import { MdInfo } from "react-icons/md";
 
 const MultiSelect = ({ block, context }) => {
   const {
@@ -256,12 +257,15 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              {/* Icon with background */}
-              <CiCircleInfo
-                className="bg-blue-500 text-white rounded-full inline-block"
+              <MdInfo
+                className="text-white rounded-full"
                 size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
               />
-              Get a Hint?
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
           </div>
         )}
@@ -276,12 +280,15 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              {/* Icon with background */}
-              <CiCircleInfo
-                className="bg-blue-500 text-white rounded-full inline-block"
+              <MdInfo
+                className="text-white rounded-full"
                 size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
               />
-              Get a Hint? 
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
           </div>
         )}

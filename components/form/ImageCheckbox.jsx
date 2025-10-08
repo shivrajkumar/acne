@@ -14,6 +14,7 @@ import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
 import { generateEventId } from "@/helpers/metaCapiHelper";
+import { MdInfo } from "react-icons/md";
 
 const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
 const whiteheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
@@ -71,10 +72,10 @@ const ImageCheckbox = ({ block, context }) => {
         response: selectedOptions,
         status:
           block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED :
-            block.id == "photo_q"
-              ? formFillStatus.FILLED
-              : formFillStatus.DRAFT,
+            ? formFillStatus.SEMI_FILLED
+            : block.id == "photo_q"
+            ? formFillStatus.FILLED
+            : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -103,8 +104,15 @@ const ImageCheckbox = ({ block, context }) => {
 
       if (block.id === "pimples_appearance") {
         const phone = window.localStorage.getItem("user_phone");
-        logGtmEvent("pimples_appearance", { question_text: block.text, question_id: block.id, response: selectedOptions, event_id: generateEventId({ eventName: 'pimples_appearance', phone: phone })
-      })
+        logGtmEvent("pimples_appearance", {
+          question_text: block.text,
+          question_id: block.id,
+          response: selectedOptions,
+          event_id: generateEventId({
+            eventName: "pimples_appearance",
+            phone: phone,
+          }),
+        });
       }
 
       if (block.id == "stress_level") {
@@ -193,9 +201,10 @@ const ImageCheckbox = ({ block, context }) => {
                 className={`
                   relative flex flex-col overflow-hidden cursor-pointer transition-all
                   rounded-[1.5rem] border-[1px] 
-                  ${isSelected
-                    ? "ring-1 ring-Primary/500 border-Primary/500"
-                    : "border-gray-200"
+                  ${
+                    isSelected
+                      ? "ring-1 ring-Primary/500 border-Primary/500"
+                      : "border-gray-200"
                   }
                   w-[calc(50%-0.5rem)] sm:w-[190px] md:w-[220px] lg:w-[220px]
                 `}
@@ -209,10 +218,11 @@ const ImageCheckbox = ({ block, context }) => {
 
                   {/* Checkbox */}
                   <div
-                    className={`w-6 h-6 rounded-[12px] flex items-center justify-center ${isSelected
-                      ? "bg-Primary/500"
-                      : "border-[2px] border-Neutral/900"
-                      }`}
+                    className={`w-6 h-6 rounded-[12px] flex items-center justify-center ${
+                      isSelected
+                        ? "bg-Primary/500"
+                        : "border-[2px] border-Neutral/900"
+                    }`}
                   >
                     {isSelected && <Checkmark />}
                   </div>
@@ -249,14 +259,21 @@ const ImageCheckbox = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="flex justify-center mt-10 mb-16 md:hidden">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center  bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
-              Learn More
+              <MdInfo
+                className="text-white rounded-full"
+                size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
+              />
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
           </div>
         )}
@@ -265,14 +282,21 @@ const ImageCheckbox = ({ block, context }) => {
         {block?.whyWeAsk?.show && (
           <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 hidden md:flex">
             <button
-              className="font-sophiaPro font-[500] text-[14px] py-[8px] px-[16px] border-[1px] border-Elements/Divider-Stroke rounded-[1000px]  text-white leading-[24px] -tracking-[2%] flex gap-[4px] items-center bg-Primary/500 cursor-pointer hover:bg-white hover:text-black hover:border-black "
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              <Image src={isHovered ? infoCircleBlack : infoCircle} width={20} height={20} alt="Info" />
-              Learn More
+              <MdInfo
+                className="text-white rounded-full"
+                size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
+              />
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
           </div>
         )}
@@ -289,8 +313,9 @@ const ImageCheckbox = ({ block, context }) => {
         <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 md:mx-0 xs:mx-4">
           <button
             type="submit"
-            className={`py-4 w-full max-w-md font-semibold text-white rounded-full ${selectedOptions?.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
-              } transition-all duration-200 shadow-sm`}
+            className={`py-4 w-full max-w-md font-semibold text-white rounded-full ${
+              selectedOptions?.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
+            } transition-all duration-200 shadow-sm`}
             onClick={_handleSubmit}
             disabled={selectedOptions.length === 0}
           >

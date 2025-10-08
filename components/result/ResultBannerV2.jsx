@@ -48,8 +48,8 @@ const ResultBannerV2 = () => {
           <h1 className="text-[24px] md:text-[40px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
             Hi, {customerName}
           </h1>
-          <h1 className="text-[24px] md:text-[40px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">
-            You have <span className="font-semibold">{acneGrading}</span>
+          <h1 className="text-[24px] md:text-[40px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-full">
+            You have <span className="font-semibold">{acneGrading} acne</span>
           </h1>
         </div>
 
