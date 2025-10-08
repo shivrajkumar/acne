@@ -10,7 +10,7 @@ import { formFillStatus } from "@/enums/QuestionEnums";
 import infoCircleBlack from "@assets/icons/info-circle-black.png";
 import { logGtmEvent } from "../generic/Gtm";
 import { generateEventId } from "@/helpers/metaCapiHelper";
-import { CiCircleInfo } from "react-icons/ci";
+import { MdInfo } from "react-icons/md";
 
 const SingleSelect = ({ block, context }) => {
   const {
@@ -57,7 +57,8 @@ const SingleSelect = ({ block, context }) => {
           const completionRes = await fetchRequest(
             HAUT_AI_IMAGE_CAPTURE_CHECK(transactionId)
           );
-          currentHautAiResponse = completionRes.data.isSkinAnalysisResponseCapturedProperly;
+          currentHautAiResponse =
+            completionRes.data.isSkinAnalysisResponseCapturedProperly;
           setHautAiResponse(currentHautAiResponse);
         } catch (err) {
           console.error("Error calling HAUT_AI_IMAGE_CAPTURE_CHECK:", err);
@@ -69,7 +70,8 @@ const SingleSelect = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: [reply],
-        status: block.id === "stress_level" && currentHautAiResponse === true
+        status:
+          block.id === "stress_level" && currentHautAiResponse === true
             ? formFillStatus.FILLED
             : formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
@@ -214,12 +216,15 @@ const SingleSelect = ({ block, context }) => {
               onMouseLeave={() => setIsHovered(false)}
               type="button"
             >
-              {/* Icon with background */}
-              <CiCircleInfo
-                className="bg-blue-500 text-white rounded-full inline-block"
+              <MdInfo
+                className="text-white rounded-full"
                 size={20}
+                color="#3b52f5"
+                fill="#3b52f5"
               />
-              Get a Hint?
+              <span className="underline underline-offset-4 decoration-[#3b52f5]">
+                Get a Hint?
+              </span>
             </button>
 
             <Modal
