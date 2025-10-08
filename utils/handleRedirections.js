@@ -31,8 +31,10 @@ const handleRedirections = ({ val, queryStrings, router }) => {
 
   if (val === "editAgain") {
     window.localStorage.removeItem("tabclosed");
-    window.location.reload();
-    router.push("/skin-test");
+    window.localStorage.setItem("should_restore_state", "true");
+    
+    // Navigate with a query parameter as backup
+    router.push("/skin-test?restore=true");
   }
 };
 

@@ -232,19 +232,14 @@ const questionsReducer = (state, action) => {
 
       // Set allQuestionsFilled based on hautAiResponse and current question
       let shouldSetAllQuestionsFilled = state.allQuestionsFilled;
-      console.log('NEXT_QUESTION reducer - id:', id, 'hautAiResponse:', state.hautAiResponse, 'current allQuestionsFilled:', state.allQuestionsFilled);
       
       if (state.hautAiResponse === true) {
         // If hautAi analysis succeeded, all questions are filled
-        console.log('Setting allQuestionsFilled to true because hautAiResponse is true');
         shouldSetAllQuestionsFilled = true;
       } else if (state.hautAiResponse === false && id === 'pimples_location') {
         // If hautAi analysis failed and we're at the last addon question
-        console.log('Setting allQuestionsFilled to true because we reached pimples_location with hautAiResponse false');
         shouldSetAllQuestionsFilled = true;
       }
-      
-      console.log('Final shouldSetAllQuestionsFilled:', shouldSetAllQuestionsFilled);
 
       return {
         ...state,
@@ -373,6 +368,24 @@ const questionsReducer = (state, action) => {
         ...state,
         hautAiResponse: action.payload,
       }
+    }
+
+    case ACTIONS.RESTORE_STATE: {
+      const { restoredState } = action.payload;
+      
+      // Directly return the restored state to ensure currentQuestion is preserved
+      return {
+        ...state,
+        ...restoredState,
+        // Explicitly set these critical fields
+        byId: restoredState.byId || state.byId,
+        currentQuestion: restoredState.currentQuestion || state.currentQuestion,
+        previousQuestions: restoredState.previousQuestions || [],
+        questions: restoredState.questions || state.questions,
+        apiResponse: restoredState.apiResponse || {},
+        hautAiResponse: restoredState.hautAiResponse,
+        allQuestionsFilled: restoredState.allQuestionsFilled || false,
+      };
     }
 
     default:
