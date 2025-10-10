@@ -41,7 +41,6 @@ const Questions = () => {
   } = useContext(QuestionsContext);
   
   const router = useRouter();
-  const tid = window.localStorage.getItem("user_tid");
   const mobileScreen = useMediaQuery("(max-width: 600px)");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,6 +81,8 @@ const Questions = () => {
 
   // Separate effect for handling restoration based on URL changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // Check if we should restore state (when coming from "Continue where I left")
     // Check both localStorage and URL parameter
     const shouldRestoreFromStorage = localStorage.getItem("should_restore_state");
@@ -109,7 +110,7 @@ const Questions = () => {
               setLoading(false); // Stop showing loader
               
               // Clean up URL parameter if present
-              if (shouldRestoreFromURL && typeof window !== 'undefined') {
+              if (shouldRestoreFromURL) {
                 const url = new URL(window.location.href);
                 url.searchParams.delete('restore');
                 window.history.replaceState({}, '', url.pathname);
@@ -131,6 +132,8 @@ const Questions = () => {
   }, [searchParams, wasRestored]); // Remove loading from dependencies to avoid issues
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleBeforeUnload = () => {
       clearGtmFlags([
         "basic_information",
@@ -177,12 +180,16 @@ const Questions = () => {
   }, [wasRestored, currentQuestion?.id, skipUserBasicInfo]);
 
   const pageExitevent = () => {
-    const eventAttributes = { timestamp: new Date().toISOString(), syntheticId: window.localStorage.getItem("syntheticId") }
+    if (typeof window === 'undefined') return;
+    
+    const eventAttributes = { 
+      timestamp: new Date().toISOString(), 
+      syntheticId: window.localStorage.getItem("syntheticId") 
+    }
     trackMoEngageEvent(`FormExit_${currentQuestion.id}`, eventAttributes)
   }
 
   useEffect(() => {
-
     if (typeof window !== 'undefined') {
       let isReloadDetected = false;
 
@@ -225,8 +232,6 @@ const Questions = () => {
     }
   }, []);
 
-
-
   const exitURL = () => {
     if (typeof window !== "undefined") {
       window.location.assign("/");
@@ -235,7 +240,6 @@ const Questions = () => {
   };
 
   useEffect(() => {
-
     // Scroll to top when currentQuestion changes
     if (currentQuestion) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -253,14 +257,16 @@ const Questions = () => {
       setPhotoQCompleted(false);
     } else if (currentQuestion && currentQuestion.id !== "photo_q" && currentQuestion.id !== "user_basic_info") {
       // We've moved past photo_q to a different question
-      const prevQuestion = window.localStorage.getItem('prev_question');
-      if (prevQuestion === "photo_q" && !photoQCompleted) {
-        setPhotoQCompleted(true);
-      }
-      
-      // Check if we just completed stress_level - show loader first
-      if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
-        setShowLoaderAfterStress(true);
+      if (typeof window !== 'undefined') {
+        const prevQuestion = window.localStorage.getItem('prev_question');
+        if (prevQuestion === "photo_q" && !photoQCompleted) {
+          setPhotoQCompleted(true);
+        }
+        
+        // Check if we just completed stress_level - show loader first
+        if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
+          setShowLoaderAfterStress(true);
+        }
       }
     }
     
@@ -270,13 +276,17 @@ const Questions = () => {
     }
     
     // Store current question for tracking
-    if (currentQuestion && currentQuestion.id) {
+    if (currentQuestion && currentQuestion.id && typeof window !== 'undefined') {
       window.localStorage.setItem('prev_question', currentQuestion.id);
     }
   }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled]);
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
+    if (typeof window === 'undefined') return;
+    
+    const tid = window.localStorage.getItem("user_tid");
+    
     if (hautAiResponseValue === true) {
       // Navigate to result page
       router.push(`/result?tid=${tid}`);
