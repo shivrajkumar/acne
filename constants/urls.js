@@ -244,3 +244,4 @@ export const UPDATE_FINGERPRINT_API = (transactionId) =>
 
 export const SUBMIT_CONTACT_US_FORM = () => getUrl(`consumer-api/service/consumers/contact-us/submit`);
 
+export const GET_ACTIVE_FORM_ID = (caseId) => getUrl(`consumer-api/service/customer-details/active-form/${caseId}`)
