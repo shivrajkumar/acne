@@ -32,6 +32,7 @@ import SkinDiagnosis from "./SkinDiagnosis";
 import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 import Login from "@/components/login/Login";
 import RootCausesV2 from "./RootCausesV2";
+import DoctorDetailsCard from "./DoctorDetailsCard";
 
 const ResultLandingPage = ({}) => {
   const [resultData, setResultData] = useState({});
@@ -61,49 +62,36 @@ const ResultLandingPage = ({}) => {
       const tidFromUrl = url.searchParams.get("tid");
       const userIdFromUrl = url.searchParams.get("userId");
       
-      console.log("🔍 [INIT] URL params:", { tidFromUrl, userIdFromUrl });
-      
       // Priority 1: Check URL params first
       if (userIdFromUrl) {
-        console.log("✅ [INIT] Setting userId from URL:", userIdFromUrl);
         setUserId(userIdFromUrl);
       } else {
         // Priority 2: Check localStorage only if no URL param
         const userDataFromStorage = localStorage.getItem("user_details");
-        console.log("📦 [INIT] localStorage user_details:", userDataFromStorage);
         
         if (userDataFromStorage) {
           try {
             const parsedUserData = JSON.parse(userDataFromStorage);
-            console.log("✅ [INIT] Parsed user data:", parsedUserData);
-            
             const extractedUserId = parsedUserData.caseId || parsedUserData.id;
-            console.log("🔑 [INIT] Extracted userId from storage:", extractedUserId);
 
             if (extractedUserId) {
               setUserId(extractedUserId);
-              console.log("✅ [INIT] Setting userId from storage:", extractedUserId);
             } 
           } catch (e) {
-            console.error("❌ [INIT] Error parsing userData:", e);
+            console.error("Error parsing userData:", e);
           }
-        } else {
-          console.log("⚠️ [INIT] No userId in URL params or localStorage");
         }
       }
 
       if (tidFromUrl) {
-        console.log("✅ [INIT] Setting tId from URL:", tidFromUrl);
         setTId(tidFromUrl);
       } else {
         const tidFromStorage = window.localStorage.getItem("user_tid");
-        console.log("🔍 [INIT] tId from storage:", tidFromStorage);
         setTId(tidFromStorage);
       }
       
       // Small delay to ensure state updates are processed
       setTimeout(() => {
-        console.log("✅ [INIT] Marking initialization as complete");
         setIsInitialized(true);
       }, 100);
     }
@@ -115,7 +103,6 @@ const ResultLandingPage = ({}) => {
     
     // Listen for popstate events (browser back/forward)
     const handlePopState = () => {
-      console.log("🔄 [POPSTATE] URL changed, re-initializing");
       initializeUserData();
     };
     
@@ -312,8 +299,6 @@ const ResultLandingPage = ({}) => {
 
   // Function to handle post-login flow
   const handlePostLogin = async () => {
-    console.log("🔐 [POST-LOGIN] Starting post-login flow");
-    
     // Show loader while fetching
     setLoading(true);
     
@@ -485,15 +470,6 @@ const ResultLandingPage = ({}) => {
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
   };
 
-  console.log("🎯 [RENDER] Current state:", {
-    userId,
-    caseId: resultData?.customerDetails?.caseId,
-    isInitialized,
-    isLoading,
-    loading,
-    shouldShowDiagnosis: !userId || String(userId) === String(resultData?.customerDetails?.caseId)
-  });
-
   // Show loader while media is loading or when login modal is shown
   if (!isInitialized || isLoading || loading || showLoginModal) {
     return (
@@ -503,7 +479,6 @@ const ResultLandingPage = ({}) => {
           <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center">
             <Login
               closeModal={() => {
-                console.log("Login modal closed/completed");
                 setShowLoginModal(false);
                 handlePostLogin();
               }}
@@ -519,8 +494,6 @@ const ResultLandingPage = ({}) => {
     );
   }
 
-  console.log("response in result page", resultData);
-
   return (
     <CartProvider value={contextValue}>
       <AcneMarqueeBanner />
@@ -533,15 +506,20 @@ const ResultLandingPage = ({}) => {
           className="p-[40px] xs:p-[4px] sm:p-[24px] md:p-[30px]"
         >
           <ResultBannerV2 />
+          <div className="text-[14px] md:text-[16px] mt-5">Here’s your personalized diagnosis and next steps.</div>
           
-          {/* Desktop: RootCausesV2 then SkinDiagnosis */}
-          <div className="hidden md:block">
+          {/* Desktop: RootCausesV2 and DoctorDetailsCard side by side */}
+          <div className="hidden md:grid md:grid-cols-2 md:gap-6 md:mt-6 items-center">
             <RootCausesV2 />
+            <DoctorDetailsCard doctorDetails={resultData?.doctorDetails} />
           </div>
         </div>
         
-        {/* Mobile: SkinDiagnosis then RootCausesV2 */}
+        {/* Mobile: SkinDiagnosis, RootCausesV2, then DoctorDetailsCard */}
         <div className="md:hidden">
+          <div className="mb-6 -mt-5">
+              <DoctorDetailsCard doctorDetails={resultData?.doctorDetails} />
+            </div>
           {resultData?.skinAnalysisResponse &&
           (!userId ||
             String(userId) === String(resultData?.customerDetails?.caseId)) ? (
@@ -586,7 +564,9 @@ const ResultLandingPage = ({}) => {
             )
           )}
           <div className="p-[40px] xs:p-[4px] sm:p-[24px]">
+          <div className="text-[24px] mt-6 mb-2">Your Root Causes</div>
             <RootCausesV2 />
+            
           </div>
         </div>
         

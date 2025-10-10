@@ -6,50 +6,6 @@ import Image from "next/image";
 import { ReactSVG } from "react-svg";
 import DiagnosisBottomSheet from "./DiagnosisBottomSheet";
 
-const Tag = ({ severity, score }) => {
-  const getSeverityLevel = (score) => {
-    if (severity) return severity;
-
-    if (typeof score === "number") {
-      if (score === 0) return "None";
-      if (score <= 10) return "Mild";
-      if (score <= 30) return "Moderate";
-      return "Severe";
-    }
-
-    return "Unknown";
-  };
-
-  const severityLevel = getSeverityLevel(score);
-
-  const getTagColor = (level) => {
-    switch (level.toLowerCase()) {
-      case "none":
-        return "bg-green-100 text-green-800";
-      case "mild":
-        return "bg-yellow-100 text-yellow-800";
-      case "moderate":
-        return "bg-orange-100 text-orange-800";
-      case "severe":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-[#fbf1a6] text-[#0f1b28]";
-    }
-  };
-
-  return (
-    <div
-      className={`${getTagColor(
-        severityLevel
-      )} box-border flex gap-2.5 items-center justify-center px-2 py-1 shrink-0 rounded-md`}
-    >
-      <div className="flex flex-col font-['Sofia_Pro',sans-serif] justify-center leading-[1.4] not-italic shrink-0 text-[12px] whitespace-nowrap font-medium">
-        {severityLevel}
-      </div>
-    </div>
-  );
-};
-
 const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
@@ -95,14 +51,9 @@ const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
 const DiagnosisCard = ({ data, onClick }) => {
   if (!data.image) return null;
 
-  const baseClasses =
-    "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
-
-  const desktopClasses =
-    "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
-
-  const mobileClasses =
-    "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100";
+  const baseClasses = "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
+  const desktopClasses = "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
+  const mobileClasses = "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100";
 
   return (
     <>
@@ -145,13 +96,21 @@ const DiagnosisCard = ({ data, onClick }) => {
               )}
             </div>
 
-            {/* Score Circle */}
+            {/* Score Display */}
             <div className="flex flex-col items-center justify-center flex-shrink-0">
-              <CircularProgress
-                score={data.score || 75}
-                size={55}
-                strokeWidth={3}
-              />
+              {data.name?.toLowerCase() === 'pustules' || data.name?.toLowerCase() === 'papules' ? (
+                <div className="flex items-center justify-center w-[55px] h-[55px] bg-gray-100 rounded-full">
+                  <span className="text-lg font-semibold text-gray-900">
+                    {data.score || 0}
+                  </span>
+                </div>
+              ) : (
+                <CircularProgress
+                  score={data.score}
+                  size={55}
+                  strokeWidth={3}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -160,7 +119,6 @@ const DiagnosisCard = ({ data, onClick }) => {
         <div className="w-full px-6 pb-4">
           <button
             className="bg-blue-600 text-white px-8 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors w-full"
-            // onClick={(e) => handleShowMore(data, e)}
           >
             Show more
           </button>
@@ -198,11 +156,19 @@ const DiagnosisCard = ({ data, onClick }) => {
             </div>
 
             <div className="flex flex-col items-center justify-center flex-shrink-0">
-              <CircularProgress
-                score={data.score || 75}
-                size={54}
-                strokeWidth={4}
-              />
+              {data.name?.toLowerCase() === 'pustules' || data.name?.toLowerCase() === 'papules' ? (
+                <div className="flex items-center justify-center w-[54px] h-[54px] bg-gray-100 rounded-full">
+                  <span className="text-base font-semibold text-gray-900">
+                    {data.score || 0}
+                  </span>
+                </div>
+              ) : (
+                <CircularProgress
+                  score={data.score}
+                  size={54}
+                  strokeWidth={4}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -210,7 +176,6 @@ const DiagnosisCard = ({ data, onClick }) => {
         <div className="w-full px-4 pb-4">
           <button
             className="bg-blue-600 text-white w-full py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
-            // onClick={(e) => handleShowMore(data, e)}
           >
             Show more
           </button>
@@ -268,19 +233,12 @@ const SkinDiagnosis = ({skinType}) => {
     setTimeout(() => setSelectedCard(null), 300);
   };
 
-  const getVisibleCards = () => {
-    return alteredData.map((item, index) => ({
-      data: item,
-      index,
-    }));
-  };
-
   return (
     <>
       <div className="px-2 md:px-6 text-[24px] md:text-3xl font-normal">
         Skin Diagnosis Result
       </div>
-      <div className="px-2 md:px-6 text-[16px] md:text-[14px] mt-5">
+      <div className="px-2 md:px-6 text-[14px] font-light">
         Skin Type: <span className="font-bold">{skinType}</span>
       </div>
       {/* Desktop */}
@@ -296,38 +254,6 @@ const SkinDiagnosis = ({skinType}) => {
             />
           ))}
         </div>
-
-        {/* Thumbnails */}
-        {/* {alteredData.length > 1 && (
-          <div className="flex gap-2 items-start justify-start shrink-0 mt-10">
-            {alteredData.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => handleThumbnailClick(index)}
-                disabled={isAnimating}
-                className={`
-            relative h-[72px] w-20 shrink-0 rounded overflow-hidden
-            cursor-pointer transition-all duration-300 hover:scale-105
-            ${
-              index === currentIndex
-                ? "border-2 border-[#3b52f5] opacity-100 shadow-lg transform scale-110"
-                : `border border-gray-300 opacity-60 hover:opacity-80 ${
-                    isAnimating ? "cursor-not-allowed" : ""
-                  }`
-            }
-          `}
-                aria-label={`View ${item.name} diagnosis`}
-              >
-                <img
-                  className="w-full h-full border-none pointer-events-none rounded object-cover"
-                  src={item.image}
-                  alt={`${item.name} diagnosis thumbnail`}
-                  loading="lazy"
-                />
-              </button>
-            ))}
-          </div>
-        )} */}
       </div>
 
       {/* Mobile */}
@@ -349,63 +275,6 @@ const SkinDiagnosis = ({skinType}) => {
             </div>
           </div>
         </div>
-
-        {/* Horizontal Scrollable Thumbnails */}
-        {/* {alteredData.length > 1 && (
-          <div className="w-full">
-            <div
-              className="flex gap-2 items-start justify-start overflow-x-auto px-4 pb-2 scrollbar-none"
-              style={{
-                scrollBehavior: "smooth",
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-              }}
-            >
-              {alteredData.map((item, index) => (
-                <div
-                  key={item.id}
-                  onClick={() => handleThumbnailClick(index)}
-                  className={`
-              relative mt-10 h-[80px] w-[60px] flex-shrink-0 rounded overflow-hidden
-              cursor-pointer transition-all duration-300 
-              hover:scale-105 active:scale-95
-              ${
-                index === currentIndex
-                  ? "border-2 border-blue-500 opacity-100 shadow-lg scale-110"
-                  : `bg-gray-200 opacity-70 hover:opacity-90 border border-gray-300 ${
-                      isAnimating ? "cursor-not-allowed" : ""
-                    }`
-              }
-            `}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`View item ${index + 1}`}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      if (!isAnimating) {
-                        handleThumbnailClick(index);
-                      }
-                    }
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-full border-none pointer-events-none object-cover"
-                    loading="lazy"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 pointer-events-none rounded-[4px]"
-                  />
-                </div>
-              ))}
-
-              <div className="w-4 flex-shrink-0" />
-            </div>
-          </div>
-        )} */}
       </div>
 
       {/* Bottom Sheet */}

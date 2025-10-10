@@ -264,7 +264,7 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
                 fill="#3b52f5"
               />
               <span className="underline underline-offset-4 decoration-[#3b52f5]">
-                Get a Hint?
+                {block?.whyWeAsk?.heading}
               </span>
             </button>
           </div>
@@ -287,7 +287,7 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
                 fill="#3b52f5"
               />
               <span className="underline underline-offset-4 decoration-[#3b52f5]">
-                Get a Hint?
+                {block?.whyWeAsk?.heading}
               </span>
             </button>
           </div>

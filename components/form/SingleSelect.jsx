@@ -208,7 +208,7 @@ const SingleSelect = ({ block, context }) => {
         )}
 
         {block?.whyWeAsk?.show && (
-          <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex">
+          <div className="flex justify-center mt-2">
             <button
               className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}
@@ -223,7 +223,7 @@ const SingleSelect = ({ block, context }) => {
                 fill="#3b52f5"
               />
               <span className="underline underline-offset-4 decoration-[#3b52f5]">
-                Get a Hint?
+                {block.whyWeAsk ? "Why do we ask?" : "Get a Hint?"}
               </span>
             </button>
 
