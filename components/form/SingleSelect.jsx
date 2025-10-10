@@ -208,7 +208,7 @@ const SingleSelect = ({ block, context }) => {
         )}
 
         {block?.whyWeAsk?.show && (
-          <div className="flex justify-center mt-2">
+          <div className="flex justify-center mt-2 py-4">
             <button
               className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
               onClick={() => setModalOpen(true)}

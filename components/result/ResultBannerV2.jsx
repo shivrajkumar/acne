@@ -28,7 +28,7 @@ const ResultBannerV2 = () => {
   );
 
   return (
-    <div className="w-full overflow-hidden bg-Secondary/50  rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[32px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
+    <div className="w-full overflow-hidden bg-Secondary/50  rounded-[1px] md:rounded-[12px] mt-[16px] sm:mt-[16px] md:mt-[2px] flex flex-col md:flex-row justify-between gap-[40px] md:gap-[120px]">
       <div className="w-full flex flex-col gap-[16px] md:gap-[40px]">
         <div>
           <h1 className="text-[24px] md:text-[40px] font-sophiaPro font-light text-Grey/900 leading-[1.3] md:w-[600px] w-[260px] break-words">

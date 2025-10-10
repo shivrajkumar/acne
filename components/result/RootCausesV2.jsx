@@ -1,18 +1,19 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { startCase } from "lodash";
-import Information from "@assets/icons/information.png";
 import { useCartContext } from "../../context/CartContext";
+
+// SVG imports (make sure these exist in @assets/svg/)
 import StressIcon from "@assets/svg/stress_active.svg";
 import ToxinsIcon from "@assets/svg/toxin_active.svg";
 import LiverIcon from "@assets/svg/liver_active.svg";
 import HormoneIcon from "@assets/svg/hormone_active.svg";
 import GutIcon from "@assets/svg/gut_active.svg";
-import { Divider } from "antd";
-import ResultInfoPopover from "./ResultInfoModal";
 
+// Helper function to get root cause icon
 const rootCausesIcons = (rootcauses) => {
-  let rootcauseName = rootcauses.toLowerCase();
+  const rootcauseName = rootcauses?.toLowerCase();
   switch (rootcauseName) {
     case "stress":
       return StressIcon;
@@ -32,35 +33,27 @@ const rootCausesIcons = (rootcauses) => {
 const RootCausesV2 = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const { rootCausesDetails: rootCauses, acneStageDetails } = useCartContext();
+  const { rootCausesDetails: rootCauses } = useCartContext();
 
-  // Check if it's mobile view
+  // ✅ Detect mobile view
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // Set initial value
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
-
-    // Add event listener
     window.addEventListener("resize", handleResize);
-
-    // Clean up
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (!rootCauses) return null;
+
   return (
-    rootCauses && (
-      <div className="w-full">
-        <RootCauseIconComponent
-          rootCauseInfo={rootCauses}
-          setActiveIndex={setActiveIndex}
-          activeIndex={activeIndex}
-          isMobile={isMobile}
-        />
-      </div>
-    )
+    <div className="w-full">
+      <RootCauseIconComponent
+        rootCauseInfo={rootCauses}
+        setActiveIndex={setActiveIndex}
+        activeIndex={activeIndex}
+        isMobile={isMobile}
+      />
+    </div>
   );
 };
 
@@ -74,11 +67,10 @@ const RootCauseIconComponent = ({
   const isUserScrolling = useRef(false);
   const isProgrammaticScroll = useRef(false);
 
-  // Handle scroll to keep the active item in view (for mobile)
+  // ✅ Auto-scroll active item into view (mobile)
   useEffect(() => {
     if (isMobile && scrollContainerRef.current) {
-      isProgrammaticScroll.current = true; // Flag that this is a programmatic scroll
-
+      isProgrammaticScroll.current = true;
       const scrollContainer = scrollContainerRef.current;
       const activeItem = scrollContainer.children[activeIndex];
 
@@ -88,12 +80,7 @@ const RootCauseIconComponent = ({
         const scrollLeft =
           activeItem.offsetLeft - containerWidth / 2 + itemWidth / 2;
 
-        scrollContainer.scrollTo({
-          left: scrollLeft,
-          behavior: "smooth",
-        });
-
-        // Reset the flag after the scroll animation is likely complete
+        scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
         setTimeout(() => {
           isProgrammaticScroll.current = false;
         }, 500);
@@ -101,9 +88,8 @@ const RootCauseIconComponent = ({
     }
   }, [activeIndex, isMobile]);
 
-  // Handle scroll navigation
+  // ✅ Scroll event handler
   const handleScroll = () => {
-    // Only process scroll events that are initiated by the user, not our programmatic scrolls
     if (
       isMobile &&
       scrollContainerRef.current &&
@@ -113,9 +99,8 @@ const RootCauseIconComponent = ({
       const scrollContainer = scrollContainerRef.current;
       const containerWidth = scrollContainer.offsetWidth;
       const scrollPosition = scrollContainer.scrollLeft;
-      const itemWidth = containerWidth / 3; // Approximate width of each item
+      const itemWidth = containerWidth / 3;
 
-      // Calculate which item should be active based on scroll position
       const newIndex = Math.min(
         Math.floor((scrollPosition + itemWidth / 2) / itemWidth),
         rootCauseInfo.length - 1
@@ -128,8 +113,8 @@ const RootCauseIconComponent = ({
   };
 
   return (
-    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative">
-      {/* Header with icon and text */}
+    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative md:h-[197px]">
+      {/* Header */}
       <div className="flex items-center gap-[4px] mb-[16px]">
         <div className="bg-[#CA3936] rounded-full w-[16px] h-[16px] flex items-center justify-center">
           <span className="text-white text-[10px] font-bold">!</span>
@@ -141,12 +126,12 @@ const RootCauseIconComponent = ({
 
       {/* Desktop View */}
       <div className="hidden md:block">
-        <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px] p-0">
+        <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px]">
           <div className="flex items-center justify-between">
-            {rootCauseInfo?.map((cause, index) => (
+            {rootCauseInfo.map((cause, index) => (
               <div
                 key={cause?.name}
-                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] transition-all flex-1 ${
+                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] flex-1 transition-all ${
                   index === activeIndex
                     ? "bg-[#FEEADB] border border-[#CA3936]"
                     : ""
@@ -159,15 +144,17 @@ const RootCauseIconComponent = ({
                     alt={cause?.name}
                     width={40}
                     height={40}
-                    className={`w-[40px] h-[40px] object-contain"`}
-                    style={{ 
-                      filter: index === activeIndex ? "none" : "opacity(0.6)"
+                    className="w-[40px] h-[40px] object-contain"
+                    style={{
+                      filter: index === activeIndex ? "none" : "opacity(0.6)",
                     }}
                   />
                 </div>
                 <div
                   className={`text-[14px] font-sophiaPro font-[400] ${
-                    index === activeIndex ? "text-[#CA3936]" : "text-[#505354]"
+                    index === activeIndex
+                      ? "text-[#CA3936]"
+                      : "text-[#505354]"
                   }`}
                 >
                   {startCase(cause?.name)}
@@ -176,7 +163,7 @@ const RootCauseIconComponent = ({
             ))}
           </div>
         </div>
-        
+
         {/* Description */}
         <div className="mt-[8px]">
           <p className="font-sophiaPro font-[400] text-[#313233] text-[14px] leading-[1.5]">
@@ -192,17 +179,13 @@ const RootCauseIconComponent = ({
             ref={scrollContainerRef}
             className="flex items-center overflow-x-scroll hide-scrollbar"
             onScroll={handleScroll}
-            onTouchStart={() => {
-              isUserScrolling.current = true;
-            }}
-            onTouchEnd={() => {
-              isUserScrolling.current = false;
-            }}
+            onTouchStart={() => (isUserScrolling.current = true)}
+            onTouchEnd={() => (isUserScrolling.current = false)}
           >
-            {rootCauseInfo?.map((cause, index) => (
+            {rootCauseInfo.map((cause, index) => (
               <div
                 key={cause?.name}
-                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] transition-all flex-shrink-0 ${
+                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] flex-shrink-0 transition-all ${
                   index === activeIndex
                     ? "bg-[#FEEADB] border border-[#CA3936]"
                     : ""
@@ -215,17 +198,16 @@ const RootCauseIconComponent = ({
                     alt={cause?.name}
                     width={40}
                     height={40}
-                    className={`w-[40px] h-[40px] object-contain"`}
-                    style={{ 
-                      filter: index === activeIndex ? "none" : "opacity(0.6)"
+                    className="w-[40px] h-[40px] object-contain"
+                    style={{
+                      filter: index === activeIndex ? "none" : "opacity(0.6)",
                     }}
                   />
                 </div>
-
                 <span
                   className={`text-[14px] font-sophiaPro font-[400] text-center ${
-                    index === activeIndex 
-                      ? "text-[#CA3936]" 
+                    index === activeIndex
+                      ? "text-[#CA3936]"
                       : "text-[#505354]"
                   }`}
                 >

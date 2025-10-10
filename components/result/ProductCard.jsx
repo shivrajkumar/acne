@@ -83,10 +83,6 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
 
     return (
         <>
-            {(isOptional || enableAddToCart) && <p className="font-sophiaPro font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
-                {"SOLVE FOR YOUR ACNE SCARS NOW!"}
-            </p>
-            }
             <div className="hidden md:flex justify-between gap-[24px]">
                 {/* Image + Dosage */}
                 <div>

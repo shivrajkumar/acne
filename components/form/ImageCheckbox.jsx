@@ -257,9 +257,9 @@ const ImageCheckbox = ({ block, context }) => {
 
         {/* Mobile Learn More button */}
         {block?.whyWeAsk?.show && (
-          <div className="flex justify-center mt-10 mb-16 md:hidden">
+          <div className="flex justify-center mt-8 mb-12">
             <button
-              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
+              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer px-4 py-4"
               onClick={() => setModalOpen(true)}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -275,29 +275,12 @@ const ImageCheckbox = ({ block, context }) => {
                 Get a Hint?
               </span>
             </button>
-          </div>
-        )}
 
-        {/* Desktop Learn More button */}
-        {block?.whyWeAsk?.show && (
-          <div className="fixed bottom-0 left-0 pb-8 pt-4 ps-[24px] z-20 hidden md:flex">
-            <button
-              className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer"
-              onClick={() => setModalOpen(true)}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              type="button"
-            >
-              <MdInfo
-                className="text-white rounded-full"
-                size={20}
-                color="#3b52f5"
-                fill="#3b52f5"
-              />
-              <span className="underline underline-offset-4 decoration-[#3b52f5]">
-                Get a Hint?
-              </span>
-            </button>
+            <Modal
+              open={openModal}
+              setOpen={setModalOpen}
+              content={block?.whyWeAsk}
+            />
           </div>
         )}
 
