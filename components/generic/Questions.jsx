@@ -53,6 +53,7 @@ const Questions = () => {
   const [showPhotoAnalysisFailed, setShowPhotoAnalysisFailed] = useState(false);
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
   const [wasRestored, setWasRestored] = useState(false);
+  const [hasShownPhotoAnalysisFlow, setHasShownPhotoAnalysisFlow] = useState(false);
 
   const fetchQuestionsData = async () => {
     setLoading(true);
@@ -307,14 +308,14 @@ const Questions = () => {
         }
         
         // Check if we just completed stress_level - show loader first
-        if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
+        if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow) {
           setShowLoaderAfterStress(true);
         }
       }
     }
     
     // Also check if we're currently on stress_level and hautAiResponse became false
-    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed) {
+    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow) {
       setShowLoaderAfterStress(true);
     }
     
@@ -322,7 +323,7 @@ const Questions = () => {
     if (currentQuestion && currentQuestion.id && typeof window !== 'undefined') {
       window.localStorage.setItem('prev_question', currentQuestion.id);
     }
-  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled]);
+  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled, hasShownPhotoAnalysisFlow]);
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
@@ -337,6 +338,7 @@ const Questions = () => {
       // Show PhotoAnalysisFailed screen
       setShowLoaderAfterStress(false);
       setShowPhotoAnalysisFailed(true);
+      setHasShownPhotoAnalysisFlow(true); // Mark that we've shown the flow
     }
   };
 
@@ -415,6 +417,10 @@ const Questions = () => {
                   onContinue={() => {
                     setShowPhotoAnalysisFailed(false);
                     // Re-fetch questions data with hautAiResponse=false to get addon questions
+                    // Only fetch if we haven't already shown the flow to prevent duplication
+                    if (!hasShownPhotoAnalysisFlow) {
+                      setHasShownPhotoAnalysisFlow(true);
+                    }
                     fetchQuestionsData();
                   }}
                 />
