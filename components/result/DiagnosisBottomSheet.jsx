@@ -1,56 +1,50 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { ReactSVG } from "react-svg";
 
 const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
   const [isVisible, setIsVisible] = useState(false);
-  console.log('data', data)
+  
+  const isDataLoaded = useMemo(() => {
+    return data && Object.keys(data).length > 0;
+  }, [data]);
+
+  const progressWidth = useMemo(() => {
+    return Math.min(100, Math.max(0, data?.score || 0));
+  }, [data?.score]);
+
   useEffect(() => {
     if (isOpen) {
-      // Small delay to trigger animation
-      setTimeout(() => setIsVisible(true), 10);
+      const timer = setTimeout(() => setIsVisible(true), 10);
+      return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
     }
   }, [isOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsVisible(false);
     setTimeout(() => onClose(), 300);
-  };
+  }, [onClose]);
+
+  const handleSvgInjection = useCallback((svg) => {
+    svg.setAttribute(
+      "style",
+      "width: 100%; height: 100%; max-width: 100%; max-height: 100%;"
+    );
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  }, []);
 
   if (!isOpen && !isVisible) return null;
 
-  // Calculate severity level
-  // const getSeverityLevel = (score) => {
-  //   if (typeof score === "number") {
-  //     if (score === 0) return "None";
-  //     if (score <= 10) return "Mild";
-  //     if (score <= 30) return "Moderate";
-  //     if (score <= 60) return "Concerning";
-  //     return "Severe";
-  //   }
-  //   return "Unknown";
-  // };
-
-  // const getSeverityColor = (score) => {
-  //   if (score <= 10) return "#22c55e"; // Green
-  //   if (score <= 30) return "#f59e0b"; // Yellow
-  //   if (score <= 60) return "#ef4444"; // Red
-  //   return "#dc2626"; // Dark Red
-  // };
-
-  // const severity = data?.tag || getSeverityLevel(data?.score);
-  const progressWidth = Math.min(100, Math.max(0, data?.score || 0));
-
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 bg-black transition-opacity duration-300 z-50 ${
           isVisible ? "bg-opacity-50" : "bg-opacity-0"
         }`}
         onClick={handleClose}
+        aria-hidden="true"
       />
 
       {/* Bottom Sheet */}
@@ -58,6 +52,9 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
         className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-[24px] shadow-2xl z-50 transition-transform duration-300 ease-out max-h-[90vh] overflow-y-auto ${
           isVisible ? "translate-y-0" : "translate-y-full"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="diagnosis-title"
       >
         {/* Header with title */}
         <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4 z-10">
@@ -83,67 +80,73 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
                 />
               </svg>
             </button>
-            <h2 className="text-2xl font-medium text-[#1b1f26] tracking-[-0.96px]">
+            <h2 
+              id="diagnosis-title"
+              className="text-2xl font-medium text-[#1b1f26] tracking-[-0.96px]"
+            >
               {data?.name || "Diagnosis"}
             </h2>
           </div>
         </div>
 
-        {/* Image Section */}
-        {data?.image && (
-          <div className="px-4 pt-4">
-            <div className="h-[354px] md:h-auto overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center">
-              <ReactSVG
-                src={data.image}
-                beforeInjection={(svg) => {
-                  svg.setAttribute(
-                    "style",
-                    "width: 100%; height: 100%; max-width: 100%; max-height: 100%;"
-                  );
-                  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
-                }}
-                wrapper="div"
-                className="w-full h-full flex items-center justify-center"
-              />
-            </div>
+        {/* Content */}
+        {!isDataLoaded ? (
+          /* Loader */
+          <div className="flex flex-col items-center justify-center p-8 min-h-[400px]">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mb-4" />
+            <p className="text-gray-500 text-center">Loading diagnosis...</p>
           </div>
+        ) : (
+          <>
+            {/* Image Section */}
+            {data?.image && (
+              <div className="px-4 pt-4">
+                <div className="h-[354px] md:h-auto overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center">
+                  <ReactSVG
+                    src={data.image}
+                    beforeInjection={handleSvgInjection}
+                    wrapper="div"
+                    className="w-full h-full flex items-center justify-center"
+                    loading={() => (
+                      <div className="animate-pulse bg-gray-200 w-full h-full rounded-2xl" />
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Content Section */}
+            <div className="p-4 pb-8">
+              {/* Metric Section */}
+              <div className="bg-white mb-6">
+                {/* Score with progress bar */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-end gap-1">
+                    <span className="text-2xl font-medium text-[#1b1f26]">
+                      {data?.score || 0}
+                    </span>
+                    <span className="text-xs text-gray-400 pb-1">/ 100</span>
+                  </div>
+                  
+                  {/* Progress bar */}
+                  <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-500 bg-blue-500"
+                      style={{ width: `${progressWidth}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Description Text */}
+              {data?.description && (
+                <div className="text-[16px] text-gray-600 leading-relaxed">
+                  {data.description}
+                </div>
+              )}
+            </div>
+          </>
         )}
-
-        {/* Content Section */}
-        <div className="p-4 pb-8">
-          {/* Metric Section */}
-          <div className="bg-white mb-6">
-            {/* <p className="text-base font-medium text-[#1b1f26] mb-2">
-              {severity}
-            </p> */}
-            
-            {/* Score with progress bar */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-end gap-1">
-                <span className="text-2xl font-medium text-[#1b1f26]">
-                  {data?.score || 0}
-                </span>
-                <span className="text-xs text-gray-400 pb-1">/ 100</span>
-              </div>
-              
-              {/* Progress bar */}
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{
-                    width: `${progressWidth}%`,
-                    // backgroundColor: getSeverityColor(data?.score),
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Description Text */}
-          <div className="text-[16px] text-gray-600 leading-relaxed">
-            {data?.description}
-          </div>
-        </div>
       </div>
     </>
   );

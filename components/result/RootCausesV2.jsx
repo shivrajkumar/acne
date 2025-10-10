@@ -53,17 +53,12 @@ const RootCausesV2 = () => {
   return (
     rootCauses && (
       <div className="w-full">
-        <div className="w-full mt-10">
-          <h2 className="mb-5 text-[20px] md:text-[28px] text-primary/700 -tracking-[1%] font-sophiaPro font-[700]">
-            {"Your Root Causes"}
-          </h2>
-          <RootCauseIconComponent
-            rootCauseInfo={rootCauses}
-            setActiveIndex={setActiveIndex}
-            activeIndex={activeIndex}
-            isMobile={isMobile}
-          />
-        </div>
+        <RootCauseIconComponent
+          rootCauseInfo={rootCauses}
+          setActiveIndex={setActiveIndex}
+          activeIndex={activeIndex}
+          isMobile={isMobile}
+        />
       </div>
     )
   );
@@ -133,96 +128,120 @@ const RootCauseIconComponent = ({
   };
 
   return (
-    <div className="flex flex-col gap-[8px] md:gap-[16px]">
-      {/* Desktop View */}
-      <div className="hidden md:flex w-full bg-[#FEF0E4] p-[16px] rounded-[16px] justify-between">
-        {rootCauseInfo?.map((cause, index) => (
-          <div
-            key={cause?.name}
-            className={` h-[60px] pb-[4px] px-[2px] flex flex-col gap-[4px] items-center justify-center cursor-pointer`}
-            onClick={() => setActiveIndex(index)}
-          >
-            <div
-              className={`w-[96px] h-[40px] py-6 px-[32px] mt-2 flex items-center justify-center  ${
-                index === activeIndex ? "bg-[#FDCFB8]  rounded-full" : ""
-              }`}
-            >
-              <Image
-                src={rootCausesIcons(cause?.name)}
-                alt={cause?.name}
-                width={32}
-                height={32}
-                className={`w-[32px] h-[32px] object-center  fill-[#CA3936] ${
-                  index === activeIndex
-                    ? "text-[#CA3936]"
-                    : "custom-icon-fill-light-grey"
-                }`}
-                style={{ objectFit: "contain" }}
-              />
-            </div>
-            <div
-              className={`text-[14px] font-sophiaPro font-[500]  ${
-                index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
-              }`}
-            >
-              {startCase(cause?.name)}
-            </div>
-          </div>
-        ))}
+    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative">
+      {/* Header with icon and text */}
+      <div className="flex items-center gap-[4px] mb-[16px]">
+        <div className="bg-[#CA3936] rounded-full w-[16px] h-[16px] flex items-center justify-center">
+          <span className="text-white text-[10px] font-bold">!</span>
+        </div>
+        <span className="text-[#CA3936] text-[12px] font-sophiaPro font-[400]">
+          Your Root Causes Need Extra Support
+        </span>
       </div>
 
-      {/* Mobile View - Scrollable */}
-      <div className="md:hidden w-full">
-        <div
-          ref={scrollContainerRef}
-          className="flex justify-between overflow-x-scroll hide-scrollbar bg-[#FEF0E4] rounded-[8px] gap-[8px] px-[8px] py-[8px]"
-          onScroll={handleScroll}
-          onTouchStart={() => {
-            isUserScrolling.current = true;
-          }}
-          onTouchEnd={() => {
-            isUserScrolling.current = false;
-          }}
-        >
-          {rootCauseInfo?.map((cause, index) => (
-            <div
-              key={cause?.name}
-              className="flex flex-col items-center justify-center flex-shrink-0 cursor-pointer"
-              onClick={() => setActiveIndex(index)}
-            >
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px] p-0">
+          <div className="flex items-center justify-between">
+            {rootCauseInfo?.map((cause, index) => (
               <div
-                className={`h-auto py-[6px] px-[14px] flex items-center justify-center rounded-[100px] ${
-                  index === activeIndex ? "bg-[#FDCFB8]" : ""
+                key={cause?.name}
+                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] transition-all flex-1 ${
+                  index === activeIndex
+                    ? "bg-[#FEEADB] border border-[#CA3936]"
+                    : ""
                 }`}
+                onClick={() => setActiveIndex(index)}
               >
-                <Image
-                  src={rootCausesIcons(cause?.name)}
-                  alt={cause?.name}
-                  width={24}
-                  height={24}
-                  className={`h-[24px] w-[24px] object-contain ${
-                    index === activeIndex ? "text-[#CA3936]" : "opacity-60"
+                <div className="w-[40px] h-[40px] flex items-center justify-center">
+                  <Image
+                    src={rootCausesIcons(cause?.name)}
+                    alt={cause?.name}
+                    width={40}
+                    height={40}
+                    className={`w-[40px] h-[40px] object-contain"`}
+                    style={{ 
+                      filter: index === activeIndex ? "none" : "opacity(0.6)"
+                    }}
+                  />
+                </div>
+                <div
+                  className={`text-[14px] font-sophiaPro font-[400] ${
+                    index === activeIndex ? "text-[#CA3936]" : "text-[#505354]"
                   }`}
-                />
+                >
+                  {startCase(cause?.name)}
+                </div>
               </div>
-
-              <span
-                className={`text-[14px] font-sophiaPro font-[500] mt-[4px] whitespace-nowrap ${
-                  index === activeIndex ? "text-Secondary/500" : "text-Grey/400"
-                }`}
-              >
-                {startCase(cause?.name)}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        
+        {/* Description */}
+        <div className="mt-[8px]">
+          <p className="font-sophiaPro font-[400] text-[#313233] text-[14px] leading-[1.5]">
+            {rootCauseInfo[activeIndex]?.description}
+          </p>
         </div>
       </div>
 
-      {/* Description */}
-      <div className="text-[12px] md:text-[16px] min-h-[50px]">
-        <p className="font-sophiaPro font-[400] text-Grey/900 text-[12px]">
-          {rootCauseInfo[activeIndex]?.description}
-        </p>
+      {/* Mobile View */}
+      <div className="md:hidden">
+        <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px]">
+          <div
+            ref={scrollContainerRef}
+            className="flex items-center overflow-x-scroll hide-scrollbar"
+            onScroll={handleScroll}
+            onTouchStart={() => {
+              isUserScrolling.current = true;
+            }}
+            onTouchEnd={() => {
+              isUserScrolling.current = false;
+            }}
+          >
+            {rootCauseInfo?.map((cause, index) => (
+              <div
+                key={cause?.name}
+                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] transition-all flex-shrink-0 ${
+                  index === activeIndex
+                    ? "bg-[#FEEADB] border border-[#CA3936]"
+                    : ""
+                }`}
+                onClick={() => setActiveIndex(index)}
+              >
+                <div className="w-[40px] h-[40px] flex items-center justify-center">
+                  <Image
+                    src={rootCausesIcons(cause?.name)}
+                    alt={cause?.name}
+                    width={40}
+                    height={40}
+                    className={`w-[40px] h-[40px] object-contain"`}
+                    style={{ 
+                      filter: index === activeIndex ? "none" : "opacity(0.6)"
+                    }}
+                  />
+                </div>
+
+                <span
+                  className={`text-[14px] font-sophiaPro font-[400] text-center ${
+                    index === activeIndex 
+                      ? "text-[#CA3936]" 
+                      : "text-[#505354]"
+                  }`}
+                >
+                  {startCase(cause?.name)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Description */}
+        <div className="mt-[4px]">
+          <p className="font-sophiaPro font-[400] text-[#313233] text-[14px] leading-[1.5]">
+            {rootCauseInfo[activeIndex]?.description}
+          </p>
+        </div>
       </div>
     </div>
   );
