@@ -468,6 +468,7 @@ const ResultLandingPage = ({}) => {
     acneStageDetails: resultData?.acneStageDetails,
     reviewDetails: resultData?.reviewsDetails,
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
+    grading: resultData?.grading
   };
 
   // Show loader while media is loading or when login modal is shown

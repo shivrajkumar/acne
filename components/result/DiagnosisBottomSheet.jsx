@@ -13,6 +13,12 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
     return Math.min(100, Math.max(0, data?.score || 0));
   }, [data?.score]);
 
+  // Check if current diagnosis is papules or pustules
+  const isPapulesOrPustules = useMemo(() => {
+    const name = data?.name?.toLowerCase() || '';
+    return name.includes('papules') || name.includes('pustules');
+  }, [data?.name]);
+
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => setIsVisible(true), 10);
@@ -119,23 +125,33 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
             <div className="p-4 pb-8">
               {/* Metric Section */}
               <div className="bg-white mb-6">
-                {/* Score with progress bar */}
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-end gap-1">
+                {/* Score with conditional display */}
+                {isPapulesOrPustules ? (
+                  // Just show the score for papules/pustules
+                  <div className="flex items-center">
                     <span className="text-2xl font-medium text-[#1b1f26]">
                       {data?.score || 0}
                     </span>
-                    <span className="text-xs text-gray-400 pb-1">/ 100</span>
                   </div>
-                  
-                  {/* Progress bar */}
-                  <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-500 bg-blue-500"
-                      style={{ width: `${progressWidth}%` }}
-                    />
+                ) : (
+                  // Show score with progress bar for others
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-end gap-1">
+                      <span className="text-2xl font-medium text-[#1b1f26]">
+                        {data?.score || 0}
+                      </span>
+                      <span className="text-xs text-gray-400 pb-1">/ 100</span>
+                    </div>
+                    
+                    {/* Progress bar */}
+                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-500 bg-blue-500"
+                        style={{ width: `${progressWidth}%` }}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Description Text */}

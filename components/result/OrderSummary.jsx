@@ -14,10 +14,12 @@ import useMediaQuery from "@/hooks/useMediaQuerry";
 import { generateEventId } from "@/helpers/metaCapiHelper";
 
 const OrderSummary = () => {
-  const { productsDetails, optionalProductsDetails, addProductToCart } = useCartContext();
+  const { productsDetails, optionalProductsDetails, addProductToCart } =
+    useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
-  const [hasTrackedOptionalProductSeen, setHasTrackedOptionalProductSeen] = useState(false);
+  const [hasTrackedOptionalProductSeen, setHasTrackedOptionalProductSeen] =
+    useState(false);
   const optionalProductsSectionRef = useRef(null);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isModalOpenRef = useRef(false);
@@ -42,8 +44,8 @@ const OrderSummary = () => {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, [isDesktop]);
 
   useEffect(() => {
@@ -59,7 +61,9 @@ const OrderSummary = () => {
               });
               logGtmEvent("addon_scar_seen", {
                 product: optionalProductsDetails,
-                event_id: generateEventId({ eventName: 'repurchase_page_activity' })
+                event_id: generateEventId({
+                  eventName: "repurchase_page_activity",
+                }),
               });
 
               // Mark as tracked and disconnect observer
@@ -69,7 +73,7 @@ const OrderSummary = () => {
           });
         },
         {
-          threshold: 0.1 // Trigger when at least 10% of the section is visible
+          threshold: 0.1, // Trigger when at least 10% of the section is visible
         }
       );
 
@@ -87,21 +91,23 @@ const OrderSummary = () => {
     }
   }, [optionalProductsDetails, hasTrackedOptionalProductSeen]);
 
-  const showModal = useCallback((variantId) => {
-    const fullVariantId = `${variantId}_PDP`;
-    setSelectedVariantId(fullVariantId);
-    setIsModalOpen(true);
+  const showModal = useCallback(
+    (variantId) => {
+      const fullVariantId = `${variantId}_PDP`;
+      setSelectedVariantId(fullVariantId);
+      setIsModalOpen(true);
 
-    // Push a history state to handle back button on mobile
-    if (!isDesktop) {
-      window.history.pushState(
-        { modalOpen: true, variantId: fullVariantId }, // state
-        '', // title (ignored)
-        window.location.href // no URL change
-      );
-    }
-  }, [isDesktop]);
-
+      // Push a history state to handle back button on mobile
+      if (!isDesktop) {
+        window.history.pushState(
+          { modalOpen: true, variantId: fullVariantId }, // state
+          "", // title (ignored)
+          window.location.href // no URL change
+        );
+      }
+    },
+    [isDesktop]
+  );
 
   const handleCancel = useCallback(() => {
     setIsModalOpen(false);
@@ -112,7 +118,6 @@ const OrderSummary = () => {
       window.history.back();
     }
   }, [isDesktop]);
-
 
   // Helper function to determine which icons to show based on dosageCode
   const getDosageIcons = (dosageCode) => {
@@ -166,46 +171,55 @@ const OrderSummary = () => {
                   showPM={showPM}
                   addProductToCart={addProductToCart}
                   showModal={showModal}
-                  isOptional={product?.isOptionalProduct} />
+                  isOptional={product?.isOptionalProduct}
+                />
                 {/* Divider */}
                 <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
               </div>
             );
           })}
-          {
-            optionalProductsDetails?.length > 0 && (
-              <div
-                ref={optionalProductsSectionRef}
-                className="flex flex-col border-[2px] border-neutral-700 md:border-none"
-              >
-                {optionalProductsDetails.map((product) => {
-                  const { showAM, showPM } = getDosageIcons(product.dosageCode);
-                  return (
-                    <div key={product.variantId}>
-                      <ProductCard
-                        key={product.variantId}
-                        product={product}
-                        showAM={showAM}
-                        showPM={showPM}
-                        enableAddToCart={true}
-                        addProductToCart={addProductToCart}
-                        showModal={showModal}
-                      />
-                      {/* Divider */}
-                      <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
-                    </div>
-                  );
-                })}
-              </div>
-            )
-          }
+          {optionalProductsDetails?.length > 0 && (
+            <div
+              ref={optionalProductsSectionRef}
+              className="flex flex-col border-[2px] border-neutral-700 md:border-none"
+            >
+              {
+                <p className="font-sophiaPro font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
+                  {"SOLVE FOR YOUR ACNE SCARS NOW!"}
+                </p>
+              }
+              {optionalProductsDetails.map((product) => {
+                const { showAM, showPM } = getDosageIcons(product.dosageCode);
+                return (
+                  <div key={product.variantId}>
+                    <ProductCard
+                      key={product.variantId}
+                      product={product}
+                      showAM={showAM}
+                      showPM={showPM}
+                      enableAddToCart={true}
+                      addProductToCart={addProductToCart}
+                      showModal={showModal}
+                    />
+                    {/* Divider */}
+                    <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
       <div className="w-full md:w-[35%]">
         <CartDetails enableOptin />
       </div>
-      {isModalOpen && <ProductPageModal
-        variantId={selectedVariantId} handleCancel={handleCancel} open={isModalOpen} />}
+      {isModalOpen && (
+        <ProductPageModal
+          variantId={selectedVariantId}
+          handleCancel={handleCancel}
+          open={isModalOpen}
+        />
+      )}
     </div>
   );
 };

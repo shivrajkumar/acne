@@ -79,7 +79,7 @@ const Questions = () => {
     } 
   };
 
-  // Separate effect for handling restoration based on URL changes
+  // Separate effect for handling restoration based on URL changes or refresh
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
@@ -87,46 +87,70 @@ const Questions = () => {
     // Check both localStorage and URL parameter
     const shouldRestoreFromStorage = localStorage.getItem("should_restore_state");
     const shouldRestoreFromURL = searchParams?.get('restore') === 'true';
-    const shouldRestore = shouldRestoreFromStorage || shouldRestoreFromURL ? "true" : null;
+    const explicitRestore = shouldRestoreFromStorage || shouldRestoreFromURL;
     
+    // Check if there's saved state that we can restore
+    const savedStateStr = localStorage.getItem("state" + window.location.pathname);
+    const hasCompletedUserBasicInfo = localStorage.getItem("user_first_name") && 
+                                     localStorage.getItem("user_phone") && 
+                                     localStorage.getItem("user_age") && 
+                                     localStorage.getItem("user_gender");
+    
+    // Check if it's a page reload
+    let isPageReload = false;
+    try {
+      const navEntry = performance.getEntriesByType("navigation")[0];
+      isPageReload = navEntry?.type === "reload";
+    } catch (e) {
+      isPageReload = false;
+    }
+    
+    // Determine if we should restore:
+    // 1. Explicit restore flag (continue where I left)
+    // 2. On refresh with saved state and completed basic info
+    const shouldRestore = explicitRestore || (isPageReload && savedStateStr && hasCompletedUserBasicInfo);
     
     // If we're restoring, clear tabClosed to show the questions
-    if (shouldRestore === "true") {
+    if (shouldRestore) {
       setTabClosed("");
       setFormStatus("");
       
       // If we haven't restored yet, do it now
-      if (!wasRestored) {
-        const savedStateStr = localStorage.getItem("state" + window.location.pathname);
-        
-        if (savedStateStr) {
-          try {
-            // Restore the state
-            const restored = restoreState();
+      if (!wasRestored && savedStateStr) {
+        try {
+          // Restore the state
+          const restored = restoreState();
+          
+          // Only remove the explicit restore flag, not for refresh
+          if (explicitRestore) {
             localStorage.removeItem("should_restore_state");
+          }
+          
+          if (restored) {
+            setWasRestored(true);
+            setLoading(false); // Stop showing loader
             
-            if (restored) {
-              setWasRestored(true);
-              setLoading(false); // Stop showing loader
-              
-              // Clean up URL parameter if present
-              if (shouldRestoreFromURL) {
-                const url = new URL(window.location.href);
-                url.searchParams.delete('restore');
-                window.history.replaceState({}, '', url.pathname);
-              }
-            } else {
-              setLoading(false);
+            // Clean up URL parameter if present
+            if (shouldRestoreFromURL) {
+              const url = new URL(window.location.href);
+              url.searchParams.delete('restore');
+              window.history.replaceState({}, '', url.pathname);
             }
-          } catch (e) {
-            console.error('Error during restoration:', e);
-            localStorage.removeItem("should_restore_state");
+          } else {
             setLoading(false);
           }
-        } else {
-          localStorage.removeItem("should_restore_state");
+        } catch (e) {
+          console.error('Error during restoration:', e);
+          if (explicitRestore) {
+            localStorage.removeItem("should_restore_state");
+          }
           setLoading(false);
         }
+      } else if (!savedStateStr) {
+        if (explicitRestore) {
+          localStorage.removeItem("should_restore_state");
+        }
+        setLoading(false);
       }
     }
   }, [searchParams, wasRestored]); // Remove loading from dependencies to avoid issues
@@ -145,7 +169,26 @@ const Questions = () => {
     // Check if we should skip initialization for restoration
     const shouldRestoreFromStorage = localStorage.getItem("should_restore_state");
     const shouldRestoreFromURL = searchParams?.get('restore') === 'true';
-    const shouldRestore = shouldRestoreFromStorage || shouldRestoreFromURL;
+    const explicitRestore = shouldRestoreFromStorage || shouldRestoreFromURL;
+    
+    // Check if there's saved state that we can restore
+    const savedStateStr = localStorage.getItem("state" + window.location.pathname);
+    const hasCompletedUserBasicInfo = localStorage.getItem("user_first_name") && 
+                                     localStorage.getItem("user_phone") && 
+                                     localStorage.getItem("user_age") && 
+                                     localStorage.getItem("user_gender");
+    
+    // Check if it's a page reload
+    let isPageReload = false;
+    try {
+      const navEntry = performance.getEntriesByType("navigation")[0];
+      isPageReload = navEntry?.type === "reload";
+    } catch (e) {
+      isPageReload = false;
+    }
+    
+    // Determine if we should restore (same logic as above)
+    const shouldRestore = explicitRestore || (isPageReload && savedStateStr && hasCompletedUserBasicInfo);
     
     // Skip initialization if we're going to restore or have already restored
     if (shouldRestore || wasRestored) {

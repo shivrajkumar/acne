@@ -238,7 +238,7 @@ const SkinDiagnosis = ({skinType}) => {
       <div className="px-2 md:px-6 text-[24px] md:text-3xl font-normal">
         Skin Diagnosis Result
       </div>
-      <div className="px-2 md:px-6 text-[14px] font-light">
+      <div className="px-2 md:px-6 text-[14px] font-light mt-3">
         Skin Type: <span className="font-bold">{skinType}</span>
       </div>
       {/* Desktop */}
