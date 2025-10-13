@@ -103,12 +103,12 @@ export const Modal = (props) => {
                                   {props.enableListing ? (
                                     <ul className="list-disc pl-5">
                                       <li className="font-[400] text-Text/Heading-Text font-sophiaPro text-[14px] leading-[1.4]">
-                                        {item.title} - {item.description}
+                                        {item.title} {item.description}
                                       </li>
                                     </ul>
                                   ) : (
                                     <h4 className="font-[400] text-Text/Heading-Text font-sophiaPro text-[14px]">
-                                      {item.title} - {item.description}
+                                      {item.title} {item.description}
                                     </h4>
                                   )}
                                 </div>
