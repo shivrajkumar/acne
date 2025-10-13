@@ -223,7 +223,7 @@ const SingleSelect = ({ block, context }) => {
                 fill="#3b52f5"
               />
               <span className="underline underline-offset-4 decoration-[#3b52f5]">
-                {block.whyWeAsk ? "Why do we ask?" : "Get a Hint?"}
+                {block.whyWeAsk.heading}
               </span>
             </button>
 
