@@ -47,7 +47,6 @@ export default function ImageUploadWithHaut({ block }) {
       if (!liqa) return;
 
       liqa.addEventListener("ready", () => {
-        console.log("Haut.AI LIQA is ready ✅");
         
         // Try to intercept the Continue on Web button
         setTimeout(() => {
@@ -100,7 +99,7 @@ export default function ImageUploadWithHaut({ block }) {
         });
       }
     } catch (error) {
-      console.log("Permission API not supported, will request on use");
+      console.log(error);
     }
   };
 
@@ -154,11 +153,8 @@ export default function ImageUploadWithHaut({ block }) {
   async function compressImage(blob, maxSizeMB = 2) {
     const maxSizeBytes = maxSizeMB * 1024 * 1024; // Convert MB to bytes
     
-    console.log('Original blob size:', (blob.size / 1024 / 1024).toFixed(2), 'MB');
-    
     // If already under size limit, return original
     if (blob.size <= maxSizeBytes) {
-      console.log('Image already under size limit, no compression needed');
       return blob;
     }
     
@@ -190,13 +186,11 @@ export default function ImageUploadWithHaut({ block }) {
         const tryCompress = (q) => {
           canvas.toBlob(
             (compressedBlob) => {
-              console.log(`Compressed at quality ${q}: ${(compressedBlob.size / 1024 / 1024).toFixed(2)} MB`);
               
               if (compressedBlob.size > maxSizeBytes && q > 0.1) {
                 // Still too large, reduce quality
                 tryCompress(q - 0.1);
               } else {
-                console.log('Final compressed size:', (compressedBlob.size / 1024 / 1024).toFixed(2), 'MB');
                 resolve(compressedBlob);
               }
             },
@@ -227,19 +221,13 @@ export default function ImageUploadWithHaut({ block }) {
 
       // Take first capture (you can handle multiple if needed)
       let blob = await captures[0].blob();
-      console.log("Original captured image blob:", blob);
-      console.log("Original size:", (blob.size / 1024 / 1024).toFixed(2), "MB");
-      console.log("Original type:", blob.type);
       
       // Compress image if needed (max 2MB)
       blob = await compressImage(blob, 2);
-      console.log("Final blob for upload:", blob);
-      console.log("Final size:", (blob.size / 1024 / 1024).toFixed(2), "MB");
 
       // Convert blob to base64 and store in localStorage
       const reader = new FileReader();
       reader.onloadend = () => {
-        console.log("Image converted to base64, length:", reader.result.length);
         localStorage.setItem("capturedImage", reader.result);
       };
       reader.readAsDataURL(blob);
@@ -253,9 +241,6 @@ export default function ImageUploadWithHaut({ block }) {
         lastModified: Date.now(),
       });
 
-      console.log("Constructed file object:", fileObject);
-      console.log("File size:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
-      
       // Final check to ensure file is under 2MB
       if (fileObject.size > 2 * 1024 * 1024) {
         console.error("File still too large after compression:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
@@ -267,12 +252,10 @@ export default function ImageUploadWithHaut({ block }) {
       formData.append("file", fileObject, fileName);
 
       // Upload image
-      console.log("Uploading image, size:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
       const uploadRes = await fetchRequest(IMAGE_UPLOAD_API(caseId), {
         method: "POST",
         body: formData,
       });
-      console.log("Upload response:", uploadRes);
 
       if (uploadRes?.success || uploadRes?.status === 200) {
         // Build form data payload

@@ -181,8 +181,6 @@ const MultiSelect = ({ block, context }) => {
       handleSubmit(selectedOptions);
     }
   };
-  console.log({block})
-
 
   return (
     <>

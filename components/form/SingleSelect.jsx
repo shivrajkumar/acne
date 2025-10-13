@@ -130,8 +130,6 @@ const SingleSelect = ({ block, context }) => {
     setError("");
   };
 
-  console.log({block})
-
   return (
     <>
       {isLoading && <Loader />}

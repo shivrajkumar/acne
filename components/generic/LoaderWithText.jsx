@@ -31,8 +31,6 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
 
 
   useEffect(() => {
-    console.log('LoaderWithText hautAiResponse:', hautAiResponse, 'onHautAiResponse:', !!onHautAiResponse);
-    
     if(hautAiResponse === true){
       router.push('/result?tid=' + window.localStorage.getItem("user_tid"));
       return;
@@ -46,15 +44,11 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
     
     if (hautAiResponse === false) {
       setAllQuestionsFilled(false);
-      console.log('Setting timeout to call onHautAiResponse(false) in 2 seconds');
       timer = setTimeout(() => {
-        console.log('Calling onHautAiResponse(false)');
         onHautAiResponse(false);
       }, 2000);
     } else if (hautAiResponse === undefined) {
-      console.log('hautAiResponse is undefined, will assume failure after 3 seconds');
       timer = setTimeout(() => {
-        console.log('Timeout reached, calling onHautAiResponse(false)');
         onHautAiResponse(false);
       }, 3000);
     }
