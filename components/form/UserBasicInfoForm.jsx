@@ -64,6 +64,9 @@ export default function UserBasicInfoForm({ onComplete }) {
 
   // Load data from localStorage on component mount
   useEffect(() => {
+    // Track page view when component mounts
+    logGtmEvent("page_view_skin_test");
+
     if (typeof window !== "undefined") {
       setFormData({
         fullName: window.localStorage.getItem("user_first_name"),

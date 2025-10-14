@@ -26,6 +26,14 @@ const OrderSummary = () => {
 
   useBodyScrollLock(isModalOpen);
 
+  // Track when product recommendations are generated
+  useEffect(() => {
+    if (productsDetails && productsDetails.length > 0) {
+      trackMoEngageEvent("product_recommendations_generated");
+      logGtmEvent("product_logic_applied");
+    }
+  }, [productsDetails, optionalProductsDetails]);
+
   // Sync ref with modal state to avoid stale values in event listeners (closure issue)
   useEffect(() => {
     isModalOpenRef.current = isModalOpen; // Update ref whenever modal state changes

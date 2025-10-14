@@ -8,6 +8,7 @@ import LPBannerMob from "@assets/images/LandingPageHeroMobileV2.webp"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { generateEventId } from "@/helpers/metaCapiHelper";
+import { trackMoEngageEvent } from "@/utils/moegage";
 
 
 const mobile_video = LPBannerMob;
@@ -36,6 +37,7 @@ const BannerSection = () => {
 
   const logGTM = () => {
     logGtmEvent("HB_Form_Start", { event_id: generateEventId({ eventName: 'HB_Form_Start' }) })
+    trackMoEngageEvent("skin_test_started");
   }
 
 
