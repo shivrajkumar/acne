@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 const KeyIngredients = ({ ingredients = [] }) => {
 
+  const pathname = usePathname();
   const defaultIngredients = [
     {
       name: "Rhodiola",
@@ -29,11 +31,13 @@ const KeyIngredients = ({ ingredients = [] }) => {
   return (
     <div className="flex flex-col gap-4 pt-4 border-t border-[#E9EDED] relative">
       {/* Header */}
+      {!pathname.includes('/result')  &&
       <div className="flex items-end justify-between">
         <h3 className="text-[18px] text-[#0F1B28] tracking-[0.5px] uppercase font-sophiaPro">
           KEY INGREDIENTS
         </h3>
       </div>
+      }
 
       {/* Ingredients Grid */}
         <div className="flex gap-3 overflow-x-auto hide-scrollbar">

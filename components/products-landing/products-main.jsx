@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import ProductsBanner from "./components/productsBanner";
 import ShopByConcern from "./components/shop-by-concern";
 import product1 from "@assets/images/products-1.webp";
@@ -11,8 +12,40 @@ import IdealSkincareRitual from "./components/ideal-skincare-ritual";
 import TroubleTen from "./components/trouble-ten";
 import RitualShowcase from "./components/ritual-showcase";
 import SocialTrust from "./components/social-trust";
+import { fetchRequest } from "@/helpers/fetchRequest";
+import { GET_ACNE_PRODUCTS } from "@/constants/urls";
 
 const ProductsMainLanding = () => {
+  const [products, setProducts] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetchRequest(GET_ACNE_PRODUCTS());
+      
+      if (response && response.status === 200 && response.data) {
+        setProducts(response.data);
+        console.log('ACNE Products Data:', response);
+      } else {
+        throw new Error(
+          response?.data?.message
+        );
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <ProductsBanner

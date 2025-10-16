@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCartContext } from "@/context/CartContext";
 import { Divider } from "antd";
 import Image from "next/image";
 import { ReactSVG } from "react-svg";
 import DiagnosisBottomSheet from "./DiagnosisBottomSheet";
+import { trackMoEngageEvent } from "@/utils/moegage";
+import { logGtmEvent } from "@/helpers/gtmHelpers";
 
 const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
   const radius = (size - strokeWidth) / 2;
@@ -190,11 +192,96 @@ const SkinDiagnosis = ({skinType}) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [scrollPercentagesTracked, setScrollPercentagesTracked] = useState(new Set());
+  const desktopScrollContainerRef = useRef(null);
+  const mobileScrollContainerRef = useRef(null);
   const response = useCartContext?.()?.skinAnalysisResponse;
+  
+  useEffect(() => {
+    if (response) {
+      trackMoEngageEvent("hautai_metrics_displayed");
+    }
+  }, [response]);
+
+  // Track scroll percentages
+  useEffect(() => {
+    const handleScroll = (containerRef, containerType) => {
+      if (!containerRef.current) return;
+      
+      const container = containerRef.current;
+      const scrollLeft = container.scrollLeft;
+      const scrollWidth = container.scrollWidth - container.clientWidth;
+      
+      if (scrollWidth <= 0) return;
+      
+      const scrollPercentage = (scrollLeft / scrollWidth) * 100;
+      
+      const milestones = [25, 50, 75, 100];
+      milestones.forEach(milestone => {
+        const key = `${containerType}_${milestone}`;
+        if (scrollPercentage >= milestone && !scrollPercentagesTracked.has(key)) {
+          logGtmEvent("hautai_metrics_viewed");
+          setScrollPercentagesTracked(prev => new Set([...prev, key]));
+        }
+      });
+    };
+
+    const desktopScrollContainer = desktopScrollContainerRef.current;
+    if (desktopScrollContainer) {
+      const handleDesktopScroll = () => handleScroll(desktopScrollContainerRef, 'desktop');
+      desktopScrollContainer.addEventListener('scroll', handleDesktopScroll);
+      return () => desktopScrollContainer.removeEventListener('scroll', handleDesktopScroll);
+    }
+  }, [scrollPercentagesTracked]);
+
+  useEffect(() => {
+    const handleScroll = (containerRef, containerType) => {
+      if (!containerRef.current) return;
+      
+      const container = containerRef.current;
+      const scrollLeft = container.scrollLeft;
+      const scrollWidth = container.scrollWidth - container.clientWidth;
+      
+      if (scrollWidth <= 0) return;
+      
+      const scrollPercentage = (scrollLeft / scrollWidth) * 100;
+      
+      const milestones = [25, 50, 75, 100];
+      milestones.forEach(milestone => {
+        const key = `${containerType}_${milestone}`;
+        if (scrollPercentage >= milestone && !scrollPercentagesTracked.has(key)) {
+          logGtmEvent("hautai_metrics_viewed");
+          setScrollPercentagesTracked(prev => new Set([...prev, key]));
+        }
+      });
+    };
+
+    const mobileScrollContainer = mobileScrollContainerRef.current;
+    if (mobileScrollContainer) {
+      const handleMobileScroll = () => handleScroll(mobileScrollContainerRef, 'mobile');
+      mobileScrollContainer.addEventListener('scroll', handleMobileScroll);
+      return () => mobileScrollContainer.removeEventListener('scroll', handleMobileScroll);
+    }
+  }, [scrollPercentagesTracked]);
 
   function convertSkinAnalysisToArray(skinData) {
     if (!skinData) return [];
-    return Object.entries(skinData).map(([key, value]) => ({
+    
+    // Define the desired order based on the algorithm list
+    const algorithmOrder = [
+      'papules',      // Acne Pro Application - Papules, Pustules
+      'pustules',     // Acne Pro Application - Papules, Pustules
+      'pigmentation', // Pigmentation Algorithm
+      'pores',        // Pores Algorithm
+      'quality',      // Quality Algorithm
+      'hydration',    // Hydration Algorithm
+      'uniformness',  // Uniformness Algorithm
+      'redness',      // Redness
+      'inflammation'  // Breakouts (Acne Inflammation)
+    ];
+    
+    // Convert to array
+    const dataArray = Object.entries(skinData).map(([key, value]) => ({
       id: key,
       tag: value?.tag || null,
       name: value?.name || key.charAt(0).toUpperCase() + key.slice(1),
@@ -202,6 +289,26 @@ const SkinDiagnosis = ({skinType}) => {
       score: value?.score || null,
       description: value?.description || null
     }));
+    
+    // Sort according to the algorithm order
+    const sortedArray = dataArray.sort((a, b) => {
+      const indexA = algorithmOrder.indexOf(a.id);
+      const indexB = algorithmOrder.indexOf(b.id);
+      
+      // If both items are in the order array, sort by their position
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+      
+      // If only one item is in the order array, prioritize it
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      
+      // If neither is in the order array, maintain original order
+      return 0;
+    });
+    
+    return sortedArray;
   }
 
   const alteredData = convertSkinAnalysisToArray(response).filter(
@@ -216,6 +323,8 @@ const SkinDiagnosis = ({skinType}) => {
   };
 
   const handleCardClick = (index) => {
+    logGtmEvent("hautai_metrics_viewed");
+    
     if (index !== currentIndex) {
       handleThumbnailClick(index);
     }
@@ -243,8 +352,7 @@ const SkinDiagnosis = ({skinType}) => {
       </div>
       {/* Desktop */}
       <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full px-2 md:px-6">
-        {/* Main Cards Display */}
-        <div className="flex flex-row gap-6 overflow-x-auto w-full px-4 hide-scrollbar py-5">
+        <div ref={desktopScrollContainerRef} className="flex flex-row gap-6 overflow-x-auto w-full px-4 hide-scrollbar py-5">
           {alteredData.map((card, index) => (
             <DiagnosisCard
               key={index}
@@ -258,9 +366,8 @@ const SkinDiagnosis = ({skinType}) => {
 
       {/* Mobile */}
       <div className="bg-white box-border flex flex-col gap-6 items-center justify-start w-full md:hidden">
-        {/* Main Carousel Display */}
         <div className="relative overflow-hidden w-full">
-          <div className="overflow-x-auto hide-scrollbar">
+          <div ref={mobileScrollContainerRef} className="overflow-x-auto hide-scrollbar">
             <div className="flex gap-4 items-center py-4">
               {alteredData.map((item, index) => (
                 <div key={item.id} className="flex-shrink-0">
@@ -277,7 +384,6 @@ const SkinDiagnosis = ({skinType}) => {
         </div>
       </div>
 
-      {/* Bottom Sheet */}
       <DiagnosisBottomSheet
         isOpen={isBottomSheetOpen}
         onClose={handleCloseBottomSheet}

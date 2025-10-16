@@ -32,12 +32,12 @@ const HautAiReqPermissions = ({ onContinue, step = "1/2" }) => {
   }, [isFirstStep, internalStep]);
 
   // 🔹 Auto-continue after 3 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onContinue();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [onContinue]);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     onContinue();
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // }, [onContinue]);
 
   const showFirstFocused = internalStep === "1/2";
 

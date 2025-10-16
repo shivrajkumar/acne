@@ -16,7 +16,7 @@ const ProductBenefit = ({ benefits }) => {
   };
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 flex justify-between">
       <h2 className="md:text-[24px] text-[18px] font-[600] leading-[140%] text-primary/700">
         Benefits
       </h2>
@@ -26,12 +26,11 @@ const ProductBenefit = ({ benefits }) => {
         {benefits.map((benefit, index) => (
           <div
             key={index}
-            className={`flex px-3 py-2 w-full md:w-fit ${getBorderClass(index)}`}
+            className={`flex px-3 py-2 w-full md:w-fit`}
           >
             <div className="flex items-start gap-2">
-              <Image src={tickIcon} alt={benefit?.label} width={20} height={20} />
               <span className="text-[12px] leading-[140%] font-[400] text-primary/700 break-words">
-                {benefit?.label}
+                {benefit}
               </span>
             </div>
           </div>

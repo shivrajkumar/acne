@@ -392,7 +392,7 @@ const Questions = () => {
       {!allQuestionsFilled ? (
         <>
           <Suspense fallback={<Loader />}>
-            <div className="flex flex-col items-center justify-start font-sophiaPro  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] bg-Secondary/50 min-h-screen">
+            <div className="flex flex-col items-center justify-start font-sophiaPro  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] min-h-screen">
               {currentQuestion && currentQuestion.id === "user_basic_info" && !userBasicInfoCompleted && !skipUserBasicInfo ? (
                 <UserBasicInfoForm onComplete={() => setUserBasicInfoCompleted(true)} />
               ) : currentQuestion && currentQuestion.id === "user_basic_info" && userBasicInfoCompleted ? (

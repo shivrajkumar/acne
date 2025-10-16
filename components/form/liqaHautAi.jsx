@@ -6,6 +6,8 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { formFillStatus } from "@/enums/QuestionEnums";
 import useFormSubmit from "@/hooks/useFormSubmit";
 import { QuestionsContext } from "@/context/questions-store";
+import { trackMoEngageEvent } from "@/utils/moegage";
+import { logGtmEvent } from "@/helpers/gtmHelpers";
 
 export default function ImageUploadWithHaut({ block }) {
   const [err, setErr] = useState(null);
@@ -48,7 +50,7 @@ export default function ImageUploadWithHaut({ block }) {
 
       liqa.addEventListener("ready", () => {
         
-        // Try to intercept the Continue on Web button
+        // Try to intercept the Continue on Web button and track upload photo CTAs
         setTimeout(() => {
           const shadowRoot = liqa.shadowRoot;
           if (shadowRoot) {
@@ -63,6 +65,69 @@ export default function ImageUploadWithHaut({ block }) {
                 }
               });
             }
+
+            // Track clicks on upload/camera/companion buttons
+            const uploadButtons = shadowRoot.querySelectorAll(
+              'button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"], ' +
+              '[data-action="upload"], [data-action="camera"], [data-action="companion"], ' +
+              'button:contains("Upload"), button:contains("Camera"), button:contains("Take Photo")'
+            );
+            
+            uploadButtons.forEach(button => {
+              button.addEventListener('click', () => {
+                logGtmEvent("cta_upload_photo");
+              });
+            });
+
+            // Track clicks on submit button
+            const submitButtons = shadowRoot.querySelectorAll(
+              'button[data-action="submit"], button[type="submit"], ' +
+              'button:contains("Submit"), button:contains("Done"), button:contains("Confirm")'
+            );
+            
+            submitButtons.forEach(button => {
+              button.addEventListener('click', () => {
+                logGtmEvent("cta_submit_skin_test");
+              });
+            });
+
+            // Also observe for dynamically added buttons
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                  if (node.nodeType === 1) { // Element node
+                    // Check if it's an upload-related button
+                    if (node.matches && (
+                      node.matches('button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"]') ||
+                      node.matches('[data-action="upload"], [data-action="camera"], [data-action="companion"]')
+                    )) {
+                      node.addEventListener('click', () => {
+                        logGtmEvent("cta_upload_photo");
+                      });
+                    }
+                    
+                    // Check if it's a submit button
+                    if (node.matches && (
+                      node.matches('button[data-action="submit"], button[type="submit"]') ||
+                      (node.tagName === 'BUTTON' && (
+                        node.textContent.includes('Submit') || 
+                        node.textContent.includes('Done') || 
+                        node.textContent.includes('Confirm')
+                      ))
+                    )) {
+                      node.addEventListener('click', () => {
+                        logGtmEvent("cta_submit_skin_test");
+                      });
+                    }
+                  }
+                });
+              });
+            });
+
+            observer.observe(shadowRoot, { 
+              childList: true, 
+              subtree: true 
+            });
           }
         }, 500);
       });
@@ -221,6 +286,7 @@ export default function ImageUploadWithHaut({ block }) {
 
       // Take first capture (you can handle multiple if needed)
       let blob = await captures[0].blob();
+      trackMoEngageEvent("image_uploaded");
       
       // Compress image if needed (max 2MB)
       blob = await compressImage(blob, 2);
@@ -258,6 +324,8 @@ export default function ImageUploadWithHaut({ block }) {
       });
 
       if (uploadRes?.success || uploadRes?.status === 200) {
+        trackMoEngageEvent("image_analysis_success");
+        
         // Build form data payload
         const _formData = {
           question_id: block.id,
@@ -280,13 +348,16 @@ export default function ImageUploadWithHaut({ block }) {
           handleSubmit(blob);
           window.localStorage.setItem("form_status", "semi-filled");
         } else {
+          trackMoEngageEvent("image_analysis_failed");
           setErr("Transaction API failed");
         }
       } else {
+        trackMoEngageEvent("image_analysis_failed");
         setErr(uploadRes?.message || "Image upload failed. Please try again.");
       }
     } catch (error) {
       console.error("Upload error:", error);
+      trackMoEngageEvent("image_analysis_failed");
       setErr("Something went wrong. Please try again.");
     }
   }
@@ -319,12 +390,6 @@ export default function ImageUploadWithHaut({ block }) {
                 <li>Select "Allow" for camera access</li>
                 <li>Refresh the page if needed</li>
               </ol>
-              <button 
-                onClick={requestCameraPermission}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-              >
-                Request Camera Access
-              </button>
             </div>
           </div>
         )}

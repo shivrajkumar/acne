@@ -188,7 +188,7 @@ const MultiSelect = ({ block, context }) => {
 
       <div className="flex flex-col mt-8 sm:mt-8 w-full mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px]">
         <label
-          className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          className="font-sophiaPro font-[400] text-[44px] xs:text-[24px] md:text-[44px] text-Text/Heading-Text -tracking-[2%] text-center"
           htmlFor={block.id}
         >
           {isHindi ? block.hindi_text : block.text}
@@ -209,18 +209,18 @@ const MultiSelect = ({ block, context }) => {
                 key={option.value}
                 className={`
                 flex justify-center items-center
-                  cursor-pointer rounded-[16px] w-[302px] ${
+                  cursor-pointer rounded-[4px] w-[302px] ${
                     block.id === "acne_scars"
                       ? "md:w-[412px]"
                       : block.optionMap?.length > 3
                       ? "md:w-[302px]"
                       : "md:w-[412px]"
                   }
-xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px] hover:border-Primary/500
-                  border-[1px]  h-[96px]
+xs:w-full transition-all duration-200 py-[12px] px-[24px] md:px-[24px] xs:px-[16px] hover:border-Primary/500
+                  border-[1px]  h-[80px]
                   ${
                     isSelected
-                      ? "border-Primary/500 bg-Primary/50"
+                      ? "border-Primary/500 bg-[#E1E6FE]"
                       : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}
@@ -306,7 +306,7 @@ xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16
           <button
             type="submit"
             className={`py-4 w-full max-w-md font-[400] text-white rounded-full ${
-              selectedOptions.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
+              selectedOptions.length > 0 ? "bg-Primary/500" : "bg-Neutral/400"
             } transition-all duration-200 shadow-sm`}
             onClick={handleNextClick}
             disabled={selectedOptions.length === 0}

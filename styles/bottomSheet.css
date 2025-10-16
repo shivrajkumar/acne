@@ -1,0 +1,50 @@
+/* Bottom Sheet Styles for Mobile */
+.mobile-bottom-sheet .ant-modal-content {
+  animation: slideUp 0.5s ease-out;
+}
+
+.mobile-bottom-sheet .ant-modal-wrap {
+  overflow: hidden;
+}
+
+.mobile-bottom-sheet .ant-modal {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Safe area padding for iOS devices */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+/* Improved scrolling for mobile */
+.mobile-bottom-sheet .ant-modal-body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Drag handle styles */
+.drag-handle {
+  touch-action: none;
+  cursor: grab;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Prevent body scroll when modal is open on mobile */
+.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
