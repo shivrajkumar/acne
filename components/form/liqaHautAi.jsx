@@ -390,12 +390,6 @@ export default function ImageUploadWithHaut({ block }) {
                 <li>Select "Allow" for camera access</li>
                 <li>Refresh the page if needed</li>
               </ol>
-              <button 
-                onClick={requestCameraPermission}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-              >
-                Request Camera Access
-              </button>
             </div>
           </div>
         )}

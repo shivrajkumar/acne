@@ -136,7 +136,7 @@ const SingleSelect = ({ block, context }) => {
 
       <div className="flex flex-col mt-8 sm:mt-8 w-full max-w-3xl mx-auto gap-[16px] md:gap-[16px] xs:gap-[8px]">
         <label
-          className="font-sophiaPro font-[400] text-[44px] xs:text-[28px] md:text-[44px] text-Text/Heading-Text italic -tracking-[2%] text-center"
+          className="font-sophiaPro font-[400] text-[44px] xs:text-[24px] md:text-[44px] text-Text/Heading-Text -tracking-[2%] text-center"
           htmlFor={block.id}
         >
           {isHindi ? block.hindi_text : block.text}
@@ -154,7 +154,7 @@ const SingleSelect = ({ block, context }) => {
               <div
                 key={option.value}
                 className={`
-                  cursor-pointer rounded-[16px] w-[302px]   flex justify-center items-center ${
+                  cursor-pointer rounded-[4px] w-[302px] flex justify-center items-center ${
                     block.optionMap?.length > 3
                       ? "md:w-[302px]"
                       : "md:w-[412px]"
@@ -162,7 +162,7 @@ const SingleSelect = ({ block, context }) => {
                   border-[1px] h-auto md:h-[96px]
                   ${
                     reply === option.value
-                      ? "border-Primary/500 bg-Primary/50"
+                      ? "border-Primary/500 bg-[#E1E6FE]"
                       : "border-Elements/Divider-Stroke bg-[#FFFFFF]"
                   }
                 `}

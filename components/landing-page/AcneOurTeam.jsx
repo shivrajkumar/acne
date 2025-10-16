@@ -66,7 +66,7 @@ export default function AcneOurTeam() {
                 {`"At Clear Ritual, we go beyond surface-level solutions by combining advanced dermatology with Ayurvedic wisdom to target the root causes of acne — because clear skin begins with knowing your skin deeply."`}
               </blockquote>
               <p className="font-sophiaPro font-[400] text-[16px] md:text-[18px] mt-[16px] ">
-                Dr. Anushka Agrawal, PHD
+                Dr. Anushka Agrawal, Board Certified Dermatologist
               </p>
             </div>
           </div>

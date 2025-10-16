@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
@@ -13,7 +12,7 @@ import MobileMenu from "./MobileMenu";
 import CartDrawer from "./CartDrawer";
 import DropdownMenu from "./DropDownMenu";
 import { navigationItems } from "./navigationData";
-
+import { usePathname } from "next/navigation";
 
 const AcneHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,17 +23,18 @@ const AcneHeader = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [marqueeHeight, setMarqueeHeight] = useState(0);
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [cartData, setCartData] = useState(null)
+  const [cartData, setCartData] = useState(null);
+
+  const pathname = usePathname();
+  const isResultPage = pathname?.startsWith("/result");
 
   useEffect(() => {
     let savedCart;
     if (typeof window !== undefined) {
-      savedCart = JSON.parse(
-        window.localStorage.getItem("acne_result_data")
-      );
+      savedCart = JSON.parse(window.localStorage.getItem("acne_result_data"));
       setCartData(savedCart);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const checkIfDesktop = () => {
@@ -154,14 +154,23 @@ const AcneHeader = () => {
 
         {/* Logo */}
         <div>
-          <Link href="/">
+          {isResultPage ? (
             <Image
               src={ClearRitualLogo}
               alt="Clear Ritual"
               height={20}
               width={140}
             />
-          </Link>
+          ) : (
+            <Link href="/">
+              <Image
+                src={ClearRitualLogo}
+                alt="Clear Ritual"
+                height={20}
+                width={140}
+              />
+            </Link>
+          )}
         </div>
 
         <div className="hidden md:flex space-x-8 mr-[32px] md:mr-[160px] relative">
@@ -189,15 +198,17 @@ const AcneHeader = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          {cartData && <span className="cursor-pointer">
-            <Image
-              src={ShopIcon}
-              width={24}
-              height={24}
-              alt="Shop"
-              onClick={toggleDrawer}
-            />
-          </span>}
+          {cartData && (
+            <span className="cursor-pointer">
+              <Image
+                src={ShopIcon}
+                width={24}
+                height={24}
+                alt="Shop"
+                onClick={toggleDrawer}
+              />
+            </span>
+          )}
         </div>
       </div>
 
@@ -205,13 +216,16 @@ const AcneHeader = () => {
         <div
           className="absolute bg-white border-b shadow-lg z-50 hidden md:block w-fit min-w-[177px] h-fit min-h-[130px] p-[24px]"
           style={{
-            top: '100%',
-            left: `${getDropdownPosition()}px`
+            top: "100%",
+            left: `${getDropdownPosition()}px`,
           }}
         >
           <div className="">
             {navigationItems.map((item) => {
-              if (openDropdown === item.name.toLowerCase() && item.dropdownContent) {
+              if (
+                openDropdown === item.name.toLowerCase() &&
+                item.dropdownContent
+              ) {
                 return (
                   <DropdownContent
                     key={item.name}

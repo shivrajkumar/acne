@@ -624,7 +624,6 @@ const ResultLandingPage = ({}) => {
         <FeaturedReview />
         <FAQSection data={FAQResultPage} />
       </div>
-      <AcneFooter />
       {showSticky && <CartSummarySticky />}
     </CartProvider>
   );

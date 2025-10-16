@@ -18,24 +18,24 @@ const ProductInfo = ({
       {/* Title Section */}
       <div className="flex flex-col gap-4">
         <h1
-          className="text-[32px] md:text-[40px] font-bold text-[#0F1B28] leading-[1.3] font-sophiaPro"
+          className="text-[24px] md:text-[40px] font-bold text-[#0F1B28] leading-[1.3] font-sophiaPro"
         >
           {title}
         </h1>
         <div className="flex flex-col gap-1">
           {/* Subtitle + Price (mobile only with justify-between) */}
           <div className="flex justify-between items-center md:block">
-            <h2 className="text-[14px] md:text-[18px] font-bold text-Grey/900 leading-[1.4] tracking-[0.5px] font-sophiaPro">
+            <h2 className="text-[14px] md:text-[18px] font-light text-Grey/900 leading-[1.4] tracking-[0.5px] font-sophiaPro">
               {subtitle}
             </h2>
             {/* Price only visible on mobile */}
-            <span className="text-[14px] font-semibold text-gray-900 md:hidden">
+            {/* <span className="text-[14px] font-semibold text-gray-900 md:hidden">
               RS.{price}
-            </span>
+            </span> */}
           </div>
 
           {/* Description */}
-          <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro">
+          <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro mt-5">
             {description || defaultDescription}
           </p>
 
@@ -47,8 +47,8 @@ const ProductInfo = ({
 
       {/* Features Section */}
       <div className="flex flex-col gap-4">
-        <InfoRow label="BENEFITS" value={benefits} />
-        <InfoRow label="FEELS LIKE" value={feels} hasBorder />
+        <InfoRow label="BENEFITS:" value={benefits} />
+        <InfoRow label="FEELS LIKE:" value={feels} hasBorder />
         <InfoRow label="SMELLS LIKE:" value={smells} hasBorder />
         <InfoRow label="BTW," value={btw} hasBorder />
       </div>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import CollapseIcon from "@assets/svg/downArrow.svg";
 
 const ProductKeyIngredient = ({ keyIngredients }) => {
+  console.log('keyIngredients', keyIngredients)
   const [expandedIngredient, setExpandedIngredient] = useState(0);
   return (
     <div className="space-y-3">
@@ -20,7 +21,7 @@ const ProductKeyIngredient = ({ keyIngredients }) => {
               onClick={() => setExpandedIngredient(isOpen ? null : index)}
             >
               <span className="font-[400] md:text-[18px] text-[14px] leading-[140%] text-primary/700">
-                {ingredient?.name}
+                {ingredient}
               </span>
               <Image
                 src={CollapseIcon}
@@ -42,7 +43,7 @@ const ProductKeyIngredient = ({ keyIngredients }) => {
               }}
             >
               <div className="text-Grey-Neutral/400 md:text-[14px] text-[12px] leading-[150%] font-[400] transition-opacity duration-500">
-                {ingredient?.description}
+                {ingredient}
               </div>
             </div>
           </div>

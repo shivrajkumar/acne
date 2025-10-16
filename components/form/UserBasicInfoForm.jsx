@@ -524,21 +524,23 @@ export default function UserBasicInfoForm({ onComplete }) {
     !errors.age &&
     !errors.gender;
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="fixed inset-0 flex flex-col items-center justify-start p-4 overflow-hidden">
       {isLoading && <Loader />}
-      <div className="w-full ">
+      <div className="w-full h-full flex flex-col max-w-md mt-16">
         <>
-          <h1 className="font-sophiaPro font-[400] xl:text-[44px] text-[28px] text-Text/Heading-Text italic -tracking-[2%] text-center">
-            Tell Us About Yourself
-          </h1>
-          <p className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center my-[16px]  ">
-            We start by collecting your details to create a unique ID for your
-            skin.
-          </p>
+          <div className="flex-shrink-0">
+            <h1 className="font-sophiaPro font-[400] xl:text-[44px] text-[28px] text-Text/Heading-Text -tracking-[2%] text-center">
+              Let's Get Started
+            </h1>
+            <p className="text-Text/Label font-sophiaPro font-[400] text-[14px] text-center my-[16px]">
+              We start by collecting your details to create a unique ID for your
+              skin.
+            </p>
+          </div>
 
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-[24px] pt-0 lg:pt-6 md:pb-[120px]"
+            className="flex flex-col gap-[24px] pt-0 lg:pt-6 pb-[120px] overflow-y-auto flex-1"
           >
             <div>
               <input
@@ -547,7 +549,7 @@ export default function UserBasicInfoForm({ onComplete }) {
                 value={formData.fullName || ""}
                 onChange={handleChange}
                 placeholder="Full Name"
-                className="w-full lg:h-[72px] py-[16px] ps-[24px] pr-[4px] border-[1px] border-Elements/Divider-Stroke rounded-[16px] outline-none focus:outline-none"
+                className="w-full lg:h-[72px] py-[12px] ps-[24px] pr-[4px] border-[1px] border-Elements/Divider-Stroke rounded-[12px] outline-none focus:outline-none"
                 required
               />
               {errors.fullName && (
@@ -562,11 +564,11 @@ export default function UserBasicInfoForm({ onComplete }) {
                 value={formData.phoneNumber || ""}
                 onChange={handleChange}
                 placeholder="Phone Number"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
+                className={`w-full py-[12px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
                   errors.phoneNumber
                     ? "border-red-500"
                     : "border-Elements/Divider-Stroke"
-                } rounded-[16px] outline-none focus:outline-none`}
+                } rounded-[12px] outline-none focus:outline-none`}
                 maxLength={10}
                 pattern="[0-9]{10}"
                 required
@@ -586,11 +588,11 @@ export default function UserBasicInfoForm({ onComplete }) {
                 value={formData.age || ""}
                 onChange={handleChange}
                 placeholder="Age"
-                className={`w-full py-[16px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
+                className={`w-full py-[12px] lg:h-[72px] ps-[24px] pr-[4px] border-[1px] ${
                   errors.age
                     ? "border-red-500"
                     : "border-Elements/Divider-Stroke"
-                } rounded-[16px] outline-none focus:outline-none`}
+                } rounded-[12px] outline-none focus:outline-none`}
                 min="1"
                 max="99"
                 required
@@ -604,7 +606,7 @@ export default function UserBasicInfoForm({ onComplete }) {
             <div className="flex space-x-4 items-center">
               <button
                 type="button"
-                className={`flex-1 border rounded-[16px] lg:h-[72px] py-[16px] px-[24px] ${
+                className={`flex-1 border rounded-[12px] lg:h-[72px] py-[12px] px-[24px] ${
                   formData.gender === "M"
                     ? "bg-Primary/50 border-[#237AB1]"
                     : "bg-[#FFFFFF]"
@@ -619,7 +621,7 @@ export default function UserBasicInfoForm({ onComplete }) {
 
               <button
                 type="button"
-                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[16px] py-[16px] px-[24px] ${
+                className={`flex-1 border lg:h-[72px] border-Elements/Divider-Stroke rounded-[12px] py-[12px] px-[24px] ${
                   formData.gender === "F"
                     ? "bg-Primary/50 border-[#237AB1]"
                     : "bg-[#FFFFFF]"
@@ -632,7 +634,7 @@ export default function UserBasicInfoForm({ onComplete }) {
                 </div>
               </button>
             </div>
-            <div className="md:mt-1 xl:mt-[-0.75rem] lg:mt-4 text-gray-400 xs:text-xs lg:text-sm font-modernity py-2 px-1 md:mb-0 mb-2 text-center">
+            <div className="xl:mt-[-0.5rem] lg:mt-4 text-gray-400 xs:text-[12px] lg:text-[12px] font-modernity py-2 px-1 text-center">
               <h2>
                 *By continuing, you agree to the{" "}
                 <Link
@@ -666,18 +668,19 @@ export default function UserBasicInfoForm({ onComplete }) {
                 {errors.general}
               </p>
             )}
-            <div className="fixed bottom-0 left-0 right-0 z-10  flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
-              <button
-                type="submit"
-                className={`w-full max-w-md py-[16px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${
-                  isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
-                }`}
-                disabled={!isFormValid}
-              >
-                NEXT
-              </button>
-            </div>
           </form>
+          <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className={`w-full max-w-md py-[12px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${
+                isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+              }`}
+              disabled={!isFormValid}
+            >
+              NEXT
+            </button>
+          </div>
         </>
         {showLoginModal && (
           <LoginPage
