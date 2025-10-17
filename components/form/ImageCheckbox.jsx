@@ -179,7 +179,7 @@ const ImageCheckbox = ({ block, context }) => {
       {isLoading && <Loader />}
 
       <div className="flex flex-col w-full pt-6 sm:pt-8 px-4 sm:px-6 max-w-screen-xl mx-auto">
-        <h2 className="text-[44px] md:text-[44px] xs:text-[28px] font-sophiaPro font-[400] text-Text/Heading-Text italic -tracking-[2%] text-center mb-2">
+        <h2 className="text-[44px] md:text-[44px] xs:text-[24px] font-sophiaPro font-[400] text-Text/Heading-Text -tracking-[2%] text-center mb-2">
           {isHindi ? block.hindi_text : block.text}
         </h2>
 
@@ -190,7 +190,7 @@ const ImageCheckbox = ({ block, context }) => {
         )}
 
         {/* Grid of options with responsive design */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+        <div className="flex flex-wrap justify-start gap-4 md:gap-6">
           {block.optionMap?.map((option) => {
             const isSelected = selectedOptions.includes(option.value);
             const pimpleImage = getImageForPimpleType(option.image_url);
@@ -212,7 +212,7 @@ const ImageCheckbox = ({ block, context }) => {
               >
                 {/* Option header with name and checkbox */}
                 <div className="flex justify-between items-center py-2 px-3 bg-white ">
-                  <span className=" text-[16px] font-medium text-Text/Heading-Text leading-[1.5%] -tracking-[1%]">
+                  <span className=" text-[14px] font-medium text-Text/Heading-Text leading-[1.5%] -tracking-[1%]">
                     {option.name}
                   </span>
 
@@ -229,13 +229,13 @@ const ImageCheckbox = ({ block, context }) => {
                 </div>
 
                 {/* Image */}
-                <div className="w-full md:h-[220px] h-[156px]">
+                <div className="w-full md:h-[220px] h-[80px]">
                   {pimpleImage ? (
                     <Image
                       src={pimpleImage}
                       alt={option.name}
-                      width={220}
-                      height={220}
+                      width={180}
+                      height={180}
                       className="!w-full !h-full object-cover rounded-2xl"
                     />
                   ) : (
