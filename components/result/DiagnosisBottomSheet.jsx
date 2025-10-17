@@ -2,9 +2,14 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { ReactSVG } from "react-svg";
 
-const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
+const DiagnosisBottomSheet = ({
+  isOpen,
+  onClose,
+  data,
+  originalImageWithoutMask,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
-  
+
   const isDataLoaded = useMemo(() => {
     return data && Object.keys(data).length > 0;
   }, [data]);
@@ -15,8 +20,8 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
 
   // Check if current diagnosis is papules or pustules
   const isPapulesOrPustules = useMemo(() => {
-    const name = data?.name?.toLowerCase() || '';
-    return name.includes('papules') || name.includes('pustules');
+    const name = data?.name?.toLowerCase() || "";
+    return name.includes("papules") || name.includes("pustules");
   }, [data?.name]);
 
   useEffect(() => {
@@ -36,9 +41,10 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
   const handleSvgInjection = useCallback((svg) => {
     svg.setAttribute(
       "style",
-      "width: 100%; height: 100%; max-width: 100%; max-height: 100%;"
+      "width: 100%; height: 100%; max-width: 100%; max-height: 100%;",
+      "object-fit: cover" 
     );
-    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
   }, []);
 
   if (!isOpen && !isVisible) return null;
@@ -86,7 +92,7 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
                 />
               </svg>
             </button>
-            <h2 
+            <h2
               id="diagnosis-title"
               className="text-2xl font-medium text-[#1b1f26] tracking-[-0.96px]"
             >
@@ -104,19 +110,31 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
           </div>
         ) : (
           <>
-            {/* Image Section */}
+            {/* Image Section with overlay */}
             {data?.image && (
               <div className="px-4 pt-4">
-                <div className="h-[354px] md:h-auto overflow-hidden rounded-2xl bg-gray-50 flex items-center justify-center">
-                  <ReactSVG
-                    src={data.image}
-                    beforeInjection={handleSvgInjection}
-                    wrapper="div"
-                    className="w-full h-full flex items-center justify-center"
-                    loading={() => (
-                      <div className="animate-pulse bg-gray-200 w-full h-full rounded-2xl" />
-                    )}
-                  />
+                <div className="h-[354px] md:h-auto overflow-hidden rounded-2xl bg-gray-50 relative">
+                  {/* Background: Original face photo */}
+                  {originalImageWithoutMask && (
+                    <img
+                      src={originalImageWithoutMask}
+                      alt={data.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+
+                  {/* Foreground: SVG mask overlay */}
+                  <div className="absolute inset-0 w-full h-full">
+                    <ReactSVG
+                      src={data.image}
+                      beforeInjection={handleSvgInjection}
+                      wrapper="div"
+                      className="w-full h-full"
+                      loading={() => (
+                        <div className="animate-pulse bg-gray-200 w-full h-full" />
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
             )}
@@ -142,7 +160,7 @@ const DiagnosisBottomSheet = ({ isOpen, onClose, data }) => {
                       </span>
                       <span className="text-xs text-gray-400 pb-1">/ 100</span>
                     </div>
-                    
+
                     {/* Progress bar */}
                     <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div

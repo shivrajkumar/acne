@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useCartContext } from "@/context/CartContext";
 import { Divider } from "antd";
-import Image from "next/image";
 import { ReactSVG } from "react-svg";
 import DiagnosisBottomSheet from "./DiagnosisBottomSheet";
 import { trackMoEngageEvent } from "@/utils/moegage";
@@ -50,38 +49,47 @@ const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
   );
 };
 
-const DiagnosisCard = ({ data, onClick }) => {
+const DiagnosisCard = ({ data, onClick, originalImageWithoutMask }) => {
   if (!data.image) return null;
 
-  const baseClasses = "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
-  const desktopClasses = "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
-  const mobileClasses = "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100";
+  const baseClasses =
+    "bg-white flex flex-col items-center justify-between rounded-[20px] transition-all duration-300 ease-out cursor-pointer flex-shrink-0";
+  const desktopClasses =
+    "hidden md:flex w-[255px] h-[400px] shadow-lg hover:shadow-xl hover:-translate-y-1";
+  const mobileClasses =
+    "md:hidden w-[250px] h-[380px] shadow-lg transform scale-100 opacity-100";
 
   return (
     <>
       {/* Desktop Version */}
       <div className={`${baseClasses} ${desktopClasses}`} onClick={onClick}>
-        {/* Top Image */}
-        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden bg-gray-50 relative">
-          <ReactSVG
-            src={data.image}
-            beforeInjection={(svg) => {
-              svg.setAttribute(
-                "style",
-                "width: 100%; height: 100%; display: block;"
-              );
-              svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
-            }}
-            wrapper="div"
-            className="w-full h-full"
-            style={{
-              display: "block",
-              width: "100%",
-              height: "100%",
-              padding: 0,
-              margin: 0,
-            }}
-          />
+        {/* Top Image - Layered approach */}
+        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden relative">
+          {/* Background: Original face photo */}
+          {originalImageWithoutMask && (
+            <div className="absolute inset-0 w-full h-full">
+              <img
+                src={originalImageWithoutMask}
+                alt={data.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+
+          {/* Foreground: SVG mask overlay */}
+          {data.image && (
+            <div className="absolute inset-0 w-full h-full">
+              <ReactSVG
+                src={data.image}
+                beforeInjection={(svg) => {
+                  svg.setAttribute("style", "width: 100%; height: 100%;");
+                  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+                }}
+                wrapper="div"
+                className="w-full h-full"
+              />
+            </div>
+          )}
         </div>
 
         {/* Content */}
@@ -100,7 +108,8 @@ const DiagnosisCard = ({ data, onClick }) => {
 
             {/* Score Display */}
             <div className="flex flex-col items-center justify-center flex-shrink-0">
-              {data.name?.toLowerCase() === 'pustules' || data.name?.toLowerCase() === 'papules' ? (
+              {data.name?.toLowerCase() === "pustules" ||
+              data.name?.toLowerCase() === "papules" ? (
                 <div className="flex items-center justify-center w-[55px] h-[55px] bg-gray-100 rounded-full">
                   <span className="text-lg font-semibold text-gray-900">
                     {data.score || 0}
@@ -119,9 +128,7 @@ const DiagnosisCard = ({ data, onClick }) => {
 
         {/* Bottom Button */}
         <div className="w-full px-6 pb-4">
-          <button
-            className="bg-blue-600 text-white px-8 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors w-full"
-          >
+          <button className="bg-blue-600 text-white px-8 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors w-full">
             Show more
           </button>
         </div>
@@ -129,19 +136,35 @@ const DiagnosisCard = ({ data, onClick }) => {
 
       {/* Mobile Version */}
       <div className={`${baseClasses} ${mobileClasses}`} onClick={onClick}>
-        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden relative bg-gray-50 flex items-center justify-center">
-          <ReactSVG
-            src={data.image}
-            beforeInjection={(svg) => {
-              svg.setAttribute(
-                "style",
-                "width: 100%; height: 100%; max-width: 100%; max-height: 100%;"
-              );
-              svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
-            }}
-            wrapper="div"
-            className="w-full h-full flex items-center justify-center"
-          />
+        <div className="w-full h-[250px] rounded-t-[20px] overflow-hidden relative">
+          {/* Background: Original face photo */}
+          {originalImageWithoutMask && (
+            <div className="absolute inset-0 w-full h-full">
+              <img
+                src={originalImageWithoutMask}
+                alt={data.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+
+          {/* Foreground: SVG mask overlay */}
+          {data.image && (
+            <div className="absolute inset-0 w-full h-full">
+              <ReactSVG
+                src={data.image}
+                beforeInjection={(svg) => {
+                  svg.setAttribute(
+                    "style",
+                    "width: 100%; height: 100%; max-width: 100%; max-height: 100%;"
+                  );
+                  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+                }}
+                wrapper="div"
+                className="w-full h-full flex items-center justify-center"
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col justify-between w-full p-4 flex-grow">
@@ -158,7 +181,8 @@ const DiagnosisCard = ({ data, onClick }) => {
             </div>
 
             <div className="flex flex-col items-center justify-center flex-shrink-0">
-              {data.name?.toLowerCase() === 'pustules' || data.name?.toLowerCase() === 'papules' ? (
+              {data.name?.toLowerCase() === "pustules" ||
+              data.name?.toLowerCase() === "papules" ? (
                 <div className="flex items-center justify-center w-[54px] h-[54px] bg-gray-100 rounded-full">
                   <span className="text-base font-semibold text-gray-900">
                     {data.score || 0}
@@ -176,9 +200,7 @@ const DiagnosisCard = ({ data, onClick }) => {
         </div>
 
         <div className="w-full px-4 pb-4">
-          <button
-            className="bg-blue-600 text-white w-full py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
-          >
+          <button className="bg-blue-600 text-white w-full py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors">
             Show more
           </button>
         </div>
@@ -187,16 +209,18 @@ const DiagnosisCard = ({ data, onClick }) => {
   );
 };
 
-const SkinDiagnosis = ({skinType}) => {
+const SkinDiagnosis = ({ skinType, originalImageWithoutMask }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [scrollPercentagesTracked, setScrollPercentagesTracked] = useState(new Set());
+  const [scrollPercentagesTracked, setScrollPercentagesTracked] = useState(
+    new Set()
+  );
   const desktopScrollContainerRef = useRef(null);
   const mobileScrollContainerRef = useRef(null);
   const response = useCartContext?.()?.skinAnalysisResponse;
-  
+
   useEffect(() => {
     if (response) {
       trackMoEngageEvent("hautai_metrics_displayed");
@@ -207,79 +231,92 @@ const SkinDiagnosis = ({skinType}) => {
   useEffect(() => {
     const handleScroll = (containerRef, containerType) => {
       if (!containerRef.current) return;
-      
+
       const container = containerRef.current;
       const scrollLeft = container.scrollLeft;
       const scrollWidth = container.scrollWidth - container.clientWidth;
-      
+
       if (scrollWidth <= 0) return;
-      
+
       const scrollPercentage = (scrollLeft / scrollWidth) * 100;
-      
+
       const milestones = [25, 50, 75, 100];
-      milestones.forEach(milestone => {
+      milestones.forEach((milestone) => {
         const key = `${containerType}_${milestone}`;
-        if (scrollPercentage >= milestone && !scrollPercentagesTracked.has(key)) {
+        if (
+          scrollPercentage >= milestone &&
+          !scrollPercentagesTracked.has(key)
+        ) {
           logGtmEvent("hautai_metrics_viewed");
-          setScrollPercentagesTracked(prev => new Set([...prev, key]));
+          setScrollPercentagesTracked((prev) => new Set([...prev, key]));
         }
       });
     };
 
     const desktopScrollContainer = desktopScrollContainerRef.current;
     if (desktopScrollContainer) {
-      const handleDesktopScroll = () => handleScroll(desktopScrollContainerRef, 'desktop');
-      desktopScrollContainer.addEventListener('scroll', handleDesktopScroll);
-      return () => desktopScrollContainer.removeEventListener('scroll', handleDesktopScroll);
+      const handleDesktopScroll = () =>
+        handleScroll(desktopScrollContainerRef, "desktop");
+      desktopScrollContainer.addEventListener("scroll", handleDesktopScroll);
+      return () =>
+        desktopScrollContainer.removeEventListener(
+          "scroll",
+          handleDesktopScroll
+        );
     }
   }, [scrollPercentagesTracked]);
 
   useEffect(() => {
     const handleScroll = (containerRef, containerType) => {
       if (!containerRef.current) return;
-      
+
       const container = containerRef.current;
       const scrollLeft = container.scrollLeft;
       const scrollWidth = container.scrollWidth - container.clientWidth;
-      
+
       if (scrollWidth <= 0) return;
-      
+
       const scrollPercentage = (scrollLeft / scrollWidth) * 100;
-      
+
       const milestones = [25, 50, 75, 100];
-      milestones.forEach(milestone => {
+      milestones.forEach((milestone) => {
         const key = `${containerType}_${milestone}`;
-        if (scrollPercentage >= milestone && !scrollPercentagesTracked.has(key)) {
+        if (
+          scrollPercentage >= milestone &&
+          !scrollPercentagesTracked.has(key)
+        ) {
           logGtmEvent("hautai_metrics_viewed");
-          setScrollPercentagesTracked(prev => new Set([...prev, key]));
+          setScrollPercentagesTracked((prev) => new Set([...prev, key]));
         }
       });
     };
 
     const mobileScrollContainer = mobileScrollContainerRef.current;
     if (mobileScrollContainer) {
-      const handleMobileScroll = () => handleScroll(mobileScrollContainerRef, 'mobile');
-      mobileScrollContainer.addEventListener('scroll', handleMobileScroll);
-      return () => mobileScrollContainer.removeEventListener('scroll', handleMobileScroll);
+      const handleMobileScroll = () =>
+        handleScroll(mobileScrollContainerRef, "mobile");
+      mobileScrollContainer.addEventListener("scroll", handleMobileScroll);
+      return () =>
+        mobileScrollContainer.removeEventListener("scroll", handleMobileScroll);
     }
   }, [scrollPercentagesTracked]);
 
   function convertSkinAnalysisToArray(skinData) {
     if (!skinData) return [];
-    
+
     // Define the desired order based on the algorithm list
     const algorithmOrder = [
-      'papules',      // Acne Pro Application - Papules, Pustules
-      'pustules',     // Acne Pro Application - Papules, Pustules
-      'pigmentation', // Pigmentation Algorithm
-      'pores',        // Pores Algorithm
-      'quality',      // Quality Algorithm
-      'hydration',    // Hydration Algorithm
-      'uniformness',  // Uniformness Algorithm
-      'redness',      // Redness
-      'inflammation'  // Breakouts (Acne Inflammation)
+      "papules", // Acne Pro Application - Papules, Pustules
+      "pustules", // Acne Pro Application - Papules, Pustules
+      "pigmentation", // Pigmentation Algorithm
+      "pores", // Pores Algorithm
+      "quality", // Quality Algorithm
+      "hydration", // Hydration Algorithm
+      "uniformness", // Uniformness Algorithm
+      "redness", // Redness
+      "inflammation", // Breakouts (Acne Inflammation)
     ];
-    
+
     // Convert to array
     const dataArray = Object.entries(skinData).map(([key, value]) => ({
       id: key,
@@ -287,33 +324,33 @@ const SkinDiagnosis = ({skinType}) => {
       name: value?.name || key.charAt(0).toUpperCase() + key.slice(1),
       image: value?.image || null,
       score: value?.score || null,
-      description: value?.description || null
+      description: value?.description || null,
     }));
-    
+
     // Sort according to the algorithm order
     const sortedArray = dataArray.sort((a, b) => {
       const indexA = algorithmOrder.indexOf(a.id);
       const indexB = algorithmOrder.indexOf(b.id);
-      
+
       // If both items are in the order array, sort by their position
       if (indexA !== -1 && indexB !== -1) {
         return indexA - indexB;
       }
-      
+
       // If only one item is in the order array, prioritize it
       if (indexA !== -1) return -1;
       if (indexB !== -1) return 1;
-      
+
       // If neither is in the order array, maintain original order
       return 0;
     });
-    
+
     return sortedArray;
   }
 
   const alteredData = convertSkinAnalysisToArray(response).filter(
     (item) => item.image
-  ); 
+  );
 
   const handleThumbnailClick = (index) => {
     if (isAnimating || index === currentIndex) return;
@@ -324,7 +361,7 @@ const SkinDiagnosis = ({skinType}) => {
 
   const handleCardClick = (index) => {
     logGtmEvent("hautai_metrics_viewed");
-    
+
     if (index !== currentIndex) {
       handleThumbnailClick(index);
     }
@@ -352,13 +389,17 @@ const SkinDiagnosis = ({skinType}) => {
       </div>
       {/* Desktop */}
       <div className="relative hidden md:flex flex-col gap-6 items-center justify-start w-full h-full px-2 md:px-6">
-        <div ref={desktopScrollContainerRef} className="flex flex-row gap-6 overflow-x-auto w-full px-4 hide-scrollbar py-5">
+        <div
+          ref={desktopScrollContainerRef}
+          className="flex flex-row gap-6 overflow-x-auto w-full px-4 hide-scrollbar py-5"
+        >
           {alteredData.map((card, index) => (
             <DiagnosisCard
               key={index}
               data={card}
               isActive={index === currentIndex}
               onClick={() => handleCardClick(index)}
+              originalImageWithoutMask={originalImageWithoutMask}
             />
           ))}
         </div>
@@ -367,7 +408,10 @@ const SkinDiagnosis = ({skinType}) => {
       {/* Mobile */}
       <div className="bg-white box-border flex flex-col gap-6 items-center justify-start w-full md:hidden">
         <div className="relative overflow-hidden w-full">
-          <div ref={mobileScrollContainerRef} className="overflow-x-auto hide-scrollbar">
+          <div
+            ref={mobileScrollContainerRef}
+            className="overflow-x-auto hide-scrollbar"
+          >
             <div className="flex gap-4 items-center py-4">
               {alteredData.map((item, index) => (
                 <div key={item.id} className="flex-shrink-0">
@@ -376,6 +420,7 @@ const SkinDiagnosis = ({skinType}) => {
                     position="left"
                     isActive={index === currentIndex}
                     onClick={() => handleCardClick(index)}
+                    originalImageWithoutMask={originalImageWithoutMask}
                   />
                 </div>
               ))}
@@ -388,6 +433,7 @@ const SkinDiagnosis = ({skinType}) => {
         isOpen={isBottomSheetOpen}
         onClose={handleCloseBottomSheet}
         data={selectedCard}
+        originalImageWithoutMask={originalImageWithoutMask}
       />
     </>
   );
