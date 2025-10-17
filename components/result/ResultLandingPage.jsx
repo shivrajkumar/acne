@@ -468,7 +468,8 @@ const ResultLandingPage = ({}) => {
     acneStageDetails: resultData?.acneStageDetails,
     reviewDetails: resultData?.reviewsDetails,
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
-    grading: resultData?.grading
+    grading: resultData?.grading,
+    originalImageWithoutMask: resultData?.originalImageWithoutMask
   };
 
   // Show loader while media is loading or when login modal is shown
@@ -524,7 +525,7 @@ const ResultLandingPage = ({}) => {
           {resultData?.skinAnalysisResponse &&
           (!userId ||
             String(userId) === String(resultData?.customerDetails?.caseId)) ? (
-            <SkinDiagnosis skinType={resultData?.skinType}/>
+            <SkinDiagnosis skinType={resultData?.skinType} originalImageWithoutMask={resultData?.originalImageWithoutMask}/>
           ) : (
             resultData?.skinAnalysisResponse && (
               <div className="flex flex-col items-center justify-center p-8 mx-0 md:mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
@@ -567,7 +568,6 @@ const ResultLandingPage = ({}) => {
           <div className="p-[40px] xs:p-[4px] sm:p-[24px]">
           <div className="text-[24px] mt-6 mb-2">Your Root Causes</div>
             <RootCausesV2 />
-            
           </div>
         </div>
         
@@ -576,7 +576,7 @@ const ResultLandingPage = ({}) => {
           {resultData?.skinAnalysisResponse &&
           (!userId ||
             String(userId) === String(resultData?.customerDetails?.caseId)) ? (
-            <SkinDiagnosis skinType={resultData?.skinType}/>
+            <SkinDiagnosis skinType={resultData?.skinType} originalImageWithoutMask={resultData?.originalImageWithoutMask}/>
           ) : (
             resultData?.skinAnalysisResponse && (
               <div className="flex flex-col items-center justify-center p-8 mx-6 my-8 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-sm">
