@@ -93,7 +93,7 @@ const AcneReviews = ({ data }) => {
   );
 
   return (
-    <div className="py-8">
+    <div className="mt-5">
       <Carousel {...carouselSettings}>
         {reviews.map((item, index) => {
           const testimonial = mapReviewData(item);

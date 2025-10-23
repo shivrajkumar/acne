@@ -502,7 +502,7 @@ const ResultLandingPage = ({}) => {
       <div className="sticky top-0 z-50">
         <AcneHeader />
       </div>
-      <div className="mx-[40px] xs:mx-[16px] gap-[40px] flex flex-col">
+      <div className="mx-[40px] xs:mx-[16px] gap-[30px] flex flex-col">
         <div
           ref={resultBannerRef}
           className="p-[40px] xs:p-[4px] sm:p-[24px] md:p-[30px]"

@@ -92,7 +92,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                         width={168}
                         height={168}
                         className="w-[168px] h-[168px] cursor-pointer object-cover"
-                        onClick={() => showModal(product?.variantId)}
+                        // onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                         {showAM && (
@@ -127,14 +127,14 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                         )}
                         {product?.size && (
                             <p className="font-sophiaPro font-[400] text-Text/Label text-[14px]">
-                                Container: {product?.size}
+                                {product?.size}
                             </p>
                         )}
-                        {product?.dosage && (
+                        {/* {product?.dosage && (
                             <p className="font-sophiaPro font-[400] text-Text/Label text-[14px]">
                                 Dosage: {startCase(product?.dosage)}
                             </p>
-                        )}
+                        )} */}
                     </div>
 
                     {product?.tags?.length > 0 && (
@@ -225,7 +225,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                         width={300}
                         height={220}
                         className="object-contain w-[300px] h-[220px] cursor-pointer"
-                        onClick={() => showModal(product?.variantId)}
+                        // onClick={() => showModal(product?.variantId)}
                     />
                 </div>
 
@@ -283,11 +283,11 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                 }
                 <div className="flex   justify-between font-sophiaPro font-[400] text-[14px] leading-[140%]  text-primary/700 ">
                     {/* Container info */}
-                    {product?.size && <p>Container: {product?.size}</p>}
+                    {product?.size && <p>{product?.size}</p>}
 
-                    {product?.dosage && (
+                    {/* {product?.dosage && (
                         <p>Dosage: {startCase(product?.dosage)}</p>
-                    )}
+                    )} */}
                 </div>
 
                 {/* Description */}

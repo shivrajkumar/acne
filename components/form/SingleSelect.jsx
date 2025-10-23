@@ -158,7 +158,7 @@ const SingleSelect = ({ block, context }) => {
                     block.optionMap?.length > 3
                       ? "md:w-[302px]"
                       : "md:w-[412px]"
-                  } xs:w-full transition-all duration-200 py-[16px] px-[24px] md:px-[24px] xs:px-[16px]  hover:border-Primary/500
+                  } xs:w-full transition-all duration-200 py-[8px] px-[24px] md:px-[24px] xs:px-[16px]  hover:border-Primary/500
                   border-[1px] h-auto md:h-[96px]
                   ${
                     reply === option.value
