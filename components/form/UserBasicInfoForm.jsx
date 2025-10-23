@@ -523,8 +523,10 @@ export default function UserBasicInfoForm({ onComplete }) {
     !errors.phoneNumber &&
     !errors.age &&
     !errors.gender;
+
+    
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-start p-4 overflow-hidden">
+    <div className="fixed inset-0 flex flex-col items-center justify-start p-4 overflow-hidden hide-scrollbar">
       {isLoading && <Loader />}
       <div className="w-full h-full flex flex-col max-w-md mt-16">
         <>
@@ -540,7 +542,12 @@ export default function UserBasicInfoForm({ onComplete }) {
 
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-[24px] pt-0 lg:pt-6 pb-[120px] overflow-y-auto flex-1"
+            className="flex flex-col gap-[24px] pt-0 lg:pt-6 pb-[120px] overflow-y-auto flex-1 hide-scrollbar"
+            style={{ 
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+              WebkitScrollbar: { display: 'none' }
+            }}
           >
             <div>
               <input

@@ -1,24 +1,26 @@
 "use client";
-import instructionsForUsage from "@assets/images/how-to-use-haut-ai.png";
 import { Button } from "antd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import InstructionOne from "@assets/images/haut-instructions-1.png";
+import InstructionTwo from "@assets/images/haut-instructions-2.png";
+import InstructionThree from "@assets/images/haut-instructions-3.png";
 
 const instructions = [
   {
     id: 1,
     text: "Hold Phone in front of your face",
-    image: instructionsForUsage,
+    image: InstructionOne,
   },
   {
     id: 2,
-    text: "Remove glasses & hair from forehead",
-    image: instructionsForUsage,
+    text: "Remove glasses & makeup",
+    image: InstructionTwo,
   },
   {
     id: 3,
-    text: "Remove glasses & hair from forehead",
-    image: instructionsForUsage,
+    text: "Fit your face inside the oval",
+    image: InstructionThree,
   },
 ];
 
@@ -28,7 +30,7 @@ const triggers = [
   { id: 3, label: "Microbiome" },
   { id: 4, label: "Lifestyle" },
   { id: 5, label: "Immune function" },
-  { id: 6, label: "Metabolism" }
+  { id: 6, label: "Metabolism" },
 ];
 
 export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
@@ -59,17 +61,23 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
     }
   }, [isFirstStep, internalStep]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onContinue?.();
+    }, 6000);
+
+    return () => clearTimeout(timer);
+  }, [internalStep, onContinue]);
+
   const showFirstFocused = internalStep === "1/2";
 
   return (
     <div className="relative w-full h-screen flex flex-col bg-white overflow-hidden">
       {/* Step Headers */}
-      <div className="flex items-center justify-center bg-white mt-5">
+      <div className={`flex items-center justify-center bg-white ${showFirstFocused ? 'mt-5' : 'mt-10'}`}>
         <div className="text-center relative w-full">
           {/* Step 1 */}
-          <div
-            className={`transition-all duration-1000 ease-in-out`}
-          >
+          <div className={`transition-all duration-1000 ease-in-out`}>
             <h1
               className={`text-[24px] md:text-[40px] font-normal flex items-center justify-center transition-colors duration-700 ${
                 showFirstFocused ? "text-black" : "text-gray-300 text-sm"
@@ -87,9 +95,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
           </div>
 
           {/* Step 2 */}
-          <div
-            className={``}
-          >
+          <div className={``}>
             <p
               className={`text-[24px] md:text-[24px] font-normal leading-relaxed flex items-center justify-center ${
                 !showFirstFocused ? "text-black" : "text-gray-300 text-sm"
@@ -112,7 +118,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
       {showFirstFocused ? (
         // Step 1/2: Instructions Screen
         <div className="w-full max-w-xl mx-auto px-4 py-8 flex-1 overflow-y-auto pb-32">
-          <div className="space-y-1 mb-8">
+          <div className="space-y-4 mb-8">
             {instructions.map((instruction) => (
               <InstructionCard
                 key={instruction.id}
@@ -136,7 +142,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
       )}
 
       {/* Fixed Bottom Button */}
-      <div className="fixed bottom-0 left-0 w-full bg-white p-4 flex justify-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      {/* <div className="fixed bottom-0 left-0 w-full bg-white p-4 flex justify-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <Button
           type="primary"
           size="large"
@@ -145,25 +151,25 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
         >
           Next →
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
 
 function InstructionCard({ text, image }) {
   return (
-    <div className="flex items-center gap-4 bg-[#FFF5F5] border border-red-50 overflow-hidden p-2 rounded-lg">
-      <div className="relative w-[160px] h-[80px] flex-shrink-0">
+    <div className="flex items-center gap-4 bg-Secondary/100 overflow-hidden border border-Grey/300">
+      <div className="relative w-[120px] h-[90px] flex-shrink-0">
         <Image
           src={image}
           alt={text}
           fill
-          className="object-scale-down"
-          sizes="190px"
+          className="object-cover"
+          sizes="200px"
         />
       </div>
-      <div className="flex-1 pr-6">
-        <p className="text-[#2D3436] text-sm font-medium leading-snug">
+      <div className="w-full">
+        <p className="text-[#2D3436] text-[18px] font-normal leading-snug font-sophiaPro">
           {text}
         </p>
       </div>
@@ -173,7 +179,7 @@ function InstructionCard({ text, image }) {
 
 function TriggerButton({ label }) {
   return (
-    <div className="py-2 px-6 border border-Secondary/500 bg-Secondary/100 text-lg font-medium text-gray-800">
+    <div className="py-1 px-4 border border-Secondary/500 text-lg font-normal text-gray-800 rounded-full animate-pulse-fast">
       {label}
     </div>
   );
