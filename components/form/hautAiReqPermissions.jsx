@@ -27,10 +27,12 @@ const instructions = [
 const triggers = [
   { id: 1, label: "Stress" },
   { id: 2, label: "Hormones" },
-  { id: 3, label: "Microbiome" },
-  { id: 4, label: "Lifestyle" },
-  { id: 5, label: "Immune function" },
-  { id: 6, label: "Metabolism" },
+  { id: 3, label: "Liver" },
+  { id: 4, label: "Sleep" },
+  { id: 5, label: "Toxins" },
+  { id: 6, label: "Diet" },
+  { id: 7, label: "Gut" },
+  { id: 8, label: "Metabolism" },
 ];
 
 export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
@@ -61,13 +63,13 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
     }
   }, [isFirstStep, internalStep]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onContinue?.();
-    }, 6000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     onContinue?.();
+  //   }, 10000);
 
-    return () => clearTimeout(timer);
-  }, [internalStep, onContinue]);
+  //   return () => clearTimeout(timer);
+  // }, [internalStep, onContinue]);
 
   const showFirstFocused = internalStep === "1/2";
 
@@ -79,18 +81,18 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
           {/* Step 1 */}
           <div className={`transition-all duration-1000 ease-in-out`}>
             <h1
-              className={`text-[24px] md:text-[40px] font-normal flex items-center justify-center transition-colors duration-700 ${
+              className={`text-[28px] md:text-[40px] font-normal flex items-center justify-center transition-colors duration-700 ${
                 showFirstFocused ? "text-black" : "text-gray-300 text-sm"
               }`}
             >
               <span
-                className={`text-[16px] md:text-[24px] mr-2 font-bold transition-all duration-700 ${
+                className={`text-[16px] md:text-[24px] mr-2 font-light transition-all duration-700 ${
                   showFirstFocused ? "text-blue-500" : "text-gray-300 text-sm"
                 }`}
               >
                 1/2
               </span>
-              AI Skin Scan
+              Take a Photo <br/> for AI Skin Diagnosis
             </h1>
           </div>
 
@@ -102,7 +104,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
               }`}
             >
               <span
-                className={`text-[16px] md:text-[24px] mr-2 font-bold transition-all duration-700 ${
+                className={`text-[16px] md:text-[24px] mr-2 font-light transition-all duration-700 ${
                   !showFirstFocused ? "text-blue-500" : "text-gray-300 text-sm"
                 }`}
               >
@@ -132,8 +134,8 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
       ) : (
         // Step 2/2: Acne Trigger Analysis Screen
         <div className="w-full max-w-xl mx-auto px-4 mt-2 flex-1 overflow-y-auto pb-32">
-          <h2 className="text-2xl font-light text-center mb-6">Find your</h2>
-          <div className="flex flex-wrap gap-3 mb-8">
+          <h2 className="text-xs font-light text-center my-6 text-[#727678]">ANSWER A FEW MORE QUESTIONS, TO HELP US DECODE YOUR TRIGGERS</h2>
+          <div className="flex justify-center flex-wrap gap-3 mb-8 text-center">
             {triggers.map((trigger) => (
               <TriggerButton key={trigger.id} label={trigger.label} />
             ))}
@@ -142,16 +144,14 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
       )}
 
       {/* Fixed Bottom Button */}
-      {/* <div className="fixed bottom-0 left-0 w-full bg-white p-4 flex justify-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 w-full p-4 flex justify-center">
         <Button
-          type="primary"
-          size="large"
-          className="w-full max-w-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full h-12"
+          className="max-w-xl bg-blue-600 hover:bg-blue-700 text-white font-normal rounded-full h-12 px-16"
           onClick={onContinue}
         >
-          Next →
+          {showFirstFocused ? 'Take a photo →' : 'Analyze Triggers →'}
         </Button>
-      </div> */}
+      </div>
     </div>
   );
 }
@@ -179,7 +179,7 @@ function InstructionCard({ text, image }) {
 
 function TriggerButton({ label }) {
   return (
-    <div className="py-1 px-4 border border-Secondary/500 text-lg font-normal text-gray-800 rounded-full animate-pulse-fast">
+    <div className="underline text-lg font-normal text-[#727678] animate-pulse-fast">
       {label}
     </div>
   );
