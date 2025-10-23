@@ -63,13 +63,13 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
     }
   }, [isFirstStep, internalStep]);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     onContinue?.();
-  //   }, 10000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onContinue?.();
+    }, 10000);
 
-  //   return () => clearTimeout(timer);
-  // }, [internalStep, onContinue]);
+    return () => clearTimeout(timer);
+  }, [internalStep, onContinue]);
 
   const showFirstFocused = internalStep === "1/2";
 
