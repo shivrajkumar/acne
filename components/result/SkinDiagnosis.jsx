@@ -40,7 +40,7 @@ const CircularProgress = ({ score = 0, size = 64, strokeWidth = 4 }) => {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-xs md:text-[16px] font-semibold text-gray-900">
-          {score}
+          {score || 0}
         </span>
         <Divider className="bg-black my-1" />
         <span className="text-xs md:text-[16px] text-gray-500">100</span>
@@ -412,7 +412,7 @@ const SkinDiagnosis = ({ skinType, originalImageWithoutMask }) => {
             ref={mobileScrollContainerRef}
             className="overflow-x-auto hide-scrollbar"
           >
-            <div className="flex gap-4 items-center py-4">
+            <div className="flex gap-4 items-center py-4 ml-2">
               {alteredData.map((item, index) => (
                 <div key={item.id} className="flex-shrink-0">
                   <DiagnosisCard
