@@ -113,7 +113,7 @@ const RootCauseIconComponent = ({
   };
 
   return (
-    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative md:h-[197px]">
+    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative h-[220px] md:h-[197px]">
       {/* Header */}
       <div className="flex items-center gap-[4px] mb-[16px]">
         <div className="bg-[#CA3936] rounded-full w-[16px] h-[16px] flex items-center justify-center">
@@ -127,11 +127,17 @@ const RootCauseIconComponent = ({
       {/* Desktop View */}
       <div className="hidden md:block">
         <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px]">
-          <div className="flex items-center justify-between">
+          <div className={`flex items-center ${
+            rootCauseInfo.length === 1 ? "justify-start" : "justify-between"
+          }`}>
             {rootCauseInfo.map((cause, index) => (
               <div
                 key={cause?.name}
-                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] flex-1 transition-all ${
+                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] transition-all ${
+                  rootCauseInfo.length === 1 
+                    ? "flex-shrink-0" 
+                    : "flex-1"
+                } ${
                   index === activeIndex
                     ? "bg-[#FEEADB] border border-[#CA3936]"
                     : ""

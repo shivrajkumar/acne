@@ -67,6 +67,21 @@ export default function UserBasicInfoForm({ onComplete }) {
     // Track page view when component mounts
     logGtmEvent("page_view_skin_test");
 
+    // Prevent scrolling on the body when this component is mounted
+    const originalOverflow = document.body.style.overflow;
+    const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
+    const originalWidth = document.body.style.width;
+    
+    // Save current scroll position
+    const scrollY = window.scrollY;
+    
+    // Apply styles to prevent scrolling
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
     if (typeof window !== "undefined") {
       setFormData({
         fullName: window.localStorage.getItem("user_first_name"),
@@ -92,6 +107,17 @@ export default function UserBasicInfoForm({ onComplete }) {
         setErrors((prev) => ({ ...prev, age: validateAge(loadedAge) }));
       }
     }
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
+      document.body.style.width = originalWidth;
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollY);
+    };
   }, []);
 
   // Sync with context data if available
@@ -681,7 +707,7 @@ export default function UserBasicInfoForm({ onComplete }) {
               type="submit"
               onClick={handleSubmit}
               className={`w-full max-w-md py-[12px] px-[56px] font-[600] text-[14px] text-Neutral/100 rounded-full font-sophiaPro ${
-                isFormValid ? "bg-Neutral/900" : "bg-Neutral/400"
+                isFormValid ? "bg-Primary/500" : "bg-Neutral/400"
               }`}
               disabled={!isFormValid}
             >
