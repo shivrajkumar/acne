@@ -132,8 +132,8 @@ const CartPageHome = () => {
                 </div>
 
                 {/* Doctor Info */}
-                <div className="p-[16px]">
-                  <div className="flex items-center gap-4 bg-[#EDF9F4] p-3 rounded-lg mb-4">
+                <div className="px-4">
+                  {/* <div className="flex items-center gap-4 bg-[#EDF9F4] p-3 rounded-lg mb-4">
                     <Image
                       src={data?.doctorDetails?.image}
                       alt="doctor"
@@ -153,7 +153,7 @@ const CartPageHome = () => {
                         {data?.doctorDetails?.experience}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   {/*  Product info */}
 
                   <div className={`flex flex-col gap-[16px] mt-[24px]`}>
@@ -215,9 +215,9 @@ const CartPageHome = () => {
 
           {/*  First Drawer info */}
 
-          <div className="w-full h-full flex flex-col ">
+          <div className="w-full h-full flex flex-col">
             {/* Cart Items with scroll */}
-            <div className="flex-1 overflow-y-auto ">
+            <div className="flex-1 overflow-y-auto hide-scrollbar">
               <div className="flex flex-col gap-4">
                 {data?.productsDetails.map((product) => (
                   <div
@@ -249,7 +249,7 @@ const CartPageHome = () => {
               </div>
 
               {/* Checkbox */}
-              <div className="mt-4 flex items-center gap-2 cursor-pointer pl-2">
+              <div className="my-4 flex items-center gap-2 cursor-pointer pl-2">
                 <input
                   type="checkbox"
                   className="h-[18px] w-[18px] cursor-pointer rounded-[100px]"
@@ -276,7 +276,7 @@ const CartPageHome = () => {
                 </div>
               </div>
               <button
-                className="flex bg-Tertiary/600 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
+                className="flex bg-Primary/500 px-[40px] py-[16px] rounded-[100px] md:w-[273px] w-[189px] h-[56px] text-[#FFFFFF] text-[14px] font-[500] leading-[24px] -tracking-[1%] justify-center"
                 onClick={placeOrder}
               >
                 CHECKOUT

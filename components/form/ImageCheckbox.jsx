@@ -15,6 +15,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import { CDN_BASE_URL } from "@/constants/constants";
 import { generateEventId } from "@/helpers/metaCapiHelper";
 import { MdInfo } from "react-icons/md";
+import { HiArrowRight } from "react-icons/hi";
 
 const blackheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/black_heads.webp`;
 const whiteheads = `${CDN_BASE_URL}website_images/clear_rituals/landingPage/white_heads.webp`;
@@ -293,19 +294,19 @@ const ImageCheckbox = ({ block, context }) => {
         />
 
         {/* Fixed Next button at bottom of screen */}
-        <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 md:mx-0 xs:mx-4">
+        <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
           <button
             type="submit"
-            className={`py-4 w-full max-w-md font-semibold text-white rounded-full ${
-              selectedOptions?.length > 0 ? "bg-Neutral/900" : "bg-Neutral/400"
-            } transition-all duration-200 shadow-sm`}
+            className={`py-3 w-3/4 max-w-md font-[400] font-sophiaPro text-white rounded-full ${
+              selectedOptions.length > 0 ? "bg-Primary/500" : "bg-Neutral/400"
+            } transition-all duration-200 shadow-sm flex items-center justify-center gap-2`}
             onClick={_handleSubmit}
             disabled={selectedOptions.length === 0}
           >
             NEXT
+            <HiArrowRight size={20} />
           </button>
         </div>
-
         {/* Add bottom padding to account for fixed button */}
         <div className="h-[30px]"></div>
       </div>

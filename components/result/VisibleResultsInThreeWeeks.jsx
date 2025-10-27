@@ -24,7 +24,7 @@ const VisibleResultsInThreeWeeks = () => {
     ];
 
     return (
-        <div className=" bg-Secondary/50 border border-[#AFA792] p-4 md:p-10 flex flex-col gap-0 md:gap-[48px] rounded-[24px]">
+        <div className=" bg-Secondary/50 border border-[#AFA792] p-4 md:p-10 flex flex-col gap-0 md:gap-[48px] rounded-[24px] mt-5">
             <h1 className="md:block hidden font-sophiaPro  leading-[120%]font-[500] text-[28px] md:text-[44px] text-Text/Heading-Text text-center mb-8 md:mb-12">
                 Visible Results in Less Than 3 <br /> Weeks
             </h1>

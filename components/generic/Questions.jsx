@@ -54,6 +54,7 @@ const Questions = () => {
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
   const [wasRestored, setWasRestored] = useState(false);
   const [hasShownPhotoAnalysisFlow, setHasShownPhotoAnalysisFlow] = useState(false);
+  const [isNavigatingBack, setIsNavigatingBack] = useState(false);
 
   const fetchQuestionsData = async () => {
     setLoading(true);
@@ -129,7 +130,18 @@ const Questions = () => {
           
           if (restored) {
             setWasRestored(true);
-            setLoading(false); // Stop showing loader
+            
+            // If we restored but don't have questions data, we need to fetch it
+            // This happens when restoring to questions like stress_level
+            if (!firstQuestion) {
+              fetchQuestionsData().then(() => {
+                setLoading(false);
+              }).catch(() => {
+                setLoading(false);
+              });
+            } else {
+              setLoading(false); // Stop showing loader
+            }
             
             // Clean up URL parameter if present
             if (shouldRestoreFromURL) {
@@ -220,8 +232,14 @@ const Questions = () => {
           nextQuestion('user_basic_info', 'completed');
         }, 100); // Small delay to ensure state is settled
       }
+      
+      // If we restored to stress_level or beyond, we need to ensure questions are loaded
+      if (currentQuestion.id === 'stress_level' && !firstQuestion) {
+        // If questions aren't loaded yet, fetch them
+        fetchQuestionsData();
+      }
     }
-  }, [wasRestored, currentQuestion?.id, skipUserBasicInfo]);
+  }, [wasRestored, currentQuestion?.id, skipUserBasicInfo, firstQuestion]);
 
   const pageExitevent = () => {
     if (typeof window === 'undefined') return;
@@ -283,6 +301,18 @@ const Questions = () => {
     }
   };
 
+  // Wrapper for back navigation to prevent loader from showing
+  const handleBackNavigation = () => {
+    setIsNavigatingBack(true);
+    setShowLoaderAfterStress(false); // Clear any loader state
+    setShowPhotoAnalysisFailed(false); // Clear photo analysis failed state
+    removeFromPreviousQuestion();
+    // Reset the flag after a short delay
+    setTimeout(() => {
+      setIsNavigatingBack(false);
+    }, 500);
+  };
+
   useEffect(() => {
     // Scroll to top when currentQuestion changes
     if (currentQuestion) {
@@ -307,23 +337,29 @@ const Questions = () => {
           setPhotoQCompleted(true);
         }
         
-        // Check if we just completed stress_level - show loader first
-        if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow) {
+        // Only trigger loader if we're moving forward from stress_level (not on back navigation or reload)
+        // Check if prevQuestion is stress_level AND we're not currently at stress_level (indicating forward movement)
+        if (prevQuestion === "stress_level" && currentQuestion.id !== "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow && !isNavigatingBack) {
           setShowLoaderAfterStress(true);
         }
       }
     }
     
-    // Also check if we're currently on stress_level and hautAiResponse became false
-    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow) {
-      setShowLoaderAfterStress(true);
+    // Also check if we're currently on stress_level and hautAiResponse became false - only for forward navigation
+    // Don't trigger if we're restoring, reloading, or navigating back
+    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow && !wasRestored && !isNavigatingBack) {
+      // Only set loader if we're actually moving forward (check if stress_level has been answered)
+      const stressLevelAnswer = typeof window !== 'undefined' ? window.localStorage.getItem('stress_level') : null;
+      if (stressLevelAnswer) {
+        setShowLoaderAfterStress(true);
+      }
     }
     
     // Store current question for tracking
     if (currentQuestion && currentQuestion.id && typeof window !== 'undefined') {
       window.localStorage.setItem('prev_question', currentQuestion.id);
     }
-  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled, hasShownPhotoAnalysisFlow]);
+  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled, hasShownPhotoAnalysisFlow, isNavigatingBack]);
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
@@ -387,7 +423,7 @@ const Questions = () => {
         mobileScreen={mobileScreen}
         firstQuestion={firstQuestion}
         exitURL={exitURL}
-        removeFromPreviousQuestion={removeFromPreviousQuestion}
+        removeFromPreviousQuestion={handleBackNavigation}
       />
       {!allQuestionsFilled ? (
         <>
@@ -410,7 +446,7 @@ const Questions = () => {
                     setPhotoQCompleted(false);
                   }} 
                 />
-              ) : showLoaderAfterStress ? (
+              ) : showLoaderAfterStress && currentQuestion?.id !== "stress_level" ? (
                 <LoaderWithText onHautAiResponse={handleHautAiResponse} />
               ) : showPhotoAnalysisFailed ? (
                 <PhotoAnalysisFailed 
