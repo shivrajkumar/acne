@@ -109,7 +109,7 @@ const CartPageHome = () => {
             >
               {/*  Title */}
               <div
-                className="fixed bottom-[0] right-[0] md:w-[480px] w-[100%] h-[592px] bg-white  shadow-xl z-50 transform transition-transform duration-300 ease-in-out translate-x-0"
+                className="fixed bottom-[0] right-[0] md:w-[480px] w-[100%] h-[532px] bg-white  shadow-xl z-50 transform transition-transform duration-300 ease-in-out translate-x-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close Button */}
