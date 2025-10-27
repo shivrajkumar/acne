@@ -67,21 +67,6 @@ export default function UserBasicInfoForm({ onComplete }) {
     // Track page view when component mounts
     logGtmEvent("page_view_skin_test");
 
-    // Prevent scrolling on the body when this component is mounted
-    const originalOverflow = document.body.style.overflow;
-    const originalPosition = document.body.style.position;
-    const originalTop = document.body.style.top;
-    const originalWidth = document.body.style.width;
-    
-    // Save current scroll position
-    const scrollY = window.scrollY;
-    
-    // Apply styles to prevent scrolling
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = '100%';
-
     if (typeof window !== "undefined") {
       setFormData({
         fullName: window.localStorage.getItem("user_first_name"),
