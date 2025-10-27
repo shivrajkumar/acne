@@ -95,11 +95,6 @@ export default function UserBasicInfoForm({ onComplete }) {
 
     // Cleanup function to restore scrolling when component unmounts
     return () => {
-      document.body.style.overflow = originalOverflow;
-      document.body.style.position = originalPosition;
-      document.body.style.top = originalTop;
-      document.body.style.width = originalWidth;
-      
       // Restore scroll position
       window.scrollTo(0, scrollY);
     };
