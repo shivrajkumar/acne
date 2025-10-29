@@ -52,18 +52,19 @@ const BlogsLanding = () => {
         <FilterButtons filters={filters} onClick={handleClick} selectedFilter={selectedFilter}/>
 
         {/* Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-          {filteredBlogs?.map((item) => (
-            <BlogCard
-              image={item.image}
-              date={item.date}
-              readTime={item.readTime}
-              title={item.title}
-              description={item.description}
-              slug={item.slug}
-            />
-          ))}
-        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+  {filteredBlogs?.map((item, index) => (
+    <BlogCard
+      key={index}
+      image={item.image}
+      date={item.date}
+      readTime={item.readTime}
+      title={item.title}
+      description={item.description}
+      slug={item.slug}
+    />
+  ))}
+</div>
       </div>
       {/* <div
         className={`transition-all duration-300 ${
