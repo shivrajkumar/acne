@@ -6,7 +6,6 @@ import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 const { Text } = Typography;
 
 const FaqItem = ({ question, answer, ingredients, isOpen, onToggle }) => {
-  console.log('ingredients', ingredients)
   
   return (
     <div className="border-b border-gray-200 last:border-b-0 cursor-pointer">

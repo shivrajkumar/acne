@@ -17,8 +17,19 @@ import { GET_ACNE_PRODUCTS } from "@/constants/urls";
 
 const ProductsMainLanding = () => {
   const [products, setProducts] = useState(null);
+  const [categorizedProducts, setCategorizedProducts] = useState({
+    cleanse: [],
+    moisturise: [],
+    protect: [],
+    skinFood: []
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Log categorizedProducts whenever it changes
+  useEffect(() => {
+    console.log('categorizedProducts updated:', categorizedProducts);
+  }, [categorizedProducts]);
 
   useEffect(() => {
     fetchProducts();
@@ -32,15 +43,57 @@ const ProductsMainLanding = () => {
       const response = await fetchRequest(GET_ACNE_PRODUCTS());
       
       if (response && response.status === 200 && response.data) {
-        setProducts(response.data);
-        console.log('ACNE Products Data:', response);
+        // The actual products array is in response.data.allProducts
+        const productsData = response.data.allProducts || response.data.data || response.data;
+        setProducts(productsData);
+        console.log('ACNE Products Data:', productsData);
+        
+        // Categorize products by type
+        const categorized = {
+          cleanse: [],
+          moisturise: [],
+          protect: [],
+          skinFood: [],
+          treatment: []
+        };
+        
+        if (Array.isArray(productsData)) {
+          productsData.forEach(product => {
+            switch(product.type) {
+              case 'COSMETIC_CLEANSER':
+                categorized.cleanse.push(product);
+                break;
+              case 'COSMETIC_MOISTURISER':
+                categorized.moisturise.push(product);
+                break;
+              case 'COSMETIC_PROTECTION':
+                categorized.protect.push(product);
+                break;
+              case 'SUPPLEMENT':
+                categorized.skinFood.push(product);
+                break;
+              case 'DRUG':
+                categorized.treatment.push(product);
+                break;
+              default:
+                console.log('Unknown product type:', product.type, product);
+                break;
+            }
+          });
+          
+          console.log('Categorized immediately after processing:', categorized);
+          setCategorizedProducts(categorized);
+        } else {
+          console.error('Products data is not an array:', productsData);
+        }
       } else {
         throw new Error(
-          response?.data?.message
+          response?.data?.message || 'Failed to fetch products'
         );
       }
     } catch (error) {
       setError(error.message);
+      console.error('Error fetching products:', error);
     } finally {
       setIsLoading(false);
     }
@@ -71,13 +124,107 @@ const ProductsMainLanding = () => {
       />
 
       <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-20 text-[28px]">
-        This isn’t just goodbye. These products will soon disappear from the
+        This isn't just goodbye. These products will soon disappear from the
         Clear Ritual range. Now is the time to fill up!
       </div>
 
-      {shopByConcerns.map((concern) => (
-        <ConcernSection key={concern.title} concern={concern} />
-      ))}
+      {/* Loading State */}
+      {isLoading && (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500" />
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="text-center py-10 text-red-500">
+          Error loading products: {error}
+        </div>
+      )}
+
+      {/* Cleanse Section */}
+      {!isLoading && categorizedProducts.cleanse.length > 0 && (
+        <ConcernSection 
+          concern={{
+            title: "Cleanse",
+            products: categorizedProducts.cleanse.map(p => ({
+              id: p.variantId,
+              name: p.name,
+              image: p.image,
+              price: p.price,
+              rating: p.rating,
+              ratingCount: p.ratingPeopleCount,
+              size: p.size,
+              description: p.description,
+              tags: p.tags,
+              dosage: p.dosage
+            }))
+          }}
+        />
+      )}
+      
+      {/* Moisturise Section */}
+      {!isLoading && categorizedProducts.moisturise.length > 0 && (
+        <ConcernSection 
+          concern={{
+            title: "Moisturise",
+            products: categorizedProducts.moisturise.map(p => ({
+              id: p.variantId,
+              name: p.name,
+              image: p.image,
+              price: p.price,
+              rating: p.rating,
+              ratingCount: p.ratingPeopleCount,
+              size: p.size,
+              description: p.description,
+              tags: p.tags,
+              dosage: p.dosage
+            }))
+          }}
+        />
+      )}
+      
+      {/* Protect Section */}
+      {!isLoading && categorizedProducts.protect.length > 0 && (
+        <ConcernSection 
+          concern={{
+            title: "Protect",
+            products: categorizedProducts.protect.map(p => ({
+              id: p.variantId,
+              name: p.name,
+              image: p.image,
+              price: p.price,
+              rating: p.rating,
+              ratingCount: p.ratingPeopleCount,
+              size: p.size,
+              description: p.description,
+              tags: p.tags,
+              dosage: p.dosage
+            }))
+          }}
+        />
+      )}
+      
+      {/* Skin Food Section */}
+      {!isLoading && categorizedProducts.skinFood.length > 0 && (
+        <ConcernSection 
+          concern={{
+            title: "Skin Food",
+            products: categorizedProducts.skinFood.map(p => ({
+              id: p.variantId,
+              name: p.name,
+              image: p.image,
+              price: p.price,
+              rating: p.rating,
+              ratingCount: p.ratingPeopleCount,
+              size: p.size,
+              description: p.description,
+              tags: p.tags,
+              dosage: p.dosage
+            }))
+          }}
+        />
+      )}
 
       <WhyItWorks />
       <IdealSkincareRitual />

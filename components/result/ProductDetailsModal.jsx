@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import Loader from "../generic/Loader";
-import { PRODUCT_BOTTOM_SHEET_API } from "@/constants/urls";
+import { PRODUCT_BOTTOM_SHEET_API, GET_INGREDIENTS } from "@/constants/urls";
 import ProductInfo from "@/components/productDetails/components/ProductInfo";
 import KeyIngredients from "@/components/productDetails/components/KeyIngredients";
 import IngredientsFaqSection from "@/components/ingredientsLanding/components/ingredientsFaq";
@@ -17,9 +17,11 @@ import closeIcon from "@assets/svg/close-circle.svg";
 import "@/styles/bottomSheet.css";
 import FaqItem from "../faq/components/FaqItem";
 import AcneReviews from "./AcneReviews";
+import BottomSheetReviews from "./bottomSheetReviews";
 
-const ProductPageModal = ({ variantId, handleCancel, open }) => {
+const ProductPageModal = ({ variantId, handleCancel, open, ingredientsMap }) => {
   const [product, setProduct] = useState(null);
+  const [ingredientDetails, setIngredientDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
@@ -50,8 +52,12 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
   };
 
   useEffect(() => {
-    fetchEachProductDetails();
-  }, [variantId]);
+    if (variantId && open) {
+      console.log('Fetching data for variantId:', variantId);
+      fetchEachProductDetails();
+      fetchIngredientDetails();
+    }
+  }, [variantId, open]);
 
   useEffect(() => {
     if (open) {
@@ -92,8 +98,38 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
     }
   };
 
+  const fetchIngredientDetails = async () => {
+    try {
+      const response = await fetchRequest(GET_INGREDIENTS());
+      
+      if (response && response.status === 200 && response.data) {
+        
+        // Find the ingredient data for the current product variant
+        // Adjust based on actual API response structure
+        let currentProductIngredients = null;
+        
+        // Check if data is an array or object
+        if (Array.isArray(response.data?.data)) {
+          currentProductIngredients = response.data.data.find(
+            item => item.variantId === variantId || item.variant_id === variantId
+          );
+        } else if (response.data?.data) {
+          // If it's an object, check if variantId is a key
+          currentProductIngredients = response.data.data[variantId];
+        }
+        
+        if (currentProductIngredients) {
+          setIngredientDetails(currentProductIngredients);
+        } 
+      }
+    } catch (error) {
+      console.error('Error fetching ingredient details:', error);
+    }
+  };
+
   const handleRetry = () => {
     fetchEachProductDetails();
+    fetchIngredientDetails();
   };
 
   // Drag handlers for mobile
@@ -131,7 +167,22 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
     setDragOffset(0);
   };
 
-  console.log("product", product);
+  const ayurvedafn = (ingredient) => {
+    console.log("ayurveda ingredient", ingredient);
+    return ingredient; // Return the ingredient
+  }
+
+  const cosmeticsfn = (ingredient) => {
+    console.log("cosmetics ingredient", ingredient);
+    return ingredient; // Return the ingredient
+  }
+
+  const drugsfn = (ingredient) => {
+    console.log("drugs ingredient", ingredient);
+    return ingredient; // Return the ingredient
+  }
+
+  console.log('productcontent', product?.content);
 
   if (isMobile) {
     return (
@@ -207,7 +258,6 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
                 {/* Scrollable Content Section */}
                 <div className="w-full px-4 pb-6 pt-4">
                   {/* Product Info Section */}
-                  {console.log("anurag", product)}
                   <ProductInfo
                     title={product?.content?.name || "Product Name"}
                     subtitle={product?.content?.by_line}
@@ -233,7 +283,43 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
                         >
                           <div className="overflow-x-auto">
                             <KeyIngredients
-                              ingredients={product?.content?.key_ingredients}
+                              ingredients={product?.content?.key_ingredients
+                                ?.map((item) => {
+                                  const singleIngredient =
+                                    ingredientsMap?.get(item);
+                                  console.log(
+                                    "Found singleIngredient:",
+                                    singleIngredient
+                                  );
+
+                                  if (!singleIngredient) {
+                                    return null;
+                                  }
+
+                                  // Process based on type and return the processed ingredient
+                                  if (singleIngredient.type === "ayurveda") {
+                                    return ayurvedafn(singleIngredient);
+                                  } else if (
+                                    singleIngredient.type === "cosmetics"
+                                  ) {
+                                    return cosmeticsfn(singleIngredient);
+                                  } else if (
+                                    singleIngredient.type === "drugs"
+                                  ) {
+                                    console.log(
+                                      "Processing drug ingredient:",
+                                      singleIngredient
+                                    );
+                                    return drugsfn(singleIngredient);
+                                  } else {
+                                    console.log(
+                                      "Unknown ingredient type:",
+                                      singleIngredient.type
+                                    );
+                                    return singleIngredient;
+                                  }
+                                })
+                                .filter(Boolean)} // Remove null values
                             />
                           </div>
                         </ProductCollapsibleSection>
@@ -248,13 +334,14 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
                           question={"Full Ingredients List"}
                           ingredients={product?.content?.full_ingredients}
                           isOpen={isFullIngredientsOpen}
-                          onToggle={() => setIsFullIngredientsOpen(!isFullIngredientsOpen)}
+                          onToggle={() =>
+                            setIsFullIngredientsOpen(!isFullIngredientsOpen)
+                          }
                         />
                       </div>
                     </>
                   )}
                   <Divider />
-
 
                   {product?.content?.who_is_this_for && (
                     <>
@@ -282,15 +369,24 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
                     </>
                   )}
                   <Divider />
-
-                  <AcneReviews/>
+                  {product?.content?.reviews?.map((review, index) => (
+                    <div className="mt-5">
+                      <BottomSheetReviews
+                        key={index}
+                        name={review?.name}
+                        location={"Mumbai"}
+                        review={review?.review}
+                        rating={review?.rating}
+                      />
+                    </div>
+                  ))}
                   <Divider />
 
                   {/* FAQs Section */}
                   {product?.content?.FAQ &&
                     product?.content?.FAQ.length > 0 && (
                       <>
-                        <div className="text-Grey/900 text-2xl mt-16">FAQS</div>
+                        <div className="text-Grey/900 text-2xl mt-6">FAQS</div>
                         <div className="mb-4">
                           <IngredientsFaqSection
                             questions={product?.content?.FAQ}
@@ -397,7 +493,7 @@ const ProductPageModal = ({ variantId, handleCancel, open }) => {
             onToggle={() => toggleSection("keyIngredients")}
           >
             <KeyIngredients
-              ingredients={product?.content?.key_ingredients}
+              ingredients={ingredientDetails?.keyIngredients || product?.content?.key_ingredients}
             />
           </ProductCollapsibleSection>
         </div>

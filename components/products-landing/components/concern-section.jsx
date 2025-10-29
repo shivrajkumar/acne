@@ -49,7 +49,7 @@ export default function ConcernSection({ concern }) {
         className={
           isSkinFood
             ? "grid grid-cols-2 md:grid-cols-3 gap-3"
-            : "flex gap-8 overflow-x-auto thin-scrollbar scroll-smooth"
+            : "flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth"
         }
       >
         {concern?.products?.map((product) => (
