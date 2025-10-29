@@ -92,7 +92,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                         width={168}
                         height={168}
                         className="w-[168px] h-[168px] cursor-pointer object-cover"
-                        // onClick={() => showModal(product?.variantId)}
+                        onClick={() => showModal(product?.variantId)}
                     />
                     <div className="flex justify-center gap-[16px] mt-[16px]">
                         {showAM && (
@@ -225,7 +225,7 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                         width={300}
                         height={220}
                         className="object-contain w-[300px] h-[220px] cursor-pointer"
-                        // onClick={() => showModal(product?.variantId)}
+                        onClick={() => showModal(product?.variantId)}
                     />
                 </div>
 
@@ -314,8 +314,6 @@ const ProductCard = ({ product, showAM, showModal, showPM, isOptional = false, a
                     </div>
                 )}
             </div>
-
-
         </>
     )
 }

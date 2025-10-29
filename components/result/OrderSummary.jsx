@@ -13,7 +13,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import useMediaQuery from "@/hooks/useMediaQuerry";
 import { generateEventId } from "@/helpers/metaCapiHelper";
 
-const OrderSummary = () => {
+const OrderSummary = ({ingredientsMap}) => {
   const { productsDetails, optionalProductsDetails, addProductToCart } =
     useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -226,6 +226,7 @@ const OrderSummary = () => {
           variantId={selectedVariantId}
           handleCancel={handleCancel}
           open={isModalOpen}
+          ingredientsMap={ingredientsMap}
         />
       )}
     </div>

@@ -245,3 +245,7 @@ export const SUBMIT_CONTACT_US_FORM = () => getUrl(`consumer-api/service/consume
 export const GET_ACTIVE_FORM_ID = (caseId) => getUrl(`consumer-api/service/customer-details/active-form/${caseId}`)
 
 export const GET_ACNE_PRODUCTS = () => getUrl('consumer-api/service/recommendations/acne-products');
+
+export const GET_INGREDIENTS = () => {
+  return `${PROXY_PREFIX}/consumer-api/service/static-content/data/ACNE_PRODUCTS_INGREDIENTS`;
+};
