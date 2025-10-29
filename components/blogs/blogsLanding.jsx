@@ -9,7 +9,10 @@ import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 const BlogsLanding = () => {
   const [selectedFilter, setSelectedFilter] = useState("All Articles");
   const filters = ["All Articles", "Acne Education", "Skin Education"];
-  const filteredBlogs = selectedFilter === "All Articles" ? blogLandingData : blogLandingData.filter((blog) => blog.filter === selectedFilter);
+  const filteredBlogs =
+    selectedFilter === "All Articles"
+      ? blogLandingData
+      : blogLandingData.filter((blog) => blog.filter === selectedFilter);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   const handleClick = (filter) => {
@@ -49,22 +52,26 @@ const BlogsLanding = () => {
         </div>
 
         {/* Filters */}
-        <FilterButtons filters={filters} onClick={handleClick} selectedFilter={selectedFilter}/>
+        <FilterButtons
+          filters={filters}
+          onClick={handleClick}
+          selectedFilter={selectedFilter}
+        />
 
         {/* Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-  {filteredBlogs?.map((item, index) => (
-    <BlogCard
-      key={index}
-      image={item.image}
-      date={item.date}
-      readTime={item.readTime}
-      title={item.title}
-      description={item.description}
-      slug={item.slug}
-    />
-  ))}
-</div>
+          {filteredBlogs?.map((item, index) => (
+            <BlogCard
+              key={index}
+              image={item.image}
+              date={item.date}
+              readTime={item.readTime}
+              title={item.title}
+              description={item.description}
+              slug={item.slug}
+            />
+          ))}
+        </div>
       </div>
       {/* <div
         className={`transition-all duration-300 ${

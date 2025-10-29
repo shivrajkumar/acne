@@ -12,7 +12,7 @@ export const BlogCard = ({
 }) => {
   return (
     <Link href={`/blog/${slug}`}>
-      <div className="cursor-pointer flex flex-col gap-3 w-full">
+      <div className="cursor-pointer flex flex-col gap-3 w-full mt-10">
         {/* Image */}
         <div className="relative w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[280px] rounded-xl overflow-hidden bg-gray-100">
           <Image
