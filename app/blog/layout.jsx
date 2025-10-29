@@ -13,10 +13,9 @@ function Layout({ children }) {
       </div>
 
       {/* Main content */}
-      <div className="container px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-16 mx-auto">
+      <div className="px-2 lg:px-8">
         {children}
       </div>
-
       <AcneFooter />
     </div>
   );

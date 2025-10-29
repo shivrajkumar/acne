@@ -41,6 +41,8 @@ const nextConfig = {
       "dvv8w2q8s3qot.cloudfront.net",
       "traya.health",
       "storage.googleapis.com",
+      "tr-strapi-content.s3.ap-south-1.amazonaws.com",
+      "tr-strapi-content-prod.s3.ap-south-1.amazonaws.com", // ✅ Add this line
     ],
     remotePatterns: [
       {
