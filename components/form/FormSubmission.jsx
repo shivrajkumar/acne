@@ -10,12 +10,16 @@ import { pixelCustomeEvent } from "../generic/Pixel";
 import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
+import { HAUT_AI_IMAGE_CAPTURE_CHECK } from "@/constants/urls";
+import { fetchRequest } from "@/helpers/fetchRequest";
 
 const FormSubmission = () => {
   const tid = window.localStorage.getItem("user_tid");
   const router = useRouter();
   const {
-    apiResponse: { syntheticId, caseId }
+    apiResponse: { syntheticId, caseId },
+    hautAiResponse,
+    setHautAiResponse
   } = useContext(QuestionsContext);
 
   useEffect(() => {
@@ -62,23 +66,69 @@ const FormSubmission = () => {
       completed_timestamp: new Date().toISOString(),
     });
     addUserAttributeAfterMoenageLoads("form_status", "filled");
-    // Set timeout to redirect after 1000ms (1 second)
-    const redirectTimer = setTimeout(() => {
-      router.push(`/result?tid=${tid}`);
-    }, 1000);
-
-    // Clean up the timer if component unmounts
-    return () => clearTimeout(redirectTimer);
-  }, [tid, router]);
+  }, []);
 
   useEffect(() => {
-    // FormSubmission should only be reached when allQuestionsFilled is true
-    // So we don't need to handle hautAiResponse logic here anymore
     window.localStorage.setItem("form_status", "filled");
     const phone = window.localStorage.getItem("user_phone");
     logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender, event_id: generateEventId({ eventName: 'Form_End', phone: phone }) })
     if (syntheticId) window.localStorage.setItem("syntheticId", syntheticId);
   }, [syntheticId]);
+
+  // Call HAUT_AI API to check skin analysis at 13th second
+  useEffect(() => {
+    const checkHautAiResponse = async () => {
+      if (tid) {
+        try {
+          const response = await fetchRequest(HAUT_AI_IMAGE_CAPTURE_CHECK(tid));
+          const isAnalysisCaptured = response?.data?.isSkinAnalysisResponseCapturedProperly;
+          setHautAiResponse(isAnalysisCaptured);
+        } catch (error) {
+          console.error("Error checking HAUT AI response:", error);
+          // If API fails, set to undefined
+          setHautAiResponse(undefined);
+        }
+      }
+    };
+
+    // Set timeout to call API at 13 seconds
+    const apiCallTimer = setTimeout(() => {
+      checkHautAiResponse();
+    }, 13000); // 13 seconds
+
+    // Cleanup timer on unmount
+    return () => {
+      clearTimeout(apiCallTimer);
+    };
+  }, [tid, setHautAiResponse]);
+
+  // Navigate after 15 seconds OR when hautAiResponse is true
+  useEffect(() => {
+    let redirectTimer;
+    let hasNavigated = false;
+
+    // Set up 15-second timer
+    redirectTimer = setTimeout(() => {
+      if (!hasNavigated) {
+        hasNavigated = true;
+        router.push(`/result?tid=${tid}`);
+      }
+    }, 15000); // 15 seconds
+
+    // If hautAiResponse becomes true, navigate immediately
+    if (hautAiResponse === true && !hasNavigated) {
+      hasNavigated = true;
+      router.push(`/result?tid=${tid}`);
+      clearTimeout(redirectTimer);
+    }
+
+    // Clean up the timer if component unmounts
+    return () => {
+      if (redirectTimer) {
+        clearTimeout(redirectTimer);
+      }
+    };
+  }, [hautAiResponse, tid, router]);
 
   return (
     <div>

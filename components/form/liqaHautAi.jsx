@@ -349,7 +349,7 @@ export default function ImageUploadWithHaut({ block }) {
           field_key: block.id,
           question_text: block.text,
           response: blob,
-          status: formFillStatus.SEMI_FILLED,
+          status: formFillStatus.FILLED,
           location_path: window.location.pathname + window.location.search,
           source: "website",
           response_type: block.type,
@@ -363,7 +363,8 @@ export default function ImageUploadWithHaut({ block }) {
 
         if (txRes.status === 200) {
           handleSubmit(blob);
-          window.localStorage.setItem("form_status", "semi-filled");
+          setAllQuestionsFilled(true);
+          window.localStorage.setItem("form_status", "filled");
         } else {
           trackMoEngageEvent("image_analysis_failed");
           setErr("Transaction API failed");
