@@ -79,13 +79,9 @@ const Page = async ({ params }) => {
   const blogRes = await getBlogBySlug(slug);
   const postData = blogRes?.data?.[0];
 
-  console.log('postData', postData)
-
   if (!postData) {
     notFound();
   }
-
-
 
   return (
     <>

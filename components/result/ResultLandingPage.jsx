@@ -174,7 +174,6 @@ const ResultLandingPage = ({}) => {
             });
           }
           
-          console.log('Final processedMap ------------', processedMap);
           setIngredientsMap(processedMap);
         }
       } catch (error) {

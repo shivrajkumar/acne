@@ -3,9 +3,8 @@ import React from "react";
 import { StarFilled } from "@ant-design/icons"; // Ant Design icon
 
 const ReviewCard = ({ name, location, review, rating }) => {
-  console.log("review", review);
   return (
-    <div className="w-full max-w-md border border-[#E5E7EB] rounded-xl p-5 shadow-sm">
+    <div className="w-full max-w-full border border-[#E5E7EB] rounded-xl p-5 shadow-sm">
       {/* Date */}
       <p className="text-sm text-gray-500 mb-2">
         {new Date().toLocaleDateString("en-GB", {
@@ -15,12 +14,12 @@ const ReviewCard = ({ name, location, review, rating }) => {
         })}
       </p>
       {/* Name & Location */}
-      <h3 className="text-lg font-semibold text-[#0F172A] mb-2">
+      <h3 className="text-lg md:text-2xl font-semibold text-[#0F172A] mb-2">
         {name}, {location}
       </h3>
 
       {/* Review Text */}
-      <p className="text-gray-700 text-sm leading-relaxed mb-4">{review}</p>
+      <p className="text-gray-700 text-sm md:text-[16px] leading-relaxed mb-4">{review}</p>
 
       {/* Rating */}
       <div className="flex items-center gap-1">

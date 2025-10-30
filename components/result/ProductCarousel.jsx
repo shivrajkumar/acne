@@ -19,6 +19,11 @@ const ProductCarousel = ({ image, name }) => {
 
   return (
     <div className="relative h-[400px] overflow-hidden w-full flex flex-col justify-start">
+      {/* 🟡 Badge */}
+      <div className="absolute top-2 right-0 z-10 bg-[#FFF88A] text-black text-sm font-medium px-3 py-1">
+        Acne Care
+      </div>
+
       {/* Carousel Container */}
       <div className="w-full flex flex-col justify-start pt-4">
         <Carousel
@@ -32,13 +37,13 @@ const ProductCarousel = ({ image, name }) => {
           className="mb-4"
         >
           <div className="flex justify-center items-center px-4 py-4">
-            <div className="flex justify-center items-center w-full mx-auto">
+            <div className="flex justify-center items-center w-full mx-auto relative">
               <Image
                 src={`${CDN_BASE_URL}${image}`}
                 alt={name}
-                width={250}
-                height={250}
-                className="object-fill w-[250px] md:w-full"
+                width={280}
+                height={280}
+                className="object-cover w-[350px] md:w-full rounded-lg"
                 sizes="(max-width: 768px) 250px, 100vw"
                 priority
               />
