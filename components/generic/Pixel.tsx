@@ -17,7 +17,7 @@ export const FacebookPixelEventsInit: React.FC<Record<string, string>> = ({
       import("react-facebook-pixel")
         .then((x) => x.default)
         .then((ReactPixel) => {
-          ReactPixel.init("1214067770360774");
+          ReactPixel.init("24384116221251191");
           ReactPixel.track(finalEventName);
         });
     }
@@ -38,7 +38,7 @@ export const pixelCustomeEvent = async (name: string, data = {}) => {
     import("react-facebook-pixel")
       .then((x) => x.default)
       .then((ReactPixel) => {
-        ReactPixel.init("1214067770360774");
+        ReactPixel.init("24384116221251191");
         ReactPixel.track(name, data);
       });
   }
