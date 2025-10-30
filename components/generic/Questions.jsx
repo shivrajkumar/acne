@@ -373,6 +373,7 @@ const Questions = () => {
     );
   }
 
+console.log('allQuestionsFilled', allQuestionsFilled)
 
   return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
     <>

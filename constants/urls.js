@@ -169,9 +169,13 @@ export const PRODUCT_CONTENT_API = (id, language) => {
 export const GET_DOCTORS_BY_CITY = `${PUBLIC_API_BASE_URL}/doctors/`;
 
 export const GET_SKIN_TEST_CONFIG = (hautAiResponse) => {
-  const config = hautAiResponse === false ? 'ACNE_ADD_ON_FORM_CONFIG' : 'ACNE_FORM_CONFIG';
+  const config = 'ACNE_NEW_FORM_CONFIG';
   return `${PROXY_PREFIX}/consumer-api/service/static-content/data/${config}`;
 };
+// export const GET_SKIN_TEST_CONFIG = (hautAiResponse) => {
+//   const config = hautAiResponse === false ? 'ACNE_ADD_ON_FORM_CONFIG' : 'ACNE_FORM_CONFIG';
+//   return `${PROXY_PREFIX}/consumer-api/service/static-content/data/${config}`;
+// };
 
 export const GET_USER_FORM_RESPONSES = (tranasctionId) =>
   getUrl(`consumer-api/service/acne-forms/responses/${tranasctionId}`);

@@ -88,9 +88,9 @@ const MultiSelect = ({ block, context }) => {
         });
       }
 
-      if (block.id == "pimples_location") {
-        setAllQuestionsFilled(true);
-      }
+      // if (block.id == "pimples_location") {
+      //   setAllQuestionsFilled(true);
+      // }
       if (block.id == "digestive_issues") {
         trackMoEngageEvent("GutRootCauses", {
           syntheticId,
