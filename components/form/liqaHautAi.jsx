@@ -375,6 +375,9 @@ export default function ImageUploadWithHaut({ block }) {
           preview-duration="5000"
           sources="front_camera,upload,companion"
           onContinueWeb={handleContinueOnWeb}
+          // required-lighting='none'
+          // effects='false'
+          showLightSourcePrompt={false}
         ></hautai-liqa>
 
         {/* Camera Permission Prompt */}
