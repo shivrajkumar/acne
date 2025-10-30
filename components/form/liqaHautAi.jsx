@@ -151,6 +151,23 @@ export default function ImageUploadWithHaut({ block }) {
     };
   }, []);
 
+    useEffect(() => {
+    if (liqaRef.current) {
+      // Wait for element to upgrade
+      liqaRef.current.addEventListener("liqaReady", () => {
+        liqaRef.current.configure({
+          lighting: {
+            required: false, // ✅ disables lighting validation
+            showPrompt: false, // ✅ hides light source prompt
+          },
+          instructions: {
+            enabled: false, // ✅ hides on-screen user guidance
+          },
+        });
+      });
+    }
+  }, []);
+
   // Check current camera permission status
   const checkCameraPermission = async () => {
     try {
@@ -375,9 +392,9 @@ export default function ImageUploadWithHaut({ block }) {
           preview-duration="5000"
           sources="front_camera,upload,companion"
           onContinueWeb={handleContinueOnWeb}
-          // required-lighting='none'
+          required-lighting='none'
           // effects='false'
-          showLightSourcePrompt={false}
+          showLightSourcePrompt='false'
         ></hautai-liqa>
 
         {/* Camera Permission Prompt */}
