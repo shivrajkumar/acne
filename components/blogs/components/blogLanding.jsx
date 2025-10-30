@@ -58,8 +58,6 @@ const BlogLanding = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  console.log('blogs', blogs)
-
   return (
     <>
       {loading ? (

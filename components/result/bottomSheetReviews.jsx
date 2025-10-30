@@ -3,7 +3,6 @@ import React from "react";
 import { StarFilled } from "@ant-design/icons"; // Ant Design icon
 
 const ReviewCard = ({ name, location, review, rating }) => {
-  console.log("review", review);
   return (
     <div className="w-full max-w-md border border-[#E5E7EB] rounded-xl p-5 shadow-sm">
       {/* Date */}

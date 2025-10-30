@@ -28,7 +28,6 @@ const ProductsMainLanding = () => {
 
   // Log categorizedProducts whenever it changes
   useEffect(() => {
-    console.log('categorizedProducts updated:', categorizedProducts);
   }, [categorizedProducts]);
 
   useEffect(() => {
@@ -46,7 +45,6 @@ const ProductsMainLanding = () => {
         // The actual products array is in response.data.allProducts
         const productsData = response.data.allProducts || response.data.data || response.data;
         setProducts(productsData);
-        console.log('ACNE Products Data:', productsData);
         
         // Categorize products by type
         const categorized = {
@@ -76,12 +74,10 @@ const ProductsMainLanding = () => {
                 categorized.treatment.push(product);
                 break;
               default:
-                console.log('Unknown product type:', product.type, product);
                 break;
             }
           });
           
-          console.log('Categorized immediately after processing:', categorized);
           setCategorizedProducts(categorized);
         } else {
           console.error('Products data is not an array:', productsData);

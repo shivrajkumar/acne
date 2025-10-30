@@ -53,7 +53,6 @@ const ProductPageModal = ({ variantId, handleCancel, open, ingredientsMap }) => 
 
   useEffect(() => {
     if (variantId && open) {
-      console.log('Fetching data for variantId:', variantId);
       fetchEachProductDetails();
       fetchIngredientDetails();
     }
@@ -168,21 +167,16 @@ const ProductPageModal = ({ variantId, handleCancel, open, ingredientsMap }) => 
   };
 
   const ayurvedafn = (ingredient) => {
-    console.log("ayurveda ingredient", ingredient);
-    return ingredient; // Return the ingredient
+    return ingredient; 
   }
 
   const cosmeticsfn = (ingredient) => {
-    console.log("cosmetics ingredient", ingredient);
-    return ingredient; // Return the ingredient
+    return ingredient; 
   }
 
   const drugsfn = (ingredient) => {
-    console.log("drugs ingredient", ingredient);
-    return ingredient; // Return the ingredient
+    return ingredient; 
   }
-
-  console.log('productcontent', product?.content);
 
   if (isMobile) {
     return (
@@ -287,11 +281,6 @@ const ProductPageModal = ({ variantId, handleCancel, open, ingredientsMap }) => 
                                 ?.map((item) => {
                                   const singleIngredient =
                                     ingredientsMap?.get(item);
-                                  console.log(
-                                    "Found singleIngredient:",
-                                    singleIngredient
-                                  );
-
                                   if (!singleIngredient) {
                                     return null;
                                   }
@@ -306,16 +295,8 @@ const ProductPageModal = ({ variantId, handleCancel, open, ingredientsMap }) => 
                                   } else if (
                                     singleIngredient.type === "drugs"
                                   ) {
-                                    console.log(
-                                      "Processing drug ingredient:",
-                                      singleIngredient
-                                    );
                                     return drugsfn(singleIngredient);
                                   } else {
-                                    console.log(
-                                      "Unknown ingredient type:",
-                                      singleIngredient.type
-                                    );
                                     return singleIngredient;
                                   }
                                 })

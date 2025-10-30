@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import CollapseIcon from "@assets/svg/downArrow.svg";
 
 const ProductKeyIngredient = ({ keyIngredients }) => {
-  console.log('keyIngredients', keyIngredients)
   const [expandedIngredient, setExpandedIngredient] = useState(0);
   return (
     <div className="space-y-3">
