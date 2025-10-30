@@ -1,3 +1,5 @@
+import { CDN_BASE_URL } from "@/constants/constants";
+import Image from "next/image";
 import React from "react";
 
 const ProductInfo = ({
@@ -15,31 +17,34 @@ const ProductInfo = ({
     <div className="flex flex-col gap-6">
       {/* Title Section */}
       <div className="flex flex-col gap-4">
-        <h1 className="text-[24px] md:text-[40px] font-bold text-[#0F1B28] leading-[1.3] font-sophiaPro">
+        <h1 className="text-[18px] md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro">
           {title}
         </h1>
         <div className="flex flex-col gap-1">
           {/* Subtitle + Price (mobile only with justify-between) */}
-          {/* Price only visible on mobile */}
-          <span className="text-[14px] font-semibold text-gray-900 md:hidden">
-            Rs.{price}
-          </span>
           <div className="flex justify-between items-center md:block">
-            <h2 className="text-[14px] md:text-[18px] font-light text-Grey/900 leading-[1.4] tracking-[0.5px] font-sophiaPro">
+            <h2 className="text-[16px] md:text-[18px] font-normal text-[#0F1B28] tracking-[0.5px] font-sophiaPro">
+              {/* This is byline */}
               {subtitle}
             </h2>
           </div>
+          {/* Price only visible on mobile */}
+          <div className="flex items-center gap-1 text-[12px] md:text-[16px] font-normal text-[#0F1B28] font-sophiaPro mt-2">
+            <div className="">Rs. {price}</div>
+
+            {/* Separator + Size */}
+            <div className="">
+              <span className="">| </span>
+              {size}
+            </div>
+          </div>
 
           {/* Description */}
-          {description && (
+          {/* {description && (
             <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro mt-5">
               {description}
             </p>
-          )}
-
-          <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro">
-            Size: {size}
-          </p>
+          )} */}
         </div>
       </div>
 

@@ -58,7 +58,7 @@ const KeyIngredients = ({ ingredients = [] }) => {
 
 const IngredientCard = ({ ingredient }) => {
   return (
-    <div className="flex flex-col gap-2 w-[292px] shrink-0">
+    <div className="flex flex-col gap-2 w-[180px] shrink-0">
       {/* Image */}
       <div className="h-[194px] w-full rounded overflow-hidden">
         {(ingredient.image || ingredient.images) && (
@@ -76,7 +76,7 @@ const IngredientCard = ({ ingredient }) => {
       <div className="flex gap-3 items-start">
         <div className="flex-1 flex flex-col">
           <div className="py-1 border-b border-[#0F1B28]/20">
-            <h4 className="text-[18px] text-[#0F1B28] tracking-[0.5px]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+            <h4 className="text-[16px] text-[#0F1B28] tracking-[0.5px]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
               {ingredient.ingredient_name}
             </h4>
           </div>
@@ -84,14 +84,14 @@ const IngredientCard = ({ ingredient }) => {
           {ingredient.type === 'ayurveda' && (
             <>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Part Used:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Part Used:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.part_used || ingredient.partUsed || 'N/A'}
                 </span>
               </div>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>From:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>From:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.location || ingredient.from || 'N/A'}
                 </span>
               </div>
@@ -102,14 +102,14 @@ const IngredientCard = ({ ingredient }) => {
           {ingredient.type === 'cosmetics' && (
             <>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Function:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Function:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.function ? ingredient.function.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'N/A'}
                 </span>
               </div>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Comedogenic:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Comedogenic:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.comedogenic_score !== undefined ? `${ingredient.comedogenic_score}/5` : 'N/A'}
                 </span>
               </div>
@@ -120,14 +120,14 @@ const IngredientCard = ({ ingredient }) => {
           {ingredient.type === 'drugs' && (
             <>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Function:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Function:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.function || 'N/A'}
                 </span>
               </div>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Type:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Type:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.type || 'N/A'}
                 </span>
               </div>
@@ -138,14 +138,14 @@ const IngredientCard = ({ ingredient }) => {
           {(!ingredient.type || !['ayurveda', 'cosmetics', 'drugs'].includes(ingredient.type)) && (
             <>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Part Used:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>Part Used:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.partUsed || 'N/A'}
                 </span>
               </div>
               <div className="py-1 border-b border-[#0F1B28]/20 flex gap-2.5">
-                <span className="text-[16px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>From:</span>
-                <span className="text-[16px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
+                <span className="text-[12px] text-[#608C59]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>From:</span>
+                <span className="text-[12px] text-[#0F1B28]" style={{ fontFamily: 'Sofia Pro, sans-serif' }}>
                   {ingredient.from || 'N/A'}
                 </span>
               </div>
