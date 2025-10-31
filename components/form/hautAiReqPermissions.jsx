@@ -53,17 +53,17 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
     };
   }, []);
 
-  // Handle transitions
-  useEffect(() => {
-    if (!isFirstStep && internalStep === "1/2") {
-      const transitionTimer = setTimeout(() => {
-        setInternalStep("2/2");
-      }, 10);
-      return () => clearTimeout(transitionTimer);
-    } else if (isFirstStep) {
-      setInternalStep("1/2");
-    }
-  }, [isFirstStep, internalStep]);
+  // Handle transitions - COMMENTED OUT FOR NOW
+  // useEffect(() => {
+  //   if (!isFirstStep && internalStep === "1/2") {
+  //     const transitionTimer = setTimeout(() => {
+  //       setInternalStep("2/2");
+  //     }, 10);
+  //     return () => clearTimeout(transitionTimer);
+  //   } else if (isFirstStep) {
+  //     setInternalStep("1/2");
+  //   }
+  // }, [isFirstStep, internalStep]);
 
   // useEffect(() => {
   //   const timer = setTimeout(() => {
@@ -73,29 +73,18 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
   //   return () => clearTimeout(timer);
   // }, [internalStep, onContinue]);
 
-  const showFirstFocused = internalStep === "1/2";
+  // Always show first step only
+  const showFirstFocused = true; // internalStep === "1/2";
 
   return (
     <div className="relative w-full h-screen flex flex-col bg-white overflow-hidden">
       {/* Step Headers */}
-      <div
-        className={`flex items-center justify-center bg-white ${
-          showFirstFocused ? "mt-5" : "mt-10"
-        }`}
-      >
+      <div className="flex items-center justify-center bg-white mt-5">
         <div className="text-center relative w-full">
           {/* Step 1 */}
-          <div className={`transition-all duration-1000 ease-in-out`}>
-            <h1
-              className={`text-[28px] md:text-[40px] font-normal flex items-center justify-center text-center transition-colors duration-700 ${
-                showFirstFocused ? "text-black" : "text-gray-300 text-sm"
-              }`}
-            >
-              <span
-                className={`text-[16px] md:text-[24px] mr-2 font-light font-sophiaPro transition-all duration-700 ${
-                  showFirstFocused ? "text-blue-500" : "text-gray-300 text-sm"
-                }`}
-              >
+          <div className="transition-all duration-1000 ease-in-out">
+            <h1 className="text-[28px] md:text-[40px] font-normal flex items-center justify-center text-center transition-colors duration-700 text-black">
+              <span className="text-[16px] md:text-[24px] mr-2 font-light font-sophiaPro transition-all duration-700 text-blue-500">
                 1/2
               </span>
               <span>
@@ -107,8 +96,8 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
             </h1>
           </div>
 
-          {/* Step 2 */}
-          <div className="mt-2">
+          {/* Step 2 - COMMENTED OUT */}
+          {/* <div className="mt-2">
             <p
               className={`text-[24px] md:text-[24px] font-normal leading-relaxed flex items-center justify-center ${
                 !showFirstFocused ? "text-black" : "text-gray-300 text-sm"
@@ -123,27 +112,27 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
               </span>
               Acne Trigger Analysis
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
 
-      {/* Conditional Content Based on Step */}
-      {showFirstFocused ? (
-        // Step 1/2: Instructions Screen
-        <div className="w-full max-w-xl mx-auto px-4 py-6 flex-1 overflow-y-auto pb-32">
-          <div className="space-y-4 mb-2">
-            {instructions.map((instruction) => (
-              <InstructionCard
-                key={instruction.id}
-                text={instruction.text}
-                image={instruction.image}
-              />
-            ))}
-          </div>
-          <SecurityBadge />
+      {/* Always show Step 1/2 content only */}
+      {/* Step 1/2: Instructions Screen */}
+      <div className="w-full max-w-xl mx-auto px-4 py-6 flex-1 overflow-y-auto pb-32">
+        <div className="space-y-4 mb-2">
+          {instructions.map((instruction) => (
+            <InstructionCard
+              key={instruction.id}
+              text={instruction.text}
+              image={instruction.image}
+            />
+          ))}
         </div>
-      ) : (
-        // Step 2/2: Acne Trigger Analysis Screen
+        <SecurityBadge />
+      </div>
+      
+      {/* Step 2/2: Acne Trigger Analysis Screen - COMMENTED OUT */}
+      {/* {!showFirstFocused && (
         <div className="w-full max-w-xl mx-auto px-4 mt-2 flex-1 overflow-y-auto pb-32">
           <h2 className="text-xs font-light text-center my-6 text-[#727678]">
             ANSWER A FEW MORE QUESTIONS, TO HELP US DECODE YOUR TRIGGERS
@@ -154,7 +143,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Fixed Bottom Button */}
       <div className="fixed bottom-0 left-0 w-full p-4 flex justify-center">
@@ -164,7 +153,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
           onClick={onContinue}
         >
           <span className="flex items-center gap-2">
-            {showFirstFocused ? "Take a Photo" : "Analyze Triggers"}
+            Take a Photo
             <HiArrowRight size={20} className="mt-[1px]" />
           </span>
         </Button>

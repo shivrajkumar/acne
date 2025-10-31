@@ -30,35 +30,35 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
   }, []);
 
 
-  useEffect(() => {
-    if(hautAiResponse === true){
-      router.push('/result?tid=' + window.localStorage.getItem("user_tid"));
-      return;
-    }
+  // useEffect(() => {
+  //   if(hautAiResponse === true){
+  //     router.push('/result?tid=' + window.localStorage.getItem("user_tid"));
+  //     return;
+  //   }
     
-    if (!onHautAiResponse) {
-      return;
-    }
+  //   if (!onHautAiResponse) {
+  //     return;
+  //   }
     
-    let timer;
+  //   let timer;
     
-    if (hautAiResponse === false) {
-      setAllQuestionsFilled(false);
-      timer = setTimeout(() => {
-        onHautAiResponse(false);
-      }, 2000);
-    } else if (hautAiResponse === undefined) {
-      timer = setTimeout(() => {
-        onHautAiResponse(false);
-      }, 3000);
-    }
+  //   if (hautAiResponse === false) {
+  //     setAllQuestionsFilled(false);
+  //     timer = setTimeout(() => {
+  //       onHautAiResponse(false);
+  //     }, 2000);
+  //   } else if (hautAiResponse === undefined) {
+  //     timer = setTimeout(() => {
+  //       onHautAiResponse(false);
+  //     }, 3000);
+  //   }
     
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
-  }, [hautAiResponse])
+  //   return () => {
+  //     if (timer) {
+  //       clearTimeout(timer);
+  //     }
+  //   };
+  // }, [hautAiResponse])
   
 
   return (

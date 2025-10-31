@@ -54,6 +54,7 @@ const Questions = () => {
   const [showLoaderAfterStress, setShowLoaderAfterStress] = useState(false);
   const [wasRestored, setWasRestored] = useState(false);
   const [hasShownPhotoAnalysisFlow, setHasShownPhotoAnalysisFlow] = useState(false);
+  const [stressLevelCompleted, setStressLevelCompleted] = useState(false);
 
   const fetchQuestionsData = async () => {
     setLoading(true);
@@ -295,35 +296,40 @@ const Questions = () => {
       }
     }
     
-    // Check if we just completed photo_q
-    if (currentQuestion && currentQuestion.id === "photo_q") {
-      // Mark that we're on photo_q so we can show the screen after
-      setPhotoQCompleted(false);
-    } else if (currentQuestion && currentQuestion.id !== "photo_q" && currentQuestion.id !== "user_basic_info") {
-      // We've moved past photo_q to a different question
-      if (typeof window !== 'undefined') {
-        const prevQuestion = window.localStorage.getItem('prev_question');
-        if (prevQuestion === "photo_q" && !photoQCompleted) {
-          setPhotoQCompleted(true);
+    // Track current and previous questions
+    if (typeof window !== 'undefined') {
+      const prevQuestion = window.localStorage.getItem('prev_question');
+      
+      // Check if we've just moved FROM stress_level to any other question
+      if (prevQuestion === "stress_level" && currentQuestion && currentQuestion.id !== "stress_level" && !stressLevelCompleted) {
+        // Show HautAiReqPermissions before continuing
+        setStressLevelCompleted(true);
+        return; // Don't update prev_question yet
+      }
+      
+      // Check if we're on photo_q (camera question)
+      if (currentQuestion && currentQuestion.id === "photo_q") {
+        // Check if this is after showing HautAiReqPermissions
+        if (stressLevelCompleted) {
+          // We're on photo_q after showing permissions, will show loader when photo_q completes
+          setPhotoQCompleted(false);
         }
-        
-        // Check if we just completed stress_level - show loader first
-        if (prevQuestion === "stress_level" && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow) {
-          setShowLoaderAfterStress(true);
-        }
+      }
+      
+      // Check if we've just moved FROM photo_q to another question
+      if (prevQuestion === "photo_q" && currentQuestion && currentQuestion.id !== "photo_q" && !showLoaderAfterStress) {
+        // Show LoaderWithText after photo_q
+        setShowLoaderAfterStress(true);
       }
     }
     
-    // Also check if we're currently on stress_level and hautAiResponse became false
-    if (currentQuestion && currentQuestion.id === "stress_level" && hautAiResponse === false && !showLoaderAfterStress && !showPhotoAnalysisFailed && !hasShownPhotoAnalysisFlow) {
-      setShowLoaderAfterStress(true);
-    }
+    // Removed old loader logic - now handled by HautAiReqPermissions after stress_level
     
     // Store current question for tracking
     if (currentQuestion && currentQuestion.id && typeof window !== 'undefined') {
       window.localStorage.setItem('prev_question', currentQuestion.id);
     }
-  }, [currentQuestion, photoQCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled, hasShownPhotoAnalysisFlow]);
+  }, [currentQuestion, photoQCompleted, stressLevelCompleted, hautAiResponse, showPhotoAnalysisFailed, showLoaderAfterStress, allQuestionsFilled, hasShownPhotoAnalysisFlow]);
 
   // Handle hautAiResponse from LoaderWithText
   const handleHautAiResponse = (hautAiResponseValue) => {
@@ -395,20 +401,16 @@ console.log('allQuestionsFilled', allQuestionsFilled)
           <Suspense fallback={<Loader />}>
             <div className="flex flex-col items-center justify-start font-sophiaPro  xs:w-full px-[24px]  md:px-[24px]  xs:px-[16px] min-h-screen">
               {currentQuestion && currentQuestion.id === "user_basic_info" && !userBasicInfoCompleted && !skipUserBasicInfo ? (
-                <UserBasicInfoForm onComplete={() => setUserBasicInfoCompleted(true)} />
-              ) : currentQuestion && currentQuestion.id === "user_basic_info" && userBasicInfoCompleted ? (
+                <UserBasicInfoForm onComplete={() => {
+                  setUserBasicInfoCompleted(true);
+                  nextQuestion("user_basic_info", "completed");
+                }} />
+              ) : stressLevelCompleted ? (
+                // Show HautAiReqPermissions after stress_level is completed
                 <HautAiReqPermissions 
-                  step="1/2"
                   onContinue={() => {
-                    nextQuestion("user_basic_info", "completed");
-                    setUserBasicInfoCompleted(false);
-                  }} 
-                />
-              ) : photoQCompleted ? (
-                <HautAiReqPermissions 
-                  step="2/2"
-                  onContinue={() => {
-                    setPhotoQCompleted(false);
+                    setStressLevelCompleted(false);
+                    // Continue to next question (camera question)
                   }} 
                 />
               ) : showLoaderAfterStress ? (
