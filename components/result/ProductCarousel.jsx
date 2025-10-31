@@ -20,8 +20,8 @@ const ProductCarousel = ({ image, name }) => {
   return (
     <div className="relative h-[400px] overflow-hidden w-full flex flex-col justify-start">
       {/* 🟡 Badge */}
-      <div className="absolute top-2 right-0 z-10 bg-[#FFF88A] text-black text-sm font-medium px-3 py-1">
-        Acne Care
+      <div className="absolute top-2 right-0 z-10 bg-[#FFF88A] text-black text-sm font-medium px-3 py-1 md:hidden">
+        ACNE CARE
       </div>
 
       {/* Carousel Container */}

@@ -371,7 +371,9 @@ const ProductPageModal = ({
                     </div>
                   )}
                   <Divider style={{ margin: "8px 0" }} />
-                  <div className="text-2xl font-sophiaPro font-normal text-[#0F1B28]">Reviews</div>
+                  <div className="text-2xl font-sophiaPro font-normal text-[#0F1B28]">
+                    Reviews
+                  </div>
                   {product?.content?.reviews?.map((review, index) => (
                     <div className="mt-5">
                       <BottomSheetReviews
@@ -390,31 +392,33 @@ const ProductPageModal = ({
                       <h3 className="text-2xl font-normal text-[#0F1B28] mb-4">
                         FAQS
                       </h3>
-            <Divider className="my-2 border-gray-200" />
+                      <Divider className="my-2 border-gray-200" />
 
                       <div className="space-y-3">
                         {product.content.FAQ.map((faq, index) => (
                           <div key={index}>
-          <ProductCollapsibleSection
-            title={faq.question}
-            isExpanded={expandedSections[`faq_${index}`] || false}
-            onToggle={() =>
-              setExpandedSections((prev) => ({
-                ...prev,
-                [`faq_${index}`]: !prev[`faq_${index}`],
-              }))
-            }
-          >
-            <div className="text-sm text-gray-700 leading-relaxed">
-              {faq.answer}
-            </div>
-          </ProductCollapsibleSection>
+                            <ProductCollapsibleSection
+                              title={faq.question}
+                              isExpanded={
+                                expandedSections[`faq_${index}`] || false
+                              }
+                              onToggle={() =>
+                                setExpandedSections((prev) => ({
+                                  ...prev,
+                                  [`faq_${index}`]: !prev[`faq_${index}`],
+                                }))
+                              }
+                            >
+                              <div className="text-sm text-gray-700 leading-relaxed">
+                                {faq.answer}
+                              </div>
+                            </ProductCollapsibleSection>
 
-          {/* Divider below each FAQ */}
-          {index !== product.content.FAQ.length - 1 && (
-            <Divider className="my-2 border-gray-200" />
-          )}
-        </div>
+                            {/* Divider below each FAQ */}
+                            {index !== product.content.FAQ.length - 1 && (
+                              <Divider className="my-2 border-gray-200" />
+                            )}
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -481,15 +485,17 @@ const ProductPageModal = ({
         </div>
       ) : (
         <div className="w-full mx-auto bg-white font-sophiaPro md:flex md:flex-row md:gap-5">
-          <div className="md:w-[30%] md:h-[600px] mt-10">
+          {/* Left Column - 40% */}
+          <div className="md:w-[40%] md:h-[600px] mt-10">
             <ProductCarousel
               image={product?.content?.image}
               name={product?.content?.name}
             />
           </div>
 
+          {/* Right Column - 60% */}
           <div
-            className="md:w-[70%] md:h-[600px] md:overflow-y-auto md:p-[40px] p-4 focus:outline-none"
+            className="md:w-[60%] md:h-[600px] md:overflow-y-auto md:p-[40px] p-4 focus:outline-none"
             tabIndex={0}
             role="region"
             aria-label="Product details"
@@ -505,43 +511,41 @@ const ProductPageModal = ({
               price={product?.content?.price || "xxxx"}
               size={product?.content?.size || "80ml/ 2.7oz."}
             />
-            <Divider style={{ margin: "8px 0" }} />
-
-            {product?.content?.key_ingredients &&
-              product?.content?.key_ingredients.length > 0 && (
-                <div className="mt-10">
-                  <ProductCollapsibleSection
-                    title="KEY INGREDIENTS"
-                    isExpanded={expandedSections.keyIngredients}
-                    onToggle={() => toggleSection("keyIngredients")}
-                  >
-                    <KeyIngredients
-                      ingredients={product?.content?.key_ingredients
-                        ?.map((item) => {
-                          const singleIngredient = ingredientsMap?.get(item);
-                          if (!singleIngredient) {
-                            return null;
-                          }
-
-                          // Process based on type and return the processed ingredient
-                          if (singleIngredient.type === "ayurveda") {
-                            return ayurvedafn(singleIngredient);
-                          } else if (singleIngredient.type === "cosmetics") {
-                            return cosmeticsfn(singleIngredient);
-                          } else if (singleIngredient.type === "drugs") {
-                            return drugsfn(singleIngredient);
-                          } else {
-                            return singleIngredient;
-                          }
-                        })
-                        .filter(Boolean)}
-                    />
-                  </ProductCollapsibleSection>
-                </div>
-              )}
 
             <Divider style={{ margin: "8px 0" }} />
 
+            {/* KEY INGREDIENTS */}
+            {product?.content?.key_ingredients?.length > 0 && (
+              <div className="mt-10">
+                <ProductCollapsibleSection
+                  title="KEY INGREDIENTS"
+                  isExpanded={expandedSections.keyIngredients}
+                  onToggle={() => toggleSection("keyIngredients")}
+                >
+                  <KeyIngredients
+                    ingredients={product?.content?.key_ingredients
+                      ?.map((item) => {
+                        const singleIngredient = ingredientsMap?.get(item);
+                        if (!singleIngredient) return null;
+
+                        if (singleIngredient.type === "ayurveda")
+                          return ayurvedafn(singleIngredient);
+                        if (singleIngredient.type === "cosmetics")
+                          return cosmeticsfn(singleIngredient);
+                        if (singleIngredient.type === "drugs")
+                          return drugsfn(singleIngredient);
+
+                        return singleIngredient;
+                      })
+                      .filter(Boolean)}
+                  />
+                </ProductCollapsibleSection>
+              </div>
+            )}
+
+            <Divider style={{ margin: "8px 0" }} />
+
+            {/* FULL INGREDIENTS */}
             {product?.content?.full_ingredients && (
               <div className="mb-4">
                 <ProductCollapsibleSection
@@ -553,10 +557,10 @@ const ProductPageModal = ({
                 >
                   <div className="flex flex-wrap gap-2">
                     {product?.content?.full_ingredients
-                      ?.split(/,|\n|•/g) // Split by commas, newlines, or bullet points
+                      ?.split(/,|\n|•/g)
                       .map((ingredient, index) => {
                         const trimmed = ingredient.trim();
-                        if (!trimmed) return null; // skip empty values
+                        if (!trimmed) return null;
                         return (
                           <span
                             key={index}
@@ -570,8 +574,10 @@ const ProductPageModal = ({
                 </ProductCollapsibleSection>
               </div>
             )}
+
             <Divider style={{ margin: "8px 0" }} />
 
+            {/* WHO IS THIS FOR */}
             {product?.content?.who_is_this_for && (
               <div className="mb-4">
                 <ProductCollapsibleSection
@@ -585,7 +591,10 @@ const ProductPageModal = ({
                 </ProductCollapsibleSection>
               </div>
             )}
+
             <Divider style={{ margin: "8px 0" }} />
+
+            {/* HOW TO USE */}
             {product?.content?.how_to_use && (
               <div className="mb-4">
                 <ProductCollapsibleSection
@@ -599,43 +608,49 @@ const ProductPageModal = ({
                 </ProductCollapsibleSection>
               </div>
             )}
-            <Divider style={{ margin: "8px 0" }} />
-            <div className="text-[40px] font-sophiaPro font-normal">Reviews</div>
-                  {product?.content?.reviews?.map((review, index) => (
-                    <div className="mt-5">
-                      <BottomSheetReviews
-                        key={index}
-                        name={review?.name}
-                        location={"Mumbai"}
-                        review={review?.review}
-                        rating={review?.rating}
-                      />
-                    </div>
-                  ))}
-                  <Divider style={{ margin: "8px 0" }} />
 
-            {product?.content?.FAQ && product?.content?.FAQ.length > 0 && (
+            <Divider style={{ margin: "8px 0" }} />
+
+            {/* REVIEWS */}
+            <div className="text-[40px] font-sophiaPro font-normal">
+              Reviews
+            </div>
+            {product?.content?.reviews?.map((review, index) => (
+              <div key={index} className="mt-5">
+                <BottomSheetReviews
+                  name={review?.name}
+                  location={"Mumbai"}
+                  review={review?.review}
+                  rating={review?.rating}
+                />
+              </div>
+            ))}
+
+            <Divider style={{ margin: "8px 0" }} />
+
+            {/* FAQ */}
+            {product?.content?.FAQ?.length > 0 && (
               <div className="mb-4">
-                <div className="text-[40px] font-sophiaPro font-normal">FAQS</div>
+                <div className="text-[40px] font-sophiaPro font-normal">
+                  FAQS
+                </div>
                 {product.content.FAQ.map((faq, index) => (
-                          <ProductCollapsibleSection
-                            key={index}
-                            title={faq.question}
-                            isExpanded={
-                              expandedSections[`faq_${index}`] || false
-                            }
-                            onToggle={() =>
-                              setExpandedSections((prev) => ({
-                                ...prev,
-                                [`faq_${index}`]: !prev[`faq_${index}`],
-                              }))
-                            }
-                          >
-                            <div className="text-sm text-gray-700 leading-relaxed">
-                              {faq.answer}
-                            </div>
-                          </ProductCollapsibleSection>
-                        ))}
+                  <ProductCollapsibleSection
+                    key={index}
+                    title={faq.question}
+                    isExpanded={expandedSections[`faq_${index}`] || false}
+                    onToggle={() =>
+                      setExpandedSections((prev) => ({
+                        ...prev,
+                        [`faq_${index}`]: !prev[`faq_${index}`],
+                      }))
+                    }
+                  >
+                    <div className="text-sm text-gray-700 leading-relaxed">
+                      {faq.answer}
+                    </div>
+                  </ProductCollapsibleSection>
+                ))}
               </div>
             )}
           </div>
