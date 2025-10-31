@@ -303,12 +303,12 @@ xs:w-full transition-all duration-200 py-2 md:py-[16px] px-[24px] md:px-[24px] x
         />
 
         {/* Next button */}
-        <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:mx-0 xs:mx-4">
+        <div className="fixed bottom-4 left-0 right-0 md:right-4 md:left-auto z-10 flex justify-center md:justify-end">
           <button
             type="submit"
-            className={`py-3 w-3/4 max-w-md font-[400] font-sophiaPro text-white rounded-full ${
+            className={`px-6 py-3 font-[400] font-sophiaPro text-white rounded-full shadow-md flex items-center justify-center gap-2 transition-all duration-200 ${
               selectedOptions.length > 0 ? "bg-Primary/500" : "bg-Neutral/400"
-            } transition-all duration-200 shadow-sm flex items-center justify-center gap-2`}
+            }`}
             onClick={handleNextClick}
             disabled={selectedOptions.length === 0}
           >

@@ -16,6 +16,11 @@ const ProductInfo = ({
   return (
     <div className="flex flex-col gap-6">
       {/* Title Section */}
+      <div className="flex justify-end">
+        <div className="w-fit bg-[#FFF88A] text-Grey/900 text-sm font-medium px-3 py-1 font-sophiaPro">
+          ACNE CARE
+        </div>
+      </div>
       <div className="flex flex-col gap-4">
         <h1 className="text-[18px] md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro">
           {title}
@@ -23,7 +28,7 @@ const ProductInfo = ({
         <div className="flex flex-col gap-1">
           {/* Subtitle + Price (mobile only with justify-between) */}
           <div className="flex justify-between items-center md:block">
-            <h2 className="text-[16px] md:text-[18px] font-normal text-[#0F1B28] tracking-[0.5px] font-sophiaPro">
+            <h2 className="text-[16px] md:text-[18px] font-normal text-[#0F1B28] md:text-Grey/500 tracking-[0.5px] font-sophiaPro">
               {/* This is byline */}
               {subtitle}
             </h2>
