@@ -415,18 +415,6 @@ console.log('allQuestionsFilled', allQuestionsFilled)
                 />
               ) : showLoaderAfterStress ? (
                 <LoaderWithText onHautAiResponse={handleHautAiResponse} />
-              ) : showPhotoAnalysisFailed ? (
-                <PhotoAnalysisFailed 
-                  onContinue={() => {
-                    setShowPhotoAnalysisFailed(false);
-                    // Re-fetch questions data with hautAiResponse=false to get addon questions
-                    // Only fetch if we haven't already shown the flow to prevent duplication
-                    if (!hasShownPhotoAnalysisFlow) {
-                      setHasShownPhotoAnalysisFlow(true);
-                    }
-                    fetchQuestionsData();
-                  }}
-                />
               ) : (
                 components(currentQuestion, QuestionsContext)
               )}
