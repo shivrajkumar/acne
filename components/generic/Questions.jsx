@@ -318,8 +318,16 @@ const Questions = () => {
       
       // Check if we've just moved FROM photo_q to another question
       if (prevQuestion === "photo_q" && currentQuestion && currentQuestion.id !== "photo_q" && !showLoaderAfterStress) {
-        // Show LoaderWithText after photo_q
-        setShowLoaderAfterStress(true);
+        // Only show LoaderWithText if an image was actually captured
+        const capturedImage = window.localStorage.getItem("capturedImage");
+        if (capturedImage) {
+          setShowLoaderAfterStress(true);
+        }
+      }
+      
+      // Reset loader state if going back to photo_q
+      if (currentQuestion && currentQuestion.id === "photo_q" && showLoaderAfterStress) {
+        setShowLoaderAfterStress(false);
       }
     }
     
@@ -345,6 +353,13 @@ const Questions = () => {
       setShowLoaderAfterStress(false);
       setShowPhotoAnalysisFailed(true);
       setHasShownPhotoAnalysisFlow(true); // Mark that we've shown the flow
+    } else if (hautAiResponseValue === 'no-image') {
+      // No image captured - go back to photo_q question
+      setShowLoaderAfterStress(false);
+      // Clear the stored previous question to prevent immediate re-trigger
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem('prev_question');
+      }
     }
   };
 
