@@ -2,6 +2,24 @@ import { CDN_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import React from "react";
 
+// Product type to image mapping
+const productTypeImages = {
+  COSMETIC_CLEANSER: "acne/general/Cleanser.png",
+  COSMETIC_MOISTURISER: "acne/general/Moisturuser.png",
+  COSMETIC_PROTECTION: "acne/general/Sunscreen.png",
+  SUPPLEMENT: "acne/general/Skin Food.png",
+  DRUG: "acne/general/Treat.png",
+};
+
+// Product type to tube/packaging image mapping
+const productTypeTubeImages = {
+  COSMETIC_CLEANSER: "acne/general/tubes/cleanser-tube.png",
+  COSMETIC_MOISTURISER: "acne/general/tubes/moisturiser-tube.png",
+  COSMETIC_PROTECTION: "acne/general/tubes/protect-tube.png",
+  SUPPLEMENT: "acne/general/tubes/skin-food-tube.png",
+  DRUG: "acne/general/tubes/treatment-tube.png",
+};
+
 const ProductInfo = ({
   title,
   subtitle,
@@ -12,56 +30,94 @@ const ProductInfo = ({
   btw,
   price,
   size,
+  type,
 }) => {
+  // Get the image path based on product type
+  const typeImage =
+    type && productTypeImages[type]
+      ? `${CDN_BASE_URL}${productTypeImages[type]}`
+      : null;
+  
+  // Get the tube/packaging image path based on product type
+  const tubeImage =
+    type && productTypeTubeImages[type]
+      ? `${CDN_BASE_URL}${productTypeTubeImages[type]}`
+      : null;
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col relative">
       {/* Title Section */}
       <div className="flex justify-end">
-        <div className="w-fit bg-[#FFF88A] text-Grey/900 text-sm font-medium px-3 py-1 font-sophiaPro">
+        <div className="w-fit bg-[#FFF88A] text-Grey/900 text-sm font-medium px-3 py-1 font-sophiaPro hidden">
           ACNE CARE
         </div>
       </div>
+
       <div className="flex flex-col gap-4">
         <h1 className="text-[18px] md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro">
           {title}
         </h1>
         <div className="flex flex-col gap-1">
-          {/* Subtitle + Price (mobile only with justify-between) */}
+          {/* Subtitle + Price */}
           <div className="flex justify-between items-center md:block">
             <h2 className="text-[16px] md:text-[18px] font-normal text-[#0F1B28] md:text-Grey/500 tracking-[0.5px] font-sophiaPro">
-              {/* This is byline */}
               {subtitle}
             </h2>
           </div>
-          {/* Price only visible on mobile */}
-          <div className="flex items-center gap-1 text-[12px] md:text-[16px] font-normal text-[#0F1B28] font-sophiaPro mt-2">
-            <div className="">Rs. {price}</div>
 
-            {/* Separator + Size */}
-            <div className="">
-              <span className="">| </span>
+          <div className="flex items-center gap-1 text-[12px] md:text-[16px] font-normal text-[#0F1B28] font-sophiaPro mt-2">
+            <div>Rs. {price}</div>
+            <div>
+              <span>| </span>
               {size}
             </div>
           </div>
 
           {/* Description */}
-          {/* {description && (
-            <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro mt-5">
+          {description && (
+            <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro hidden md:block">
               {description}
             </p>
-          )} */}
+          )}
+
+          {/* Product Type Image */}
+          {typeImage && (
+            <div className="w-full -mx-8">
+              <Image
+                src={typeImage}
+                alt={type}
+                width={1000}
+                height={300}
+                className="w-full h-[150px] md:h-[400px] object-fill"
+              />
+            </div>
+          )}
         </div>
       </div>
 
       {/* Features Section */}
-      <div className="flex flex-col gap-4">
-        <>
-          <InfoRow label="BENEFITS:" value={benefits} />
-          <InfoRow label="FEELS LIKE:" value={feels} hasBorder />
-          <InfoRow label="SMELLS LIKE:" value={smells} hasBorder />
-          <InfoRow label="BTW," value={btw} hasBorder />
-        </>
+      <div className="flex flex-col gap-4"> {/* Added bottom padding for scroll space */}
+        <InfoRow label="BENEFITS:" value={benefits} />
+        <InfoRow label="FEELS LIKE:" value={feels} hasBorder />
+        <InfoRow label="SMELLS LIKE:" value={smells} hasBorder />
+        <InfoRow label="BTW," value={btw} hasBorder />
+        
+        {/* Product Tube/Packaging Image - positioned after InfoRows */}
+        {tubeImage && (
+          <div className="w-full relative h-[150px] md:h-[200px] mt-6">
+            <Image
+              src={tubeImage}
+              alt={`${type} packaging`}
+              fill
+              className="object-contain w-full h-full"
+              sizes="100vw"
+            />
+          </div>
+        )}
       </div>
+
+      {/* 🟡 Bottom Fade Shadow */}
+      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-10 bg-gradient-to-t from-white to-transparent" />
     </div>
   );
 };
@@ -73,10 +129,10 @@ const InfoRow = ({ label, value, hasBorder = false }) => {
         hasBorder ? "border-t border-[#E9EDED]" : ""
       }`}
     >
-      <div className="text-sm md:text-[18px] text-[#0F1B28] uppercase font-sophiaPro w-full md:w-1/2">
+      <div className="text-sm md:text-[18px] text-[#0F1B28] uppercase font-sophiaPro w-1/3 md:w-2/6">
         {label}
       </div>
-      <div className="text-[14px] md:text-[16px] text-[#505354] font-sophiaPro w-full md:w-1/2 md:text-right mt-1 md:mt-0">
+      <div className="text-[14px] md:text-[16px] text-[#505354] font-sophiaPro w-2/3 md:w-5/6 md:text-right md:mt-0">
         {value}
       </div>
     </div>
