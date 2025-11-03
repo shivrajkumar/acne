@@ -73,7 +73,7 @@ const ProductCarousel = ({ image, name, type }) => {
                 alt={name}
                 width={180} // reduced width
                 height={180} // reduced height
-                className="object-cover w-[300px] ml-12"
+                className="object-cover w-[300px] ml-8 md:ml-12"
                 sizes="(max-width: 768px) 250px, 400px"
                 priority
               />
