@@ -212,14 +212,14 @@ const ImageCheckbox = ({ block, context }) => {
                 onClick={() => handleOptionToggle(option.value)}
               >
                 {/* Option header with name and checkbox */}
-                <div className="flex justify-between items-center py-2 px-3 bg-white ">
+                <div className="flex justify-between items-center py-2 px-6 bg-white ">
                   <span className=" text-[14px] font-medium text-Text/Heading-Text leading-[1.5%] -tracking-[1%]">
                     {option.name}
                   </span>
 
                   {/* Checkbox */}
                   <div
-                    className={`w-6 h-6 rounded-[12px] flex items-center justify-center ${
+                    className={`w-4 h-4 rounded-[2px] flex items-center justify-center ${
                       isSelected
                         ? "bg-Primary/500"
                         : "border-[2px] border-Neutral/900"
