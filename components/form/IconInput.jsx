@@ -60,12 +60,7 @@ const IconInput = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: [reply],
-        status:
-          block.id == "stress_level"
-            ? formFillStatus.SEMI_FILLED
-            : block.id == "photo_q"
-            ? formFillStatus.FILLED
-            : formFillStatus.DRAFT,
+        status: formFillStatus.SEMI_FILLED,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,
@@ -84,10 +79,10 @@ const IconInput = ({ block, context }) => {
         await handleSubmit(reply);
         setReply("");
 
-        if (block.id == "stress_level") {
-          setAllQuestionsFilled(true);
-          window.localStorage.setItem("form_status", "filled");
-        }
+        // if (block.id == "stress_level") {
+        //   setAllQuestionsFilled(true);
+        //   window.localStorage.setItem("form_status", "filled");
+        // }
       } else {
         setError(_res?.data?.message || "An error occurred");
 

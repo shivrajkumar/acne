@@ -56,6 +56,16 @@ const Questions = () => {
   const [hasShownPhotoAnalysisFlow, setHasShownPhotoAnalysisFlow] = useState(false);
   const [stressLevelCompleted, setStressLevelCompleted] = useState(false);
 
+  // Check for persisted HautAi permissions state on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const shouldShowHautPermissions = window.localStorage.getItem("show_haut_permissions") === "true";
+      if (shouldShowHautPermissions) {
+        setStressLevelCompleted(true);
+      }
+    }
+  }, []);
+
   const fetchQuestionsData = async () => {
     setLoading(true);
     try {
@@ -304,6 +314,8 @@ const Questions = () => {
       if (prevQuestion === "stress_level" && currentQuestion && currentQuestion.id !== "stress_level" && !stressLevelCompleted) {
         // Show HautAiReqPermissions before continuing
         setStressLevelCompleted(true);
+        // Store this state so it persists on reload
+        window.localStorage.setItem("show_haut_permissions", "true");
         return; // Don't update prev_question yet
       }
       
@@ -318,8 +330,16 @@ const Questions = () => {
       
       // Check if we've just moved FROM photo_q to another question
       if (prevQuestion === "photo_q" && currentQuestion && currentQuestion.id !== "photo_q" && !showLoaderAfterStress) {
-        // Show LoaderWithText after photo_q
-        setShowLoaderAfterStress(true);
+        // Only show LoaderWithText if an image was actually captured
+        const capturedImage = window.localStorage.getItem("capturedImage");
+        if (capturedImage) {
+          setShowLoaderAfterStress(true);
+        }
+      }
+      
+      // Reset loader state if going back to photo_q
+      if (currentQuestion && currentQuestion.id === "photo_q" && showLoaderAfterStress) {
+        setShowLoaderAfterStress(false);
       }
     }
     
@@ -345,6 +365,13 @@ const Questions = () => {
       setShowLoaderAfterStress(false);
       setShowPhotoAnalysisFailed(true);
       setHasShownPhotoAnalysisFlow(true); // Mark that we've shown the flow
+    } else if (hautAiResponseValue === 'no-image') {
+      // No image captured - go back to photo_q question
+      setShowLoaderAfterStress(false);
+      // Clear the stored previous question to prevent immediate re-trigger
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem('prev_question');
+      }
     }
   };
 
@@ -410,6 +437,10 @@ console.log('allQuestionsFilled', allQuestionsFilled)
                 <HautAiReqPermissions 
                   onContinue={() => {
                     setStressLevelCompleted(false);
+                    // Clear the persisted state
+                    if (typeof window !== 'undefined') {
+                      window.localStorage.removeItem("show_haut_permissions");
+                    }
                     // Continue to next question (camera question)
                   }} 
                 />

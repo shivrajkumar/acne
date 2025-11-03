@@ -7,7 +7,7 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
   const router = useRouter();
   const [capturedImage, setCapturedImage] = useState(null);
   const [direction, setDirection] = useState("down");
-  const { setAllQuestionsFilled, hautAiResponse } = useContext(QuestionsContext);
+  const { setAllQuestionsFilled, hautAiResponse, previousQuestions, removeFromPreviousQuestion } = useContext(QuestionsContext);
 
   useEffect(() => {
     // Use prop if provided, otherwise try localStorage
@@ -18,9 +18,17 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
       const storedImage = localStorage.getItem("capturedImage");
       if (storedImage) {
         setCapturedImage(storedImage);
+      } else {
+        // No image available - should go back
+        if (onHautAiResponse) {
+          // Signal that we need to go back
+          setTimeout(() => {
+            onHautAiResponse('no-image');
+          }, 100);
+        }
       }
     }
-  }, [image]);
+  }, [image, onHautAiResponse]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,6 +68,17 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
   //   };
   // }, [hautAiResponse])
   
+
+  // Don't render if no image is available
+  if (!capturedImage) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen -mt-20">
+        <div className="text-center">
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

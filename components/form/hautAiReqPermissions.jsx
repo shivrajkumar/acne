@@ -84,9 +84,9 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
           {/* Step 1 */}
           <div className="transition-all duration-1000 ease-in-out">
             <h1 className="text-[28px] md:text-[40px] font-normal flex items-center justify-center text-center transition-colors duration-700 text-black">
-              <span className="text-[16px] md:text-[24px] mr-2 font-light font-sophiaPro transition-all duration-700 text-blue-500">
+              {/* <span className="text-[16px] md:text-[24px] mr-2 font-light font-sophiaPro transition-all duration-700 text-blue-500">
                 1/2
-              </span>
+              </span> */}
               <span>
                 Take a Photo
                 <br className="block md:hidden" />
