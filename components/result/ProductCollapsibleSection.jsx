@@ -15,7 +15,7 @@ const ProductCollapsibleSection = ({
           className="w-full flex justify-between items-center text-left"
           onClick={onToggle}
         >
-          <span className="md:text-[18px] text-[16px] font-[400] leading-[140%] text-primary/700 w-3/4">
+          <span className="md:text-[18px] text-[16px] leading-[140%] font-semibold text-primary/700 w-3/4">
             {title}
           </span>
           {isExpanded ? (

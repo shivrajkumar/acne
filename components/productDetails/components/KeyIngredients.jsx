@@ -30,7 +30,7 @@ const KeyIngredients = ({ ingredients = [] }) => {
 
 const IngredientCard = ({ ingredient }) => {
   return (
-    <div className="flex flex-col gap-2 w-[180px] shrink-0">
+    <div className="flex flex-col gap-2 w-[200px] shrink-0">
       {/* Image */}
       <div className="h-[194px] w-full rounded overflow-hidden">
         {(ingredient.image || ingredient.images) && (

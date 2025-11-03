@@ -5,7 +5,7 @@ import React from "react";
 // Product type to image mapping
 const productTypeImages = {
   COSMETIC_CLEANSER: "acne/general/Cleanser.png",
-  COSMETIC_MOISTURISER: "acne/general/Moisturuser.png",
+  COSMETIC_MOISTURISER: "acne/general/Moisturiser.png",
   COSMETIC_PROTECTION: "acne/general/Sunscreen.png",
   SUPPLEMENT: "acne/general/Skin Food.png",
   DRUG: "acne/general/Treat.png",
@@ -17,7 +17,7 @@ const productTypeTubeImages = {
   COSMETIC_MOISTURISER: "acne/general/tubes/moisturiser-tube.png",
   COSMETIC_PROTECTION: "acne/general/tubes/protect-tube.png",
   SUPPLEMENT: "acne/general/tubes/skin-food-tube.png",
-  DRUG: "acne/general/tubes/treatment-tube.png",
+  DRUG: "acne/general/tubes/Treatment-tube.png",
 };
 
 const ProductInfo = ({
@@ -37,7 +37,7 @@ const ProductInfo = ({
     type && productTypeImages[type]
       ? `${CDN_BASE_URL}${productTypeImages[type]}`
       : null;
-  
+
   // Get the tube/packaging image path based on product type
   const tubeImage =
     type && productTypeTubeImages[type]
@@ -60,7 +60,7 @@ const ProductInfo = ({
         <div className="flex flex-col gap-1">
           {/* Subtitle + Price */}
           <div className="flex justify-between items-center md:block">
-            <h2 className="text-[16px] md:text-[18px] font-normal text-[#0F1B28] md:text-Grey/500 tracking-[0.5px] font-sophiaPro">
+            <h2 className="text-[16px] md:text-[18px] font-semibold text-Grey/500 tracking-[0.5px] font-sophiaPro">
               {subtitle}
             </h2>
           </div>
@@ -75,7 +75,7 @@ const ProductInfo = ({
 
           {/* Description */}
           {description && (
-            <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro hidden md:block">
+            <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro">
               {description}
             </p>
           )}
@@ -96,13 +96,23 @@ const ProductInfo = ({
       </div>
 
       {/* Features Section */}
-      <div className="flex flex-col gap-4"> {/* Added bottom padding for scroll space */}
-        <InfoRow label="BENEFITS:" value={benefits} />
-        <InfoRow label="FEELS LIKE:" value={feels} hasBorder />
-        <InfoRow label="SMELLS LIKE:" value={smells} hasBorder />
-        <InfoRow label="BTW," value={btw} hasBorder />
-        
-        {/* Product Tube/Packaging Image - positioned after InfoRows */}
+      <div className="flex flex-col gap-4">
+        {[
+          { label: "BENEFITS:", value: benefits },
+          { label: "FEELS LIKE:", value: feels, hasBorder: true },
+          { label: "SMELLS LIKE:", value: smells, hasBorder: true },
+          { label: "BTW,", value: btw, hasBorder: true },
+        ]
+          .map((item, index) => (
+            <InfoRow
+              key={index}
+              label={item.label}
+              value={item.value}
+              hasBorder={item.hasBorder}
+            />
+          ))}
+
+        {/* Product Tube/Packaging Image */}
         {tubeImage && (
           <div className="w-full relative h-[150px] md:h-[200px] mt-6">
             <Image
@@ -115,9 +125,6 @@ const ProductInfo = ({
           </div>
         )}
       </div>
-
-      {/* 🟡 Bottom Fade Shadow */}
-      <div className="pointer-events-none absolute bottom-0 left-0 w-full h-10 bg-gradient-to-t from-white to-transparent" />
     </div>
   );
 };

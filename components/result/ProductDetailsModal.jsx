@@ -47,6 +47,9 @@ const ProductPageModal = ({
 
   const dragStartY = useRef(0);
   const sheetRef = useRef(null);
+  const scrollPosition = useRef(0);
+  const isScrollRestored = useRef(false);
+  const preventScrollHandler = useRef(null);
 
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -66,14 +69,87 @@ const ProductPageModal = ({
   }, [variantId, open]);
 
   useEffect(() => {
-    if (open) {
+    if (open && isMobile) {
+      // Store current scroll position before locking
+      scrollPosition.current = window.pageYOffset || document.documentElement.scrollTop;
+      isScrollRestored.current = false;
+      
+      // Apply scroll lock with position preservation
+      document.body.style.top = `-${scrollPosition.current}px`;
       document.body.classList.add("modal-open");
       setDragOffset(0);
-    } else {
+      
+      // Prevent default scroll restoration
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+      }
+    } else if (!open && isMobile) {
+      // Remove scroll lock and restore position
+      document.body.classList.remove("modal-open");
+      document.body.style.top = '';
+      
+      // Multiple restoration attempts to ensure it works
+      const restoreScroll = () => {
+        if (!isScrollRestored.current) {
+          window.scrollTo(0, scrollPosition.current);
+          isScrollRestored.current = true;
+        }
+      };
+      
+      // Create a handler to prevent any scroll interference during restoration
+      preventScrollHandler.current = (e) => {
+        if (!isScrollRestored.current) {
+          e.preventDefault();
+          restoreScroll();
+        }
+      };
+      
+      // Add temporary scroll prevention
+      window.addEventListener('scroll', preventScrollHandler.current, { passive: false });
+      
+      // Immediate restoration
+      restoreScroll();
+      
+      // Backup with requestAnimationFrame
+      requestAnimationFrame(restoreScroll);
+      
+      // Final backup with timeout and cleanup
+      setTimeout(() => {
+        restoreScroll();
+        // Remove scroll prevention after restoration
+        if (preventScrollHandler.current) {
+          window.removeEventListener('scroll', preventScrollHandler.current);
+          preventScrollHandler.current = null;
+        }
+      }, 100);
+      
+      // Restore browser scroll restoration after a delay
+      setTimeout(() => {
+        if (history.scrollRestoration) {
+          history.scrollRestoration = 'auto';
+        }
+      }, 200);
+    } else if (open && !isMobile) {
+      // For desktop, just add the class without position manipulation
+      document.body.classList.add("modal-open");
+    } else if (!open && !isMobile) {
+      // For desktop, just remove the class
       document.body.classList.remove("modal-open");
     }
-    return () => document.body.classList.remove("modal-open");
-  }, [open]);
+    
+    return () => {
+      document.body.classList.remove("modal-open");
+      document.body.style.top = '';
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'auto';
+      }
+      // Clean up scroll prevention handler if it exists
+      if (preventScrollHandler.current) {
+        window.removeEventListener('scroll', preventScrollHandler.current);
+        preventScrollHandler.current = null;
+      }
+    };
+  }, [open, isMobile]);
 
   const fetchEachProductDetails = async () => {
     setIsLoading(true);
@@ -195,8 +271,8 @@ const ProductPageModal = ({
             transform: open
               ? `translateY(${dragOffset}px)`
               : "translateY(100%)",
-            maxHeight: "90vh",
-            height: "90vh",
+            maxHeight: "80vh",
+            height: "80vh",
           }}
         >
           {/* Drag Handle Header */}
@@ -249,15 +325,15 @@ const ProductPageModal = ({
                 <div className="w-full px-4 pb-6 pt-4">
                   {/* Product Info Section */}
                   <ProductInfo
-                    title={product?.content?.name || "Product Name"}
+                    title={product?.content?.name}
                     subtitle={product?.content?.by_line}
                     description={product?.content?.description}
                     benefits={product?.content?.benefits}
                     feels={product?.content?.feels_like}
                     smells={product?.content?.smells}
                     btw={product?.content?.btw}
-                    price={product?.content?.price || "xxxx"}
-                    size={product?.content?.size || "80ml/ 2.7oz."}
+                    price={product?.content?.price}
+                    size={product?.content?.size}
                     type={type}
                   />
 
@@ -268,7 +344,7 @@ const ProductPageModal = ({
                     product?.content?.key_ingredients.length > 0 && (
                       <div className="mt-1">
                         <ProductCollapsibleSection
-                          title="KEY INGREDIENTS"
+                          title="Key Ingredients"
                           isExpanded={expandedSections.keyIngredients}
                           onToggle={() => toggleSection("keyIngredients")}
                         >
@@ -301,7 +377,7 @@ const ProductPageModal = ({
                           setIsFullIngredientsOpen(!isFullIngredientsOpen)
                         }
                       >
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 mt-5">
                           {product?.content?.full_ingredients
                             ?.split(/,|\n|•/g)
                             .map((ingredient, index) => {
@@ -337,8 +413,8 @@ const ProductPageModal = ({
                       </ProductCollapsibleSection>
                     </div>
                   )}
-                  {product?.content?.who_is_this_for && (
-                    <Divider style={{ margin: "8px 0" }} />
+                  {product?.content?.who_is_this_for !== '' && (
+                      <Divider style={{ margin: "8px 0" }} />
                   )}
                   {product?.content?.how_to_use && (
                     <div className="">
@@ -490,7 +566,7 @@ const ProductPageModal = ({
               description={product?.content?.description}
               benefits={product?.content?.benefits}
               feels={product?.content?.feels_like}
-              smells={product?.content?.smells_like}
+              smells={product?.content?.smells}
               btw={product?.content?.btw}
               price={product?.content?.price || "xxxx"}
               size={product?.content?.size || "80ml/ 2.7oz."}
@@ -502,7 +578,7 @@ const ProductPageModal = ({
             {product?.content?.key_ingredients?.length > 0 && (
               <div className="mt-10">
                 <ProductCollapsibleSection
-                  title="KEY INGREDIENTS"
+                  title="Key Ingredients"
                   isExpanded={expandedSections.keyIngredients}
                   onToggle={() => toggleSection("keyIngredients")}
                 >
@@ -516,10 +592,10 @@ const ProductPageModal = ({
                       .filter(Boolean)}
                   />
                 </ProductCollapsibleSection>
+                <Divider style={{ margin: "8px 0" }} />
               </div>
             )}
 
-            <Divider style={{ margin: "8px 0" }} />
 
             {/* FULL INGREDIENTS */}
             {type !== "DRUG" && product?.content?.full_ingredients && (
@@ -548,8 +624,6 @@ const ProductPageModal = ({
                       })}
                   </div>
                 </ProductCollapsibleSection>
-
-                {/* Divider included inside the condition */}
                 <Divider style={{ margin: "8px 0" }} />
               </div>
             )}
@@ -566,10 +640,10 @@ const ProductPageModal = ({
                     {product?.content?.who_is_this_for}
                   </div>
                 </ProductCollapsibleSection>
+                <Divider style={{ margin: "8px 0" }} />
               </div>
             )}
 
-            <Divider style={{ margin: "8px 0" }} />
 
             {/* HOW TO USE */}
             {product?.content?.how_to_use && (
@@ -583,10 +657,10 @@ const ProductPageModal = ({
                     {product?.content?.how_to_use}
                   </div>
                 </ProductCollapsibleSection>
+                <Divider style={{ margin: "8px 0" }} />
               </div>
             )}
 
-            <Divider style={{ margin: "8px 0" }} />
 
             {/* REVIEWS */}
             <div className="text-[40px] font-sophiaPro font-normal">
