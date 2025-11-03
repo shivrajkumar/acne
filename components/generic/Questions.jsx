@@ -56,6 +56,16 @@ const Questions = () => {
   const [hasShownPhotoAnalysisFlow, setHasShownPhotoAnalysisFlow] = useState(false);
   const [stressLevelCompleted, setStressLevelCompleted] = useState(false);
 
+  // Check for persisted HautAi permissions state on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const shouldShowHautPermissions = window.localStorage.getItem("show_haut_permissions") === "true";
+      if (shouldShowHautPermissions) {
+        setStressLevelCompleted(true);
+      }
+    }
+  }, []);
+
   const fetchQuestionsData = async () => {
     setLoading(true);
     try {
@@ -304,6 +314,8 @@ const Questions = () => {
       if (prevQuestion === "stress_level" && currentQuestion && currentQuestion.id !== "stress_level" && !stressLevelCompleted) {
         // Show HautAiReqPermissions before continuing
         setStressLevelCompleted(true);
+        // Store this state so it persists on reload
+        window.localStorage.setItem("show_haut_permissions", "true");
         return; // Don't update prev_question yet
       }
       
@@ -425,6 +437,10 @@ console.log('allQuestionsFilled', allQuestionsFilled)
                 <HautAiReqPermissions 
                   onContinue={() => {
                     setStressLevelCompleted(false);
+                    // Clear the persisted state
+                    if (typeof window !== 'undefined') {
+                      window.localStorage.removeItem("show_haut_permissions");
+                    }
                     // Continue to next question (camera question)
                   }} 
                 />
