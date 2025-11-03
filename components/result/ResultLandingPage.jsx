@@ -156,21 +156,21 @@ const ResultLandingPage = ({}) => {
           // Process ayurveda ingredients
           if (content.ayurveda && Array.isArray(content.ayurveda)) {
             content.ayurveda.forEach(item => {
-              processedMap.set(item.id, { ...item, type: 'ayurveda' });
+              processedMap.set(item.id, { ...item, ingredientType: 'ayurveda' });
             });
           }
           
           // Process cosmetics ingredients
           if (content.cosmetics && Array.isArray(content.cosmetics)) {
             content.cosmetics.forEach(item => {
-              processedMap.set(item.id, { ...item, type: 'cosmetics' });
+              processedMap.set(item.id, { ...item, ingredientType: 'cosmetics' });
             });
           }
           
           // Process drugs ingredients
           if (content.drugs && Array.isArray(content.drugs)) {
             content.drugs.forEach(item => {
-              processedMap.set(item.id, { ...item, type: 'drugs' });
+              processedMap.set(item.id, { ...item, ingredientType: 'drugs' });
             });
           }
           

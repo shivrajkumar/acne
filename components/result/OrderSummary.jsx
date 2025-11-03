@@ -23,6 +23,7 @@ const OrderSummary = ({ingredientsMap}) => {
   const optionalProductsSectionRef = useRef(null);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const isModalOpenRef = useRef(false);
+  const [productType, setProductType] = useState(null);
 
   useBodyScrollLock(isModalOpen);
 
@@ -100,9 +101,11 @@ const OrderSummary = ({ingredientsMap}) => {
   }, [optionalProductsDetails, hasTrackedOptionalProductSeen]);
 
   const showModal = useCallback(
-    (variantId) => {
+    (variantId, type) => {
       const fullVariantId = `${variantId}_PDP`;
       setSelectedVariantId(fullVariantId);
+      setProductType(type);
+        console.log('Setting productType to:', type); 
       setIsModalOpen(true);
 
       // Push a history state to handle back button on mobile
@@ -227,6 +230,7 @@ const OrderSummary = ({ingredientsMap}) => {
           handleCancel={handleCancel}
           open={isModalOpen}
           ingredientsMap={ingredientsMap}
+          type={productType}
         />
       )}
     </div>

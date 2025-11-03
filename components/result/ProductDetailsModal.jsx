@@ -24,7 +24,9 @@ const ProductPageModal = ({
   handleCancel,
   open,
   ingredientsMap,
+  type,
 }) => {
+  console.log('Product type----', type);
   const [product, setProduct] = useState(null);
   const [ingredientDetails, setIngredientDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -171,18 +173,6 @@ const ProductPageModal = ({
     setDragOffset(0);
   };
 
-  const ayurvedafn = (ingredient) => {
-    return ingredient;
-  };
-
-  const cosmeticsfn = (ingredient) => {
-    return ingredient;
-  };
-
-  const drugsfn = (ingredient) => {
-    return ingredient;
-  };
-
   if (isMobile) {
     return (
       <>
@@ -251,6 +241,7 @@ const ProductPageModal = ({
                   <ProductCarousel
                     image={product?.content?.image}
                     name={product?.name}
+                    type={type}
                   />
                 </div>
 
@@ -263,10 +254,11 @@ const ProductPageModal = ({
                     description={product?.content?.description}
                     benefits={product?.content?.benefits}
                     feels={product?.content?.feels_like}
-                    smells={product?.content?.smells_like}
+                    smells={product?.content?.smells}
                     btw={product?.content?.btw}
                     price={product?.content?.price || "xxxx"}
                     size={product?.content?.size || "80ml/ 2.7oz."}
+                    type={type}
                   />
 
                   <Divider />
@@ -290,20 +282,7 @@ const ProductPageModal = ({
                                     return null;
                                   }
 
-                                  // Process based on type and return the processed ingredient
-                                  if (singleIngredient.type === "ayurveda") {
-                                    return ayurvedafn(singleIngredient);
-                                  } else if (
-                                    singleIngredient.type === "cosmetics"
-                                  ) {
-                                    return cosmeticsfn(singleIngredient);
-                                  } else if (
-                                    singleIngredient.type === "drugs"
-                                  ) {
-                                    return drugsfn(singleIngredient);
-                                  } else {
-                                    return singleIngredient;
-                                  }
+                                  return singleIngredient;
                                 })
                                 .filter(Boolean)} // Remove null values
                             />
@@ -313,8 +292,8 @@ const ProductPageModal = ({
                     )}
                   <Divider style={{ margin: "8px 0" }} />
 
-                  {product?.content?.full_ingredients && (
-                    <div className="">
+                  {type !== "DRUG" && product?.content?.full_ingredients && (
+                    <div className="mb-4">
                       <ProductCollapsibleSection
                         title="Full Ingredients List"
                         isExpanded={isFullIngredientsOpen}
@@ -322,16 +301,16 @@ const ProductPageModal = ({
                           setIsFullIngredientsOpen(!isFullIngredientsOpen)
                         }
                       >
-                        <div className="flex flex-wrap gap-2 mt-6">
+                        <div className="flex flex-wrap gap-2">
                           {product?.content?.full_ingredients
-                            ?.split(/,|\n|•/g) // Split by commas, newlines, or bullet points
+                            ?.split(/,|\n|•/g)
                             .map((ingredient, index) => {
                               const trimmed = ingredient.trim();
-                              if (!trimmed) return null; // skip empty values
+                              if (!trimmed) return null;
                               return (
                                 <span
                                   key={index}
-                                  className="text-[12px] text-white bg-Secondary/500 px-3 py-1"
+                                  className="text-[14px] text-white bg-Secondary/500 px-3 py-1"
                                 >
                                   {trimmed}
                                 </span>
@@ -339,9 +318,11 @@ const ProductPageModal = ({
                             })}
                         </div>
                       </ProductCollapsibleSection>
+
+                      {/* Divider included inside the condition */}
+                      <Divider style={{ margin: "8px 0" }} />
                     </div>
                   )}
-                  <Divider style={{ margin: "8px 0" }} />
 
                   {product?.content?.who_is_this_for && (
                     <div className="">
@@ -356,7 +337,9 @@ const ProductPageModal = ({
                       </ProductCollapsibleSection>
                     </div>
                   )}
-                  <Divider style={{ margin: "8px 0" }} />
+                  {product?.content?.who_is_this_for && (
+                    <Divider style={{ margin: "8px 0" }} />
+                  )}
                   {product?.content?.how_to_use && (
                     <div className="">
                       <ProductCollapsibleSection
@@ -490,6 +473,7 @@ const ProductPageModal = ({
             <ProductCarousel
               image={product?.content?.image}
               name={product?.content?.name}
+              type={type}
             />
           </div>
 
@@ -527,14 +511,6 @@ const ProductPageModal = ({
                       ?.map((item) => {
                         const singleIngredient = ingredientsMap?.get(item);
                         if (!singleIngredient) return null;
-
-                        if (singleIngredient.type === "ayurveda")
-                          return ayurvedafn(singleIngredient);
-                        if (singleIngredient.type === "cosmetics")
-                          return cosmeticsfn(singleIngredient);
-                        if (singleIngredient.type === "drugs")
-                          return drugsfn(singleIngredient);
-
                         return singleIngredient;
                       })
                       .filter(Boolean)}
@@ -546,7 +522,7 @@ const ProductPageModal = ({
             <Divider style={{ margin: "8px 0" }} />
 
             {/* FULL INGREDIENTS */}
-            {product?.content?.full_ingredients && (
+            {type !== "DRUG" && product?.content?.full_ingredients && (
               <div className="mb-4">
                 <ProductCollapsibleSection
                   title="Full Ingredients List"
@@ -572,10 +548,11 @@ const ProductPageModal = ({
                       })}
                   </div>
                 </ProductCollapsibleSection>
+
+                {/* Divider included inside the condition */}
+                <Divider style={{ margin: "8px 0" }} />
               </div>
             )}
-
-            <Divider style={{ margin: "8px 0" }} />
 
             {/* WHO IS THIS FOR */}
             {product?.content?.who_is_this_for && (
@@ -630,29 +607,41 @@ const ProductPageModal = ({
 
             {/* FAQ */}
             {product?.content?.FAQ?.length > 0 && (
-              <div className="mb-4">
-                <div className="text-[40px] font-sophiaPro font-normal">
-                  FAQS
-                </div>
-                {product.content.FAQ.map((faq, index) => (
-                  <ProductCollapsibleSection
-                    key={index}
-                    title={faq.question}
-                    isExpanded={expandedSections[`faq_${index}`] || false}
-                    onToggle={() =>
-                      setExpandedSections((prev) => ({
-                        ...prev,
-                        [`faq_${index}`]: !prev[`faq_${index}`],
-                      }))
-                    }
-                  >
-                    <div className="text-sm text-gray-700 leading-relaxed">
-                      {faq.answer}
+                    <div className="mb-4 mt-10">
+                      <h3 className="text-2xl font-normal text-[#0F1B28] mb-4">
+                        FAQS
+                      </h3>
+                      <Divider className="my-2 border-gray-200" />
+
+                      <div className="space-y-3">
+                        {product.content.FAQ.map((faq, index) => (
+                          <div key={index}>
+                            <ProductCollapsibleSection
+                              title={faq.question}
+                              isExpanded={
+                                expandedSections[`faq_${index}`] || false
+                              }
+                              onToggle={() =>
+                                setExpandedSections((prev) => ({
+                                  ...prev,
+                                  [`faq_${index}`]: !prev[`faq_${index}`],
+                                }))
+                              }
+                            >
+                              <div className="text-sm text-gray-700 leading-relaxed">
+                                {faq.answer}
+                              </div>
+                            </ProductCollapsibleSection>
+
+                            {/* Divider below each FAQ */}
+                            {index !== product.content.FAQ.length - 1 && (
+                              <Divider className="my-2 border-gray-200" />
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </ProductCollapsibleSection>
-                ))}
-              </div>
-            )}
+                  )}
           </div>
         </div>
       )}
