@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { StarFilled } from "@ant-design/icons"; // Ant Design icon
+import { StarFilled } from "@ant-design/icons";
 
 const ReviewCard = ({ name, location, review, rating, date }) => {
 
