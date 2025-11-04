@@ -56,7 +56,7 @@ export default function SliderSample(props) {
                     <div
                         key={data.id || index}
                         onClick={() => {
-                            props.getProductInfoAndOpen(data.id);
+                            // props.getProductInfoAndOpen(data.id);
                             props.setOtherProductInfo(data);
                         }}
                         className="relative bg-white p-[4px] md:p-[12px] rounded-md  mx-[4px] md:mx-[12px] cursor-pointer  min-h-[400px] md:min-h-[400px]  flex flex-col justify-start text-left"
