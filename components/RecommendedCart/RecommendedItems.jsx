@@ -64,7 +64,7 @@ const RecommendedItems = (props) => {
 
     const handleProductClick = useCallback((cart) => (e) => {
         e.stopPropagation();
-        props.getProductInfoAndOpen(cart.id);
+        // props.getProductInfoAndOpen(cart.id);
         props.setOtherProductInfo(cart);
     }, [props.getProductInfoAndOpen, props.setOtherProductInfo]);
 
@@ -103,7 +103,7 @@ const RecommendedItems = (props) => {
             <div className="flex flex-col justify-end w-[30%]">
                 <div style={{ width: "100%", borderRadius: "4px" }}>
                     <div className="w-[100%]">
-                        <a href={cart.onlineStoreUrl}>
+                        {/* <a href={cart.onlineStoreUrl}> */}
                             <Image
                                 src={cart.img}
                                 width={180}
@@ -112,7 +112,7 @@ const RecommendedItems = (props) => {
                                 alt="Medicine Image"
                                 className="rounded-xl"
                             />
-                        </a>
+                        {/* </a> */}
                     </div>
                 </div>
             </div>

@@ -75,7 +75,7 @@ const ProductInfo = ({
 
           {/* Description */}
           {description && (
-            <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro">
+            <p className="text-[14px] md:text-[16px] text-[#505354] leading-[1.5] font-sophiaPro hidden md:block">
               {description}
             </p>
           )}
@@ -88,7 +88,7 @@ const ProductInfo = ({
                 alt={type}
                 width={1000}
                 height={300}
-                className="w-full h-[150px] md:h-[400px] object-fill"
+                className="w-full h-[150px] md:h-[400px] object-cover"
               />
             </div>
           )}
@@ -103,6 +103,7 @@ const ProductInfo = ({
           { label: "SMELLS LIKE:", value: smells, hasBorder: true },
           { label: "BTW,", value: btw, hasBorder: true },
         ]
+          .filter(item => item.value && item.value.toString().trim().length > 0)
           .map((item, index) => (
             <InfoRow
               key={index}
