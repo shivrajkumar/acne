@@ -364,9 +364,9 @@ const ProductPageModal = ({
                             />
                           </div>
                         </ProductCollapsibleSection>
+                        <Divider style={{ margin: "8px 0" }} />
                       </div>
                     )}
-                  <Divider style={{ margin: "8px 0" }} />
 
                   {type !== "DRUG" && product?.content?.full_ingredients && (
                     <div className="mb-4">
@@ -438,16 +438,17 @@ const ProductPageModal = ({
                       <BottomSheetReviews
                         key={index}
                         name={review?.name}
-                        location={"Mumbai"}
+                        location={review?.location}
                         review={review?.review}
                         rating={review?.rating}
+                        date={review?.date}
                       />
                     </div>
                   ))}
 
                   {/* FAQs Section */}
                   {product?.content?.FAQ?.length > 0 && (
-                    <div className="mb-4 mt-10">
+                    <div className="mb-4 py-6">
                       <h3 className="text-2xl font-normal text-[#0F1B28] mb-4">
                         FAQS
                       </h3>
@@ -607,7 +608,7 @@ const ProductPageModal = ({
                     setIsFullIngredientsOpen(!isFullIngredientsOpen)
                   }
                 >
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mt-5">
                     {product?.content?.full_ingredients
                       ?.split(/,|\n|•/g)
                       .map((ingredient, index) => {
@@ -636,7 +637,7 @@ const ProductPageModal = ({
                   isExpanded={isFaqOpen}
                   onToggle={() => setIsFaqOpen(!isFaqOpen)}
                 >
-                  <div className="text-sm text-gray-700 leading-relaxed">
+                  <div className="text-sm text-gray-700 leading-relaxed mt-5">
                     {product?.content?.who_is_this_for}
                   </div>
                 </ProductCollapsibleSection>
@@ -653,7 +654,7 @@ const ProductPageModal = ({
                   isExpanded={isHowToUseOpen}
                   onToggle={() => setIsHowTowUseOpen(!isHowToUseOpen)}
                 >
-                  <div className="text-sm text-gray-700 leading-relaxed">
+                  <div className="text-sm text-gray-700 leading-relaxed mt-5">
                     {product?.content?.how_to_use}
                   </div>
                 </ProductCollapsibleSection>

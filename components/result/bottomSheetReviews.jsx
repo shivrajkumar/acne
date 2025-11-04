@@ -2,23 +2,13 @@
 import React from "react";
 import { StarFilled } from "@ant-design/icons"; // Ant Design icon
 
-const ReviewCard = ({ name, location, review, rating }) => {
-  function getRandomPastDate(daysAgo = 30) {
-    const today = new Date();
-    const past = new Date();
-    past.setDate(today.getDate() - Math.floor(Math.random() * daysAgo));
-    return past;
-  }
+const ReviewCard = ({ name, location, review, rating, date }) => {
 
   return (
     <div className="w-full max-w-full border border-[#E5E7EB] rounded-xl p-5 shadow-sm">
       {/* Date */}
       <p className="text-sm text-gray-500 mb-2">
-        {new Date(getRandomPastDate(90)).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })}
+        {date}
       </p>
       {/* Name & Location */}
       <h3 className="text-lg md:text-2xl font-semibold text-[#0F172A] mb-2">
