@@ -26,7 +26,7 @@ const ProductPageModal = ({
   ingredientsMap,
   type,
 }) => {
-  console.log('Product type----', type);
+
   const [product, setProduct] = useState(null);
   const [ingredientDetails, setIngredientDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -180,6 +180,40 @@ const ProductPageModal = ({
     }
   };
 
+  const handleModalClose = () => {
+  if (isMobile) {
+    const scrollYBeforeClose = scrollPosition.current;
+
+    // Lock scroll to prevent jump during close animation
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollYBeforeClose}px`;
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+
+    // Trigger modal close
+    handleCancel();
+
+    // Restore scroll after animation (delay 350ms or same as bottom sheet animation)
+    setTimeout(() => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+
+      // Force reflow
+      void document.body.offsetHeight;
+
+      window.scrollTo({
+        top: scrollYBeforeClose,
+        behavior: "instant",
+      });
+    }, 5);
+  } else {
+    // Desktop close — simple
+    handleCancel();
+  }
+};
+
   const fetchIngredientDetails = async () => {
     try {
       const response = await fetchRequest(GET_INGREDIENTS());
@@ -236,18 +270,43 @@ const ProductPageModal = ({
   };
 
   const handleDragEnd = () => {
-    if (!isMobile) return;
+  if (!isMobile) return;
 
-    setIsDragging(false);
+  setIsDragging(false);
 
-    // If dragged more than 150px, close the sheet
-    if (dragOffset > 150) {
-      handleCancel();
-    }
+  if (dragOffset > 150) {
+    const scrollYBeforeClose = scrollPosition.current;
 
-    // Reset offset
-    setDragOffset(0);
-  };
+    // Temporarily keep scroll frozen and prevent repaint jump
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollYBeforeClose}px`;
+    document.body.style.width = "100%"; // important for iOS
+    document.body.style.overflow = "hidden";
+
+    // Trigger modal close
+    handleCancel();
+
+    // Wait for close animation to fully complete before restoring scroll
+    setTimeout(() => {
+      // Remove the fixed positioning carefully
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+
+      // Force layout reflow to stabilize DOM
+      void document.body.offsetHeight;
+
+      // Restore scroll precisely
+      window.scrollTo({
+        top: scrollYBeforeClose,
+        behavior: "instant", // prevents smooth scroll jump
+      });
+    }, 5); // match your bottom sheet animation duration (~300–400ms)
+  }
+
+  setDragOffset(0);
+};
 
   if (isMobile) {
     return (
@@ -256,7 +315,7 @@ const ProductPageModal = ({
         {open && (
           <div
             className="fixed inset-0 bg-black/50 z-[1000] transition-opacity duration-300"
-            onClick={handleCancel}
+            onClick={handleModalClose}
             style={{
               opacity: open ? 1 : 0,
             }}
@@ -303,12 +362,12 @@ const ProductPageModal = ({
                 <ProductErrorState
                   error={error}
                   onRetry={handleRetry}
-                  onCancel={handleCancel}
+                  onCancel={handleModalClose}
                 />
               </div>
             ) : !product || !product.content ? (
               <div className="w-full mx-auto p-4 bg-white font-sophiaPro">
-                <ProductEmptyState onCancel={handleCancel} />
+                <ProductEmptyState onCancel={handleModalClose} />
               </div>
             ) : (
               <div className="w-full mx-auto bg-white font-sophiaPro flex-col">
@@ -377,7 +436,7 @@ const ProductPageModal = ({
                           setIsFullIngredientsOpen(!isFullIngredientsOpen)
                         }
                       >
-                        <div className="flex flex-wrap gap-2 mt-5">
+                        <div className="flex flex-wrap gap-2 py-2">
                           {product?.content?.full_ingredients
                             ?.split(/,|\n|•/g)
                             .map((ingredient, index) => {
@@ -496,7 +555,7 @@ const ProductPageModal = ({
   return (
     <Modal
       open={open}
-      onCancel={handleCancel}
+      onCancel={handleModalClose}
       footer={null}
       title={null}
       closable={false}
@@ -520,7 +579,7 @@ const ProductPageModal = ({
       }}
     >
       <button
-        onClick={handleCancel}
+        onClick={handleModalClose}
         className="absolute -top-4 -right-4 z-10 h-[36px] w-[36px] bg-[#0f1b28] text-white flex items-center justify-center rounded-full hover:bg-[#1a2937] transition-colors drop-shadow-xl"
         aria-label="Close modal"
       >
