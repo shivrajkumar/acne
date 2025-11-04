@@ -436,7 +436,7 @@ const ProductPageModal = ({
                           setIsFullIngredientsOpen(!isFullIngredientsOpen)
                         }
                       >
-                        <div className="flex flex-wrap gap-2 py-2">
+                        <div className="flex flex-wrap gap-2 py-6">
                           {product?.content?.full_ingredients
                             ?.split(/,|\n|•/g)
                             .map((ingredient, index) => {
