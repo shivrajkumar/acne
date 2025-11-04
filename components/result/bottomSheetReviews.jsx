@@ -1,32 +1,8 @@
 "use client";
 import React from "react";
-import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { Rate } from "antd";
 
 const ReviewCard = ({ name, location, review, rating, date }) => {
-  // Generate stars dynamically
-  const renderStars = () => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= Math.floor(rating)) {
-        // Full star
-        stars.push(<StarFilled key={i} className="text-[#FACC15] text-[16px]" />);
-      } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-        // Half star effect using opacity
-        stars.push(
-          <StarFilled
-            key={i}
-            className="text-[#FACC15] text-[16px]"
-            style={{ clipPath: "inset(0 50% 0 0)" }} // shows half star
-          />
-        );
-      } else {
-        // Empty star
-        stars.push(<StarOutlined key={i} className="text-gray-300 text-[16px]" />);
-      }
-    }
-    return stars;
-  };
-
   return (
     <div className="w-full max-w-full border border-[#E5E7EB] rounded-xl p-5 shadow-sm">
       {/* Date */}
@@ -41,9 +17,14 @@ const ReviewCard = ({ name, location, review, rating, date }) => {
       <p className="text-gray-700 text-sm md:text-[16px] leading-relaxed mb-4">{review}</p>
 
       {/* Rating */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-gray-800">{rating}</span>
-        {renderStars()}
+        <Rate
+          disabled
+          allowHalf
+          defaultValue={rating}
+          className="text-[#FACC15]"
+        />
       </div>
     </div>
   );
