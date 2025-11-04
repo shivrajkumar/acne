@@ -26,7 +26,6 @@ const ProductPageModal = ({
   ingredientsMap,
   type,
 }) => {
-
   const [product, setProduct] = useState(null);
   const [ingredientDetails, setIngredientDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,23 +70,24 @@ const ProductPageModal = ({
   useEffect(() => {
     if (open && isMobile) {
       // Store current scroll position before locking
-      scrollPosition.current = window.pageYOffset || document.documentElement.scrollTop;
+      scrollPosition.current =
+        window.pageYOffset || document.documentElement.scrollTop;
       isScrollRestored.current = false;
-      
+
       // Apply scroll lock with position preservation
       document.body.style.top = `-${scrollPosition.current}px`;
       document.body.classList.add("modal-open");
       setDragOffset(0);
-      
+
       // Prevent default scroll restoration
       if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
+        history.scrollRestoration = "manual";
       }
     } else if (!open && isMobile) {
       // Remove scroll lock and restore position
       document.body.classList.remove("modal-open");
-      document.body.style.top = '';
-      
+      document.body.style.top = "";
+
       // Multiple restoration attempts to ensure it works
       const restoreScroll = () => {
         if (!isScrollRestored.current) {
@@ -95,7 +95,7 @@ const ProductPageModal = ({
           isScrollRestored.current = true;
         }
       };
-      
+
       // Create a handler to prevent any scroll interference during restoration
       preventScrollHandler.current = (e) => {
         if (!isScrollRestored.current) {
@@ -103,30 +103,32 @@ const ProductPageModal = ({
           restoreScroll();
         }
       };
-      
+
       // Add temporary scroll prevention
-      window.addEventListener('scroll', preventScrollHandler.current, { passive: false });
-      
+      window.addEventListener("scroll", preventScrollHandler.current, {
+        passive: false,
+      });
+
       // Immediate restoration
       restoreScroll();
-      
+
       // Backup with requestAnimationFrame
       requestAnimationFrame(restoreScroll);
-      
+
       // Final backup with timeout and cleanup
       setTimeout(() => {
         restoreScroll();
         // Remove scroll prevention after restoration
         if (preventScrollHandler.current) {
-          window.removeEventListener('scroll', preventScrollHandler.current);
+          window.removeEventListener("scroll", preventScrollHandler.current);
           preventScrollHandler.current = null;
         }
       }, 100);
-      
+
       // Restore browser scroll restoration after a delay
       setTimeout(() => {
         if (history.scrollRestoration) {
-          history.scrollRestoration = 'auto';
+          history.scrollRestoration = "auto";
         }
       }, 200);
     } else if (open && !isMobile) {
@@ -136,16 +138,16 @@ const ProductPageModal = ({
       // For desktop, just remove the class
       document.body.classList.remove("modal-open");
     }
-    
+
     return () => {
       document.body.classList.remove("modal-open");
-      document.body.style.top = '';
+      document.body.style.top = "";
       if (history.scrollRestoration) {
-        history.scrollRestoration = 'auto';
+        history.scrollRestoration = "auto";
       }
       // Clean up scroll prevention handler if it exists
       if (preventScrollHandler.current) {
-        window.removeEventListener('scroll', preventScrollHandler.current);
+        window.removeEventListener("scroll", preventScrollHandler.current);
         preventScrollHandler.current = null;
       }
     };
@@ -181,38 +183,38 @@ const ProductPageModal = ({
   };
 
   const handleModalClose = () => {
-  if (isMobile) {
-    const scrollYBeforeClose = scrollPosition.current;
+    if (isMobile) {
+      const scrollYBeforeClose = scrollPosition.current;
 
-    // Lock scroll to prevent jump during close animation
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollYBeforeClose}px`;
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
+      // Lock scroll to prevent jump during close animation
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollYBeforeClose}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
 
-    // Trigger modal close
-    handleCancel();
+      // Trigger modal close
+      handleCancel();
 
-    // Restore scroll after animation (delay 350ms or same as bottom sheet animation)
-    setTimeout(() => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
+      // Restore scroll after animation (delay 350ms or same as bottom sheet animation)
+      setTimeout(() => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
 
-      // Force reflow
-      void document.body.offsetHeight;
+        // Force reflow
+        void document.body.offsetHeight;
 
-      window.scrollTo({
-        top: scrollYBeforeClose,
-        behavior: "instant",
-      });
-    }, 5);
-  } else {
-    // Desktop close — simple
-    handleCancel();
-  }
-};
+        window.scrollTo({
+          top: scrollYBeforeClose,
+          behavior: "instant",
+        });
+      }, 5);
+    } else {
+      // Desktop close — simple
+      handleCancel();
+    }
+  };
 
   const fetchIngredientDetails = async () => {
     try {
@@ -270,43 +272,43 @@ const ProductPageModal = ({
   };
 
   const handleDragEnd = () => {
-  if (!isMobile) return;
+    if (!isMobile) return;
 
-  setIsDragging(false);
+    setIsDragging(false);
 
-  if (dragOffset > 150) {
-    const scrollYBeforeClose = scrollPosition.current;
+    if (dragOffset > 150) {
+      const scrollYBeforeClose = scrollPosition.current;
 
-    // Temporarily keep scroll frozen and prevent repaint jump
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollYBeforeClose}px`;
-    document.body.style.width = "100%"; // important for iOS
-    document.body.style.overflow = "hidden";
+      // Temporarily keep scroll frozen and prevent repaint jump
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollYBeforeClose}px`;
+      document.body.style.width = "100%"; // important for iOS
+      document.body.style.overflow = "hidden";
 
-    // Trigger modal close
-    handleCancel();
+      // Trigger modal close
+      handleCancel();
 
-    // Wait for close animation to fully complete before restoring scroll
-    setTimeout(() => {
-      // Remove the fixed positioning carefully
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
+      // Wait for close animation to fully complete before restoring scroll
+      setTimeout(() => {
+        // Remove the fixed positioning carefully
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
 
-      // Force layout reflow to stabilize DOM
-      void document.body.offsetHeight;
+        // Force layout reflow to stabilize DOM
+        void document.body.offsetHeight;
 
-      // Restore scroll precisely
-      window.scrollTo({
-        top: scrollYBeforeClose,
-        behavior: "instant", // prevents smooth scroll jump
-      });
-    }, 5); // match your bottom sheet animation duration (~300–400ms)
-  }
+        // Restore scroll precisely
+        window.scrollTo({
+          top: scrollYBeforeClose,
+          behavior: "instant", // prevents smooth scroll jump
+        });
+      }, 5); // match your bottom sheet animation duration (~300–400ms)
+    }
 
-  setDragOffset(0);
-};
+    setDragOffset(0);
+  };
 
   if (isMobile) {
     return (
@@ -436,7 +438,7 @@ const ProductPageModal = ({
                           setIsFullIngredientsOpen(!isFullIngredientsOpen)
                         }
                       >
-                        <div className="flex flex-wrap gap-2 py-6">
+                        <div className="flex flex-wrap gap-2 h-auto mt-2">
                           {product?.content?.full_ingredients
                             ?.split(/,|\n|•/g)
                             .map((ingredient, index) => {
@@ -472,8 +474,8 @@ const ProductPageModal = ({
                       </ProductCollapsibleSection>
                     </div>
                   )}
-                  {product?.content?.who_is_this_for !== '' && (
-                      <Divider style={{ margin: "8px 0" }} />
+                  {product?.content?.who_is_this_for !== "" && (
+                    <Divider style={{ margin: "8px 0" }} />
                   )}
                   {product?.content?.how_to_use && (
                     <div className="">
@@ -656,7 +658,6 @@ const ProductPageModal = ({
               </div>
             )}
 
-
             {/* FULL INGREDIENTS */}
             {type !== "DRUG" && product?.content?.full_ingredients && (
               <div className="mb-4">
@@ -704,7 +705,6 @@ const ProductPageModal = ({
               </div>
             )}
 
-
             {/* HOW TO USE */}
             {product?.content?.how_to_use && (
               <div className="mb-4">
@@ -721,7 +721,6 @@ const ProductPageModal = ({
               </div>
             )}
 
-
             {/* REVIEWS */}
             <div className="text-[40px] font-sophiaPro font-normal">
               Reviews
@@ -729,10 +728,12 @@ const ProductPageModal = ({
             {product?.content?.reviews?.map((review, index) => (
               <div key={index} className="mt-5">
                 <BottomSheetReviews
+                  key={index}
                   name={review?.name}
-                  location={"Mumbai"}
+                  location={review?.location}
                   review={review?.review}
                   rating={review?.rating}
+                  date={review?.date}
                 />
               </div>
             ))}
@@ -741,41 +742,39 @@ const ProductPageModal = ({
 
             {/* FAQ */}
             {product?.content?.FAQ?.length > 0 && (
-                    <div className="mb-4 mt-10">
-                      <h3 className="text-2xl font-normal text-[#0F1B28] mb-4">
-                        FAQS
-                      </h3>
-                      <Divider className="my-2 border-gray-200" />
+              <div className="mb-4 mt-10">
+                <h3 className="text-2xl font-normal text-[#0F1B28] mb-4">
+                  FAQS
+                </h3>
+                <Divider className="my-2 border-gray-200" />
 
-                      <div className="space-y-3">
-                        {product.content.FAQ.map((faq, index) => (
-                          <div key={index}>
-                            <ProductCollapsibleSection
-                              title={faq.question}
-                              isExpanded={
-                                expandedSections[`faq_${index}`] || false
-                              }
-                              onToggle={() =>
-                                setExpandedSections((prev) => ({
-                                  ...prev,
-                                  [`faq_${index}`]: !prev[`faq_${index}`],
-                                }))
-                              }
-                            >
-                              <div className="text-sm text-gray-700 leading-relaxed">
-                                {faq.answer}
-                              </div>
-                            </ProductCollapsibleSection>
+                <div className="space-y-3">
+                  {product.content.FAQ.map((faq, index) => (
+                    <div key={index}>
+                      <ProductCollapsibleSection
+                        title={faq.question}
+                        isExpanded={expandedSections[`faq_${index}`] || false}
+                        onToggle={() =>
+                          setExpandedSections((prev) => ({
+                            ...prev,
+                            [`faq_${index}`]: !prev[`faq_${index}`],
+                          }))
+                        }
+                      >
+                        <div className="text-sm text-gray-700 leading-relaxed">
+                          {faq.answer}
+                        </div>
+                      </ProductCollapsibleSection>
 
-                            {/* Divider below each FAQ */}
-                            {index !== product.content.FAQ.length - 1 && (
-                              <Divider className="my-2 border-gray-200" />
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                      {/* Divider below each FAQ */}
+                      {index !== product.content.FAQ.length - 1 && (
+                        <Divider className="my-2 border-gray-200" />
+                      )}
                     </div>
-                  )}
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
