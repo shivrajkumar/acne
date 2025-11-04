@@ -48,7 +48,7 @@ const ProductInfo = ({
     <div className="flex flex-col relative">
       {/* Title Section */}
       <div className="flex justify-end">
-        <div className="w-fit bg-[#FFF88A] text-Grey/900 text-sm font-medium px-3 py-1 font-sophiaPro hidden">
+        <div className="w-fit bg-[#FFF88A] text-Grey/900 text-sm font-medium px-3 py-1 font-sophiaPro hidden md:block">
           ACNE CARE
         </div>
       </div>
@@ -82,13 +82,13 @@ const ProductInfo = ({
 
           {/* Product Type Image */}
           {typeImage && (
-            <div className="w-full -mx-8">
+            <div className="w-full -mx-2">
               <Image
                 src={typeImage}
                 alt={type}
                 width={1000}
                 height={300}
-                className="w-full h-[150px] md:h-[400px] object-cover"
+                className="w-full h-[180px] md:h-[400px] object-cover"
               />
             </div>
           )}

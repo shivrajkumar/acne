@@ -28,7 +28,7 @@ const ProductCollapsibleSection = ({
         <div
           className="overflow-hidden transition-all duration-300 ease-in-out"
           style={{
-            maxHeight: isExpanded ? "500px" : "0px",
+            maxHeight: isExpanded ? "700px" : "0px",
             opacity: isExpanded ? 1 : 0,
             paddingBottom: isExpanded ? "1rem" : "0px",
           }}
