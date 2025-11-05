@@ -20,9 +20,36 @@ export default function ImageUploadWithHaut({ block }) {
     apiResponse: { caseId, transactionId },
   } = useContext(QuestionsContext);
 
-  // Check camera permission on mount
+  // Check camera permission on mount and set initial SEMIFILLED status
   useEffect(() => {
     checkCameraPermission();
+    
+    // Set initial SEMIFILLED status when component mounts
+    const setInitialStatus = async () => {
+      const _formData = {
+        question_id: block.id,
+        field_key: block.id,
+        question_text: block.text,
+        response: null,
+        status: formFillStatus.SEMI_FILLED,
+        location_path: window.location.pathname + window.location.search,
+        source: "website",
+        response_type: block.type,
+      };
+
+      try {
+        await fetchRequest(TRANSACTION_API(transactionId), {
+          method: "POST",
+          body: JSON.stringify(_formData),
+        });
+      } catch (error) {
+        console.error("Failed to set initial status:", error);
+      }
+    };
+
+    if (transactionId) {
+      setInitialStatus();
+    }
   }, []);
 
   useEffect(() => {
@@ -343,28 +370,44 @@ export default function ImageUploadWithHaut({ block }) {
       if (uploadRes?.success || uploadRes?.status === 200) {
         trackMoEngageEvent("image_analysis_success");
         
-        // Build form data payload
+        // Build form data payload with SEMIFILLED status after upload
         const _formData = {
           question_id: block.id,
           field_key: block.id,
           question_text: block.text,
           response: blob,
-          status: formFillStatus.FILLED,
+          status: formFillStatus.SEMI_FILLED,
           location_path: window.location.pathname + window.location.search,
           source: "website",
           response_type: block.type,
         };
 
-        // Save progress
+        // Save progress with SEMIFILLED status
         const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
           method: "POST",
           body: JSON.stringify(_formData),
         });
 
         if (txRes.status === 200) {
-          handleSubmit(blob);
-          setAllQuestionsFilled(true);
-          window.localStorage.setItem("form_status", "filled");
+          // Now update to FILLED status after successful submission
+          const _filledFormData = {
+            ..._formData,
+            status: formFillStatus.FILLED,
+          };
+          
+          const finalTxRes = await fetchRequest(TRANSACTION_API(transactionId), {
+            method: "POST",
+            body: JSON.stringify(_filledFormData),
+          });
+          
+          if (finalTxRes.status === 200) {
+            handleSubmit(blob);
+            setAllQuestionsFilled(true);
+            window.localStorage.setItem("form_status", "filled");
+          } else {
+            trackMoEngageEvent("image_analysis_failed");
+            setErr("Final submission failed");
+          }
         } else {
           trackMoEngageEvent("image_analysis_failed");
           setErr("Transaction API failed");

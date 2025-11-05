@@ -55,10 +55,7 @@ const MultiSelect = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: selectedOptions,
-        status:
-          block.id == "pimples_location" && block.next == "end"
-            ? formFillStatus.FILLED
-            : formFillStatus.DRAFT,
+        status: formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,

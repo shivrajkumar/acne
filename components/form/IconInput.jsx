@@ -60,7 +60,7 @@ const IconInput = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: [reply],
-        status: formFillStatus.SEMI_FILLED,
+        status: formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,

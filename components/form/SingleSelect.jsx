@@ -70,10 +70,9 @@ const SingleSelect = ({ block, context }) => {
         field_key: block.id,
         question_text: block.text,
         response: [reply],
-        status: formFillStatus.SEMI_FILLED,
-          // block.id === "stress_level" && currentHautAiResponse === true
-          //   ? formFillStatus.FILLED
-          //   : formFillStatus.SEMI_FILLED,
+        status: block.id === "stress_level" 
+            ? formFillStatus.SEMI_FILLED
+            : formFillStatus.DRAFT,
         location_path: window.location.pathname + window.location.search,
         source: "website",
         response_type: block.type,

@@ -375,6 +375,33 @@ const Questions = () => {
     }
   };
 
+useEffect(() => {
+  // When user clicks back while HautAiReqPermissions is showing,
+  // we need to hide it and show the actual current question
+  if (stressLevelCompleted && currentQuestion) {
+    const prevQuestion = typeof window !== 'undefined' 
+      ? window.localStorage.getItem('prev_question') 
+      : null;
+    
+    // Check if we actually navigated back from the permissions screen
+    // by comparing if current question changed to something before stress_level
+    if (currentQuestion.id === "stress_level") {
+      // User navigated back to stress level question itself
+      setStressLevelCompleted(false);
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("show_haut_permissions");
+      }
+    } else if (currentQuestion.id !== "photo_q" && prevQuestion !== "stress_level") {
+      // Current question is not photo_q and we didn't just come from stress_level
+      // This means user went back from the permissions screen
+      setStressLevelCompleted(false);
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("show_haut_permissions");
+      }
+    }
+  }
+}, [currentQuestion, stressLevelCompleted]);
+
   // Handle when all questions are filled (including addon questions)
   useEffect(() => {
     if (allQuestionsFilled && hautAiResponse === false && !showPhotoAnalysisFailed && !showLoaderAfterStress) {
