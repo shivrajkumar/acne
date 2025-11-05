@@ -20,36 +20,9 @@ export default function ImageUploadWithHaut({ block }) {
     apiResponse: { caseId, transactionId },
   } = useContext(QuestionsContext);
 
-  // Check camera permission on mount and set initial SEMIFILLED status
+  // Check camera permission on mount
   useEffect(() => {
     checkCameraPermission();
-    
-    // Set initial SEMIFILLED status when component mounts
-    const setInitialStatus = async () => {
-      const _formData = {
-        question_id: block.id,
-        field_key: block.id,
-        question_text: block.text,
-        response: null,
-        status: formFillStatus.SEMI_FILLED,
-        location_path: window.location.pathname + window.location.search,
-        source: "website",
-        response_type: block.type,
-      };
-
-      try {
-        await fetchRequest(TRANSACTION_API(transactionId), {
-          method: "POST",
-          body: JSON.stringify(_formData),
-        });
-      } catch (error) {
-        console.error("Failed to set initial status:", error);
-      }
-    };
-
-    if (transactionId) {
-      setInitialStatus();
-    }
   }, []);
 
   useEffect(() => {
@@ -328,7 +301,7 @@ export default function ImageUploadWithHaut({ block }) {
         return;
       }
 
-      // Take first capture (you can handle multiple if needed)
+      // Take first capture
       let blob = await captures[0].blob();
       trackMoEngageEvent("image_uploaded");
       
@@ -367,52 +340,45 @@ export default function ImageUploadWithHaut({ block }) {
         body: formData,
       });
 
-      if (uploadRes?.success || uploadRes?.status === 200) {
+      // Check if image upload was successful
+      const isImageUploaded = uploadRes?.success || uploadRes?.status === 200;
+      
+      if (isImageUploaded) {
         trackMoEngageEvent("image_analysis_success");
         
-        // Build form data payload with SEMIFILLED status after upload
+        // Determine status based on upload success
+        const status = formFillStatus.FILLED;
+        
+        // Build form data payload
         const _formData = {
           question_id: block.id,
           field_key: block.id,
           question_text: block.text,
           response: blob,
-          status: formFillStatus.SEMI_FILLED,
+          status: status,
           location_path: window.location.pathname + window.location.search,
           source: "website",
           response_type: block.type,
         };
 
-        // Save progress with SEMIFILLED status
+        // Save progress - single API call
         const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
           method: "POST",
           body: JSON.stringify(_formData),
         });
-
+        
         if (txRes.status === 200) {
-          // Now update to FILLED status after successful submission
-          const _filledFormData = {
-            ..._formData,
-            status: formFillStatus.FILLED,
-          };
-          
-          const finalTxRes = await fetchRequest(TRANSACTION_API(transactionId), {
-            method: "POST",
-            body: JSON.stringify(_filledFormData),
-          });
-          
-          if (finalTxRes.status === 200) {
-            handleSubmit(blob);
-            setAllQuestionsFilled(true);
-            window.localStorage.setItem("form_status", "filled");
-          } else {
-            trackMoEngageEvent("image_analysis_failed");
-            setErr("Final submission failed");
-          }
+          // Image uploaded AND submitted successfully
+          handleSubmit(blob);
+          setAllQuestionsFilled(true);
+          window.localStorage.setItem("form_status", "filled");
         } else {
+          // Transaction API failed
           trackMoEngageEvent("image_analysis_failed");
           setErr("Transaction API failed");
         }
       } else {
+        // Image upload failed
         trackMoEngageEvent("image_analysis_failed");
         setErr(uploadRes?.message || "Image upload failed. Please try again.");
       }
@@ -437,7 +403,6 @@ export default function ImageUploadWithHaut({ block }) {
           sources="front_camera,upload,companion"
           onContinueWeb={handleContinueOnWeb}
           required-lighting='none'
-          // effects='false'
           showLightSourcePrompt='false'
         ></hautai-liqa>
 
