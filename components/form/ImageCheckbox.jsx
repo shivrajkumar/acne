@@ -207,7 +207,7 @@ const ImageCheckbox = ({ block, context }) => {
                 onClick={() => handleOptionToggle(option.value)}
               >
                 {/* Option header with name and checkbox */}
-                <div className="flex justify-between items-center py-2 px-6 bg-white ">
+                <div className="flex justify-between items-center py-2 px-3 bg-white ">
                   <span className=" text-[14px] font-medium text-Text/Heading-Text leading-[1.5%] -tracking-[1%]">
                     {option.name}
                   </span>
