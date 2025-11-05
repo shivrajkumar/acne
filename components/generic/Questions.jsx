@@ -432,7 +432,15 @@ console.log('allQuestionsFilled', allQuestionsFilled)
                   setUserBasicInfoCompleted(true);
                   nextQuestion("user_basic_info", "completed");
                 }} />
-              ) : stressLevelCompleted ? (
+              ) :
+                // Fix: Always allow UserBasicInfoForm to show if currentQuestion.id === "user_basic_info"
+                currentQuestion && currentQuestion.id === "user_basic_info" && (userBasicInfoCompleted || skipUserBasicInfo) ? (
+                  <UserBasicInfoForm onComplete={() => {
+                    setUserBasicInfoCompleted(true);
+                    nextQuestion("user_basic_info", "completed");
+                  }} />
+                ) :
+              stressLevelCompleted ? (
                 // Show HautAiReqPermissions after stress_level is completed
                 <HautAiReqPermissions 
                   onContinue={() => {
@@ -442,7 +450,7 @@ console.log('allQuestionsFilled', allQuestionsFilled)
                       window.localStorage.removeItem("show_haut_permissions");
                     }
                     // Continue to next question (camera question)
-                  }} 
+                  }}
                 />
               ) : showLoaderAfterStress ? (
                 <LoaderWithText onHautAiResponse={handleHautAiResponse} />

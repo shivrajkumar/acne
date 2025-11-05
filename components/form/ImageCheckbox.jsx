@@ -258,7 +258,7 @@ const ImageCheckbox = ({ block, context }) => {
 
         {/* Mobile Learn More button */}
         {block?.whyWeAsk?.show && (
-          <div className="flex justify-center mt-8 mb-12">
+          <div className="flex justify-center mt-2 mb-12">
             <button
               className="font-sophiaPro font-[500] text-[14px] text-black leading-[24px] -tracking-[2%] flex gap-2 items-center cursor-pointer px-4 py-4"
               onClick={() => setModalOpen(true)}
@@ -286,12 +286,12 @@ const ImageCheckbox = ({ block, context }) => {
         )}
 
         {/* Modal component */}
-        <Modal
+        {/* <Modal
           open={openModal}
           setOpen={setModalOpen}
           content={block?.whyWeAsk}
           enableListing={true}
-        />
+        /> */}
 
         {/* Fixed Next button at bottom of screen */}
         <div className="fixed bottom-0 left-0 right-0 md:left-auto md:right-4 z-10 flex justify-center md:justify-end pb-8 pt-4 bg-gradient-to-t from-white via-white to-transparent md:bg-transparent">
