@@ -59,21 +59,24 @@ const MagnesiumSkinCombo = () => {
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex flex-col items-center gap-6 font-sophiaPro md:hidden">
-        <div className="flex items-center justify-center px-4">
+      <div className="flex flex-col items-center gap-6 font-sophiaPro md:hidden w-full px-4 box-border">
+        {/* Top Row: Healthy Body + Skin Ritual */}
+        <div className="flex items-center justify-center w-full max-w-sm mx-auto gap-3">
           <Box title="Healthy Body" />
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700">
+          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700 flex-shrink-0">
             +
           </div>
           <Box title="Skin Ritual" />
         </div>
 
-        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700">
+        {/* Equals sign */}
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700 flex-shrink-0">
           =
         </div>
 
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-normal text-center">
+        {/* Result Section */}
+        <div className="flex flex-col items-center max-w-sm w-full text-center">
+          <h2 className="text-2xl font-normal">
             <span className="text-gray-500">CLEAR</span>{" "}
             <span className="text-[#1E2C34] font-medium">Skin.</span>
           </h2>
@@ -82,7 +85,7 @@ const MagnesiumSkinCombo = () => {
             alt="Clear Skin"
             width={320}
             height={320}
-            className="object-contain mt-4"
+            className="object-contain mt-4 w-full max-w-xs"
             priority
           />
         </div>
