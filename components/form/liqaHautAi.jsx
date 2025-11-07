@@ -9,6 +9,9 @@ import { QuestionsContext } from "@/context/questions-store";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { logGtmEvent } from "@/helpers/gtmHelpers";
 
+// REMOVED: import { preload, FEATURE } from "SOURCE_URL_PROVIDED_BY_HAUT_AI/liqa.js"
+
+
 export default function ImageUploadWithHaut({ block }) {
   const [err, setErr] = useState(null);
   const [cameraPermission, setCameraPermission] = useState('prompt'); // 'granted', 'denied', 'prompt'
@@ -38,6 +41,15 @@ export default function ImageUploadWithHaut({ block }) {
   }, []);
 
   useEffect(() => {
+    // Add preload script first
+    const preloadScript = document.createElement("script");
+    preloadScript.type = "module";
+    preloadScript.textContent = `
+      import { preload, FEATURE } from 'https://liqa.haut.ai/liqa.js';
+      preload({ preset: "face", feature: FEATURE.TUTORIAL });
+    `;
+    document.head.appendChild(preloadScript);
+
     const script = document.createElement("script");
     script.src = "https://liqa.haut.ai/liqa.js";
     script.type = "module";
@@ -49,7 +61,6 @@ export default function ImageUploadWithHaut({ block }) {
       if (!liqa) return;
 
       liqa.addEventListener("ready", () => {
-        
         // Try to intercept the Continue on Web button and track upload photo CTAs
         setTimeout(() => {
           const shadowRoot = liqa.shadowRoot;
@@ -148,10 +159,17 @@ export default function ImageUploadWithHaut({ block }) {
       if (liqa) {
         liqa.removeEventListener("captures", handleImageCaptures);
       }
+      // Clean up scripts
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+      if (preloadScript && preloadScript.parentNode) {
+        preloadScript.parentNode.removeChild(preloadScript);
+      }
     };
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (liqaRef.current) {
       // Wait for element to upgrade
       liqaRef.current.addEventListener("liqaReady", () => {
