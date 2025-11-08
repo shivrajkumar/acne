@@ -81,9 +81,9 @@ const BannerSection = () => {
                 {!orderCount ? (
                   <div onClick={logGTM} className="w-full">
                     <AcneTakeTheSkinTest
-                      variant="white"
+                      variant="black"
                       text={`${
-                        syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"
+                        syntheticId ? "RETAKE SKIN DIAGNOSIS" : "TAKE THE SKIN DIAGNOSIS"
                       }`}
                       tm={" "}
                       redirectTo={"/skin-test"}
@@ -105,7 +105,7 @@ const BannerSection = () => {
                 {syntheticId && !orderCount && (
                   <div onClick={logGTM} className="w-full">
                     <AcneTakeTheSkinTest
-                      variant="black"
+                      variant="white"
                       text={"My Recommended plan"}
                       tm={" "}
                       redirectTo={`/result?tid=${syntheticId}`}
@@ -144,9 +144,9 @@ const BannerSection = () => {
               {!orderCount ? (
                 <div onClick={logGTM}>
                   <AcneTakeTheSkinTest
-                    variant="white"
+                    variant="black"
                     text={`${
-                      syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"
+                      syntheticId ? "RETAKE SKIN DIAGNOSIS" : "TAKE THE SKIN DIAGNOSIS"
                     }`}
                     tm={" "}
                     redirectTo={"/skin-test"}
