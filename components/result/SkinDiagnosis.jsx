@@ -143,14 +143,14 @@ const DiagnosisCard = ({ data, onClick, originalImageWithoutMask }) => {
               <img
                 src={originalImageWithoutMask}
                 alt={data.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-125 origin-center transition-transform duration-500"
               />
             </div>
           )}
 
-          {/* Foreground: SVG mask overlay */}
+          {/* Foreground: SVG mask overlay (scaled equally) */}
           {data.image && (
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full scale-125 origin-center transition-transform duration-500">
               <ReactSVG
                 src={data.image}
                 beforeInjection={(svg) => {
