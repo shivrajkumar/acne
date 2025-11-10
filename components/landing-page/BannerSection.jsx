@@ -45,16 +45,16 @@ const BannerSection = () => {
           {/* Content Container */}
           <div className="absolute inset-0 flex flex-col justify-between px-4 py-4 font-sophiaPro">
             {/* Top Text Section */}
-            <div className="flex flex-col gap-[8px] text-black">
-              <p className="font-sophiaPro font-[400] text-[14px] leading-[130%] -tracking-[1%]">
+            <div className="flex flex-col gap-[8px] text-Grey/900">
+              <p className="font-sophiaPro font-[400] text-[14px] leading-[130%] tracking-[0.5px]">
                 Designed by Dermatologists
               </p>
-              <p className="font-sophiaPro text-[28px] leading-[120%] -tracking-[3%] font-bold">
+              <p className="font-sophiaPro text-[30px] leading-[120%] tracking-[0.5px] font-bold">
                 Acne needs
                 <br />
                 Personalisation
               </p>
-              <p className="font-sophiaPro font-[400] text-[13px] leading-[140%] -tracking-[1%]">
+              <p className="font-sophiaPro font-[400] text-[13px] leading-[140%] tracking-[0.5px]">
                 Get a Dermatologist <br /> Recommended Routine Now!
               </p>
               <div className="inline-block w-fit px-3 py-1 bg-[#FFF88A] text-xs font-semibold rounded">
@@ -69,7 +69,7 @@ const BannerSection = () => {
                   src={BannerMobile}
                   alt="banner-mobile"
                   fill
-                  className="object-right scale-90 mt-6 ml-4"
+                  className="object-right object-contain scale-90 mt-6 ml-4"
                   priority
                 />
               </div>
@@ -95,7 +95,7 @@ const BannerSection = () => {
                 ) : (
                   <div className="w-full">
                     <AcneTakeTheSkinTest
-                      variant="white"
+                      variant="black"
                       text={`Book Your Call Now`}
                       tm={" "}
                       redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
@@ -133,17 +133,17 @@ const BannerSection = () => {
                 </p>
               </div>
 
-              <p className="font-sophiaPro font-[400] text-[24px] leading-[135%] tracking-[-1%] text-black">
+              <p className="font-sophiaPro font-[400] text-[24px] leading-[135%] tracking-[0.5px] text-Grey/900">
                 Designed by Dermatologists
               </p>
 
-              <p className="font-sophiaPro text-[80px] font-semibold leading-[120%] tracking-[-2%] text-black">
+              <p className="font-sophiaPro text-[80px] font-semibold leading-[120%] tracking-[0.5px] text-Grey/900">
                 Acne needs
                 <br />
                 Personalisation
               </p>
 
-              <p className="font-sophiaPro font-[400] text-[20px] leading-[135%] tracking-[-1%] text-black">
+              <p className="font-sophiaPro font-[400] text-[20px] leading-[135%] text-Grey/900">
                 Get a Dermatologist Recommended Routine Now!
               </p>
             </div>
@@ -164,7 +164,7 @@ const BannerSection = () => {
                 </div>
               ) : (
                 <AcneTakeTheSkinTest
-                  variant="white"
+                  variant="black"
                   text={`Book Your Call Now`}
                   tm={" "}
                   redirectTo={`/book-a-call?caseId=${caseId}&redirect=home`}
