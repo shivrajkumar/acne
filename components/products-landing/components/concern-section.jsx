@@ -45,17 +45,22 @@ export default function ConcernSection({ concern }) {
 
       {/* Products layout */}
       <div
-        ref={scrollRef}
-        className={
-          isSkinFood
-            ? "grid grid-cols-2 md:grid-cols-3 gap-3"
-            : "flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth"
-        }
-      >
-        {concern?.products?.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+  ref={scrollRef}
+  className={
+    isSkinFood
+      ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-2"
+      : "flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth scrollbar-hide px-3"
+  }
+>
+  {concern?.products?.map((product) => (
+    <div
+      key={product.id}
+      className="flex-shrink-0 w-[47%] sm:w-[260px] md:w-[305px] lg:w-[320px]"
+    >
+      <ProductCard product={product} />
+    </div>
+  ))}
+</div>
     </section>
   );
 }

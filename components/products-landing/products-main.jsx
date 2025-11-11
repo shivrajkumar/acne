@@ -1,99 +1,140 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import ProductsBanner from "./components/productsBanner";
 import ShopByConcern from "./components/shop-by-concern";
-import product1 from "@assets/images/products-1.webp";
-import product2 from "@assets/images/products-2.webp";
-import product3 from "@assets/images/products-3.webp";
-import { shopByConcerns } from "./data/data";
-import ConcernSection from "./components/concern-section";
-import WhyItWorks from "./components/why-it-works";
-import IdealSkincareRitual from "./components/ideal-skincare-ritual";
-import TroubleTen from "./components/trouble-ten";
-import RitualShowcase from "./components/ritual-showcase";
-import SocialTrust from "./components/social-trust";
 import { fetchRequest } from "@/helpers/fetchRequest";
-import { GET_ACNE_PRODUCTS } from "@/constants/urls";
+import { GET_ACNE_PRODUCTS, GET_PRODUCT_CATEGORY } from "@/constants/urls";
+import { CDN_BASE_URL } from "@/constants/constants";
+
+// Lazy-loaded heavy components
+const ConcernSection = lazy(() => import("./components/concern-section"));
+const WhyItWorks = lazy(() => import("./components/why-it-works"));
+const IdealSkincareRitual = lazy(() =>
+  import("./components/ideal-skincare-ritual")
+);
+const TroubleTen = lazy(() => import("./components/trouble-ten"));
+const RitualShowcase = lazy(() => import("./components/ritual-showcase"));
+const SocialTrust = lazy(() => import("./components/social-trust"));
+
+const categoryMapping = {
+  COSMETIC_CLEANSER: "cleanse",
+  COSMETIC_MOISTURISER: "moisturise",
+  COSMETIC_PROTECTION: "protect",
+  SUPPLEMENT: "skinFood",
+  DRUG: "treatment",
+};
 
 const ProductsMainLanding = () => {
-  const [products, setProducts] = useState(null);
   const [categorizedProducts, setCategorizedProducts] = useState({
     cleanse: [],
     moisturise: [],
     protect: [],
-    skinFood: []
+    skinFood: [],
+    treatment: [],
   });
+  const [shopByConcernItems, setShopByConcernItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Log categorizedProducts whenever it changes
-  useEffect(() => {
-  }, [categorizedProducts]);
+  console.log({shopByConcernItems})
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetchRequest(GET_ACNE_PRODUCTS());
+        const productsData = response?.data?.allProducts || [];
+        if (!Array.isArray(productsData))
+          throw new Error("Invalid products format");
 
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetchRequest(GET_ACNE_PRODUCTS());
-      
-      if (response && response.status === 200 && response.data) {
-        // The actual products array is in response.data.allProducts
-        const productsData = response.data.allProducts || response.data.data || response.data;
-        setProducts(productsData);
-        
-        // Categorize products by type
         const categorized = {
           cleanse: [],
           moisturise: [],
           protect: [],
           skinFood: [],
-          treatment: []
+          treatment: [],
         };
-        
-        if (Array.isArray(productsData)) {
-          productsData.forEach(product => {
-            switch(product.type) {
-              case 'COSMETIC_CLEANSER':
-                categorized.cleanse.push(product);
-                break;
-              case 'COSMETIC_MOISTURISER':
-                categorized.moisturise.push(product);
-                break;
-              case 'COSMETIC_PROTECTION':
-                categorized.protect.push(product);
-                break;
-              case 'SUPPLEMENT':
-                categorized.skinFood.push(product);
-                break;
-              case 'DRUG':
-                categorized.treatment.push(product);
-                break;
-              default:
-                break;
-            }
-          });
-          
-          setCategorizedProducts(categorized);
-        } else {
-          console.error('Products data is not an array:', productsData);
-        }
-      } else {
-        throw new Error(
-          response?.data?.message || 'Failed to fetch products'
-        );
+
+        productsData.forEach((p) => {
+          const key = categoryMapping[p.type];
+          if (key) categorized[key].push(p);
+        });
+
+        setCategorizedProducts(categorized);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError(err.message || "Failed to fetch products");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setError(error.message);
-      console.error('Error fetching products:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchProductCategories = async () => {
+      try {
+        const response = await fetchRequest(GET_PRODUCT_CATEGORY());
+        console.log("Category response:", response);
+
+        // Handle the response structure - content.products contains the category items
+        const categoryData = response?.data?.data?.content?.products || [];
+        console.log("Category data:", categoryData);
+        if (Array.isArray(categoryData) && categoryData.length > 0) {
+
+          const transformedItems = categoryData.map((product) => {
+            // Convert relative paths to full CDN URLs
+            const imageUrl = product.image?.startsWith("http")
+              ? product.image
+              : `${CDN_BASE_URL}${product.image}`;
+
+            return {
+              label: product.name,
+              image: imageUrl,
+            };
+          });
+
+          console.log("Transformed items:", transformedItems);
+          setShopByConcernItems(transformedItems);
+        } else {
+          console.warn("No category data received or invalid format");
+        }
+      } catch (err) {
+        console.error("Error fetching product categories:", err);
+      }
+    };
+
+    fetchProductCategories();
+  }, []);
+
+  const renderConcernSection = (title, products) =>
+    !isLoading &&
+    products.length > 0 && (
+      <Suspense
+        key={title}
+        fallback={<div className="py-10 text-center">Loading {title}...</div>}
+      >
+        <ConcernSection
+          concern={{
+            title,
+            products: products.map((p) => ({
+              id: p.variantId,
+              name: p.name,
+              image: p.image,
+              price: p.price,
+              rating: p.rating,
+              ratingCount: p.ratingPeopleCount,
+              size: p.size,
+              description: p.description,
+              tags: p.tags,
+              dosage: p.dosage,
+            })),
+          }}
+        />
+      </Suspense>
+    );
 
   return (
     <div>
@@ -110,14 +151,7 @@ const ProductsMainLanding = () => {
         containerClasses="px-4 md:px-12 py-12"
       />
 
-      <ShopByConcern
-        items={[
-          { label: "FACEWASH", image: product1 },
-          { label: "MOISTURISER", image: product2 },
-          { label: "SUNSCREEN", image: product3 },
-          { label: "SKIN FOOD", image: product1 },
-        ]}
-      />
+      {shopByConcernItems.length > 0 && <ShopByConcern items={shopByConcernItems} />}
 
       <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-20 text-[28px]">
         This isn't just goodbye. These products will soon disappear from the
@@ -138,95 +172,48 @@ const ProductsMainLanding = () => {
         </div>
       )}
 
-      {/* Cleanse Section */}
-      {!isLoading && categorizedProducts.cleanse.length > 0 && (
-        <ConcernSection 
-          concern={{
-            title: "Cleanse",
-            products: categorizedProducts.cleanse.map(p => ({
-              id: p.variantId,
-              name: p.name,
-              image: p.image,
-              price: p.price,
-              rating: p.rating,
-              ratingCount: p.ratingPeopleCount,
-              size: p.size,
-              description: p.description,
-              tags: p.tags,
-              dosage: p.dosage
-            }))
-          }}
-        />
-      )}
-      
-      {/* Moisturise Section */}
-      {!isLoading && categorizedProducts.moisturise.length > 0 && (
-        <ConcernSection 
-          concern={{
-            title: "Moisturise",
-            products: categorizedProducts.moisturise.map(p => ({
-              id: p.variantId,
-              name: p.name,
-              image: p.image,
-              price: p.price,
-              rating: p.rating,
-              ratingCount: p.ratingPeopleCount,
-              size: p.size,
-              description: p.description,
-              tags: p.tags,
-              dosage: p.dosage
-            }))
-          }}
-        />
-      )}
-      
-      {/* Protect Section */}
-      {!isLoading && categorizedProducts.protect.length > 0 && (
-        <ConcernSection 
-          concern={{
-            title: "Protect",
-            products: categorizedProducts.protect.map(p => ({
-              id: p.variantId,
-              name: p.name,
-              image: p.image,
-              price: p.price,
-              rating: p.rating,
-              ratingCount: p.ratingPeopleCount,
-              size: p.size,
-              description: p.description,
-              tags: p.tags,
-              dosage: p.dosage
-            }))
-          }}
-        />
-      )}
-      
-      {/* Skin Food Section */}
-      {!isLoading && categorizedProducts.skinFood.length > 0 && (
-        <ConcernSection 
-          concern={{
-            title: "Skin Food",
-            products: categorizedProducts.skinFood.map(p => ({
-              id: p.variantId,
-              name: p.name,
-              image: p.image,
-              price: p.price,
-              rating: p.rating,
-              ratingCount: p.ratingPeopleCount,
-              size: p.size,
-              description: p.description,
-              tags: p.tags,
-              dosage: p.dosage
-            }))
-          }}
-        />
+      {/* Dynamic Concern Sections */}
+      {Object.entries(categorizedProducts).map(([key, products]) =>
+        renderConcernSection(
+          key === "skinFood"
+            ? "Skin Food"
+            : key.charAt(0).toUpperCase() + key.slice(1),
+          products
+        )
       )}
 
-      <WhyItWorks />
-      <IdealSkincareRitual />
-      <TroubleTen />
-      <RitualShowcase />
-      <SocialTrust />
+      {/* Lazy-loaded bottom sections */}
+      <Suspense
+        fallback={
+          <div className="py-10 text-center">Loading Why It Works...</div>
+        }
+      >
+        <WhyItWorks />
+      </Suspense>
+      <Suspense
+        fallback={<div className="py-10 text-center">Loading Ritual...</div>}
+      >
+        <IdealSkincareRitual />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="py-10 text-center">Loading Trouble Ten...</div>
+        }
+      >
+        <TroubleTen />
+      </Suspense>
+      <Suspense
+        fallback={<div className="py-10 text-center">Loading Showcase...</div>}
+      >
+        <RitualShowcase />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="py-10 text-center">Loading Social Proof...</div>
+        }
+      >
+        <SocialTrust />
+      </Suspense>
     </div>
   );
 };
