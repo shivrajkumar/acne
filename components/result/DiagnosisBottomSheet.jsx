@@ -18,10 +18,10 @@ const DiagnosisBottomSheet = ({
     return Math.min(100, Math.max(0, data?.score || 0));
   }, [data?.score]);
 
-  // Check if current diagnosis is papules or pustules
+  // Check if current diagnosis is papules, pustules, or acne inflammation
   const isPapulesOrPustules = useMemo(() => {
     const name = data?.name?.toLowerCase() || "";
-    return name.includes("papules") || name.includes("pustules");
+    return name.includes("papules") || name.includes("pustules") || name.includes("acne inflammation");
   }, [data?.name]);
 
   useEffect(() => {

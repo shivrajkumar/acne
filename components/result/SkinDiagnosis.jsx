@@ -109,7 +109,8 @@ const DiagnosisCard = ({ data, onClick, originalImageWithoutMask }) => {
             {/* Score Display */}
             <div className="flex flex-col items-center justify-center flex-shrink-0">
               {data.name?.toLowerCase() === "pustules" ||
-              data.name?.toLowerCase() === "papules" ? (
+              data.name?.toLowerCase() === "papules" ||
+              data.name?.toLowerCase() === "acne inflammation" ? (
                 <div className="flex items-center justify-center w-[55px] h-[55px] bg-gray-100 rounded-full">
                   <span className="text-lg font-semibold text-gray-900">
                     {data.score || 0}
@@ -143,14 +144,14 @@ const DiagnosisCard = ({ data, onClick, originalImageWithoutMask }) => {
               <img
                 src={originalImageWithoutMask}
                 alt={data.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-125 origin-center transition-transform duration-500"
               />
             </div>
           )}
 
-          {/* Foreground: SVG mask overlay */}
+          {/* Foreground: SVG mask overlay (scaled equally) */}
           {data.image && (
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full scale-125 origin-center transition-transform duration-500">
               <ReactSVG
                 src={data.image}
                 beforeInjection={(svg) => {
@@ -182,7 +183,8 @@ const DiagnosisCard = ({ data, onClick, originalImageWithoutMask }) => {
 
             <div className="flex flex-col items-center justify-center flex-shrink-0">
               {data.name?.toLowerCase() === "pustules" ||
-              data.name?.toLowerCase() === "papules" ? (
+              data.name?.toLowerCase() === "papules" ||
+              data.name?.toLowerCase() === "acne inflammation" ? (
                 <div className="flex items-center justify-center w-[54px] h-[54px] bg-gray-100 rounded-full">
                   <span className="text-base font-semibold text-gray-900">
                     {data.score || 0}
