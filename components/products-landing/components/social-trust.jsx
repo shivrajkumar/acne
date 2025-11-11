@@ -2,9 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import SocialTrustImage from "@assets/images/social-trust.png";
-import SocialTrustImageMobile from '@assets/images/mobile-social-trust.png'
 import useMediaQuery from "@/hooks/useMediaQuerry";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const stats = [
   {
@@ -25,51 +24,100 @@ const stats = [
   },
 ];
 
-const SocialTrust = () => {
+const trustBadges = [
+  {
+    name: "ALLERGEN-FREE",
+    image: "acne/general/social-trust/allergen.png",
+  },
+  {
+    name: "DERMATOLOGICALLY TESTED",
+    image: "acne/general/social-trust/dermatologically-tested.png",
+  },
+  {
+    name: "GMP CERTIFIED",
+    image: "acne/general/social-trust/gmp.png",
+  },
+  {
+    name: "FDA APPROVED",
+    image: "acne/general/social-trust/fda.png",
+  },
+  {
+    name: "CLINICALLY TESTED",
+    image: "acne/general/social-trust/clinically-tested.png",
+  },
+  {
+    name: "DOCTOR RECOMMENDED",
+    image: "acne/general/social-trust/doc-recommended.png",
+  },
+  {
+    name: "SKIN COACH RECOMMENDED",
+    image: "acne/general/social-trust/skin-coach-recommended.png",
+  },
+];
 
-const isMobile = useMediaQuery("(max-width: 600px)")
+const SocialTrust = () => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
-    <section className="w-full py-12 md:py-0">
-      <div className="mx-auto px-4 md:px-0 md:py-20 bg-[#faf8f0]">
+    <section className="w-full py-12 md:py-20 bg-[#faf8f0]">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        {/* Heading */}
         <h2 className="text-center text-[#1a232b] text-2xl md:text-4xl font-normal mb-12">
           Uncompromising Science. Unshaken Trust.
         </h2>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 md:flex md:justify-center mb-16">
           {stats.map((stat, idx) => (
             <div
               key={idx}
               className={`
-            flex flex-col items-center justify-center py-8
-            border-[#ecebe4]
-            ${idx < stats.length - 2 ? "border-b md:border-b-0" : ""}
-            ${idx % 2 === 0 ? "border-r md:border-r-0" : ""}        
-            md:border-r md:last:border-r-0
-          `}
+        flex flex-col items-center justify-center py-8
+        text-center
+        border-gray-300
+        md:border-0 md:first:border-none md:last:border-none
+        ${
+          // Mobile borders (2x2 grid)
+          idx < 2 ? "border-b" : ""
+        }
+        ${idx % 2 === 0 ? "border-r" : ""}
+        ${
+          // Desktop borders (flex row)
+          "md:border-l md:border-r md:first:border-l-0 md:last:border-r-0"
+        }
+      `}
+              style={{ flex: 1 }}
             >
               <div className="text-[#1a232b] text-[18px] md:text-4xl font-normal mb-2">
                 {stat.title}
               </div>
-              <div className="text-[#222] text-[14px] md:text-[18px] text-center font-light leading-snug px-6 md:px-0">
+              <div className="text-[#222] text-[14px] md:text-[18px] font-light leading-snug px-6 md:px-0">
                 {stat.desc}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Trust logos */}
-        <div className="w-full flex justify-center">
-          <div className="w-full px-4 md:px-8 py-6 flex flex-wrap items-center justify-center">
-            <Image
-              src={isMobile ? SocialTrustImageMobile : SocialTrustImage}
-              alt="Social Trust Badges"
-              width={1200}
-              height={120}
-              className="object-contain h-auto"
-              priority
-            />
-          </div>
+        {/* Trust Badges */}
+        <div
+          className={`flex flex-wrap justify-center items-center gap-x-8 gap-y-10 md:gap-x-16 md:gap-y-12`}
+        >
+          {trustBadges.map((badge, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col items-center justify-center text-center group"
+            >
+              <div className="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center mb-3">
+                <Image
+                  src={`${CDN_BASE_URL}${badge.image}`}
+                  alt={badge.name}
+                  width={100}
+                  height={100}
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
