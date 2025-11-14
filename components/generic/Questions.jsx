@@ -56,6 +56,48 @@ const Questions = () => {
   const [hasShownPhotoAnalysisFlow, setHasShownPhotoAnalysisFlow] = useState(false);
   const [stressLevelCompleted, setStressLevelCompleted] = useState(false);
 
+  // Preload Haut AI library globally on component mount
+  useEffect(() => {
+    console.log("[Questions] Starting global Haut AI preload...");
+
+    // Add preload script first
+    const preloadScript = document.createElement("script");
+    preloadScript.type = "module";
+    preloadScript.textContent = `
+      console.log("[Haut AI Global] Preload script executing...");
+      import { preload, FEATURE } from 'https://liqa.haut.ai/liqa.js';
+      console.log("[Haut AI Global] Preload function imported, calling preload...");
+      preload({ preset: "face", feature: FEATURE.TUTORIAL });
+      console.log("[Haut AI Global] Preload completed successfully");
+      window.__hautAiPreloaded = true;
+    `;
+    document.head.appendChild(preloadScript);
+    console.log("[Questions] Preload script injected into head");
+
+    // Load the main script
+    const script = document.createElement("script");
+    script.src = "https://liqa.haut.ai/liqa.js";
+    script.type = "module";
+    script.async = true;
+
+    script.onload = () => {
+      console.log("[Questions] Main Haut AI script loaded successfully");
+      window.__hautAiScriptLoaded = true;
+    };
+
+    script.onerror = () => {
+      console.error("[Questions] Failed to load main Haut AI script");
+    };
+
+    document.body.appendChild(script);
+    console.log("[Questions] Main script appended to body");
+
+    return () => {
+      // Don't remove the scripts - let them stay loaded for use by child components
+      // This ensures the library remains available when liqaHautAi.jsx mounts
+    };
+  }, []);
+
   // Check for persisted HautAi permissions state on component mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -260,30 +302,67 @@ const Questions = () => {
         setIsReload(false);
       }
 
+      // Check if we have user data (indicates partial form completion)
+      const hasUserData = localStorage.getItem("user_first_name") &&
+                          localStorage.getItem("user_phone");
+
       try {
         const val = localStorage?.getItem("form_status");
-        const tabStatus = localStorage?.getItem("tabclosed");
+        let tabStatus = localStorage?.getItem("tabclosed");
+
+        // iOS Safari fix: Check if we have user data but tabclosed is not set
+        // This indicates the user had started the form but the beforeunload event
+        // may not have fired properly (common in iOS Safari)
+        if (hasUserData && (!tabStatus || tabStatus === "null")) {
+          // Check if there's any navigation type indicating user came back
+          const isBackNavigation = navEntry?.type === "back_forward";
+          if (isBackNavigation || !isReloadDetected) {
+            // Set tabclosed to true for iOS Safari compatibility
+            tabStatus = "true";
+            localStorage.setItem("tabclosed", "true");
+            console.log("[Questions] iOS Safari fix: Setting tabclosed=true based on user data presence");
+          }
+        }
 
         // fallback defaults
         setFormStatus(val || "");
         setTabClosed(tabStatus || "false");
+
+        // Log for debugging
+        console.log("[Questions] State on load - formStatus:", val, "tabClosed:", tabStatus, "isReload:", isReloadDetected, "hasUserData:", hasUserData);
       } catch (err) {
         // Safari/localStorage blocked or unavailable
+        console.error("[Questions] localStorage error:", err);
         setFormStatus("");
         setTabClosed("false");
       }
 
-      // Save tabclosed on unload
+      // Save tabclosed on unload (page close, navigation away, back button)
       const handleBeforeUnload = () => {
         try {
           localStorage.setItem("tabclosed", "true");
+          console.log("[Questions] Setting tabclosed=true on beforeunload");
+        } catch (err) {
+          // fail silently
+        }
+      };
+
+      // iOS Safari specific: Also use pagehide event which is more reliable
+      const handlePageHide = () => {
+        try {
+          localStorage.setItem("tabclosed", "true");
+          console.log("[Questions] Setting tabclosed=true on pagehide");
         } catch (err) {
           // fail silently
         }
       };
 
       window.addEventListener("beforeunload", handleBeforeUnload);
-      return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.addEventListener("pagehide", handlePageHide);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+        window.removeEventListener("pagehide", handlePageHide);
+      };
     }
   }, []);
 
@@ -433,9 +512,16 @@ useEffect(() => {
     );
   }
 
-console.log('allQuestionsFilled', allQuestionsFilled)
+console.log('[Questions] Render decision - allQuestionsFilled:', allQuestionsFilled, 'formStatus:', formStatus, 'tabClosed:', tabClosed, 'isReload:', isReload, 'wasRestored:', wasRestored);
 
-  return formStatus == "filled" || (tabClosed == "true" && !isReload) ? (
+  // Determine if we should show OnloadFormPage
+  // Show if: form was previously filled OR (tab was closed/navigated away AND it's not a reload)
+  // But don't show if we're in the middle of restoration
+  const shouldShowOnloadPage = !wasRestored && (formStatus === "filled" || (tabClosed === "true" && !isReload));
+
+  console.log('[Questions] shouldShowOnloadPage:', shouldShowOnloadPage);
+
+  return shouldShowOnloadPage ? (
     <>
       <OnloadFormPage />
     </>

@@ -53,6 +53,7 @@ export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
     };
   }, []);
 
+
   // Handle transitions - COMMENTED OUT FOR NOW
   // useEffect(() => {
   //   if (!isFirstStep && internalStep === "1/2") {

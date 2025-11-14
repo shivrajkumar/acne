@@ -18,7 +18,6 @@ const FormSubmission = () => {
   const router = useRouter();
   const {
     apiResponse: { syntheticId, caseId },
-    hautAiResponse,
     setHautAiResponse
   } = useContext(QuestionsContext);
 
@@ -75,60 +74,49 @@ const FormSubmission = () => {
     if (syntheticId) window.localStorage.setItem("syntheticId", syntheticId);
   }, [syntheticId]);
 
-  // Call HAUT_AI API to check skin analysis at 13th second
+  // Poll HAUT_AI API every 5 seconds until response is received
   useEffect(() => {
-    const checkHautAiResponse = async () => {
-      if (tid) {
-        try {
-          const response = await fetchRequest(HAUT_AI_IMAGE_CAPTURE_CHECK(tid));
-          const isAnalysisCaptured = response?.data?.isSkinAnalysisResponseCapturedProperly;
-          setHautAiResponse(isAnalysisCaptured);
-        } catch (error) {
-          console.error("Error checking HAUT AI response:", error);
-          // If API fails, set to undefined
-          setHautAiResponse(undefined);
-        }
-      }
-    };
+    if (!tid) return;
 
-    // Set timeout to call API at 13 seconds
-    const apiCallTimer = setTimeout(() => {
-      checkHautAiResponse();
-    }, 13000); // 13 seconds
-
-    // Cleanup timer on unmount
-    return () => {
-      clearTimeout(apiCallTimer);
-    };
-  }, [tid, setHautAiResponse]);
-
-  // Navigate after 15 seconds OR when hautAiResponse is true
-  useEffect(() => {
-    let redirectTimer;
+    let pollInterval;
     let hasNavigated = false;
 
-    // Set up 15-second timer
-    redirectTimer = setTimeout(() => {
-      if (!hasNavigated) {
-        hasNavigated = true;
-        router.push(`/result?tid=${tid}`);
-      }
-    }, 15000); // 15 seconds
+    const checkHautAiResponse = async () => {
+      try {
+        const response = await fetchRequest(HAUT_AI_IMAGE_CAPTURE_CHECK(tid));
+        const isAnalysisCaptured = response?.data?.isSkinAnalysisResponseCapturedProperly;
 
-    // If hautAiResponse becomes true, navigate immediately
-    if (hautAiResponse === true && !hasNavigated) {
-      hasNavigated = true;
-      router.push(`/result?tid=${tid}`);
-      clearTimeout(redirectTimer);
-    }
+        if (isAnalysisCaptured === true) {
+          console.log("[FormSubmission] Haut AI response received successfully");
+          setHautAiResponse(true);
 
-    // Clean up the timer if component unmounts
-    return () => {
-      if (redirectTimer) {
-        clearTimeout(redirectTimer);
+          // Navigate immediately
+          if (!hasNavigated) {
+            hasNavigated = true;
+            clearInterval(pollInterval);
+            router.push(`/result?tid=${tid}`);
+          }
+        }
+      } catch (error) {
+        console.error("[FormSubmission] Error checking HAUT AI response:", error);
       }
     };
-  }, [hautAiResponse, tid, router]);
+
+    // Start polling immediately
+    checkHautAiResponse();
+
+    // Poll every 5 seconds
+    pollInterval = setInterval(() => {
+      checkHautAiResponse();
+    }, 5000);
+
+    // Cleanup interval on unmount
+    return () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+      }
+    };
+  }, [tid, router]);
 
   return (
     <div>

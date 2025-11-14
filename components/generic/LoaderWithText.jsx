@@ -1,13 +1,9 @@
-import { useState, useEffect, useContext } from "react";
-import { QuestionsContext } from "@/context/questions-store";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const LoaderWithText = ({ image, onHautAiResponse }) => {
 
-  const router = useRouter();
   const [capturedImage, setCapturedImage] = useState(null);
   const [direction, setDirection] = useState("down");
-  const { setAllQuestionsFilled, hautAiResponse, previousQuestions, removeFromPreviousQuestion } = useContext(QuestionsContext);
 
   useEffect(() => {
     // Use prop if provided, otherwise try localStorage
@@ -36,38 +32,6 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-
-  // useEffect(() => {
-  //   if(hautAiResponse === true){
-  //     router.push('/result?tid=' + window.localStorage.getItem("user_tid"));
-  //     return;
-  //   }
-    
-  //   if (!onHautAiResponse) {
-  //     return;
-  //   }
-    
-  //   let timer;
-    
-  //   if (hautAiResponse === false) {
-  //     setAllQuestionsFilled(false);
-  //     timer = setTimeout(() => {
-  //       onHautAiResponse(false);
-  //     }, 2000);
-  //   } else if (hautAiResponse === undefined) {
-  //     timer = setTimeout(() => {
-  //       onHautAiResponse(false);
-  //     }, 3000);
-  //   }
-    
-  //   return () => {
-  //     if (timer) {
-  //       clearTimeout(timer);
-  //     }
-  //   };
-  // }, [hautAiResponse])
-  
 
   // Don't render if no image is available
   if (!capturedImage) {
