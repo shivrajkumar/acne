@@ -41,133 +41,113 @@ export default function ImageUploadWithHaut({ block }) {
   }, []);
 
   useEffect(() => {
-    // Add preload script first
-    const preloadScript = document.createElement("script");
-    preloadScript.type = "module";
-    preloadScript.textContent = `
-      import { preload, FEATURE } from 'https://liqa.haut.ai/liqa.js';
-      preload({ preset: "face", feature: FEATURE.TUTORIAL });
-    `;
-    document.head.appendChild(preloadScript);
+    // Script is already preloaded in hautAiReqPermissions.jsx
+    // Now just set up event listeners for the Haut AI component
+    const liqa = liqaRef.current;
+    if (!liqa) return;
 
-    const script = document.createElement("script");
-    script.src = "https://liqa.haut.ai/liqa.js";
-    script.type = "module";
-    script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      const liqa = liqaRef.current;
-      if (!liqa) return;
-
-      liqa.addEventListener("ready", () => {
-        // Try to intercept the Continue on Web button and track upload photo CTAs
-        setTimeout(() => {
-          const shadowRoot = liqa.shadowRoot;
-          if (shadowRoot) {
-            // Look for the continue on web button in the shadow DOM
-            const continueButton = shadowRoot.querySelector('[data-action="continue-web"], button:contains("Continue on web"), button:contains("continue")');
-            if (continueButton) {
-              continueButton.addEventListener('click', async (e) => {
-                if (cameraPermission !== 'granted') {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  await handleContinueOnWeb();
-                }
-              });
-            }
-
-            // Track clicks on upload/camera/companion buttons
-            const uploadButtons = shadowRoot.querySelectorAll(
-              'button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"], ' +
-              '[data-action="upload"], [data-action="camera"], [data-action="companion"], ' +
-              'button:contains("Upload"), button:contains("Camera"), button:contains("Take Photo")'
-            );
-            
-            uploadButtons.forEach(button => {
-              button.addEventListener('click', () => {
-                logGtmEvent("cta_upload_photo");
-              });
-            });
-
-            // Track clicks on submit button
-            const submitButtons = shadowRoot.querySelectorAll(
-              'button[data-action="submit"], button[type="submit"], ' +
-              'button:contains("Submit"), button:contains("Done"), button:contains("Confirm")'
-            );
-            
-            submitButtons.forEach(button => {
-              button.addEventListener('click', () => {
-                logGtmEvent("cta_submit_skin_test");
-              });
-            });
-
-            // Also observe for dynamically added buttons
-            const observer = new MutationObserver((mutations) => {
-              mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                  if (node.nodeType === 1) { // Element node
-                    // Check if it's an upload-related button
-                    if (node.matches && (
-                      node.matches('button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"]') ||
-                      node.matches('[data-action="upload"], [data-action="camera"], [data-action="companion"]')
-                    )) {
-                      node.addEventListener('click', () => {
-                        logGtmEvent("cta_upload_photo");
-                      });
-                    }
-                    
-                    // Check if it's a submit button
-                    if (node.matches && (
-                      node.matches('button[data-action="submit"], button[type="submit"]') ||
-                      (node.tagName === 'BUTTON' && (
-                        node.textContent.includes('Submit') || 
-                        node.textContent.includes('Done') || 
-                        node.textContent.includes('Confirm')
-                      ))
-                    )) {
-                      node.addEventListener('click', () => {
-                        logGtmEvent("cta_submit_skin_test");
-                      });
-                    }
-                  }
-                });
-              });
-            });
-
-            observer.observe(shadowRoot, { 
-              childList: true, 
-              subtree: true 
+    const handleReady = () => {
+      // Try to intercept the Continue on Web button and track upload photo CTAs
+      setTimeout(() => {
+        const shadowRoot = liqa.shadowRoot;
+        if (shadowRoot) {
+          // Look for the continue on web button in the shadow DOM
+          const continueButton = shadowRoot.querySelector('[data-action="continue-web"], button:contains("Continue on web"), button:contains("continue")');
+          if (continueButton) {
+            continueButton.addEventListener('click', async (e) => {
+              if (cameraPermission !== 'granted') {
+                e.preventDefault();
+                e.stopPropagation();
+                await handleContinueOnWeb();
+              }
             });
           }
-        }, 500);
-      });
 
-      // Listen for camera permission errors
-      liqa.addEventListener("error", (event) => {
-        if (event.detail && event.detail.type === 'camera-permission') {
-          handleContinueOnWeb();
+          // Track clicks on upload/camera/companion buttons
+          const uploadButtons = shadowRoot.querySelectorAll(
+            'button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"], ' +
+            '[data-action="upload"], [data-action="camera"], [data-action="companion"], ' +
+            'button:contains("Upload"), button:contains("Camera"), button:contains("Take Photo")'
+          );
+
+          uploadButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              logGtmEvent("cta_upload_photo");
+            });
+          });
+
+          // Track clicks on submit button
+          const submitButtons = shadowRoot.querySelectorAll(
+            'button[data-action="submit"], button[type="submit"], ' +
+            'button:contains("Submit"), button:contains("Done"), button:contains("Confirm")'
+          );
+
+          submitButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              logGtmEvent("cta_submit_skin_test");
+            });
+          });
+
+          // Also observe for dynamically added buttons
+          const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) { // Element node
+                  // Check if it's an upload-related button
+                  if (node.matches && (
+                    node.matches('button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"]') ||
+                    node.matches('[data-action="upload"], [data-action="camera"], [data-action="companion"]')
+                  )) {
+                    node.addEventListener('click', () => {
+                      logGtmEvent("cta_upload_photo");
+                    });
+                  }
+
+                  // Check if it's a submit button
+                  if (node.matches && (
+                    node.matches('button[data-action="submit"], button[type="submit"]') ||
+                    (node.tagName === 'BUTTON' && (
+                      node.textContent.includes('Submit') ||
+                      node.textContent.includes('Done') ||
+                      node.textContent.includes('Confirm')
+                    ))
+                  )) {
+                    node.addEventListener('click', () => {
+                      logGtmEvent("cta_submit_skin_test");
+                    });
+                  }
+                }
+              });
+            });
+          });
+
+          observer.observe(shadowRoot, {
+            childList: true,
+            subtree: true
+          });
         }
-      });
-
-      // Fires when user presses Submit
-      liqa.addEventListener("captures", handleImageCaptures);
+      }, 500);
     };
+
+    liqa.addEventListener("ready", handleReady);
+
+    // Listen for camera permission errors
+    const handleError = (event) => {
+      if (event.detail && event.detail.type === 'camera-permission') {
+        handleContinueOnWeb();
+      }
+    };
+    liqa.addEventListener("error", handleError);
+
+    // Fires when user presses Submit
+    liqa.addEventListener("captures", handleImageCaptures);
 
     return () => {
-      const liqa = liqaRef.current;
-      if (liqa) {
-        liqa.removeEventListener("captures", handleImageCaptures);
-      }
-      // Clean up scripts
-      if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-      if (preloadScript && preloadScript.parentNode) {
-        preloadScript.parentNode.removeChild(preloadScript);
-      }
+      liqa.removeEventListener("ready", handleReady);
+      liqa.removeEventListener("error", handleError);
+      liqa.removeEventListener("captures", handleImageCaptures);
     };
-  }, []);
+  }, [cameraPermission]);
 
   useEffect(() => {
     if (liqaRef.current) {
