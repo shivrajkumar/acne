@@ -11,10 +11,11 @@ import { logGtmEvent } from "@/helpers/gtmHelpers";
 
 // REMOVED: import { preload, FEATURE } from "SOURCE_URL_PROVIDED_BY_HAUT_AI/liqa.js"
 
-
 export default function ImageUploadWithHaut({ block }) {
+
+  const observerRef = useRef(null);
   const [err, setErr] = useState(null);
-  const [cameraPermission, setCameraPermission] = useState('prompt'); // 'granted', 'denied', 'prompt'
+  const [cameraPermission, setCameraPermission] = useState("prompt"); // 'granted', 'denied', 'prompt'
   const liqaRef = useRef(null);
   const handleSubmit = useFormSubmit(QuestionsContext);
   const {
@@ -41,118 +42,155 @@ export default function ImageUploadWithHaut({ block }) {
   }, []);
 
   useEffect(() => {
-    // Script is already preloaded in hautAiReqPermissions.jsx
-    // Now just set up event listeners for the Haut AI component
     const liqa = liqaRef.current;
     if (!liqa) return;
 
+    /** Utility: Attach listener once **/
+    const safeAddClick = (el, handler) => {
+      if (!el || !handler) return;
+      if (!el.__hasClickListener) {
+        el.addEventListener("click", handler);
+        el.__hasClickListener = true; // prevents duplicates
+      }
+    };
+
+    /** CTA Tracking handlers **/
+    const handleUploadCTA = () => logGtmEvent("cta_upload_photo");
+    const handleSubmitCTA = () => logGtmEvent("cta_submit_skin_test");
+
+    /** Attach listeners to static buttons **/
+    const bindStaticButtons = (shadowRoot) => {
+      if (!shadowRoot) return;
+
+      // Upload related
+      const uploadButtons = shadowRoot.querySelectorAll(`
+      button[data-source="upload"],
+      button[data-source="front_camera"],
+      button[data-source="companion"],
+      [data-action="upload"],
+      [data-action="camera"],
+      [data-action="companion"]
+      `);
+      uploadButtons.forEach((btn) => safeAddClick(btn, handleUploadCTA));
+
+      // Submit related
+      const submitButtons = shadowRoot.querySelectorAll(
+        `
+      button[data-action="submit"],
+      button[type="submit"]
+      `
+      );
+      submitButtons.forEach((btn) => safeAddClick(btn, handleSubmitCTA));
+    };
+
+    /** Checks if a dynamic DOM node is an upload CTA **/
+    const isUploadButton = (node) => {
+      if (
+        node.matches?.(
+          'button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"]'
+        )
+      )
+        return true;
+      if (
+        node.matches?.(
+          '[data-action="upload"], [data-action="camera"], [data-action="companion"]'
+        )
+      )
+        return true;
+
+      // Text fallback
+      return /upload|camera|take photo/i.test(node.textContent || "");
+    };
+
+    /** Checks if a dynamic DOM node is a submit CTA **/
+    const isSubmitButton = (node) => {
+      if (node.matches?.('button[data-action="submit"], button[type="submit"]'))
+        return true;
+
+      // Text fallback
+      return /submit|done|confirm/i.test(node.textContent || "");
+    };
+
+    /** Bind dynamically added buttons **/
+    const setupMutationObserver = (shadowRoot) => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (!node || node.nodeType !== 1) return; // element nodes only
+            if (node.tagName !== "BUTTON") return;
+
+            if (isUploadButton(node)) {
+              safeAddClick(node, handleUploadCTA);
+            }
+
+            if (isSubmitButton(node)) {
+              safeAddClick(node, handleSubmitCTA);
+            }
+          });
+        });
+      });
+
+      observer.observe(shadowRoot, { childList: true, subtree: true });
+      return observer;
+    };
+
+    /** Intercept "Continue on Web" **/
+    const bindContinueButton = (shadowRoot) => {
+      const btn = Array.from(shadowRoot.querySelectorAll("button")).find(b => /continue/i.test(b.textContent));
+
+      if (!btn) return;
+
+      safeAddClick(btn, async (e) => {
+        if (cameraPermission !== "granted") {
+          e.preventDefault();
+          e.stopPropagation();
+          await handleContinueOnWeb();
+        }
+      });
+    };
+
+    /** Fired when LIQA emits "ready" **/
     const handleReady = () => {
-      // Try to intercept the Continue on Web button and track upload photo CTAs
       setTimeout(() => {
         const shadowRoot = liqa.shadowRoot;
-        if (shadowRoot) {
-          // Look for the continue on web button in the shadow DOM
-          const continueButton = shadowRoot.querySelector('[data-action="continue-web"], button:contains("Continue on web"), button:contains("continue")');
-          if (continueButton) {
-            continueButton.addEventListener('click', async (e) => {
-              if (cameraPermission !== 'granted') {
-                e.preventDefault();
-                e.stopPropagation();
-                await handleContinueOnWeb();
-              }
-            });
-          }
+        if (!shadowRoot) return;
 
-          // Track clicks on upload/camera/companion buttons
-          const uploadButtons = shadowRoot.querySelectorAll(
-            'button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"], ' +
-            '[data-action="upload"], [data-action="camera"], [data-action="companion"], ' +
-            'button:contains("Upload"), button:contains("Camera"), button:contains("Take Photo")'
-          );
+        bindContinueButton(shadowRoot);
+        bindStaticButtons(shadowRoot);
 
-          uploadButtons.forEach(button => {
-            button.addEventListener('click', () => {
-              logGtmEvent("cta_upload_photo");
-            });
-          });
-
-          // Track clicks on submit button
-          const submitButtons = shadowRoot.querySelectorAll(
-            'button[data-action="submit"], button[type="submit"], ' +
-            'button:contains("Submit"), button:contains("Done"), button:contains("Confirm")'
-          );
-
-          submitButtons.forEach(button => {
-            button.addEventListener('click', () => {
-              logGtmEvent("cta_submit_skin_test");
-            });
-          });
-
-          // Also observe for dynamically added buttons
-          const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === 1) { // Element node
-                  // Check if it's an upload-related button
-                  if (node.matches && (
-                    node.matches('button[data-source="upload"], button[data-source="front_camera"], button[data-source="companion"]') ||
-                    node.matches('[data-action="upload"], [data-action="camera"], [data-action="companion"]')
-                  )) {
-                    node.addEventListener('click', () => {
-                      logGtmEvent("cta_upload_photo");
-                    });
-                  }
-
-                  // Check if it's a submit button
-                  if (node.matches && (
-                    node.matches('button[data-action="submit"], button[type="submit"]') ||
-                    (node.tagName === 'BUTTON' && (
-                      node.textContent.includes('Submit') ||
-                      node.textContent.includes('Done') ||
-                      node.textContent.includes('Confirm')
-                    ))
-                  )) {
-                    node.addEventListener('click', () => {
-                      logGtmEvent("cta_submit_skin_test");
-                    });
-                  }
-                }
-              });
-            });
-          });
-
-          observer.observe(shadowRoot, {
-            childList: true,
-            subtree: true
-          });
-        }
+        // start dynamic observer
+        observerRef.current = setupMutationObserver(shadowRoot);
       }, 500);
     };
 
-    liqa.addEventListener("ready", handleReady);
-
-    // Listen for camera permission errors
+    /** Camera permission error **/
     const handleError = (event) => {
-      if (event.detail && event.detail.type === 'camera-permission') {
+      if (event.detail?.type === "camera-permission") {
         handleContinueOnWeb();
       }
     };
-    liqa.addEventListener("error", handleError);
 
-    // Fires when user presses Submit
+    /** Set up listeners on LIQA element **/
+    liqa.addEventListener("ready", handleReady);
+    liqa.addEventListener("error", handleError);
     liqa.addEventListener("captures", handleImageCaptures);
 
     return () => {
       liqa.removeEventListener("ready", handleReady);
       liqa.removeEventListener("error", handleError);
       liqa.removeEventListener("captures", handleImageCaptures);
+
+      // Disconnect observer if exists
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
     };
   }, [cameraPermission]);
 
   useEffect(() => {
     if (liqaRef.current) {
       // Wait for element to upgrade
-      liqaRef.current.addEventListener("liqaReady", () => {
+      liqaRef.current.addEventListener("ready", () => {
         liqaRef.current.configure({
           lighting: {
             required: false, // ✅ disables lighting validation
@@ -170,11 +208,11 @@ export default function ImageUploadWithHaut({ block }) {
   const checkCameraPermission = async () => {
     try {
       if (navigator.permissions && navigator.permissions.query) {
-        const result = await navigator.permissions.query({ name: 'camera' });
+        const result = await navigator.permissions.query({ name: "camera" });
         setCameraPermission(result.state);
-        
+
         // Listen for permission changes
-        result.addEventListener('change', () => {
+        result.addEventListener("change", () => {
           setCameraPermission(result.state);
         });
       }
@@ -186,30 +224,33 @@ export default function ImageUploadWithHaut({ block }) {
   // Request camera permission explicitly
   const requestCameraPermission = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
+      const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: false 
+        audio: false,
       });
-      
+
       // Permission granted, stop the stream immediately as we just needed permission
-      stream.getTracks().forEach(track => track.stop());
-      
-      setCameraPermission('granted');
+      stream.getTracks().forEach((track) => track.stop());
+
+      setCameraPermission("granted");
       setErr(null);
-      
+
       // Reload the LIQA component to reflect the new permission
       if (liqaRef.current) {
         // Trigger a re-initialization of the LIQA component
         const liqa = liqaRef.current;
-        liqa.dispatchEvent(new CustomEvent('refresh'));
+        liqa.dispatchEvent(new CustomEvent("refresh"));
       }
-      
+
       return true;
     } catch (error) {
-      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-        setCameraPermission('denied');
+      if (
+        error.name === "NotAllowedError" ||
+        error.name === "PermissionDeniedError"
+      ) {
+        setCameraPermission("denied");
         setErr("");
-      } else if (error.name === 'NotFoundError') {
+      } else if (error.name === "NotFoundError") {
         setErr("No camera found on this device.");
       } else {
         setErr("Unable to access camera. Please check your browser settings.");
@@ -220,11 +261,13 @@ export default function ImageUploadWithHaut({ block }) {
 
   // Handle Continue on Web button click
   const handleContinueOnWeb = async () => {
-    if (cameraPermission !== 'granted') {
+    if (cameraPermission !== "granted") {
       const granted = await requestCameraPermission();
       if (!granted) {
         // Show instructions to enable camera
-        alert("Please enable camera access to continue:\n\n1. Click the camera icon in your browser's address bar\n2. Select 'Allow' for camera access\n3. Refresh the page if needed");
+        alert(
+          "Please enable camera access to continue:\n\n1. Click the camera icon in your browser's address bar\n2. Select 'Allow' for camera access\n3. Refresh the page if needed"
+        );
       }
     }
   };
@@ -232,41 +275,40 @@ export default function ImageUploadWithHaut({ block }) {
   // Helper function to compress image
   async function compressImage(blob, maxSizeMB = 2) {
     const maxSizeBytes = maxSizeMB * 1024 * 1024; // Convert MB to bytes
-    
+
     // If already under size limit, return original
     if (blob.size <= maxSizeBytes) {
       return blob;
     }
-    
+
     return new Promise((resolve) => {
       const img = new Image();
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
       img.onload = () => {
         let quality = 0.9;
         let width = img.width;
         let height = img.height;
-        
+
         // Calculate initial scale if image is very large
         const MAX_WIDTH = 1920;
         const MAX_HEIGHT = 1920;
-        
+
         if (width > MAX_WIDTH || height > MAX_HEIGHT) {
           const scale = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
           width = Math.round(width * scale);
           height = Math.round(height * scale);
         }
-        
+
         canvas.width = width;
         canvas.height = height;
         ctx.drawImage(img, 0, 0, width, height);
-        
+
         // Function to convert canvas to blob with specific quality
         const tryCompress = (q) => {
           canvas.toBlob(
             (compressedBlob) => {
-              
               if (compressedBlob.size > maxSizeBytes && q > 0.1) {
                 // Still too large, reduce quality
                 tryCompress(q - 0.1);
@@ -274,14 +316,14 @@ export default function ImageUploadWithHaut({ block }) {
                 resolve(compressedBlob);
               }
             },
-            'image/jpeg',
+            "image/jpeg",
             q
           );
         };
-        
+
         tryCompress(quality);
       };
-      
+
       // Convert blob to data URL and load into image
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -302,7 +344,7 @@ export default function ImageUploadWithHaut({ block }) {
       // Take first capture
       let blob = await captures[0].blob();
       trackMoEngageEvent("image_uploaded");
-      
+
       // Compress image if needed (max 2MB)
       blob = await compressImage(blob, 2);
 
@@ -324,11 +366,15 @@ export default function ImageUploadWithHaut({ block }) {
 
       // Final check to ensure file is under 2MB
       if (fileObject.size > 2 * 1024 * 1024) {
-        console.error("File still too large after compression:", (fileObject.size / 1024 / 1024).toFixed(2), "MB");
+        console.error(
+          "File still too large after compression:",
+          (fileObject.size / 1024 / 1024).toFixed(2),
+          "MB"
+        );
         setErr("Image is too large. Please try again with a smaller image.");
         return;
       }
-      
+
       const formData = new FormData();
       formData.append("file", fileObject, fileName);
 
@@ -340,13 +386,13 @@ export default function ImageUploadWithHaut({ block }) {
 
       // Check if image upload was successful
       const isImageUploaded = uploadRes?.success || uploadRes?.status === 200;
-      
+
       if (isImageUploaded) {
         trackMoEngageEvent("image_analysis_success");
-        
+
         // Determine status based on upload success
         const status = formFillStatus.FILLED;
-        
+
         // Build form data payload
         const _formData = {
           question_id: block.id,
@@ -364,7 +410,7 @@ export default function ImageUploadWithHaut({ block }) {
           method: "POST",
           body: JSON.stringify(_formData),
         });
-        
+
         if (txRes.status === 200) {
           // Image uploaded AND submitted successfully
           handleSubmit(blob);
@@ -400,17 +446,20 @@ export default function ImageUploadWithHaut({ block }) {
           preview-duration="5000"
           sources="front_camera,upload,companion"
           onContinueWeb={handleContinueOnWeb}
-          required-lighting='none'
-          showLightSourcePrompt='false'
+          required-lighting="none"
+          showLightSourcePrompt="false"
         ></hautai-liqa>
 
         {/* Camera Permission Prompt */}
-        {cameraPermission === 'denied' && (
+        {cameraPermission === "denied" && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg max-w-md mx-4">
-              <h3 className="text-lg font-semibold mb-3">Camera Access Required</h3>
+              <h3 className="text-lg font-semibold mb-3">
+                Camera Access Required
+              </h3>
               <p className="mb-4 text-gray-600">
-                To capture your photo, we need access to your camera. Please follow these steps:
+                To capture your photo, we need access to your camera. Please
+                follow these steps:
               </p>
               <ol className="list-decimal list-inside mb-4 text-sm text-gray-600">
                 <li>Click the camera icon in your browser's address bar</li>
