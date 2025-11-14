@@ -3,15 +3,25 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Rate } from "antd";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, index }) {
   const pathname = usePathname();
-  const isProductDetails = pathname.includes(`/view-all-products/`);
+  const isProductDetails = pathname.includes(`/view-all-products`);
   const formatRating = (rating) => Number(rating).toFixed(1);
 
+  console.log({isProductDetails})
+  // Alternate background colors when on view-all-products page
+  const cardBgClass = isProductDetails
+    ? index % 2 === 0
+      ? "bg-[#F7F5EE]"
+      : "bg-[#FBF3E3]"
+    : "bg-white";
+
   return (
-    <div className="flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-xl bg-white flex-shrink-0">
+    <div
+      className={`flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-xl flex-shrink-0 transition-all duration-300`}
+    >
       {/* Product Image Section */}
-      <div className="relative w-full flex items-center justify-center overflow-hidden rounded-xl">
+      <div className={`relative w-full flex items-center justify-center overflow-hidden rounded-xl ${cardBgClass} `}>
         <Image
           src={product.image}
           alt={product.name}
@@ -27,9 +37,10 @@ export default function ProductCard({ product }) {
             defaultValue={product.rating}
             allowHalf
             style={{ fontSize: "12px", color: "#000000" }}
-            // className="[&_.ant-rate-star]:!mr-0"
           />
-          <span className="text-xs font-semibold text-gray-900 ml-1">{formatRating(product.rating)}</span>
+          <span className="text-xs font-semibold text-gray-900 ml-1">
+            {formatRating(product.rating)}
+          </span>
         </div>
 
         {/* Desktop - Tag top right */}
@@ -60,7 +71,9 @@ export default function ProductCard({ product }) {
             style={{ fontSize: "11px", color: "#000000" }}
             className="[&_.ant-rate-star]:!mr-0"
           />
-          <span className="text-[10px] font-semibold text-gray-900 ml-1">{formatRating(product.rating)}</span>
+          <span className="text-[10px] font-semibold text-gray-900 ml-1">
+            {formatRating(product.rating)}
+          </span>
         </div>
 
         {/* Button */}
