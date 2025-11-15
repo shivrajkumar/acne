@@ -11,7 +11,7 @@ export default function ConcernSection({ concern }) {
 
   const scroll = (direction) => {
     if (!scrollRef.current) return;
-    const scrollAmount = 600;
+    const scrollAmount = 300;
     scrollRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -29,13 +29,13 @@ export default function ConcernSection({ concern }) {
           <div className="flex items-center gap-2">
             <button
               onClick={() => scroll("left")}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-Grey/50 text-gray-800 hover:bg-gray-200 transition"
             >
               <FaArrowLeftLong size={18} />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 text-white hover:bg-gray-800 transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-Grey/500 text-white hover:bg-gray-800 transition"
             >
               <FaArrowRightLong size={18} />
             </button>
@@ -49,15 +49,15 @@ export default function ConcernSection({ concern }) {
         className={
           isSkinFood
             ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-2"
-            : "flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth scrollbar-hide px-3"
+            : "flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth hide-scrollbar px-3"
         }
       >
-        {concern?.products?.map((product) => (
+        {concern?.products?.map((product, index) => (
           <div
             key={product.id}
             className="flex-shrink-0 w-[47%] sm:w-[260px] md:w-[305px] lg:w-[320px]"
           >
-            <ProductCard product={product} />
+            <ProductCard product={product} index={index}/>
           </div>
         ))}
       </div>

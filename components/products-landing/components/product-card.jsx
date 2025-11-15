@@ -5,7 +5,9 @@ import { Rate } from "antd";
 
 export default function ProductCard({ product, index }) {
   const pathname = usePathname();
-  const isProductDetails = pathname.includes(`/view-all-products`);
+  console.log("Current pathname:", pathname);
+  const isProductDetails = pathname.includes('/view-all-products');
+  
   const formatRating = (rating) => Number(rating).toFixed(1);
 
   console.log({isProductDetails})
@@ -27,11 +29,11 @@ export default function ProductCard({ product, index }) {
           alt={product.name}
           width={500}
           height={300}
-          className="object-cover w-full h-[220px] sm:h-[250px] md:h-[250px] lg:h-[280px] transition-transform duration-300 hover:scale-105 my-0 md:my-16"
+          className="object-cover w-full h-[220px] sm:h-[250px] md:h-[250px] lg:h-[280px] transition-transform duration-300 hover:scale-105 my-16"
         />
 
         {/* Desktop - Ratings top left */}
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 hidden md:flex items-center gap-1 bg-white/80 backdrop-blur-sm px-2 py-[2px] rounded-full">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 hidden md:flex items-center gap-1 px-2 py-[2px]">
           <Rate
             disabled
             defaultValue={product.rating}
@@ -77,7 +79,7 @@ export default function ProductCard({ product, index }) {
         </div>
 
         {/* Button */}
-        {!isProductDetails && (
+        {isProductDetails && (
           <button className="w-full border-2 border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2">
             {pathname === "/skin-food" ? "Quick View" : "Learn More"}
           </button>

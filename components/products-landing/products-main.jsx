@@ -36,7 +36,7 @@ const ProductsMainLanding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  console.log({shopByConcernItems})
+  console.log({ shopByConcernItems });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -77,27 +77,24 @@ const ProductsMainLanding = () => {
     const fetchProductCategories = async () => {
       try {
         const response = await fetchRequest(GET_PRODUCT_CATEGORY());
-        console.log("Category response:", response);
 
-        // Handle the response structure - content.products contains the category items
         const categoryData = response?.data?.data?.content?.products || [];
-        console.log("Category data:", categoryData);
-        if (Array.isArray(categoryData) && categoryData.length > 0) {
 
+        if (Array.isArray(categoryData) && categoryData.length > 0) {
           const transformedItems = categoryData.map((product) => {
-            // Convert relative paths to full CDN URLs
             const imageUrl = product.image?.startsWith("http")
               ? product.image
               : `${CDN_BASE_URL}${product.image}`;
 
             return {
-              label: product.name,
+              label: product.name.trim(),
               image: imageUrl,
             };
           });
 
-          console.log("Transformed items:", transformedItems);
-          setShopByConcernItems(transformedItems);
+          const preferredOrder = ["FACEWASH", "MOISTURIZER", "SUNSCREEN", "SKIN FOOD"];
+          const orderedItems = transformedItems.sort((a, b) => preferredOrder.indexOf(a.label.toUpperCase()) - preferredOrder.indexOf(b.label.toUpperCase()));
+          setShopByConcernItems(orderedItems);
         } else {
           console.warn("No category data received or invalid format");
         }
@@ -139,8 +136,8 @@ const ProductsMainLanding = () => {
   return (
     <div>
       <ProductsBanner
-        title={`an ingredient-elimination\nphilosophy for a total skin reset.`}
-        subtitle="Well done on completing your personalised kit—consistency is the real secret to lasting clear skin."
+        title={`A Personalised Acne Ritual for Clear, Long-Term Skin Health`}
+        subtitle="Every product in Clear Ritual is designed to treat acne at the source. This isn’t a quick fix. It’s your daily ritual for real, lasting change."
         gradientFrom="white"
         gradientTo="#DCEBF2"
         titleColor="#45474A"
@@ -151,7 +148,9 @@ const ProductsMainLanding = () => {
         containerClasses="px-4 md:px-12 py-12"
       />
 
-      {shopByConcernItems.length > 0 && <ShopByConcern items={shopByConcernItems} />}
+      {shopByConcernItems.length > 0 && (
+        <ShopByConcern items={shopByConcernItems} />
+      )}
 
       <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-20 text-[28px]">
         This isn't just goodbye. These products will soon disappear from the

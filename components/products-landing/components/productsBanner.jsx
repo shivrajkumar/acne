@@ -34,7 +34,7 @@ const ProductsBanner = ({
 
         {subtitle && (
           <p
-            className="mt-4 text-[16px] md:text-xl"
+            className="mt-4 text-[16px] md:text-2xl tracking-[0.5px] font-normal"
             style={{ color: subtitleColor }}
           >
             {subtitle}

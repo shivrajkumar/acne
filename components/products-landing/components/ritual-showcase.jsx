@@ -42,7 +42,7 @@ const RitualShowcase = () => {
   const [active, setActive] = useState(1);
   const currentStep = steps[active - 1];
 
-  // ✅ Preload all step images when the component mounts
+  // Preload all step images
   useEffect(() => {
     steps.forEach((step) => {
       const img = new window.Image();
@@ -68,54 +68,66 @@ const RitualShowcase = () => {
         </div>
 
         {/* Right Content */}
-        <div className="md:w-1/2 w-full bg-[#f6f5ee] rounded-lg flex flex-col justify-between p-8 md:p-12 min-h-[420px]">
+        <div className="md:w-1/2 w-full bg-[#f6f5ee] rounded-lg flex flex-col justify-between p-8 md:p-12 min-h-[420px] relative">
           <div>
             {/* Heading */}
-            <h2 className="text-[#1a232b] text-2xl md:text-3xl font-semibold mb-2">
-              Get clear with a <span className="font-normal">RITUAL.</span>
+            <h2 className="text-[#0F1B28] text-2xl md:text-3xl font-semibold mb-2">
+              Get clear with the{" "}
+              <span className="font-normal text-[#67645E]">RITUAL.</span>
             </h2>
-            <div className="text-[#5c656d]">
+            <div className="text-[#5c656d] mb-6">
               Essentials for your anti-acne routine.
             </div>
 
             {/* Product details */}
-            <div className="flex flex-row justify-between items-center mb-2 gap-4">
+            <div className="flex flex-row justify-between items-center gap-4 relative w-full">
               {/* Text section */}
-              <div className="flex-1 w-full">
-                <div className="text-[#222] text-[16px] md:text-2xl font-light border-b border-[#222] mb-1">
+              <div className="flex-col w-full relative">
+                {/* Title */}
+                <div className="text-[#222] text-[16px] md:text-2xl font-light">
                   {currentStep.title}
                 </div>
-                <div className="text-[#5c656d] text-[12px] md:text-base">
+
+                {/* Line + Dot overlapping image */}
+                <div className="absolute top-1/4 left-0 h-[1px] bg-[#222] z-50 w-[130%] md:w-[calc(100%-300px)]">
+                  <div className="absolute top-1/2 right-0 -translate-y-1/2 w-3 h-3 bg-[#222] rounded-full"></div>
+                </div>
+
+                {/* Description */}
+                <div className="text-[#5c656d] text-[12px] md:text-[16px] mt-6">
                   {currentStep.desc}
                 </div>
               </div>
 
               {/* Dynamic image */}
-              <div className="flex-shrink-0 w-[120px] sm:w-[200px] md:w-[300px] lg:w-[400px] h-auto relative text-center">
+              <div className="flex-shrink-0 w-[140px] sm:w-[200px] md:w-[250px] lg:w-[350px] h-auto relative text-center">
                 <Image
                   src={`${CDN_BASE_URL}${currentStep.image}`}
                   alt={currentStep.title}
                   width={400}
                   height={300}
                   className="w-full h-auto object-contain rounded-md transition-all duration-300"
-                  priority={active === 1} // Preload the first one only
+                  priority={active === 1}
                 />
               </div>
             </div>
           </div>
 
           {/* Stepper */}
-          <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex gap-4 mt-6 w-full justify-start">
             {steps.map((step, index) => {
               const num = index + 1;
               const isActive = active === num;
               return (
-                <div key={num} className="flex flex-col items-center">
+                <div
+                  key={num}
+                  className="flex flex-col items-center flex-shrink-0"
+                >
                   {/* Circle button */}
                   <button
-                    className={`w-10 h-10 md:w-16 md:h-16 rounded-full border border-[#bdbdbd] flex items-center justify-center text-lg font-medium transition-all duration-200 ${
+                    className={`w-10 h-10 md:w-16 md:h-16 rounded-full border border-Secondary/400 flex items-center justify-center text-lg font-medium transition-all duration-200 ${
                       isActive
-                        ? "bg-[#444] text-white border-[#444]"
+                        ? "bg-Secondary/500 text-white border-Secondary/400"
                         : "bg-transparent text-[#444]"
                     }`}
                     onClick={() => setActive(num)}
@@ -123,9 +135,9 @@ const RitualShowcase = () => {
                     <span>{`0${num}`}</span>
                   </button>
 
-                  {/* Label (always rendered to preserve height) */}
+                  {/* Label */}
                   <span
-                    className={`text-[16px] mt-2 font-normal text-[#444] transition-opacity duration-200 ${
+                    className={`text-[16px] md:text-[18px] mt-2 font-normal text-Secondary/500 transition-opacity duration-200 ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                   >
