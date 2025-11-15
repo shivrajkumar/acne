@@ -16,6 +16,7 @@ export default function ImageUploadWithHaut({ block }) {
   const observerRef = useRef(null);
   const [err, setErr] = useState(null);
   const [cameraPermission, setCameraPermission] = useState("prompt"); // 'granted', 'denied', 'prompt'
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
   const liqaRef = useRef(null);
   const handleSubmit = useFormSubmit(QuestionsContext);
   const {
@@ -166,7 +167,8 @@ export default function ImageUploadWithHaut({ block }) {
     /** Camera permission error **/
     const handleError = (event) => {
       if (event.detail?.type === "camera-permission") {
-        handleContinueOnWeb();
+        setCameraPermission("denied");
+        setShowPermissionModal(true);
       }
     };
 
@@ -190,8 +192,8 @@ export default function ImageUploadWithHaut({ block }) {
   useEffect(() => {
     if (liqaRef.current) {
       // Wait for element to upgrade
-      liqaRef.current.addEventListener("ready", () => {
-        liqaRef.current.configure({
+      liqaRef?.current?.addEventListener("ready", () => {
+        liqaRef?.current?.configure({
           lighting: {
             required: false, // ✅ disables lighting validation
             showPrompt: false, // ✅ hides light source prompt
@@ -211,9 +213,19 @@ export default function ImageUploadWithHaut({ block }) {
         const result = await navigator.permissions.query({ name: "camera" });
         setCameraPermission(result.state);
 
+        // Show modal if permission is denied
+        if (result.state === "denied") {
+          setShowPermissionModal(true);
+        }
+
         // Listen for permission changes
         result.addEventListener("change", () => {
           setCameraPermission(result.state);
+          if (result.state === "denied") {
+            setShowPermissionModal(true);
+          } else {
+            setShowPermissionModal(false);
+          }
         });
       }
     } catch (error) {
@@ -233,6 +245,7 @@ export default function ImageUploadWithHaut({ block }) {
       stream.getTracks().forEach((track) => track.stop());
 
       setCameraPermission("granted");
+      setShowPermissionModal(false);
       setErr(null);
 
       // Reload the LIQA component to reflect the new permission
@@ -249,6 +262,7 @@ export default function ImageUploadWithHaut({ block }) {
         error.name === "PermissionDeniedError"
       ) {
         setCameraPermission("denied");
+        setShowPermissionModal(true);
         setErr("");
       } else if (error.name === "NotFoundError") {
         setErr("No camera found on this device.");
@@ -257,6 +271,23 @@ export default function ImageUploadWithHaut({ block }) {
       }
       return false;
     }
+  };
+
+  // Function to open in external browser
+  const openInExternalBrowser = () => {
+    const currentUrl = window.location.href;
+
+    // Try to open in external browser
+    // For iOS/Android in-app browsers, this will prompt to open in Safari/Chrome
+    window.open(currentUrl, '_system');
+
+    // Fallback: show instructions
+    setTimeout(() => {
+      alert(
+        "Please copy this URL and paste it in your device's default browser (Safari, Chrome, etc.):\n\n" +
+        currentUrl
+      );
+    }, 500);
   };
 
   // Handle Continue on Web button click
@@ -450,22 +481,63 @@ export default function ImageUploadWithHaut({ block }) {
           showLightSourcePrompt="false"
         ></hautai-liqa>
 
-        {/* Camera Permission Prompt */}
-        {cameraPermission === "denied" && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg max-w-md mx-4">
-              <h3 className="text-lg font-semibold mb-3">
-                Camera Access Required
+        {/* Camera Permission Modal */}
+        {showPermissionModal && (
+          <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl max-w-md w-full mx-4 p-6 shadow-2xl">
+              {/* Icon */}
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 bg-Primary/500 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-custom-border-Primary/100"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Title */}
+              <h3 className="text-xl font-semibold text-gray-800 mb-3 text-center">
+                Camera Permission Required
               </h3>
-              <p className="mb-4 text-gray-600">
-                To capture your photo, we need access to your camera. Please
-                follow these steps:
+
+              {/* Message */}
+              <p className="text-gray-600 text-center mb-6">
+                Since camera permission is off, to complete the skin test please open this page in your device's default browser.
               </p>
-              <ol className="list-decimal list-inside mb-4 text-sm text-gray-600">
-                <li>Click the camera icon in your browser's address bar</li>
-                <li>Select "Allow" for camera access</li>
-                <li>Refresh the page if needed</li>
-              </ol>
+
+              {/* Button */}
+              <button
+                onClick={openInExternalBrowser}
+                className="w-full py-3 bg-Primary/500 text-white font-medium rounded-lg transition-colors duration-200 mb-3"
+              >
+                Open in Browser
+              </button>
+
+              {/* Secondary action */}
+              <button
+                onClick={() => {
+                  setShowPermissionModal(false);
+                  requestCameraPermission();
+                }}
+                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200"
+              >
+                Try Again
+              </button>
             </div>
           </div>
         )}
