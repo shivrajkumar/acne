@@ -1,6 +1,7 @@
 import { CDN_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import React from "react";
+import ReviewRP from "@assets/images/review_rp.webp";
 
 export default function FeaturedReview() {
     return (
@@ -12,17 +13,17 @@ export default function FeaturedReview() {
                     {/* Doctor Image - Full width on mobile, half width on desktop */}
                     <div className="w-full md:w-1/2 ">
                         <Image
-                            src={`${CDN_BASE_URL}website_images/clear_rituals/results_page/featured_review.webp`}
+                            src={ReviewRP}
                             alt="Doctor"
                             width={505}
                             height={505}
                             className="object-fit rounded-[16px] xs:hidden"
                         />
                         <Image
-                            src={`${CDN_BASE_URL}website_images/clear_rituals/results_page/featured_review.webp`}
+                            src={ReviewRP}
                             alt="Doctor"
-                            width={296}
-                            height={296}
+                            width={505}
+                            height={505}
                             className="w-full h-full object-cover rounded-[16px] hidden xs:flex"
                         />
                     </div>

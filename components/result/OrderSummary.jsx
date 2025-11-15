@@ -13,7 +13,7 @@ import { logGtmEvent } from "../generic/Gtm";
 import useMediaQuery from "@/hooks/useMediaQuerry";
 import { generateEventId } from "@/helpers/metaCapiHelper";
 
-const OrderSummary = ({ingredientsMap}) => {
+const OrderSummary = ({ ingredientsMap }) => {
   const { productsDetails, optionalProductsDetails, addProductToCart } =
     useCartContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -105,7 +105,7 @@ const OrderSummary = ({ingredientsMap}) => {
       const fullVariantId = `${variantId}_PDP`;
       setSelectedVariantId(fullVariantId);
       setProductType(type);
-        console.log('Setting productType to:', type); 
+      console.log("Setting productType to:", type);
       setIsModalOpen(true);
 
       // Push a history state to handle back button on mobile
@@ -192,19 +192,24 @@ const OrderSummary = ({ingredientsMap}) => {
           {optionalProductsDetails?.length > 0 && (
             <div
               ref={optionalProductsSectionRef}
-              className="flex flex-col border-[2px] border-neutral-700 md:border-none"
+              className="relative flex flex-col border-[2px] border-neutral-700 md:border-none"
             >
-              {
-                <p className="font-sophiaPro font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
-                  {"SOLVE FOR YOUR ACNE SCARS NOW!"}
-                </p>
-              }
-              {optionalProductsDetails.map((product) => {
+              {/* Left & Right frame */}
+              <div className="absolute top-0 bottom-0 left-0 w-1 bg-ProductAddNow hidden md:block"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-1 bg-ProductAddNow hidden md:block"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-ProductAddNow mt-2 hidden md:block"></div>
+
+              {/* Header */}
+              <p className="font-sophiaPro font-[700] text-[12px] text-[#000000] bg-ProductAddNow py-[8px] text-center mb-[16px]">
+                SOLVE FOR YOUR ACNE SCARS NOW!
+              </p>
+
+              {/* Product Cards */}
+              {optionalProductsDetails.map((product, idx) => {
                 const { showAM, showPM } = getDosageIcons(product.dosageCode);
                 return (
-                  <div key={product.variantId}>
+                  <div key={product.variantId} className="relative py-6">
                     <ProductCard
-                      key={product.variantId}
                       product={product}
                       showAM={showAM}
                       showPM={showPM}
@@ -213,7 +218,9 @@ const OrderSummary = ({ingredientsMap}) => {
                       showModal={showModal}
                     />
                     {/* Divider */}
-                    <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
+                    {idx !== optionalProductsDetails.length - 1 && (
+                      <div className="border-[1px] border-Elements/Divider-Stroke h-[1px] mt-[24px] md:mt-[32px]"></div>
+                    )}
                   </div>
                 );
               })}

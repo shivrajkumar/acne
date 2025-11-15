@@ -35,7 +35,7 @@ const RootCausesV2 = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { rootCausesDetails: rootCauses } = useCartContext();
 
-  // ✅ Detect mobile view
+  // Detect mobile view
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
@@ -67,7 +67,7 @@ const RootCauseIconComponent = ({
   const isUserScrolling = useRef(false);
   const isProgrammaticScroll = useRef(false);
 
-  // ✅ Auto-scroll active item into view (mobile)
+  // Auto-scroll active item into view (mobile)
   useEffect(() => {
     if (isMobile && scrollContainerRef.current) {
       isProgrammaticScroll.current = true;
@@ -81,6 +81,7 @@ const RootCauseIconComponent = ({
           activeItem.offsetLeft - containerWidth / 2 + itemWidth / 2;
 
         scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+
         setTimeout(() => {
           isProgrammaticScroll.current = false;
         }, 500);
@@ -88,7 +89,7 @@ const RootCauseIconComponent = ({
     }
   }, [activeIndex, isMobile]);
 
-  // ✅ Scroll event handler
+  // Scroll event handler
   const handleScroll = () => {
     if (
       isMobile &&
@@ -113,7 +114,7 @@ const RootCauseIconComponent = ({
   };
 
   return (
-    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative h-[220px] md:h-[197px]">
+    <div className="bg-[#FEF0E4] rounded-[16px] p-[16px] relative h-[270px] md:h-[197px]">
       {/* Header */}
       <div className="flex items-center gap-[4px] mb-[16px]">
         <div className="bg-[#CA3936] rounded-full w-[16px] h-[16px] flex items-center justify-center">
@@ -127,16 +128,16 @@ const RootCauseIconComponent = ({
       {/* Desktop View */}
       <div className="hidden md:block">
         <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px]">
-          <div className={`flex items-center ${
-            rootCauseInfo.length === 1 ? "justify-start" : "justify-between"
-          }`}>
+          <div
+            className={`flex items-center ${
+              rootCauseInfo.length === 1 ? "justify-start" : "justify-between"
+            }`}
+          >
             {rootCauseInfo.map((cause, index) => (
               <div
                 key={cause?.name}
                 className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] transition-all ${
-                  rootCauseInfo.length === 1 
-                    ? "flex-shrink-0" 
-                    : "flex-1"
+                  rootCauseInfo.length === 1 ? "flex-shrink-0" : "flex-1"
                 } ${
                   index === activeIndex
                     ? "bg-[#FEEADB] border border-[#CA3936]"
@@ -158,9 +159,7 @@ const RootCauseIconComponent = ({
                 </div>
                 <div
                   className={`text-[14px] font-sophiaPro font-[400] ${
-                    index === activeIndex
-                      ? "text-[#CA3936]"
-                      : "text-[#505354]"
+                    index === activeIndex ? "text-[#CA3936]" : "text-[#505354]"
                   }`}
                 >
                   {startCase(cause?.name)}
@@ -179,11 +178,12 @@ const RootCauseIconComponent = ({
       </div>
 
       {/* Mobile View */}
-      <div className="md:hidden">
+      <div className="md:hidden flex flex-col gap-4">
+        {/* Carousel cards */}
         <div className="bg-[rgba(0,0,0,0.08)] rounded-[16px]">
           <div
             ref={scrollContainerRef}
-            className="flex items-center overflow-x-scroll hide-scrollbar"
+            className="flex items-center overflow-x-scroll hide-scrollbar gap-2"
             onScroll={handleScroll}
             onTouchStart={() => (isUserScrolling.current = true)}
             onTouchEnd={() => (isUserScrolling.current = false)}
@@ -191,7 +191,7 @@ const RootCauseIconComponent = ({
             {rootCauseInfo.map((cause, index) => (
               <div
                 key={cause?.name}
-                className={`flex flex-col gap-[4px] items-center justify-center cursor-pointer px-[24px] py-[8px] rounded-[16px] flex-shrink-0 transition-all ${
+                className={`flex flex-col gap-2 items-center justify-center cursor-pointer px-6 py-2 rounded-[16px] flex-shrink-0 transition-all ${
                   index === activeIndex
                     ? "bg-[#FEEADB] border border-[#CA3936]"
                     : ""
@@ -210,11 +210,10 @@ const RootCauseIconComponent = ({
                     }}
                   />
                 </div>
+
                 <span
                   className={`text-[14px] font-sophiaPro font-[400] text-center ${
-                    index === activeIndex
-                      ? "text-[#CA3936]"
-                      : "text-[#505354]"
+                    index === activeIndex ? "text-[#CA3936]" : "text-[#505354]"
                   }`}
                 >
                   {startCase(cause?.name)}
@@ -224,12 +223,35 @@ const RootCauseIconComponent = ({
           </div>
         </div>
 
-        {/* Description */}
-        <div className="mt-[4px]">
-          <p className="font-sophiaPro font-[400] text-[#313233] text-[14px] leading-[1.5]">
-            {rootCauseInfo[activeIndex]?.description}
-          </p>
+        {/* Carousel Indicators */}
+        <div className="flex justify-center items-center gap-[6px]">
+          {rootCauseInfo.map((_, index) => {
+            let classes = "transition-all duration-300";
+
+            if (index === activeIndex) {
+              // Active: wide pill
+              classes += " w-[16px] h-[3px] rounded-[3px] bg-[#313233]";
+            } else if (
+              index === activeIndex - 1 ||
+              index === activeIndex - 2 ||
+              index === activeIndex + 1 ||
+              index === activeIndex + 2
+            ) {
+              // Two adjacent circles on each side: active color
+              classes += " w-[6px] h-[6px] rounded-full bg-[#313233]";
+            } else {
+              // Farthest or others: small grey
+              classes += " w-[4px] h-[4px] rounded-full bg-[#D0D0D0]";
+            }
+
+            return <div key={index} className={classes}></div>;
+          })}
         </div>
+
+        {/* Description */}
+        <p className="font-sophiaPro font-[400] text-[#313233] text-[14px] leading-[1.5]">
+          {rootCauseInfo[activeIndex]?.description}
+        </p>
       </div>
     </div>
   );

@@ -102,14 +102,18 @@ const ResultLandingPage = ({}) => {
   // Initial load
   useEffect(() => {
     initializeUserData();
-    
-    // Listen for popstate events (browser back/forward)
+
+    // Push a state to track back button navigation
+    window.history.pushState(null, '', window.location.href);
+
+    // Listen for popstate events (browser back button)
     const handlePopState = () => {
-      initializeUserData();
+      // Navigate to home page when back button is clicked
+      window.location.href = '/';
     };
-    
+
     window.addEventListener('popstate', handlePopState);
-    
+
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };

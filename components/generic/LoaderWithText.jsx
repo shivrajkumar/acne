@@ -54,6 +54,7 @@ const LoaderWithText = ({ image, onHautAiResponse }) => {
               src={capturedImage} 
               alt="Skin analysis" 
               className="w-full h-full object-cover"
+              style={{ transform: "scaleX(-1)" }}
             />
             {/* Scanner overlay effect */}
             <div
