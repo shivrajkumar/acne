@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { ReactSVG } from "react-svg";
 
 const DiagnosisBottomSheet = React.memo(
@@ -21,11 +16,15 @@ const DiagnosisBottomSheet = React.memo(
       [score]
     );
 
-    /** Memoized check for papules or pustules */
+    // Check if current diagnosis is papules, pustules, or acne inflammation
     const isPapulesOrPustules = useMemo(() => {
-      const name = diagnosisName.toLowerCase();
-      return name.includes("papules") || name.includes("pustules");
-    }, [diagnosisName]);
+      const name = data?.name?.toLowerCase() || "";
+      return (
+        name.includes("papules") ||
+        name.includes("pustules") ||
+        name.includes("acne inflammation")
+      );
+    }, [data?.name]);
 
     /** Animate bottom-sheet */
     useEffect(() => {

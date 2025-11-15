@@ -516,7 +516,7 @@ const ResultLandingPage = ({}) => {
     reviewDetails: resultData?.reviewsDetails,
     skinAnalysisResponse: resultData?.skinAnalysisResponse,
     grading: resultData?.grading,
-    originalImageWithoutMask: resultData?.originalImageWithoutMask
+    originalImageWithoutMask: resultData?.originalImageWithoutMask,
   };
 
   // Show loader while media is loading or when login modal is shown

@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import BlogCard from "./blogCard";
-import { Spin, Pagination, Typography, Row, Col } from "antd";
+import { Spin, Pagination, Typography } from "antd";
 import { STRAPI_DEV_URL, STRAPI_PROD_URL } from "../../../constants/constants";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const BlogLanding = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,13 +16,11 @@ const BlogLanding = () => {
   async function getBlogs(page = 1) {
     try {
       const res = await fetch(
-        `${STRAPI_DEV_URL}/api/cr-blogs?populate=*&pagination[page]=${page}&pagination[pageSize]=25`,
+        `${STRAPI_PROD_URL}/api/cr-blogs?populate=*&pagination[page]=${page}&pagination[pageSize]=25`,
         { method: "GET", next: { revalidate: 300 } }
       );
 
-      if (!res.ok) {
-        throw new Error(`Failed to fetch blogs: ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`Failed to fetch blogs: ${res.status}`);
 
       return await res.json();
     } catch (err) {
@@ -61,34 +59,39 @@ const BlogLanding = () => {
   return (
     <>
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 400 }}>
+        <div className="flex justify-center items-center min-h-[400px]">
           <Spin size="large" />
         </div>
       ) : (
         <>
           {blogs.length > 0 ? (
-            <Row gutter={[32, 32]} className="mt-12 mb-8">
-              {blogs.map((item) => (
-                <Col key={item.id} xs={24} sm={12} lg={8}>
-                  <BlogCard
-                    title={item.title}
-                    imageSrc={item.cover_image?.[0]?.formats?.small?.url || item.cover_image?.[0]?.url}
-                    date={new Date(item.publishedAt).toDateString()}
-                    description={item.summary}
-                    readTime="5"
-                    slug={item.slug}
-                  />
-                </Col>
-              ))}
-            </Row>
+            <div className="mt-12 mb-8 px-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                {blogs.map((item) => (
+                  <div key={item.id} className="flex justify-center">
+                    <BlogCard
+                      title={item.title}
+                      imageSrc={
+                        item.cover_image?.[0]?.formats?.small?.url ||
+                        item.cover_image?.[0]?.url
+                      }
+                      date={new Date(item.publishedAt).toDateString()}
+                      description={item.summary}
+                      readTime="5"
+                      slug={item.slug}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 200 }}>
+            <div className="flex justify-center items-center min-h-[200px]">
               <Text type="secondary">No blogs found</Text>
             </div>
           )}
 
           {totalPages > 1 && (
-            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16, marginBottom: 32 }}>
+            <div className="flex justify-center sm:justify-end mt-4 mb-8 px-4">
               <Pagination
                 current={currentPage}
                 total={totalBlogs}

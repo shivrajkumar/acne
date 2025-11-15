@@ -67,7 +67,7 @@ export const initializeMoengage = () => {
       }),
       r.addEventListener("error", function () {
         return console.error("Moengage Web SDK loading failed."), !1;
-      });
+      })
   })(
     window,
     document,

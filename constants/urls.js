@@ -253,3 +253,9 @@ export const GET_ACNE_PRODUCTS = () => getUrl('consumer-api/service/recommendati
 export const GET_INGREDIENTS = () => {
   return `${PROXY_PREFIX}/consumer-api/service/static-content/data/ACNE_PRODUCTS_INGREDIENTS`;
 };
+
+export const GET_PRODUCT_CATEGORY = () => {
+  const config = 'ACNE_PRODUCT_CATEGORY';
+  return `${PROXY_PREFIX}/consumer-api/service/static-content/data/${config}`;
+};
+export const SITE_BASE_URL = env("NEXT_PUBLIC_SITE_BASE_URL") || "https://clearritual.com";

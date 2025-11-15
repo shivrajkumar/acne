@@ -3,6 +3,7 @@ import React from "react";
 import SectionTitle from "./section-title";
 
 const ShopByConcern = ({ title = "Shop By Concern", items = [] }) => {
+
   return (
     <section className="w-full px-4 md:px-12 py-8">
       <SectionTitle title={title}/>

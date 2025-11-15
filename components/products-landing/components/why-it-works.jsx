@@ -4,16 +4,25 @@ import ClearSkinImage from "@assets/images/clear-skin.png";
 import Image from "next/image";
 
 const MagnesiumSkinCombo = () => {
-  const items = [
-    "3 forms of Magnesium",
-    "3 forms of Magnesium",
-    "3 forms of Magnesium",
-    "3 forms of Magnesium",
-    "3 forms of Magnesium",
-    "3 forms of Magnesium",
+  const healthyBodyItems = [
+    "Balanced hormones",
+    "Clean liver",
+    "Happy gut",
+    "Purified blood",
+    "Calm mind",
+    "Healthy metabolism",
   ];
 
-  const Box = ({ title }) => (
+  const skinRitualItems = [
+    "Glowing complexion",
+    "Hydrated skin",
+    "Reduced acne",
+    "Even skin tone",
+    "Strong nails",
+    "Healthy hair",
+  ];
+
+  const Box = ({ title, items }) => (
     <div className="border border-black w-[160px] md:w-[350px]">
       <div className="bg-[#A6653D] text-white text-[18px] md:text-2xl font-normal text-center py-4 px-4">
         {title}
@@ -33,12 +42,13 @@ const MagnesiumSkinCombo = () => {
 
   return (
     <>
+      {/* Desktop Layout */}
       <div className="hidden md:flex items-center justify-center gap-10 font-sophiaPro">
-        <Box title="Healthy Body" />
+        <Box title="Healthy Body" items={healthyBodyItems} />
         <div className="w-20 h-20 flex items-center justify-center rounded-full bg-[#FAF7F0] text-4xl font-bold text-gray-700">
           +
         </div>
-        <Box title="Skin Ritual" />
+        <Box title="Skin Ritual" items={skinRitualItems} />
         <div className="w-20 h-20 flex items-center justify-center rounded-full bg-[#FAF7F0] text-4xl font-bold text-gray-700">
           =
         </div>
@@ -59,21 +69,24 @@ const MagnesiumSkinCombo = () => {
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex flex-col items-center gap-6 font-sophiaPro md:hidden">
-        <div className="flex items-center justify-center px-4">
-          <Box title="Healthy Body" />
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700">
+      <div className="flex flex-col items-center gap-6 font-sophiaPro md:hidden w-full px-4 box-border">
+        {/* Top Row: Healthy Body + Skin Ritual */}
+        <div className="flex items-center justify-center w-full max-w-sm mx-auto gap-3">
+          <Box title="Healthy Body" items={healthyBodyItems} />
+          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700 flex-shrink-0">
             +
           </div>
-          <Box title="Skin Ritual" />
+          <Box title="Skin Ritual" items={skinRitualItems} />
         </div>
 
-        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700">
+        {/* Equals sign */}
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAF7F0] text-lg font-bold text-gray-700 flex-shrink-0">
           =
         </div>
 
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-normal text-center">
+        {/* Result Section */}
+        <div className="flex flex-col items-center max-w-sm w-full text-center">
+          <h2 className="text-2xl font-normal">
             <span className="text-gray-500">CLEAR</span>{" "}
             <span className="text-[#1E2C34] font-medium">Skin.</span>
           </h2>
@@ -82,7 +95,7 @@ const MagnesiumSkinCombo = () => {
             alt="Clear Skin"
             width={320}
             height={320}
-            className="object-contain mt-4"
+            className="object-contain mt-4 w-full max-w-xs"
             priority
           />
         </div>

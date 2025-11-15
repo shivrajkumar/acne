@@ -1,23 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Image, Button, Typography, Card } from "antd";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { UpCircleOutlined } from "@ant-design/icons";
 import { HeadingStepByStep } from "./headingStepByStep";
-
-const { Text } = Typography;
-
-function extractText(children) {
-  if (typeof children === "string") return children;
-  if (Array.isArray(children)) return children.map(extractText).join("");
-
-  if (React.isValidElement(children)) {
-    return extractText(children.props.children || "");
-  }
-
-  return "";
-}
+// import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const TableOfContents = ({ items }) => {
   const [activeId, setActiveId] = useState("");
@@ -51,35 +38,70 @@ const TableOfContents = ({ items }) => {
       const elementPosition =
         element.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
     }
   };
 
-  if (!items || items.length === 0) return null;
+  if (items.length === 0) return null;
 
   return (
-    <Card size="small" className="mb-4" title="Table of Contents">
+    <nav className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm mb-8">
+      <h3 className="font-semibold text-sm text-gray-900 mb-3">
+        Table of Contents
+      </h3>
       <ul className="space-y-1 text-sm">
         {items.map((item) => (
           <li key={item.id}>
-            <Button
-              type="text"
+            <button
               onClick={() => scrollToHeading(item.id)}
-              className={activeId === item.id ? "text-blue-600 font-medium" : "text-gray-700"}
+              className={`text-left w-full hover:text-blue-600 transition-colors ${
+                activeId === item.id
+                  ? "text-blue-600 font-medium"
+                  : "text-gray-700"
+              }`}
             >
               {item.text}
-            </Button>
+            </button>
           </li>
         ))}
       </ul>
-    </Card>
+    </nav>
   );
 };
 
+function extractText(children) {
+  if (typeof children === "string") return children;
+  if (Array.isArray(children)) return children.map(extractText).join("");
+
+  if (React.isValidElement(children)) {
+    return extractText(children.props.children ?? "");
+  }
+
+  return "";
+}
+
 export const BlogRenderer = ({ article }) => {
-  const { title, coverImage, cover_image, publishedAt, content, banner_image_alt_text } = article;
+  const {
+    title,
+    coverImage,
+    cover_image,
+    publishedAt,
+    content,
+    banner_image_alt_text,
+  } = article;
+
+  console.log('article', article)
+
   const imageUrl = cover_image?.[0]?.url || coverImage?.data?.attributes?.url;
-  const imageAlt = banner_image_alt_text || cover_image?.[0]?.alternativeText || title;
+  const imageAlt =
+    banner_image_alt_text ||
+    cover_image?.[0]?.alternativeText ||
+    title;
+
   const [tocItems, setTocItems] = useState([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -87,6 +109,7 @@ export const BlogRenderer = ({ article }) => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > window.innerHeight * 2);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -127,16 +150,17 @@ export const BlogRenderer = ({ article }) => {
   };
 
   return (
-    <div className="md:container px-0 relative pb-20">
+    <div className="md:container px-0 relative">
       <div className="flex gap-8">
-        <article className="flex-1 min-w-0">
+        <article className="flex-1 px-4 mb-10">
           <header>
             <HeadingStepByStep heading={title} />
 
-            <div className="flex justify-between items-start gap-6 my-8">
+            {/* Flex container for TOC and Image */}
+            <div className="my-8">
               <TableOfContents items={tocItems} />
 
-              {imageUrl && (
+              {/* {imageUrl && (
                 <div className="flex-1">
                   <Image
                     src={imageUrl}
@@ -144,21 +168,25 @@ export const BlogRenderer = ({ article }) => {
                     width={500}
                     height={500}
                     className="w-full rounded-lg object-cover"
+                    priority
                   />
                 </div>
-              )}
+              )} */}
             </div>
 
             {publishedAt && (
-              <Text type="secondary" className="mb-8 block">
+              <p className="mb-8 text-sm text-gray-500">
                 Published on {new Date(publishedAt).toDateString()}
-              </Text>
+              </p>
             )}
           </header>
 
           {content && (
             <section className="prose prose-sm md:prose-lg max-w-none">
-              <ReactMarkdown rehypePlugins={[rehypeRaw]} components={customRenderers}>
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw]}
+                components={customRenderers}
+              >
                 {content}
               </ReactMarkdown>
             </section>
@@ -166,16 +194,16 @@ export const BlogRenderer = ({ article }) => {
         </article>
       </div>
 
-      {showScrollTop && (
-        <Button
-          type="primary"
-          shape="circle"
-          icon={<UpCircleOutlined />}
-          size="large"
+      {/* Back to Top Button */}
+      {/* {showScrollTop && (
+        <button
           onClick={scrollToTop}
-          style={{ position: "fixed", bottom: 52, right: 24 }}
-        />
-      )}
+          className="fixed bottom-52 right-6 p-3 rounded-full bg-[#333333] text-white shadow-lg"
+          aria-label="Back to top"
+        >
+          <ArrowUpwardIcon />
+        </button>
+      )} */}
     </div>
   );
 };
