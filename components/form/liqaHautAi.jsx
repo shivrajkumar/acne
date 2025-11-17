@@ -12,11 +12,10 @@ import { logGtmEvent } from "@/helpers/gtmHelpers";
 // REMOVED: import { preload, FEATURE } from "SOURCE_URL_PROVIDED_BY_HAUT_AI/liqa.js"
 
 export default function ImageUploadWithHaut({ block }) {
-
   const observerRef = useRef(null);
   const [err, setErr] = useState(null);
   const [cameraPermission, setCameraPermission] = useState("prompt"); // 'granted', 'denied', 'prompt'
-  const [showPermissionModal, setShowPermissionModal] = useState(false);
+  const [showPermissionModal, setShowPermissionModal] = useState(true); // Show modal directly
   const liqaRef = useRef(null);
   const containerRef = useRef(null);
   const [isLiqaReady, setIsLiqaReady] = useState(false);
@@ -29,12 +28,18 @@ export default function ImageUploadWithHaut({ block }) {
 
   // Move preloaded element into view
   useEffect(() => {
-    console.log("[ImageUploadWithHaut] Component mounted, looking for preloaded element...");
+    console.log(
+      "[ImageUploadWithHaut] Component mounted, looking for preloaded element..."
+    );
 
-    const preloadedElement = window.__preloadedLiqaElement || document.getElementById('preloaded-liqa');
+    const preloadedElement =
+      window.__preloadedLiqaElement ||
+      document.getElementById("preloaded-liqa");
 
     if (preloadedElement && containerRef.current) {
-      console.log("[ImageUploadWithHaut] Found preloaded element, moving it into view...");
+      console.log(
+        "[ImageUploadWithHaut] Found preloaded element, moving it into view..."
+      );
 
       // Move element from offscreen to visible container
       containerRef.current.appendChild(preloadedElement);
@@ -42,27 +47,35 @@ export default function ImageUploadWithHaut({ block }) {
 
       // Element is already initialized, so it should be ready immediately
       setIsLiqaReady(true);
-      console.log("[ImageUploadWithHaut] Preloaded element moved successfully and is ready!");
+      console.log(
+        "[ImageUploadWithHaut] Preloaded element moved successfully and is ready!"
+      );
     } else {
-      console.log("[ImageUploadWithHaut] No preloaded element found, will create new one");
+      console.log(
+        "[ImageUploadWithHaut] No preloaded element found, will create new one"
+      );
     }
 
     return () => {
       // Move element back to offscreen container instead of destroying it
       if (liqaRef.current && window.__preloadedLiqaElement) {
-        const offscreenContainer = document.getElementById('hautai-preload-container');
-        if (offscreenContainer && liqaRef.current.parentNode !== offscreenContainer) {
-          console.log("[ImageUploadWithHaut] Moving element back offscreen for reuse");
+        const offscreenContainer = document.getElementById(
+          "hautai-preload-container"
+        );
+        if (
+          offscreenContainer &&
+          liqaRef.current.parentNode !== offscreenContainer
+        ) {
+          console.log(
+            "[ImageUploadWithHaut] Moving element back offscreen for reuse"
+          );
           offscreenContainer.appendChild(liqaRef.current);
         }
       }
     };
   }, []);
 
-  // Check camera permission on mount
-  useEffect(() => {
-    checkCameraPermission();
-  }, []);
+  // Removed: Don't check camera permission on mount, show modal directly
 
   useEffect(() => {
     const originalBodyOverflow = document.body.style.overflow;
@@ -171,7 +184,9 @@ export default function ImageUploadWithHaut({ block }) {
 
     /** Intercept "Continue on Web" **/
     const bindContinueButton = (shadowRoot) => {
-      const btn = Array.from(shadowRoot.querySelectorAll("button")).find(b => /continue/i.test(b.textContent));
+      const btn = Array.from(shadowRoot.querySelectorAll("button")).find((b) =>
+        /continue/i.test(b.textContent)
+      );
 
       if (!btn) return;
 
@@ -202,7 +217,7 @@ export default function ImageUploadWithHaut({ block }) {
     const handleError = (event) => {
       if (event.detail?.type === "camera-permission") {
         setCameraPermission("denied");
-        setShowPermissionModal(true);
+        // Modal is already shown by default
       }
     };
 
@@ -252,32 +267,7 @@ export default function ImageUploadWithHaut({ block }) {
     }
   }, [liqaRef.current]);
 
-  // Check current camera permission status
-  const checkCameraPermission = async () => {
-    try {
-      if (navigator.permissions && navigator.permissions.query) {
-        const result = await navigator.permissions.query({ name: "camera" });
-        setCameraPermission(result.state);
-
-        // Show modal if permission is denied
-        if (result.state === "denied") {
-          setShowPermissionModal(true);
-        }
-
-        // Listen for permission changes
-        result.addEventListener("change", () => {
-          setCameraPermission(result.state);
-          if (result.state === "denied") {
-            setShowPermissionModal(true);
-          } else {
-            setShowPermissionModal(false);
-          }
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // Removed: No longer checking camera permission automatically
 
   // Request camera permission explicitly
   const requestCameraPermission = async () => {
@@ -325,13 +315,13 @@ export default function ImageUploadWithHaut({ block }) {
 
     // Try to open in external browser
     // For iOS/Android in-app browsers, this will prompt to open in Safari/Chrome
-    window.open(currentUrl, '_system');
+    window.open(currentUrl, "_system");
 
     // Fallback: show instructions
     setTimeout(() => {
       alert(
         "Please copy this URL and paste it in your device's default browser (Safari, Chrome, etc.):\n\n" +
-        currentUrl
+          currentUrl
       );
     }, 500);
   };
@@ -513,19 +503,16 @@ export default function ImageUploadWithHaut({ block }) {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-white overflow-hidden">
       {/* Show loader only if element is not ready and no preloaded element exists */}
-      {!isLiqaReady && !window.__preloadedLiqaElement && (
+      {/* {!isLiqaReady && !window.__preloadedLiqaElement && (
         <div className="absolute inset-0 flex items-center justify-center bg-white z-50">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-600 text-sm">Initializing camera...</p>
           </div>
         </div>
-      )}
+      )} */}
 
-      <div
-        ref={containerRef}
-        className="w-full h-full relative"
-      >
+      <div ref={containerRef} className="w-full h-full relative">
         {/* Container for preloaded element - element will be moved here */}
         {/* If no preloaded element exists, create a new one as fallback */}
         {!window.__preloadedLiqaElement && (
@@ -546,13 +533,13 @@ export default function ImageUploadWithHaut({ block }) {
 
         {/* Camera Permission Modal */}
         {showPermissionModal && (
-          <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full mx-4 p-6 shadow-2xl">
+          <div className="absolute inset-0 bg-black/75 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
               {/* Icon */}
               <div className="flex justify-center mb-4">
                 <div className="w-16 h-16 bg-Primary/500 rounded-full flex items-center justify-center">
                   <svg
-                    className="w-8 h-8 text-custom-border-Primary/100"
+                    className="w-8 h-8 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -574,33 +561,58 @@ export default function ImageUploadWithHaut({ block }) {
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-semibold text-gray-800 mb-3 text-center">
-                Camera Permission Required
+              <h3 className="text-xl font-semibold text-center text-gray-800 mb-2">
+                Camera Permission Needed
               </h3>
 
-              {/* Message */}
-              <p className="text-gray-600 text-center mb-6">
-                Since camera permission is off, to complete the skin test please open this page in your device's default browser.
+              {/* Description */}
+              <p className="text-center text-gray-600 text-sm mb-4">
+                To continue your skin test, please enable camera access from
+                your device's
+                <strong> Settings app</strong>.
               </p>
 
-              {/* Button */}
-              <button
-                onClick={openInExternalBrowser}
-                className="w-full py-3 bg-Primary/500 text-white font-medium rounded-lg transition-colors duration-200 mb-3"
-              >
-                Open in Browser
-              </button>
+              {/* Instructions */}
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-5">
+                <p className="text-xs text-gray-700 font-medium mb-2">
+                  How to enable:
+                </p>
 
-              {/* Secondary action */}
-              <button
-                onClick={() => {
-                  setShowPermissionModal(false);
-                  requestCameraPermission();
-                }}
-                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200"
-              >
-                Try Again
-              </button>
+                <ol className="text-xs text-gray-600 list-decimal list-inside space-y-1">
+                  <li>
+                    Open your phone’s <strong>Settings</strong>
+                  </li>
+                  <li>
+                    Go to <strong>Apps / App Permissions</strong>
+                  </li>
+                  <li>Select the app or browser you’re using</li>
+                  <li>
+                    Enable <strong>Camera</strong> permission
+                  </li>
+                </ol>
+              </div>
+
+              {/* Buttons */}
+              <div className="space-y-3">
+                {/* Button 1: Retry after user gives permission */}
+                <button
+                  onClick={() => {
+                    setShowPermissionModal(false);
+                    requestCameraPermission();
+                  }}
+                  className="w-full py-3 bg-Primary/500 text-white text-sm font-medium rounded-lg hover:bg-Primary/600 transition"
+                >
+                  I Have Enabled It
+                </button>
+
+                {/* Button 2: Open in external browser */}
+                <button
+                  onClick={openInExternalBrowser}
+                  className="w-full py-3 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-300 transition"
+                >
+                  Open in External Browser
+                </button>
+              </div>
             </div>
           </div>
         )}
