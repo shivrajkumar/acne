@@ -82,7 +82,7 @@ const DiagnosisCard = ({ data, onClick, originalImageWithoutMask }) => {
               <ReactSVG
                 src={data.image}
                 beforeInjection={(svg) => {
-                  svg.setAttribute("style", "width: 100%; height: 100%;");
+                  svg.setAttribute("style", "width: 100%; height: 100%; margin-top: -8px");
                   svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
                 }}
                 wrapper="div"
