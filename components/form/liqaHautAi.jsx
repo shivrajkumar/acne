@@ -18,12 +18,46 @@ export default function ImageUploadWithHaut({ block }) {
   const [cameraPermission, setCameraPermission] = useState("prompt"); // 'granted', 'denied', 'prompt'
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const liqaRef = useRef(null);
+  const containerRef = useRef(null);
+  const [isLiqaReady, setIsLiqaReady] = useState(false);
   const handleSubmit = useFormSubmit(QuestionsContext);
   const {
     saveReply,
     setAllQuestionsFilled,
     apiResponse: { caseId, transactionId },
   } = useContext(QuestionsContext);
+
+  // Move preloaded element into view
+  useEffect(() => {
+    console.log("[ImageUploadWithHaut] Component mounted, looking for preloaded element...");
+
+    const preloadedElement = window.__preloadedLiqaElement || document.getElementById('preloaded-liqa');
+
+    if (preloadedElement && containerRef.current) {
+      console.log("[ImageUploadWithHaut] Found preloaded element, moving it into view...");
+
+      // Move element from offscreen to visible container
+      containerRef.current.appendChild(preloadedElement);
+      liqaRef.current = preloadedElement;
+
+      // Element is already initialized, so it should be ready immediately
+      setIsLiqaReady(true);
+      console.log("[ImageUploadWithHaut] Preloaded element moved successfully and is ready!");
+    } else {
+      console.log("[ImageUploadWithHaut] No preloaded element found, will create new one");
+    }
+
+    return () => {
+      // Move element back to offscreen container instead of destroying it
+      if (liqaRef.current && window.__preloadedLiqaElement) {
+        const offscreenContainer = document.getElementById('hautai-preload-container');
+        if (offscreenContainer && liqaRef.current.parentNode !== offscreenContainer) {
+          console.log("[ImageUploadWithHaut] Moving element back offscreen for reuse");
+          offscreenContainer.appendChild(liqaRef.current);
+        }
+      }
+    };
+  }, []);
 
   // Check camera permission on mount
   useEffect(() => {
@@ -192,7 +226,7 @@ export default function ImageUploadWithHaut({ block }) {
   useEffect(() => {
     if (liqaRef.current) {
       // Wait for element to upgrade
-      liqaRef?.current?.addEventListener("ready", () => {
+      const handleElementReady = () => {
         liqaRef?.current?.configure({
           lighting: {
             required: false, // ✅ disables lighting validation
@@ -202,9 +236,21 @@ export default function ImageUploadWithHaut({ block }) {
             enabled: false, // ✅ hides on-screen user guidance
           },
         });
-      });
+
+        // Mark element as ready (only relevant for fallback new element)
+        if (!window.__preloadedLiqaElement) {
+          setIsLiqaReady(true);
+          console.log("[ImageUploadWithHaut] Fallback element is ready");
+        }
+      };
+
+      liqaRef.current.addEventListener("ready", handleElementReady);
+
+      return () => {
+        liqaRef.current?.removeEventListener("ready", handleElementReady);
+      };
     }
-  }, []);
+  }, [liqaRef.current]);
 
   // Check current camera permission status
   const checkCameraPermission = async () => {
@@ -466,20 +512,37 @@ export default function ImageUploadWithHaut({ block }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-white overflow-hidden">
-      <div className="w-full h-full relative">
-        <hautai-liqa
-          class="preview w-full h-full"
-          ref={liqaRef}
-          license="ll_cfa291c08ce340a6"
-          preset="face"
-          show-preview="true"
-          enable-preview="true"
-          preview-duration="5000"
-          sources="front_camera,upload,companion"
-          onContinueWeb={handleContinueOnWeb}
-          required-lighting="none"
-          showLightSourcePrompt="false"
-        ></hautai-liqa>
+      {/* Show loader only if element is not ready and no preloaded element exists */}
+      {!isLiqaReady && !window.__preloadedLiqaElement && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white z-50">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600 text-sm">Initializing camera...</p>
+          </div>
+        </div>
+      )}
+
+      <div
+        ref={containerRef}
+        className="w-full h-full relative"
+      >
+        {/* Container for preloaded element - element will be moved here */}
+        {/* If no preloaded element exists, create a new one as fallback */}
+        {!window.__preloadedLiqaElement && (
+          <hautai-liqa
+            class="preview w-full h-full"
+            ref={liqaRef}
+            license="ll_cfa291c08ce340a6"
+            preset="face"
+            show-preview="true"
+            enable-preview="true"
+            preview-duration="5000"
+            sources="front_camera,upload,companion"
+            onContinueWeb={handleContinueOnWeb}
+            required-lighting="none"
+            showLightSourcePrompt="false"
+          ></hautai-liqa>
+        )}
 
         {/* Camera Permission Modal */}
         {showPermissionModal && (

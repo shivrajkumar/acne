@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "antd";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import InstructionOne from "@assets/images/haut-instructions-1.png";
 import InstructionTwo from "@assets/images/haut-instructions-2.png";
 import InstructionThree from "@assets/images/haut-instructions-3.png";
@@ -40,6 +40,73 @@ const triggers = [
 export default function HautAiReqPermissions({ onContinue, step = "1/2" }) {
   const isFirstStep = step === "1/2";
   const [internalStep, setInternalStep] = useState("1/2");
+  const preloadContainerRef = useRef(null);
+
+  // Preload the hautai-liqa element offscreen
+  useEffect(() => {
+    console.log("[HautAiReqPermissions] Preloading hautai-liqa element...");
+
+    // Create container for preloaded element if it doesn't exist
+    let container = document.getElementById('hautai-preload-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'hautai-preload-container';
+      container.style.position = 'fixed';
+      container.style.left = '-9999px';
+      container.style.top = '-9999px';
+      container.style.width = '100vw';
+      container.style.height = '100vh';
+      container.style.zIndex = '-1';
+      container.style.pointerEvents = 'none';
+      document.body.appendChild(container);
+      preloadContainerRef.current = container;
+    }
+
+    // Create the hautai-liqa element only if it doesn't exist
+    let liqaElement = document.getElementById('preloaded-liqa');
+    if (!liqaElement) {
+      liqaElement = document.createElement('hautai-liqa');
+      liqaElement.id = 'preloaded-liqa';
+      liqaElement.className = 'preview w-full h-full';
+      liqaElement.setAttribute('license', 'll_cfa291c08ce340a6');
+      liqaElement.setAttribute('preset', 'face');
+      liqaElement.setAttribute('show-preview', 'true');
+      liqaElement.setAttribute('enable-preview', 'true');
+      liqaElement.setAttribute('preview-duration', '5000');
+      liqaElement.setAttribute('sources', 'front_camera,upload,companion');
+      liqaElement.setAttribute('required-lighting', 'none');
+      liqaElement.setAttribute('showLightSourcePrompt', 'false');
+
+      container.appendChild(liqaElement);
+
+      // Store reference globally so liqaHautAi.jsx can access it
+      window.__preloadedLiqaElement = liqaElement;
+
+      console.log("[HautAiReqPermissions] hautai-liqa element created and preloaded offscreen");
+
+      // Configure the element when it's ready
+      liqaElement.addEventListener('ready', () => {
+        console.log("[HautAiReqPermissions] Preloaded element is ready");
+        liqaElement.configure?.({
+          lighting: {
+            required: false,
+            showPrompt: false,
+          },
+          instructions: {
+            enabled: false,
+          },
+        });
+      }, { once: true });
+    } else {
+      console.log("[HautAiReqPermissions] hautai-liqa element already exists, reusing it");
+      window.__preloadedLiqaElement = liqaElement;
+    }
+
+    return () => {
+      // Don't remove the element - keep it for reuse
+      console.log("[HautAiReqPermissions] Component unmounting but keeping preloaded element");
+    };
+  }, []);
 
   // Disable scroll globally
   useEffect(() => {

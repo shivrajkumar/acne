@@ -35,6 +35,32 @@ const BannerSection = () => {
     trackMoEngageEvent("skin_test_started");
   };
 
+  const handleRetakeDiagnosis = () => {
+    // Clear form state to allow retaking the test
+    if (typeof window !== "undefined") {
+      // Remove all form-related state from localStorage
+      const itemsToRemove = [
+        "form_status",
+        "state/skin-test", // Saved question state
+        "show_haut_permissions",
+        "user_tid",
+        "photo_acne",
+        "acneImage",
+      ];
+
+      itemsToRemove.forEach((item) => {
+        try {
+          localStorage.removeItem(item);
+        } catch (err) {
+          console.warn(`Failed to remove localStorage item: ${item}`, err);
+        }
+      });
+    }
+
+    // Log GTM event
+    logGTM();
+  };
+
   return (
     <>
       {/* Mobile Banner */}
@@ -79,7 +105,7 @@ const BannerSection = () => {
             <div className="flex flex-col z-10 w-full">
               <div className="flex flex-col w-full">
                 {!orderCount ? (
-                  <div onClick={logGTM} className="w-full">
+                  <div onClick={syntheticId ? handleRetakeDiagnosis : logGTM} className="w-full">
                     <AcneTakeTheSkinTest
                       variant="black"
                       text={`${
@@ -149,7 +175,7 @@ const BannerSection = () => {
             </div>
             <div className="flex justify-start">
               {!orderCount ? (
-                <div onClick={logGTM}>
+                <div onClick={syntheticId ? handleRetakeDiagnosis : logGTM}>
                   <AcneTakeTheSkinTest
                     variant="black"
                     text={`${
