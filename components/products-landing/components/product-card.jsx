@@ -1,18 +1,25 @@
 "use client";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Rate } from "antd";
 
 export default function ProductCard({ product, index }) {
   const pathname = usePathname();
+  const router = useRouter();
   console.log("Current pathname:", pathname);
-  const isProductDetails = pathname.includes('/view-all-products');
+  const isProductsPage = pathname.includes('/view-all-products') || pathname === '/products';
   
   const formatRating = (rating) => Number(rating).toFixed(1);
 
-  console.log({isProductDetails})
+  const handleLearnMoreClick = () => {
+    if (product.id) {
+      router.push(`/view-all-products/${product.id}`);
+    }
+  };
+
+  console.log({isProductsPage})
   // Alternate background colors when on view-all-products page
-  const cardBgClass = isProductDetails
+  const cardBgClass = isProductsPage
     ? index % 2 === 0
       ? "bg-[#F7F5EE]"
       : "bg-[#FBF3E3]"
@@ -79,8 +86,11 @@ export default function ProductCard({ product, index }) {
         </div>
 
         {/* Button */}
-        {isProductDetails && (
-          <button className="w-full border-2 border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2">
+        {isProductsPage && (
+          <button
+            onClick={handleLearnMoreClick}
+            className="w-full border-2 border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
+          >
             {pathname === "/skin-food" ? "Quick View" : "Learn More"}
           </button>
         )}

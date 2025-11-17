@@ -158,7 +158,9 @@ const ProductPageModal = ({
     setError(null);
 
     try {
-      const response = await fetchRequest(PRODUCT_BOTTOM_SHEET_API(variantId));
+      // Append _PDP to variantId for the API call
+      const apiVariantId = `${variantId}_PDP`;
+      const response = await fetchRequest(PRODUCT_BOTTOM_SHEET_API(apiVariantId));
 
       if (!response || response.status !== 200 || !response.data) {
         throw new Error(
