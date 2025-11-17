@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProductGallery from "./components/ProductGallery";
 import ProductInfo from "./components/ProductInfo";
 import KeyIngredients from "./components/KeyIngredients";
@@ -9,7 +9,6 @@ import BestValueSection from "./components/BestValueSection";
 import ProductImage from "../../assets/images/products-1.webp";
 import IngredientsThatWork from "./components/ingredientsThatWork";
 import OddsSection from "./components/oddsSection";
-import AcneReviews from "../result/AcneReviews";
 import RoutineCards from "./components/routineCards";
 import HighlightSection from "./components/highlightSection";
 import ResultsTimeline from "./components/resultsTimeline";
@@ -19,8 +18,107 @@ import product1 from "@assets/images/products-1.webp";
 import product2 from "@assets/images/products-2.webp";
 import ConcernSection from "../products-landing/components/concern-section";
 import IngredientsFaqSection from "../ingredientsLanding/components/ingredientsFaq";
+import { fetchRequest } from "@/helpers/fetchRequest";
+import Loader from "../generic/Loader";
+import { PRODUCT_BOTTOM_SHEET_API, GET_INGREDIENTS } from "@/constants/urls";
+import ProductErrorState from "../result/ProductErrorState";
+import ProductEmptyState from "../result/ProductEmptyState";
+import { Divider } from "antd";
+import ProductCollapsibleSection from "../result/ProductCollapsibleSection";
+import BottomSheetReviews from "../result/bottomSheetReviews";
 
-const ProductDetailsIndex = () => {
+const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
+  const [product, setProduct] = useState(null);
+  const [ingredientDetails, setIngredientDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [expandedSections, setExpandedSections] = useState({
+    fullIngredients: false,
+    whoIsFor: false,
+    howToUse: false,
+    keyIngredients: true,
+    faqs: true,
+    reviews: true,
+  });
+  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [isHowToUseOpen, setIsHowTowUseOpen] = useState(false);
+  const [isFullIngredientsOpen, setIsFullIngredientsOpen] = useState(false);
+
+  const toggleSection = (sectionName) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [sectionName]: !prev[sectionName],
+    }));
+  };
+
+  useEffect(() => {
+    if (variantId) {
+      fetchEachProductDetails();
+      fetchIngredientDetails();
+    }
+  }, [variantId]);
+
+  const fetchEachProductDetails = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Append _PDP to variantId for the API call
+      const apiVariantId = `${variantId}_PDP`;
+      const response = await fetchRequest(PRODUCT_BOTTOM_SHEET_API(apiVariantId));
+
+      if (!response || response.status !== 200 || !response.data) {
+        throw new Error(
+          response?.data?.message ||
+            "Failed to load product details. Please try again."
+        );
+      }
+
+      setProduct(response.data.data);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong. Please try again.";
+
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchIngredientDetails = async () => {
+    try {
+      const response = await fetchRequest(GET_INGREDIENTS());
+
+      if (response && response.status === 200 && response.data) {
+        let currentProductIngredients = null;
+
+        if (Array.isArray(response.data?.data)) {
+          currentProductIngredients = response.data.data.find(
+            (item) =>
+              item.variantId === variantId || item.variant_id === variantId
+          );
+        } else if (response.data?.data) {
+          currentProductIngredients = response.data.data[variantId];
+        }
+
+        if (currentProductIngredients) {
+          setIngredientDetails(currentProductIngredients);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching ingredient details:", error);
+    }
+  };
+
+  const handleRetry = () => {
+    fetchEachProductDetails();
+    fetchIngredientDetails();
+  };
+
   const productImages = [
     ProductImage,
     ProductImage,
@@ -53,133 +151,195 @@ const ProductDetailsIndex = () => {
     },
   ];
 
-  const customerReviews = [
-    {
-      name: "Lindsey",
-      description:
-        "I have noticed a lot better skin texture. I don’t have to wear makeup to the gym anymore.",
-      stage: "Mild Acne",
-      images: [
-        {
-          src: "/images/lindsey-before.jpg",
-          label: "Before",
-        },
-        {
-          src: "/images/lindsey-after.jpg",
-          label: "After 12 Weeks",
-        },
-      ],
-    },
-    {
-      name: "Emily",
-      description:
-        "My breakouts became less frequent, and the overall appearance of my skin looks really great.",
-      stage: "Mild Acne",
-      images: [
-        {
-          src: "/images/emily-before.jpg",
-          label: "Before",
-        },
-        {
-          src: "/images/emily-after.jpg",
-          label: "After 12 Weeks",
-        },
-      ],
-    },
-    {
-      name: "Kayla",
-      description:
-        "It has nourished my skin. I'm able to walk around with no makeup.",
-      stage: "Mild Acne",
-      images: [
-        {
-          src: "/images/kayla-before.jpg",
-          label: "Before",
-        },
-        {
-          src: "/images/kayla-after.jpg",
-          label: "After 4 Weeks",
-        },
-      ],
-    },
-  ];
-
-  const productData = {
-    title: "Glazing mist",
-    subtitle: "The hydrating face spray",
-    description:
-      "Instant glazed skin wherever you go. Glazing Mist is a superfine mist that hydrates and refreshes for a next-level glowy finish. Take it everywhere for clinically proven hydration and nourished, supple skin on the go. Our formula also has added purifying benefits, helping skin feel more balanced and clarified over time",
-    benefits: "All skin types, including sensitive and acne-prone skin",
-    feels: "A superfine, refreshing mist",
-    smells: "Fragrance-Free",
-    btw: "Cruelty-Free • Vegan • Gluten-Free Dermatologist-Tested • Ophthalmologist-Tested",
-  };
-
-  const ingredients = [
-    {
-      name: "Rhodiola",
-      image: ProductImage,
-      partUsed: "Lorem ipsum",
-      from: "Lorem ipsum",
-    },
-    {
-      name: "Rhodiola",
-      image: ProductImage,
-      partUsed: "Lorem ipsum",
-      from: "Lorem ipsum",
-    },
-    {
-      name: "Rhodiola",
-      image: ProductImage,
-      partUsed: "Lorem ipsum",
-      from: "Lorem ipsum",
-    },
-  ];
-
   const routineProduct = {
     name: "CLEAR RITUAL kit",
     image: ProductImage,
   };
 
-  const faqs = [
-    {
-      question: "What Are The Benefits",
-      answer: "Lorem ipsum dolor sit amet...",
-    },
-    { question: "How To Use?", answer: "Lorem ipsum dolor sit amet..." },
-    {
-      question: "Full Ingredient List",
-      answer: "Lorem ipsum dolor sit amet...",
-    },
-  ];
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader />
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
+        <ProductErrorState
+          error={error}
+          onRetry={handleRetry}
+          onCancel={() => window.history.back()}
+        />
+      </div>
+    );
+  }
+
+  // Show empty state
+  if (!product || !product.content) {
+    return (
+      <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
+        <ProductEmptyState onCancel={() => window.history.back()} />
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-6 items-start justify-between p-4 lg:p-8 bg-white">
         {/* Left: Product gallery */}
         <div className="w-full lg:w-1/3">
-          <ProductGallery images={productImages} mainImage={productImages[0]} />
+          <ProductGallery
+            images={product?.content?.image ? [product.content.image, ...productImages.slice(1)] : productImages}
+            mainImage={product?.content?.image || productImages[0]}
+          />
         </div>
 
         {/* Right: Info + sections */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2">
-          <ProductInfo {...productData} />
-          <KeyIngredients ingredients={ingredients} />
+          <ProductInfo
+            title={product?.content?.name}
+            subtitle={product?.content?.by_line}
+            description={product?.content?.description}
+            benefits={product?.content?.benefits}
+            feels={product?.content?.feels_like}
+            smells={product?.content?.smells}
+            btw={product?.content?.btw}
+            price={product?.content?.price}
+            size={product?.content?.size}
+            type={type}
+          />
+
+          {/* Key Ingredients Section */}
+          {product?.content?.key_ingredients && product?.content?.key_ingredients.length > 0 && (
+            <>
+              <Divider style={{ margin: "8px 0" }} />
+              <div>
+                <ProductCollapsibleSection
+                  title="Key Ingredients"
+                  isExpanded={expandedSections.keyIngredients}
+                  onToggle={() => toggleSection("keyIngredients")}
+                >
+                  <KeyIngredients
+                    ingredients={product?.content?.key_ingredients
+                      ?.map((item) => {
+                        const singleIngredient = ingredientsMap?.get(item);
+                        if (!singleIngredient) return null;
+                        return singleIngredient;
+                      })
+                      .filter(Boolean)}
+                  />
+                </ProductCollapsibleSection>
+              </div>
+            </>
+          )}
+
           <CompleteRoutine product={routineProduct} />
-          <IngredientsFaqSection questions={faqs} showTitle={false} />
+
+          {/* Full Ingredients Section */}
+          {type !== "DRUG" && product?.content?.full_ingredients && (
+            <>
+              <Divider style={{ margin: "0px 0" }} />
+              <div>
+                <ProductCollapsibleSection
+                  title="Full Ingredients List"
+                  isExpanded={isFullIngredientsOpen}
+                  onToggle={() => setIsFullIngredientsOpen(!isFullIngredientsOpen)}
+                >
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {product?.content?.full_ingredients
+                      ?.split(/,|\n|•/g)
+                      .map((ingredient, index) => {
+                        const trimmed = ingredient.trim();
+                        if (!trimmed) return null;
+                        return (
+                          <span
+                            key={index}
+                            className="text-[14px] text-white bg-Secondary/500 px-3 py-1"
+                          >
+                            {trimmed}
+                          </span>
+                        );
+                      })}
+                  </div>
+                </ProductCollapsibleSection>
+              </div>
+            </>
+          )}
+
+          {/* Who is this for Section */}
+          {product?.content?.who_is_this_for && (
+            <>
+              <Divider style={{ margin: "8px 0" }} />
+              <div>
+                <ProductCollapsibleSection
+                  title="Who is this for?"
+                  isExpanded={isFaqOpen}
+                  onToggle={() => setIsFaqOpen(!isFaqOpen)}
+                >
+                  <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                    {product?.content?.who_is_this_for}
+                  </div>
+                </ProductCollapsibleSection>
+              </div>
+            </>
+          )}
+
+          {/* How to use Section */}
+          {product?.content?.how_to_use && (
+            <>
+              <Divider style={{ margin: "8px 0" }} />
+              <div>
+                <ProductCollapsibleSection
+                  title="How to use?"
+                  isExpanded={isHowToUseOpen}
+                  onToggle={() => setIsHowTowUseOpen(!isHowToUseOpen)}
+                >
+                  <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                    {product?.content?.how_to_use}
+                  </div>
+                </ProductCollapsibleSection>
+              </div>
+            </>
+          )}
+
           <BestValueSection />
+          
         </div>
       </div>
 
       <div className="">
         <IngredientsThatWork />
         <OddsSection />
-        <div className="mt-10 md:mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
-          Lorem Ipsum Dummy
-        </div>
+
+        {/* Reviews Section */}
+        {product?.content?.reviews && product?.content?.reviews.length > 0 && (
+          <>
+            <div className="mt-10 md:mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
+              Customer Reviews
+            </div>
+            <div className="mx-auto px-4 md:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {product.content.reviews.map((review, index) => (
+                  <BottomSheetReviews
+                    key={index}
+                    name={review?.name}
+                    location={review?.location}
+                    review={review?.review}
+                    rating={review?.rating}
+                    date={review?.date}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
         <div className="mx-auto px-4 md:px-8">
-          <AcneReviews data={customerReviews} />
-        <RoutineCards />
+          <RoutineCards />
         </div>
         <HighlightSection />
         <div className="mx-auto px-4 md:px-8">

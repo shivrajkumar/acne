@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { CDN_BASE_URL } from "@/constants/constants";
 
 const ProductGallery = ({ images = [], mainImage }) => {
   const [selectedImage, setSelectedImage] = useState(mainImage || images[0]);
+  console.log({mainImage})
 
   return (
     <div className="flex flex-col md:flex-row gap-6 h-auto md:h-[500px] relative">
       {/* Thumbnail Gallery */}
-      <div className="flex md:flex-col gap-2 w-full md:w-16 shrink-0 order-2 md:order-1">
+      {/* <div className="flex md:flex-col gap-2 w-full md:w-16 shrink-0 order-2 md:order-1">
         {images.map((image, index) => (
           <button
             key={index}
@@ -17,7 +19,7 @@ const ProductGallery = ({ images = [], mainImage }) => {
             }`}
           >
             <Image
-              src={image}
+              src={`${CDN_BASE_URL}${image}`}
               alt={`Product thumbnail ${index + 1}`}
               width={64}
               height={64}
@@ -25,24 +27,23 @@ const ProductGallery = ({ images = [], mainImage }) => {
             />
           </button>
         ))}
-      </div>
+      </div> */}
 
       {/* Main Image */}
       <div className="flex-1 w-full md:w-[516px] relative order-1 md:order-2">
-        <div className="h-[400px] md:h-[550px] w-full rounded overflow-hidden flex items-center justify-center bg-gray-100">
-          {/* <Image
-            src={selectedImage}
+        <div className="h-[400px] md:h-[550px] w-full rounded overflow-hidden flex items-center justify-center">
+          <Image
+            src={`${CDN_BASE_URL}${mainImage}`}
             alt="Product main image"
             width={516}
             height={654}
             className="w-full h-full object-cover"
-          /> */}
-          <div>Coming Soon!</div>
+          />
         </div>
       </div>
 
       {/* Navigation Arrow (desktop only) */}
-      <button className="absolute right-[-28px] top-1/2 -translate-y-1/2 w-14 h-14 bg-[#3B52F5] rounded-full shadow-[0px_4px_14px_0px_rgba(0,0,0,0.45)] flex items-center justify-center hidden md:flex z-10">
+      {/* <button className="absolute right-[-28px] top-1/2 -translate-y-1/2 w-14 h-14 bg-[#3B52F5] rounded-full shadow-[0px_4px_14px_0px_rgba(0,0,0,0.45)] flex items-center justify-center hidden md:flex z-10">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
             d="M9 18L15 12L9 6"
@@ -52,7 +53,7 @@ const ProductGallery = ({ images = [], mainImage }) => {
             strokeLinejoin="round"
           />
         </svg>
-      </button>
+      </button> */}
     </div>
   );
 };
