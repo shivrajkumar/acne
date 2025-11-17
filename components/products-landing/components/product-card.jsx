@@ -3,33 +3,46 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Rate } from "antd";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, index }) {
   const pathname = usePathname();
-  const isProductDetails = pathname.includes(`/view-all-products/`);
+  console.log("Current pathname:", pathname);
+  const isProductDetails = pathname.includes('/view-all-products');
+  
   const formatRating = (rating) => Number(rating).toFixed(1);
 
+  console.log({isProductDetails})
+  // Alternate background colors when on view-all-products page
+  const cardBgClass = isProductDetails
+    ? index % 2 === 0
+      ? "bg-[#F7F5EE]"
+      : "bg-[#FBF3E3]"
+    : "bg-white";
+
   return (
-    <div className="flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-xl bg-white flex-shrink-0">
+    <div
+      className={`flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-xl flex-shrink-0 transition-all duration-300`}
+    >
       {/* Product Image Section */}
-      <div className="relative w-full flex items-center justify-center overflow-hidden rounded-xl">
+      <div className={`relative w-full flex items-center justify-center overflow-hidden rounded-xl ${cardBgClass} `}>
         <Image
           src={product.image}
           alt={product.name}
           width={500}
           height={300}
-          className="object-cover w-full h-[220px] sm:h-[250px] md:h-[250px] lg:h-[280px] transition-transform duration-300 hover:scale-105 my-0 md:my-16"
+          className="object-cover w-full h-[220px] sm:h-[250px] md:h-[250px] lg:h-[280px] transition-transform duration-300 hover:scale-105 my-16"
         />
 
         {/* Desktop - Ratings top left */}
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 hidden md:flex items-center gap-1 bg-white/80 backdrop-blur-sm px-2 py-[2px] rounded-full">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 hidden md:flex items-center gap-1 px-2 py-[2px]">
           <Rate
             disabled
             defaultValue={product.rating}
             allowHalf
             style={{ fontSize: "12px", color: "#000000" }}
-            // className="[&_.ant-rate-star]:!mr-0"
           />
-          <span className="text-xs font-semibold text-gray-900 ml-1">{formatRating(product.rating)}</span>
+          <span className="text-xs font-semibold text-gray-900 ml-1">
+            {formatRating(product.rating)}
+          </span>
         </div>
 
         {/* Desktop - Tag top right */}
@@ -60,11 +73,13 @@ export default function ProductCard({ product }) {
             style={{ fontSize: "11px", color: "#000000" }}
             className="[&_.ant-rate-star]:!mr-0"
           />
-          <span className="text-[10px] font-semibold text-gray-900 ml-1">{formatRating(product.rating)}</span>
+          <span className="text-[10px] font-semibold text-gray-900 ml-1">
+            {formatRating(product.rating)}
+          </span>
         </div>
 
         {/* Button */}
-        {!isProductDetails && (
+        {isProductDetails && (
           <button className="w-full border-2 border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2">
             {pathname === "/skin-food" ? "Quick View" : "Learn More"}
           </button>

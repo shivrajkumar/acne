@@ -63,7 +63,7 @@ const SocialTrust = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Heading */}
         <h2 className="text-center text-[#1a232b] text-2xl md:text-4xl font-normal mb-12">
-          Uncompromising Science. Unshaken Trust.
+          Science-Backed. Dermatologist-Trusted. Built for Acne.
         </h2>
 
         {/* Stats Grid */}
@@ -74,7 +74,7 @@ const SocialTrust = () => {
               className={`
         flex flex-col items-center justify-center py-8
         text-center
-        border-gray-300
+        border-Grey/300
         md:border-0 md:first:border-none md:last:border-none
         ${
           // Mobile borders (2x2 grid)

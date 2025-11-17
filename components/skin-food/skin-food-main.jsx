@@ -12,8 +12,8 @@ const SkinFoodMain = () => {
   return (
     <div>
       <ProductsBanner
-        title={`an ingredient-elimination\nphilosophy for a total skin reset.`}
-        subtitle="Well done on completing your personalised kit—consistency is the real secret to lasting clear skin."
+        title={`A Personalised Acne Ritual for Clear, Long-Term Skin Health`}
+        subtitle="Every product in Clear Ritual is designed to treat acne at the source. This isn’t a quick fix. It’s your daily ritual for real, lasting change."
         gradientFrom="white"
         gradientTo="#CDE3C1"
         titleColor="#45474A"
