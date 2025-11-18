@@ -4,10 +4,10 @@ import SectionTitle from "./section-title";
 
 const ShopByConcern = ({ title = "Shop By Concern", items = [] }) => {
   return (
-    <section className="w-full px-4 md:px-12 py-8">
+    <section className="w-full px-4 md:px-12 py-6">
       <SectionTitle title={title} />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-2 gap-y-4 md:gap-6">
         {items.map((item, index) => (
           <div key={index} className="flex flex-col items-start">
             <div className="w-full relative overflow-hidden">
