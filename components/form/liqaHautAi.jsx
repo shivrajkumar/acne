@@ -311,19 +311,40 @@ export default function ImageUploadWithHaut({ block }) {
 
   // Function to open in external browser
   const openInExternalBrowser = () => {
-    const currentUrl = window.location.href;
+    const url = window.location.href;
 
-    // Try to open in external browser
-    // For iOS/Android in-app browsers, this will prompt to open in Safari/Chrome
-    window.open(currentUrl, "_system");
+    // Platform checks
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
 
-    // Fallback: show instructions
+    // --- iOS SAFARI ---
+    if (isIOS) {
+      // Try to force Safari
+      window.location.href = `x-safari-${url}`;
+      return;
+    }
+
+    // --- ANDROID CHROME ---
+    if (isAndroid) {
+      // Try to force Chrome
+      window.location.href = `googlechrome://navigate?url=${encodeURIComponent(
+        url
+      )}`;
+      return;
+    }
+
+    // --- FALLBACK for all devices ---
+    // This will break out of IAB on most apps (FB/IG/LinkedIn).
+    window.location.href = url;
+
+    // If app still blocks, show manual instructions
     setTimeout(() => {
       alert(
-        "Please copy this URL and paste it in your device's default browser (Safari, Chrome, etc.):\n\n" +
-          currentUrl
+        "Unable to open external browser automatically.\n\n" +
+          "Please copy this URL and open it in your default browser:\n\n" +
+          url
       );
-    }, 500);
+    }, 1000);
   };
 
   // Handle Continue on Web button click
