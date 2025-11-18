@@ -27,10 +27,10 @@ export default function ProductCard({ product, index }) {
 
   return (
     <div
-      className={`flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-xl flex-shrink-0 transition-all duration-300`}
+      className={`flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-[5px] flex-shrink-0 transition-all duration-300`}
     >
       {/* Product Image Section */}
-      <div className={`relative w-full flex items-center justify-center overflow-hidden rounded-xl ${cardBgClass} `}>
+      <div className={`relative w-full flex items-center justify-center overflow-hidden rounded-[5px] ${cardBgClass} `}>
         <Image
           src={product.image}
           alt={product.name}
@@ -63,7 +63,7 @@ export default function ProductCard({ product, index }) {
       {/* Product Details Section */}
       <div className="py-2 sm:py-3 flex flex-col gap-1.5 sm:gap-2 mt-2 sm:mt-3">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2">
-          <h3 className="text-xs sm:text-sm md:text-[16px] font-semibold text-gray-900 leading-tight flex-1 line-clamp-2">
+          <h3 className="text-xs sm:text-sm md:text-[16px] font-semibold text-gray-900 leading-tight flex-1 line-clamp-2 min-h-[40px]">
             {product.name}
           </h3>
           <p className="text-xs sm:text-sm md:text-[16px] font-medium text-gray-900 sm:whitespace-nowrap">
@@ -89,7 +89,7 @@ export default function ProductCard({ product, index }) {
         {isProductsPage && (
           <button
             onClick={handleLearnMoreClick}
-            className="w-full border-2 border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
+            className="w-full border border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
           >
             {pathname === "/skin-food" ? "Quick View" : "Learn More"}
           </button>

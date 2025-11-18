@@ -10,7 +10,7 @@ const features = [
 
 const IdealSkincareRitual = () => {
   return (
-    <section className="bg-[#f1f4f4] w-full py-12 md:py-20 mb-20 px-4">
+    <section className="bg-[#f1f4f4] w-full py-12 md:py-20 mb-12 md:mb-16 px-4">
       <div className="flex flex-col md:flex-row items-start md:items-start justify-between md:px-28 md:gap-10">
         <div className="md:w-1/2">
           <h2 className="text-[#1a232b] text-[24px] md:text-[2.5rem] font-normal mb-6">

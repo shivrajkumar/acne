@@ -88,12 +88,35 @@ const ProductsMainLanding = () => {
 
             return {
               label: product.name.trim(),
+              normalized: product.name
+                .trim()
+                .toUpperCase()
+                .replace(/\s+/g, " "), // normalize
               image: imageUrl,
             };
           });
 
-          const preferredOrder = ["FACEWASH", "MOISTURIZER", "SUNSCREEN", "SKIN FOOD"];
-          const orderedItems = transformedItems.sort((a, b) => preferredOrder.indexOf(a.label.toUpperCase()) - preferredOrder.indexOf(b.label.toUpperCase()));
+          // Our strict preferred sequence
+          const preferredOrder = [
+            "FACEWASH",
+            "MOISTURISER",
+            "SUNSCREEN",
+            "SKIN FOOD",
+          ];
+
+          // Normalize API names for matching — handle MOISTURISER → MOISTURIZER
+          const normalizeName = (name) => {
+            let n = name.toUpperCase().replace(/\s+/g, " ");
+            if (n === "MOISTURISER") return "MOISTURIZER";
+            return n;
+          };
+
+          const orderedItems = preferredOrder
+            .map((key) =>
+              transformedItems.find((item) => item.label.toUpperCase() === key)
+            )
+            .filter(Boolean);
+
           setShopByConcernItems(orderedItems);
         } else {
           console.warn("No category data received or invalid format");
@@ -152,7 +175,7 @@ const ProductsMainLanding = () => {
         <ShopByConcern items={shopByConcernItems} />
       )}
 
-      <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-20 text-[28px]">
+      <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-20 text-[18px] md:text-[28px]">
         This isn't just goodbye. These products will soon disappear from the
         Clear Ritual range. Now is the time to fill up!
       </div>
@@ -172,14 +195,16 @@ const ProductsMainLanding = () => {
       )}
 
       {/* Dynamic Concern Sections */}
-      {Object.entries(categorizedProducts).map(([key, products]) =>
-        renderConcernSection(
+      {Object.entries(categorizedProducts).map(([key, products]) => {
+        if (key === "treatment") return null; // Skip the "treat" section
+
+        return renderConcernSection(
           key === "skinFood"
             ? "Skin Food"
             : key.charAt(0).toUpperCase() + key.slice(1),
           products
-        )
-      )}
+        );
+      })}
 
       {/* Lazy-loaded bottom sections */}
       <Suspense

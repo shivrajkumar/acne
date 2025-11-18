@@ -32,7 +32,7 @@ const troubleTen = [
     num: 5,
     text: "Paraffin",
     desc: "Heavy petroleum by-product that clogs pores, suffocates skin, and creates an occlusive layer - especially problematic for oily or acne-prone skin.",
-    img: "acne/general/trouble-ten/tt-alcohol.webp",
+    img: "acne/general/trouble-ten/tt-paraffin.webp",
   },
   {
     num: 6,
@@ -50,7 +50,7 @@ const troubleTen = [
     num: 8,
     text: "Phthalates",
     desc: "Chemicals used to make products flexible or long-lasting. They can disrupt hormones, affect skin balance, and indirectly trigger acne via oil imbalance and inflammation.",
-    img: "acne/general/trouble-ten/tt-dye.webp",
+    img: "acne/general/trouble-ten/tt-phthalates.webp",
   },
   {
     num: 9,
@@ -58,20 +58,20 @@ const troubleTen = [
     desc: "Sunscreen ingredients like oxybenzone, octinoxate, and avobenzone often irritate skin, causing stinging, redness, and acne flare-ups.",
     img: "acne/general/trouble-ten/tt-acne-prone.webp",
   },
-  {
-    num: 10,
-    text: "Talc",
-    desc: "A powdery ingredient used for absorbency. On acne-prone skin, it can clog pores, trap bacteria, and raise long-term safety concerns.",
-    img: "acne/general/trouble-ten/tt-peg.webp",
-  },
+  // {
+  //   num: 10,
+  //   text: "Talc",
+  //   desc: "A powdery ingredient used for absorbency. On acne-prone skin, it can clog pores, trap bacteria, and raise long-term safety concerns.",
+  //   img: "acne/general/trouble-ten/tt-peg.webp",
+  // },
 ];
 
 const TroubleTen = () => {
   const [selected, setSelected] = useState(troubleTen[0]);
 
   return (
-    <section className="w-full bg-Secondary/200 py-12 md:py-20">
-      <div className="flex flex-col md:flex-row justify-between px-4 md:px-12 gap-12 md:gap-0">
+    <section className="w-full bg-[#EFECDD] py-12 md:py-20">
+      <div className="flex flex-col md:flex-row justify-between px-4 md:px-12 gap-8 md:gap-0">
         {/* Left Side */}
         <div className="md:w-2/3">
           <div className="text-[16px] text-[#222] mb-2">
@@ -87,7 +87,7 @@ const TroubleTen = () => {
             are designed to be 100% acne-safe.
           </p>
 
-          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 gap-y-2 gap-x-0 md:gap-x-12 font-light mt-20">
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 gap-y-2 gap-x-0 md:gap-x-12 font-light mt-2">
             {/* Left Column */}
             <div className="flex flex-col gap-2">
               {troubleTen.slice(0, 5).map((item) => {
@@ -149,8 +149,8 @@ const TroubleTen = () => {
         </div>
 
         {/* Right Side */}
-        <div className="md:w-1/3 flex justify-center md:justify-end mt-6 md:mt-32">
-          <div className="bg-white rounded-full w-[288px] h-[288px] md:w-[420px] md:h-[420px] flex flex-col items-center justify-center shadow-md p-8 text-center transition-all duration-300">
+        <div className="md:w-1/3 flex justify-center md:justify-end md:mt-32">
+          <div className="bg-white rounded-full w-[300px] h-[300px] md:w-[420px] md:h-[420px] flex flex-col items-center justify-center shadow-md p-8 text-center transition-all duration-300">
             <div className="relative w-[80px] h-[80px]">
               <Image
                 key={selected.img}
@@ -162,7 +162,7 @@ const TroubleTen = () => {
               />
             </div>
 
-            <h3 className="text-[#222] font-semibold mb-2 text-[14px] md:text-[18px]">
+            <h3 className="text-[#222] font-semibold mt-4 text-[14px] md:text-[18px]">
               {selected.text}
             </h3>
 

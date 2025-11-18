@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DNALookAlike from "@assets/images/dna-look-alike.png";
 import { CDN_BASE_URL } from "@/constants/constants";
 
@@ -42,12 +42,32 @@ const RitualShowcase = () => {
   const [active, setActive] = useState(1);
   const currentStep = steps[active - 1];
 
+  // Refs to calculate dynamic line width
+  const textContainerRef = useRef(null);
+  const imageRef = useRef(null);
+  const [lineWidth, setLineWidth] = useState(0);
+
   // Preload all step images
   useEffect(() => {
     steps.forEach((step) => {
       const img = new window.Image();
       img.src = `${CDN_BASE_URL}${step.image}`;
     });
+  }, []);
+
+  // Calculate line width dynamically
+  useEffect(() => {
+    const calculateWidth = () => {
+      if (textContainerRef.current && imageRef.current) {
+        const textWidth = textContainerRef.current.offsetWidth;
+        const imageWidth = imageRef.current.offsetWidth;
+        setLineWidth(textWidth - 20);
+      }
+    };
+
+    calculateWidth();
+    window.addEventListener("resize", calculateWidth);
+    return () => window.removeEventListener("resize", calculateWidth);
   }, []);
 
   return (
@@ -71,36 +91,42 @@ const RitualShowcase = () => {
         <div className="md:w-1/2 w-full bg-[#f6f5ee] rounded-lg flex flex-col justify-between p-8 md:p-12 min-h-[420px] relative">
           <div>
             {/* Heading */}
-            <h2 className="text-[#0F1B28] text-2xl md:text-3xl font-semibold mb-2">
-              Get clear with the{" "}
+            <h2 className="text-[#0F1B28] text-2xl md:text-3xl font-normal mb-2">
+              Get clear with a{" "}
               <span className="font-normal text-[#67645E]">RITUAL.</span>
             </h2>
-            <div className="text-[#5c656d] mb-6">
+            <div className="text-[#67645E] mb-6">
               Essentials for your anti-acne routine.
             </div>
 
             {/* Product details */}
             <div className="flex flex-row justify-between items-center gap-4 relative w-full">
               {/* Text section */}
-              <div className="flex-col w-full relative">
+              <div className="flex-col w-full relative" ref={textContainerRef}>
                 {/* Title */}
                 <div className="text-[#222] text-[16px] md:text-2xl font-light">
                   {currentStep.title}
                 </div>
 
-                {/* Line + Dot overlapping image */}
-                <div className="absolute top-1/4 left-0 h-[1px] bg-[#222] z-50 w-[130%] md:w-[calc(100%-300px)]">
-                  <div className="absolute top-1/2 right-0 -translate-y-1/2 w-3 h-3 bg-[#222] rounded-full"></div>
+                {/* Line + Dot */}
+                <div
+                  className="absolute top-1/1 mt-4 left-0 h-[1px] bg-[#67645E] z-50"
+                  style={{ width: '150%' }}
+                >
+                  <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2 h-2 bg-[#67645E] rounded-full"></div>
                 </div>
 
                 {/* Description */}
-                <div className="text-[#5c656d] text-[12px] md:text-[16px] mt-6">
+                <div className="text-[#67645E] text-[12px] md:text-[16px] mt-6 min-h-[150px]">
                   {currentStep.desc}
                 </div>
               </div>
 
               {/* Dynamic image */}
-              <div className="flex-shrink-0 w-[140px] sm:w-[200px] md:w-[250px] lg:w-[350px] h-auto relative text-center">
+              <div
+                ref={imageRef}
+                className="flex-shrink-0 w-[140px] sm:w-[200px] md:w-[250px] lg:w-[350px] h-auto relative text-center -mt-28 md:mt-0"
+              >
                 <Image
                   src={`${CDN_BASE_URL}${currentStep.image}`}
                   alt={currentStep.title}
@@ -114,14 +140,14 @@ const RitualShowcase = () => {
           </div>
 
           {/* Stepper */}
-          <div className="flex gap-4 mt-6 w-full justify-start">
+          <div className="flex mt-5 w-full justify-evenly md:justify-between -ml-3">
             {steps.map((step, index) => {
               const num = index + 1;
               const isActive = active === num;
               return (
                 <div
                   key={num}
-                  className="flex flex-col items-center flex-shrink-0"
+                  className="flex flex-col items-center flex-shrink-0 min-w-[60px] md:min-w-[80px]"
                 >
                   {/* Circle button */}
                   <button
@@ -135,13 +161,13 @@ const RitualShowcase = () => {
                     <span>{`0${num}`}</span>
                   </button>
 
-                  {/* Label */}
+                  {/* Label (only active shows) */}
                   <span
                     className={`text-[16px] md:text-[18px] mt-2 font-normal text-Secondary/500 transition-opacity duration-200 ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    {step.label}
+                    {isActive && step.label}
                   </span>
                 </div>
               );

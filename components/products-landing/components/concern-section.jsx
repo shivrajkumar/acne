@@ -21,11 +21,11 @@ export default function ConcernSection({ concern }) {
   const isSkinFood = pathName === "/skin-food";
 
   return (
-    <section className="w-full px-4 md:px-12 mt-10 relative">
+    <section className="w-full px-4 md:px-12 mt-[24px] relative">
       {/* Title + Arrows */}
       <div className="flex items-center justify-between mb-4">
-        <SectionTitle title={concern.title} />
-        {!isSkinFood && (
+        <SectionTitle title={`${concern.title}.`} />
+        {!isSkinFood && concern.products.length > 2 && (
           <div className="flex items-center gap-2">
             <button
               onClick={() => scroll("left")}
