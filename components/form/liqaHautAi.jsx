@@ -9,48 +9,19 @@ import { QuestionsContext } from "@/context/questions-store";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { logGtmEvent } from "@/helpers/gtmHelpers";
 
-// ------------------------------
-// Detect In-App Browsers
-// ------------------------------
-function isInAppBrowser() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-
-  return (
-    /FBAN|FBAV|Facebook/.test(ua) ||
-    /Instagram/.test(ua) ||
-    /Messenger/.test(ua) ||
-    /LinkedInApp/.test(ua) ||
-    /TikTok/.test(ua) ||
-    /Snapchat/.test(ua) ||
-    /Twitter/.test(ua)
-  );
-}
-
 export default function ImageUploadWithHaut({ block }) {
   const observerRef = useRef(null);
   const [err, setErr] = useState(null);
   const [cameraPermission, setCameraPermission] = useState("prompt");
-  const [showPermissionModal, setShowPermissionModal] = useState(false); // ← CHANGED
   const liqaRef = useRef(null);
   const containerRef = useRef(null);
-  const [isLiqaReady, setIsLiqaReady] = useState(false);
   const handleSubmit = useFormSubmit(QuestionsContext);
+
   const {
-    saveReply,
     setAllQuestionsFilled,
     apiResponse: { caseId, transactionId },
   } = useContext(QuestionsContext);
 
-  // ------------------------------
-  // Show modal ONLY for in-app browsers
-  // ------------------------------
-  useEffect(() => {
-    if (isInAppBrowser()) {
-      setShowPermissionModal(true);
-    } else {
-      setShowPermissionModal(false);
-    }
-  }, []);
 
   // Move preloaded element into view
   useEffect(() => {
@@ -69,11 +40,6 @@ export default function ImageUploadWithHaut({ block }) {
 
       containerRef.current.appendChild(preloadedElement);
       liqaRef.current = preloadedElement;
-
-      setIsLiqaReady(true);
-      console.log(
-        "[ImageUploadWithHaut] Preloaded element moved successfully and is ready!"
-      );
     } else {
       console.log(
         "[ImageUploadWithHaut] No preloaded element found, will create new one"
@@ -249,11 +215,6 @@ export default function ImageUploadWithHaut({ block }) {
           lighting: { required: false, showPrompt: false },
           instructions: { enabled: false },
         });
-
-        if (!window.__preloadedLiqaElement) {
-          setIsLiqaReady(true);
-          console.log("[ImageUploadWithHaut] Fallback element is ready");
-        }
       };
 
       liqaRef.current.addEventListener("ready", handleElementReady);
@@ -274,7 +235,6 @@ export default function ImageUploadWithHaut({ block }) {
       stream.getTracks().forEach((track) => track.stop());
 
       setCameraPermission("granted");
-      setShowPermissionModal(false);
       setErr(null);
 
       if (liqaRef.current) {
@@ -289,7 +249,6 @@ export default function ImageUploadWithHaut({ block }) {
         error.name === "PermissionDeniedError"
       ) {
         setCameraPermission("denied");
-        setShowPermissionModal(true);
         setErr("");
       } else if (error.name === "NotFoundError") {
         setErr("No camera found on this device.");
@@ -298,34 +257,6 @@ export default function ImageUploadWithHaut({ block }) {
       }
       return false;
     }
-  };
-
-  const openInExternalBrowser = () => {
-    const url = window.location.href;
-
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-
-    if (isIOS) {
-      window.location.href = `x-safari-${url}`;
-      return;
-    }
-
-    if (isAndroid) {
-      window.location.href = `googlechrome://navigate?url=${encodeURIComponent(
-        url
-      )}`;
-      return;
-    }
-
-    window.location.href = url;
-
-    setTimeout(() => {
-      alert(
-        "Unable to open external browser automatically.\n\nPlease copy this URL and open it in your default browser:\n\n" +
-          url
-      );
-    }, 1000);
   };
 
   const handleContinueOnWeb = async () => {
@@ -501,80 +432,7 @@ export default function ImageUploadWithHaut({ block }) {
             showLightSourcePrompt="false"
           ></hautai-liqa>
         )}
-
-        {/* CAMERA PERMISSION MODAL (only shows in IAB now) */}
-        {showPermissionModal && (
-          <div className="absolute inset-0 bg-black/75 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 bg-Primary/500 rounded-full flex items-center justify-center">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              <h3 className="text-xl font-semibold text-center text-gray-800 mb-2">
-                Camera Permission Needed
-              </h3>
-
-              <p className="text-center text-gray-600 text-sm mb-4">
-                To continue your skin test, please enable camera access from
-                your device’s <strong>Settings app</strong>.
-              </p>
-
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-5">
-                <p className="text-xs text-gray-700 font-medium mb-2">
-                  How to enable:
-                </p>
-
-                <ol className="text-xs text-gray-600 list-decimal list-inside space-y-1">
-                  <li>Open your phone’s <strong>Settings</strong></li>
-                  <li>
-                    Go to <strong>Apps / App Permissions</strong>
-                  </li>
-                  <li>Select the app or browser you’re using</li>
-                  <li>Enable <strong>Camera</strong> permission</li>
-                </ol>
-              </div>
-
-              <div className="space-y-3">
-                <button
-                  onClick={() => {
-                    setShowPermissionModal(false);
-                    requestCameraPermission();
-                  }}
-                  className="w-full py-3 bg-Primary/500 text-white text-sm font-medium rounded-lg hover:bg-Primary/600 transition"
-                >
-                  I Have Enabled It
-                </button>
-
-                <button
-                  onClick={openInExternalBrowser}
-                  className="w-full py-3 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-300 transition"
-                >
-                  Open in External Browser
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {err && (
           <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-red-500 text-sm text-center z-10">
