@@ -513,6 +513,7 @@ function RecommendedCart({ searchParams, coinsData, isJuspay, params }) {
     };
 
     const placeOrder = async () => {
+        console.log('placing order..')
         const gender = window.localStorage.getItem("gender");
         const queryString = typeof window != "undefined" ? window.location : "";
         const utmDetails = ["utm_source", "utm_campaign", "utm_medium"].reduce(

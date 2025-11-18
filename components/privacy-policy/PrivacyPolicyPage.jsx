@@ -5,7 +5,7 @@ import Image from "next/image";
 const PrivacyAndPolicyPage = () => {
   return (
     <div className="flex justify-center">
-      <div className="px-4 pb-14 lg:w-[65%] lg:px-0 mt-20">
+      <div className="px-4 pb-14 lg:w-[65%] lg:px-0 mt-8">
         <div className="flex items-center gap-x-1 mb-8">
           <a href="/" className="font-sophiaPro text-xs text-gray-700">
             HOME
