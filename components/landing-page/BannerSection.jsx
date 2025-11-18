@@ -41,11 +41,14 @@ const BannerSection = () => {
       // Remove all form-related state from localStorage
       const itemsToRemove = [
         "form_status",
-        "state/skin-test", // Saved question state
+        "state/skin-test", // Saved question state for /skin-test page
         "show_haut_permissions",
         "user_tid",
         "photo_acne",
         "acneImage",
+        "capturedImage", // Clear captured camera image
+        "syntheticId", // Clear synthetic ID to force fresh start
+        "should_restore_state", // Prevent auto-restoration
       ];
 
       itemsToRemove.forEach((item) => {
