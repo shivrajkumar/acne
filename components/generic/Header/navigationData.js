@@ -44,13 +44,13 @@ export const navigationItems = [
             },
             {
               name: "Skin Food Range 01 - 08",
-              href: "/",
-              badge: "Coming Soon",
+              href: "/skin-food",
+              // badge: "Coming Soon",
             },
             {
               name: "Skin Food 09",
-              href: "/skin-food",
-              // badge: "Coming Soon",
+              href: "/",
+              badge: "Coming Soon",
             },
           ],
         },

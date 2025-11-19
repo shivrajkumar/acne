@@ -33,9 +33,10 @@ export default function ProductCard({ product, index }) {
 
   return (
     <div
-      className={`flex flex-col w-full ${
+      onClick={handleLearnMoreClick}
+      className={`flex flex-col ${
         isSkinFoodPage
-          ? "min-w-[400px]" // max size but responsive
+          ? "min-w-[160px] md:min-w-[300px] max-w-[450px] md:max-w-[600px] xl:min-w-[420px]"
           : "max-w-[320px]"
       } h-auto rounded-[5px] flex-shrink-0 transition-all duration-300`}
     >
@@ -98,15 +99,14 @@ export default function ProductCard({ product, index }) {
         </div>
 
         {/* Button */}
-        {isProductsPage ||
-          (isSkinFoodPage && (
-            <button
-              onClick={handleLearnMoreClick}
-              className="w-full border border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
-            >
-              {pathname === "/skin-food" ? "Quick View" : "Learn More"}
-            </button>
-          ))}
+        {(isProductsPage || isSkinFoodPage) && (
+          <button
+            onClick={handleLearnMoreClick}
+            className="w-full border border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
+          >
+            {isSkinFoodPage ? "Quick View" : "Learn More"}
+          </button>
+        )}
       </div>
     </div>
   );
