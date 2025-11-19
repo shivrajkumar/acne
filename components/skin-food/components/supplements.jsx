@@ -5,18 +5,18 @@ import Image from "next/image";
 const supplements = [
   {
     img: "acne/skin-food/supplement-1.webp",
-    title: "Source is always transparent",
-    desc: "We use high concentrations of clinically proven ingredients. Dosages are informed by human clinical studies, traditional usage, and FDA recommended levels. When formulating, we work alongside scientists and herbalists to ensure efficacy, safety, and purity.",
+    title: "Ancient Wisdom, Modern Science",
+    desc: "We combine time-tested Ayurvedic knowledge with clinical research to craft formulas that are both natural and effective.",
   },
   {
     img: "acne/skin-food/supplement-3.webp",
-    title: "Dose is always potent",
-    desc: "We use high concentrations of clinically proven ingredients. Dosages are informed by human clinical studies, traditional usage, and FDA recommended levels. When formulating, we work alongside scientists and herbalists to ensure efficacy, safety, and purity.",
+    title: "Ganasatva Processing",
+    desc: "We use Ganasatva - an Ayurvedic technique that blends raw herbal powders with concentrated extracts for better absorption and potency.",
   },
   {
     img: "acne/skin-food/supplement-2.webp",
-    title: "Form is always easy for your body to absorb",
-    desc: "Ingredients are bioactive (easily absorbed in the gut) and bioavailable (easily assimilated). No flow agents that negatively affect the microbiome or inhibit absorption.",
+    title: "Radical Transparency",
+    desc: "You deserve to know what goes into your body. We tell you where every herb comes from, which part is used, and why.",
   },
 ];
 
@@ -24,12 +24,11 @@ export default function Supplements() {
   return (
     <section className="bg-white py-16">
       <div className="px-4 md:px-10 text-left">
-        <h2 className="text-2xl md:text-[40px] font-normal text-gray-900">
-          Supplements You Can Trust and Feel
+        <h2 className="text-2xl md:text-[40px] font-normal text-gray-900 leading-normal">
+          BTW, our supplements are rooted in Ayurveda-with efficacy and clinical standards.
         </h2>
         <p className="mt-3 text-gray-600 text-[16px] md:text-[18px]">
-          Everything we make is inspired by a need; either it isn’t being made,
-          or there isn’t a version to our standards of efficacy and purity.
+          Our Skin Food supplements are manufactured in GMP-certified facilities, with strict checks for safety, purity, and consistency.
         </p>
 
         <div className="mt-12 w-full">

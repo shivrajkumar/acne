@@ -22,7 +22,7 @@ export default function HighlightSection() {
         </h1>
 
         <button className="mt-8 inline-flex items-center gap-2 rounded-full bg-white text-gray-900 px-6 py-3 font-medium text-sm md:text-[16px] shadow-md hover:shadow-lg transition">
-          Take The Skin Test <FaArrowRight size={18}/>
+          Take The Skin Diagnosis <FaArrowRight size={18}/>
         </button>
       </div>
     </section>

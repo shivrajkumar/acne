@@ -10,17 +10,12 @@ export default function RootCauseSection() {
     <section className="w-full px-4 md:px-10 py-12 md:py-10">
       {/* Heading */}
       <h2 className="text-2xl md:text-[40px] font-sophiaPro font-normal text-gray-900 text-left">
-        Address the root-cause, not just the symptoms.
+        Treat the Acne Trigger - Not Just the Symptoms
       </h2>
 
       {/* Paragraph */}
       <p className="mt-4 text-sm md:text-[16px] font-sophiaPro md:text-lg text-gray-700 text-left">
-        When we get acne, we often reach for a new serum or drink more water,
-        hoping for a quick fix. But the truth is, our skin reflects our internal
-        health. Often, the root cause lies deeper, in your liver, gut, or
-        hormones. That&apos;s why our formulations are designed with this
-        holistic approach in mind. Explore the feature below to see how
-        interconnected our health truly is!
+        Take our skin diagnostic to find your acne triggers - and the exact supplement your body needs to stop acne from coming back.
       </p>
 
       {/* Image Section */}

@@ -60,7 +60,7 @@ const SocialTrust = () => {
 
   return (
     <section className="w-full py-12 md:py-20 bg-[#faf8f0]">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="mx-auto px-4 md:px-8">
         {/* Heading */}
         <h2 className="text-center text-[#1a232b] text-2xl md:text-4xl font-normal mb-12">
           Science-Backed. Dermatologist-Trusted. Built for Acne.
@@ -88,10 +88,10 @@ const SocialTrust = () => {
       `}
               style={{ flex: 1 }}
             >
-              <div className="text-[#1a232b] text-[18px] md:text-4xl font-normal mb-2">
+              <div className="text-[#1a232b] min-h-[40px] text-[18px] md:text-4xl font-normal mb-2">
                 {stat.title}
               </div>
-              <div className="text-[#222] text-[14px] md:text-[18px] font-light leading-snug px-6 md:px-0">
+              <div className="text-[#222] min-h-[48px] text-[14px] md:text-[18px] font-light leading-snug px-6 md:px-0 mt-2">
                 {stat.desc}
               </div>
             </div>
@@ -100,7 +100,7 @@ const SocialTrust = () => {
 
         {/* Trust Badges */}
         <div
-          className={`flex flex-wrap justify-center items-center gap-x-8 gap-y-10 md:gap-x-16 md:gap-y-12`}
+          className={`flex flex-wrap justify-center items-center gap-x-8 gap-y-10 md:gap-x-24 md:gap-y-12`}
         >
           {trustBadges.map((badge, idx) => (
             <div

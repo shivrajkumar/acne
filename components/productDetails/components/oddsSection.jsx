@@ -1,12 +1,13 @@
 "use client";
-import Image from "next/image";
-import React from "react";
-import OddsImage from '../../../assets/images/oddsimage.png'
+import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slider";
+import acneBefore from'@assets/images/acne-before.webp';
+import acneAfter from'@assets/images/acne-after.webp';
 
-const OddsSection = () => {
+export default function OddsSection() {
   return (
     <section className="bg-white mt-10 md:mt-20 mx-auto p-4 md:p-8">
       <div className="grid md:grid-cols-2">
+        {/* LEFT TEXT SECTION */}
         <div className="bg-yellow-300 p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-8">
             You’ll like these odds
@@ -15,17 +16,21 @@ const OddsSection = () => {
           <div className="space-y-6">
             <div>
               <p className="text-3xl font-bold text-gray-900">100%</p>
-              <p className="text-gray-800 text-base">
+              <p className="text-gray-blue text-base">
                 agreed lips felt moisturized and soft*
               </p>
             </div>
+
             <div>
               <p className="text-3xl font-bold text-gray-900">96%</p>
-              <p className="text-gray-800 text-base">agreed lips felt firmer*</p>
+              <p className="text-gray-blue text-base">
+                agreed lips felt firmer*
+              </p>
             </div>
+
             <div>
               <p className="text-3xl font-bold text-gray-900">93%</p>
-              <p className="text-gray-800 text-base">
+              <p className="text-gray-blue text-base">
                 agreed the product helped lock in moisture*
               </p>
             </div>
@@ -41,26 +46,34 @@ const OddsSection = () => {
           </p>
         </div>
 
-        <div className="relative flex items-center justify-center">
-          <div className="relative w-full h-[400px] md:h-full">
-            <Image
-              src={OddsImage}
-              alt="Before and After Lips"
-              fill
-              className="object-cover scale-100"
-            />
+        {/* RIGHT — BEFORE/AFTER SLIDER */}
+        <div className="relative flex items-center justify-center w-full h-[300px] md:h-[520px]">
+          <ReactCompareSlider
+            itemOne={
+              <ReactCompareSliderImage
+                src={acneBefore.src}
+                alt="Before"
+              />
+            }
+            itemTwo={
+              <ReactCompareSliderImage
+                src={acneAfter.src}
+                alt="After"
+              />
+            }
+            style={{ width: "100%", height: "100%" }}
+          />
 
-            <div className="absolute bottom-3 left-3 bg-white px-2 py-1 text-xs font-medium text-gray-900">
-              BEFORE
-            </div>
-            <div className="absolute bottom-3 right-3 bg-white px-2 py-1 text-xs font-medium text-gray-900">
-              IMMEDIATELY AFTER
-            </div>
+          {/* LABELS */}
+          <div className="absolute bottom-3 left-3 bg-white px-2 py-1 text-xs font-medium text-gray-900">
+            BEFORE
+          </div>
+
+          <div className="absolute bottom-3 right-3 bg-white px-2 py-1 text-xs font-medium text-gray-900">
+            IMMEDIATELY AFTER
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default OddsSection;
+}
