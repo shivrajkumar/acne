@@ -1,6 +1,8 @@
 import { CDN_BASE_URL } from "@/constants/constants";
 import Image from "next/image";
 import React from "react";
+import { usePathname } from "next/navigation";
+
 
 // Product type to image mapping
 const productTypeImages = {
@@ -32,6 +34,10 @@ const ProductInfo = ({
   size,
   type,
 }) => {
+
+  const pathname = usePathname();
+  const isSkinFoodDetail = pathname.startsWith("/skin-food/") && pathname !== "/skin-food";
+
   // Get the image path based on product type
   const typeImage =
     type && productTypeImages[type]
@@ -81,7 +87,7 @@ const ProductInfo = ({
           )}
 
           {/* Product Type Image */}
-          {typeImage && (
+          {!isSkinFoodDetail && typeImage && (
             <div className="w-full -mx-2">
               <Image
                 src={typeImage}
@@ -114,7 +120,7 @@ const ProductInfo = ({
           ))}
 
         {/* Product Tube/Packaging Image */}
-        {tubeImage && (
+        {!isSkinFoodDetail && tubeImage && (
           <div className="w-full relative h-[150px] md:h-[200px] mt-6">
             <Image
               src={tubeImage}

@@ -48,7 +48,7 @@ export default function ConcernSection({ concern }) {
         ref={scrollRef}
         className={
           isSkinFood
-            ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-2"
+            ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-2 px-2"
             : "flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth hide-scrollbar px-3"
         }
       >
