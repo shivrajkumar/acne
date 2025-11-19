@@ -104,7 +104,7 @@ export default function ProductCard({ product, index }) {
             onClick={handleLearnMoreClick}
             className="w-full border border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
           >
-            {isSkinFoodPage ? "Quick View" : "Learn More"}
+            {"Learn More"}
           </button>
         )}
       </div>

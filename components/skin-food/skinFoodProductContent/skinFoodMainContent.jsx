@@ -167,7 +167,7 @@ const SkinFoodMainContent = () => {
           <KeyIngredients ingredients={ingredients} />
           <CompleteRoutine product={routineProduct} />
           <IngredientsFaqSection questions={faqs} showTitle={false} />
-          <BestValueSection />
+          {/* <BestValueSection /> */}
         </div>
       </div>
 

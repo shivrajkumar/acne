@@ -6,14 +6,14 @@ import { CDN_BASE_URL } from "@/constants/constants";
 const accordionData = [
   {
     id: 1,
-    title: "#1 Digestive herb blend for the protein bloat.",
+    title: "#1 Target the Acne Triggers - Not Just the Surface",
     content:
-      "Protein farts, bloated tummy and burps? If you’ve experienced those – we’ve got you covered! We’ve added gut-friendly herbs such as ginger, cumin, fennel & fenugreek that help you digest the protein content better.",
+      "Acne begins inside-triggered by hormones, diet, stress, and gut health. Our Skin Food supplements are designed to balance these internal causes so acne stops coming back.",
   },
   {
     id: 2,
-    title: "#2 Clean ingredients that your gut loves.",
-    content: "Details about clean, gut-friendly ingredients go here...",
+    title: "#2 100% Herbal, Safe, and Personalised.",
+    content: "Each blend is crafted with Ayurvedic herbs, carefully chosen to support hormonal balance, liver detox, gut health, or stress resilience - depending on your skin profile. Skin Food is clean, customisable, and built to work long-term.",
   },
 ];
 
@@ -25,12 +25,12 @@ export default function WhyClearSkin() {
   };
 
   return (
-    <section className="bg-[#F9F7F2] p-6 md:p-8 md:py-10 flex flex-col md:flex-row gap-6 md:gap-10 items-stretch">
+    <section className="bg-[#F9F7F2] p-6 md:p-8 md:py-10 flex flex-col md:flex-row gap-6 md:gap-10 items-stretch mt-10">
       {/* ---------- Mobile Layout (<md) ---------- */}
       <div className="block md:hidden w-full">
         <h2 className="text-[24px] font-normal text-left leading-snug mb-4">
-          We’ve made plant protein{" "}
-          <span className="text-[#B47C5C]">gut-friendly</span>{" "}
+          We’ve made SKIN FOOD{" "}
+          <span className="text-[#B47C5C]">for your CLEAR SKIN.</span>{" "}
           Here’s why.
         </h2>
 
@@ -80,8 +80,8 @@ export default function WhyClearSkin() {
 
         <div className="w-1/2 flex flex-col justify-center">
           <h2 className="text-2xl md:text-[40px] font-normal text-gray-900 mb-4 leading-relaxed tracking-wide">
-            We’ve made skin food{" "}
-            <span className="text-Secondary/400">for your CLEAR skin.</span>{" "}
+            We’ve made SKIN FOOD{" "}
+            <span className="text-Secondary/400">for your CLEAR SKIN.</span>{" "}
             Here’s why.
           </h2>
 

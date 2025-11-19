@@ -306,7 +306,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
             </>
           )}
 
-          <BestValueSection />
+          {/* <BestValueSection /> */}
           
         </div>
       </div>

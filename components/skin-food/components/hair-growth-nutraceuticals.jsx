@@ -6,24 +6,26 @@ import { FaArrowRight } from "react-icons/fa";
 
 const products = [
   {
-    img: "acne/skin-food/ginger.webp",
-    title: "Ginger",
-    subtitle: "Synergen Complex®",
+    img: "acne/skin-food/neem.webp",
+    title: "Neem",
+    subtitle:
+      "Purifies blood, reduces excess oil, and fights acne-causing bacteria.",
   },
   {
     img: "acne/skin-food/indian-madder-root.webp",
     title: "Indian Madder Root",
-    subtitle: "Synergen Complex®",
+    subtitle: "Detoxifies, supports liver health, and improves skin clarity.",
   },
   {
     img: "acne/skin-food/pepper.webp",
     title: "Pepper",
-    subtitle: "Synergen Complex®",
+    subtitle: "Boosts absorption and digestion so other herbs work better.",
   },
   {
-    img: "acne/skin-food/neem.webp",
-    title: "Neem",
-    subtitle: "Synergen Complex®",
+    img: "acne/skin-food/ginger.webp",
+    title: "Ginger",
+    subtitle:
+      "Supports gut health, reduces inflammation, and balances hormones.",
   },
 ];
 
@@ -32,12 +34,12 @@ export default function HairGrowthNutraceuticals() {
   return (
     <section className="bg-white py-10">
       <div className="px-4 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-12 items-center">
-        <h2 className="text-2xl md:text-[40px] font-normal text-gray-900">
-          Hair Growth
+        <h2 className="text-2xl md:text-[40px] font-normal text-gray-900 leading-normal">
+          What’s Inside
           <span className="hidden md:inline">
             <br />
           </span>{" "}
-          Nutraceuticals
+          Clear Ritual Herbs
         </h2>
 
         <div className="flex flex-col items-center lg:items-start">
@@ -46,9 +48,7 @@ export default function HairGrowthNutraceuticals() {
             your bio-specific needs.
           </p>
           <button className="mt-6 px-6 py-3 rounded-full bg-Primary/500 text-white font-medium hover:opacity-90 transition">
-            {isMobile
-              ? "Learn more about our 40+ ingredients"
-              : "Shop Hair Growth Nutraceuticals"}
+            {"Learn what each herb does"}
           </button>
         </div>
       </div>
@@ -63,6 +63,7 @@ export default function HairGrowthNutraceuticals() {
       >
         {products.map((item, idx) => (
           <div key={idx} className="flex-shrink-0 w-40 md:w-auto flex flex-col">
+            {/* IMAGE */}
             <div className="relative w-full h-40 md:h-56">
               <Image
                 src={`${CDN_BASE_URL}${item.img}`}
@@ -70,19 +71,25 @@ export default function HairGrowthNutraceuticals() {
                 fill
                 className="object-cover rounded-md"
               />
+
+              {/* MOBILE — floating button on image */}
+              <div className="md:hidden absolute bottom-2 right-2 w-8 h-8 rounded-full bg-Primary/500 flex items-center justify-center shadow-md cursor-pointer">
+                <FaArrowRight size={14} className="text-white" />
+              </div>
             </div>
-            <div className="flex justify-between">
-              <div>
+
+            {/* TEXT + DESKTOP BUTTON */}
+            <div className="flex justify-between items-start gap-3">
+              <div className="flex-1">
                 <h3 className="mt-3 text-sm font-semibold text-gray-900">
                   {item.title}
                 </h3>
                 <p className="text-sm text-Primary/500">{item.subtitle}</p>
               </div>
-              <div className="mt-3 w-8 h-8 rounded-full border bg-Primary/500 flex items-center justify-center cursor-pointer hover:bg-Primary/500 hover:text-white transition">
-                <FaArrowRight
-                  size={16}
-                  className="text-white font-extralight"
-                />
+
+              {/* DESKTOP ONLY BUTTON */}
+              <div className="hidden md:flex mt-3 w-8 h-8 flex-shrink-0 rounded-full bg-Primary/500 items-center justify-center cursor-pointer hover:bg-Primary/700 transition">
+                <FaArrowRight size={16} className="text-white" />
               </div>
             </div>
           </div>
