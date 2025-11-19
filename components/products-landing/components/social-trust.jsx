@@ -7,20 +7,20 @@ import { CDN_BASE_URL } from "@/constants/constants";
 
 const stats = [
   {
-    title: "No. 1",
-    desc: "Nutritionist Recommended Brand",
+    title: "100%",
+    desc: "non-comedogenic formulations",
   },
   {
-    title: "25,00,000",
-    desc: "Sticks Consumed",
+    title: "Dermatologist",
+    desc: "designed, clinically proven actives",
   },
   {
-    title: "Clinically",
-    desc: "Proven Strains",
+    title: "FDA",
+    desc: "FDA-registered, globally compliant, and safety-verified",
   },
   {
-    title: "US FDA",
-    desc: "Licensed",
+    title: "100%",
+    desc: "acne-safe across all skin types",
   },
 ];
 

@@ -312,7 +312,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
       </div>
 
       <div className="">
-        <IngredientsThatWork />
+        {/* <IngredientsThatWork /> */}
         <OddsSection />
 
         {/* Reviews Section */}
@@ -346,7 +346,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
           <ResultsTimeline />
         </div>
         <NoteCard />
-        <VideoTestimonialsGrid />
+        {/* <VideoTestimonialsGrid /> */}
         {mostLoved?.map((concern) => (
           <ConcernSection key={concern.title} concern={concern} />
         ))}

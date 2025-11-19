@@ -4,33 +4,45 @@ import { usePathname, useRouter } from "next/navigation";
 import { Rate } from "antd";
 
 export default function ProductCard({ product, index }) {
-  const pathname = usePathname();
   const router = useRouter();
-  console.log("Current pathname:", pathname);
-  const isProductsPage = pathname.includes('/view-all-products') || pathname === '/products';
-  
+  const pathname = usePathname();
+  const isProductsPage = pathname.includes("/view-all-products");
+  const isSkinFoodPage = pathname.includes("/skin-food");
   const formatRating = (rating) => Number(rating).toFixed(1);
 
   const handleLearnMoreClick = () => {
-    if (product.id) {
+    if (!product) return;
+
+    if (isSkinFoodPage && product.id) {
+      router.push(`/skin-food/${product.id}`);
+      return;
+    }
+
+    if (isProductsPage && product.id) {
       router.push(`/view-all-products/${product.id}`);
     }
   };
 
-  console.log({isProductsPage})
   // Alternate background colors when on view-all-products page
-  const cardBgClass = isProductsPage
-    ? index % 2 === 0
-      ? "bg-[#F7F5EE]"
-      : "bg-[#FBF3E3]"
-    : "bg-white";
+  const cardBgClass =
+    isProductsPage || isSkinFoodPage
+      ? index % 2 === 0
+        ? "bg-[#F7F5EE]"
+        : "bg-[#FBF3E3]"
+      : "bg-white";
 
   return (
     <div
-      className={`flex flex-col w-full sm:w-[260px] md:w-[305px] lg:w-[320px] h-auto rounded-[5px] flex-shrink-0 transition-all duration-300`}
+      className={`flex flex-col w-full ${
+        isSkinFoodPage
+          ? "min-w-[400px]" // max size but responsive
+          : "max-w-[320px]"
+      } h-auto rounded-[5px] flex-shrink-0 transition-all duration-300`}
     >
       {/* Product Image Section */}
-      <div className={`relative w-full flex items-center justify-center overflow-hidden rounded-[5px] ${cardBgClass} `}>
+      <div
+        className={`relative w-full flex items-center justify-center overflow-hidden rounded-[5px] ${cardBgClass} `}
+      >
         <Image
           src={product.image}
           alt={product.name}
@@ -86,14 +98,15 @@ export default function ProductCard({ product, index }) {
         </div>
 
         {/* Button */}
-        {isProductsPage && (
-          <button
-            onClick={handleLearnMoreClick}
-            className="w-full border border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
-          >
-            {pathname === "/skin-food" ? "Quick View" : "Learn More"}
-          </button>
-        )}
+        {isProductsPage ||
+          (isSkinFoodPage && (
+            <button
+              onClick={handleLearnMoreClick}
+              className="w-full border border-[#4F46E5] text-[#4F46E5] rounded-full py-1.5 sm:py-2 text-[10px] sm:text-sm font-medium hover:bg-[#4F46E5] hover:text-white transition-colors mt-1 sm:mt-2"
+            >
+              {pathname === "/skin-food" ? "Quick View" : "Learn More"}
+            </button>
+          ))}
       </div>
     </div>
   );

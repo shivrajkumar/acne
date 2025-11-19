@@ -173,7 +173,7 @@ const SkinFoodMainContent = () => {
 
       <div className="">
         <AcneApproach />
-        <IngredientsThatWork />
+        {/* <IngredientsThatWork /> */}
         <OddsSection />
         <div className="mt-10 md:mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
           Lorem Ipsum Dummy
@@ -187,7 +187,7 @@ const SkinFoodMainContent = () => {
           <ResultsTimeline />
         </div>
         <NoteCard />
-        <VideoTestimonialsGrid />
+        {/* <VideoTestimonialsGrid /> */}
         {mostLoved?.map((concern) => (
           <ConcernSection key={concern.title} concern={concern} />
         ))}
