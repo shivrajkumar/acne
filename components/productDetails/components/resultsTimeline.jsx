@@ -2,30 +2,30 @@ import React from "react";
 
 const timelineData = [
   {
-    week: "Week 4",
-    text: "Balanced oil production and reduced acne breakouts.",
+    week: "Week 1 - Week 4",
+    text: "Your skin begins adjusting to the actives. Breakouts may calm as inflammation reduces.",
     highlight: true,
   },
   {
-    week: "Week 8",
-    text: "Improved skin clarity, texture, and hydration, plus reduced redness.",
+    week: "Week 4 - Week 8",
+    text: "Visible improvement in skin clarity. Breakouts reduce and redness fades further.",
   },
   {
-    week: "Week 12",
-    text: "Visibly clearer skin and improved post-acne dark spots.",
+    week: "Week 8 - Week 12",
+    text: "Begin targeting post-acne marks and textural irregularities as breakouts stabilise.",
   },
   {
     week: "Week 12+",
-    text: "Visibly clearer skin and improved post-acne dark spots.",
+    text: "Focus shifts to fading older scars and keeping new acne from surfacing.",
   },
 ];
 
 const ResultsTimeline = () => {
   return (
-    <section className="bg-[#E6E9FF] mt-16 md:mt-20 py-16 px-6 text-center rounded-lg">
+    <section className="bg-Secondary/100 mt-16 md:mt-20 py-16 px-6 text-center rounded-lg">
       {/* Heading */}
       <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-12">
-        Real results you can see in just 4–12 weeks.
+        Acne Time Line with our RITUAL
       </h2>
 
       {/* Timeline */}
@@ -36,6 +36,16 @@ const ResultsTimeline = () => {
         {/* Line */}
         <div className="absolute top-5 left-0 w-full h-1 bg-gray-300 z-0" />
 
+        {/* Gradient overlay - first 20% */}
+        <div
+          className="absolute top-5 -left-6 h-1 z-10"
+          style={{
+            width: "25%",
+            background:
+              "linear-gradient(180deg, #F4E06B 100%, rgba(255,255,255,0) 0%)",
+          }}
+        />
+
         {timelineData?.map((item, index) => (
           <div
             key={index}
@@ -45,7 +55,7 @@ const ResultsTimeline = () => {
             <div
               className={`px-4 py-2 rounded ${
                 item.highlight
-                  ? "bg-yellow-400 text-black font-medium"
+                  ? "bg-Warning/500 text-black font-medium"
                   : "bg-gray-100 text-gray-800"
               }`}
             >
@@ -60,12 +70,12 @@ const ResultsTimeline = () => {
       </div>
 
       {/* Subtext */}
-      <p className="text-gray-600 text-sm">
+      <p className="text-gray-600 text-sm mt-5">
         Formulated for non-cystic acne.
       </p>
 
       {/* CTA Button */}
-      <button className="mt-10 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
+      <button className="mt-5 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
         Take The Skin Test Now!
       </button>
     </section>

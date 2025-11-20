@@ -13,13 +13,15 @@ export default function ProductCard({ product, index }) {
   const handleLearnMoreClick = () => {
     if (!product) return;
 
+    const queryParams = product.type ? `?type=${product.type}` : '';
+
     if (isSkinFoodPage && product.id) {
-      router.push(`/skin-food/${product.id}`);
+      router.push(`/skin-food/${product.id}${queryParams}`);
       return;
     }
 
     if (isProductsPage && product.id) {
-      router.push(`/view-all-products/${product.id}`);
+      router.push(`/view-all-products/${product.id}${queryParams}`);
     }
   };
 

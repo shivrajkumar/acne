@@ -42,6 +42,7 @@ const SkinFoodMain = () => {
           description: p.description,
           tags: p.tags,
           dosage: p.dosage,
+          type: p.type, // Pass product type
         }));
 
         setSkinFoodProducts(transformedProducts);

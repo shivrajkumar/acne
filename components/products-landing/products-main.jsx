@@ -104,13 +104,6 @@ const ProductsMainLanding = () => {
             "SKIN FOOD",
           ];
 
-          // Normalize API names for matching — handle MOISTURISER → MOISTURIZER
-          const normalizeName = (name) => {
-            let n = name.toUpperCase().replace(/\s+/g, " ");
-            if (n === "MOISTURISER") return "MOISTURIZER";
-            return n;
-          };
-
           const orderedItems = preferredOrder
             .map((key) =>
               transformedItems.find((item) => item.label.toUpperCase() === key)
@@ -150,6 +143,7 @@ const ProductsMainLanding = () => {
               description: p.description,
               tags: p.tags,
               dosage: p.dosage,
+              type: p.type, // Pass product type
             })),
           }}
         />
