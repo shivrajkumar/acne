@@ -341,15 +341,15 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
         <div className="mx-auto px-4 md:px-8">
           <RoutineCards productType={type}/>
         </div>
-        <HighlightSection />
+        <HighlightSection productType={type}/>
         <div className="mx-auto px-4 md:px-8">
           <ResultsTimeline />
         </div>
         <NoteCard note={product?.content?.note_from_team}/>
         {/* <VideoTestimonialsGrid /> */}
-        {mostLoved?.map((concern) => (
+        {/* {mostLoved?.map((concern) => (
           <ConcernSection key={concern.title} concern={concern} />
-        ))}
+        ))} */}
 
         <div className="mt-10 md:mt-20 text-[34px] md:text-[64px] mx-auto p-4 md:p-8">
           We’re flipping the script on acne with a whole-body approach that

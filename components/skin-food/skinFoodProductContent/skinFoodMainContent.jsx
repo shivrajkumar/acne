@@ -310,11 +310,11 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
         </div>
         <NoteCard note={product?.content?.note_from_team}/>
         {/* <VideoTestimonialsGrid /> */}
-        {mostLoved?.map((concern) => (
+        {/* {mostLoved?.map((concern) => (
           <ConcernSection key={concern.title} concern={concern} />
-        ))}
+        ))} */}
 
-        <div className="border-2 border-b-black"></div>
+        <div className="border-2 border-b-black mt-10"></div>
         <div className="mt-10 md:mt-20">
           <IngredientsFaqSection showTitle={true} />
         </div>

@@ -3,20 +3,20 @@ import React from "react";
 const timelineData = [
   {
     week: "Week 1 - Week 4",
-    text: "Your skin begins adjusting to the actives. Breakouts may calm as inflammation reduces.",
+    text: "Active acne starts calming as your skin adjusts to barrier-repairing ingredients.",
     highlight: true,
   },
   {
     week: "Week 4 - Week 8",
-    text: "Visible improvement in skin clarity. Breakouts reduce and redness fades further.",
+    text: "Notice clearer skin, fewer breakouts, and visibly reduced redness.",
   },
   {
     week: "Week 8 - Week 12",
-    text: "Begin targeting post-acne marks and textural irregularities as breakouts stabilise.",
+    text: "Your routine shifts focus to post-acne care - fading scars and improving texture.",
   },
   {
     week: "Week 12+",
-    text: "Focus shifts to fading older scars and keeping new acne from surfacing.",
+    text: "Skin appears visibly smoother and more even-toned, while breakouts stay in check.",
   },
 ];
 
@@ -70,13 +70,13 @@ const ResultsTimeline = () => {
       </div>
 
       {/* Subtext */}
-      <p className="text-gray-600 text-sm mt-5">
+      {/* <p className="text-gray-600 text-sm mt-5">
         Formulated for non-cystic acne.
-      </p>
+      </p> */}
 
       {/* CTA Button */}
-      <button className="mt-5 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
-        Take The Skin Test Now!
+      <button className="mt-5 bg-Primary/500 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition">
+        Take The Skin Diagnosis Now!
       </button>
     </section>
   );

@@ -5,9 +5,9 @@ export default function AcneApproach() {
   return (
     <section className="w-full px-4 md:px-10 py-12 md:py-20">
       <div className="text-left">
-        <h2 className="text-[24px] md:text-[40px] font-medium text-gray-900 mb-2">
+        {/* <h2 className="text-[24px] md:text-[40px] font-medium text-gray-900 mb-2">
           Lorem ipsum dummy text
-        </h2>
+        </h2> */}
         <p className="text-sm md:text-[18px] text-gray-600 leading-relaxed">
           When we get acne, we often reach for a new serum or drink more water,
           hoping for a quick fix. But the truth is, our skin reflects our
