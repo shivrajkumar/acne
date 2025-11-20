@@ -10,13 +10,14 @@ const KeyIngredients = ({ ingredients = [] }) => {
   return (
     <div className="flex flex-col gap-4 pt-4 relative">
       {/* Header */}
-      {!pathname.includes("/result") && (
-        <div className="flex items-end justify-between">
-          <h3 className="text-[18px] text-[#0F1B28] tracking-[0.5px] uppercase font-sophiaPro">
-            KEY INGREDIENTS
-          </h3>
-        </div>
-      )}
+      {!pathname.includes("/result") &&
+        !pathname.includes("/view-all-products") && !pathname.includes("/skin-food") && (
+          <div className="flex items-end justify-between">
+            <h3 className="text-[18px] text-[#0F1B28] tracking-[0.5px] uppercase font-sophiaPro">
+              KEY INGREDIENTS
+            </h3>
+          </div>
+        )}
 
       {/* Ingredients Grid */}
       <div className="flex gap-3 overflow-x-auto hide-scrollbar">

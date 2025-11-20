@@ -199,7 +199,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
         </div>
 
         {/* Right: Info + sections */}
-        <div className="flex flex-col gap-6 w-full lg:w-1/2">
+        <div className="flex flex-col gap-2 w-full lg:w-1/2">
           <ProductInfo
             title={product?.content?.name}
             subtitle={product?.content?.by_line}
@@ -318,7 +318,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
         {/* Reviews Section */}
         {product?.content?.reviews && product?.content?.reviews.length > 0 && (
           <>
-            <div className="mt-10 md:mt-20 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
+            <div className="mt-10 md:mt-10 text-[24px] md:text-[40px] mx-auto p-4 md:p-8">
               Customer Reviews
             </div>
             <div className="mx-auto px-4 md:px-8">
@@ -339,13 +339,13 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
         )}
 
         <div className="mx-auto px-4 md:px-8">
-          <RoutineCards />
+          <RoutineCards productType={type}/>
         </div>
         <HighlightSection />
         <div className="mx-auto px-4 md:px-8">
           <ResultsTimeline />
         </div>
-        <NoteCard />
+        <NoteCard note={product?.content?.note_from_team}/>
         {/* <VideoTestimonialsGrid /> */}
         {mostLoved?.map((concern) => (
           <ConcernSection key={concern.title} concern={concern} />

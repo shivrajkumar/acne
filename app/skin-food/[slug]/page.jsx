@@ -1,16 +1,19 @@
 "use client";
-import ProductDetailsIndex from "@/components/productDetails/productDetailsIndex";
+import SkinFoodMainContent from "@/components/skin-food/skinFoodProductContent/skinFoodMainContent";
 import React, { useState, useEffect } from "react";
 import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_INGREDIENTS } from "@/constants/urls";
 import Loader from "@/components/generic/Loader";
+import { useSearchParams } from "next/navigation";
 
 const Page = ({ params }) => {
   const [ingredientsMap, setIngredientsMap] = useState(new Map());
   const [isLoadingIngredients, setIsLoadingIngredients] = useState(true);
+  const searchParams = useSearchParams();
 
-  // Extract variantId from slug
+  // Extract variantId from slug and type from query params
   const variantId = params?.slug;
+  const productType = searchParams.get("type") || "SUPPLEMENT";
 
   useEffect(() => {
     fetchAllIngredients();
@@ -71,10 +74,10 @@ const Page = ({ params }) => {
 
   return (
     <div>
-      <ProductDetailsIndex
+      <SkinFoodMainContent
         variantId={variantId}
         ingredientsMap={ingredientsMap}
-        type="SUPPLEMENT" // Skin food products are supplements
+        productType={productType}
       />
     </div>
   );
