@@ -34,6 +34,7 @@ import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
 import Login from "@/components/login/Login";
 import RootCausesV2 from "./RootCausesV2";
 import DoctorDetailsCard from "./DoctorDetailsCard";
+import ExpectationSetting from "./ExpectationSetting";
 
 const ResultLandingPage = ({}) => {
   const [resultData, setResultData] = useState({});
@@ -666,7 +667,8 @@ const ResultLandingPage = ({}) => {
         </div>
         <OrderSummary ingredientsMap={ingredientsMap}/>
         <AcneReviews />
-        <VisibleResultsInThreeWeeks />
+        {/* <VisibleResultsInThreeWeeks /> */}
+        <ExpectationSetting />
         <AcneWhatsInYourKit />
         <FeaturedReview />
         <FAQSection data={FAQResultPage} />
