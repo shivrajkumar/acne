@@ -9,10 +9,10 @@ const TimelinePhase = ({ month, phase, description, isLast = false }) => (
         <div className="w-3 h-3 rounded-full bg-yellow-400 flex-shrink-0" />
 
         {/* Vertical dashed line */}
-        {!isLast && (
+        { (
           <div
-            className={`w-0.5 border-l-2 border-dashed border-yellow-300 mt-2`}
-            style={{ height: isLast ? "60px" : "80px" }}
+            className="w-0.5 border-l-2 border-dashed border-yellow-300"
+            style={{ height: isLast ? "60px" : "100px" }}
           />
         )}
       </div>
@@ -56,12 +56,16 @@ const TimelineCard = ({ month, phase, description, index, total }) => (
       {/* Phase info */}
       <div className="text-left">
         <div className="flex items-start justify-start mb-3 space-x-2">
-          <h3 className="font-semibold text-gray-900 text-xl md:text-lg">{month}</h3>
+          <h3 className="font-semibold text-gray-900 text-xl md:text-lg">
+            {month}
+          </h3>
           <p className="text-[#A19B8B] text-[16px] uppercase tracking-wide font-medium mt-1">
             ({phase})
           </p>
         </div>
-        <p className="text-[#0F1B28] text-[16px] leading-relaxed">{description}</p>
+        <p className="text-[#0F1B28] text-[16px] leading-relaxed">
+          {description}
+        </p>
       </div>
     </div>
   </div>
@@ -96,11 +100,11 @@ const ExpectationSetting = () => {
       <div className="">
         {/* Mobile/Tablet View - Vertical Timeline */}
         <div className="lg:hidden bg-[#FAF8F3] rounded-xl p-4 md:p-0">
-          <h1 className="text-3xl font-normal text-[#0F1B28] mb-8">
-            See Results in 3 <br/> months
+          <h1 className="text-3xl font-normal text-[#0F1B28] mb-4">
+            See Results in 3 <br /> months
           </h1>
 
-          <div className="space-y-0 bg-white p-8 rounded-lg">
+          <div className="space-y-0 bg-white p-5 rounded-lg">
             {phases.map((phase, idx) => (
               <TimelinePhase
                 key={idx}
@@ -112,7 +116,7 @@ const ExpectationSetting = () => {
             ))}
           </div>
 
-          <p className="text-center text-Grey/500 text-sm mt-6">
+          <p className="text-center text-Grey/500 text-sm mt-4">
             Clear Ritual Journey.
           </p>
         </div>
