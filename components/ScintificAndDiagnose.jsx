@@ -75,7 +75,7 @@ const ScintificAndDiagnose = ({ safeAndScintific }) => {
           <AcneTakeTheSkinTest
             redirectTo={'/skin-test'}
             variant={"white"}
-            text={"TAKE THE SKIN TEST"}
+            text={"TAKE THE SKIN DIAGNOSIS"}
             tm={" "}
             size={"mobileSmall"}
             deskSize={"desktopBig"}

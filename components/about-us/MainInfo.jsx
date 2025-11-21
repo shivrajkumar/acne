@@ -76,7 +76,7 @@ const MainInfo = ({
               <div className="hidden md:flex mt-[32px] z-50 ">
                 <AcneTakeTheSkinTest
                   variant="black"
-                  text={buttonText || "TAKE THE SKIN TEST"}
+                  text={buttonText || "TAKE THE SKIN DIAGNOSIS"}
                   tm={" "}
                   redirectTo="/skin-test"
                   deskSize="desktopBig"

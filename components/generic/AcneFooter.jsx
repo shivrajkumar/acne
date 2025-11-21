@@ -141,7 +141,7 @@ const AcneFooter = () => {
                     onClick={() => PageClickEvent("SkinTest", "/skin-test")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
-                    Take the Skin Test
+                    Take the Skin DIAGNOSIS
                   </Link>
                 </li>}
                 <li>

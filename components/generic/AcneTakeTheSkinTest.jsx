@@ -78,7 +78,7 @@ const AcneTakeTheSkinTest = ({
           ${variant === "disabled" ? "cursor-not-allowed" : "cursor-pointer"} leading-[24px] tracking-[0.5px] py-[16px]`}
           id={hairTestId}
         >
-          {text ? text : "Take The Skin Test"}{" "}
+          {text ? text : "Take The Skin Diagnosis"}{" "}
           <sup
             style={{
               fontSize: 9,
