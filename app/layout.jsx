@@ -9,7 +9,7 @@ import { lato } from "./fonts";
 import MoengageInit from "@/components/generic/MoengageInit";
 import UserDataCapture from "@/components/generic/UserDataCapture";
 import ScrollTracker from "@/components/ScrollTracker";
-import PixelInit from "@/components/generic/Pixel";
+// import PixelInit from "@/components/generic/Pixel";
 import { PublicEnvScript } from 'next-runtime-env';
 import UmamiTracker from "@components/generic/UmamiTracker";
 import CapiPageTracking from "@/components/generic/CapiTracking";
@@ -187,7 +187,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontSize: "16px" }} className="font-sophiaPro">
-        <PixelInit />
+        {/* <PixelInit /> */}
         <ScrollTracker />
         {/* <ErrorBoundary> */}
           <AuthProvider>

@@ -10,7 +10,7 @@ import { trackMoEngageEvent } from "@/utils/moegage";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { logGtmEvent } from "../generic/Gtm";
-import { pixelCustomeEvent } from "../generic/Pixel";
+// import { pixelCustomeEvent } from "../generic/Pixel";
 
 const CartPageHome = () => {
   const [isBreakdownDrawerOpen, setIsBreakdownDrawerOpen] = useState(false);
@@ -46,7 +46,7 @@ const CartPageHome = () => {
     }
     trackMoEngageEvent("BeginCheckout", eventAttributes)
     logGtmEvent("Add to Cart", eventAttributes)
-    pixelCustomeEvent("Add to Cart", eventAttributes);
+    // pixelCustomeEvent("Add to Cart", eventAttributes);
 
     const fbp = getCookieValue('_fbp', document.cookie.split(';'));
     const fbc = getCookieValue('_fbc', document.cookie.split(';'));

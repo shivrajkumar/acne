@@ -19,7 +19,7 @@ import {
 } from "../../utils/moegage";
 import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
-import { pixelCustomeEvent } from "../generic/Pixel";
+// import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import { env } from "next-runtime-env";
 import { useRouter } from "next/navigation";
@@ -417,7 +417,7 @@ export default function UserBasicInfoForm({ onComplete }) {
           phone: `+91${formData.phoneNumber}`,
         }),
       });
-      pixelCustomeEvent("Contact", { gender: formData.gender });
+      // pixelCustomeEvent("Contact", { gender: formData.gender });
       const cookies = document.cookie.split(";");
       const fbp = getCookieValue("_fbp", cookies);
       const fbc = getCookieValue("_fbc", cookies);
