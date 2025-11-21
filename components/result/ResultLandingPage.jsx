@@ -23,7 +23,7 @@ import AcneFooter from "../generic/AcneFooter";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
-import { pixelCustomeEvent } from "../generic/Pixel";
+// import { pixelCustomeEvent } from "../generic/Pixel";
 import { logGtmEvent } from "../generic/Gtm";
 import useMediaLoader from "@/hooks/useMediaLoader";
 import ResultBannerV2 from "./ResultBannerV2";
@@ -211,7 +211,7 @@ const ResultLandingPage = ({}) => {
         url,
         gender,
       };
-      pixelCustomeEvent("ReportGenerated", { gender: capiPayloadRes?.gender });
+      // pixelCustomeEvent("ReportGenerated", { gender: capiPayloadRes?.gender });
       setCapiPayload(capiPayloadRes);
       metaCapi(capiPayloadRes, "ReportGenerated");
     }
@@ -402,7 +402,7 @@ const ResultLandingPage = ({}) => {
       ...eventAttributes,
       event_id: generateEventId({ eventName: "Add to Cart" }),
     });
-    pixelCustomeEvent("Add to Cart", eventAttributes);
+    // pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "CheckoutInitiated");
     trackUmamiEvent("checkout_initiated", {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),

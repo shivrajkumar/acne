@@ -6,7 +6,7 @@ import LoaderwithText from "@/components/generic/LoaderWithText";
 import { useRouter } from "next/navigation";
 import { QuestionsContext } from "@context/questions-store";
 import { addUserAttributeAfterMoenageLoads, trackMoEngageEvent } from "@/utils/moegage";
-import { pixelCustomeEvent } from "../generic/Pixel";
+// import { pixelCustomeEvent } from "../generic/Pixel";
 import { generateEventId, metaCapi } from "@/helpers/metaCapiHelper";
 import { getCookieValue } from "@/helpers/cookieHelper";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
@@ -49,12 +49,12 @@ const FormSubmission = () => {
       age: window.localStorage.getItem("user_age"),
       event_id: generateEventId({ eventName: 'Lead', phone: phone })
     });
-    pixelCustomeEvent("Lead", {
-      name: window.localStorage.getItem("user_first_name"),
-      phone_number: window.localStorage.getItem("user_phone"),
-      gender: window.localStorage.getItem("user_gender"),
-      age: window.localStorage.getItem("user_age"),
-    });
+    // pixelCustomeEvent("Lead", {
+    //   name: window.localStorage.getItem("user_first_name"),
+    //   phone_number: window.localStorage.getItem("user_phone"),
+    //   gender: window.localStorage.getItem("user_gender"),
+    //   age: window.localStorage.getItem("user_age"),
+    // });
 
     trackUmamiEvent('form_completed', { syntheticId: syntheticId });
 

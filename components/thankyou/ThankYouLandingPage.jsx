@@ -16,7 +16,7 @@ import OrderConfirmationView from "./OrderConfimationView";
 import { handleBookCall, transformSlotData } from "../../utils/bookacall";
 import { logGtmEvent } from "../generic/Gtm";
 import moment from "moment";
-import { pixelCustomeEvent } from "../generic/Pixel";
+// import { pixelCustomeEvent } from "../generic/Pixel";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import { generateEventId } from "@/helpers/metaCapiHelper";
@@ -121,15 +121,15 @@ const ThankYouLandingPage = ({ searchParams }) => {
           transactionId: `${window.localStorage.getItem("user_tid")}`,
           event_id: generateEventId({ eventName: 'Purchase',phone: res.data?.customerDetail?.phoneNumber, orderId: res.data?.orderDetails?.orderId })
         });
-        pixelCustomeEvent("Purchase", {
-          gender: window.localStorage.getItem("user_gender"),
-          orderId: `${res.data?.orderDetails?.orderId}`,
-          order_value: `${res.data?.orderDetails?.totalPrice}`,
-          currency: "INR",
-          order_items: res.data?.orderDetails?.orderLineItems,
-          caseId: `${caseId}`,
-          transactionId: `${window.localStorage.getItem("user_tid")}`,
-        });
+        // pixelCustomeEvent("Purchase", {
+        //   gender: window.localStorage.getItem("user_gender"),
+        //   orderId: `${res.data?.orderDetails?.orderId}`,
+        //   order_value: `${res.data?.orderDetails?.totalPrice}`,
+        //   currency: "INR",
+        //   order_items: res.data?.orderDetails?.orderLineItems,
+        //   caseId: `${caseId}`,
+        //   transactionId: `${window.localStorage.getItem("user_tid")}`,
+        // });
         trackUmamiEvent('order_placed', {
           syntheticId: `${window.localStorage.getItem("user_tid")}`,
           revenue: res.data?.orderDetails?.totalPrice,

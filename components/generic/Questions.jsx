@@ -20,7 +20,7 @@ import { fetchRequest } from "@/helpers/fetchRequest";
 import { GET_SKIN_TEST_CONFIG, getUtmCookiesInObjectForm } from "@/constants/urls";
 import LogMoengage from "./LogMoengage";
 import { trackMoEngageEvent } from "@/utils/moegage";
-import { pixelCustomeEvent } from "./Pixel";
+// import { pixelCustomeEvent } from "./Pixel";
 import { generateEventId } from "@/helpers/metaCapiHelper";
 import { useRouter } from "next/navigation";
 
@@ -380,7 +380,7 @@ const Questions = () => {
     }
     if (currentQuestion && currentQuestion.group) {
       if (currentQuestion.group == "basic_information") {
-        pixelCustomeEvent('Form Start');
+        // pixelCustomeEvent('Form Start');
         logGtmEvent("Form_Start", {event_id: generateEventId({ eventName: 'Form_Start' })});
       }
     }
