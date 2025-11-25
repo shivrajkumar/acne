@@ -28,7 +28,7 @@ export const faqData = {
     {
       question: "Where can I buy these products?",
       answer:
-        "Clear Ritual products are available only on our official website. Once you take the skin test, we recommend a regimen tailored to your profile - we don’t sell individual products without a diagnosis.",
+        "Clear Ritual products are available only on our official website. Once you take the skin diagnosis, we recommend a regimen tailored to your profile - we don’t sell individual products without a diagnosis.",
     },
     {
       question: "Are your products tested on animals?",

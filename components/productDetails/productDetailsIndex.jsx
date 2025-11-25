@@ -358,7 +358,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
 
         <div className="border-2 border-b-black"></div>
         <div className="mt-10 md:mt-20">
-          <IngredientsFaqSection showTitle={true} />
+          <IngredientsFaqSection showTitle={true} questions={product?.content?.FAQ}/>
         </div>
       </div>
     </>

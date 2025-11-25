@@ -59,19 +59,19 @@ const SkinCareCarousel = () => {
   const cardsData = [
     {
       title: "Want a skincare routine that actually works?",
-      buttonText: "TAKE THE SKIN TEST",
+      buttonText: "TAKE THE SKIN DIAGNOSIS",
       mobileImage: `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/slider_background_one_mobileImg.webp`,
       desktopImage: `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/slider_background_one_deskImg.webp`,
     },
     {
       title: "Science-backed, and effective acne care.",
-      buttonText: "TAKE THE SKIN TEST",
+      buttonText: "TAKE THE SKIN DIAGNOSIS",
       mobileImage: `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/slider_background_two_mobileImg.webp`,
       desktopImage: `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/slider_background_two_deskImg.webp`,
     },
     {
       title: "Your skin is a mirror of your internal health.",
-      buttonText: "TAKE THE SKIN TEST",
+      buttonText: "TAKE THE SKIN DIAGNOSIS",
       mobileImage: `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/slider_background_three_mobileImg.webp`,
       desktopImage: `${CDN_BASE_URL}website_images/clear_rituals/about_us_page/slider_background_three_deskImg.webp`,
     },

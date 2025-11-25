@@ -242,7 +242,7 @@ const AcneBookACallPage = ({ searchParams }) => {
             className="flex justify-center items-center h-[56px] bg-Tertiary/600 px-[56px] py-[16px] rounded-full text-[#FFFFFF] text-[14px] font-[500] -tracking-[1%]"
             onClick={handleTakeSkinTest}
           >
-            TAKE THE SKIN TEST
+            TAKE THE SKIN DIAGNOSIS
           </button>
         </div>
       );

@@ -88,7 +88,7 @@ const CartPageHome = () => {
         </p>
         <AcneTakeTheSkinTest
           variant="black"
-          text="TAKE THE SKIN TEST"
+          text="TAKE THE SKIN DIAGNOSIS"
           tm=" "
           redirectTo="/skin-test"
           deskSize="desktopBig"

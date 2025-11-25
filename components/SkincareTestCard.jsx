@@ -44,7 +44,7 @@ const SkincareTestCard = ({ title, mobileImage, desktopImage }) => {
         <div className="md:flex hidden md:flex-row-reverse mb-2 md:pr-[14px] md:pb-[14px]">
           <AcneTakeTheSkinTest
             variant={"white"}
-            text={"TAKE THE SKIN TEST"}
+            text={"TAKE THE SKIN DIAGNOSIS"}
             tm={" "}
             redirectTo={"/skin-test"}
             deskSize="mobileBig"
@@ -55,7 +55,7 @@ const SkincareTestCard = ({ title, mobileImage, desktopImage }) => {
         <div className="md:hidden flex justify-center">
           <AcneTakeTheSkinTest
             variant={"white"}
-            text={"TAKE THE SKIN TEST"}
+            text={"TAKE THE SKIN DIAGNOSIS"}
             tm={" "}
             redirectTo={"/skin-test"}
             deskSize={"mobileMedium"}

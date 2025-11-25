@@ -130,7 +130,7 @@ const MobileMenu = ({
                             className="w-full bg-Primary/500 text-white py-4 rounded-full font-medium flex items-center justify-center space-x-2"
                             onClick={onToggle}
                         >
-                            <span>{syntheticId ? "Retake skin test" : "TAKE THE SKIN TEST"}
+                            <span>{syntheticId ? "Retake skin test" : "TAKE THE SKIN DIAGNOSIS"}
                             </span>
                             <Image
                                 src={ArrowRight}

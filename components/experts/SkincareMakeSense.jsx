@@ -48,7 +48,7 @@ const SkincareMakeSense = ({ reviewPage = false, heading, subText }) => {
               : "md:bg-black bg-white md:text-white text-black mt-6 "
               } text-[14px] uppercase font-[600] leading-[24px] rounded-full`}
           >
-            TAKE THE SKIN TEST
+            TAKE THE SKIN DIAGNOSIS
           </button>
         </div>
       </div>

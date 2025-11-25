@@ -118,7 +118,7 @@ const MobileFooter = ({
                                     onClick={() => PageClickEvent("SkinTest", "/skin-test")}
                                     className="text-Grey/50 text-[14px] font-[400]"
                                 >
-                                    Take the Skin Test
+                                    Take the Skin Diagnosis
                                 </Link>
                             </li>}
                             <li>

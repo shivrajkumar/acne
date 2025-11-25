@@ -48,7 +48,7 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
             <div className="hidden md:flex ">
               <AcneTakeTheSkinTest
                 variant="black"
-                text="TAKE THE SKIN TEST"
+                text="TAKE THE SKIN DIAGNOSIS"
                 tm=" "
                 redirectTo="/skin-test"
                 deskSize="desktopSmall"
@@ -57,7 +57,7 @@ const SkincareMakeSense = ({ expertsPage = false, heading = "", subText }) => {
             <div className={`flex justify-center items-center md:hidden ${expertsPage ? "mt-0" : "mt-6"} `}>
               <AcneTakeTheSkinTest
                 variant="black"
-                text="TAKE THE SKIN TEST"
+                text="TAKE THE SKIN DIAGNOSIS"
                 tm=" "
                 redirectTo="/skin-test"
                 deskSize="mobileBig"
