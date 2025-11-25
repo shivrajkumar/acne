@@ -335,7 +335,6 @@ const ResultLandingPage = ({}) => {
         setResultData(finalData);
         localStorage.setItem(`acne_result_data`, JSON.stringify(finalData));
 
-        metaCapi(capiPayload, "ReportGenerated");
         hasFetchedResult.current = true;
       }
     } catch (e) {
@@ -403,8 +402,8 @@ const ResultLandingPage = ({}) => {
       event_id: generateEventId({ eventName: "Add to Cart" }),
     });
     // pixelCustomeEvent("Add to Cart", eventAttributes);
-    metaCapi(capiPayload, "CheckoutInitiated");
-    trackUmamiEvent("checkout_initiated", {
+    metaCapi(capiPayload, "Add to Cart");
+    trackUmamiEvent("Add to Cart", {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
     });
   };

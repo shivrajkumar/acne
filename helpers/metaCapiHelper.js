@@ -1,7 +1,7 @@
 // import {fetchRequest} from "./fetchRequest";
-import { trackUmamiEvent } from "@components/generic/UmamiTracker";
+// import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import crypto from "crypto";
-import { getCurrentTimeInReadableForm } from "./timeFormatter";
+// import { getCurrentTimeInReadableForm } from "./timeFormatter";
 
 export const metaCapi = async (
     { url, email, phone, fbc, fbp, gender, name, order_id, path },
@@ -22,18 +22,18 @@ export const metaCapi = async (
         event_id: generateEventId({eventName, phone, orderId: order_id, path}),
     };
 
-    /*  const res = await fetchRequest(CAPI_TRACKING_API, {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
-  return res;*/
-
-    await trackUmamiEvent("capi_event", {
-        capi_payload: JSON.stringify({
-            ...body,
-            tenant_id: "acne"
-        })
+    const res = await fetchRequest(CAPI_TRACKING_API, {
+        method: "POST",
+        body: JSON.stringify(body),
     });
+    return res;
+
+    // await trackUmamiEvent("capi_event", {
+    //     capi_payload: JSON.stringify({
+    //         ...body,
+    //         tenant_id: "acne"
+    //     })
+    // });
 };
 
 export const generateEventId = ({eventName, phone, orderId, path}) => {
@@ -60,4 +60,16 @@ const hash = (input) => {
       return;
   }
   return crypto.createHash('sha256').update(input?.trim() || "").digest('hex');
+}
+
+export const getFbExternalId = () => {
+    if (typeof window !== undefined) {
+        let user_phone = window.localStorage.getItem("user_phone");
+
+        if (user_phone) {
+            user_phone = !user_phone?.startsWith('+91') ? `+91${user_phone}` : user_phone;
+            return { fb_external_id: hash(user_phone)};
+        }
+        return {}
+    }
 }

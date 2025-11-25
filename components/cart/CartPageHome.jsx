@@ -61,7 +61,7 @@ const CartPageHome = () => {
       url: window.location.href,
       gender: gender,
     };
-    metaCapi(capiPayload, "CheckoutInitiated");
+    metaCapi(capiPayload, "Add to Cart");
   };
 
   // Empty cart with order display ID UI
