@@ -2,21 +2,21 @@ import React from "react";
 
 const timelineData = [
   {
-    week: "Week 1 - Week 4",
-    text: "Active acne starts calming as your skin adjusts to barrier-repairing ingredients.",
+    week: "Month 1 - 2\n(RESET PHASE)",
+    text: "Balanced oil production & reduced acne.",
     highlight: true,
   },
   {
-    week: "Week 4 - Week 8",
-    text: "Notice clearer skin, fewer breakouts, and visibly reduced redness.",
+    week: "Month 3 - 4\n(REPAIR PHASE)",
+    text: "Improved skin clarity & balanced internal triggers.",
   },
   {
-    week: "Week 8 - Week 12",
-    text: "Your routine shifts focus to post-acne care - fading scars and improving texture.",
+    week: "Month 5 - 6\n(RENEW PHASE)",
+    text: "Visibly clearer skin & improved dark spots.",
   },
   {
-    week: "Week 12+",
-    text: "Skin appears visibly smoother and more even-toned, while breakouts stay in check.",
+    week: "Clear Ritual for LIFE.\n(MAINTAIN)",
+    text: "Maintaining skin health, long term.",
   },
 ];
 
@@ -24,8 +24,8 @@ const ResultsTimeline = () => {
   return (
     <section className="bg-Secondary/100 mt-16 md:mt-20 py-16 px-6 text-center rounded-lg">
       {/* Heading */}
-      <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-12">
-        Acne Time Line with our RITUAL
+      <h2 className="text-2xl md:text-3xl font-normal text-gray-900 mb-12">
+        Visible results in 3 months
       </h2>
 
       {/* Timeline */}
@@ -53,7 +53,7 @@ const ResultsTimeline = () => {
           >
             {/* Week Label */}
             <div
-              className={`px-4 py-2 rounded ${
+              className={`px-4 py-2 rounded whitespace-pre-line ${
                 item.highlight
                   ? "bg-Warning/500 text-black font-medium"
                   : "bg-gray-100 text-gray-800"

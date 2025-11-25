@@ -81,10 +81,14 @@ const MobileMenu = ({
                                                         <div key={subIndex} className="flex items-center justify-between py-2">
                                                             <Link
                                                                 href={subItem.href}
+                                                                prefetch={true}
                                                                 className={`${subItem.name == 'View All Products' ? 'font-semibold' : ''} font-sophiaPro text-[14px] font-[400] text-Grey/900 hover:text-Primary/900 transition-colors`}
                                                                 onClick={() => {
-                                                                    PageClickEvent(subItem.name.replace(/\s+/g, ''), subItem.href);
                                                                     onToggle();
+                                                                    // Fire tracking async to not block navigation
+                                                                    setTimeout(() => {
+                                                                        PageClickEvent(subItem.name.replace(/\s+/g, ''), subItem.href);
+                                                                    }, 0);
                                                                 }}
                                                             >
                                                                 {subItem.name}

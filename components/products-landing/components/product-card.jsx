@@ -50,8 +50,8 @@ export default function ProductCard({ product, index }) {
           src={product.image}
           alt={product.name}
           width={500}
-          height={300}
-          className="object-cover w-full h-[220px] sm:h-[250px] md:h-[250px] lg:h-[280px] transition-transform duration-300 hover:scale-105 my-16"
+          height={500}
+          className="object-cover w-full h-[220px] sm:h-[250px] md:h-[280px] lg:h-[300px] transition-transform duration-300 hover:scale-105 my-16"
         />
 
         {/* Desktop - Ratings top left */}
@@ -78,7 +78,7 @@ export default function ProductCard({ product, index }) {
       {/* Product Details Section */}
       <div className="py-2 sm:py-3 flex flex-col gap-1.5 sm:gap-2 mt-2 sm:mt-3">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2">
-          <h3 className="text-xs sm:text-sm md:text-[16px] font-semibold text-gray-900 leading-tight flex-1 line-clamp-2 min-h-[40px]">
+          <h3 className="text-xs sm:text-sm md:text-[12px] font-semibold text-gray-900 leading-tight flex-1 line-clamp-2">
             {product.name}
           </h3>
           <p className="text-xs sm:text-sm md:text-[16px] font-medium text-gray-900 sm:whitespace-nowrap">

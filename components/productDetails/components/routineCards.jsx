@@ -26,6 +26,7 @@ const highlightStepMap = {
 
 export default function RoutineCards({ productType }) {
   const highlightTarget = highlightStepMap[productType] || "";
+  console.log({highlightTarget, productType})
 
   return (
     <div className="mt-10 md:mt-20">
@@ -53,7 +54,7 @@ export default function RoutineCards({ productType }) {
                 return (
                   <li
                     key={i}
-                    className={`text-sm md:text-[16px] ${
+                    className={`text-sm font-light md:text-[24px] ${
                       isHighlighted
                         ? routine.bg.includes("bg-white")
                           ? "font-semibold text-black" // highlight on white card

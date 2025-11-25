@@ -13,16 +13,16 @@ const steps = [
     label: "Cleanse",
   },
   {
-    title: "Step 2 - Hydrate",
-    desc: "Lightweight, non-comedogenic moisturisers that support barrier repair, even skin tone, and long-term hydration.",
-    image: "acne/products/pl-moisturiser.webp",
-    label: "Hydrate",
-  },
-  {
-    title: "Step 3 - Treat",
+    title: "Step 2 - Treat",
     desc: "Prescription-strength formulations that go deep - targeting acne-causing bacteria, inflammation, and clogged pores for visible results.",
     image: "acne/products/pl-treat.webp",
     label: "Treat",
+  },
+  {
+    title: "Step 3 - Hydrate",
+    desc: "Lightweight, non-comedogenic moisturisers that support barrier repair, even skin tone, and long-term hydration.",
+    image: "acne/products/pl-moisturiser.webp",
+    label: "Hydrate",
   },
   {
     title: "Step 4 - Protect",
@@ -32,7 +32,7 @@ const steps = [
   },
   {
     title: "Step 5 - Feed",
-    desc: "Ayurvedic, root-cause supplements that target internal acne triggers - like hormones, gut health, and inflammation - to prevent future flare-ups.",
+    desc: "Ayurvedic supplements that target internal acne triggers - like hormones, gut health, and inflammation - to prevent future flare-ups.",
     image: "acne/products/pl-tablet.webp",
     label: "Feed",
   },
@@ -45,7 +45,6 @@ const RitualShowcase = () => {
   // Refs to calculate dynamic line width
   const textContainerRef = useRef(null);
   const imageRef = useRef(null);
-  const [lineWidth, setLineWidth] = useState(0);
 
   // Preload all step images
   useEffect(() => {
@@ -53,21 +52,6 @@ const RitualShowcase = () => {
       const img = new window.Image();
       img.src = `${CDN_BASE_URL}${step.image}`;
     });
-  }, []);
-
-  // Calculate line width dynamically
-  useEffect(() => {
-    const calculateWidth = () => {
-      if (textContainerRef.current && imageRef.current) {
-        const textWidth = textContainerRef.current.offsetWidth;
-        const imageWidth = imageRef.current.offsetWidth;
-        setLineWidth(textWidth - 20);
-      }
-    };
-
-    calculateWidth();
-    window.addEventListener("resize", calculateWidth);
-    return () => window.removeEventListener("resize", calculateWidth);
   }, []);
 
   return (
@@ -110,7 +94,7 @@ const RitualShowcase = () => {
 
                 {/* Line + Dot */}
                 <div
-                  className="absolute top-1/1 mt-4 left-0 h-[1px] bg-[#67645E] z-50"
+                  className="absolute top-1/1 mt-4 left-0 h-[1px] bg-[#67645E] z-20"
                   style={{ width: '150%' }}
                 >
                   <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2 h-2 bg-[#67645E] rounded-full"></div>

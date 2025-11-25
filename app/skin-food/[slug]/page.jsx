@@ -13,7 +13,7 @@ const Page = ({ params }) => {
 
   // Extract variantId from slug and type from query params
   const variantId = params?.slug;
-  const productType = searchParams.get("type") || "SUPPLEMENT";
+  const productType = searchParams.get("type");
 
   useEffect(() => {
     fetchAllIngredients();

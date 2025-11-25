@@ -9,39 +9,39 @@ export default function OddsSection() {
       <div className="grid md:grid-cols-2">
         {/* LEFT TEXT SECTION */}
         <div className="bg-yellow-300 p-8 md:p-12 flex flex-col justify-center">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-8">
+          <h2 className="text-2xl md:text-3xl font-normal text-gray-900 mb-8">
             You’ll like these results
           </h2>
 
           <div className="space-y-6">
             <div>
               <p className="text-3xl font-bold text-gray-900">98%</p>
-              <p className="text-gray-blue text-[16px]">
+              <p className="text-gray-blue text-[16px] font-light">
                 98% said their skin felt deeply hydrated without any greasy residue*
               </p>
             </div>
 
             <div>
               <p className="text-3xl font-bold text-gray-900">96%</p>
-              <p className="text-gray-blue text-[16px]">
+              <p className="text-gray-blue text-[16px] font-light">
                 agreed that excess oil was better controlled*
               </p>
             </div>
 
             <div>
               <p className="text-3xl font-bold text-gray-900">93%</p>
-              <p className="text-gray-blue text-[16px]">
+              <p className="text-gray-blue text-[16px] font-light">
                 noticed acne marks and scars visibly began to fade*
               </p>
             </div>
           </div>
 
           <p className="mt-8 text-[16px] text-gray-900">
-            Clinically proven to deliver clearer, more balanced skin in just 2 weeks^
+            Clinically proven to deliver clearer, more balanced skin in just 12 weeks^
           </p>
 
           <p className="mt-6 text-xs text-gray-700 leading-relaxed">
-            ^in a consumer perception study after 2 weeks <br />
+            ^in a consumer perception study after 12 weeks <br />
             *from a clinical study of 32 people
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function OddsSection() {
           </div>
 
           <div className="absolute bottom-3 right-3 bg-white px-2 py-1 text-xs font-medium text-gray-900">
-            IMMEDIATELY AFTER
+            AFTER
           </div>
         </div>
       </div>

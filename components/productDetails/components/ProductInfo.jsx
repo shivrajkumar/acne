@@ -37,6 +37,7 @@ const ProductInfo = ({
 
   const pathname = usePathname();
   const isSkinFoodDetail = pathname.startsWith("/skin-food/") && pathname !== "/skin-food";
+  const isViewAllProductsPage = pathname.includes("/view-all-products/");
 
   // Get the image path based on product type
   const typeImage =
@@ -50,6 +51,11 @@ const ProductInfo = ({
       ? `${CDN_BASE_URL}${productTypeTubeImages[type]}`
       : null;
 
+  const showImage =
+    !isSkinFoodDetail &&
+    typeImage &&
+    !pathname.includes("/view-all-products/");
+
   return (
     <div className="flex flex-col relative">
       {/* Title Section */}
@@ -60,7 +66,7 @@ const ProductInfo = ({
       </div>
 
       <div className="flex flex-col gap-4">
-        <h1 className="text-[18px] md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro">
+        <h1 className={`${isSkinFoodDetail || isViewAllProductsPage ? 'text-[28px]' : 'text-[18px]'} md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro`}>
           {title}
         </h1>
         <div className="flex flex-col gap-1">
@@ -87,7 +93,7 @@ const ProductInfo = ({
           )}
 
           {/* Product Type Image */}
-          {!isSkinFoodDetail && typeImage && (
+          {showImage && (
             <div className="w-full -mx-2">
               <Image
                 src={typeImage}
@@ -102,7 +108,7 @@ const ProductInfo = ({
       </div>
 
       {/* Features Section */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-5">
         {[
           { label: "BENEFITS:", value: benefits },
           { label: "FEELS LIKE:", value: feels, hasBorder: true },
@@ -120,7 +126,7 @@ const ProductInfo = ({
           ))}
 
         {/* Product Tube/Packaging Image */}
-        {!isSkinFoodDetail && tubeImage && (
+        {showImage && (
           <div className="w-full relative h-[150px] md:h-[200px] mt-6">
             <Image
               src={tubeImage}

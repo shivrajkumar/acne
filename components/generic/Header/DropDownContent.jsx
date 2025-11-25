@@ -35,10 +35,14 @@ const DropdownContent = ({
                                 <div key={index} className="flex items-center gap-[8px]">
                                     <Link
                                         href={item.href}
+                                        prefetch={true}
                                         className={`font-sophiaPro text-[14px] font-[400] text-Grey/900 hover:text-Primary/500 transition-colors ${item?.name.includes("View") ? "font-[600]" : ""}`}
                                         onClick={() => {
-                                            PageClickEvent(item.name.replace(/\s+/g, ''), item.href);
                                             onLinkClick();
+                                            // Fire tracking async to not block navigation
+                                            setTimeout(() => {
+                                                PageClickEvent(item.name.replace(/\s+/g, ''), item.href);
+                                            }, 0);
                                         }}
                                     >
                                         {item.name}
