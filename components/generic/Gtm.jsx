@@ -1,5 +1,6 @@
 'use client'
 import deleteKeysFromLocalStorage from "@/helpers/localstorage";
+import { getFbExternalId } from "@/helpers/metaCapiHelper";
 import { useEffect } from "react";
 
 const GTMpagelandingEvent = ({ event }) => {
@@ -16,6 +17,8 @@ const GTMpagelandingEvent = ({ event }) => {
 export function logGtmEvent(event, attributes) {
     try {
         window.dataLayer = window.dataLayer || [];
+        const fbData = getFbExternalId();
+        if (!attributes.fb_external_id && fbData) attributes = { ...attributes, ...fbData};
         window.dataLayer.push({
             event,
             ...attributes,

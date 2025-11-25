@@ -407,13 +407,13 @@ export default function UserBasicInfoForm({ onComplete }) {
         moengage.add_user_attribute("synthetic_id", _res.data.syntheticId);
         moengage.add_user_attribute("case_id", _res?.data?.caseId);
       });
-      logGtmEvent("Contact", {
+      logGtmEvent("Lead", {
         name: formData.fullName,
         phone_number: `+91${formData.phone}`,
         gender: formData.gender,
         age: formData?.age,
         event_id: generateEventId({
-          eventName: "Contact",
+          eventName: "Lead",
           phone: `+91${formData.phoneNumber}`,
         }),
       });
