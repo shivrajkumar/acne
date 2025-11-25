@@ -70,6 +70,6 @@ export const getFbExternalId = () => {
             user_phone = !user_phone?.startsWith('+91') ? `+91${user_phone}` : user_phone;
             return { fb_external_id: hash(user_phone)};
         }
-        return {}
+        return undefined;
     }
 }

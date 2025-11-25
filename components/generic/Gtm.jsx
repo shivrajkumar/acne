@@ -17,7 +17,8 @@ const GTMpagelandingEvent = ({ event }) => {
 export function logGtmEvent(event, attributes) {
     try {
         window.dataLayer = window.dataLayer || [];
-      if (!attributes.fb_external_id) attributes = { ...attributes, ...getFbExternalId()};
+        const fbData = getFbExternalId();
+        if (!attributes.fb_external_id && fbData) attributes = { ...attributes, ...fbData};
         window.dataLayer.push({
             event,
             ...attributes,

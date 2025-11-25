@@ -403,7 +403,7 @@ const ResultLandingPage = ({}) => {
     });
     // pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "Add to Cart");
-    trackUmamiEvent("Add to Cart", {
+    trackUmamiEvent("checkout_initiated", {
       syntheticId: tId ?? window.localStorage.getItem("syntheticId"),
     });
   };
