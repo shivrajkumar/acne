@@ -25,7 +25,7 @@ export default function WhyClearSkin() {
   };
 
   return (
-    <section className="bg-[#F9F7F2] p-6 md:p-8 md:py-10 flex flex-col md:flex-row gap-6 md:gap-10 items-stretch mt-10">
+    <section className="md:bg-Secondary/100 md:px-0 flex flex-col md:flex-row gap-6 md:gap-10 items-stretch mt-10 mx-4 md:mx-10 rounded-xl">
       {/* ---------- Mobile Layout (<md) ---------- */}
       <div className="block md:hidden w-full">
         <h2 className="text-[24px] font-normal text-left leading-snug mb-4">
@@ -93,7 +93,7 @@ export default function WhyClearSkin() {
                   className="w-full flex justify-between items-center text-left font-semibold text-gray-800 text-lg"
                 >
                   <span>{item.title}</span>
-                  <span className="text-xl">
+                  <span className="text-xl mr-5">
                     {openId === item.id ? "−" : "+"}
                   </span>
                 </button>

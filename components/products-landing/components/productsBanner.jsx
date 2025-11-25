@@ -5,7 +5,7 @@ const ProductsBanner = ({
   subtitle,
   gradientFrom = "white",
   gradientTo = "#DCEBF2",
-  titleColor = "#45474A",
+  titleColor = "#0F1B28",
   subtitleColor = "#45474A",
   titleSizeMobile = "text-[28px]",
   titleSizeDesktop = "md:text-[87px]",

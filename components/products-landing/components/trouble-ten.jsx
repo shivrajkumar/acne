@@ -58,12 +58,12 @@ const troubleTen = [
     desc: "Sunscreen ingredients like oxybenzone, octinoxate, and avobenzone often irritate skin, causing stinging, redness, and acne flare-ups.",
     img: "acne/general/trouble-ten/tt-acne-prone.webp",
   },
-  // {
-  //   num: 10,
-  //   text: "Talc",
-  //   desc: "A powdery ingredient used for absorbency. On acne-prone skin, it can clog pores, trap bacteria, and raise long-term safety concerns.",
-  //   img: "acne/general/trouble-ten/tt-peg.webp",
-  // },
+  {
+    num: 10,
+    text: "Alcohol",
+    desc: "It can disrupt the skin barrier, increase dryness and irritation, and trigger more oil production in acne-prone skin. These effects can worsen breakouts over time.",
+    img: "acne/general/trouble-ten/tt-alcohol.webp",
+  },
 ];
 
 const TroubleTen = () => {
@@ -78,8 +78,8 @@ const TroubleTen = () => {
             BTW, we are free from
           </div>
 
-          <h2 className="text-[2.5rem] md:text-[3.5rem] font-semibold text-[#222] mb-6 leading-tight">
-            The Non Ten: What We Never Use
+          <h2 className="text-[2.5rem] md:text-[3.5rem] font-normal text-[#222] mb-6 leading-tight">
+            The Trouble Ten
           </h2>
 
           <p className="text-[#444] text-[1rem] md:text-xl max-w-2xl mb-8">
@@ -99,13 +99,13 @@ const TroubleTen = () => {
                     className={`flex items-baseline gap-2 text-left transition-all duration-200
             ${
               isActive
-                ? "font-semibold text-[20px] text-[#000]"
+                ? "font-normal text-[20px] text-[#000]"
                 : "text-[#222] text-[18px]"
             }`}
                   >
                     <span
                       className={`text-base md:text-lg mr-1 ${
-                        isActive ? "text-[#000] font-semibold" : "text-Grey/500"
+                        isActive ? "text-[#000] font-normal" : "text-Grey/500"
                       }`}
                     >
                       {item.num}

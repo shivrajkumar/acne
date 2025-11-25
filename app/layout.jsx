@@ -14,6 +14,7 @@ import { PublicEnvScript } from 'next-runtime-env';
 import UmamiTracker from "@components/generic/UmamiTracker";
 import CapiPageTracking from "@/components/generic/CapiTracking";
 import { AuthProvider } from "@/context/AuthContext";
+import { ProductsProvider } from "@/context/ProductsContext";
 
 export const metadata = {
   title: "Clear Ritual: Personalised Acne Solutions Backed by Experts",
@@ -191,9 +192,11 @@ export default function RootLayout({
         <ScrollTracker />
         {/* <ErrorBoundary> */}
           <AuthProvider>
-            <CapiPageTracking payload={{}} eventName="PageView" />
-            <UserDataCapture />
-            <main>{children}</main>
+            <ProductsProvider>
+              <CapiPageTracking payload={{}} eventName="PageView" />
+              <UserDataCapture />
+              <main>{children}</main>
+            </ProductsProvider>
           </AuthProvider>
         {/* </ErrorBoundary> */}
         <Suspense>

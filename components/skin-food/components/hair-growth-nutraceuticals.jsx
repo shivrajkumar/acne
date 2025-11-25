@@ -47,9 +47,9 @@ export default function HairGrowthNutraceuticals() {
             Target key root causes of thinning hair with formulas tailored to
             your bio-specific needs.
           </p>
-          <button className="mt-6 px-6 py-3 rounded-full bg-Primary/500 text-white font-medium hover:opacity-90 transition">
+          {/* <button className="mt-6 px-6 py-3 rounded-full bg-Primary/500 text-white font-medium hover:opacity-90 transition">
             {"Learn what each herb does"}
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export default function HairGrowthNutraceuticals() {
     mt-12 
     flex gap-6 overflow-x-auto px-4 
     md:grid md:grid-cols-4 md:gap-6 md:px-10 
-   thin-scrollbar
+   thin-scrollbar 
   "
       >
         {products.map((item, idx) => (
@@ -73,9 +73,9 @@ export default function HairGrowthNutraceuticals() {
               />
 
               {/* MOBILE — floating button on image */}
-              <div className="md:hidden absolute bottom-2 right-2 w-8 h-8 rounded-full bg-Primary/500 flex items-center justify-center shadow-md cursor-pointer">
+              {/* <div className="md:hidden absolute bottom-2 right-2 w-8 h-8 rounded-full bg-Primary/500 flex items-center justify-center shadow-md cursor-pointer">
                 <FaArrowRight size={14} className="text-white" />
-              </div>
+              </div> */}
             </div>
 
             {/* TEXT + DESKTOP BUTTON */}
@@ -84,13 +84,13 @@ export default function HairGrowthNutraceuticals() {
                 <h3 className="mt-3 text-sm font-semibold text-gray-900">
                   {item.title}
                 </h3>
-                <p className="text-sm text-Primary/500">{item.subtitle}</p>
+                <p className="text-sm text-Primary/500 pb-6">{item.subtitle}</p>
               </div>
 
               {/* DESKTOP ONLY BUTTON */}
-              <div className="hidden md:flex mt-3 w-8 h-8 flex-shrink-0 rounded-full bg-Primary/500 items-center justify-center cursor-pointer hover:bg-Primary/700 transition">
+              {/* <div className="hidden md:flex mt-3 w-8 h-8 flex-shrink-0 rounded-full bg-Primary/500 items-center justify-center cursor-pointer hover:bg-Primary/700 transition">
                 <FaArrowRight size={16} className="text-white" />
-              </div>
+              </div> */}
             </div>
           </div>
         ))}

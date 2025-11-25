@@ -22,7 +22,7 @@ const supplements = [
 
 export default function Supplements() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-2 md:py-12">
       <div className="px-4 md:px-10 text-left">
         <h2 className="text-2xl md:text-[40px] font-normal text-gray-900 leading-normal">
           BTW, our supplements are rooted in Ayurveda-with efficacy and clinical standards.

@@ -50,6 +50,11 @@ const ProductInfo = ({
       ? `${CDN_BASE_URL}${productTypeTubeImages[type]}`
       : null;
 
+  const showImage =
+    !isSkinFoodDetail &&
+    typeImage &&
+    !pathname.includes("/view-all-products/");
+
   return (
     <div className="flex flex-col relative">
       {/* Title Section */}
@@ -87,7 +92,7 @@ const ProductInfo = ({
           )}
 
           {/* Product Type Image */}
-          {!isSkinFoodDetail && typeImage && (
+          {showImage && (
             <div className="w-full -mx-2">
               <Image
                 src={typeImage}
@@ -102,7 +107,7 @@ const ProductInfo = ({
       </div>
 
       {/* Features Section */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-5">
         {[
           { label: "BENEFITS:", value: benefits },
           { label: "FEELS LIKE:", value: feels, hasBorder: true },
@@ -120,7 +125,7 @@ const ProductInfo = ({
           ))}
 
         {/* Product Tube/Packaging Image */}
-        {!isSkinFoodDetail && tubeImage && (
+        {showImage && (
           <div className="w-full relative h-[150px] md:h-[200px] mt-6">
             <Image
               src={tubeImage}
