@@ -16,7 +16,7 @@ const stats = [
   },
   {
     title: "FDA",
-    desc: "FDA-registered, globally compliant, and safety-verified",
+    desc: "registered, globally compliant, and safety-verified",
   },
   {
     title: "100%",

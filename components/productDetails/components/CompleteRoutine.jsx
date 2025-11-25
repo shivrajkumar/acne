@@ -57,7 +57,7 @@ const CompleteRoutine = ({ product }) => {
 
           {/* CTA Button wrapped with Link */}
           <Link href={resultUrl} className="shrink-0">
-            <button className="px-8 h-12 border border-[#3B52F5] text-[#3B52F5] rounded-[40px] hover:bg-[#3B52F5] hover:text-white transition-colors whitespace-nowrap">
+            <button className="px-4 h-10 border border-[#3B52F5] text-[#3B52F5] rounded-[40px] hover:bg-[#3B52F5] hover:text-white transition-colors whitespace-nowrap">
               <span className="text-[14px] font-medium font-sophiaPro">
                 {syntheticId ? 'My Recommended Plan' : 'Take the Skin Diagnosis'}
               </span>

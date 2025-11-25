@@ -12,7 +12,9 @@ const features = [
 const IdealSkincareRitual = () => {
   return (
     <section className="bg-[#f1f4f4] w-full py-12 md:py-20 mb-12 md:mb-16 px-4">
-      <div className="flex flex-col md:flex-row items-start md:items-start justify-between md:px-28 md:gap-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between md:px-28 md:gap-10">
+        
+        {/* Left Section */}
         <div className="md:w-1/2">
           <h2 className="text-[#1a232b] text-[24px] md:text-[2.5rem] font-normal mb-6">
             Build your Clear Ritual routine.
@@ -25,15 +27,14 @@ const IdealSkincareRitual = () => {
           </p>
         </div>
 
+        {/* Right Section */}
         <ul className="md:w-1/2 flex flex-col gap-2 mt-5">
           {features.map((feature, idx) => (
             <li
               key={idx}
               className="flex items-center text-[#1a232b] text-[14px] md:text-2xl"
             >
-              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#000000] border border-[#1a232b] mr-4">
-               <IoIosCheckmarkCircle size={10} />
-              </span>
+              <IoIosCheckmarkCircle size={24} className="mr-2" />
               {feature}
             </li>
           ))}

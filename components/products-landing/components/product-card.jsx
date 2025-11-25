@@ -78,7 +78,7 @@ export default function ProductCard({ product, index }) {
       {/* Product Details Section */}
       <div className="py-2 sm:py-3 flex flex-col gap-1.5 sm:gap-2 mt-2 sm:mt-3">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2">
-          <h3 className="text-xs sm:text-sm md:text-[11px] font-semibold text-gray-900 leading-tight flex-1 line-clamp-2">
+          <h3 className="text-xs sm:text-sm md:text-[12px] font-semibold text-gray-900 leading-tight flex-1 line-clamp-2">
             {product.name}
           </h3>
           <p className="text-xs sm:text-sm md:text-[16px] font-medium text-gray-900 sm:whitespace-nowrap">

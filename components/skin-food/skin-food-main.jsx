@@ -32,11 +32,11 @@ const SkinFoodMain = () => {
   return (
     <div>
       <ProductsBanner
-        title={`Personalised Skin Food That Targets the Root Cause of Acne`}
-        subtitle="At Clear Ritual, we’ve created 9 personalised Skin Food supplements - Ayurvedic, 100% herbal, and dermatologist-reviewed - to help rebalance your body from within. These are not generic gummies or vitamins. They're designed to target the real triggers behind acne: hormones, gut, liver, stress, and more."
+        title={`Personalised Skin Food That Targets the Internal Trigger of Acne`}
+        subtitle="We’ve created 9 personalised Skin Food supplements - Ayurvedic (100% herbal & safe) - to nourish your skin from within."
         gradientFrom="white"
         gradientTo="#CDE3C1"
-        titleColor="#45474A"
+        titleColor="#0F1B28"
         subtitleColor="#4B5563"
         titleSizeMobile="text-[28px]"
         titleSizeDesktop="md:text-[87px]"
@@ -45,7 +45,7 @@ const SkinFoodMain = () => {
       />
 
       <div className="w-full md:w-6/12 px-4 md:px-12 py-6 md:py-10 text-[18px] md:text-[28px]">
-        Acne begins when your body produces too much oil triggered by things like diet, hormones, and stress. Creams and face washes only treat the surface, so acne always comes back. At Clear Ritual, we work to fix the acne trigger and give you clear skin that lasts.
+        At Clear Ritual, we work to fix the acne trigger and give you clear skin that lasts.
       </div>
 
       {/* Skin Food Products Section */}

@@ -219,7 +219,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
               <Divider style={{ margin: "8px 0" }} />
               <div>
                 <ProductCollapsibleSection
-                  title="Key Ingredients"
+                  title="KEY INGREDIENTS"
                   isExpanded={expandedSections.keyIngredients}
                   onToggle={() => toggleSection("keyIngredients")}
                 >
@@ -273,7 +273,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
           {/* Who is this for Section */}
           {product?.content?.who_is_this_for && (
             <>
-              <Divider style={{ margin: "8px 0" }} />
+              <Divider style={{ margin: "2px 0" }} />
               <div>
                 <ProductCollapsibleSection
                   title="Who is this for?"
@@ -291,7 +291,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
           {/* How to use Section */}
           {product?.content?.how_to_use && (
             <>
-              <Divider style={{ margin: "8px 0" }} />
+              <Divider style={{ margin: "2px 0" }} />
               <div>
                 <ProductCollapsibleSection
                   title="How to use?"
@@ -353,10 +353,10 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
 
         <div className="mt-10 md:mt-20 text-[34px] md:text-[64px] mx-auto p-4 md:p-8">
           We’re flipping the script on acne with a whole-body approach that
-          targets BIO-SPECIFIC ROOT CAUSES of mild to moderate acne from within.
+          targets bio-specific INTERNAL TRIGGERS.
         </div>
 
-        <div className="border-2 border-b-black"></div>
+        <div className="border-2 border-b-black mx-4 md:mx-10"></div>
         <div className="mt-10 md:mt-20">
           <IngredientsFaqSection showTitle={true} questions={product?.content?.FAQ}/>
         </div>

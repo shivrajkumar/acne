@@ -54,7 +54,7 @@ const troubleTen = [
   },
   {
     num: 9,
-    text: "Acne Causing UV Filters",
+    text: "Acne Causing Sun Filters",
     desc: "Sunscreen ingredients like oxybenzone, octinoxate, and avobenzone often irritate skin, causing stinging, redness, and acne flare-ups.",
     img: "acne/general/trouble-ten/tt-acne-prone.webp",
   },
@@ -149,8 +149,8 @@ const TroubleTen = () => {
         </div>
 
         {/* Right Side */}
-        <div className="md:w-1/3 flex justify-center md:justify-end md:mt-32">
-          <div className="bg-white rounded-full w-[300px] h-[300px] md:w-[420px] md:h-[420px] flex flex-col items-center justify-center shadow-md p-8 text-center transition-all duration-300">
+        <div className="md:w-1/3 flex justify-center md:justify-end md:mt-12">
+          <div className="bg-white rounded-full w-[320px] h-[320px] md:w-[420px] md:h-[420px] flex flex-col items-center justify-center shadow-md p-8 text-center transition-all duration-300">
             <div className="relative w-[80px] h-[80px]">
               <Image
                 key={selected.img}

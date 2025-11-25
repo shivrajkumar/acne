@@ -37,6 +37,7 @@ const ProductInfo = ({
 
   const pathname = usePathname();
   const isSkinFoodDetail = pathname.startsWith("/skin-food/") && pathname !== "/skin-food";
+  const isViewAllProductsPage = pathname.includes("/view-all-products/");
 
   // Get the image path based on product type
   const typeImage =
@@ -65,7 +66,7 @@ const ProductInfo = ({
       </div>
 
       <div className="flex flex-col gap-4">
-        <h1 className="text-[18px] md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro">
+        <h1 className={`${isSkinFoodDetail || isViewAllProductsPage ? 'text-[28px]' : 'text-[18px]'} md:text-[40px] font-bold text-[#0F1B28] tracking-wide font-sophiaPro`}>
           {title}
         </h1>
         <div className="flex flex-col gap-1">

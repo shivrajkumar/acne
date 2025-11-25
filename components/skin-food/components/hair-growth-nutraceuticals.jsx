@@ -44,7 +44,7 @@ export default function HairGrowthNutraceuticals() {
 
         <div className="flex flex-col items-center lg:items-start">
           <p className="text-gray-700 text-[14px] md:text-[24px]">
-            Target key root causes of thinning hair with formulas tailored to
+            Target key internal triggers of thinning hair with formulas tailored to
             your bio-specific needs.
           </p>
           {/* <button className="mt-6 px-6 py-3 rounded-full bg-Primary/500 text-white font-medium hover:opacity-90 transition">
@@ -84,7 +84,7 @@ export default function HairGrowthNutraceuticals() {
                 <h3 className="mt-3 text-sm font-semibold text-gray-900">
                   {item.title}
                 </h3>
-                <p className="text-sm text-Primary/500 pb-6">{item.subtitle}</p>
+                <p className="text-sm text-[#3A4348] pb-6">{item.subtitle}</p>
               </div>
 
               {/* DESKTOP ONLY BUTTON */}

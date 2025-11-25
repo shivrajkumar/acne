@@ -7,7 +7,7 @@ import BannerImage from "../../../assets/images/pdp-ctabanner.webp";
 export default function HighlightSection({ productType }) {
   // 👇 CONDITION: Supplement / Skinfood
   const isSupplement = productType === "SUPPLEMENT";
-  const ctaText = "Learn more";
+  const ctaText = "Take the Skin Diagnosis";
 
   const titleText = isSupplement
     ? "Power-packed Ayurvedic formulations — backed by tradition, perfected for results."
@@ -15,7 +15,7 @@ export default function HighlightSection({ productType }) {
 
 
   return (
-    <section className="relative w-full h-[80vh] md:h-[80vh] mt-20">
+    <section className="relative w-full h-[40vh] md:h-[80vh] mt-20">
       <Image
         src={BannerImage}
         alt="Hero Background"

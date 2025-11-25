@@ -27,7 +27,7 @@ import { Divider } from "antd";
 import ProductCollapsibleSection from "@/components/result/ProductCollapsibleSection";
 import BottomSheetReviews from "@/components/result/bottomSheetReviews";
 
-const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
+const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -184,7 +184,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
               <Divider style={{ margin: "8px 0" }} />
               <div>
                 <ProductCollapsibleSection
-                  title="Key Ingredients"
+                  title="KEY INGREDIENTS"
                   isExpanded={expandedSections.keyIngredients}
                   onToggle={() => toggleSection("keyIngredients")}
                 >
@@ -238,7 +238,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
           {/* Who is this for Section */}
           {product?.content?.who_is_this_for && (
             <>
-              <Divider style={{ margin: "8px 0" }} />
+              <Divider style={{ margin: "2px 0" }} />
               <div>
                 <ProductCollapsibleSection
                   title="Who is this for?"
@@ -256,7 +256,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
           {/* How to use Section */}
           {product?.content?.how_to_use && (
             <>
-              <Divider style={{ margin: "8px 0" }} />
+              <Divider style={{ margin: "2px 0" }} />
               <div>
                 <ProductCollapsibleSection
                   title="How to use?"
@@ -275,6 +275,8 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
 
       <div className="">
         <AcneApproach />
+        <div className="border-2 border-b-black mx-4 md:mx-10"></div>
+
         {/* <IngredientsThatWork /> */}
         <OddsSection />
 
@@ -302,7 +304,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
         )}
 
         <div className="mx-auto px-4 md:px-8">
-          <RoutineCards />
+          <RoutineCards productType={productType}/>
         </div>
         <HighlightSection />
         <div className="mx-auto px-4 md:px-8">
@@ -314,7 +316,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap }) => {
           <ConcernSection key={concern.title} concern={concern} />
         ))} */}
 
-        <div className="border-2 border-b-black mt-10"></div>
+        {/* <div className="border-2 border-b-black mt-10"></div> */}
         <div className="mt-10 md:mt-20">
           <IngredientsFaqSection showTitle={true} />
         </div>

@@ -13,16 +13,16 @@ const steps = [
     label: "Cleanse",
   },
   {
-    title: "Step 2 - Hydrate",
-    desc: "Lightweight, non-comedogenic moisturisers that support barrier repair, even skin tone, and long-term hydration.",
-    image: "acne/products/pl-moisturiser.webp",
-    label: "Hydrate",
-  },
-  {
-    title: "Step 3 - Treat",
+    title: "Step 2 - Treat",
     desc: "Prescription-strength formulations that go deep - targeting acne-causing bacteria, inflammation, and clogged pores for visible results.",
     image: "acne/products/pl-treat.webp",
     label: "Treat",
+  },
+  {
+    title: "Step 3 - Hydrate",
+    desc: "Lightweight, non-comedogenic moisturisers that support barrier repair, even skin tone, and long-term hydration.",
+    image: "acne/products/pl-moisturiser.webp",
+    label: "Hydrate",
   },
   {
     title: "Step 4 - Protect",
@@ -32,7 +32,7 @@ const steps = [
   },
   {
     title: "Step 5 - Feed",
-    desc: "Ayurvedic, root-cause supplements that target internal acne triggers - like hormones, gut health, and inflammation - to prevent future flare-ups.",
+    desc: "Ayurvedic supplements that target internal acne triggers - like hormones, gut health, and inflammation - to prevent future flare-ups.",
     image: "acne/products/pl-tablet.webp",
     label: "Feed",
   },

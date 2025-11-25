@@ -13,7 +13,7 @@ const accordionData = [
   {
     id: 2,
     title: "#2 100% Herbal, Safe, and Personalised.",
-    content: "Each blend is crafted with Ayurvedic herbs, carefully chosen to support hormonal balance, liver detox, gut health, or stress resilience - depending on your skin profile. Skin Food is clean, customisable, and built to work long-term.",
+    content: "Each blend is crafted with Ayurvedic herbs - depending on your skin profile. Skin Food is clean, customisable, and built to work long-term.",
   },
 ];
 

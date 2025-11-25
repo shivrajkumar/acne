@@ -10,7 +10,7 @@ export default function RootCauseSection() {
     <section className="w-full px-4 md:px-10 py-12 md:py-10">
       {/* Heading */}
       <h2 className="text-2xl md:text-[40px] font-sophiaPro font-normal text-gray-900 text-left">
-        Treat the Acne Trigger - Not Just the Symptoms
+        Treat the Internal Trigger - Not Just the Symptoms
       </h2>
 
       {/* Paragraph */}

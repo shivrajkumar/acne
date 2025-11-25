@@ -18,7 +18,7 @@ export const navigationItems = [
               // badge: "Coming Soon",
             },
             {
-              name: "Oily Control Facewash",
+              name: "Oil Control Facewash",
               href: "/view-all-products/OIL_CTRL_FW?type=COSMETIC_CLEANSER",
               // badge: "Coming Soon",
             },
