@@ -29,7 +29,7 @@ import BottomSheetReviews from "@/components/result/bottomSheetReviews";
 
 const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
   const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
     fullIngredients: false,
@@ -132,32 +132,32 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
   }
 
   // Show error state
-  if (error) {
-    return (
-      <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
-        <ProductErrorState
-          error={error}
-          onRetry={handleRetry}
-          onCancel={() => window.history.back()}
-        />
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
+  //       <ProductErrorState
+  //         error={error}
+  //         onRetry={handleRetry}
+  //         onCancel={() => window.history.back()}
+  //       />
+  //     </div>
+  //   );
+  // }
 
   // Show empty state
-  if (!product || !product.content) {
-    return (
-      <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
-        <ProductEmptyState onCancel={() => window.history.back()} />
-      </div>
-    );
-  }
+  // if (!product || !product.content) {
+  //   return (
+  //     <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
+  //       <ProductEmptyState onCancel={() => window.history.back()} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-6 items-start justify-between p-4 lg:p-8 bg-white">
         {/* Left: Product gallery */}
-        <div className="w-full lg:w-1/3">
+        <div className="w-full lg:w-1/2">
           <ProductGallery
             images={product?.content?.image}
             mainImage={product?.content?.image}
@@ -245,7 +245,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
                   isExpanded={isFaqOpen}
                   onToggle={() => setIsFaqOpen(!isFaqOpen)}
                 >
-                  <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                  <div className="text-sm md:text-[16px] text-gray-700 leading-relaxed mt-4">
                     {product?.content?.who_is_this_for}
                   </div>
                 </ProductCollapsibleSection>
@@ -263,7 +263,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
                   isExpanded={isHowToUseOpen}
                   onToggle={() => setIsHowTowUseOpen(!isHowToUseOpen)}
                 >
-                  <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                  <div className="text-sm md:text-[16px] text-gray-700 leading-relaxed mt-4">
                     {product?.content?.how_to_use}
                   </div>
                 </ProductCollapsibleSection>
@@ -318,7 +318,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
 
         {/* <div className="border-2 border-b-black mt-10"></div> */}
         <div className="mt-10 md:mt-20">
-          <IngredientsFaqSection showTitle={true} />
+          <IngredientsFaqSection showTitle={true} questions={product?.content?.FAQ}/>
         </div>
       </div>
     </>

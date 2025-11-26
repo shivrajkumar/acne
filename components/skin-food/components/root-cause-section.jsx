@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
-import RootCauseImage from "@assets/images/root-cause-circles.png";
-import RootCauseImageMobile from '@assets/images/root-cause-circles-mobile.png'
+import RootCauseImage from "@assets/images/root-causes-circles.webp";
+import RootCauseImageMobile from '@assets/images/root-causes-circles-mobile.webp'
 import useMediaQuery from "@/hooks/useMediaQuerry";
 
 export default function RootCauseSection() {

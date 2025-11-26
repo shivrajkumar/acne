@@ -449,7 +449,7 @@ const ProductPageModal = ({
                               return (
                                 <span
                                   key={index}
-                                  className="text-[14px] text-white bg-Secondary/500 px-3 py-1"
+                                  className="text-[14px] md:text-[16px] text-white bg-Secondary/500 px-3 py-1"
                                 >
                                   {trimmed}
                                 </span>
@@ -470,7 +470,7 @@ const ProductPageModal = ({
                         isExpanded={isFaqOpen}
                         onToggle={() => setIsFaqOpen(!isFaqOpen)}
                       >
-                        <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                        <div className="text-sm md:text-[16px] text-gray-700 leading-relaxed mt-4">
                           {product?.content?.who_is_this_for}
                         </div>
                       </ProductCollapsibleSection>
@@ -486,7 +486,7 @@ const ProductPageModal = ({
                         isExpanded={isHowToUseOpen}
                         onToggle={() => setIsHowTowUseOpen(!isHowToUseOpen)}
                       >
-                        <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                        <div className="text-sm md:text-[16px] text-gray-700 leading-relaxed mt-4">
                           {product?.content?.how_to_use}
                         </div>
                       </ProductCollapsibleSection>

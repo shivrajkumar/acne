@@ -34,9 +34,9 @@ export default function HighlightSection({ productType }) {
         </h1>
 
         {/* ⭐ Dynamic CTA */}
-        <button className="mt-8 inline-flex items-center gap-2 rounded-full bg-white text-gray-900 px-6 py-3 font-medium text-sm md:text-[16px] shadow-md hover:shadow-lg transition">
+        {/* <button className="mt-8 inline-flex items-center gap-2 rounded-full bg-white text-gray-900 px-6 py-3 font-medium text-sm md:text-[16px] shadow-md hover:shadow-lg transition">
           {ctaText} <FaArrowRight size={18} />
-        </button>
+        </button> */}
       </div>
     </section>
   );
