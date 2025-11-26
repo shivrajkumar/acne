@@ -403,13 +403,13 @@ export default function UserBasicInfoForm({ onComplete }) {
         moengage.update_unique_user_id(_res?.data?.caseId);
         moengage.add_first_name(formData.fullName);
         moengage.add_gender(formData.gender);
-        moengage.add_mobile(`+91${formData.phone}`);
+        moengage.add_mobile(`+91${formData.phoneNumber}`);
         moengage.add_user_attribute("synthetic_id", _res.data.syntheticId);
         moengage.add_user_attribute("case_id", _res?.data?.caseId);
       });
       logGtmEvent("Lead", {
         name: formData.fullName,
-        phone_number: `+91${formData.phone}`,
+        phone_number: `+91${formData.phoneNumber}`,
         gender: formData.gender,
         age: formData?.age,
         event_id: generateEventId({
@@ -426,7 +426,7 @@ export default function UserBasicInfoForm({ onComplete }) {
           window.localStorage.getItem("user_email") ??
           `${formData.phoneNumber}.unknown@traya.health`,
         phone:
-          window.localStorage.getItem("user_phone") ?? `+91${formData.phone}`,
+          window.localStorage.getItem("user_phone") ?? `+91${formData.phoneNumber}`,
         fbc: fbc,
         fbp: fbp,
         url: window.location.href,

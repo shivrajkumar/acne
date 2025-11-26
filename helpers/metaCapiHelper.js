@@ -1,4 +1,4 @@
-// import {fetchRequest} from "./fetchRequest";
+import {fetchRequest} from "./fetchRequest";
 // import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import crypto from "crypto";
 // import { getCurrentTimeInReadableForm } from "./timeFormatter";
