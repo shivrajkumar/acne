@@ -77,7 +77,7 @@ const ProductInfo = ({
             </h2>
           </div>
 
-          <div className="flex items-center gap-1 text-[12px] md:text-[16px] font-normal text-[#0F1B28] font-sophiaPro mt-2">
+          <div className="flex items-center gap-1 text-[14px] md:text-[16px] font-normal text-[#0F1B28] font-sophiaPro mt-2">
             <div>Rs. {price}</div>
             <div>
               <span>| </span>

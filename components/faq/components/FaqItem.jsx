@@ -15,7 +15,7 @@ const FaqItem = ({ question, answer, ingredients, isOpen, onToggle }) => {
       >
         <Text
           strong
-          className="text-sm font-sophiaPro w-3/4 md:w-full text-gray-900"
+          className="text-sm md:text-[16px] font-sophiaPro w-3/4 md:w-full text-gray-900"
         >
           {question}
         </Text>
@@ -46,7 +46,7 @@ const FaqItem = ({ question, answer, ingredients, isOpen, onToggle }) => {
                 key={index}
                 className="bg-[#635e51] px-2 py-2 rounded"
               >
-                <span className="text-white text-xs font-sophiaPro">
+                <span className="text-white text-xs md:text-[14px] font-sophiaPro">
                   {ingredient.trim()}
                 </span>
               </div>
@@ -54,7 +54,7 @@ const FaqItem = ({ question, answer, ingredients, isOpen, onToggle }) => {
           </div>
         ) : (
           <div
-            className="text-sm font-sophiaPro text-gray-600 leading-relaxed"
+            className="text-sm md:text-[14px] font-sophiaPro text-gray-600 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: answer }}
           />
         )}
