@@ -432,7 +432,7 @@ export default function UserBasicInfoForm({ onComplete }) {
         url: window.location.href,
         gender: formData.gender,
       };
-      metaCapi(capiBody, "Form Start");
+      metaCapi(capiBody, "Lead");
     }
 
     // Process results after the finally block
