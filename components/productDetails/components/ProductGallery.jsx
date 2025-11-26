@@ -30,17 +30,16 @@ const ProductGallery = ({ images = [], mainImage }) => {
       </div> */}
 
       {/* Main Image */}
-      <div className="flex-1 w-full md:w-[516px] relative order-1 md:order-2">
-        <div className="h-[400px] md:h-[550px] w-full rounded overflow-hidden flex items-center justify-center">
-          <Image
-            src={`${CDN_BASE_URL}${mainImage}`}
-            alt="Product main image"
-            width={516}
-            height={654}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
+      <div className="flex-1 w-full md:w-[420px] lg:w-[330px] xl:w-[280px] relative order-1 md:order-2">
+  <div className="relative w-full aspect-[1/1] overflow-hidden rounded flex items-center justify-center">
+    <Image
+      src={`${CDN_BASE_URL}${mainImage}`}
+      alt="Product main image"
+      fill
+      className="object-contain"
+    />
+  </div>
+</div>
 
       {/* Navigation Arrow (desktop only) */}
       {/* <button className="absolute right-[-28px] top-1/2 -translate-y-1/2 w-14 h-14 bg-[#3B52F5] rounded-full shadow-[0px_4px_14px_0px_rgba(0,0,0,0.45)] flex items-center justify-center hidden md:flex z-10">
