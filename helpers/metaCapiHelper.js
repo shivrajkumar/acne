@@ -1,3 +1,4 @@
+import { CAPI_TRACKING_API } from "@/constants/urls";
 import {fetchRequest} from "./fetchRequest";
 // import { trackUmamiEvent } from "@components/generic/UmamiTracker";
 import crypto from "crypto";
