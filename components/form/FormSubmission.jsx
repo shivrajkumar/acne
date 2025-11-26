@@ -30,15 +30,15 @@ const FormSubmission = () => {
       const gender = window.localStorage.getItem("user_gender");
       const url = window.location.href;
 
-      const capiPayloadRes = {
-        email,
-        phone,
-        fbc,
-        fbp,
-        url,
-        gender,
-      };
-      metaCapi(capiPayloadRes, "Lead");
+      // const capiPayloadRes = {
+      //   email,
+      //   phone,
+      //   fbc,
+      //   fbp,
+      //   url,
+      //   gender,
+      // };
+      // metaCapi(capiPayloadRes, "Lead");
     }
     // Send GTM event for form completion
     // const phone = window.localStorage.getItem("user_phone");
