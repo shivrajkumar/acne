@@ -88,7 +88,7 @@ const SocialTrust = () => {
       `}
               style={{ flex: 1 }}
             >
-              <div className="text-[#1a232b] min-h-[40px] text-[18px] md:text-4xl font-normal mb-2">
+              <div className="text-[#1a232b] text-[18px] md:text-4xl font-normal mb-2">
                 {stat.title}
               </div>
               <div className="text-[#222] min-h-[48px] text-[14px] md:text-[18px] font-light leading-snug px-6 md:px-0 mt-2">
