@@ -4,7 +4,6 @@ import ProductGallery from "./components/ProductGallery";
 import ProductInfo from "./components/ProductInfo";
 import KeyIngredients from "./components/KeyIngredients";
 import CompleteRoutine from "./components/CompleteRoutine";
-// import FAQSection from "./components/FAQSection";
 import BestValueSection from "./components/BestValueSection";
 import ProductImage from "../../assets/images/products-1.webp";
 import IngredientsThatWork from "./components/ingredientsThatWork";
@@ -30,7 +29,7 @@ import BottomSheetReviews from "../result/bottomSheetReviews";
 const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
   const [product, setProduct] = useState(null);
   const [ingredientDetails, setIngredientDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
     fullIngredients: false,
@@ -63,7 +62,6 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
     setError(null);
 
     try {
-      // Append _PDP to variantId for the API call
       const apiVariantId = `${variantId}_PDP`;
       const response = await fetchRequest(PRODUCT_BOTTOM_SHEET_API(apiVariantId));
 
@@ -77,12 +75,10 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
       setProduct(response.data.data);
     } catch (error) {
       console.error("Error fetching product details:", error);
-
       const errorMessage =
         error?.response?.data?.message ||
         error?.message ||
         "Something went wrong. Please try again.";
-
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -156,33 +152,11 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
     image: ProductImage,
   };
 
-  // Show loading state
+  // Hide entire UI while loading
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
         <Loader />
-      </div>
-    );
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
-        <ProductErrorState
-          error={error}
-          onRetry={handleRetry}
-          onCancel={() => window.history.back()}
-        />
-      </div>
-    );
-  }
-
-  // Show empty state
-  if (!product || !product.content) {
-    return (
-      <div className="w-full mx-auto p-4 md:p-8 bg-white font-sophiaPro">
-        <ProductEmptyState onCancel={() => window.history.back()} />
       </div>
     );
   }
@@ -191,7 +165,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
     <>
       <div className="flex flex-col lg:flex-row gap-6 items-start justify-between p-4 lg:p-8 bg-white">
         {/* Left: Product gallery */}
-        <div className="w-full lg:w-1/3">
+        <div className="w-full lg:w-1/2">
           <ProductGallery
             images={product?.content?.image ? [product.content.image, ...productImages.slice(1)] : productImages}
             mainImage={product?.content?.image || productImages[0]}
@@ -258,7 +232,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
                         return (
                           <span
                             key={index}
-                            className="text-[14px] text-white bg-Secondary/500 px-3 py-1"
+                            className="text-[14px] md:text-[16px] text-white bg-Secondary/500 px-3 py-1"
                           >
                             {trimmed}
                           </span>
@@ -280,7 +254,7 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
                   isExpanded={isFaqOpen}
                   onToggle={() => setIsFaqOpen(!isFaqOpen)}
                 >
-                  <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                  <div className="text-sm md:text-[16px] text-gray-700 leading-relaxed mt-4">
                     {product?.content?.who_is_this_for}
                   </div>
                 </ProductCollapsibleSection>
@@ -298,21 +272,17 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
                   isExpanded={isHowToUseOpen}
                   onToggle={() => setIsHowTowUseOpen(!isHowToUseOpen)}
                 >
-                  <div className="text-sm text-gray-700 leading-relaxed mt-4">
+                  <div className="text-sm md:text-[16px] text-gray-700 leading-relaxed mt-4">
                     {product?.content?.how_to_use}
                   </div>
                 </ProductCollapsibleSection>
               </div>
             </>
           )}
-
-          {/* <BestValueSection /> */}
-          
         </div>
       </div>
 
       <div className="">
-        {/* <IngredientsThatWork /> */}
         <OddsSection />
 
         {/* Reviews Section */}
@@ -346,13 +316,9 @@ const ProductDetailsIndex = ({ variantId, ingredientsMap, type }) => {
           <ResultsTimeline />
         </div>
         <NoteCard note={product?.content?.note_from_team}/>
-        {/* <VideoTestimonialsGrid /> */}
-        {/* {mostLoved?.map((concern) => (
-          <ConcernSection key={concern.title} concern={concern} />
-        ))} */}
 
         <div className="mt-10 md:mt-20 text-[34px] md:text-[64px] mx-auto p-4 md:p-8">
-          We’re flipping the script on acne with a whole-body approach that
+          We're flipping the script on acne with a whole-body approach that
           targets bio-specific INTERNAL TRIGGERS.
         </div>
 

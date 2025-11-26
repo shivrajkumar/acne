@@ -117,15 +117,15 @@ const AcneFooter = () => {
               <ul className="space-y-4">
                 <li className="flex gap-[4px]">
                   <Link
-                    href="/"
-                    onClick={() => PageClickEvent("Shop", "/")}
+                    href="/view-all-products"
+                    onClick={() => PageClickEvent("Shop", "/view-all-products")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
                     Shop
                   </Link>
-                  <div className="py-[2px] h-fit px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
+                  {/* <div className="py-[2px] h-fit px-[4px] text-Grey/900 font-sophiaPro text-[12px] font-[400] leading-[1.4] bg-Warning/500">
                     Coming Soon
-                  </div>
+                  </div> */}
                 </li>
               </ul>
 
@@ -141,7 +141,7 @@ const AcneFooter = () => {
                     onClick={() => PageClickEvent("SkinTest", "/skin-test")}
                     className="text-Grey/50 text-[12px] md:text-[16px] font-[400]"
                   >
-                    Take the Skin DIAGNOSIS
+                    Take the Skin Diagnosis
                   </Link>
                 </li>}
                 <li>

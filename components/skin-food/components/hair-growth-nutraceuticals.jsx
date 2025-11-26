@@ -58,11 +58,11 @@ export default function HairGrowthNutraceuticals() {
     mt-12 
     flex gap-6 overflow-x-auto px-4 
     md:grid md:grid-cols-4 md:gap-6 md:px-10 
-   thin-scrollbar 
+    hide-scrollbar
   "
       >
         {products.map((item, idx) => (
-          <div key={idx} className="flex-shrink-0 w-40 md:w-auto flex flex-col">
+          <div key={idx} className="flex-shrink-0 w-48 md:w-auto flex flex-col">
             {/* IMAGE */}
             <div className="relative w-full h-40 md:h-56">
               <Image
