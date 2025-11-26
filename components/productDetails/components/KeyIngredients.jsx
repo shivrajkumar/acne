@@ -36,10 +36,7 @@ const IngredientCard = ({ ingredient }) => {
       <div className="h-[194px] w-full rounded overflow-hidden">
         {(ingredient.image || ingredient.images) && (
           <Image
-            src={
-              "https://dvv8w2q8s3qot.cloudfront.net/" +
-              (ingredient.images || ingredient.image)
-            }
+            src={`${CDN_BASE_URL}${ingredient.image}`}
             alt={ingredient.ingredient_name || ingredient.name}
             width={292}
             height={194}

@@ -17,7 +17,7 @@ export default function OddsSection() {
             <div>
               <p className="text-3xl font-bold text-gray-900">98%</p>
               <p className="text-gray-blue text-[16px] font-light">
-                98% said their skin felt deeply hydrated without any greasy residue*
+                said their skin felt deeply hydrated without any greasy residue*
               </p>
             </div>
 

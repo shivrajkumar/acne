@@ -318,7 +318,7 @@ const SkinFoodMainContent = ({ variantId, ingredientsMap, productType }) => {
 
         {/* <div className="border-2 border-b-black mt-10"></div> */}
         <div className="mt-10 md:mt-20">
-          <IngredientsFaqSection showTitle={true} />
+          <IngredientsFaqSection showTitle={true} questions={product?.content?.FAQ}/>
         </div>
       </div>
     </>
