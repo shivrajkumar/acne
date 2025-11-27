@@ -397,9 +397,10 @@ const ResultLandingPage = ({}) => {
 
     // Track events
     trackMoEngageEvent("BeginCheckout", eventAttributes);
+    const phone = window?.localStorage?.getItem("user_phone");
     logGtmEvent("Add to Cart", {
       ...eventAttributes,
-      event_id: generateEventId({ eventName: "Add to Cart" }),
+      event_id: generateEventId({ eventName: "Add to Cart", phone: phone }),
     });
     // pixelCustomeEvent("Add to Cart", eventAttributes);
     metaCapi(capiPayload, "Add to Cart");
