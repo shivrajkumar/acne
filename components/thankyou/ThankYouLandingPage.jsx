@@ -119,7 +119,10 @@ const ThankYouLandingPage = ({ searchParams }) => {
           order_items: res.data?.orderDetails?.orderLineItems,
           caseId: `${caseId}`,
           transactionId: `${window.localStorage.getItem("user_tid")}`,
-          event_id: generateEventId({ eventName: 'Purchase',phone: res.data?.customerDetail?.phoneNumber, orderId: res.data?.orderDetails?.orderId })
+          event_id: generateEventId({
+            eventName: "Purchase",
+            phone: res.data?.customerDetail?.phoneNumber,
+          }),
         });
         // pixelCustomeEvent("Purchase", {
         //   gender: window.localStorage.getItem("user_gender"),
