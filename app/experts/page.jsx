@@ -1,10 +1,12 @@
 import React from "react";
 import AcneExpertsPage from "../../components/experts/AcneExperts";
+import ExpertsPage from "@/components/experts-revamp/experts-main";
 
 export default function page() {
   return (
     <>
-      <AcneExpertsPage/>
+      {/* <AcneExpertsPage/> */}
+      <ExpertsPage/>
     </>
   );
 }
