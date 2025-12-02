@@ -213,20 +213,20 @@ const ResultLandingPage = ({}) => {
       };
       // pixelCustomeEvent("ReportGenerated", { gender: capiPayloadRes?.gender });
       setCapiPayload(capiPayloadRes);
-      metaCapi(capiPayloadRes, "ReportGenerated");
+      // metaCapi(capiPayloadRes, "ReportGenerated");
     }
   }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined" && tId && ipApiValue && thumbmarkValue && isInitialized) {
-      const phone = window.localStorage.getItem("user_phone");
-      logGtmEvent("ReportGenerated", {
-        gender: window.localStorage.getItem("user_gender"),
-        event_id: generateEventId({
-          eventName: "ReportGenerated",
-          phone: phone,
-        }),
-      });
+      // const phone = window.localStorage.getItem("user_phone");
+      // logGtmEvent("ReportGenerated", {
+      //   gender: window.localStorage.getItem("user_gender"),
+      //   event_id: generateEventId({
+      //     eventName: "ReportGenerated",
+      //     phone: phone,
+      //   }),
+      // });
       fetchResult();
     } 
   }, [tId, ipApiValue, thumbmarkValue, isInitialized]);

@@ -70,6 +70,31 @@ const FormSubmission = () => {
   useEffect(() => {
     window.localStorage.setItem("form_status", "filled");
     const phone = window.localStorage.getItem("user_phone");
+    if (typeof window !== "undefined") {
+      const fbp = getCookieValue("_fbp", document.cookie.split(";"));
+      const fbc = getCookieValue("_fbc", document.cookie.split(";"));
+      const email = window.localStorage.getItem("user_email");
+      const gender = window.localStorage.getItem("user_gender");
+      const url = window.location.href;
+
+      const capiPayloadRes = {
+        email,
+        phone,
+        fbc,
+        fbp,
+        url,
+        gender,
+      };
+      // pixelCustomeEvent("ReportGenerated", { gender: capiPayloadRes?.gender });
+      metaCapi(capiPayloadRes, "ReportGenerated");
+      logGtmEvent("ReportGenerated", {
+        gender: window.localStorage.getItem("user_gender"),
+        event_id: generateEventId({
+          eventName: "ReportGenerated",
+          phone: phone,
+        }),
+      });
+    }
     logGtmEvent("Form_End", { gender: window?.localStorage?.user_gender, event_id: generateEventId({ eventName: 'Form_End', phone: phone }) })
     if (syntheticId) window.localStorage.setItem("syntheticId", syntheticId);
   }, [syntheticId]);
