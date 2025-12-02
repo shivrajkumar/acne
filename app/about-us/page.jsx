@@ -1,10 +1,11 @@
-
+import AboutUs from "@/components/about-us-revamp/about-us-main";
 import AboutUsMainComponent from "../../components/about-us/AboutUsMainComponent";
 
 export default function page() {
   return (
     <>
-      <AboutUsMainComponent />
+      {/* <AboutUsMainComponent /> */}
+      <AboutUs />
     </>
   );
 }
@@ -28,4 +29,3 @@ export async function generateMetadata() {
     },
   };
 }
-
