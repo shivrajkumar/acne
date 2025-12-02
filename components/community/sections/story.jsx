@@ -1,0 +1,76 @@
+import React from "react";
+
+export default function Story({
+    image = "/assets/default-image.jpg",
+    name = "Rumer Willis",
+    headlineAccent = "is sharing her acne story.",
+    description = "Rumer Willis openly spoke about how pregnancy led to noticeable changes to her signature curls. Ready to share your hair story, too?",
+    ctaHref = "#",
+    className = "",
+    reverse = false,
+}) {
+  return (
+    <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+      {/* Outer card */}
+      <div
+        className="mx-auto rounded-2xl overflow-hidden shadow-sm"
+        style={{ backgroundColor: "#FFD9CA" }}
+      >
+        {/* content order: text first (mobile), image second -> on md screens reverse to show image left */}
+        <div className={`flex flex-col-reverse ${ reverse ? "lg:flex-row-reverse" : "lg:flex-row" } items-stretch`}>
+          {/* Image block (mobile appears below, desktop left due to md:flex-row-reverse) */}
+          <div className="w-full md:w-1/2">
+            <img
+              src={image}
+              alt={`${name} portrait`}
+              className="w-full h-80 md:h-[850px] object-cover"
+              // for smoother edges when combined with rounded container, crop within img
+            />
+          </div>
+
+          {/* Text content */}
+          <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center text-center">
+            <div className="mx-auto max-w-2xl">
+              <h3 className="text-2xl md:text-5xl lg:text-7xl leading-tight text-[#0f1721]">
+                {name}
+              </h3>
+
+              <p className="my-3 lg:my-10 text-lg md:text-2xl lg:text-7xl font-medium text-[#934640]">
+                {headlineAccent}
+              </p>
+
+              <div className="my-4 border-t border-[#FFE6E1]" />
+
+              <p className="text-base lg:text-3xl lg:my-10 text-[#0f1721]">
+                {description}
+              </p>
+
+              {ctaHref && (
+                <div className="mt-6 md:mt-8">
+                <a
+                  href={ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-[#934640] text-white px-5 py-3 rounded-full shadow-md hover:opacity-95 transition"
+                  aria-label="Join the community"
+                >
+                  <span className="text-sm font-medium lg:text-lg">
+                    Join the community
+                  </span>
+
+                  <img 
+                    src="/instagram.png" 
+                    alt="Instagram" 
+                    width="18" 
+                    height="18"
+                  />
+                </a>
+              </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
