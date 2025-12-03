@@ -1,11 +1,11 @@
 'use client'
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
-export default function Ingredients() {
+export default function Ingredients({ data }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  const ingredients = [
+  const ingredients = data?.ingredients || [
     {
       name: "ADAPALENE",
       description: "Active amino acids that visibly plump skin and reduce the look of fine lines.",
@@ -42,10 +42,10 @@ export default function Ingredients() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 md:mb-16 gap-6 md:gap-12">
           <h2 className="text-2xl md:text-4xl lg:text-5xl text-[#0F1B28] font-bold md:w-1/2 leading-tight">
-            The best ingredients, the best manufacturing practices, and sourced from the best .
+            {data?.title || "The best ingredients, the best manufacturing practices, and sourced from the best ."}
           </h2>
           <p className="text-[#505354] text-sm md:text-lg md:w-[40%] leading-relaxed">
-            Every clear ritual product is made from purposeful, high- performance ingredients at efficacious levels.
+            {data?.description || "Every clear ritual product is made from purposeful, high- performance ingredients at efficacious levels."}
           </p>
         </div>
 
@@ -61,9 +61,9 @@ export default function Ingredients() {
               className="min-w-[85%] md:min-w-0 snap-center flex flex-col gap-4"
             >
               <div className="aspect-square rounded-2xl overflow-hidden bg-white">
-                <img 
-                  src={item.image} 
-                  alt={item.name}
+                <img
+                  src={item.image?.url || item.image}
+                  alt={item.image?.alternativeText || item.name}
                   className="w-full h-full object-cover"
                 />
               </div>

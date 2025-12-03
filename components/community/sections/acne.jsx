@@ -4,7 +4,7 @@ import React from "react";
 // I used the uploaded image path from the conversation container.
 const heroImage = "hero_image.jpg";
 
-export default function Acne() {
+export default function Acne({ data }) {
   return (
     <section className="font-sofia mx-auto p-6 lg:mb-24">
       <div className="bg-[rgba(247,246,239,1)] rounded-2xl overflow-hidden shadow-sm">
@@ -13,30 +13,51 @@ export default function Acne() {
           <div className="p-8 flex flex-col justify-between lg:justify-evenly gap-6">
             <div className="text-center">
               <h1 className="font-medium text-3xl md:text-4xl lg:text-7xl leading-tight text-black">
-                We're changing
-                <br />
-                <span className="block mt-2 lg:mt-4">how acne</span>
+                {data?.title || (
+                  <>
+                    We're changing
+                    <br />
+                    <span className="block mt-2 lg:mt-4">how acne</span>
+                  </>
+                )}
               </h1>
 
               <p className="mt-4 text-xl md:text-2xl lg:text-6xl lg:leading-[1.4] text-[#635E51] font-medium">
-                is treating
-                <br />
-                together.
+                {data?.description || (
+                  <>
+                    is treating
+                    <br />
+                    together.
+                  </>
+                )}
               </p>
             </div>
 
             <hr className="border-t border-gray-300" />
 
-            <p className="text-base lg:text-3xl text-[#0F1B28] max-w-lg lg:max-w-3xl mx-auto">
-              Clear skin needs more than just products. Your skin improves when your inside and outside routine work together.
-            </p>
+            {data?.stats && data.stats.length > 0 && (
+              <div className="space-y-4">
+                {data.stats.map((stat, index) => (
+                  <div key={index} className="text-center">
+                    <p className="text-2xl lg:text-4xl font-bold text-black">{stat.value}</p>
+                    <p className="text-sm lg:text-xl text-[#0F1B28]">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {!data?.stats && (
+              <p className="text-base lg:text-3xl text-[#0F1B28] max-w-lg lg:max-w-3xl mx-auto">
+                Clear skin needs more than just products. Your skin improves when your inside and outside routine work together.
+              </p>
+            )}
           </div>
 
           {/* Right image */}
           <div className="h-64 lg:h-auto w-full">
             <img
-              src={heroImage}
-              alt="hero"
+              src={data?.image?.url || heroImage}
+              alt={data?.image?.alternativeText || "hero"}
               className="object-cover w-full h-full block lg:h-screen"
               loading="lazy"
             />

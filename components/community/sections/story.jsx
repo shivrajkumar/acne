@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Story({
+    data,
     image = "/assets/default-image.jpg",
     name = "Rumer Willis",
     headlineAccent = "is sharing her acne story.",
@@ -17,12 +18,12 @@ export default function Story({
         style={{ backgroundColor: "#FFD9CA" }}
       >
         {/* content order: text first (mobile), image second -> on md screens reverse to show image left */}
-        <div className={`flex flex-col-reverse ${ reverse ? "lg:flex-row-reverse" : "lg:flex-row" } items-stretch`}>
+        <div className={`flex flex-col-reverse ${ (data?.reverse !== undefined ? data.reverse : reverse) ? "lg:flex-row-reverse" : "lg:flex-row" } items-stretch`}>
           {/* Image block (mobile appears below, desktop left due to md:flex-row-reverse) */}
           <div className="w-full md:w-1/2">
             <img
-              src={image}
-              alt={`${name} portrait`}
+              src={data?.image?.url || image}
+              alt={data?.image?.alternativeText || `${data?.name || name} portrait`}
               className="w-full h-80 md:h-[850px] object-cover"
               // for smoother edges when combined with rounded container, crop within img
             />
@@ -32,23 +33,23 @@ export default function Story({
           <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center text-center">
             <div className="mx-auto max-w-2xl">
               <h3 className="text-2xl md:text-5xl lg:text-7xl leading-tight text-[#0f1721]">
-                {name}
+                {data?.name || name}
               </h3>
 
               <p className="my-3 lg:my-10 text-lg md:text-2xl lg:text-7xl font-medium text-[#934640]">
-                {headlineAccent}
+                {data?.headlineAccent || headlineAccent}
               </p>
 
               <div className="my-4 border-t border-[#FFE6E1]" />
 
               <p className="text-base lg:text-3xl lg:my-10 text-[#0f1721]">
-                {description}
+                {data?.description || description}
               </p>
 
-              {ctaHref && (
+              {(data?.ctaHref || ctaHref) && (
                 <div className="mt-6 md:mt-8">
                 <a
-                  href={ctaHref}
+                  href={data?.ctaHref || ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-[#934640] text-white px-5 py-3 rounded-full shadow-md hover:opacity-95 transition"
@@ -58,10 +59,10 @@ export default function Story({
                     Join the community
                   </span>
 
-                  <img 
-                    src="/instagram.png" 
-                    alt="Instagram" 
-                    width="18" 
+                  <img
+                    src="/instagram.png"
+                    alt="Instagram"
+                    width="18"
                     height="18"
                   />
                 </a>

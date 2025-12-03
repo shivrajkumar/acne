@@ -2,8 +2,9 @@ import React from "react";
 // import ActionButton from "../../../components/button"; // adjust path if needed
 
 export default function HairJourney({
+  data,
   title = "What does your hair journey look like?",
-  subtitle = "Let’s Learn & Share our stories.",
+  subtitle = "Let's Learn & Share our stories.",
   ctaHref = "#",
   iconSrc = "/instagram.png",
   className = "",
@@ -25,7 +26,7 @@ export default function HairJourney({
               fontSize: "clamp(24px, 4.5vw, 40px)", // mobile→desktop scaling
             }}
           >
-            {title}
+            {data?.title || title}
           </h2>
 
           {/* Subtitle */}
@@ -33,8 +34,18 @@ export default function HairJourney({
             className="mt-4 text-sm sm:text-base md:text-xl lg:text-2xl text-bold text-[#635E51]"
             style={{ maxWidth: 720 }}
           >
-            {subtitle}
+            {data?.description || subtitle}
           </p>
+
+          {data?.image?.url && (
+            <div className="mt-6">
+              <img
+                src={data.image.url}
+                alt={data.image.alternativeText || "Journey"}
+                className="rounded-lg max-w-md mx-auto"
+              />
+            </div>
+          )}
 
           <div className="mt-6 md:mt-8">
             <a
@@ -48,10 +59,10 @@ export default function HairJourney({
                     Join us on Instagram
                 </span>
 
-                <img 
-                    src={iconSrc} 
-                    alt="Instagram" 
-                    width="18" 
+                <img
+                    src={iconSrc}
+                    alt="Instagram"
+                    width="18"
                     height="18"
                 />
             </a>

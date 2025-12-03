@@ -3,6 +3,7 @@ import React from "react";
 // import Breadcrumb from "../../../components/common/breadcrumb";
 
 export default function HeroSection({
+  data,
   subtitle = "We talk about everything - acne, scars, confidence, routines, what really works.",
   videoSrc = "/hero_community.mp4",
 }) {
@@ -20,7 +21,7 @@ export default function HeroSection({
         muted
         playsInline
       >
-        <source src={videoSrc} type="video/mp4" />
+        <source src={data?.background_image?.url || videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
@@ -39,17 +40,21 @@ export default function HeroSection({
               className="text-white font-bold leading-tight drop-shadow-sm
                            text-4xl md:text-6xl lg:text-[6rem] lg:font-normal"
             >
-              {/* mobile: stacked; desktop: inline with spacing */}
-              <span className="block md:inline">Real Skin</span>
-              <span className="block md:inline">
-                {" "}
-                <span className="md:ml-1">Content</span>
-              </span>
+              {data?.title || (
+                <>
+                  {/* mobile: stacked; desktop: inline with spacing */}
+                  <span className="block md:inline">Real Skin</span>
+                  <span className="block md:inline">
+                    {" "}
+                    <span className="md:ml-1">Content</span>
+                  </span>
+                </>
+              )}
             </h1>
 
             {/* Subtitle */}
             <p className="mt-4 text-white/90 text-sm sm:text-base md:text-lg lg:text-xl">
-              {subtitle}
+              {data?.subtitle || subtitle}
             </p>
 
             {/* CTA */}

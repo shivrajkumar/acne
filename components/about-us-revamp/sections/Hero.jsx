@@ -1,12 +1,15 @@
+'use client'
 import React from 'react';
 
-export default function Hero() {
+export default function Hero({ data }) {
+
+  console.log("Hero Section Data:", data);
   return (
     <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
       {/* Background Image */}
       <img
-        src="/how_it_works_hero.png"
-        alt="How it works"
+        src={data?.background_image?.url || "/how_it_works_hero.png"}
+        alt={data?.background_image?.alternativeText || "How it works"}
         className="absolute inset-0 w-full h-full object-cover object-top"
       />
 
@@ -14,16 +17,16 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/20 flex flex-col justify-center items-center text-center p-6 md:hidden">
         <div className="text-white mb-4">
           <h1 className="text-4xl">
-            We are a teams of experts
+            {data?.title || "We are a teams of experts"}
           </h1>
-          <span>+ Skin Geeks</span>
+          <span>{data?.subtitle || "+ Skin Geeks"}</span>
         </div>
 
         {/* Inline Button */}
         <button
           className="mt-4 px-6 py-3 border border-white text-white rounded-full font-medium bg-transparent hover:bg-white hover:text-black transition"
         >
-          TAKE THE SKIN DIAGNOSIS
+          {data?.cta_text || "TAKE THE SKIN DIAGNOSIS"}
         </button>
       </div>
 
@@ -32,16 +35,16 @@ export default function Hero() {
         <div className="text-center">
           <div className="text-white mb-8 leading-tight">
             <h1 className="text-[87px]">
-              We are a teams of experts
+              {data?.title || "We are a teams of experts"}
             </h1>
-            <span>+ Skin Geeks</span>
+            <span>{data?.subtitle || "+ Skin Geeks"}</span>
           </div>
 
           {/* Inline Button */}
           <button
             className="px-8 py-4 border border-white text-white rounded-full font-medium bg-transparent hover:bg-white hover:text-black transition"
           >
-            TAKE THE SKIN DIAGNOSIS
+            {data?.cta_text || "TAKE THE SKIN DIAGNOSIS"}
           </button>
         </div>
       </div>

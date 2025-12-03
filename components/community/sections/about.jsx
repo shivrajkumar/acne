@@ -3,7 +3,7 @@ import React from "react";
 const imageLeft = "about_one.png";
 const imageRight = "about_two.png";
 
-export default function AboutSection() {
+export default function AboutSection({ data }) {
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-12">
@@ -20,13 +20,13 @@ export default function AboutSection() {
           <div className="md:flex-1">
 
             <h2 className="mt-3 text-3xl sm:text-4xl md:text-3xl lg:text-5xl font-sofia font-semibold leading-tight">
-              Acne is not just a skin problem.
+              {data?.title || "Acne is not just a skin problem."}
             </h2>
 
             <hr className="border-t border-gray-200 my-6" />
 
             <p className="text-base md:text-lg lg:text-3xl text-[#0F1B28] font-sofia leading-relaxed max-w-none">
-              Pimples, marks, and scars happen due to oil, bacteria, hormones, diet, stress, sleep, and gut health. That’s why we focus on both routines.
+              {data?.description || "Pimples, marks, and scars happen due to oil, bacteria, hormones, diet, stress, sleep, and gut health. That's why we focus on both routines."}
             </p>
           </div>
         </div>

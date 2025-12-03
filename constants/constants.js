@@ -60,7 +60,8 @@ export const PLATFORM = "web_native";
 // export const AppStoreIcon = `${CDN_BASE_URL}website_images/localImages/app_store.webp`;
 // export const trayalogo = `${CDN_BASE_URL}website_images/localImages/traya.webp`;
 
-export const STRAPI_DEV_URL = 'https://webcms.dev.hav-g.in'
+export const STRAPI_DEV_URL = "https://webcms.dev.hav-g.in";
 export const STRAPI_PROD_URL = 'https://cms-web.traya.health'
+
 
 export const SITE_BASE_URL = env("NEXT_PUBLIC_SITE_BASE_URL") || "https://clearritual.com";

@@ -11,8 +11,9 @@ import HairJourney from "./sections/hair_journey";
 // import Shedding from './sections/shedding';
 // import Questions from '../../components/common/questions';
 import IngredientsFaqSection from "../ingredientsLanding/components/ingredientsFaq";
+import { STRAPI_DEV_URL } from "@/constants/constants";
 
-const FAQ_ITEMS = [
+const DEFAULT_FAQ_ITEMS = [
   {
     id: 1,
     question: "Why did you involve dermatologists in developing the products?",
@@ -51,14 +52,42 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function Community() {
+async function getCommunityData() {
+  try {
+    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-community?populate=deep`, {
+      method: "GET",
+      next: { revalidate: 300 }, // Revalidate every 5 minutes
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch community data: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data?.data?.attributes || null;
+  } catch (err) {
+    console.error("Error fetching community data:", err);
+    return null;
+  }
+}
+
+export default async function Community() {
+  const communityData = await getCommunityData();
+
+  if (!communityData) {
+    console.warn("Failed to load community data, using fallback content");
+  }
+
+  const FAQ_ITEMS = communityData?.faq_items || DEFAULT_FAQ_ITEMS;
+
   return (
     <main>
-      <HeroSection />
-      <ThickHair />
-      <Acne />
-      <AboutSection />
+      <HeroSection data={communityData?.hero_section} />
+      <ThickHair data={communityData?.thick_hair_section} />
+      <Acne data={communityData?.acne_section} />
+      <AboutSection data={communityData?.about_section} />
       <Story
+        data={communityData?.story_1}
         image="/mugdha.jpg"
         name="Mugdha"
         headlineAccent="is sharing her acne story."
@@ -66,11 +95,12 @@ export default function Community() {
         ctaHref="#"
         reverse={false}
       />
-      <Numbers />
+      <Numbers data={communityData?.numbers_section} />
 
-      <StoriesGridSection />
+      <StoriesGridSection data={communityData?.stories_grid_section} />
 
       <Story
+        data={communityData?.story_2}
         image="/stigma.jpg"
         name="Bring a new way"
         headlineAccent="to heal acne and Scars."
@@ -79,7 +109,7 @@ export default function Community() {
         ctaHref=""
       />
 
-      <HairJourney />
+      <HairJourney data={communityData?.hair_journey_section} />
 
       {/* <Shedding /> */}
 

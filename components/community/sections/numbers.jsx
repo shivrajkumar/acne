@@ -12,7 +12,7 @@ import React from "react";
  * Replace the `stats` array with your real numbers/text.
  */
 
-const stats = [
+const defaultStats = [
   {
     id: 1,
     number: "2/3",
@@ -28,7 +28,7 @@ const stats = [
   {
     id: 3,
     number: "63%",
-    text: "women feel say “glass skin” standards make them feel worse.",
+    text: "women feel say \"glass skin\" standards make them feel worse.",
     bgColor: "#FFECDF"
   },
   {
@@ -39,11 +39,13 @@ const stats = [
   },
 ];
 
-export default function Numbers() {
+export default function Numbers({ data }) {
   const bgDark = "#FFD9CA";
   const bgLight = "#FFF6F3";
   const textColor = "#0f1721";
   const divider = "#E8D6D4";
+
+  const stats = data?.stats || defaultStats;
 
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
@@ -54,14 +56,14 @@ export default function Numbers() {
             const useDark = idx % 2 === 0; // alternate colors like screenshot
             return (
               <article
-                key={s.id}
+                key={s.id || idx}
                 className="rounded-lg overflow-hidden"
                 style={{ backgroundColor: s.bgColor }}
-                aria-labelledby={`stat-${s.id}-title`}
+                aria-labelledby={`stat-${s.id || idx}-title`}
               >
                 <div className="p-4 sm:p-6 lg:p-8 h-full flex flex-col">
                   <h4
-                    id={`stat-${s.id}-title`}
+                    id={`stat-${s.id || idx}-title`}
                     className="text-6xl leading-none lg:text-9xl"
                     style={{ color: textColor }}
                   >
@@ -77,8 +79,14 @@ export default function Numbers() {
                     className="text-lg leading-relaxed mt-2 flex-1 lg:text-2xl"
                     style={{ color: textColor }}
                   >
-                    {s.text}
+                    {s.label || s.text}
                   </p>
+
+                  {s.description && (
+                    <p className="text-sm mt-2 opacity-80" style={{ color: textColor }}>
+                      {s.description}
+                    </p>
+                  )}
                 </div>
               </article>
             );
