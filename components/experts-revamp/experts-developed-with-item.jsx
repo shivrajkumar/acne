@@ -6,12 +6,14 @@ export default function DevelopedWithItem({ item }) {
     <Link href={`/experts/${item.slug}`}>
       <div className="flex flex-col items-center cursor-pointer group">
         <div className="w-full h-[270px] md:h-[442px] relative">
+          {item?.image && 
           <Image
-            src={item.image}
-            alt={item.label}
-            fill
-            className="rounded-lg object-cover"
+          src={item.image.url}
+          alt={item.label}
+          fill
+          className="rounded-lg object-cover"
           />
+        }
         </div>
         <p className="mt-2 text-sm font-medium group-hover:text-blue-600">
           {item.label}

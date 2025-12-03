@@ -1,5 +1,5 @@
 export default function RegimenSection({ data }) {
-  const { title, highlightWords } = data;
+  const { title, highlight } = data;
 
   return (
     <section className="py-10 bg-Secondary/100 rounded-xl text-center px-4 md:px-6">
@@ -7,7 +7,7 @@ export default function RegimenSection({ data }) {
         {title.split(" ").map((word, idx) => (
           <span
             key={idx}
-            className={highlightWords.includes(word) ? "text-blue-600" : ""}
+            className={highlight.includes(word) ? "text-blue-600" : ""}
           >
             {word}{" "}
           </span>

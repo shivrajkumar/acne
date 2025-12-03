@@ -35,11 +35,11 @@ export default async function ExpertsPage() {
 
   return (
     <div className="w-full">
-      <HeroSection data={expertsData?.hero_section} />
-      <ExpertsSection data={expertsData?.experts_section} />
-      <RegimenSection data={expertsData?.regimen_section} />
-      <DevelopedWithSection data={expertsData?.developed_with_section} />
-      <IngredientsFaqSection title={expertsData?.faq_section?.title} questions={expertsData?.faq_section?.faqs} />
+      <HeroSection data={expertsData?.data?.hero_section} />
+      <ExpertsSection data={expertsData?.data?.experts_section} />
+      <RegimenSection data={expertsData?.data?.regimen_section} />
+      <DevelopedWithSection data={expertsData?.data?.developed_with_section} />
+      <IngredientsFaqSection title={expertsData?.data?.faq_section?.title} questions={expertsData?.data?.faq_section?.faqs} />
     </div>
   );
 }
