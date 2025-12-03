@@ -9,18 +9,21 @@ import { QuestionsContext } from "@/context/questions-store";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { logGtmEvent } from "@/helpers/gtmHelpers";
 
-export default function ImageUploadWithHaut({ block }) {
+export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId: propCaseId, transactionId: propTransactionId, onSuccess }) {
   const observerRef = useRef(null);
   const [err, setErr] = useState(null);
   const [cameraPermission, setCameraPermission] = useState("prompt");
   const liqaRef = useRef(null);
   const containerRef = useRef(null);
-  const handleSubmit = useFormSubmit(QuestionsContext);
 
-  const {
-    setAllQuestionsFilled,
-    apiResponse: { caseId, transactionId },
-  } = useContext(QuestionsContext);
+  // Try to get context, but allow it to be undefined
+  const context = useContext(QuestionsContext);
+  const handleSubmit = context ? useFormSubmit(QuestionsContext) : null;
+
+  // Use props if provided, otherwise use context
+  const caseId = propCaseId || context?.apiResponse?.caseId;
+  const transactionId = propTransactionId || context?.apiResponse?.transactionId;
+  const setAllQuestionsFilled = context?.setAllQuestionsFilled;
 
 
   // Move preloaded element into view
@@ -365,6 +368,11 @@ export default function ImageUploadWithHaut({ block }) {
       const formData = new FormData();
       formData.append("file", fileObject, fileName);
 
+      // Add skinAnalysisStatus to formData if provided
+      if (skinAnalysisStatus) {
+        formData.append("skinAnalysisStatus", skinAnalysisStatus);
+      }
+
       const uploadRes = await fetchRequest(IMAGE_UPLOAD_API(caseId), {
         method: "POST",
         body: formData,
@@ -375,31 +383,51 @@ export default function ImageUploadWithHaut({ block }) {
       if (isImageUploaded) {
         trackMoEngageEvent("image_analysis_success");
 
-        const status = formFillStatus.FILLED;
-
-        const _formData = {
-          question_id: block.id,
-          field_key: block.id,
-          question_text: block.text,
-          response: blob,
-          status: status,
-          location_path: window.location.pathname + window.location.search,
-          source: "website",
-          response_type: block.type,
-        };
-
-        const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
-          method: "POST",
-          body: JSON.stringify(_formData),
-        });
-
-        if (txRes.status === 200) {
-          handleSubmit(blob);
-          setAllQuestionsFilled(true);
+        // Skip TRANSACTION_API call if skinAnalysisStatus is OFF
+        if (skinAnalysisStatus === "OFF") {
           window.localStorage.setItem("form_status", "filled");
+
+          // Call onSuccess callback if provided (for external link usage)
+          if (onSuccess) {
+            onSuccess(blob);
+          }
         } else {
-          trackMoEngageEvent("image_analysis_failed");
-          setErr("Transaction API failed");
+          // Normal flow with TRANSACTION_API
+          const status = formFillStatus.FILLED;
+
+          const _formData = {
+            question_id: block.id,
+            field_key: block.id,
+            question_text: block.text,
+            response: blob,
+            status: status,
+            location_path: window.location.pathname + window.location.search,
+            source: "website",
+            response_type: block.type,
+          };
+
+          const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
+            method: "POST",
+            body: JSON.stringify(_formData),
+          });
+
+          if (txRes.status === 200) {
+            if (handleSubmit) {
+              handleSubmit(blob);
+            }
+            if (setAllQuestionsFilled) {
+              setAllQuestionsFilled(true);
+            }
+            window.localStorage.setItem("form_status", "filled");
+
+            // Call onSuccess callback if provided (for external link usage)
+            if (onSuccess) {
+              onSuccess(blob);
+            }
+          } else {
+            trackMoEngageEvent("image_analysis_failed");
+            setErr("Transaction API failed");
+          }
         }
       } else {
         trackMoEngageEvent("image_analysis_failed");

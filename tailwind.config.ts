@@ -30,11 +30,19 @@ const config: Config = {
       sophiaPro: ["sofia-pro"],
     },
     extend: {
+      keyframes: {
+        "slide-up": {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+      },
       animation: {
         "bounce-200": "bounce 1s infinite 200ms",
         "bounce-400": "bounce 1s infinite 400ms",
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "slide-up": "slide-up 0.3s ease-out",
+        "fade-in": "fade-in 0.25s ease-out"
       },
       colors: {
         brand: {
@@ -194,10 +202,7 @@ const config: Config = {
     textColor: ({ after }: any) => after(["disabled"]),
     cursor: ({ after }: any) => after(["disabled"]),
   },
-    plugins: [
-    require('@tailwindcss/typography'),
-  ],
-
+  plugins: [require("@tailwindcss/typography")],
 };
 
 export default config;

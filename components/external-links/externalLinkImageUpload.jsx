@@ -1,7 +1,12 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import InstructionOne from "@assets/images/haut-instructions-1.png";
 import InstructionTwo from "@assets/images/haut-instructions-2.png";
 import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo.png";
 import Image from "next/image";
+import ImageUploadWithHaut from "@/components/form/liqaHautAi";
+import UploadSuccessModal from "@/components/external-links/UploadSuccessModal";
 
 const INSTRUCTIONS = [
   { id: 1, text: "Hold Phone in front of your face", img: InstructionOne },
@@ -31,12 +36,52 @@ const UserBadge = ({ name, stage }) => (
 );
 
 export default function ExternalLinkImageUpload() {
+  const [showCamera, setShowCamera] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const searchParams = useSearchParams();
+
+  // Get caseId and transactionId from URL params
+  const caseId = searchParams.get('caseId');
+  const transactionId = searchParams.get('transactionId');
+
+  const handleTakePhoto = () => {
+    setShowCamera(true);
+  };
+
+  const handleSuccess = (blob) => {
+    // Show success modal after image upload
+    setShowSuccessModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+  };
+
+  if (showCamera) {
+    return (
+      <>
+        <ImageUploadWithHaut
+          block={{ id: "external-link-upload", text: "Upload Image", type: "image" }}
+          skinAnalysisStatus="OFF"
+          caseId={caseId}
+          transactionId={transactionId}
+          onSuccess={handleSuccess}
+        />
+        <UploadSuccessModal
+          isOpen={showSuccessModal}
+          onClose={handleCloseModal}
+          caseId={caseId}
+        />
+      </>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       <header
         className="
-    mb-6 lg:mb-10 
-    p-6 lg:px-28 lg:py-10 
+    mb-6 lg:mb-10
+    p-6 lg:px-28 lg:py-10
     bg-[linear-gradient(270deg,#D5F4E1_0%,#F2F2F2_100%)]
   "
       >
@@ -85,7 +130,10 @@ export default function ExternalLinkImageUpload() {
           ))}
         </div>
 
-        <button className="w-full mt-4 lg:mt-0 bg-Primary/500 text-white py-3 lg:py-4 rounded-full font-medium lg:text-lg transition-colors">
+        <button
+          onClick={handleTakePhoto}
+          className="w-full mt-4 lg:mt-0 bg-Primary/500 text-white py-3 lg:py-4 rounded-full font-medium lg:text-lg transition-colors"
+        >
           Take Photo
         </button>
       </div>
