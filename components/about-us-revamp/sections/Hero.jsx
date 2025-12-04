@@ -1,9 +1,6 @@
-'use client'
 import React from 'react';
 
 export default function Hero({ data }) {
-
-  console.log("Hero Section Data:", data);
   return (
     <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
       {/* Background Image */}

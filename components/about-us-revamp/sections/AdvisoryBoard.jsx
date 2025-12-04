@@ -3,7 +3,7 @@ import React from 'react';
 
 
 export default function AdvisoryBoard({ data }) {
-  const experts = data?.members;
+  const experts = data?.members || [];
 
   return (
     <section className="w-full mx-auto px-4 md:px-16 py-12 font-sofia">
@@ -16,7 +16,7 @@ export default function AdvisoryBoard({ data }) {
         </p>
 
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-12 mb-12 md:mb-16">
-          {experts.map((expert, index) => (
+          {experts?.map((expert, index) => (
             <div key={index} className="flex flex-col items-center max-w-xl mx-auto md:mx-0">
               <div className="w-full aspect-square overflow-hidden mb-6">
                 <img
