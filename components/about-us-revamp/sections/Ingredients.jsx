@@ -5,7 +5,7 @@ export default function Ingredients({ data }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  const ingredients = data?.ingredients;
+  const ingredients = data?.ingredients || [];
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -29,12 +29,12 @@ export default function Ingredients({ data }) {
         </div>
 
         {/* Desktop Grid / Mobile Carousel */}
-        <div 
+        <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
           className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar pb-8 md:pb-0"
         >
-          {ingredients.map((item, index) => (
+          {ingredients?.map((item, index) => (
             <div 
               key={index} 
               className="min-w-[85%] md:min-w-0 snap-center flex flex-col gap-4"
@@ -60,7 +60,7 @@ export default function Ingredients({ data }) {
 
         {/* Mobile Pagination Dots */}
         <div className="flex md:hidden justify-center gap-2 mt-4">
-          {ingredients.map((_, index) => (
+          {ingredients?.map((_, index) => (
             <div
               key={index}
               className={`w-2 h-2 rounded-full transition-colors duration-300 ${

@@ -34,7 +34,7 @@ const DEFAULT_QUESTIONS = [
   },
 ];
 
-const IngredientsFaqSection = ({ questions = DEFAULT_QUESTIONS, showTitle = true }) => {
+const IngredientsFaqSection = ({ title, questions = DEFAULT_QUESTIONS, showTitle = true }) => {
   const [openItems, setOpenItems] = useState({});
 
   const handleToggle = (index) => {
@@ -52,7 +52,7 @@ const IngredientsFaqSection = ({ questions = DEFAULT_QUESTIONS, showTitle = true
 >
   {showTitle && (
     <div className="text-[28px] md:text-[40px] font-normal font-sophiaPro mb-4 w-full md:w-2/6 px-4 md:px-0">
-      Got questions? Ask us anything.
+      {title || "Got questions? Ask us anything."}
     </div>
   )}
 
