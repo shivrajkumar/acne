@@ -5,28 +5,7 @@ export default function Ingredients({ data }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  const ingredients = data?.ingredients || [
-    {
-      name: "ADAPALENE",
-      description: "Active amino acids that visibly plump skin and reduce the look of fine lines.",
-      image: "/ingredients_1.jpg"
-    },
-    {
-      name: "KOJIC ACID",
-      description: "Hydrates + moisturizes with 5 essential fatty acids (including vitamins E, D, A, and allantoin).",
-      image: "/ingredients_2.jpg"
-    },
-    {
-      name: "CLINDAMYCIN",
-      description: "Nourishes and minimizes the look of pores + improves skin's overall texture.",
-      image: "/ingredients_3.jpg"
-    },
-    {
-      name: "CENTELLA",
-      description: "Helps maintain skin suppleness for dry, sensitive skin.",
-      image: "/ingredients_4.jpg"
-    }
-  ];
+  const ingredients = data?.ingredients;
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -42,10 +21,10 @@ export default function Ingredients({ data }) {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 md:mb-16 gap-6 md:gap-12">
           <h2 className="text-2xl md:text-4xl lg:text-5xl text-[#0F1B28] font-bold md:w-1/2 leading-tight">
-            {data?.title || "The best ingredients, the best manufacturing practices, and sourced from the best ."}
+            {data?.title }
           </h2>
           <p className="text-[#505354] text-sm md:text-lg md:w-[40%] leading-relaxed">
-            {data?.description || "Every clear ritual product is made from purposeful, high- performance ingredients at efficacious levels."}
+            {data?.description }
           </p>
         </div>
 
@@ -63,15 +42,15 @@ export default function Ingredients({ data }) {
               <div className="aspect-square rounded-2xl overflow-hidden bg-white">
                 <img
                   src={item.image?.url || item.image}
-                  alt={item.image?.alternativeText || item.name}
+                  alt={item.image?.name || item.name}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div>
-                <h3 className="text-[#0F1B28] font-bold text-base lg:text-lg mb-2 uppercase tracking-wide">
+                <h3 className="text-[#0F1B28] font-bold text-[16px] lg:text-lg mb-2 uppercase tracking-wide">
                   {item.name}
                 </h3>
-                <p className="text-[#0F1B28] text-sm lg:text-base leading-relaxed">
+                <p className="text-[#0F1B28] text-sm lg:text-[16px] leading-relaxed">
                   {item.description}
                 </p>
               </div>

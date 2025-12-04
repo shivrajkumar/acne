@@ -10,9 +10,9 @@ import { STRAPI_DEV_URL } from "@/constants/constants";
 
 async function getAboutUsData() {
   try {
-    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-about-us?populate=deep`, {
+    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-about-us`, {
       method: "GET",
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
+      next: { revalidate: 300 }, 
     });
 
     if (!res.ok) {
@@ -20,7 +20,7 @@ async function getAboutUsData() {
     }
 
     const data = await res.json();
-    return data?.data?.attributes || null;
+    return data || null;
   } catch (err) {
     console.error("Error fetching about us data:", err);
     return null;
@@ -29,21 +29,20 @@ async function getAboutUsData() {
 
 export default async function AboutUs() {
   const aboutUsData = await getAboutUsData();
-  console.log('riya', aboutUsData)
   if (!aboutUsData) {
     console.warn("Failed to load about us data, using fallback content");
   }
 
   return (
     <main className="w-full">
-        <Hero data={aboutUsData?.hero_section} />
-        <TrialAndError data={aboutUsData?.trial_and_error_section} />
-        <HowWeChangeTheGame data={aboutUsData?.how_we_change_section} />
-        <Ingredients data={aboutUsData?.ingredients_section} />
-        <Ayurveda data={aboutUsData?.ayurveda_section} />
-        <Efficacy data={aboutUsData?.efficacy_section} />
-        <AdvisoryBoard data={aboutUsData?.advisory_board_section} />
-        <NoteFromTeam data={aboutUsData?.note_from_team_section} />
+        <Hero data={aboutUsData?.data?.hero_section} />
+        <TrialAndError data={aboutUsData?.data?.trial_and_error_section} />
+        <HowWeChangeTheGame data={aboutUsData?.data?.how_we_change_section} />
+        <Ingredients data={aboutUsData?.data?.ingredients_section} />
+        <Ayurveda data={aboutUsData?.data?.ayurveda_dermatology_section} />
+        <Efficacy data={aboutUsData?.data?.bannerWithText} />
+        <AdvisoryBoard data={aboutUsData?.data?.advisory_board_section} />
+        <NoteFromTeam data={aboutUsData?.data?.team_note_section} />
     </main>
   );
 }
