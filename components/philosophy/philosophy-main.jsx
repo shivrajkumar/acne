@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Hero from "./sections/Hero";
 import InsideOutside from "./sections/InsideOutside";
 import Diagnose from "./sections/Diagnose";
@@ -5,32 +8,35 @@ import Simplicity from "./sections/Simplicity";
 import RealPeople from "./sections/RealPeople";
 import FivePillars from "./sections/FivePillars";
 import Efficacy from "./sections/efficacy";
-import { STRAPI_DEV_URL } from "@/constants/constants";
+import { fetchStrapiData } from "@/helpers/strapiClient";
+import Loader from "@/components/generic/Loader";
 
-async function getPhilosophyData() {
-  try {
-    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-our-plan?populate=deep`, {
-      method: "GET",
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-    });
+export default function Philosophy() {
+  const [philosophyData, setPhilosophyData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch philosophy data: ${res.status}`);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const { data, error } = await fetchStrapiData("/api/cr-our-plan?populate=deep");
 
-    const data = await res.json();
-    return data?.data?.attributes || null;
-  } catch (err) {
-    console.error("Error fetching philosophy data:", err);
-    return null;
-  }
-}
+      if (error) {
+        console.warn("Failed to load philosophy data:", error);
+      }
 
-export default async function Philosophy() {
-  const philosophyData = await getPhilosophyData();
+      setPhilosophyData(data?.data?.attributes);
+      setLoading(false);
+    };
 
-  if (!philosophyData) {
-    console.warn("Failed to load philosophy data, using fallback content");
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Loader />
+      </div>
+    );
   }
 
   return (

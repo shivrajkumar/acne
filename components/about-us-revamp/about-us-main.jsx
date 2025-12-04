@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Hero from "./sections/Hero";
 import TrialAndError from "./sections/TrialAndError";
 import HowWeChangeTheGame from "./sections/HowWeChangeTheGame";
@@ -6,31 +9,35 @@ import Ingredients from "./sections/Ingredients";
 import AdvisoryBoard from "./sections/AdvisoryBoard";
 import NoteFromTeam from "./sections/NoteFromTeam";
 import Efficacy from "./sections/efficacy";
-import { STRAPI_DEV_URL } from "@/constants/constants";
+import { fetchStrapiData } from "@/helpers/strapiClient";
+import Loader from "@/components/generic/Loader";
 
-async function getAboutUsData() {
-  try {
-    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-about-us`, {
-      method: "GET",
-      next: { revalidate: 300 }, 
-    });
+export default function AboutUs() {
+  const [aboutUsData, setAboutUsData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch about us data: ${res.status}`);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const { data, error } = await fetchStrapiData("/api/cr-about-us");
 
-    const data = await res.json();
-    return data || null;
-  } catch (err) {
-    console.error("Error fetching about us data:", err);
-    return null;
-  }
-}
+      if (error) {
+        console.warn("Failed to load about us data:", error);
+      }
 
-export default async function AboutUs() {
-  const aboutUsData = await getAboutUsData();
-  if (!aboutUsData) {
-    console.warn("Failed to load about us data, using fallback content");
+      setAboutUsData(data);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Loader />
+      </div>
+    );
   }
 
   return (

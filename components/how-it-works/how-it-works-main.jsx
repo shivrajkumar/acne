@@ -1,37 +1,14 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Hero from './sections/Hero';
 import StepCard from './sections/StepCard';
 import Journey from './sections/Journey';
 import BottomBanner from './sections/BottomBanner';
-import { STRAPI_DEV_URL } from "@/constants/constants";
+import { fetchStrapiData } from "@/helpers/strapiClient";
+import Loader from "@/components/generic/Loader";
 
-async function getHowItWorksData() {
-  try {
-    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-how-it-works?populate=deep`, {
-      method: "GET",
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch how it works data: ${res.status}`);
-    }
-
-    const data = await res.json();
-    return data?.data?.attributes || null;
-  } catch (err) {
-    console.error("Error fetching how it works data:", err);
-    return null;
-  }
-}
-
-export default async function HowItWorks() {
-  const howItWorksData = await getHowItWorksData();
-
-  if (!howItWorksData) {
-    console.warn("Failed to load how it works data, using fallback content");
-  }
-
-  const steps = howItWorksData?.steps || [
+const DEFAULT_STEPS = [
     {
       title: "Create your profile enter your medical history and symptoms",
       description: "Tell us about your skin, lifestyle, and any concerns you want addressed. Our platform securely collects your skin history, images and internal triggers symptoms. Your information is encrypted and protected at every step.",
@@ -62,6 +39,36 @@ export default async function HowItWorks() {
       isReversed: true,
     },
   ];
+
+export default function HowItWorks() {
+  const [howItWorksData, setHowItWorksData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const { data, error } = await fetchStrapiData("/api/cr-how-it-works?populate=deep");
+
+      if (error) {
+        console.warn("Failed to load how it works data:", error);
+      }
+
+      setHowItWorksData(data?.data?.attributes);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
+  const steps = howItWorksData?.steps || DEFAULT_STEPS;
 
   return (
     <main className="w-full">

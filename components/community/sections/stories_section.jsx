@@ -1,11 +1,5 @@
 import React from "react";
 
-// StoriesGridSection.jsx
-// - Fixed mobile ordering to match your second screenshot: mobile layout will be
-//   [image][text]
-//   [text][image]
-// - Avatar badges use responsive widths and are inset so they don't overflow on small screens.
-
 const defaultImgs = {
   imageA: "story_a.jpg",
   imageB: "story_b.jpg",
@@ -47,6 +41,7 @@ function AvatarBadge({ name, text, beforeImage, afterImage, month }) {
 
 export default function StoriesGridSection({ data }) {
   const imgs = defaultImgs;
+  console.log('StoriesGridSection data:', data);
 
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">

@@ -31,7 +31,7 @@ export default function HairJourney({
 
           {/* Subtitle */}
           <p
-            className="mt-4 text-sm sm:text-base md:text-xl lg:text-2xl text-bold text-[#635E51]"
+            className="mt-4 text-sm sm:text-[16px] md:text-xl lg:text-2xl text-bold text-[#635E51]"
             style={{ maxWidth: 720 }}
           >
             {data?.description || subtitle}
@@ -41,7 +41,7 @@ export default function HairJourney({
             <div className="mt-6">
               <img
                 src={data.image.url}
-                alt={data.image.alternativeText || "Journey"}
+                alt={data.image.name}
                 className="rounded-lg max-w-md mx-auto"
               />
             </div>

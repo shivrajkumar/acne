@@ -1,36 +1,40 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import HeroSection from "./experts-hero";
 import ExpertsSection from "./experts-section";
 import RegimenSection from "./experts-regimen";
 import DevelopedWithSection from "./experts-developed-with-section";
 import IngredientsFaqSection from "../ingredientsLanding/components/ingredientsFaq";
-import { STRAPI_DEV_URL } from "@/constants/constants";
+import { fetchStrapiData } from "@/helpers/strapiClient";
+import Loader from "@/components/generic/Loader";
 
-async function getExpertsData() {
-  try {
-    const res = await fetch(
-      `${STRAPI_DEV_URL}/api/cr-expert`,
-      {
-        method: "GET",
-        next: { revalidate: 300 },
+export default function ExpertsPage() {
+  const [expertsData, setExpertsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const { data, error } = await fetchStrapiData("/api/cr-expert");
+
+      if (error) {
+        console.warn("Failed to load experts data:", error);
       }
+
+      setExpertsData(data);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Loader />
+      </div>
     );
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch experts data: ${res.status}`);
-    }
-
-    return res.json();
-  } catch (err) {
-    console.error("Error fetching experts data:", err);
-    return null;
-  }
-}
-
-export default async function ExpertsPage() {
-  const expertsData = await getExpertsData();
-
-  if (!expertsData) {
-    console.warn("Failed to load experts data, using fallback");
   }
 
   return (

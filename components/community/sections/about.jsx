@@ -1,57 +1,95 @@
 import React from "react";
 
-const imageLeft = "about_one.png";
-const imageRight = "about_two.png";
+// Helper function to highlight specific words in a title
+const HighlightedTitle = ({ title, highlightedWords = [] }) => {
+  if (!highlightedWords.length) return title;
+  
+  // Create a regex pattern to match highlighted words
+  const pattern = new RegExp(`(${highlightedWords.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi');
+  const parts = title.split(pattern);
+  
+  return parts.map((part, i) => {
+    const isHighlighted = highlightedWords.some(
+      word => word.toLowerCase() === part.toLowerCase()
+    );
+    return isHighlighted ? (
+      <span key={i} className="text-[#4F46E5]">{part}</span>
+    ) : (
+      <span key={i}>{part}</span>
+    );
+  });
+};
+
+// Helper to get image URL from Strapi format
+const getImageUrl = (image) => {
+  if (!image) return '';
+  if (typeof image === 'string') return image;
+  // Strapi formats: image.url, image.data.attributes.url, or nested formats
+  return image?.url || image?.data?.attributes?.url || image?.formats?.medium?.url || '';
+};
+
+const TopicCard = ({ topic, index }) => {
+  const isEven = index % 2 === 0;
+  const imageUrl = getImageUrl(topic.image);
+  
+  const imageBlock = (
+    <div className="hidden md:block shrink-0">
+      <div className="rounded-xl overflow-hidden w-28 h-28 md:w-40 md:h-48 lg:w-80 lg:h-96 bg-gray-100">
+        {imageUrl && (
+          <img 
+            src={imageUrl} 
+            alt={topic.title} 
+            className="w-full h-full object-cover block" 
+          />
+        )}
+      </div>
+    </div>
+  );
+  
+  const textBlock = (
+    <div className="flex-1">
+      <h2 className="text-3xl sm:text-4xl md:text-3xl lg:text-5xl font-semibold leading-tight text-[#0F1B28]">
+        <HighlightedTitle title={topic.title} highlightedWords={topic.highlightedWords} />
+      </h2>
+      <hr className="border-t border-gray-200 my-6" />
+      <p className="text-[16px] md:text-lg lg:text-3xl text-[#0F1B28] leading-relaxed">
+        {topic.description}
+      </p>
+    </div>
+  );
+  
+  return (
+    <div className="flex flex-col md:flex-row md:items-start md:gap-10">
+      {isEven ? (
+        <>
+          {imageBlock}
+          {textBlock}
+        </>
+      ) : (
+        <>
+          {textBlock}
+          {imageBlock}
+        </>
+      )}
+    </div>
+  );
+};
 
 export default function AboutSection({ data }) {
+  if (!data) return null;
+  
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-12">
-        <span className="inline-block bg-[#FFF88A] text-[#0F1B28] text-xs lg:text-base font-bold px-2 py-1 rounded-sm mb-4 lg:mb-8">
-            On our Instagram, we teach both:
-        </span>
-        <div className="flex flex-col md:flex-row md:items-start md:gap-10">
-          <div className="hidden md:block shrink-0 mb-6 md:mb-0">
-            <div className="rounded-xl overflow-hidden w-28 h-28 md:w-40 md:h-48 lg:w-80 lg:h-96">
-              <img src={imageLeft} alt="person" className="w-full h-full object-cover block" />
-            </div>
-          </div>
-
-          <div className="md:flex-1">
-
-            <h2 className="mt-3 text-3xl sm:text-4xl md:text-3xl lg:text-5xl font-sofia font-semibold leading-tight">
-              {data?.title || "Acne is not just a skin problem."}
-            </h2>
-
-            <hr className="border-t border-gray-200 my-6" />
-
-            <p className="text-base md:text-lg lg:text-3xl text-[#0F1B28] font-sofia leading-relaxed max-w-none">
-              {data?.description || "Pimples, marks, and scars happen due to oil, bacteria, hormones, diet, stress, sleep, and gut health. That's why we focus on both routines."}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div className="flex flex-col md:flex-row md:items-start md:gap-10">
-          <div className="md:flex-1">
-            <h3 className="text-3xl sm:text-4xl md:text-3xl lg:text-5xl font-sofia font-semibold text-[#0F1B28]">
-              We share real acne journeys.
-            </h3>
-
-            <hr className="border-t border-gray-200 my-6" />
-
-            <p className="text-base md:text-lg lg:text-3xl text-[#0F1B28] font-sofia leading-relaxed">
-              People who changed both their products and their internal habits saw the biggest improvement.
-            </p>
-          </div>
-
-          <div className="hidden md:block shrink-0 mt-8 md:mt-0 ml-0 md:ml-8">
-            <div className="rounded-xl overflow-hidden w-28 h-28 md:w-40 md:h-48 lg:w-80 lg:h-96 ml-auto">
-              <img src={imageRight} alt="hug" className="w-full h-full object-cover block" />
-            </div>
-          </div>
-        </div>
+      {/* Section Badge */}
+      <span className="inline-block bg-[#FFF88A] text-[#0F1B28] text-xs lg:text-[16px] font-normal px-2 py-2 rounded-sm mb-8 lg:mb-12">
+        {data.title}
+      </span>
+      
+      {/* Topics */}
+      <div className="space-y-12 lg:space-y-16">
+        {data.topics?.map((topic, index) => (
+          <TopicCard key={topic.id || index} topic={topic} index={index} />
+        ))}
       </div>
     </section>
   );
