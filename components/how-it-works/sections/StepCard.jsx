@@ -6,10 +6,14 @@ export default function StepCard({
   description,
   imageSrc,
   imageAlt,
+  image,
   isReversed = false,
-  bgColor = 'bg-[#EBEBFF]', 
+  bgColor = 'bg-[#EBEBFF]',
   textColor = 'text-[#0F1B28]',
 }) {
+  const imageUrl = image?.url || imageSrc;
+  const altText = image?.alternativeText || imageAlt;
+
   return (
     <div className={`w-full rounded-3xl overflow-hidden ${bgColor} mb-8`}>
       <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} md:justify-evenly items-center`}>
@@ -30,9 +34,9 @@ export default function StepCard({
         <div className="w-full md:w-1/4 p-4 pb-0 pt-0 md:py-12 md:px-2 flex justify-center items-center">
             <div className="relative w-full max-w-sm mx-auto">
                  {/* Placeholder for phone/product frame if needed, or just the image */}
-                 <img 
-                    src={imageSrc} 
-                    alt={imageAlt} 
+                 <img
+                    src={imageUrl}
+                    alt={altText}
                     className="w-full h-auto rounded-2xl shadow-xl object-cover"
                  />
             </div>

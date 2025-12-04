@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function Journey() {
-  const commitments = [
+export default function Journey({ data }) {
+  const commitments = data?.commitments || [
     {
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
@@ -32,25 +32,25 @@ export default function Journey() {
     <section className="pb-20 px-6 md:px-20">
       <div className="bg-[#F9F9F4] rounded-2xl mx-auto px-4 py-8 lg:py-16 lg:px-12">
         <h2 className="text-2xl md:text-4xl lg:text-5xl text-[#041C1B] text-center">
-          Your journey, our purpose.
+          {data?.title || "Your journey, our purpose."}
         </h2>
 
         <hr className="mx-auto my-8" />
-        
+
         <div className="flex flex-col md:flex-row gap-8 justify-evenly items-center">
             <div className="w-full">
                 <p className="text-[#041C1B] text-sm lg:text-[28px] leading-relaxed">
-                    Success thrives with the right partner. This journey goes beyond supplements—we’re there with you at every step, providing the tools, support, and inspiration to help you achieve real results.
+                    {data?.description || "Success thrives with the right partner. This journey goes beyond supplements—we're there with you at every step, providing the tools, support, and inspiration to help you achieve real results."}
                 </p>
             </div>
-            
+
             <div>
-            <p className="font-bold text-lg text-[#0F1B28] mb-3 lg:text-2xl">Our commitment includes:</p>
+            <p className="font-bold text-lg text-[#0F1B28] mb-3 lg:text-2xl">{data?.commitment_title || "Our commitment includes:"}</p>
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
                 {commitments.map((item, index) => (
                     <div key={index} className="bg-white p-6 rounded-xl shadow-sm flex lg:flex-col lg:items-start items-center gap-4 h-full">
                         <div className="text-[#53687E]">
-                            <img src="/hiw_SVG.png" width="44" height="44" alt="" />
+                            <img src={item.icon?.url || "/hiw_SVG.png"} width="44" height="44" alt="" />
                         </div>
                         <p className="text-sm text-[#505354] lg:text-lg">
                             {item.text}

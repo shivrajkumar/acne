@@ -1,14 +1,14 @@
 'use client'
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
-export default function Ingredients() {
+export default function Ingredients({ data }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  const ingredients = [
+  const ingredients = data?.items || [
     {
       name: "INTERNAL TRIGGER DIAGNOSIS",
-      description: "We identify what’s causing your acne from the inside - hormones, stress, diet etc.",
+      description: "We identify what's causing your acne from the inside - hormones, stress, diet etc.",
       image: "/ingredients_1.jpg"
     },
     {
@@ -42,28 +42,28 @@ export default function Ingredients() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 md:mb-16 gap-6 md:gap-12">
           <h2 className="text-2xl md:text-4xl lg:text-5xl text-[#0F1B28] font-bold md:w-1/2 leading-tight">
-            We don’t guess. We diagnose.
+            {data?.title || "We don't guess. We diagnose."}
           </h2>
           <p className="text-[#505354] text-sm md:text-lg md:w-[40%] leading-relaxed">
-            Every plan starts with understanding your skin and your body - not assumptions or one size fits all.
+            {data?.description || "Every plan starts with understanding your skin and your body - not assumptions or one size fits all."}
           </p>
         </div>
 
         {/* Desktop Grid / Mobile Carousel */}
-        <div 
+        <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
           className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar pb-8 md:pb-0"
         >
           {ingredients.map((item, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="min-w-[85%] md:min-w-0 snap-center flex flex-col gap-4"
             >
               <div className="aspect-square rounded-2xl overflow-hidden bg-white">
-                <img 
-                  src={item.image} 
-                  alt={item.name}
+                <img
+                  src={item.image?.url || item.image}
+                  alt={item.image?.alternativeText || item.name}
                   className="w-full h-full object-cover"
                 />
               </div>
