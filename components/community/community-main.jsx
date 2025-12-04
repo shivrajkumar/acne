@@ -1,5 +1,7 @@
 // src/pages/Home/index.jsx
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import HeroSection from "./sections/hero_section";
 import Acne from "./sections/acne";
 import ThickHair from "./sections/thick_hair";
@@ -11,7 +13,8 @@ import HairJourney from "./sections/hair_journey";
 // import Shedding from './sections/shedding';
 // import Questions from '../../components/common/questions';
 import IngredientsFaqSection from "../ingredientsLanding/components/ingredientsFaq";
-import { STRAPI_DEV_URL } from "@/constants/constants";
+import { fetchStrapiData } from "@/helpers/strapiClient";
+import Loader from "@/components/generic/Loader";
 
 const DEFAULT_FAQ_ITEMS = [
   {
@@ -52,68 +55,49 @@ const DEFAULT_FAQ_ITEMS = [
   },
 ];
 
-async function getCommunityData() {
-  try {
-    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-community?populate=deep`, {
-      method: "GET",
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-    });
+export default function Community() {
+  const [communityData, setCommunityData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch community data: ${res.status}`);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const { data, error } = await fetchStrapiData("/api/cr-community");
 
-    const data = await res.json();
-    return data?.data?.attributes || null;
-  } catch (err) {
-    console.error("Error fetching community data:", err);
-    return null;
+      if (error) {
+        console.warn("Failed to load community data:", error);
+      }
+
+      setCommunityData(data);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Loader />
+      </div>
+    );
   }
-}
 
-export default async function Community() {
-  const communityData = await getCommunityData();
-
-  if (!communityData) {
-    console.warn("Failed to load community data, using fallback content");
-  }
-
-  const FAQ_ITEMS = communityData?.faq_items || DEFAULT_FAQ_ITEMS;
+  const FAQ_ITEMS = communityData?.data?.faqSection;
 
   return (
     <main>
-      <HeroSection data={communityData?.hero_section} />
-      <ThickHair data={communityData?.thick_hair_section} />
-      <Acne data={communityData?.acne_section} />
-      <AboutSection data={communityData?.about_section} />
-      <Story
-        data={communityData?.story_1}
-        image="/mugdha.jpg"
-        name="Mugdha"
-        headlineAccent="is sharing her acne story."
-        description="Join the conversation and share your experience with us."
-        ctaHref="#"
-        reverse={false}
-      />
-      <Numbers data={communityData?.numbers_section} />
-
-      <StoriesGridSection data={communityData?.stories_grid_section} />
-
-      <Story
-        data={communityData?.story_2}
-        image="/stigma.jpg"
-        name="Bring a new way"
-        headlineAccent="to heal acne and Scars."
-        description="Our goal is to talk about skin in a real, science-led way — including how things like gut balance, stress, sleep, and routines play a role in acne. These deeper factors are important for long-term results."
-        reverse={true}
-        ctaHref=""
-      />
-
-      <HairJourney data={communityData?.hair_journey_section} />
-
+      <HeroSection data={communityData?.data?.heroSection} />
+      <ThickHair data={communityData?.data?.taglineSection} />
+      <Acne data={communityData?.data?.missionSection} />
+      <AboutSection data={communityData?.data?.whatWeDiscussSection} />
+      <Story data={communityData?.data?.testimonialFeatureSection} reverse={false}/>
+      <Numbers data={communityData?.data?.statisticsSection} />
+      <StoriesGridSection data={communityData?.data?.realSkinStoriesSection} />
+      <Story data={communityData?.data?.mythBusterSection} reverse={true}/>
+      <HairJourney data={communityData?.data?.journeyCtaSection} />
       {/* <Shedding /> */}
-
-      <IngredientsFaqSection showTitle={true} questions={FAQ_ITEMS} />
+      <IngredientsFaqSection showTitle={true} questions={FAQ_ITEMS?.faqs} />
     </main>
   );
 }

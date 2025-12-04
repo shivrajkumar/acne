@@ -1,15 +1,6 @@
 import React from "react";
 
-export default function Story({
-    data,
-    image = "/assets/default-image.jpg",
-    name = "Rumer Willis",
-    headlineAccent = "is sharing her acne story.",
-    description = "Rumer Willis openly spoke about how pregnancy led to noticeable changes to her signature curls. Ready to share your hair story, too?",
-    ctaHref = "#",
-    className = "",
-    reverse = false,
-}) {
+export default function Story({ data, reverse = false }) {
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-12">
       {/* Outer card */}
@@ -18,14 +9,19 @@ export default function Story({
         style={{ backgroundColor: "#FFD9CA" }}
       >
         {/* content order: text first (mobile), image second -> on md screens reverse to show image left */}
-        <div className={`flex flex-col-reverse ${ (data?.reverse !== undefined ? data.reverse : reverse) ? "lg:flex-row-reverse" : "lg:flex-row" } items-stretch`}>
+        <div
+          className={`flex flex-col-reverse ${
+            (data?.reverse !== undefined ? data.reverse : reverse)
+              ? "lg:flex-row-reverse"
+              : "lg:flex-row"
+          } items-stretch`}
+        >
           {/* Image block (mobile appears below, desktop left due to md:flex-row-reverse) */}
           <div className="w-full md:w-1/2">
             <img
-              src={data?.image?.url || image}
-              alt={data?.image?.alternativeText || `${data?.name || name} portrait`}
+              src={data?.image?.url}
+              alt={data?.image?.name}
               className="w-full h-80 md:h-[850px] object-cover"
-              // for smoother edges when combined with rounded container, crop within img
             />
           </div>
 
@@ -33,23 +29,22 @@ export default function Story({
           <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center text-center">
             <div className="mx-auto max-w-2xl">
               <h3 className="text-2xl md:text-5xl lg:text-7xl leading-tight text-[#0f1721]">
-                {data?.name || name}
+                {data?.name || data?.title}
               </h3>
 
               <p className="my-3 lg:my-10 text-lg md:text-2xl lg:text-7xl font-medium text-[#934640]">
-                {data?.headlineAccent || headlineAccent}
+                {data?.headline}
               </p>
 
-              <div className="my-4 border-t border-[#FFE6E1]" />
+              <div className="my-4 border-t border-Grey/300" />
 
-              <p className="text-base lg:text-3xl lg:my-10 text-[#0f1721]">
-                {data?.description || description}
+              <p className="text-[16px] lg:text-3xl lg:my-10 text-[#0f1721]">
+                {data?.description}
               </p>
 
-              {(data?.ctaHref || ctaHref) && (
-                <div className="mt-6 md:mt-8">
+              <div className="mt-6 md:mt-8">
                 <a
-                  href={data?.ctaHref || ctaHref}
+                  href={data?.ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-[#934640] text-white px-5 py-3 rounded-full shadow-md hover:opacity-95 transition"
@@ -67,7 +62,6 @@ export default function Story({
                   />
                 </a>
               </div>
-              )}
             </div>
           </div>
         </div>

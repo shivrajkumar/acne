@@ -1,12 +1,16 @@
 import React from "react";
-// import ActionButton from "../../../components/button";
 
 export default function ThickHair({
   data,
-  subtitle = "We are with you through thick and hair thinning.",
   ctaHref = "#",
   whatsappImg = "/instagram.png",
 }) {
+  const title = data?.title || "";
+  const highlightWords = data?.highlightedWords || [];
+
+  // defensive: ensure highlightWords is an array
+  const safeHighlight = Array.isArray(highlightWords) ? highlightWords : [];
+
   return (
     <section
       className="w-full py-12 sm:py-20 md:py-0 flex items-center justify-center lg:mb-24"
@@ -20,25 +24,28 @@ export default function ThickHair({
             "linear-gradient(90deg, rgba(245,242,240,1) 0%, rgba(255,235,226,1) 50%, rgba(255,230,225,1) 100%)",
         }}
       >
-        {/* Content wrapper with vertical centering */}
+        {/* Content wrapper */}
         <div className="w-full max-w-6xl px-6 sm:px-12 py-16 sm:py-20 md:py-32 lg:font-medium flex flex-col lg:items-center lg:justify-center lg:text-center">
+          
+          {/* Title with highlighted words */}
           <h2 className="font-normal text-[28px] sm:text-4xl md:text-[56px] lg:text-[87px] leading-tight md:leading-[1.1] text-black">
-            {data?.title || (
-              <>
-                <span className="block text-[#A83C35]">For Every Breakout</span>
-                <span className="block mt-1">
-                  <span className="">and Breakthrough.</span>
-                </span>
-              </>
-            )}
+
+            {title.split(" ").map((word, idx) => (
+              <span
+                key={idx}
+                className={
+                  safeHighlight.includes(word.replace(".", "")) 
+                    ? "text-[#934640]" 
+                    : ""
+                }
+              >
+                {word}{" "}
+              </span>
+            ))}
+
           </h2>
 
-          {data?.description && (
-            <p className="mt-4 text-base md:text-lg lg:text-2xl text-black">
-              {data.description}
-            </p>
-          )}
-
+          {/* CTA */}
           <div className="mt-6 md:mt-10">
             <a
               href={ctaHref}

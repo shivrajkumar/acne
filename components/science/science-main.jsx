@@ -1,5 +1,7 @@
-import React from "react";
-import { STRAPI_DEV_URL } from "@/constants/constants";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { fetchStrapiData } from "@/helpers/strapiClient";
 import ScienceHero from "./ScienceHero";
 import BiologySection from "./BiologySection";
 import InteractiveFactorsSection from "./InteractiveFactorsSection";
@@ -9,31 +11,34 @@ import RealResultsSection from "./RealResultsSection";
 import ProductComparisonSection from "./ProductComparisonSection";
 import ResearchStatsSection from "./ResearchStatsSection";
 import ScienceFaqSection from "./ScienceFaqSection";
+import Loader from "@/components/generic/Loader";
 
-async function getScienceData() {
-  try {
-    const res = await fetch(`${STRAPI_DEV_URL}/api/cr-science?populate=deep`, {
-      method: "GET",
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-    });
+export default function ScienceMain() {
+  const [scienceData, setScienceData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch science data: ${res.status}`);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const { data, error } = await fetchStrapiData("/api/cr-science?populate=deep");
 
-    const data = await res.json();
-    return data?.data?.attributes || null;
-  } catch (err) {
-    console.error("Error fetching science data:", err);
-    return null;
-  }
-}
+      if (error) {
+        console.warn("Failed to load science data:", error);
+      }
 
-export default async function ScienceMain() {
-  const scienceData = await getScienceData();
+      setScienceData(data?.data?.attributes);
+      setLoading(false);
+    };
 
-  if (!scienceData) {
-    console.warn("Failed to load science data, using fallback content");
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Loader />
+      </div>
+    );
   }
 
   return (
