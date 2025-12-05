@@ -18,13 +18,13 @@ export default function Philosophy() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const { data, error } = await fetchStrapiData("/api/cr-our-plan?populate=deep");
+      const { data, error } = await fetchStrapiData("/api/cr-our-plan");
 
       if (error) {
         console.warn("Failed to load philosophy data:", error);
       }
 
-      setPhilosophyData(data?.data?.attributes);
+      setPhilosophyData(data);
       setLoading(false);
     };
 
@@ -41,13 +41,13 @@ export default function Philosophy() {
 
   return (
     <main className="w-full">
-        <Hero data={philosophyData?.hero_section} />
-        <InsideOutside data={philosophyData?.inside_outside_section} />
-        <FivePillars data={philosophyData?.five_pillars_section} />
-        <Diagnose data={philosophyData?.diagnose_section} />
-        <Simplicity data={philosophyData?.simplicity_section} />
-        <RealPeople data={philosophyData?.real_people_section} />
-        <Efficacy data={philosophyData?.efficacy_section} />
+        <Hero data={philosophyData?.data?.heroSection} />
+        <InsideOutside data={philosophyData?.data?.insideOutsideCareSection} />
+        <FivePillars data={philosophyData?.data?.fivePillarsSection} />
+        <Diagnose data={philosophyData?.data?.diagnosisSection} />
+        <Simplicity data={philosophyData?.data?.simplicitySection} />
+        <RealPeople data={philosophyData?.data?.testimonialsSection} />
+        <Efficacy data={philosophyData?.data?.efficacyBannerSection} />
     </main>
   );
 }

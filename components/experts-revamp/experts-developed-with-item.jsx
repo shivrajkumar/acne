@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function DevelopedWithItem({ item }) {
   return (
-    <Link href={`/experts/${item.slug}`}>
+    <Link href={`/${item.slug}`}>
       <div className="flex flex-col items-center cursor-pointer group">
         <div className="w-full h-[270px] md:h-[442px] relative">
           {item?.image && 
