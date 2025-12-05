@@ -73,6 +73,9 @@ export const navigationItems = [
           items: [
             { name: "Who are We?", href: "/about-us" },
             { name: "Our Experts", href: "/experts" },
+            { name: "How It Works", href: "/how-it-works" },
+            { name: "Philosophy", href: "/philosophy" },
+            { name: "Community", href: "/community" },
           ],
         },
       ],

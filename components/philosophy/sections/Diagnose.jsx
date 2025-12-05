@@ -5,28 +5,7 @@ export default function Ingredients({ data }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollContainerRef = useRef(null);
 
-  const ingredients = data?.items || [
-    {
-      name: "INTERNAL TRIGGER DIAGNOSIS",
-      description: "We identify what's causing your acne from the inside - hormones, stress, diet etc.",
-      image: "/ingredients_1.jpg"
-    },
-    {
-      name: "SKIN HEALTH DIAGNOSIS",
-      description: "We study your acne type, skin barrier, sensitivity, and oil levels.",
-      image: "/ingredients_2.jpg"
-    },
-    {
-      name: "DEEP AI SCAN",
-      description: "Our AI scan reads pores, spots,  of your acne and tracks your improvement.",
-      image: "/ingredients_3.jpg"
-    },
-    {
-      name: "PERSONALISED PLANS",
-      description: "Your plan is built only for you — using your skin type and internal triggersin.",
-      image: "/ingredients_4.jpg"
-    }
-  ];
+  const ingredients = data?.steps;
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -55,7 +34,7 @@ export default function Ingredients({ data }) {
           onScroll={handleScroll}
           className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar pb-8 md:pb-0"
         >
-          {ingredients.map((item, index) => (
+          {ingredients?.map((item, index) => (
             <div
               key={index}
               className="min-w-[85%] md:min-w-0 snap-center flex flex-col gap-4"
@@ -68,10 +47,10 @@ export default function Ingredients({ data }) {
                 />
               </div>
               <div>
-                <h3 className="text-[#0F1B28] font-bold text-base lg:text-lg mb-2 uppercase tracking-wide">
-                  {item.name}
+                <h3 className="text-[#0F1B28] font-bold text-[16px] lg:text-lg mb-2 uppercase tracking-wide">
+                  {item.title}
                 </h3>
-                <p className="text-[#0F1B28] text-sm lg:text-base leading-relaxed">
+                <p className="text-[#0F1B28] text-sm lg:text-[16px] leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -81,7 +60,7 @@ export default function Ingredients({ data }) {
 
         {/* Mobile Pagination Dots */}
         <div className="flex md:hidden justify-center gap-2 mt-4">
-          {ingredients.map((_, index) => (
+          {ingredients?.map((_, index) => (
             <div
               key={index}
               className={`w-2 h-2 rounded-full transition-colors duration-300 ${
