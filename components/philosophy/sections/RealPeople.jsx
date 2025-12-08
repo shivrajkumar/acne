@@ -4,19 +4,11 @@ import React from "react";
 import Image from "next/image";
 
 export default function RealPeople({ data }) {
-  const defaultStories = [
-    {
-      image: "/riya.jpg",
-    },
-    {
-      image: "/avantika.jpg",
-    },
-  ];
-
-  const stories = data?.stories || defaultStories;
+  const stories = data?.testimonials;
+  console.log("RealPeople data:", data);
 
   return (
-    <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+    <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
       <div className="bg-[#D5F4E1] rounded-2xl p-6 md:p-10">
         {/* TITLE */}
         <div className="text-center mb-6 md:mb-8">
@@ -32,12 +24,12 @@ export default function RealPeople({ data }) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-start">
           {/* IMAGE CARD 1 */}
           <div className="relative rounded-xl overflow-hidden bg-white">
-            <div className="relative w-full h-[320px] lg:h-[420px]">
+            <div className="relative w-full h-[200px] lg:h-[420px]">
               <Image
-                src={stories[0].image}
+                src={stories[0]?.image?.url}
                 alt="Story Image 1"
                 fill
-                className="object-cover"
+                className="object-contain"
                 priority
               />
             </div>
@@ -46,7 +38,7 @@ export default function RealPeople({ data }) {
           {/* GREEN CARD 1 */}
           <div
             className="relative rounded-xl bg-[#579E8F] text-white flex items-center justify-center 
-                h-[320px] lg:h-[420px] p-6 md:p-8"
+                h-[200px] lg:h-[420px] p-6 md:p-8"
           >
             <h3 className="text-center font-bold text-base md:text-xl lg:text-4xl leading-snug">
               There's
@@ -59,12 +51,12 @@ export default function RealPeople({ data }) {
 
           {/* IMAGE CARD 2 — mobile: should appear 4th */}
           <div className="relative rounded-xl overflow-hidden bg-white order-4 md:order-3">
-            <div className="relative w-full h-[320px] lg:h-[420px]">
+            <div className="relative w-full h-[200px] lg:h-[420px]">
               <Image
-                src={stories[1].image}
+                src={stories[2]?.image?.url}
                 alt="Story Image 2"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
           </div>
@@ -72,7 +64,7 @@ export default function RealPeople({ data }) {
           {/* GREEN CARD 2 — mobile: third */}
           <div
             className="relative rounded-xl bg-[#579E8F] text-white flex items-center justify-center 
-                h-[320px] lg:h-[420px] p-6 md:p-8 order-3 md:order-4"
+                h-[200px] lg:h-[420px] p-6 md:p-8 order-3 md:order-4"
           >
             <h3 className="text-center font-bold text-base md:text-xl lg:text-4xl leading-snug">
               You

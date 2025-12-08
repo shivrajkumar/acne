@@ -1,15 +1,15 @@
 import React from "react";
 import Image from "next/image";
+import InstagramIcon from "@assets/svg/Insta Icon.svg";
 
 export default function HeroSection({
   data,
   subtitle = "We talk about everything - acne, scars, confidence, routines, what really works.",
   imageSrc = "/hero_community.jpg",
 }) {
-
   return (
     <section
-      className="relative w-full lg:mb-24"
+      className="relative w-full"
       role="banner"
       aria-label="Hero"
     >
@@ -50,12 +50,14 @@ export default function HeroSection({
             {/* CTA */}
             <button className="mt-6 flex justify-center mx-auto">
               <a
-                href="#"
+                href="https://www.instagram.com/clear.ritual/"
                 className="flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-medium shadow-md hover:shadow-lg transition"
               >
-                <img
-                  src="/instagram.png"
+                <Image
+                  src={InstagramIcon}
                   alt="Instagram"
+                  width={20}
+                  height={20}
                   className="w-5 h-5 object-contain"
                 />
                 Join us on Instagram

@@ -10,6 +10,7 @@ import FivePillars from "./sections/FivePillars";
 import Efficacy from "./sections/efficacy";
 import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
+import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
 export default function Philosophy() {
   const [philosophyData, setPhilosophyData] = useState(null);
@@ -42,6 +43,7 @@ export default function Philosophy() {
   return (
     <main className="w-full">
         <Hero data={philosophyData?.data?.heroSection} />
+        <div className="px-4 py-4"><BreadcrumbNavigator/></div>
         <InsideOutside data={philosophyData?.data?.insideOutsideCareSection} />
         <FivePillars data={philosophyData?.data?.fivePillarsSection} />
         <Diagnose data={philosophyData?.data?.diagnosisSection} />

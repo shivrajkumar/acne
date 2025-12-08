@@ -40,7 +40,7 @@ export default function ClearRitualBook() {
   return (
     <section className="mx-auto px-4 py-12 max-w-6xl">
       {/* Page Title */}
-      <h1 className="text-center text-[32px] md:text-[87px] font-semibold text-[#0F1A2A] mb-6">
+      <h1 className="text-center text-[32px] md:text-[87px] font-normal text-[#0F1A2A] mb-6">
         {heading}
       </h1>
 

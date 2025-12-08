@@ -41,10 +41,9 @@ function AvatarBadge({ name, text, beforeImage, afterImage, month }) {
 
 export default function StoriesGridSection({ data }) {
   const imgs = defaultImgs;
-  console.log('StoriesGridSection data:', data);
 
   return (
-    <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+    <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12">
       <div className="bg-[#FCE6E0] rounded-2xl p-6 md:p-10">
         <div className="text-center mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-sofia font-medium lg:font-bold text-[#0F1B28]">

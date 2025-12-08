@@ -31,7 +31,7 @@ const getImageUrl = (image) => {
 const TopicCard = ({ topic, index }) => {
   const isEven = index % 2 === 0;
   const imageUrl = getImageUrl(topic.image);
-  
+
   const imageBlock = (
     <div className="hidden md:block shrink-0">
       <div className="rounded-xl overflow-hidden w-28 h-28 md:w-40 md:h-48 lg:w-80 lg:h-96 bg-gray-100">
