@@ -39,7 +39,7 @@ export default function AdvisoryBoard({ data }) {
         </div>
 
         <Link
-          href={data?.cta_link || "/experts"}
+          href={"/experts"}
           className="inline-block border border-[#0F1B28] text-[#0F1B28] px-8 py-3 rounded-full text-sm md:text-[16px] font-medium hover:bg-[#0F1B28] hover:text-white transition-colors duration-300"
         >
           {data?.cta_text || "Learn More About Our Experts"}
