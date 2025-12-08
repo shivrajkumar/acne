@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import { env } from "next-runtime-env";
 
 const PUBLIC_API_BASE_URL = env("NEXT_PUBLIC_PUBLIC_API_URL_BASE");
+const INTERNAL_GATEWAY_API_URL = env("NEXT_PUBLIC_INTERNAL_GATEWAY_API_URL");
 // function to generate url
 
 const PROXY_PREFIX = "/api/proxy";
@@ -259,3 +260,6 @@ export const GET_PRODUCT_CATEGORY = () => {
   return `${PROXY_PREFIX}/consumer-api/service/static-content/data/${config}`;
 };
 export const SITE_BASE_URL = env("NEXT_PUBLIC_SITE_BASE_URL") || "https://clearritual.com";
+
+
+export const GET_USER_DETAILS = (caseId) => `${INTERNAL_GATEWAY_API_URL}/api/service/consumers/profile/details?userId=${caseId}`;

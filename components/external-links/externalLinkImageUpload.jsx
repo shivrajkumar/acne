@@ -7,6 +7,7 @@ import ClearRitualLogo from "@assets/images/Clear_Ritual_Logo.png";
 import Image from "next/image";
 import ImageUploadWithHaut from "@/components/form/liqaHautAi";
 import UploadSuccessModal from "@/components/external-links/UploadSuccessModal";
+import { GET_USER_DETAILS } from "@constants/urls";
 
 const INSTRUCTIONS = [
   { id: 1, text: "Hold Phone in front of your face", img: InstructionOne },
@@ -31,18 +32,54 @@ const InstructionCard = ({ text, img }) => (
 const UserBadge = ({ name, stage }) => (
   <div className="rounded-lg p-4 bg-stone-100 lg:bg-amber-50 lg:mb-6 text-[16px] md:text-lg">
     <p className="text-gray-800 font-medium">{name}</p>
-    <p className="text-gray-600 text-sm">Acne Stage: {stage}</p>
+    {/* <p className="text-gray-600 text-sm">Acne Stage: {stage}</p> */}
   </div>
 );
 
 export default function ExternalLinkImageUpload() {
   const [showCamera, setShowCamera] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
 
   // Get caseId and transactionId from URL params
   const caseId = searchParams.get('caseId');
   const transactionId = searchParams.get('transactionId');
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (!caseId) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(GET_USER_DETAILS(caseId), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customerColumns: 'gender,firstName,lastName'
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.firstName) {
+            setFirstName(data.firstName);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserDetails();
+  }, [caseId]);
 
   const handleTakePhoto = () => {
     setShowCamera(true);
@@ -122,7 +159,7 @@ export default function ExternalLinkImageUpload() {
       </header>
 
       <div className="bg-white rounded-xl lg:rounded-2xl p-4 mx-10 lg:p-6 border border-Grey/300 md:max-w-4xl md:mx-auto">
-        <UserBadge name="Riya Kataria" stage="Mild" />
+        <UserBadge name={loading ? "" : (firstName || "Guest")}/>
 
         <div className="mt-4 lg:mt-0 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4 lg:mb-6">
           {INSTRUCTIONS.map((item, i) => (
