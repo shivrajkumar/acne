@@ -12,18 +12,18 @@ export default function Efficacy({ data }) {
         />
 
         {/* Mobile Overlay */}
-        <div className="absolute inset-0 bg-black/20 flex flex-col justify-center items-center text-center p-6 md:hidden">
+        {/* <div className="absolute inset-0 bg-black/20 flex flex-col justify-center items-center text-center p-6 md:hidden">
           <h2 className="text-white text-4xl font-bold leading-tight">
             {data?.title }
           </h2>
-        </div>
+        </div> */}
 
         {/* Desktop Overlay */}
-        <div className="hidden md:flex absolute inset-0 flex-col justify-center items-center text-center p-20">
+        {/* <div className="hidden md:flex absolute inset-0 flex-col justify-center items-center text-center p-20">
            <h2 className="text-white text-5xl lg:text-6xl tracking-wide">
              {data?.title }
            </h2>
-        </div>
+        </div> */}
       </div>
     </section>
   );
