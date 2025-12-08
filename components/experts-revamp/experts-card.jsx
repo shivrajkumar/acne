@@ -15,7 +15,7 @@ export default function ExpertCard({ expert }) {
 
       <div className="text-center md:text-left">
         <h3 className="font-bold text-lg md:text-[32px]">{expert?.name}</h3>
-        <p className="text-[16px] md:text-2xl text-gray-600 mt-1 md:mt-0">
+        <p className="text-[16px] md:text-2xl text-gray-600 mt-1 md:mt-4">
           {expert?.designation} |{" "}
           <span className="text-Primary/500">{expert?.experience}</span> |{" "}
           <span className="text-Primary/500">{expert?.patients} Patients</span>

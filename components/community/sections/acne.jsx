@@ -10,9 +10,9 @@ export default function Acne({ data }) {
           <div className="p-8 flex flex-col justify-between lg:justify-evenly gap-6">
             <div className="">
               {/* ⭐ 3-LINE TITLE (as in screenshot) */}
-              <h1 className="text-center font-medium text-3xl md:text-[48px] leading-tight text-black px-36">
-                {data?.title}
-              </h1>
+              <h1 className="text-center font-medium text-3xl md:text-[48px] leading-tight text-black px-6 lg:px-36">
+  {data?.title}
+</h1>
 
               {/* Divider */}
               <hr className="border-t border-gray-300 mt-6" />
@@ -25,7 +25,7 @@ export default function Acne({ data }) {
           </div>
 
           {/* RIGHT IMAGE — LEFT UNTOUCHED */}
-          <div className="h-32 lg:h-[680px] w-full">
+          <div className="h-85 lg:h-[680px] w-full">
             <img
               src={data?.image?.url}
               alt={data?.image?.name}

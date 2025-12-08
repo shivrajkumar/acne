@@ -22,11 +22,11 @@ export default function Hero({ data }) {
         </div>
 
         {/* Inline Button */}
-        <button
+        {/* <button
           className="mt-4 px-6 py-3 border border-white text-white rounded-full font-medium bg-transparent hover:bg-white hover:text-black transition"
         >
           {data?.cta_text}
-        </button>
+        </button> */}
       </div>
 
       {/* Desktop Overlay */}
@@ -40,11 +40,11 @@ export default function Hero({ data }) {
           </div>
 
           {/* Inline Button */}
-          <button
+          {/* <button
             className="px-8 py-4 border border-white text-white rounded-full font-medium bg-transparent hover:bg-white hover:text-black transition"
           >
             {data?.cta_text}
-          </button>
+          </button> */}
         </div>
       </div>
     </section>

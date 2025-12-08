@@ -4,12 +4,12 @@ export default function FivePillars({ data }) {
   const listItems = data?.pillars
 
   return (
-    <section className="w-full mx-auto px-4 md:px-16 py-12 font-sofia">
+    <section className="w-full mx-auto px-4 md:px-16 py-6 font-sofia">
       <div className="bg-[#F9F9F5] rounded-[32px] overflow-hidden flex flex-col md:flex-row min-h-[600px]">
         {/* Image - Left on Desktop, Top on Mobile */}
         <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-full">
           <img
-            src={data?.image?.url}
+            src={data?.whiteboardImage?.url}
             alt={data?.image?.name}
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -22,7 +22,7 @@ export default function FivePillars({ data }) {
             {data?.title}
           </h2>
 
-          <p className="text-[#505354] text-sm md:text-lg mb-12 leading-relaxed max-w-lg">
+          <p className="text-[#505354] text-sm md:text-lg mb-6 leading-relaxed max-w-lg">
             {data?.description}
           </p>
           </div>

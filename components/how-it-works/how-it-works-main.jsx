@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Hero from './sections/Hero';
-import StepCard from './sections/StepCard';
-import Journey from './sections/Journey';
-import BottomBanner from './sections/BottomBanner';
+import React, { useState, useEffect } from "react";
+import Hero from "./sections/Hero";
+import StepCard from "./sections/StepCard";
+import Journey from "./sections/Journey";
+import BottomBanner from "./sections/BottomBanner";
 import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
+import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
 export default function HowItWorks() {
   const [howItWorksData, setHowItWorksData] = useState(null);
@@ -36,16 +37,17 @@ export default function HowItWorks() {
     );
   }
 
-  console.log("howItWorksData:", howItWorksData);
-
   const steps = howItWorksData?.data?.contentSections;
 
   return (
     <main className="w-full">
       <Hero data={howItWorksData?.data?.bannerSection} />
-      <section className="px-6 md:px-20 py-16 mx-auto">
+      <div className="px-4 py-6">
+        <BreadcrumbNavigator />
+      </div>
+      <section className="px-6 md:px-20 py-1 mx-auto">
         {steps?.map((step, index) => (
-            <StepCard key={index} step={step} />
+          <StepCard key={index} step={step} />
         ))}
       </section>
 

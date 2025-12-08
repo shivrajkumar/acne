@@ -16,7 +16,7 @@ export default function Ingredients({ data }) {
   };
 
   return (
-    <section className="w-full mx-auto px-4 md:px-16 py-12 font-sofia">
+    <section className="w-full mx-auto px-4 md:px-16 py-6 md:py-12 font-sofia">
       <div className="bg-[#D5F4E1] rounded-[32px] p-8 md:p-16">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 md:mb-16 gap-6 md:gap-12">
@@ -32,7 +32,7 @@ export default function Ingredients({ data }) {
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar pb-8 md:pb-0"
+          className="flex overflow-x-auto hide-scrollbar md:grid md:grid-cols-4 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar pb-8 md:pb-0"
         >
           {ingredients?.map((item, index) => (
             <div

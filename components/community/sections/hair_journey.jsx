@@ -1,5 +1,7 @@
+import Image from "next/image";
 import React from "react";
 // import ActionButton from "../../../components/button"; // adjust path if needed
+import InstagramIcon from "@assets/svg/Insta Icon.svg";
 
 export default function HairJourney({
   data,
@@ -49,24 +51,24 @@ export default function HairJourney({
 
           <div className="mt-6 md:mt-8">
             <a
-                href={ctaHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-[#000000] text-white px-8 py-3 rounded-full shadow-md hover:opacity-95 transition"
-                aria-label="Join the Facebook Group"
+              href={'https://www.instagram.com/clear.ritual/'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-[#000000] text-white px-8 py-3 rounded-full shadow-md hover:opacity-95 transition"
+              aria-label="Join the Facebook Group"
             >
-                <span className="text-sm lg:text-base font-medium">
-                    Join us on Instagram
-                </span>
-
-                <img
-                    src={iconSrc}
-                    alt="Instagram"
-                    width="18"
-                    height="18"
-                />
+              <Image
+                src={InstagramIcon}
+                alt="Instagram"
+                width={20}
+                height={20}
+                className="w-5 h-5 object-contain"
+              />
+              <span className="text-sm lg:text-base font-medium">
+                Join us on Instagram
+              </span>
             </a>
-            </div>
+          </div>
         </div>
       </div>
     </section>

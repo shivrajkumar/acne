@@ -11,6 +11,7 @@ import NoteFromTeam from "./sections/NoteFromTeam";
 import Efficacy from "./sections/efficacy";
 import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
+import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
 export default function AboutUs() {
   const [aboutUsData, setAboutUsData] = useState(null);
@@ -43,6 +44,7 @@ export default function AboutUs() {
   return (
     <main className="w-full">
         <Hero data={aboutUsData?.data?.hero_section} />
+        <div className="px-4 py-4"><BreadcrumbNavigator/></div>
         <TrialAndError data={aboutUsData?.data?.trial_and_error_section} />
         <HowWeChangeTheGame data={aboutUsData?.data?.how_we_change_section} />
         <Ingredients data={aboutUsData?.data?.ingredients_section} />

@@ -9,7 +9,7 @@ export default function HowWeChangeTheGame({ data }) {
   ];
 
   return (
-    <section className="w-full mx-auto px-4 md:px-16 py-12 font-sofia">
+    <section className="w-full mx-auto px-4 md:px-16 py-6 md:py-12 font-sofia">
       <div className="bg-[#F9F9F5] rounded-[32px] overflow-hidden flex flex-col md:flex-row min-h-[600px]">
         {/* Image - Left on Desktop, Top on Mobile */}
         <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-full">
@@ -27,7 +27,7 @@ export default function HowWeChangeTheGame({ data }) {
             {data?.title || "how we change the game"}
           </h2>
 
-          <p className="text-[#505354] text-sm md:text-lg mb-12 leading-relaxed max-w-lg">
+          <p className="text-[#505354] text-sm md:text-lg mb-6 leading-relaxed max-w-lg">
             {data?.description || "It was important to us to build a business thats delivers results. At clear, we believe in: Efficacy. Innovation. Integrity."}
           </p>
           </div>

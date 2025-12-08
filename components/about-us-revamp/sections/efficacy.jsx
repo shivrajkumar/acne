@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Efficacy({ data }) {
   return (
-    <section className="w-full mx-auto px-4 md:px-16 py-12 font-sofiaPro">
+    <section className="w-full mx-auto px-4 md:px-16 py-6 md:py-12 font-sofiaPro">
       <div className="relative w-full h-[500px] md:h-[300px] rounded-lg overflow-hidden">
         {/* Background Image */}
         <img
@@ -13,7 +13,7 @@ export default function Efficacy({ data }) {
 
         {/* Mobile Overlay */}
         <div className="absolute inset-0 bg-black/20 flex flex-col justify-center items-center text-center p-6 md:hidden">
-          <h2 className="text-white text-4xl font-bold leading-tight">
+          <h2 className="text-white text-4xl font-normal leading-tight">
             {data?.title || data?.text}
           </h2>
         </div>

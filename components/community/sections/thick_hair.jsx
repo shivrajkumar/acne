@@ -1,4 +1,6 @@
+import Image from "next/image";
 import React from "react";
+import InstagramIcon from "@assets/svg/Insta Icon.svg";
 
 export default function ThickHair({
   data,
@@ -13,7 +15,7 @@ export default function ThickHair({
 
   return (
     <section
-      className="w-full py-12 sm:py-20 md:py-0 flex items-center justify-center lg:mb-24"
+      className="w-full py-2 sm:py-20 md:py-0 flex items-center justify-center lg:mb-24"
       aria-label="Support message"
     >
       {/* gradient background panel */}
@@ -48,16 +50,16 @@ export default function ThickHair({
           {/* CTA */}
           <div className="mt-6 md:mt-10">
             <a
-              href={ctaHref}
+              href={'https://www.instagram.com/clear.ritual/'}
               className="inline-flex items-center gap-3 px-6 py-3 rounded-full font-medium transition text-white bg-black hover:bg-gray-900"
             >
-              {(data?.image?.url || whatsappImg) && (
-                <img
-                  src={data?.image?.url || whatsappImg}
-                  alt={data?.image?.alternativeText || "Instagram"}
+              <Image
+                  src={InstagramIcon}
+                  alt="Instagram"
+                  width={20}
+                  height={20}
                   className="w-5 h-5 object-contain"
                 />
-              )}
               Join us on Instagram
             </a>
           </div>

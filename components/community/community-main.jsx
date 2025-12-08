@@ -15,6 +15,7 @@ import HairJourney from "./sections/hair_journey";
 import IngredientsFaqSection from "../ingredientsLanding/components/ingredientsFaq";
 import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
+import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
 const DEFAULT_FAQ_ITEMS = [
   {
@@ -88,6 +89,9 @@ export default function Community() {
   return (
     <main>
       <HeroSection data={communityData?.data?.heroSection} />
+      <div className="px-4 py-4">
+        <BreadcrumbNavigator/>
+      </div>
       <ThickHair data={communityData?.data?.taglineSection} />
       <Acne data={communityData?.data?.missionSection} />
       <AboutSection data={communityData?.data?.whatWeDiscussSection} />
@@ -97,7 +101,9 @@ export default function Community() {
       <Story data={communityData?.data?.mythBusterSection} reverse={true}/>
       <HairJourney data={communityData?.data?.journeyCtaSection} />
       {/* <Shedding /> */}
-      <IngredientsFaqSection showTitle={true} questions={FAQ_ITEMS?.faqs} />
+      <div className="px-4">
+        <IngredientsFaqSection showTitle={true} questions={FAQ_ITEMS?.faqs} />
+      </div>
     </main>
   );
 }
