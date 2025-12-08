@@ -36,8 +36,6 @@ export default function HowItWorks() {
     );
   }
 
-  console.log("howItWorksData:", howItWorksData);
-
   const steps = howItWorksData?.data?.contentSections;
 
   return (
