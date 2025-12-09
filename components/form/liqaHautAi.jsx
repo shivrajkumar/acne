@@ -34,26 +34,14 @@ export default function ImageUploadWithHaut({
 
   // Move preloaded element into view
   useEffect(() => {
-    console.log(
-      "[ImageUploadWithHaut] Component mounted, looking for preloaded element..."
-    );
-
     const preloadedElement =
       window.__preloadedLiqaElement ||
       document.getElementById("preloaded-liqa");
 
     if (preloadedElement && containerRef.current) {
-      console.log(
-        "[ImageUploadWithHaut] Found preloaded element, moving it into view..."
-      );
-
       containerRef.current.appendChild(preloadedElement);
       liqaRef.current = preloadedElement;
-    } else {
-      console.log(
-        "[ImageUploadWithHaut] No preloaded element found, will create new one"
-      );
-    }
+    } 
 
     return () => {
       if (liqaRef.current && window.__preloadedLiqaElement) {
@@ -64,9 +52,6 @@ export default function ImageUploadWithHaut({
           offscreenContainer &&
           liqaRef.current.parentNode !== offscreenContainer
         ) {
-          console.log(
-            "[ImageUploadWithHaut] Moving element back offscreen for reuse"
-          );
           offscreenContainer.appendChild(liqaRef.current);
         }
       }
@@ -414,9 +399,18 @@ export default function ImageUploadWithHaut({
 
         if (txRes.status === 200) {
           // Image uploaded AND submitted successfully
-          handleSubmit(blob);
-          setAllQuestionsFilled(true);
+          if (handleSubmit) {
+            handleSubmit(blob);
+          }
+          if (setAllQuestionsFilled) {
+            setAllQuestionsFilled(true);
+          }
           window.localStorage.setItem("form_status", "filled");
+
+          // Call onSuccess callback if provided
+          if (onSuccess) {
+            onSuccess();
+          }
         } else {
           // Transaction API failed
           trackMoEngageEvent("image_analysis_failed");
@@ -439,12 +433,12 @@ export default function ImageUploadWithHaut({
       {/* Loader removed intentionally */}
 
       <div ref={containerRef} className="w-full h-full relative">
-        {/* {!window.__preloadedLiqaElement && ( */}
+        {!window.__preloadedLiqaElement && (
         <hautai-liqa
           class="preview w-full h-full"
           ref={liqaRef}
           license="ll_cfa291c08ce340a6"
-          styles=".source-selection .button.secondary { display: none; }"
+          styles=".source-selection .button.secondary { visibility: hidden; }"
           preset="face"
           show-preview="true"
           enable-preview="true"
@@ -454,7 +448,7 @@ export default function ImageUploadWithHaut({
           required-lighting="none"
           showLightSourcePrompt="false"
         ></hautai-liqa>
-        {/* )}  */}
+        )}  
 
         {err && (
           <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-red-500 text-sm text-center z-10">
