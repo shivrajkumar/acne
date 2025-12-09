@@ -445,21 +445,22 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
       {/* Loader removed intentionally */}
 
       <div ref={containerRef} className="w-full h-full relative">
-        {!window.__preloadedLiqaElement && (
+        {/* {!window.__preloadedLiqaElement && ( */}
           <hautai-liqa
             class="preview w-full h-full"
             ref={liqaRef}
             license="ll_cfa291c08ce340a6"
+            styles=".source-selection .button.secondary { visibility: hidden; }"
             preset="face"
             show-preview="true"
             enable-preview="true"
             preview-duration="5000"
-            sources="front_camera,upload,companion"
+            sources="front_camera,companion"
             onContinueWeb={handleContinueOnWeb}
             required-lighting="none"
             showLightSourcePrompt="false"
           ></hautai-liqa>
-        )}
+        {/* )}  */}
         
 
         {err && (
