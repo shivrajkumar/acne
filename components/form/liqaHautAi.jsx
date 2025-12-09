@@ -438,12 +438,12 @@ export default function ImageUploadWithHaut({
           class="preview w-full h-full"
           ref={liqaRef}
           license="ll_cfa291c08ce340a6"
-          styles=".source-selection .button.secondary { visibility: hidden; }"
           preset="face"
+          styles=".source-selection .button.secondary { display: none; }"
           show-preview="true"
           enable-preview="true"
           preview-duration="5000"
-          sources="front_camera,companion"
+          sources="front_camera, companion"
           onContinueWeb={handleContinueOnWeb}
           required-lighting="none"
           showLightSourcePrompt="false"
