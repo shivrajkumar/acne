@@ -262,4 +262,4 @@ export const GET_PRODUCT_CATEGORY = () => {
 export const SITE_BASE_URL = env("NEXT_PUBLIC_SITE_BASE_URL") || "https://clearritual.com";
 
 
-export const GET_USER_DETAILS = (caseId) => `${INTERNAL_GATEWAY_API_URL}/api/service/consumers/profile/details?userId=${caseId}`;
+export const GET_USER_DETAILS = (caseId) => getUrl(`/consumer-api/service/consumers/profile/details?userId=${caseId}&customerColumns=gender,firstName,lastName`);

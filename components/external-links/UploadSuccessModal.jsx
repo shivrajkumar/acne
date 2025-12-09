@@ -56,7 +56,6 @@ export default function UploadSuccessModal({ isOpen, onClose, caseId }) {
   return (
     <>
       <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
-
       <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center px-4 pointer-events-none">
         <div
           ref={sheetRef}
@@ -90,7 +89,7 @@ export default function UploadSuccessModal({ isOpen, onClose, caseId }) {
           <div className="relative px-6 pb-8 pt-2 md:px-8 md:py-10 text-center">
 
             {/* --- DESKTOP CLOSE BUTTON --- */}
-            {isDesktop && (
+            {/* {isDesktop && (
               <button
                 onClick={onClose}
                 className="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition shadow-md z-20"
@@ -109,7 +108,7 @@ export default function UploadSuccessModal({ isOpen, onClose, caseId }) {
                   />
                 </svg>
               </button>
-            )}
+            )} */}
 
             {/* Content */}
             <div className="flex items-center gap-3 mb-6 justify-start">
