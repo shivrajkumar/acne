@@ -450,7 +450,7 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
             class="preview w-full h-full"
             ref={liqaRef}
             license="ll_cfa291c08ce340a6"
-            styles=".source-selection .button.secondary { visibility: hidden; }"
+            styles=".source-selection .button.secondary { display: none; }"
             preset="face"
             show-preview="true"
             enable-preview="true"
