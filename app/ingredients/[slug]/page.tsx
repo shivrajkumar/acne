@@ -13,7 +13,6 @@ const page = async ({ params }: PageProps) => {
 
   const { slug } = params;
   const ingredientData = ingredientdData.find(ingredient => ingredient.slug === slug);
-  console.log("Ingredient Data:", ingredientData);
   return <IngredientsDetails data={ingredientData} />;
 }
 

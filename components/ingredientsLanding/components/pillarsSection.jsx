@@ -20,7 +20,7 @@ const PILLARS = [
 
 const PillarsSection = () => {
   return (
-    <div className="flex flex-col gap-6 py-20 px-4 md:px-12 text-[#262626] md:container mx-auto">
+    <div className="flex flex-col gap-6 py-10 px-4 md:px-12 text-[#262626] md:container mx-auto">
       {PILLARS?.map((item, idx) => (
         <div key={idx} className="border border-black flex flex-col md:flex-row justify-between p-4 rounded-xl bg-white shadow-sm md:items-center">
           <div className="font-normal font-sophiaPro text-[28px] md:text-[40px] mb-2 w-full md:w-1/4">{item.title}</div>
