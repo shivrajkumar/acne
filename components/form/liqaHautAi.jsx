@@ -9,7 +9,13 @@ import { QuestionsContext } from "@/context/questions-store";
 import { trackMoEngageEvent } from "@/utils/moegage";
 import { logGtmEvent } from "@/helpers/gtmHelpers";
 
-export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId: propCaseId, transactionId: propTransactionId, onSuccess }) {
+export default function ImageUploadWithHaut({
+  block,
+  skinAnalysisStatus,
+  caseId: propCaseId,
+  transactionId: propTransactionId,
+  onSuccess,
+}) {
   const observerRef = useRef(null);
   const [err, setErr] = useState(null);
   const [cameraPermission, setCameraPermission] = useState("prompt");
@@ -22,9 +28,9 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
 
   // Use props if provided, otherwise use context
   const caseId = propCaseId || context?.apiResponse?.caseId;
-  const transactionId = propTransactionId || context?.apiResponse?.transactionId;
+  const transactionId =
+    propTransactionId || context?.apiResponse?.transactionId;
   const setAllQuestionsFilled = context?.setAllQuestionsFilled;
-
 
   // Move preloaded element into view
   useEffect(() => {
@@ -336,17 +342,21 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
         return;
       }
 
+      // Take first capture
       let blob = await captures[0].blob();
       trackMoEngageEvent("image_uploaded");
 
+      // Compress image if needed (max 2MB)
       blob = await compressImage(blob, 2);
 
+      // Convert blob to base64 and store in localStorage
       const reader = new FileReader();
       reader.onloadend = () => {
         localStorage.setItem("capturedImage", reader.result);
       };
       reader.readAsDataURL(blob);
 
+      // Construct File object
       const fileName = blob.name || "upload.jpeg";
       const fileType = blob.type || "image/jpeg";
 
@@ -355,6 +365,7 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
         lastModified: Date.now(),
       });
 
+      // Final check to ensure file is under 2MB
       if (fileObject.size > 2 * 1024 * 1024) {
         console.error(
           "File still too large after compression:",
@@ -368,68 +379,51 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
       const formData = new FormData();
       formData.append("file", fileObject, fileName);
 
-      // Add skinAnalysisStatus to formData if provided
-      if (skinAnalysisStatus) {
-        formData.append("skinAnalysisStatus", skinAnalysisStatus);
-      }
-
+      // Upload image
       const uploadRes = await fetchRequest(IMAGE_UPLOAD_API(caseId), {
         method: "POST",
         body: formData,
       });
 
+      // Check if image upload was successful
       const isImageUploaded = uploadRes?.success || uploadRes?.status === 200;
 
       if (isImageUploaded) {
         trackMoEngageEvent("image_analysis_success");
 
-        // Skip TRANSACTION_API call if skinAnalysisStatus is OFF
-        if (skinAnalysisStatus === "OFF") {
+        // Determine status based on upload success
+        const status = formFillStatus.FILLED;
+
+        // Build form data payload
+        const _formData = {
+          question_id: block.id,
+          field_key: block.id,
+          question_text: block.text,
+          response: blob,
+          status: status,
+          location_path: window.location.pathname + window.location.search,
+          source: "website",
+          response_type: block.type,
+        };
+
+        // Save progress - single API call
+        const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
+          method: "POST",
+          body: JSON.stringify(_formData),
+        });
+
+        if (txRes.status === 200) {
+          // Image uploaded AND submitted successfully
+          handleSubmit(blob);
+          setAllQuestionsFilled(true);
           window.localStorage.setItem("form_status", "filled");
-
-          // Call onSuccess callback if provided (for external link usage)
-          if (onSuccess) {
-            onSuccess(blob);
-          }
         } else {
-          // Normal flow with TRANSACTION_API
-          const status = formFillStatus.FILLED;
-
-          const _formData = {
-            question_id: block.id,
-            field_key: block.id,
-            question_text: block.text,
-            response: blob,
-            status: status,
-            location_path: window.location.pathname + window.location.search,
-            source: "website",
-            response_type: block.type,
-          };
-
-          const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
-            method: "POST",
-            body: JSON.stringify(_formData),
-          });
-
-          if (txRes.status === 200) {
-            if (handleSubmit) {
-              handleSubmit(blob);
-            }
-            if (setAllQuestionsFilled) {
-              setAllQuestionsFilled(true);
-            }
-            window.localStorage.setItem("form_status", "filled");
-
-            // Call onSuccess callback if provided (for external link usage)
-            if (onSuccess) {
-              onSuccess(blob);
-            }
-          } else {
-            trackMoEngageEvent("image_analysis_failed");
-            setErr("Transaction API failed");
-          }
+          // Transaction API failed
+          trackMoEngageEvent("image_analysis_failed");
+          setErr("Transaction API failed");
         }
       } else {
+        // Image upload failed
         trackMoEngageEvent("image_analysis_failed");
         setErr(uploadRes?.message || "Image upload failed. Please try again.");
       }
@@ -446,22 +440,21 @@ export default function ImageUploadWithHaut({ block, skinAnalysisStatus, caseId:
 
       <div ref={containerRef} className="w-full h-full relative">
         {/* {!window.__preloadedLiqaElement && ( */}
-          <hautai-liqa
-            class="preview w-full h-full"
-            ref={liqaRef}
-            license="ll_cfa291c08ce340a6"
-            styles=".source-selection .button.secondary { display: none; }"
-            preset="face"
-            show-preview="true"
-            enable-preview="true"
-            preview-duration="5000"
-            sources="front_camera,companion"
-            onContinueWeb={handleContinueOnWeb}
-            required-lighting="none"
-            showLightSourcePrompt="false"
-          ></hautai-liqa>
+        <hautai-liqa
+          class="preview w-full h-full"
+          ref={liqaRef}
+          license="ll_cfa291c08ce340a6"
+          styles=".source-selection .button.secondary { display: none; }"
+          preset="face"
+          show-preview="true"
+          enable-preview="true"
+          preview-duration="5000"
+          sources="front_camera,companion"
+          onContinueWeb={handleContinueOnWeb}
+          required-lighting="none"
+          showLightSourcePrompt="false"
+        ></hautai-liqa>
         {/* )}  */}
-        
 
         {err && (
           <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-red-500 text-sm text-center z-10">
