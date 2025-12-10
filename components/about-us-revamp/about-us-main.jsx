@@ -12,6 +12,7 @@ import Efficacy from "./sections/efficacy";
 import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
 import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
+import { fetchRequest } from "@/helpers/fetchRequest";
 
 export default function AboutUs() {
   const [aboutUsData, setAboutUsData] = useState(null);
@@ -20,7 +21,7 @@ export default function AboutUs() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const { data, error } = await fetchStrapiData("/api/cr-about-us");
+      const { data, error } = await fetchRequest("/api/cr-about-us");
 
       if (error) {
         console.warn("Failed to load about us data:", error);
