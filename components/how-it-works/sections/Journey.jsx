@@ -22,13 +22,13 @@ export default function Journey({ data }) {
             <div>
             <p className="font-bold text-lg text-[#0F1B28] mb-3 lg:text-2xl">{data?.commitmentTitle}</p>
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
-                {commitments.map((item, index) => (
+                {commitments?.map((item, index) => (
                     <div key={index} className="bg-white p-6 rounded-xl shadow-sm flex lg:flex-col lg:items-start items-center gap-4 h-full">
                         <div className="text-[#53687E]">
-                            <img src={item.icon?.url} width="44" height="44" alt="" />
+                            <img src={item?.icon?.url} width="44" height="44" alt="" />
                         </div>
                         <p className="text-sm text-[#505354] lg:text-lg">
-                            {item.title}
+                            {item?.title}
                         </p>
                     </div>
                 ))}

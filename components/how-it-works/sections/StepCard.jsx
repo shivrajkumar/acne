@@ -5,14 +5,25 @@ export default function StepCard({ step, isReversed = false }) {
   const altText = step?.image?.name;
 
   const heading = step?.heading || "";
-  const highlighted = step?.highlightedText;
+  const highlighted = step?.highlightedText || "";
 
-  const formattedHeading = highlighted
-    ? heading.replace(
-        highlighted,
-        `<span class="text-[#3B52F5]">${highlighted}</span>`
-      )
-    : heading;
+  // Split highlightedText into words
+const words = highlighted.split(/\s+/).filter(Boolean);
+
+// Escape regex special characters
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Build regex that matches whole words only (case-insensitive)
+const pattern = new RegExp(
+  words.map((w) => `\\b${escapeRegex(w)}\\b`).join("|"),
+  "gi"
+);
+
+// Replace matched whole words with highlighted span
+const formattedHeading = heading.replace(
+  pattern,
+  (match) => `<span class="text-[#3B52F5]">${match}</span>`
+);
 
   return (
     <div
@@ -31,9 +42,7 @@ export default function StepCard({ step, isReversed = false }) {
       <div
         className={`
           flex flex-col 
-          ${
-            isReversed ? "md:flex-row-reverse" : "md:flex-row"
-          } 
+          ${isReversed ? "md:flex-row-reverse" : "md:flex-row"} 
           items-center
           md:justify-between
           px-6 py-10
