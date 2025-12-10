@@ -41,23 +41,24 @@ function AvatarBadge({ name, text, beforeImage, afterImage, month }) {
 
 export default function StoriesGridSection({ data }) {
   const imgs = defaultImgs;
+  console.log("StoriesGridSection data:", data);
 
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12">
       <div className="bg-[#FCE6E0] rounded-2xl p-6 md:p-10">
         <div className="text-center mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-sofia font-medium lg:font-bold text-[#0F1B28]">
-            {data?.title || "#RealSkinStories"}
+            {data?.hashtag}
           </h2>
-          <p className="mt-3 lg:mt-5 text-sm md:text-base lg:text-2xl text-[#505354] mx-auto">
-            {data?.description || "Real people. Real improvement. Real changes from inside and outside."}
+          <p className="mt-3 lg:mt-5 text-sm md:text-[16px] lg:text-2xl text-Grey/500 mx-auto">
+            {data?.tagline}
           </p>
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-start">
-          {data?.stories && data.stories.length > 0 ? (
-            data.stories.map((story, index) => (
+          {data?.stories && data?.stories?.length > 0 ? (
+            data?.stories?.map((story, index) => (
               <article
                 key={index}
                 className={`relative rounded-xl overflow-hidden bg-white ${

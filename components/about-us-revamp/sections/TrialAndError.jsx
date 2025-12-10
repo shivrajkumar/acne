@@ -5,7 +5,7 @@ export default function TrialAndError({ data }) {
     <section className="w-full mx-auto px-4 md:px-16 py-6 md:py-12 font-sofia">
       <div className="bg-[#F9F9F5] rounded-[32px] overflow-hidden flex flex-col md:flex-row min-h-[500px]">
         {/* Text Content - Left on Desktop, Bottom on Mobile */}
-        <div className="w-full md:w-1/2 p-8 md:p-10 gap-2 flex flex-col justify-center order-2 md:order-1">
+        <div className="w-full md:w-1/2 p-8 md:p-10 gap-2 md:gap-6 flex flex-col justify-center order-2 md:order-1">
           <h2 className="text-2xl md:text-5xl text-[#635E51] mb-2 leading-tight">
             {data?.title}
           </h2>

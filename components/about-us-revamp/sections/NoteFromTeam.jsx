@@ -5,9 +5,11 @@ export default function NoteFromTeam({ data }) {
         <h2 className="text-base md:text-4xl lg:text-5xl text-[#0F1B28] font-bold mb-2 lg:mb-4">
           {data?.title}
         </h2>
-        <p className="text-[#505354] text-sm lg:text-2xl leading-relaxed mx-auto mb-4 md:mb-16">
-          {data?.description}
-        </p>
+        {data?.description?.split("\n\n").map((para, i) => (
+          <p key={i} className="mb-4">
+            {para}
+          </p>
+        ))}
       </div>
     </section>
   );

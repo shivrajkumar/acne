@@ -18,17 +18,17 @@ export default function AdvisoryBoard({ data }) {
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-12 mb-12 md:mb-16">
           {experts?.map((expert, index) => (
             <div key={index} className="flex flex-col items-center max-w-xl mx-auto md:mx-0">
-              <div className="w-full aspect-square overflow-hidden mb-6">
+              <div className="w-full overflow-hidden mb-6 rounded-[24px] h-[464px]">
                 <img
                   src={expert.image?.url || expert.image}
                   alt={expert.image?.name || expert.name}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <h3 className="text-[#0F1B28] font-bold text-base md:text-xl lg:text-3xl mb-1 uppercase tracking-wide">
                 {expert.name}
               </h3>
-              <p className="text-[#0F1B28] text-base md:text-base lg:text-2xl mb-4 font-medium">
+              <p className="text-[#0F1B28] text-[16px] md:text-2xl mb-4 font-medium">
                 {expert.role}
               </p>
               <p className="text-[#505354] text-sm text-center lg:text-lg leading-relaxed">

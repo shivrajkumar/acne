@@ -11,25 +11,25 @@ export default function Acne({ data }) {
             <div className="">
               {/* ⭐ 3-LINE TITLE (as in screenshot) */}
               <h1 className="text-center font-medium text-3xl md:text-[48px] leading-tight text-black px-6 lg:px-36">
-  {data?.title}
-</h1>
+                {data?.title}
+              </h1>
 
               {/* Divider */}
               <hr className="border-t border-gray-300 mt-6" />
 
               {/* Description (small line under divider) */}
-              <p className="text-left mt-4 text-[16px] md:text-xl text-[#0F1B28]">
+              <p className="text-left mt-4 text-[16px] md:text-2xl text-[#0F1B28]">
                 {data?.description}
               </p>
             </div>
           </div>
 
           {/* RIGHT IMAGE — LEFT UNTOUCHED */}
-          <div className="h-85 lg:h-[680px] w-full">
+          <div className="h-85 lg:h-[484px] w-full">
             <img
               src={data?.image?.url}
               alt={data?.image?.name}
-              className="object-cover w-full h-full block lg:h-screen"
+              className="object-cover object-top w-full h-full"
               loading="lazy"
             />
           </div>

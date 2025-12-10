@@ -57,6 +57,9 @@ export default function HairJourney({
               className="inline-flex items-center gap-3 bg-[#000000] text-white px-8 py-3 rounded-full shadow-md hover:opacity-95 transition"
               aria-label="Join the Facebook Group"
             >
+              <span className="text-sm lg:text-[16px] py-2 font-medium">
+                Join us on Instagram
+              </span>
               <Image
                 src={InstagramIcon}
                 alt="Instagram"
@@ -64,9 +67,6 @@ export default function HairJourney({
                 height={20}
                 className="w-5 h-5 object-contain"
               />
-              <span className="text-sm lg:text-base font-medium">
-                Join us on Instagram
-              </span>
             </a>
           </div>
         </div>

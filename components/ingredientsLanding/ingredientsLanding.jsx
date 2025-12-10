@@ -43,7 +43,9 @@ const IngredientsLanding = ({}) => {
             </div>
           </div>
         </div>
-        <IngredientsFaqSection />
+        <div className="px-4">
+          <IngredientsFaqSection />
+        </div>
       </div>
     </div>
   );

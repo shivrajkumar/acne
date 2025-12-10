@@ -21,14 +21,14 @@ export default function HowWeChangeTheGame({ data }) {
         </div>
 
         {/* Text Content - Right on Desktop, Bottom on Mobile */}
-        <div className="w-full md:w-1/2 py-8 px-6 md:p-16 flex flex-col justify-center lg:gap-20">
+        <div className="w-full md:w-1/2 py-4 px-6 md:px-6 flex flex-col justify-center lg:gap-32">
           <div>
-            <h2 className="text-2xl md:text-4xl lg:text-5xl text-[#0F1B28] mb-4 font-medium">
-            {data?.title || "how we change the game"}
+            <h2 className="text-2xl md:text-4xl text-[#0F1B28] mb-4 font-medium">
+            {data?.title}
           </h2>
 
           <p className="text-[#505354] text-sm md:text-lg mb-6 leading-relaxed max-w-lg">
-            {data?.description || "It was important to us to build a business thats delivers results. At clear, we believe in: Efficacy. Innovation. Integrity."}
+            {data?.description}
           </p>
           </div>
 
@@ -36,9 +36,9 @@ export default function HowWeChangeTheGame({ data }) {
             {listItems.map((item, index) => (
               <div
                 key={index}
-                className="border-t border-[#D1D5DB] py-2 lg:py-6"
+                className="border-t border-[#D1D5DB] py-2 lg:py-2"
               >
-                <p className="text-[#0F1B28] text-base md:text-3xl font-medium">
+                <p className="text-[#0F1B28] text-base md:text-[28px] leading-10 font-medium">
                   {item}
                 </p>
               </div>

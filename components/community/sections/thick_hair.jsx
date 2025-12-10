@@ -15,7 +15,7 @@ export default function ThickHair({
 
   return (
     <section
-      className="w-full py-2 sm:py-20 md:py-0 flex items-center justify-center lg:mb-24"
+      className="w-full py-2 sm:py-20 md:py-0 flex items-center justify-center lg:mb-16"
       aria-label="Support message"
     >
       {/* gradient background panel */}
@@ -28,39 +28,36 @@ export default function ThickHair({
       >
         {/* Content wrapper */}
         <div className="w-full max-w-6xl px-6 sm:px-12 py-16 sm:py-20 md:py-32 lg:font-medium flex flex-col lg:items-center lg:justify-center lg:text-center">
-          
           {/* Title with highlighted words */}
           <h2 className="font-normal text-[28px] sm:text-4xl md:text-[56px] lg:text-[87px] leading-tight md:leading-[1.1] text-black">
-
             {title.split(" ").map((word, idx) => (
               <span
                 key={idx}
                 className={
-                  safeHighlight.includes(word.replace(".", "")) 
-                    ? "text-[#934640]" 
+                  safeHighlight.includes(word.replace(".", ""))
+                    ? "text-[#934640]"
                     : ""
                 }
               >
                 {word}{" "}
               </span>
             ))}
-
           </h2>
 
           {/* CTA */}
           <div className="mt-6 md:mt-10">
             <a
-              href={'https://www.instagram.com/clear.ritual/'}
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full font-medium transition text-white bg-black hover:bg-gray-900"
+              href={"https://www.instagram.com/clear.ritual/"}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full font-medium transition text-white bg-Grey/900"
             >
-              <Image
-                  src={InstagramIcon}
-                  alt="Instagram"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5 object-contain"
-                />
               Join us on Instagram
+              <Image
+                src={InstagramIcon}
+                alt="Instagram"
+                width={20}
+                height={20}
+                className="w-5 h-5 object-contain"
+              />
             </a>
           </div>
         </div>
