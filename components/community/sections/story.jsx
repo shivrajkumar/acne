@@ -55,18 +55,18 @@ export default function Story({ data, reverse = false }) {
                 {renderHighlightedTitle(data?.name || data?.title)}
               </h3>
 
-              <p className="my-3 lg:my-10 text-lg md:text-2xl lg:text-5xl font-medium text-[#934640]">
+              <p className="my-3 lg:my-10 text-lg md:text-2xl lg:text-5xl font-medium text-[#934640] max-w-sm text-center mx-auto">
                 {data?.headline}
               </p>
 
               <div className="my-4 border-t border-Grey/300" />
 
-              <p className="text-[16px] lg:text-3xl lg:my-10 text-[#0f1721]">
+              <p className="text-[16px] lg:text-[24px] lg:my-10 text-[#0f1721] text-center ">
                 {data?.description}
               </p>
 
               {reverse == false && (
-                <div className="mt-6 md:mt-8">
+                <div className="mt-6 md:mt-8 flex justify-center">
                   <a
                     href="https://www.instagram.com/clear.ritual/"
                     target="_blank"

@@ -14,7 +14,7 @@ export default function HeroSection({ data }) {
         ))}
       </h1>
 
-      <div className="flex justify-end text-end gap-3 mt-4">
+      <div className="flex justify-center md:justify-end text-end gap-3 mt-4">
         {tabs?.map((tab) => (
           <div className="px-6 py-2 border border-gray-300 rounded-full text-sm">
             {tab.label}

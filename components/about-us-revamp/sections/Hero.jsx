@@ -15,8 +15,8 @@ export default function Hero({ data }) {
       {/* Mobile Overlay */}
       <div className="absolute inset-0 bg-black/20 flex flex-col justify-center items-center text-center p-6 md:hidden">
         <div className="text-white mb-4">
-          <h1 className="text-4xl">{data?.title}</h1>
-          <span>{data?.subtitle}</span>
+          <h1 className="text-4xl mb-4">{data?.title}</h1>
+          <span className="">{data?.subTitle}</span>
         </div>
 
         {/* Inline Button */}
@@ -32,7 +32,7 @@ export default function Hero({ data }) {
         <div className="text-center">
           <div className="text-white mb-8 leading-tight">
             <h1 className="text-[37px] md:text-[87px]">{data?.title}</h1>
-            <span>{data?.subTitle}</span>
+            <span className="text-[30px]">{data?.subTitle}</span>
           </div>
         </div>
       </div>
