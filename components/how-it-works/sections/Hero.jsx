@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Hero({ data }) {
   return (
-    <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
+    <section className="relative w-full h-[60vh] md:h-[54.5vh] overflow-hidden">
       {/* Background Image */}
       <img
         src={data?.bannerImage?.url }
@@ -30,9 +30,9 @@ export default function Hero({ data }) {
           </h1>
 
           {/* Inline Button */}
-          <button className="px-8 py-4 bg-black text-white rounded-full text-xl font-medium hover:bg-gray-900 transition">
+          {/* <button className="px-8 py-4 bg-black text-white rounded-full text-xl font-medium hover:bg-gray-900 transition">
             {"Start now"}
-          </button>
+          </button> */}
         </div>
       </div>
     </section>
