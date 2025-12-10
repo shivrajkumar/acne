@@ -45,7 +45,7 @@ export default function Numbers({ data }) {
                 <div className="p-4 sm:p-6 lg:p-8 h-full flex flex-col">
                   <h4
                     id={`stat-${s.id || idx}-title`}
-                    className="text-6xl leading-none lg:text-9xl"
+                    className="text-6xl leading-none lg:text-[64px]"
                     style={{ color: textColor }}
                   >
                     {s.value || s.number}

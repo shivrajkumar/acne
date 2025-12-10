@@ -77,6 +77,8 @@ const TopicCard = ({ topic, index }) => {
 
 export default function AboutSection({ data }) {
   if (!data) return null;
+
+  console.log("AboutSection data:", data);
   
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 py-12">

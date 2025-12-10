@@ -14,7 +14,7 @@ export default function HeroSection({
       aria-label="Hero"
     >
       {/* Background Image */}
-      <div className="relative w-full h-[420px] lg:h-[520px]">
+      <div className="relative w-full h-[420px] lg:h-[344px]">
         <Image
           src={data?.backgroundImage?.url}
           alt="Hero background"
@@ -53,6 +53,7 @@ export default function HeroSection({
                 href="https://www.instagram.com/clear.ritual/"
                 className="flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-medium shadow-md hover:shadow-lg transition"
               >
+                Join us on Instagram
                 <Image
                   src={InstagramIcon}
                   alt="Instagram"
@@ -60,7 +61,6 @@ export default function HeroSection({
                   height={20}
                   className="w-5 h-5 object-contain"
                 />
-                Join us on Instagram
               </a>
             </button>
           </div>

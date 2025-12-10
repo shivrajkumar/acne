@@ -24,9 +24,9 @@ export default function DevelopedWithItem({ item }) {
             {item.label}
           </p>
 
-          <span className="w-5 h-5 rounded-full bg-Primary/500 flex items-center justify-center text-white text-xs">
+          {/* <span className="w-5 h-5 rounded-full bg-Primary/500 flex items-center justify-center text-white text-xs">
             <FaArrowRight/>
-          </span>
+          </span> */}
         </div>
       </div>
     </Link>

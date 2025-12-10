@@ -17,45 +17,6 @@ import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
 import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 
-const DEFAULT_FAQ_ITEMS = [
-  {
-    id: 1,
-    question: "Why did you involve dermatologists in developing the products?",
-    answer:
-      "Because acne is a medical skin condition—not just a cosmetic concern. Dermatologists ensure every formula, ingredient, and dosage is clinically relevant, safe for acne-prone skin, and actually works.",
-  },
-  {
-    id: 2,
-    question: "What role do the experts play in shaping the routines?",
-    answer:
-      "Experts help design complete plans, not random products. They map how each step supports the next—cleansing, actives, moisturisation, internal triggers—so the routine works as a system, not isolated items.",
-  },
-  {
-    id: 3,
-    question: "Why is expert input important for acne care?",
-    answer:
-      "Acne has multiple causes: oil imbalance, clogged pores, inflammation, hormones, stress, and more. Only trained experts can design solutions that address these safely and holistically.",
-  },
-  {
-    id: 4,
-    question: "How do dermatologists help personalise my plan?",
-    answer:
-      "They define protocols based on acne type (whiteheads, blackheads, pustules), severity, skin type, and internal triggers—so each user gets a plan tailored to their specific profile.",
-  },
-  {
-    id: 5,
-    question: "Why not just sell individual products? Why a plan?",
-    answer:
-      "Experts know acne responds best to systems—cleansers, actives, moisturisers, sunscreen, and lifestyle support working together. A plan improves results, consistency, and safety.",
-  },
-  {
-    id: 6,
-    question: "Why does the brand combine dermatology with Ayurveda/nutrition?",
-    answer:
-      "Because acne is both internal and external. Dermatologists manage the skin biology; integrative experts support inflammation, digestion, stress, and hormonal balance. Together, they create a more complete approach.",
-  },
-];
-
 export default function Community() {
   const [communityData, setCommunityData] = useState(null);
   const [loading, setLoading] = useState(true);

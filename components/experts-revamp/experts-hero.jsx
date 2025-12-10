@@ -16,12 +16,9 @@ export default function HeroSection({ data }) {
 
       <div className="flex justify-end text-end gap-3 mt-4">
         {tabs?.map((tab) => (
-          <button
-            key={tab.slug}
-            className="px-6 py-2 border border-gray-300 rounded-full text-sm"
-          >
+          <div className="px-6 py-2 border border-gray-300 rounded-full text-sm">
             {tab.label}
-          </button>
+          </div>
         ))}
       </div>
     </section>
