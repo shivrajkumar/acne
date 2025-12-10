@@ -37,7 +37,7 @@ const TopicCard = ({ topic, index }) => {
       <div className="rounded-xl overflow-hidden w-28 h-28 md:w-40 md:h-48 lg:w-80 lg:h-96 bg-gray-100">
         {imageUrl && (
           <img 
-            src={imageUrl} 
+            src={imageUrl?.url} 
             alt={topic.title} 
             className="w-full h-full object-cover block" 
           />
@@ -78,8 +78,6 @@ const TopicCard = ({ topic, index }) => {
 export default function AboutSection({ data }) {
   if (!data) return null;
 
-  console.log("AboutSection data:", data);
-  
   return (
     <section className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Section Badge */}

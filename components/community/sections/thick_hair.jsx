@@ -45,12 +45,17 @@ export default function ThickHair({
           </h2>
 
           {/* CTA */}
-          <div className="mt-6 md:mt-10">
+          <div className="mt-6 md:mt-8">
             <a
               href={"https://www.instagram.com/clear.ritual/"}
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full font-medium transition text-white bg-Grey/900"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-[#000000] text-white px-8 py-3 rounded-full shadow-md hover:opacity-95 transition"
+              aria-label="Join the Facebook Group"
             >
-              Join us on Instagram
+              <span className="text-sm lg:text-[16px] py-2 font-medium">
+                Join us on Instagram
+              </span>
               <Image
                 src={InstagramIcon}
                 alt="Instagram"

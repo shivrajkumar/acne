@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import React from 'react';
-
+import Link from "next/link";
+import React from "react";
 
 export default function AdvisoryBoard({ data }) {
   const experts = data?.members || [];
@@ -17,8 +16,11 @@ export default function AdvisoryBoard({ data }) {
 
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-12 mb-12 md:mb-16">
           {experts?.map((expert, index) => (
-            <div key={index} className="flex flex-col items-center max-w-xl mx-auto md:mx-0">
-              <div className="w-full overflow-hidden mb-6 rounded-[24px] h-[464px]">
+            <div
+              key={index}
+              className="flex flex-col items-center max-w-xl mx-auto md:mx-0"
+            >
+              <div className="w-full overflow-hidden mb-6 rounded-[24px] h-[296px] md:h-[464px]">
                 <img
                   src={expert.image?.url || expert.image}
                   alt={expert.image?.name || expert.name}
@@ -38,12 +40,14 @@ export default function AdvisoryBoard({ data }) {
           ))}
         </div>
 
-        <Link
-          href={"/experts"}
-          className="inline-block border border-[#0F1B28] text-[#0F1B28] px-8 py-3 rounded-full text-sm md:text-[16px] font-medium hover:bg-[#0F1B28] hover:text-white transition-colors duration-300"
-        >
-          {data?.cta_text || "Learn More About Our Experts"}
-        </Link>
+        <div className="flex justify-center">
+          <Link
+            href={"/experts"}
+            className="inline-block border border-[#0F1B28] text-[#0F1B28] px-8 py-3 rounded-full text-sm md:text-[16px] font-medium hover:bg-[#0F1B28] hover:text-white transition-colors duration-300"
+          >
+            {data?.cta_text || "Learn More About Our Experts"}
+          </Link>
+        </div>
       </div>
     </section>
   );
