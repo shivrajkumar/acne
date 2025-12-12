@@ -13,6 +13,7 @@ import { fetchStrapiData } from "@/helpers/strapiClient";
 import Loader from "@/components/generic/Loader";
 import BreadcrumbNavigator from "../generic/BreadcrumbNavigator";
 import { fetchRequest } from "@/helpers/fetchRequest";
+import { STRAPI_DEV_URL } from "@/constants/constants";
 
 export default function AboutUs() {
   const [aboutUsData, setAboutUsData] = useState(null);
@@ -21,14 +22,19 @@ export default function AboutUs() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const { data, error } = await fetchRequest("/api/cr-about-us");
+      try {
+        const response = await fetch(`${STRAPI_DEV_URL}/api/cr-about-uses`);
+        const data = await response.json();
 
-      if (error) {
+        // Since the response is an array, get the first element
+        const aboutUsContent = Array.isArray(data.data) ? data.data[0] : data.data;
+
+        setAboutUsData(aboutUsContent);
+      } catch (error) {
         console.warn("Failed to load about us data:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setAboutUsData(data);
-      setLoading(false);
     };
 
     fetchData();
@@ -44,15 +50,15 @@ export default function AboutUs() {
 
   return (
     <main className="w-full">
-        <Hero data={aboutUsData?.data?.hero_section} />
+        <Hero data={aboutUsData?.hero_section} />
         <div className="px-4 py-4"><BreadcrumbNavigator/></div>
-        <TrialAndError data={aboutUsData?.data?.trial_and_error_section} />
-        <HowWeChangeTheGame data={aboutUsData?.data?.how_we_change_section} />
-        <Ingredients data={aboutUsData?.data?.ingredients_section} />
-        <Ayurveda data={aboutUsData?.data?.ayurveda_dermatology_section} />
-        <Efficacy data={aboutUsData?.data?.bannerWithText} />
-        <AdvisoryBoard data={aboutUsData?.data?.advisory_board_section} />
-        <NoteFromTeam data={aboutUsData?.data?.team_note_section} />
+        <TrialAndError data={aboutUsData?.trial_and_error_section} />
+        <HowWeChangeTheGame data={aboutUsData?.how_we_change_section} />
+        <Ingredients data={aboutUsData?.ingredients_section} />
+        <Ayurveda data={aboutUsData?.ayurveda_dermatology_section} />
+        <Efficacy data={aboutUsData?.bannerWithText} />
+        <AdvisoryBoard data={aboutUsData?.advisory_board_section} />
+        <NoteFromTeam data={aboutUsData?.team_note_section} />
     </main>
   );
 }
