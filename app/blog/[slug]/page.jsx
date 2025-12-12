@@ -5,7 +5,7 @@ import { BlogRenderer } from "@/components/blogs/components/blogRenderer";
 async function getBlogBySlug(slug) {
   try {
     const res = await fetch(
-      `${STRAPI_PROD_URL}/api/cr-blogs?filters[slug][$eq]=${slug}&populate=*`,
+      `${STRAPI_DEV_URL}/api/cr-blogs?filters[slug][$eq]=${slug}&populate=*`,
       {
         method: "GET",
         next: { revalidate: 300 },

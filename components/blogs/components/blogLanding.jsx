@@ -16,7 +16,7 @@ const BlogLanding = () => {
   async function getBlogs(page = 1) {
     try {
       const res = await fetch(
-        `${STRAPI_PROD_URL}/api/cr-blogs?populate=*&pagination[page]=${page}&pagination[pageSize]=25`,
+        `${STRAPI_DEV_URL}/api/cr-blogs?populate=*&pagination[page]=${page}&pagination[pageSize]=25`,
         { method: "GET", next: { revalidate: 300 } }
       );
 
