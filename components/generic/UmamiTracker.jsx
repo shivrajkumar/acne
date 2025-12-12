@@ -6,8 +6,9 @@ export default function UmamiTracker() {
     return (
         <script
             defer
-            src="https://umami.dev.hav-g.in/script.js"
-            data-website-id="612391cc-ff23-40c2-a67b-f42856abbbe6">
+            src="https://d3twoz8hvcdm9h.cloudfront.net/scripts/umami/script.js"
+            data-website-id="612391cc-ff23-40c2-a67b-f42856abbbe6"
+            data-host-url="https://umami.dev.hav-g.in/">
         </script>
     );
 }
