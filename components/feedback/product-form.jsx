@@ -16,6 +16,7 @@ import { FormSkeleton } from "./formSkeleton";
 export function ProductForm() {
   const searchParams = useSearchParams();
   const caseId = searchParams.get("caseId");
+  const formType = 'ACNE_PRODUCT_FEEDBACK_FORM';
 
   const [data, setData] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -26,7 +27,7 @@ export function ProductForm() {
   useEffect(() => {
     const fetchFeedbackConfig = async () => {
       try {
-        const response = await fetchRequest(FEEDBACK_CONFIG_API());
+        const response = await fetchRequest(FEEDBACK_CONFIG_API(formType));
         console.log("FEEDBACK_CONFIG_API response:", response);
 
         if (response?.data?.data?.content?.questions) {
@@ -62,7 +63,7 @@ export function ProductForm() {
       }));
 
       const payload = {
-        type: "ACNE_PRODUCT_FEEDBACK_FORM",
+        type: formType,
         formData: formData,
       };
 
