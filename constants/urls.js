@@ -263,3 +263,6 @@ export const SITE_BASE_URL = env("NEXT_PUBLIC_SITE_BASE_URL") || "https://clearr
 
 
 export const GET_USER_DETAILS = (caseId) => getUrl(`/consumer-api/service/consumers/profile/details?userId=${caseId}&customerColumns=gender,firstName,lastName`);
+
+export const FEEDBACK_CONFIG_API = () => `${PROXY_PREFIX}/consumer-api/service/static-content/data/ACNE_PRODUCT_FEEDBACK_FORM`;
+export const SUBMIT_FEEDBACK_API = (caseId) =>  getUrl(`consumer-api/service/acne-forms/create/bulk/${caseId}`);
