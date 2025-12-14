@@ -320,113 +320,126 @@ export default function ImageUploadWithHaut({
   }
 
   async function handleImageCaptures(event) {
-    try {
-      const captures = event.detail;
-      if (!Array.isArray(captures) || captures.length === 0) {
-        setErr("No image captured");
-        return;
-      }
-
-      // Take first capture
-      let blob = await captures[0].blob();
-      trackMoEngageEvent("image_uploaded");
-
-      // Compress image if needed (max 2MB)
-      blob = await compressImage(blob, 2);
-
-      // Convert blob to base64 and store in localStorage
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        localStorage.setItem("capturedImage", reader.result);
-      };
-      reader.readAsDataURL(blob);
-
-      // Construct File object
-      const fileName = blob.name || "upload.jpeg";
-      const fileType = blob.type || "image/jpeg";
-
-      const fileObject = new File([blob], fileName, {
-        type: fileType,
-        lastModified: Date.now(),
-      });
-
-      // Final check to ensure file is under 2MB
-      if (fileObject.size > 2 * 1024 * 1024) {
-        console.error(
-          "File still too large after compression:",
-          (fileObject.size / 1024 / 1024).toFixed(2),
-          "MB"
-        );
-        setErr("Image is too large. Please try again with a smaller image.");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("file", fileObject, fileName);
-
-      // Upload image
-      const uploadRes = await fetchRequest(IMAGE_UPLOAD_API(caseId), {
-        method: "POST",
-        body: formData,
-      });
-
-      // Check if image upload was successful
-      const isImageUploaded = uploadRes?.success || uploadRes?.status === 200;
-
-      if (isImageUploaded) {
-        trackMoEngageEvent("image_analysis_success");
-
-        // Determine status based on upload success
-        const status = formFillStatus.FILLED;
-
-        // Build form data payload
-        const _formData = {
-          question_id: block.id,
-          field_key: block.id,
-          question_text: block.text,
-          response: blob,
-          status: status,
-          location_path: window.location.pathname + window.location.search,
-          source: "website",
-          response_type: block.type,
-        };
-
-        // Save progress - single API call
-        const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
-          method: "POST",
-          body: JSON.stringify(_formData),
-        });
-
-        if (txRes.status === 200) {
-          // Image uploaded AND submitted successfully
-          if (handleSubmit) {
-            handleSubmit(blob);
-          }
-          if (setAllQuestionsFilled) {
-            setAllQuestionsFilled(true);
-          }
-          window.localStorage.setItem("form_status", "filled");
-
-          // Call onSuccess callback if provided
-          if (onSuccess) {
-            onSuccess();
-          }
-        } else {
-          // Transaction API failed
-          trackMoEngageEvent("image_analysis_failed");
-          setErr("Transaction API failed");
-        }
-      } else {
-        // Image upload failed
-        trackMoEngageEvent("image_analysis_failed");
-        setErr(uploadRes?.message || "Image upload failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      trackMoEngageEvent("image_analysis_failed");
-      setErr("Something went wrong. Please try again.");
+  try {
+    const captures = event.detail;
+    if (!Array.isArray(captures) || captures.length === 0) {
+      setErr("No image captured");
+      return;
     }
+
+    // Take first capture
+    let blob = await captures[0].blob();
+    trackMoEngageEvent("image_uploaded");
+
+    // Compress image if needed (max 2MB)
+    blob = await compressImage(blob, 2);
+
+    // Convert blob to base64 and store in localStorage
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      localStorage.setItem("capturedImage", reader.result);
+    };
+    reader.readAsDataURL(blob);
+
+    // Construct File object
+    const fileName = blob.name || "upload.jpeg";
+    const fileType = blob.type || "image/jpeg";
+
+    const fileObject = new File([blob], fileName, {
+      type: fileType,
+      lastModified: Date.now(),
+    });
+
+    // Final check to ensure file is under 2MB
+    if (fileObject.size > 2 * 1024 * 1024) {
+      console.error(
+        "File still too large after compression:",
+        (fileObject.size / 1024 / 1024).toFixed(2),
+        "MB"
+      );
+      setErr("Image is too large. Please try again with a smaller image.");
+      return;
+    }
+
+    const isImageUploadPage = window.location.pathname === "/image-upload";
+
+    const formData = new FormData();
+    formData.append("file", fileObject, fileName);
+
+    // Add skinAnalysisStatus only for /image-upload page
+    if (isImageUploadPage) {
+      formData.append("skinAnalysisStatus", "OFF");
+    }
+
+    // Upload image
+    const uploadRes = await fetchRequest(IMAGE_UPLOAD_API(caseId), {
+      method: "POST",
+      body: formData,
+    });
+
+    const isImageUploaded = uploadRes?.success || uploadRes?.status === 200;
+
+    if (!isImageUploaded) {
+      trackMoEngageEvent("image_analysis_failed");
+      setErr(uploadRes?.message || "Image upload failed. Please try again.");
+      return;
+    }
+
+    trackMoEngageEvent("image_analysis_success");
+
+    // For /image-upload page, skip transaction API call
+    if (isImageUploadPage) {
+      if (handleSubmit) {
+        handleSubmit(blob);
+      }
+      if (setAllQuestionsFilled) {
+        setAllQuestionsFilled(true);
+      }
+      window.localStorage.setItem("form_status", "filled");
+      if (onSuccess) {
+        onSuccess();
+      }
+      return;
+    }
+
+    // For other pages, call transaction API as well
+    const _formData = {
+      question_id: block.id,
+      field_key: block.id,
+      question_text: block.text,
+      response: blob,
+      status: formFillStatus.FILLED,
+      location_path: window.location.pathname + window.location.search,
+      source: "website",
+      response_type: block.type,
+    };
+
+    const txRes = await fetchRequest(TRANSACTION_API(transactionId), {
+      method: "POST",
+      body: JSON.stringify(_formData),
+    });
+
+    if (txRes.status === 200) {
+      if (handleSubmit) {
+        handleSubmit(blob);
+      }
+      if (setAllQuestionsFilled) {
+        setAllQuestionsFilled(true);
+      }
+      window.localStorage.setItem("form_status", "filled");
+      if (onSuccess) {
+        onSuccess();
+      }
+    } else {
+      trackMoEngageEvent("image_analysis_failed");
+      setErr("Transaction API failed");
+    }
+  } catch (error) {
+    console.error("Upload error:", error);
+    trackMoEngageEvent("image_analysis_failed");
+    setErr("Something went wrong. Please try again.");
   }
+}
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-white overflow-hidden">
@@ -443,7 +456,7 @@ export default function ImageUploadWithHaut({
           show-preview="true"
           enable-preview="true"
           preview-duration="5000"
-          sources="front_camera, companion"
+          sources="front_camera, upload, companion"
           onContinueWeb={handleContinueOnWeb}
           required-lighting="none"
           showLightSourcePrompt="false"
