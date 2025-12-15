@@ -58,7 +58,7 @@ export function DeliveryForm() {
         question_id: question.id,
         question_text: question.text,
         field_key: question.id,
-        response: [data[question.id] || ""],
+        response: [String(data[question.id]) || ""],
         response_type: "SINGLE",
       }));
 
