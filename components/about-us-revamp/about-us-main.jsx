@@ -23,15 +23,21 @@ export default function AboutUs() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${STRAPI_DEV_URL}/api/cr-about-uses`);
-        const data = await response.json();
+        // Use the fetchStrapiData helper instead of direct fetch
+        const { data, error } = await fetchStrapiData('/api/cr-about-uses');
+
+        if (error) {
+          console.warn("Failed to load about us data:", error);
+          setAboutUsData(null);
+          return;
+        }
 
         // Since the response is an array, get the first element
         const aboutUsContent = Array.isArray(data.data) ? data.data[0] : data.data;
-
         setAboutUsData(aboutUsContent);
       } catch (error) {
         console.warn("Failed to load about us data:", error);
+        setAboutUsData(null);
       } finally {
         setLoading(false);
       }

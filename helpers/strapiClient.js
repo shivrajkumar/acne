@@ -1,4 +1,5 @@
 import { STRAPI_DEV_URL } from "@/constants/constants";
+import React from "react";
 
 /**
  * Client-side Strapi CMS data fetcher
@@ -6,7 +7,9 @@ import { STRAPI_DEV_URL } from "@/constants/constants";
  */
 export const fetchStrapiData = async (endpoint, options = {}) => {
   try {
-    const url = `${STRAPI_DEV_URL}${endpoint}`;
+    // Use proxy route on client-side to avoid CORS issues
+    const isClient = typeof window !== 'undefined';
+    const url = isClient ? `/api/strapi${endpoint}` : `${STRAPI_DEV_URL}${endpoint}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -14,6 +17,8 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
         "Content-Type": "application/json",
         ...options.headers,
       },
+      // Add cache busting for Android compatibility
+      cache: isClient ? 'no-store' : 'default',
       ...options,
     });
 
