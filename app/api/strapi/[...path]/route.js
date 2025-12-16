@@ -47,6 +47,16 @@ async function proxyRequest(req, { path }) {
   try {
     const backendResponse = await fetch(targetUrl, fetchOptions);
 
+    // Get the response as text first to check if it's valid
+    const responseText = await backendResponse.text();
+    console.log('Proxy response from Strapi:', {
+      status: backendResponse.status,
+      statusText: backendResponse.statusText,
+      contentType: backendResponse.headers.get('content-type'),
+      responseLength: responseText.length,
+      responsePreview: responseText.substring(0, 100)
+    });
+
     // Process response headers
     const responseHeaders = new Headers();
 
@@ -63,9 +73,12 @@ async function proxyRequest(req, { path }) {
     responseHeaders.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     responseHeaders.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-    const responseBody = await backendResponse.arrayBuffer();
+    // Ensure content-type is set correctly
+    if (!responseHeaders.has('content-type')) {
+      responseHeaders.set('content-type', 'application/json');
+    }
 
-    return new NextResponse(responseBody, {
+    return new NextResponse(responseText, {
       status: backendResponse.status,
       headers: responseHeaders,
     });
