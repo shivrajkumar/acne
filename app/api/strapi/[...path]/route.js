@@ -1,109 +1,126 @@
-import { NextResponse } from "next/server";
 import { STRAPI_DEV_URL } from "@/constants/constants";
 
-export async function GET(req, { params }) {
-  return proxyRequest(req, params);
+// CORS headers that mobile carriers won't strip
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+  "Access-Control-Allow-Credentials": "true",
+};
+
+// Handle preflight OPTIONS requests
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders
+  });
 }
 
-export async function POST(req, { params }) {
-  return proxyRequest(req, params);
+export async function GET(request, { params }) {
+  return proxyRequest(request, params.path);
 }
 
-export async function PUT(req, { params }) {
-  return proxyRequest(req, params);
+export async function POST(request, { params }) {
+  return proxyRequest(request, params.path);
 }
 
-export async function DELETE(req, { params }) {
-  return proxyRequest(req, params);
+export async function PUT(request, { params }) {
+  return proxyRequest(request, params.path);
 }
 
-async function proxyRequest(req, { path }) {
-  const targetPath = path.join("/");
-  const url = new URL(req.url);
-  const query = url.searchParams.toString();
+export async function DELETE(request, { params }) {
+  return proxyRequest(request, params.path);
+}
 
-  // Construct the target URL for Strapi
-  const targetUrl = `${STRAPI_DEV_URL}/${targetPath}${query ? `?${query}` : ""}`;
+export async function PATCH(request, { params }) {
+  return proxyRequest(request, params.path);
+}
 
-  // Remove problematic headers
-  const headers = new Headers(req.headers);
-  headers.delete("host");
-  headers.delete("content-length");
-  headers.delete("accept-encoding");
-  headers.delete("connection");
-
-  // Add CORS headers
-  headers.set("Access-Control-Allow-Origin", "*");
-  headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  const fetchOptions = {
-    method: req.method,
-    headers,
-    body: req.method !== "GET" && req.method !== "HEAD" ? req.body : undefined,
-    duplex: "half",
-  };
-
+async function proxyRequest(request, pathSegments) {
   try {
-    const backendResponse = await fetch(targetUrl, fetchOptions);
+    // Build the target URL
+    const path = pathSegments.join('/');
+    const targetUrl = `${STRAPI_DEV_URL}/${path}`;
 
-    // Get the response as text first to check if it's valid
-    const responseText = await backendResponse.text();
-    console.log('Proxy response from Strapi:', {
-      status: backendResponse.status,
-      statusText: backendResponse.statusText,
-      contentType: backendResponse.headers.get('content-type'),
-      responseLength: responseText.length,
-      responsePreview: responseText.substring(0, 100)
-    });
+    // Get request body
+    let body = null;
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      body = await request.text();
+    }
 
-    // Process response headers
-    const responseHeaders = new Headers();
+    // Build headers for the target request
+    const targetHeaders = {};
 
-    // Copy necessary headers from backend response
-    const allowedHeaders = ['content-type', 'cache-control', 'etag', 'last-modified'];
-    allowedHeaders.forEach(header => {
-      if (backendResponse.headers.has(header)) {
-        responseHeaders.set(header, backendResponse.headers.get(header));
+    // Forward all headers except host and connection
+    request.headers.forEach((value, key) => {
+      if (!['host', 'connection'].includes(key.toLowerCase())) {
+        targetHeaders[key] = value;
       }
     });
 
-    // Add CORS headers to response
-    responseHeaders.set("Access-Control-Allow-Origin", "*");
-    responseHeaders.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    responseHeaders.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    // Create controller for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, 30000); // 30 second timeout
 
-    // Ensure content-type is set correctly
-    if (!responseHeaders.has('content-type')) {
-      responseHeaders.set('content-type', 'application/json');
-    }
+    // Make the request to the Strapi backend
+    const response = await fetch(targetUrl, {
+      method: request.method,
+      headers: targetHeaders,
+      body: body,
+      signal: controller.signal,
+    });
 
-    return new NextResponse(responseText, {
-      status: backendResponse.status,
+    clearTimeout(timeoutId);
+
+    // Create new response with CORS headers
+    const responseHeaders = {
+      ...corsHeaders,
+    };
+
+    // Copy important response headers
+    response.headers.forEach((value, key) => {
+      if (['content-type', 'cache-control', 'etag'].includes(key.toLowerCase())) {
+        responseHeaders[key] = value;
+      }
+    });
+
+    // Get response body
+    const responseBody = await response.arrayBuffer();
+
+    return new Response(responseBody, {
+      status: response.status,
+      statusText: response.statusText,
       headers: responseHeaders,
     });
+
   } catch (error) {
-    console.error("Proxy request failed:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch from Strapi" },
+    console.error('Proxy error:', error);
+
+    // Return appropriate error response
+    if (error.name === 'AbortError') {
+      return new Response(
+        JSON.stringify({ error: 'Request timeout' }),
+        {
+          status: 408,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ error: 'Proxy request failed' }),
       {
         status: 500,
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          ...corsHeaders,
+          'Content-Type': 'application/json'
         }
       }
     );
   }
-}
-
-// Handle OPTIONS requests for CORS preflight
-export async function OPTIONS(req) {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
 }
