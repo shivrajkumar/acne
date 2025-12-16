@@ -7,7 +7,14 @@ import React from "react";
  */
 export const fetchStrapiData = async (endpoint, options = {}) => {
   try {
-    const url = `${STRAPI_DEV_URL}${endpoint}`;
+    // Use proxy route to avoid CORS issues on mobile data
+    const url = `/api/strapi${endpoint}`;
+
+    // Create timeout controller
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, 15000); // 15 second timeout
 
     const response = await fetch(url, {
       method: "GET",
@@ -16,8 +23,11 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
         ...options.headers,
       },
       cache: 'no-store', // Android compatibility
+      signal: controller.signal,
       ...options,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch from ${endpoint}: ${response.status}`);
@@ -26,6 +36,11 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
     const data = await response.json();
     return { data, error: null };
   } catch (error) {
+    // Handle timeout specifically
+    if (error.name === 'AbortError') {
+      console.error(`Timeout fetching Strapi data from ${endpoint}`);
+      return { data: null, error: 'Request timeout' };
+    }
     console.error(`Error fetching Strapi data from ${endpoint}:`, error);
     return { data: null, error: error.message };
   }

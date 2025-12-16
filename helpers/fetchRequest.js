@@ -4,31 +4,40 @@ import { env } from "next-runtime-env";
 import Cookies from "js-cookie";
 import { fetchThumbprint } from "./thumbmark";
 import { getThumbmark } from "@thumbmarkjs/thumbmarkjs";
+import { fetchWithRetry, RETRY_CONFIG } from "@/utils/retryFetch.js";
+import { getTimeout, TIMEOUTS } from "@/utils/requestTimeout.js";
+import { cache, CACHE_KEYS, CACHE_TTL } from "@/utils/cacheManager.js";
 
 const SECURITY_TOKEN = env("NEXT_PUBLIC_API_TOKEN");
 
-// Default headers to support pre-flight requests
+// Default headers (removed client-side CORS headers as they should only be server-side)
 const DEFAULT_OPTIONS = {
   headers: {
     "Content-Type": "application/json",
     "x-tenant-id": "acne",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-    "Access-Control-Allow-Headers":
-      "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
-    "Access-Control-Allow-Credentials": "true",
   },
 };
 
 const storedFingerPrint = Cookies.get("DEVICE_FP");
 
-// Helper function to fetch IP address
+// Helper function to fetch IP address with caching
 const fetchIpAddress = async () => {
+  // Check cache first
+  const cachedIp = cache.get(CACHE_KEYS.IP_ADDRESS);
+  if (cachedIp) {
+    return cachedIp;
+  }
+
   try {
-    const response = await fetch("/api/ip");
+    const response = await fetchWithRetry("/api/ip", {}, {
+      maxAttempts: 2,
+      baseDelay: 500
+    });
     const result = await response.json();
     if (result.success) {
-      return result.data?.ip || "";
+      const ip = result.data?.ip || "";
+      cache.set(CACHE_KEYS.IP_ADDRESS, ip, CACHE_TTL.IP_ADDRESS);
+      return ip;
     }
     return "";
   } catch (error) {
@@ -37,11 +46,19 @@ const fetchIpAddress = async () => {
   }
 };
 
-// Helper function to get thumbmark
+// Helper function to get thumbmark with caching
 const getThumbmarkValue = async () => {
+  // Check cache first
+  const cachedThumbmark = cache.get(CACHE_KEYS.FINGERPRINT);
+  if (cachedThumbmark) {
+    return cachedThumbmark;
+  }
+
   try {
     const tm = await getThumbmark();
-    return tm?.thumbmark || tm || "";
+    const thumbmark = tm?.thumbmark || tm || "";
+    cache.set(CACHE_KEYS.FINGERPRINT, thumbmark, CACHE_TTL.FINGERPRINT);
+    return thumbmark;
   } catch (error) {
     console.warn("Error getting thumbmark:", error);
     return "";
@@ -63,7 +80,7 @@ export const fetchRequest = async (url, options = { method: "GET" }, token) => {
       };
     }
 
-    // Fetch IP and thumbmark values
+    // Fetch IP and thumbmark values (now cached)
     const [ipAddress, thumbmark] = await Promise.all([
       fetchIpAddress(),
       getThumbmarkValue()
@@ -73,17 +90,21 @@ export const fetchRequest = async (url, options = { method: "GET" }, token) => {
       ...options,
       headers: {
         ...(isFormData ? {} : { "Content-Type": "application/json" }),
-        "x-tenant-id": "traya",
         "x-tenant-id": "acne",
         "x-access-token": `e2623576-930b-48b6-81e2-a3cb5e37f47d`,
-        "Accept-Encoding": " br, gzip, deflate",
+        // Removed Accept-Encoding to avoid issues with mobile proxies
         "x-ip-address": ipAddress,
         "x-fp-id": thumbmark,
         ...options.headers,
       },
     };
 
-    const _res = await fetch(url, _options);
+    // Use fetchWithRetry for automatic retries and better mobile handling
+    const _res = await fetchWithRetry(url, _options, {
+      maxAttempts: RETRY_CONFIG.MAX_ATTEMPTS,
+      baseDelay: RETRY_CONFIG.BASE_DELAY,
+    });
+
     status = _res.status;
     const contentType = _res.headers.get("content-type");
 
@@ -92,6 +113,10 @@ export const fetchRequest = async (url, options = { method: "GET" }, token) => {
     }
   } catch (error) {
     console.warn(error.message);
+    // Return error status for timeout errors
+    if (error.message.includes('timeout')) {
+      status = 408;
+    }
   } finally {
     return {
       data,
@@ -128,7 +153,11 @@ export const fetchRequestWithoutAuth = async (url, options = {}) => {
       };
     }
 
-    const response = await fetch(url, _options);
+    // Use fetchWithRetry for better mobile handling
+    const response = await fetchWithRetry(url, _options, {
+      maxAttempts: 2, // Fewer retries for non-auth requests
+      baseDelay: 500,
+    });
 
     status = response.status;
     const contentType = response.headers.get("content-type");
@@ -147,7 +176,7 @@ export const fetchRequestWithoutAuth = async (url, options = {}) => {
     return {
       data: null,
       hasError: true,
-      status: 500,
+      status: error.message.includes('timeout') ? 408 : 500,
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }
@@ -159,7 +188,7 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
   let data = null;
   let status = 500;
 
-  // Fetch IP and thumbmark values
+  // Fetch IP and thumbmark values (now cached)
   const [ipAddress, thumbmark] = await Promise.all([
     fetchIpAddress(),
     getThumbmarkValue()
@@ -168,15 +197,16 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
   // Handle token refresh if needed
   if (TokenManager.isAccessTokenExpired(accessToken)) {
     try {
-      const refreshResponse = await fetch(REFRESH_TOKEN_API, {
+      const refreshResponse = await fetchWithRetry(REFRESH_TOKEN_API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
         },
         credentials: "include",
         body: JSON.stringify({ refreshToken }),
+      }, {
+        maxAttempts: 2,
+        baseDelay: 500,
       });
 
       if (refreshResponse.ok) {
@@ -201,20 +231,12 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
     }
   }
 
-  // Handle OPTIONS pre-flight request
+  // Handle OPTIONS pre-flight request (removed client-side CORS headers)
   if (options.method === "OPTIONS") {
     return {
       data: null,
       hasError: false,
       status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods":
-          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
-        "Access-Control-Allow-Credentials": "true",
-      },
     };
   }
 
@@ -225,20 +247,18 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
       ...DEFAULT_OPTIONS.headers,
       ...options.headers,
       Authorization: `Bearer ${accessToken}`,
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "Content-Type, Authorization, X-Requested-With, x-tenant-id, x-access-token",
-      "Access-Control-Allow-Credentials": "true",
       "x-ip-address": ipAddress,
       "x-fp-id": thumbmark,
     },
-    // Ensure credentials are included for CORS
     credentials: "include",
   };
 
   try {
-    const response = await fetch(url, authOptions);
+    // Use fetchWithRetry for automatic retries and better mobile handling
+    const response = await fetchWithRetry(url, authOptions, {
+      maxAttempts: RETRY_CONFIG.MAX_ATTEMPTS,
+      baseDelay: RETRY_CONFIG.BASE_DELAY,
+    });
 
     status = response.status;
     const contentType = response.headers.get("content-type");
@@ -257,7 +277,7 @@ export const fetchRequestWithAuth = async (url, options = {}) => {
     return {
       data: null,
       hasError: true,
-      status: 500,
+      status: error.message.includes('timeout') ? 408 : 500,
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }
