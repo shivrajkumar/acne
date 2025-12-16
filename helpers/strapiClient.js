@@ -9,7 +9,7 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
   try {
     // Use proxy route on client-side to avoid CORS issues
     const isClient = typeof window !== 'undefined';
-    const url = isClient ? `/api/strapi${endpoint}` : `${STRAPI_DEV_URL}${endpoint}`;
+    const url = `${STRAPI_DEV_URL}${endpoint}`;
 
     console.log(`Fetching from endpoint: ${endpoint}`);
     console.log(`Using URL: ${url}`);
@@ -21,7 +21,7 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
         ...options.headers,
       },
       // Add cache busting for Android compatibility
-      cache: isClient ? 'no-store' : 'default',
+      // cache: isClient ? 'no-store' : 'default',
       ...options,
     });
 
