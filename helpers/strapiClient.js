@@ -8,8 +8,9 @@ import React from "react";
 export const fetchStrapiData = async (endpoint, options = {}) => {
   try {
     // Use proxy route on client-side to avoid CORS issues
-    const isClient = typeof window !== 'undefined';
-    const url = isClient ? `/api/strapi${endpoint}` : `${STRAPI_DEV_URL}${endpoint}`;
+    // const isClient = typeof window !== 'undefined';
+    // const url = isClient ? `/api/strapi${endpoint}` : `${STRAPI_DEV_URL}${endpoint}`;
+    const url = `${STRAPI_DEV_URL}${endpoint}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -18,7 +19,7 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
         ...options.headers,
       },
       // Add cache busting for Android compatibility
-      cache: isClient ? 'no-store' : 'default',
+      // cache: isClient ? 'no-store' : 'default',
       ...options,
     });
 
