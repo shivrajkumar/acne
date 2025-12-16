@@ -7,12 +7,7 @@ import React from "react";
  */
 export const fetchStrapiData = async (endpoint, options = {}) => {
   try {
-    // Use proxy route on client-side to avoid CORS issues
-    const isClient = typeof window !== 'undefined';
     const url = `${STRAPI_DEV_URL}${endpoint}`;
-
-    console.log(`Fetching from endpoint: ${endpoint}`);
-    console.log(`Using URL: ${url}`);
 
     const response = await fetch(url, {
       method: "GET",
@@ -20,33 +15,15 @@ export const fetchStrapiData = async (endpoint, options = {}) => {
         "Content-Type": "application/json",
         ...options.headers,
       },
-      // Add cache busting for Android compatibility
-      // cache: isClient ? 'no-store' : 'default',
+      cache: 'no-store', // Android compatibility
       ...options,
     });
 
-    console.log(`Response status: ${response.status}`);
-    console.log(`Response headers:`, Object.fromEntries(response.headers.entries()));
-
     if (!response.ok) {
-      throw new Error(`Failed to fetch from ${endpoint}: ${response.status} ${response.statusText}`);
+      throw new Error(`Failed to fetch from ${endpoint}: ${response.status}`);
     }
 
-    // Get response as text first to debug
-    const responseText = await response.text();
-    console.log(`Response text length: ${responseText.length}`);
-    console.log(`Response text preview:`, responseText.substring(0, 200));
-
-    // Try to parse as JSON
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (parseError) {
-      console.error('JSON parse error:', parseError);
-      throw new Error(`Failed to parse response as JSON: ${parseError.message}`);
-    }
-
-    console.log(`Successfully parsed data:`, data);
+    const data = await response.json();
     return { data, error: null };
   } catch (error) {
     console.error(`Error fetching Strapi data from ${endpoint}:`, error);

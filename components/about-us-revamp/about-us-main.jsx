@@ -23,7 +23,7 @@ export default function AboutUs() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Use the fetchStrapiData helper instead of direct fetch
+        // Use the fetchStrapiData helper to fetch data
         const { data, error } = await fetchStrapiData('/api/cr-about-uses');
         const { dataUAE, errorUAE } = await fetchStrapiData('/api/uae-about-us');
         console.log(dataUAE, "TESSSSSSSSSSSSSSSS")
